@@ -1,1 +1,3 @@
 [![Build Status](https://travis-ci.org/your-id/your-repo.svg?branch=master)](https://travis-ci.org/your-id/your-repo)
+<a href="https://codeclimate.com/github/Zeavee/Run0rD1e/maintainability"><img src="https://api.codeclimate.com/v1/badges/db0709c287ad50e9a072/maintainability" /></a>
+<a href="https://codeclimate.com/github/Zeavee/Run0rD1e/test_coverage"><img src="https://api.codeclimate.com/v1/badges/db0709c287ad50e9a072/test_coverage" /></a>
