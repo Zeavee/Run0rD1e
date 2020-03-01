@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".RegisterformActivity">
 
+    <Button
+        android:id="@+id/registerbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="71dp"
+        android:text="register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordconf"
+        tools:ignore="MissingConstraints" />
+
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="username"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
@@ -22,45 +36,41 @@
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="email"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="password"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email"
-        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/passwordconf"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="password confirm"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
         tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/registerbutton"
+    <EditText
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="register"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="password"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordconf"
+        app:layout_constraintTop_toBottomOf="@+id/email"
         tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
