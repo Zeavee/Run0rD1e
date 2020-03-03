@@ -25,8 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegisterformActivity extends AppCompatActivity {
-    EditText rusername, remail, rpassword, rpasswordConf;
+public class RegisterFormActivity extends AppCompatActivity {
+    EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
     TextView loginButton;
     FirebaseAuth firebaseAuth;
@@ -38,72 +38,84 @@ public class RegisterformActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registerform);
 
-        rusername = findViewById(R.id.username);
-        remail = findViewById(R.id.email);
-        rpassword = findViewById(R.id.password);
-        rpasswordConf = findViewById(R.id.passwordconf);
+        txtUsername = findViewById(R.id.username);
+        txtEmail = findViewById(R.id.email);
+        txtPassword = findViewById(R.id.password);
+        txtPasswordConf = findViewById(R.id.passwordconf);
         registerButton = findViewById(R.id.registerbutton);
 
         firebaseAuth = FirebaseAuth.getInstance();
         fireStore = FirebaseFirestore.getInstance();
 
         //check if the User is already log in or not
-        if(firebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        if(firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
-
         }
-        registerButton.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void onUserRegisterFailed() {
+        Toast.makeText(RegisterFormActivity.this, "User could not be created!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void registerBtn_OnClick(View view) {
+        final String username = txtUsername.getText().toString();
+        final String email = txtEmail.getText().toString().trim();
+        String password = txtPassword.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            txtEmail.setError("email is required");
+            return;
+        }
+        if (TextUtils.isEmpty((password))) {
+            txtPassword.setError("password is required");
+            return;
+        }
+        if (password.length() < 8){
+            txtPassword.setError("password length has to be greater than 8 Characters");
+            return;
+        }
+
+        //register user in the firebase
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                String email = remail.getText().toString().trim();
-                String password = rpassword.getText().toString().trim();
-                final String username = rusername.getText().toString();
-
-                if (TextUtils.isEmpty(email)) {
-                    remail.setError("email is required");
-                    return;
-                }
-                if (TextUtils.isEmpty((password))) {
-                    rpassword.setError("password is required");
-                    return;
-                }
-                if (password.length() < 8){
-                    rpassword.setError("password length has to be greater than 8 Characters");
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()) {
+                    onUserRegisterFailed();
                     return;
                 }
 
-                //register user in the firebase
-                firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                Toast.makeText(RegisterFormActivity.this, String.format("User %s with e-mail %s created!", username, email), Toast.LENGTH_SHORT).show();
+                userID = firebaseAuth.getCurrentUser().getUid();
+                DocumentReference documentReference = fireStore.collection("users").document(userID);
+                Map<String, Object> user = new HashMap<>();
+                user.put("ID", userID);
+                user.put("username", username);
+                user.put("email", email);
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(RegisterformActivity.this, "user created ", Toast.LENGTH_SHORT).show();
-                            userID = firebaseAuth.getCurrentUser().getUid();
-                            DocumentReference documentReference = fireStore.collection("users").document(userID);
-                            Map<String, Object> user = new HashMap<>();
-                            user.put("username",rusername);
-                            user.put("email",remail);
-                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Log.d("TAG", "onSuccess: user Profile is created for" + userID);
-                                }
-                            });
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                        }else
-                            Toast.makeText(RegisterformActivity.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-
+                    public void onSuccess(Void aVoid) {
+                        Log.d("TAG", "onSuccess: user Profile is created for" + userID);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        String msg = e.getMessage();
-                        int a = 5;
+                        Toast.makeText(RegisterFormActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                onUserRegisterFailed();
             }
         });
+    }
+
+    public void backBtn_OnClick(View view) {
+        startActivity(new Intent(this, LoginFormActivity.class));
+        finish();
     }
 }
