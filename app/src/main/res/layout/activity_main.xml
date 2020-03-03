@@ -4,37 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:layout_constraintRight_toRightOf="parent"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/username"
+        app:layout_constraintEnd_toStartOf="@+id/username_text"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/mainName"
+    <TextView
+        android:id="@+id/healthpoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="79dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="8dp"
+        android:text="@string/healthpoint"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
-    <Button
-        android:id="@+id/mainGoButton"
+    <TextView
+        android:id="@+id/healthpoint_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="37dp"
-        android:text="Button"
+        android:layout_marginTop="8dp"
+        android:text="@string/healthpoint_text"
+        app:layout_constraintStart_toStartOf="@+id/username_text"
+        app:layout_constraintTop_toBottomOf="@id/username_text" />
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/speed"
+        app:layout_constraintStart_toStartOf="@+id/healthpoint"
+        app:layout_constraintTop_toBottomOf="@+id/healthpoint" />
+
+    <TextView
+        android:id="@+id/speed_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/speed_text"
+        app:layout_constraintStart_toStartOf="@+id/healthpoint_text"
+        app:layout_constraintTop_toBottomOf="@id/healthpoint_text" />
+
+    <TextView
+        android:id="@+id/walked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/walked"
+        app:layout_constraintStart_toStartOf="@+id/speed"
+        app:layout_constraintTop_toBottomOf="@+id/speed" />
+
+    <TextView
+        android:id="@+id/walked_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/walked_text"
+        app:layout_constraintStart_toStartOf="@+id/speed_text"
+        app:layout_constraintTop_toBottomOf="@id/speed_text" />
+
+    <TextView
+        android:id="@+id/username_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/username_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mainName" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
