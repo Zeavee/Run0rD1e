@@ -20,6 +20,6 @@ public class MapsTest {
             new ActivityTestRule<>(MainActivity.class);
     @Test
     public void positionIsCorrect() {
-
+        onView(withId(R.id.update_loc)).perform(click());
     }
 }
