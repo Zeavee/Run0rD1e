@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, MapApi {
 
-    private Location currentLocation;
+    private Location currentLocation = new Location("Temp_Loc");
     private LocationManager locationManager;
     private Criteria criteria;
     private String bestProvider;
@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location latestlocation) {
                 // Called when a new location is found by the network location provider.
-                currentLocation.set(latestlocation);
+                currentLocation = latestlocation;
             }
 
             @Override
@@ -89,7 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        updatePosition();
     }
 
     public void updatePosition() {
@@ -97,7 +96,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker.remove();
         }
 
-        LatLng myPos = getCurrentPosition();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            } else {
+                updatePosition();
+            }
+        }
+
+        //boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        /*if (isNetEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
+        }*/
+        if (isGpsEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
+        }
+
+        bestProvider = locationManager.getBestProvider(criteria, true);
+        currentLocation = locationManager.getLastKnownLocation(bestProvider);
+        if (currentLocation == null) {
+            return;
+        }
+        LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         if (myPos == null) {
             return;
         }
@@ -107,29 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public LatLng getCurrentPosition() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return null;
-            } else {
-                getCurrentPosition();
-            }
-        }
-
-        boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        if (isNetEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
-        }
-        if (isGpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
-        }
-
-        bestProvider = locationManager.getBestProvider(criteria, true);
-        currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 }

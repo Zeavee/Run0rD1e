@@ -1,9 +1,9 @@
 package ch.epfl.sdp;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.location.Location;
 
 public interface MapApi {
-    public LatLng getCurrentPosition();
+    public Location getCurrentLocation();
 
     public void updatePosition();
 }
