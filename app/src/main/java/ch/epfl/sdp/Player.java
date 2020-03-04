@@ -41,7 +41,7 @@ public class Player extends MovingEntity {
         for (GeoPoint elocation : enemyLocations) {
             double distance = this.location.distanceTo(elocation) - this.aoeRadius - currentEnemyAoeRadius;
             if (distance < 0) {
-                this.healthPoints = this.healthPoints + distance/1000; //distance is negative
+                this.healthPoints = this.healthPoints + distance; //distance is negative
             }
         }
     }
