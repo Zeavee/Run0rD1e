@@ -62,30 +62,3 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'crea
             'jacoco/testDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
     ])
 }
-
-task enableMockLocationForTestsOnDevice(type: Exec) {
-    project.logger.lifecycle("------enableMockLocationForTestsOnDevice------\n")
-
-
-    if (true) {
-        project.logger.lifecycle("------enabled------\n")
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        def sdkDir = properties.getProperty('sdk.dir')
-        def adb = "$sdkDir/platform-tools/adb"
-        description 'enable mock location on connected android device before executing any android test'
-        commandLine "$adb", 'shell', 'appops', 'set', 'ch.epfl.sdp', 'android:mock_location', 'allow'
-    }
-}
-
-afterEvaluate {
-    // Note: the app must be already installed on device in order to this to run!
-    connectedDebugAndroidTest.dependsOn enableMockLocationForTestsOnDevice
-    connectedAndroidTest.dependsOn enableMockLocationForTestsOnDevice
-}
-
-tasks.whenTaskAdded { task ->
-    if (task.name == 'assembleDebug') {
-        task.dependsOn('enableMockLocationForTestsOnDevice')
-    }
-}
