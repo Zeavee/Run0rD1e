@@ -38,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/healthpoint_text"
         app:layout_constraintStart_toStartOf="@+id/username_text"
         app:layout_constraintTop_toBottomOf="@id/username_text" />
 

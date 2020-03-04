@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,15 +16,10 @@ public class MainActivity extends AppCompatActivity {
         // Locate the button in activity_main.xml
         Button button = findViewById(R.id.mainGoButton);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNewActivity();
-            }
+        // Capture button clicks
+        button.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, GameInfoActivity.class);
+            startActivity(intent);
         });
-    }
-    public void openNewActivity(){
-        Intent intent = new Intent(this, GameInfoActivity.class);
-        startActivity(intent);
     }
 }
