@@ -66,19 +66,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
             @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
+            public void onStatusChanged(String provider, int status, Bundle extras) {}
 
             @Override
-            public void onProviderEnabled(String provider) {
-
-            }
+            public void onProviderEnabled(String provider) {}
 
             @Override
-            public void onProviderDisabled(String provider) {
-
-            }
+            public void onProviderDisabled(String provider) {}
         };
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -100,16 +94,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-        if(isNetEnabled) {
+        System.out.println(isNetEnabled);
+        System.out.println(isGpsEnabled);
+
+        if (isNetEnabled) {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
         }
-        if(isGpsEnabled) {
+        if (isGpsEnabled) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
         }
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
         LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        System.out.println(currentLocation.getLatitude());
         marker = mMap.addMarker(new MarkerOptions().position(myPos).title("My position"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
     }

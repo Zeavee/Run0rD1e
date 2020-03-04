@@ -13,11 +13,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button button = (Button) findViewById(R.id.mapButton);
+        Button mapButton = (Button) findViewById(R.id.mapButton);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        mapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            }
+        });
+        Button rulesButton = (Button) findViewById(R.id.rulesButton);
+
+        rulesButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RuleActivity.class));
             }
         });
     }
