@@ -22,7 +22,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, MapApi {
 
     private Location currentLocation;
     private LocationManager locationManager;
@@ -30,21 +30,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String bestProvider;
     private LocationListener locationListener;
     private Marker marker;
+    private GoogleMap mMap;
 
     public static double netlistentime = 0 * 60 * 1000; // minutes * 60 sec/min * 1000 for milliseconds
     public static double netlistendistance = 0 * 1609.344; // miles * conversion to meters
     public static double gpslistentime = 30 * 60 * 1000; // minutes * 60 sec/min * 1000 for milliseconds
     public static double gpslistendistance = 0 * 1609.344; // miles * conversion to meters
 
-
-    private GoogleMap mMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        Button button = (Button) findViewById(R.id.update_loc);
 
+        Button button = (Button) findViewById(R.id.update_loc);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updatePosition();
@@ -79,39 +77,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
     }
 
-    private void updatePosition() {
-        if (marker != null) {
-            marker.remove();
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-                return;
-        }
-
-        boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        System.out.println(isNetEnabled);
-        System.out.println(isGpsEnabled);
-
-        if (isNetEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
-        }
-        if (isGpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
-        }
-
-        bestProvider = locationManager.getBestProvider(criteria, true);
-        currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        System.out.println(currentLocation.getLatitude());
-        marker = mMap.addMarker(new MarkerOptions().position(myPos).title("My position"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
-    }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -125,5 +90,46 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         updatePosition();
+    }
+
+    public void updatePosition() {
+        if (marker != null) {
+            marker.remove();
+        }
+
+        LatLng myPos = getCurrentPosition();
+        if (myPos == null) {
+            return;
+        }
+
+        marker = mMap.addMarker(new MarkerOptions().position(myPos).title("My position"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
+    }
+
+    @Override
+    public LatLng getCurrentPosition() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return null;
+            } else {
+                getCurrentPosition();
+            }
+        }
+
+        boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if (isNetEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
+        }
+        if (isGpsEnabled) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
+        }
+
+        bestProvider = locationManager.getBestProvider(criteria, true);
+        currentLocation = locationManager.getLastKnownLocation(bestProvider);
+        return new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
     }
 }
