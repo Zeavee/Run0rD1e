@@ -24,7 +24,6 @@ public class MapsTest {
             new ActivityTestRule<>(MapsActivity.class);
     @Test
     public void positionIsCorrect() {
-        onView(withId(R.id.update_loc)).perform(click());
         /*LocationManager locationManager = (LocationManager) mActivityRule.getActivity().getSystemService(Context.LOCATION_SERVICE);
         locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, false, false, false, false, false, false, Criteria.POWER_MEDIUM, Criteria.ACCURACY_FINE);
         locationManager.setTestProviderEnabled(LocationManager.GPS_PROVIDER, true);
