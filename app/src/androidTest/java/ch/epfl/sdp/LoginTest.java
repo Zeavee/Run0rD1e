@@ -79,7 +79,7 @@ public class LoginTest {
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
         closeSoftKeyboard();
     }
-
+/*
     @Test
     public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
         onView(withId(R.id.emaillog)).perform(typeText(email));
@@ -95,8 +95,8 @@ public class LoginTest {
         onView(withId(R.id.logoutBt)).perform(click());
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
     }
-
-  /*  @Test
+*/
+    @Test
     public void loginUnregisteredUserGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser@mail.com"));
         closeSoftKeyboard();
@@ -106,7 +106,7 @@ public class LoginTest {
         String toast_text = "Error";
         onView(withSubstring(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
-*/
+
     @Test
     public void loginWithAnEmptyEmailGivesAnError(){
         onView(withId(R.id.loginButton)).perform(click());
