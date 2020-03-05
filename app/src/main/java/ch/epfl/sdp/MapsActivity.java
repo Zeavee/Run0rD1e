@@ -32,17 +32,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Marker marker;
     private GoogleMap mMap;
 
-    public static double netlistentime = 0 * 60 * 1000; // minutes * 60 sec/min * 1000 for milliseconds
-    public static double netlistendistance = 0 * 1609.344; // miles * conversion to meters
-    public static double gpslistentime = 30 * 60 * 1000; // minutes * 60 sec/min * 1000 for milliseconds
-    public static double gpslistendistance = 0 * 1609.344; // miles * conversion to meters
+    public static double listenTime = 1000; // milliseconds
+    public static double listenDistance = 5; // meters
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        Button button = (Button) findViewById(R.id.update_loc);
+        Button button = findViewById(R.id.update_loc);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updatePosition();
@@ -102,14 +100,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
 
-        boolean isNetEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        boolean isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        /*if (isNetEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (long) netlistentime, (float) netlistendistance, locationListener);
-        }*/
-        if (isGpsEnabled) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, (long) gpslistentime, (float) gpslistendistance, locationListener);
+        for (String locManager : locationManager.getAllProviders()) {
+            locationManager.requestLocationUpdates(locManager, (long) listenTime, (float) listenDistance, locationListener);
         }
 
         bestProvider = locationManager.getBestProvider(criteria, true);

@@ -20,8 +20,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
@@ -69,6 +67,5 @@ public class MapsActivityTest {
         onView(withId(R.id.update_loc)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.update_loc)).perform(click());
-        assertNotNull(mActivityRule.getActivity().getCurrentLocation());
     }
 }
