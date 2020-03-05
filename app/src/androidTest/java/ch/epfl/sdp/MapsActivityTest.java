@@ -1,6 +1,5 @@
 package ch.epfl.sdp;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -21,6 +20,8 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.TestCase.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
@@ -64,9 +65,10 @@ public class MapsActivityTest {
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
     @Test
-    public void positionIsCorrect() {
+    public void clickingOnButtonGivesLocation() {
         onView(withId(R.id.update_loc)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.update_loc)).perform(click());
+        assertNotNull(mActivityRule.getActivity().getCurrentLocation());
     }
 }
