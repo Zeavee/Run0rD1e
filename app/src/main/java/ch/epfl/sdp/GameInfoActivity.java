@@ -6,8 +6,6 @@ import java.util.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static java.lang.Math.toRadians;
-
 public class GameInfoActivity extends AppCompatActivity {
 
     Player player = new Player(6.149290,
@@ -15,6 +13,8 @@ public class GameInfoActivity extends AppCompatActivity {
             50,
             "admin",
             "admin@epfl.ch");
+    Enemy enemy = new Enemy(6.149596,46.212437, 50); //enemy's position is close to player
+    ArrayList<Enemy> enemyArrayList = new ArrayList<>(Arrays.asList(enemy));
 
     TextView username, healthPoint;
 
@@ -31,46 +31,50 @@ public class GameInfoActivity extends AppCompatActivity {
 
 
         // Update value of health point every 0.1 second
+        Thread thread = createUpdateHealthPointThread(100);
+        thread.start();
+
+        // just used to show the refresh of health point
+        Thread thread2 = changeHealthPointUsedForDemo(500);
+        thread2.start();
+    }
+
+    private Thread createUpdateHealthPointThread(long refreshTime) {
         Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(100);
+                        Thread.sleep(refreshTime);
                         runOnUiThread(() -> updateHealthPoint());
                     }
                 } catch (InterruptedException e) {
                 }
             }
         };
+        return thread;
+    }
 
-        thread.start();
-
-        // just used to show the refresh of health poin
-        Enemy enemy2 = new Enemy(6.149596,46.212437, 50); //enemy2's position is close to player1
-        ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
-        enemyArrayList.add(enemy2);
-
-        Thread thread2 = new Thread() {
+    private Thread changeHealthPointUsedForDemo(long refreshTime) {
+        Thread thread = new Thread() {
             @Override
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(1000);
+                        Thread.sleep(refreshTime);
                         runOnUiThread(() -> {
                             if (player.getHealthPoints() > 0)
-                                player.updateHealth(enemyArrayList); });
+                                player.updateHealth(enemyArrayList);});
                     }
                 } catch (InterruptedException e) {
                 }
             }
         };
-
-        thread2.start();
-
+        return thread;
     }
 
     private void updateHealthPoint() {
-        healthPoint.setText(String.valueOf(player.getHealthPoints()));
+        double roundOff = Math.round(player.getHealthPoints()*100.0)/100.0;
+        healthPoint.setText(String.valueOf(roundOff));
     }
 }

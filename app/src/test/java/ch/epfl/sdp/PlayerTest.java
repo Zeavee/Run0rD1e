@@ -6,6 +6,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class PlayerTest {
@@ -23,5 +24,16 @@ public class PlayerTest {
         enemyArrayList.add(enemy2);
         player1.updateHealth(enemyArrayList);
         assertFalse(player1.getHealthPoints() >= 100);
+    }
+
+    @Test
+    public void otherMethodTest() {
+        assertTrue(player1.isAlive());
+        assertEquals("Skyris", player1.getUsername());
+        assertEquals(0, player1.getSpeed(), 0.001);
+        assertEquals(0, player1.getTimeTraveled(), 0.001);
+        assertEquals(0, player1.getScore());
+        assertEquals(0, player1.getDistanceTraveled(), 0.001);
+        assertEquals("test@email.com", player1.getEmail());
     }
 }

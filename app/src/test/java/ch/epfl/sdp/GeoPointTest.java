@@ -19,4 +19,10 @@ public class GeoPointTest {
         assertEquals(143_560, C.distanceTo(E), 10);
         assertEquals(269_870, D.distanceTo(A), 10);
     }
+
+    @Test
+    public void otherMethodTest() {
+        assertEquals(toRadians(6.14308), A.longitude(), 0.01);
+        assertEquals(toRadians(46.21023), A.latitude(), 0.01);
+    }
 }
