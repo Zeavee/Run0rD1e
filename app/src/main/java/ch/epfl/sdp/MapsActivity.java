@@ -40,5 +40,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ((GoogleApi) mapApi).setMap(googleMap);
     }
 
+    public MapApi getMapApi() {
+        return mapApi;
+    }
+
 
 }

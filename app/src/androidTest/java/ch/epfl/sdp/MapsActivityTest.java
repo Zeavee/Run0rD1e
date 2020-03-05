@@ -68,9 +68,4 @@ public class MapsActivityTest {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.update_loc)).perform(click());
     }
-
-    @Test
-    public void update_positionWorks() {
-        mActivityRule.getActivity().getCurrentLocation();
-    }
 }
