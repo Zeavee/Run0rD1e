@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import java.util.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,9 +10,9 @@ import static java.lang.Math.toRadians;
 
 public class GameInfoActivity extends AppCompatActivity {
 
-    Player player = new Player(6.14308,
-            46.21023,
-            1.0,
+    Player player = new Player(6.149290,
+            46.212470,
+            50,
             "admin",
             "admin@epfl.ch");
 
@@ -45,23 +46,29 @@ public class GameInfoActivity extends AppCompatActivity {
 
         thread.start();
 
-        // just used to show the refresh of health point
-        //Thread thread2 = new Thread() {
-            //@Override
-            //public void run() {
-                //try {
-                    //while (!isInterrupted()) {
-                        //Thread.sleep(1000);
-                        //runOnUiThread(() -> { if (player.getHealthPoints() > 0) player.healthPoints -= 10; });
-                    //}
-                //} catch (InterruptedException e) {
-                //}
+        // just used to show the refresh of health poin
+        Enemy enemy2 = new Enemy(6.149596,46.212437, 50); //enemy2's position is close to player1
+        ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
+        enemyArrayList.add(enemy2);
+
+        Thread thread2 = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!isInterrupted()) {
+                        Thread.sleep(1000);
+                        runOnUiThread(() -> {
+                            if (player.getHealthPoints() > 0)
+                                player.updateHealth(enemyArrayList); });
+                    }
+                } catch (InterruptedException e) {
+                }
             }
-        //};
+        };
 
-        //thread2.start();
+        thread2.start();
 
-    //}
+    }
 
     private void updateHealthPoint() {
         healthPoint.setText(String.valueOf(player.getHealthPoints()));
