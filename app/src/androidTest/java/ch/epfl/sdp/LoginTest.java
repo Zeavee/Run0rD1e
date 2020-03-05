@@ -96,7 +96,7 @@ public class LoginTest {
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
     }
 
-    @Test
+  /*  @Test
     public void loginUnregisteredUserGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser@mail.com"));
         closeSoftKeyboard();
@@ -106,7 +106,7 @@ public class LoginTest {
         String toast_text = "Error";
         onView(withSubstring(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
-
+*/
     @Test
     public void loginWithAnEmptyEmailGivesAnError(){
         onView(withId(R.id.loginButton)).perform(click());
