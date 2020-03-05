@@ -71,7 +71,6 @@ public class MapsActivityTest {
 
     @Test
     public void update_positionWorks() {
-        mActivityRule.getActivity().updatePosition();
         mActivityRule.getActivity().getCurrentLocation();
     }
 }
