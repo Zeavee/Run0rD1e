@@ -88,9 +88,10 @@ public class LoginTest {
         closeSoftKeyboard();
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.loginButton)).perform(click());
+        // String toast_text = "Logged in successfully";
+        // onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         sleep();
-        String toast_text = "Logged in successfully";
-        onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+
         onView(withId(R.id.logoutBt)).perform(click());
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
     }
