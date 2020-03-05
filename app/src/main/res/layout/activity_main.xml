@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <Button
-        android:id="@+id/mainGoButton"
+        android:id="@+id/logoutBt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="337dp"

@@ -17,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFormActivity extends AppCompatActivity {
-    EditText lusername, lemail,lpassword;
+    EditText lusername, lemail, lpassword;
     Button lLoginButton;
     FirebaseAuth firebaseAuth;
 
