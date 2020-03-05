@@ -17,7 +17,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class MapsTest {
+public class MapsActivityTest {
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
