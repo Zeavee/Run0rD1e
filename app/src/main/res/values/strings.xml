@@ -2,10 +2,4 @@
     <string name="app_name">Run0rD1e</string>
     <string name="username">Usename: </string>
     <string name="healthpoint">Health point: </string>
-    <string name="speed">Speed: </string>
-    <string name="walked">Walked: </string>
-    <string name="username_text">Peilin</string>
-    <string name="healthpoint_text">99</string>
-    <string name="speed_text">4km/h</string>
-    <string name="walked_text">1km</string>
 </resources>
