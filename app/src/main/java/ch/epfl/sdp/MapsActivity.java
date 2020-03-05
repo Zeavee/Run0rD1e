@@ -109,17 +109,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (currentLocation == null) {
             return;
         }
+        
         LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        if (myPos == null) {
-            return;
-        }
-
         marker = mMap.addMarker(new MarkerOptions().position(myPos).title("My position"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
     }
 
     @Override
     public Location getCurrentLocation() {
-        return currentLocation;
+        return null;
     }
 }
