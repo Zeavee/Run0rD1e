@@ -21,7 +21,7 @@ public class GoogleApi implements MapApi {
     public static double listenTime = 1000; // milliseconds
     public static double listenDistance = 5; // meters
 
-    private Location currentLocation = new Location("Temp_Loc");
+    private Location currentLocation = new Location("init");
     private LocationManager locationManager;
     private Criteria criteria;
     private String bestProvider;
