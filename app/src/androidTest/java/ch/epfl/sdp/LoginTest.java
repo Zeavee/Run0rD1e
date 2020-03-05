@@ -14,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -37,6 +38,7 @@ public class LoginTest {
 
     private String email;
     private String password;
+    private Instrumentation.ActivityResult result;
 
     @Before
     public void setUp(){
@@ -45,51 +47,50 @@ public class LoginTest {
         // Registered user
         email = "runorapp@gmail.com";
         password = "test1233";
+
+        // Result_OK
+        Intent resultData = new Intent();
+        resultData.putExtra("resultData", "fancyData");
+        result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
     }
 
     @After
     public void tearDown(){
         Intents.release();
     }
-
+/*
     @Test
     public void writingEmail_Works(){
         onView(withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
+        closeSoftKeyboard();
     }
 
     @Test
     public void writingPassword_Works(){
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
-    }
+        closeSoftKeyboard();
+    }*/
 
     @Test
-    public void loginRegisteredUserAuthenticateTheUser(){
+    public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
         onView(withId(R.id.emaillog)).perform(typeText(email));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText(password));
-        pressBack();
+        closeSoftKeyboard();
+        intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.loginButton)).perform(click());
         String toast_text = "Logged in successfully";
         onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         onView(withId(R.id.logoutBt)).perform(click());
-    }
-
-    @Test
-    public void loginRegisteredUserOpenMainActivity(){
-        onView(withId(R.id.emaillog)).perform(typeText(email));
-        onView(withId(R.id.passwordlog)).perform(typeText(password));
-        pressBack();
-        Intent resultData = new Intent();
-        resultData.putExtra("resultData", "fancyData");
-        Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        intending(toPackage(MainActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.loginButton)).perform(click());
+        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
     }
 
     @Test
     public void loginUnregisteredUserGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser@mail.com"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText("12345678"));
-        pressBack();
+        closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
         String toast_text = "Error";
         onView(withSubstring(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
@@ -105,7 +106,7 @@ public class LoginTest {
     @Test
     public void loginWithAnEmptyPasswordGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser"));
-        pressBack();
+        closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
         String text = "password is required";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
@@ -114,8 +115,9 @@ public class LoginTest {
     @Test
     public void loginOnPasswordSmallerThan8CharsGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser"));
+        closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText("1234567"));
-        pressBack();
+        closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
         String text = "password length has to be greater than 8 Characters";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
