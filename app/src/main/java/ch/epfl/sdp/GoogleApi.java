@@ -62,10 +62,6 @@ public class GoogleApi implements MapApi {
 
     @Override
     public void updatePosition(Activity activity) {
-        if (marker != null) {
-            marker.remove();
-        }
-
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
@@ -83,11 +79,18 @@ public class GoogleApi implements MapApi {
         }
 
         LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        marker = mMap.addMarker(new MarkerOptions().position(myPos).title("My position"));
+        setMarker(mMap.addMarker(new MarkerOptions().position(myPos).title("My position")));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
     }
 
     public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
+    }
+
+    public void setMarker(Marker marker) {
+        if (marker != null) {
+            marker.remove();
+        }
+        this.marker = marker;
     }
 }

@@ -12,6 +12,8 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import com.google.android.gms.maps.model.Marker;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,5 +69,15 @@ public class MapsActivityTest {
         onView(withId(R.id.update_loc)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.update_loc)).perform(click());
+    }
+
+    @Test
+    public void getCurrentLocationWorks() {
+        mActivityRule.getActivity().getMapApi().getCurrentLocation();
+    }
+
+    @Test
+    public void onMapReadyWorks() {
+        mActivityRule.getActivity().onMapReady(null);
     }
 }
