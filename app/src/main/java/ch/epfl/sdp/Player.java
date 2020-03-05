@@ -38,10 +38,10 @@ public class Player extends MovingEntity {
 
 
     public void updateHealth(List<GeoPoint> enemyLocations, double currentEnemyAoeRadius) {
-        for (GeoPoint elocation : enemyLocations) {
-            double distance = this.location.distanceTo(elocation) - this.aoeRadius - currentEnemyAoeRadius;
+        for (GeoPoint e : enemyLocations) {
+            double distance = this.location.distanceTo(e) - this.aoeRadius - currentEnemyAoeRadius;
             if (distance < 0) {
-                this.healthPoints = this.healthPoints + distance; //distance is negative
+                this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
             }
         }
     }
