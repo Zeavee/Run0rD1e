@@ -22,7 +22,7 @@ public class MainActivityTest {
     @Test
     public void rulesOpens() {
         onView(withId(R.id.rulesButton)).perform(click());
-        onView(withId(R.id.rules)).check(matches(isDisplayed()));
+        onView(withId(R.id.titleRules)).check(matches(isDisplayed()));
     }
 
     @Test
