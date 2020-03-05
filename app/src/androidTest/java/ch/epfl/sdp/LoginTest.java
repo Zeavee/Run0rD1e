@@ -8,8 +8,11 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,11 +49,11 @@ public class LoginTest {
     }
 
     @Rule
-    public final ActivityTestRule <LoginFormActivity> mActivityRule =
-            new ActivityTestRule <>(LoginFormActivity.class);
+    public final ActivityTestRule<LoginFormActivity> mActivityRule =
+            new ActivityTestRule<>(LoginFormActivity.class);
 
     @Before
-    public void setUp(){
+    public void setUp() {
         Intents.init();
 
         // Registered user
@@ -61,41 +64,58 @@ public class LoginTest {
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+
+        if(FirebaseAuth.getInstance() != null) {
+            FirebaseAuth.getInstance().signOut();
+        }
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         Intents.release();
     }
 
     @Test
-    public void writingEmail_Works(){
-        onView(withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
+    public void writingEmail_Works() {
         closeSoftKeyboard();
+        onView(withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
     }
 
     @Test
-    public void writingPassword_Works(){
-        onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
+    public void writingPassword_Works() {
         closeSoftKeyboard();
+        onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
     }
-/*
+
+
+        @Test
+        public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
+            onView(withId(R.id.emaillog)).perform(typeText(email));
+            closeSoftKeyboard();
+            onView(withId(R.id.passwordlog)).perform(typeText(password));
+            closeSoftKeyboard();
+            intending(toPackage(MainActivity.class.getName())).respondWith(result);
+            onView(withId(R.id.loginButton)).perform(click());
+            // String toast_text = "Logged in successfully";
+            // onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+            sleep();
+
+            onView(withId(R.id.logoutBt)).perform(click());
+            intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
+        }
+
+
     @Test
-    public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
+    public void login_shouldWorkWithRegisteredUser(){
         onView(withId(R.id.emaillog)).perform(typeText(email));
         closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText(password));
         closeSoftKeyboard();
-        intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.loginButton)).perform(click());
-        // String toast_text = "Logged in successfully";
-        // onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+        onView(withId(R.id.logoutBt));
         sleep();
-
-        onView(withId(R.id.logoutBt)).perform(click());
-        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
     }
-*/
+
     @Test
     public void loginUnregisteredUserGivesAnError(){
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser@mail.com"));
