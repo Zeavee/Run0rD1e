@@ -1,20 +1,20 @@
 package ch.epfl.sdp;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class Player extends MovingEntity {
 
-    String username;
-    String email;
-    int score;
-    double healthPoints;
-    double timeTraveled;
-    double distanceTraveled;
-    double speed;
-    boolean alive;
+    private String username;
+    private String email;
+    private int score;
+    private double healthPoints;
+    private double timeTraveled;
+    private double distanceTraveled;
+    private double speed;
+    private boolean alive;
 
-    public Player(GeoPoint localisation, double aoeRadius, String username, String email) {
-        super(localisation, aoeRadius);
+    public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+        super(longitude, latitude, aoeRadius);
         this.username = username;
         this.email = email;
         this.score = 0;
@@ -37,9 +37,9 @@ public class Player extends MovingEntity {
     }
 
 
-    public void updateHealth(List<GeoPoint> enemyLocations, double currentEnemyAoeRadius) {
-        for (GeoPoint e : enemyLocations) {
-            double distance = this.location.distanceTo(e) - this.aoeRadius - currentEnemyAoeRadius;
+    public void updateHealth(ArrayList<Enemy> enemies) {
+        for (Enemy e : enemies) {
+            double distance = this.location.distanceTo(e.getLocation()) - this.aoeRadius - e.getAoeRadius();
             if (distance < 0) {
                 this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
             }

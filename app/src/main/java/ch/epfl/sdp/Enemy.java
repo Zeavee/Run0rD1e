@@ -2,8 +2,8 @@ package ch.epfl.sdp;
 
 public class Enemy extends MovingEntity {
 
-    public Enemy(GeoPoint localisation, double aoeRadius) {
-        super(localisation, aoeRadius);
+    public Enemy(double longitude, double latitude, double aoeRadius) {
+        super(longitude, latitude, aoeRadius);
     }
 
     @Override

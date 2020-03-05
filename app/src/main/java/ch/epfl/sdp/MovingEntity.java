@@ -1,4 +1,5 @@
 package ch.epfl.sdp;
+import static java.lang.Math.toRadians;
 
 /**
  * Abstract class representing a moving entity
@@ -11,8 +12,8 @@ public abstract class MovingEntity {
 
     double aoeRadius;
 
-    public MovingEntity(GeoPoint location, double aoeRadius) {
-        this.location = location;
+    public MovingEntity(double longitude, double latitude, double aoeRadius) {
+        this.location = new GeoPoint(toRadians(longitude), toRadians(latitude));
         this.aoeRadius = aoeRadius;
     }
 
