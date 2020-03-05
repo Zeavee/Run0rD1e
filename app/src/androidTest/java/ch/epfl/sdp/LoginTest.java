@@ -32,13 +32,22 @@ import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginTest {
-    @Rule
-    public final ActivityTestRule <LoginFormActivity> mActivityRule =
-            new ActivityTestRule <>(LoginFormActivity.class);
-
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
+    private static final int DELAY = 3000;
+
+    private static void sleep() {
+        try {
+            Thread.sleep(LoginTest.DELAY);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Cannot execute Thread.sleep()");
+        }
+    }
+
+    @Rule
+    public final ActivityTestRule <LoginFormActivity> mActivityRule =
+            new ActivityTestRule <>(LoginFormActivity.class);
 
     @Before
     public void setUp(){
@@ -58,7 +67,7 @@ public class LoginTest {
     public void tearDown(){
         Intents.release();
     }
-/*
+
     @Test
     public void writingEmail_Works(){
         onView(withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
@@ -69,7 +78,7 @@ public class LoginTest {
     public void writingPassword_Works(){
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
         closeSoftKeyboard();
-    }*/
+    }
 
     @Test
     public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
@@ -79,6 +88,7 @@ public class LoginTest {
         closeSoftKeyboard();
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.loginButton)).perform(click());
+        sleep();
         String toast_text = "Logged in successfully";
         onView(withText(toast_text)).inRoot(withDecorView(not(mActivityRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
         onView(withId(R.id.logoutBt)).perform(click());
