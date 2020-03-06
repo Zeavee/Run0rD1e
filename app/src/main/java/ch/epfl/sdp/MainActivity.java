@@ -13,6 +13,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Locate the button in activity_main.xml
+        Button healthPointButton = findViewById(R.id.mainGoButton);
+
+        // Capture button clicks
+        healthPointButton.setOnClickListener(view -> {
+                    Intent intent = new Intent(MainActivity.this, GameInfoActivity.class);
+                    startActivity(intent);
+        });
+
         Button mapButton = (Button) findViewById(R.id.mapButton);
 
         mapButton.setOnClickListener(new View.OnClickListener() {
@@ -20,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, MapsActivity.class));
             }
         });
+
         Button rulesButton = (Button) findViewById(R.id.rulesButton);
 
         rulesButton.setOnClickListener(new View.OnClickListener() {
