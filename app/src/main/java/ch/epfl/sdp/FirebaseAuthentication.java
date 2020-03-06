@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +37,17 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public boolean signIn(String id, String password) {
-        return false;
+        if (checkValidity(id, password) == false)
+        {
+            return false;
+        }
+        auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                displayVisitor.onSuccessfulAuthentication();
+            }
+        });
+        return true;
     }
 
     @Override
@@ -62,7 +73,8 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public boolean signOut() {
-        return false;
+        auth.signOut();
+        return true;
     }
 
     @Override
@@ -71,6 +83,7 @@ public class FirebaseAuthentication implements AuthenticationController {
         Matcher matcher = pattern.matcher(id);
         if ((!matcher.matches()) || password.length() < 4)
         {
+            displayVisitor.onFailedAuthentication();
             return false;
         }
         return true;
