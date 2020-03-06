@@ -17,9 +17,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFormActivity extends AppCompatActivity {
-    EditText lusername, lemail, lpassword;
-    Button lLoginButton;
-    FirebaseAuth firebaseAuth;
+    private EditText lusername, lemail, lpassword;
+    private Button lLoginButton;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

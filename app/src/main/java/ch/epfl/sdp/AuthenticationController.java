@@ -4,4 +4,5 @@ public interface AuthenticationController {
     public boolean signIn(String id, String password);
     public boolean register(String id, String password);
     public boolean signOut();
+    public boolean checkValidity(String id, String password);
 }
