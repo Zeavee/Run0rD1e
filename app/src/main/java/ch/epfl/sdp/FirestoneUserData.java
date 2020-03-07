@@ -29,6 +29,9 @@ public class FirestoneUserData implements UserDataController {
                 }
             }
         });
-        return new HashMap<>(userAttributes);
+        if (userAttributes != null) {
+            return new HashMap<>(userAttributes);
+        }
+        return null;
     }
 }
