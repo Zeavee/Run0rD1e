@@ -8,7 +8,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.auth.User;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,16 +26,18 @@ public class FirebaseAuthentication implements AuthenticationController {
      *  1 to 20 and the part after can have length ranging from 1 to 20
      * useful for sanitizing input
      */
-    private String regex = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
+    private final static String REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
     private AuthenticationOutcomeDisplayVisitor displayVisitor;
     private FirebaseAuth auth;
     private AppCompatActivity activity;
+    private UserDataController userDataStore;
 
-    public FirebaseAuthentication(AuthenticationOutcomeDisplayVisitor displayVisitor, AppCompatActivity activity)
+    public FirebaseAuthentication(AuthenticationOutcomeDisplayVisitor displayVisitor, UserDataController store, AppCompatActivity activity)
     {
         this.displayVisitor = displayVisitor;
         auth = FirebaseAuth.getInstance();
         this.activity = activity;
+        userDataStore = store;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean register(String id, String password) {
+    public boolean register(String id, String username, String password) {
         if (checkValidity(id, password) == false)
         {
             return false;
@@ -79,7 +84,7 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public boolean checkValidity(String id, String password) {
-        Pattern pattern = Pattern.compile(regex);
+        Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(id);
         if ((!matcher.matches()) || password.length() < 4)
         {
@@ -87,5 +92,17 @@ public class FirebaseAuthentication implements AuthenticationController {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Player signedInPlayer() {
+        String id =  auth.getCurrentUser().getEmail();
+        Map<String, Object> userData = userDataStore.getUserData(id);
+        double longitude = Double.parseDouble(userData.get("longitude").toString());
+        double latitude = Double.parseDouble(userData.get("latitude").toString());
+        double radius = Double.parseDouble(userData.get("radius").toString());
+        String username =userData.get("username").toString();
+        Player p = new Player(longitude, latitude, radius, username, id);
+        return p;
     }
 }

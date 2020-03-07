@@ -1,8 +1,9 @@
 package ch.epfl.sdp;
 
 public interface AuthenticationController {
-    public boolean signIn(String id, String password);
-    public boolean register(String id, String password);
-    public boolean signOut();
-    public boolean checkValidity(String id, String password);
+    boolean signIn(String id, String password);
+    boolean register(String id, String username, String password);
+    boolean signOut();
+    boolean checkValidity(String id, String password);
+    Player  signedInPlayer();
 }
