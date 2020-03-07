@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,9 +14,13 @@ import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class GoogleApi implements MapApi {
     public static double listenTime = 1000; // milliseconds
@@ -62,6 +67,7 @@ public class GoogleApi implements MapApi {
 
     @Override
     public void updatePosition(Activity activity) {
+        displayEnemies(null);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
@@ -83,13 +89,33 @@ public class GoogleApi implements MapApi {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
     }
 
+    @Override
+    public void displayEnemies(List<Enemy> enemies) {
+        LatLng MELBOURNE = new LatLng(-37.813, 144.962);
+        mMap.addMarker(new MarkerOptions()
+                .position(MELBOURNE)
+                .title("Melbourne")
+                .snippet("Population: 4,137,400")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.robot)));
+        for (Enemy enemy: enemies) {
+            LatLng enemyPosition = new LatLng(enemy.getLocation().latitude(), enemy.getLocation().longitude());
+            mMap.addMarker(new MarkerOptions()
+                    .position(enemyPosition)
+                    .title("Enemy")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.robot)));
+            mMap.addCircle(new CircleOptions().center(enemyPosition).radius(enemy.getAoeRadius())
+                    .fillColor(Color.argb(128, 255, 0, 0)).strokeColor(Color.RED));
+        }
+
+    }
+
     public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
     }
 
     public void setMarker(Marker marker) {
-        if (marker != null) {
-            marker.remove();
+        if (this.marker != null) {
+            this.marker.remove();
         }
         this.marker = marker;
     }
