@@ -5,4 +5,6 @@ import java.util.Map;
 public interface UserDataController {
 
     Map<String, Object> getUserData(String id);
+
+    void setUserAttribute(String id, String fieldName, Object value);
 }

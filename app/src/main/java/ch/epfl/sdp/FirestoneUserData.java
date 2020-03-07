@@ -34,4 +34,10 @@ public class FirestoneUserData implements UserDataController {
         }
         return null;
     }
+
+    @Override
+    public void setUserAttribute(String id, String fieldName, Object value) {
+        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    }
 }
