@@ -3,7 +3,10 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.os.Parcelable;
 
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.idling.CountingIdlingResource;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -12,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,17 +24,12 @@ import java.util.Random;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withSubstring;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.not;
 
@@ -39,29 +38,6 @@ public class RegisterTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
-    private static final int DELAY = 3000;
-    private StringBuilder sb;
-    private final Random random = new Random();
-
-    private static void sleep() {
-        try {
-            Thread.sleep(RegisterTest.DELAY);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Cannot execute Thread.sleep()");
-        }
-    }
-
-    /**
-     * Generate a random string.
-     */
-    public String randString(int length) {
-        sb = new StringBuilder();
-
-        for (int i = 0; i < length; ++i){
-           sb.append(random.nextInt(9));
-        }
-        return sb.toString();
-    }
 
     @Rule
     public final ActivityTestRule <RegisterFormActivity> mActivityRule =
@@ -69,26 +45,20 @@ public class RegisterTest {
 
     @Before
     public void setUp(){
-       /* Intents.init();
-        */
-        //Registered user
-        email = "runorapp@gmail.com";
-        password = "test1233";
+        email = "test@mail.com";
+        password = "12345678";
 
-        // Result_OK
+        Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        if(FirebaseAuth.getInstance() != null) {
-            FirebaseAuth.getInstance().signOut();
-            sleep();
-        }
+        RegisterFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
     }
 
     @After
     public void tearDown(){
-      //  Intents.release();
+        Intents.release();
     }
 
     @Test
@@ -170,8 +140,8 @@ public class RegisterTest {
 
     @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
-        String newUsername = randString(10);
-        String newEmail = randString(10) + "@mail.com";
+        String newUsername = "Username";
+        String newEmail = "Email";
 
         onView(withId(R.id.username)).perform(typeText(newUsername));
         closeSoftKeyboard();
@@ -181,28 +151,25 @@ public class RegisterTest {
         closeSoftKeyboard();
         onView(withId(R.id.passwordconf)).perform(typeText(password));
         closeSoftKeyboard();
-        //intending(toPackage(MainActivity.class.getName())).respondWith(result);
+        intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
-        sleep();
-        onView(withId(R.id.logoutBt)).perform(click());
-        sleep();
     }
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
-        //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
+        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
     }
 
     @Test
     public void registerWhenConnected_ShouldGoToMainScreen(){
-        //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
+        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
         onView(withId(R.id.emaillog)).perform(typeText(email));
         closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText(password));
         closeSoftKeyboard();
-        //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
+        intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
     }
 }

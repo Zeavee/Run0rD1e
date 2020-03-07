@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,7 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lusername, lemail, lpassword;
     private Button lLoginButton;
-    private FirebaseAuth firebaseAuth;
+    static AuthenticationController authenticationController;
+    UserDataController userDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +31,27 @@ public class LoginFormActivity extends AppCompatActivity {
         lusername = findViewById(R.id.username);
         lemail = findViewById(R.id.emaillog);
         lpassword = findViewById(R.id.passwordlog);
-        firebaseAuth = FirebaseAuth.getInstance();
         lLoginButton = findViewById(R.id.loginButton);
-    }
+
+        final Context context = getApplicationContext();
+        final int duration = Toast.LENGTH_SHORT;
+
+        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new AuthenticationOutcomeDisplayVisitor() {
+            @Override
+            public void onSuccessfulAuthentication() {
+                Toast.makeText(context, "Success!", duration).show();
+                Intent myIntent = new Intent(LoginFormActivity.this, MainActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
+
+            @Override
+            public void onFailedAuthentication() {
+                Toast.makeText(context, "Oups, something went wrong.", duration).show();
+            }
+        };
+
+        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);    }
 
    public void createAccountBtn_OnClick(View view) {
         startActivity(new Intent(this, RegisterFormActivity.class));
@@ -57,18 +77,6 @@ public class LoginFormActivity extends AppCompatActivity {
             return;
         }
 
-        //authentificate the user
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(LoginFormActivity.this, "Logged in successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(LoginFormActivity.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        authenticationController.signIn(email, password);
     }
 }

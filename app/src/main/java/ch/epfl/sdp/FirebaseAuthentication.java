@@ -56,6 +56,11 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
+    public boolean isSignedIn() {
+        return  auth.getCurrentUser() != null;
+    }
+
+    @Override
     public boolean register(final String id, final String username, String password) {
         if (checkValidity(id, password) == false)
         {
@@ -95,7 +100,7 @@ public class FirebaseAuthentication implements AuthenticationController {
         return true;
     }
 
-    @Override
+   /* @Override
     public Player signedInPlayer() {
         String id =  auth.getCurrentUser().getEmail();
         Map<String, Object> userData = userDataStore.getUserData(id);
@@ -105,5 +110,5 @@ public class FirebaseAuthentication implements AuthenticationController {
         String username =userData.get("username").toString();
         Player p = new Player(longitude, latitude, radius, username, id);
         return p;
-    }
+    }*/
 }

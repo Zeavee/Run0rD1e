@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,10 +29,9 @@ import java.util.Map;
 public class RegisterFormActivity extends AppCompatActivity {
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
-    TextView loginButton;
-    FirebaseAuth firebaseAuth;
-    FirebaseFirestore fireStore;
     String userID;
+    static AuthenticationController authenticationController;
+    UserDataController userDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +43,27 @@ public class RegisterFormActivity extends AppCompatActivity {
         txtPassword = findViewById(R.id.password);
         txtPasswordConf = findViewById(R.id.passwordconf);
         registerButton = findViewById(R.id.registerbutton);
+        userDataController = new FirestoneUserData();
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        fireStore = FirebaseFirestore.getInstance();
+        final Context context = getApplicationContext();
+        final int duration = Toast.LENGTH_SHORT;
 
-        //check if the User is already log in or not
-        if(firebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            finish();
-        }
-    }
+        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new AuthenticationOutcomeDisplayVisitor() {
+            @Override
+            public void onSuccessfulAuthentication() {
+                Toast.makeText(context, "Success!", duration).show();
+                Intent myIntent = new Intent(RegisterFormActivity.this, MainActivity.class);
+                startActivity(myIntent);
+                finish();
+            }
 
-    private void onUserRegisterFailed() {
-        Toast.makeText(RegisterFormActivity.this, "User could not be created!", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailedAuthentication() {
+                Toast.makeText(context, "Oups, something went wrong.", duration).show();
+            }
+        };
+
+        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
     }
 
     public void registerBtn_OnClick(View view) {
@@ -76,42 +84,7 @@ public class RegisterFormActivity extends AppCompatActivity {
             return;
         }
 
-        //register user in the firebase
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()) {
-                    onUserRegisterFailed();
-                    return;
-                }
-
-                Toast.makeText(RegisterFormActivity.this, String.format("User %s with e-mail %s created!", username, email), Toast.LENGTH_SHORT).show();
-                userID = firebaseAuth.getCurrentUser().getUid();
-                DocumentReference documentReference = fireStore.collection("users").document(userID);
-                Map<String, Object> user = new HashMap<>();
-                user.put("ID", userID);
-                user.put("username", username);
-                user.put("email", email);
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("TAG", "onSuccess: user Profile is created for" + userID);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterFormActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                onUserRegisterFailed();
-            }
-        });
+       authenticationController.register(email,username,password);
     }
 
     public void backBtn_OnClick(View view) {
