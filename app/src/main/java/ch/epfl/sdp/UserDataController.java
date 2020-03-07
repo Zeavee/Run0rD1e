@@ -6,5 +6,5 @@ public interface UserDataController {
 
     Map<String, Object> getUserData(String id);
 
-    void setUserAttribute(String id, String fieldName, Object value);
+    void setUserAttribute(String id, String attribute, Object value);
 }

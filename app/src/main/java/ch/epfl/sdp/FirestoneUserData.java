@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,8 +37,11 @@ public class FirestoneUserData implements UserDataController {
     }
 
     @Override
-    public void setUserAttribute(String id, String fieldName, Object value) {
-        //FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public void setUserAttribute(String id, String attribute, Object value) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> data = new HashMap<>();
+        data.put(attribute, value);
+        db.collection("Players").document(id).set(data, SetOptions.merge());
 
     }
 }

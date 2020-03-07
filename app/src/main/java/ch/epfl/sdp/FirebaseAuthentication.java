@@ -56,7 +56,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean register(String id, String username, String password) {
+    public boolean register(final String id, final String username, String password) {
         if (checkValidity(id, password) == false)
         {
             return false;
@@ -67,6 +67,7 @@ public class FirebaseAuthentication implements AuthenticationController {
                 if (task.isSuccessful())
                 {
                     displayVisitor.onSuccessfulAuthentication();
+                    userDataStore.setUserAttribute(id, "username", username);
                 }
                 else {
                     displayVisitor.onFailedAuthentication();
