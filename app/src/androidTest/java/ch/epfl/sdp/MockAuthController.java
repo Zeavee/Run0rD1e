@@ -21,6 +21,11 @@ public class MockAuthController implements AuthenticationController {
     }
 
     @Override
+    public boolean isSignedIn(String email) {
+        return false;
+    }
+
+    @Override
     public boolean register(String email, String username, String password) {
         Intent myIntent = new Intent(activity, MainActivity.class);
         activity.startActivity(myIntent);
@@ -29,7 +34,7 @@ public class MockAuthController implements AuthenticationController {
     }
 
     @Override
-    public boolean signOut() {
+    public boolean signOut(String email) {
         Intent myIntent = new Intent(activity, LoginFormActivity.class);
         activity.startActivity(myIntent);
         activity.finish();
@@ -40,6 +45,16 @@ public class MockAuthController implements AuthenticationController {
     @Override
     public boolean checkValidity(String email, String password) {
         return true;
+    }
+
+    @Override
+    public boolean isEmailValid(String email) {
+        return false;
+    }
+
+    @Override
+    public boolean isPasswordValid(String password) {
+        return false;
     }
 
     public boolean isSignedIn(){

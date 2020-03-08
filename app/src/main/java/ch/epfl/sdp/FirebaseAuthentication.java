@@ -1,19 +1,16 @@
 package ch.epfl.sdp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.auth.User;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 /*
  * This class is designed to use Firebase's email and password feature
@@ -56,8 +53,8 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean isSignedIn() {
-        return  auth.getCurrentUser() != null;
+    public boolean isSignedIn(String email) {
+        return auth.getCurrentUser() != null;
     }
 
     @Override
@@ -83,7 +80,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean signOut() {
+    public boolean signOut(String email) {
         auth.signOut();
         return true;
     }
@@ -98,6 +95,16 @@ public class FirebaseAuthentication implements AuthenticationController {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean isEmailValid(String email) {
+        return false;
+    }
+
+    @Override
+    public boolean isPasswordValid(String password) {
+        return false;
     }
 
    /* @Override
