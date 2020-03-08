@@ -1,6 +1,6 @@
 package ch.epfl.sdp;
 
-public abstract class Items {
+public abstract class Item {
     /**
      * GeoPoint representing the localisation of the entity
      */
@@ -8,7 +8,7 @@ public abstract class Items {
     private int itemID;
     private boolean isTaken;
 
-    public Items(GeoPoint location, int itemId, boolean isTaken) {
+    public Item(GeoPoint location, int itemId, boolean isTaken) {
         this.location = location;
         this.itemID = itemId;
         this.isTaken = isTaken;

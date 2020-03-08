@@ -1,6 +1,6 @@
 package ch.epfl.sdp;
 
-public class Scan extends Items {
+public class Scan extends Item {
     private double scanTime;
 
     public Scan(GeoPoint location, int itemId, boolean isTaken, double scanTime) {
@@ -8,6 +8,13 @@ public class Scan extends Items {
         this.scanTime = scanTime;
     }
 
-    public void showPlayersLocation(GeoPoint loc){}
+    public void showPlayersLocation(GeoPoint loc){
+                /*
+         for(Player player : map) {
+            if(player.getPosition().distance(location) < SCAN_RADIUS) {
+                player.showOnMap();
+            }
+         */
+    }
 
 }
