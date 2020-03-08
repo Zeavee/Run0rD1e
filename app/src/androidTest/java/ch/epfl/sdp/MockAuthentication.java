@@ -72,31 +72,18 @@ public class MockAuthentication implements AuthenticationController {
         if(password.length() < 8) {
             return false;
         }
-
-        // Kein grosser Buchstabe
-        // aaaba == aaaba
-        // abCde != abcde
         if(password.equals(password.toLowerCase())) {
             return false;
         }
-
-        // Kein kleiner Buchstabe
-        // ABC == ABC
-        // aBC != ABC
         if(password.equals(password.toUpperCase())) {
             return false;
         }
-
-        // Kein digit
         if(!password.matches("\\d")) {
             return false;
         }
-
-        // Kein spezielles Character
         if(!password.matches("^[A-Za-z0-9 ]*$")) {
             return false;
         }
-
         return true;
     }
 }
