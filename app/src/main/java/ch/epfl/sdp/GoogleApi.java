@@ -123,11 +123,10 @@ public class GoogleApi implements MapApi {
                 enemiesCircles.get(enemy).second.remove();
             }
             LatLng enemyPosition = new LatLng(toDegrees(enemy.getLocation().latitude()), toDegrees(enemy.getLocation().longitude()));
-            Bitmap smallMarker = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.robot), 100, 100, false);
             enemiesCircles.put(enemy, new Pair<>(mMap.addMarker(new MarkerOptions()
                     .position(enemyPosition)
                     .title("Enemy")
-                    .icon(BitmapDescriptorFactory.fromBitmap(smallMarker))),
+                    .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.robot), 100, 100, false)))),
                     mMap.addCircle(new CircleOptions().center(enemyPosition).radius(enemy.getAoeRadius())
                             .fillColor(Color.argb(128, 255, 51, 51)).strokeColor(Color.RED))));
         }

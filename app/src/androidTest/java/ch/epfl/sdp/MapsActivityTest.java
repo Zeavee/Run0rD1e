@@ -12,15 +12,10 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import com.google.android.gms.maps.model.Marker;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 @RunWith(AndroidJUnit4.class)
@@ -65,19 +60,7 @@ public class MapsActivityTest {
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
     @Test
-    public void clickingOnButtonGivesLocation() {
-        onView(withId(R.id.update_loc)).perform(click());
+    public void testWithFakeGoogleMap() {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.update_loc)).perform(click());
-    }
-
-    @Test
-    public void getCurrentLocationWorks() {
-        mActivityRule.getActivity().getMapApi().getCurrentLocation();
-    }
-
-    @Test
-    public void onMapReadyWorks() {
-        mActivityRule.getActivity().onMapReady(null);
     }
 }

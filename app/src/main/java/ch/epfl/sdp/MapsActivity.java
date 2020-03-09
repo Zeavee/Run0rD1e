@@ -18,7 +18,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        mapApi = new GoogleApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
+        setMapApi(new GoogleApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
@@ -34,5 +34,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return mapApi;
     }
 
-
+    public void setMapApi(MapApi mapApi) {
+        this.mapApi = mapApi;
+    }
 }
