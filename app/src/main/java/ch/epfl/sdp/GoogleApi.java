@@ -4,8 +4,9 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -34,7 +35,7 @@ public class GoogleApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
     private static double listenDistance = 5; // meters
 
-    private Location currentLocation = new Location("init");
+    private Location currentLocation;
     private LocationManager locationManager;
     private Criteria criteria;
     private String bestProvider;
@@ -107,9 +108,8 @@ public class GoogleApi implements MapApi {
             myCircle.first.remove();
             myCircle.second.remove();
         }
-        myCircle = new Pair<>(mMap.addMarker(new MarkerOptions().position(myPos).title("My position")),
-                mMap.addCircle(new CircleOptions().center(myPos).strokeColor(Color.BLUE).fillColor(Color.argb(128, 30,144,255)).radius(1000)));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
+        myCircle = new Pair<>(mMap.addMarker(new MarkerOptions().position(myPos).title("My position").icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(Color.BLUE)))),
+                mMap.addCircle(new CircleOptions().center(myPos).strokeColor(Color.BLUE).fillColor(Color.argb(128, 30,144,255)).radius(1000).strokeWidth(1f)));
     }
 
     @Override
@@ -126,14 +126,25 @@ public class GoogleApi implements MapApi {
             enemiesCircles.put(enemy, new Pair<>(mMap.addMarker(new MarkerOptions()
                     .position(enemyPosition)
                     .title("Enemy")
-                    .icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(), R.drawable.robot), 100, 100, false)))),
+                    .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(Color.RED)))),
                     mMap.addCircle(new CircleOptions().center(enemyPosition).radius(enemy.getAoeRadius())
-                            .fillColor(Color.argb(128, 255, 51, 51)).strokeColor(Color.RED))));
+                            .fillColor(Color.argb(128, 255, 51, 51)).strokeColor(Color.RED).strokeWidth(1f))));
         }
 
     }
 
     public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
+    }
+
+    public Bitmap createSmallCircle(int color) {
+        Bitmap output = Bitmap.createBitmap(25,
+                25, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawCircle(25 / 2, 25 / 2,
+                25 / 2, paint);
+        return output;
     }
 }

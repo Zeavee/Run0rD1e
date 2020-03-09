@@ -65,14 +65,5 @@ public class MapsActivityTest {
             new ActivityTestRule<>(MapsActivity.class);
     @Test
     public void testWithFakeGoogleMap() {
-        ((GoogleApi) mActivityRule.getActivity().getMapApi()).setMap(new GoogleMap(new MockIGoogleMapDelegate()));
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        mActivityRule.getActivity().getMapApi().updatePosition();
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        mActivityRule.getActivity().getMapApi().getCurrentLocation();
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        ArrayList enemies = new ArrayList();
-        enemies.add(new Enemy(45, 45, 10000));
-        mActivityRule.getActivity().getMapApi().displayEnemies(enemies);
     }
 }
