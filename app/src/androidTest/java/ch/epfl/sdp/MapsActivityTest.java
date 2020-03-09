@@ -66,9 +66,9 @@ public class MapsActivityTest {
 
     @Test
     public void moveCameraWorks() {
-        allowPermissionsIfNeeded(Manifest.permission.ACCESS_FINE_LOCATION);
-        onView(withId(R.id.rulesButton)).perform(click());
-        allowPermissionsIfNeeded(Manifest.permission.ACCESS_FINE_LOCATION);
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        onView(withId(R.id.recenter)).perform(click());
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
 
     }
 }

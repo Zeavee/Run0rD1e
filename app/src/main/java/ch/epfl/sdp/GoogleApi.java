@@ -137,6 +137,9 @@ public class GoogleApi implements MapApi {
 
     @Override
     public void moveCameraOnCurrentLocation() {
+        if (currentLocation == null) {
+            return;
+        }
         mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
     }
 
