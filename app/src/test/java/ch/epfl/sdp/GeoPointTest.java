@@ -24,5 +24,7 @@ public class GeoPointTest {
     public void otherMethodTest() {
         assertEquals(toRadians(6.14308), A.longitude(), 0.01);
         assertEquals(toRadians(46.21023), A.latitude(), 0.01);
+        assertEquals(A.latitude(), toRadians(6.14308), 0.01);
+        assertEquals(A.longitude(), toRadians(46.21023), 0.01);
     }
 }

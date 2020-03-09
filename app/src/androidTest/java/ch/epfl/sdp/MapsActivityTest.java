@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 
 import androidx.core.content.ContextCompat;
@@ -12,15 +13,12 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import com.google.android.gms.maps.GoogleMap;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
@@ -65,5 +63,13 @@ public class MapsActivityTest {
             new ActivityTestRule<>(MapsActivity.class);
     @Test
     public void testWithFakeGoogleMap() {
+    }
+
+    @Test
+    public void createSmallCircleWorks() {
+        assertNotNull(mActivityRule.getActivity().getMapApi().createSmallCircle(Color.RED));
+        mActivityRule.getActivity().getMapApi().updatePosition();
+        mActivityRule.getActivity().getMapApi().getCurrentLocation();
+        mActivityRule.getActivity().getMapApi().displayEnemies(null);
     }
 }
