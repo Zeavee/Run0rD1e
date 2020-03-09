@@ -21,7 +21,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        Button mapButton = findViewById(R.id.mapButton);
+        Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
         setMapApi(new GoogleApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this));
