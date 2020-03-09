@@ -12,9 +12,13 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.ArrayList;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -61,6 +65,14 @@ public class MapsActivityTest {
             new ActivityTestRule<>(MapsActivity.class);
     @Test
     public void testWithFakeGoogleMap() {
+        ((GoogleApi) mActivityRule.getActivity().getMapApi()).setMap(new GoogleMap(new MockIGoogleMapDelegate()));
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        mActivityRule.getActivity().getMapApi().updatePosition();
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        mActivityRule.getActivity().getMapApi().getCurrentLocation();
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        ArrayList enemies = new ArrayList();
+        enemies.add(new Enemy(45, 45, 10000));
+        mActivityRule.getActivity().getMapApi().displayEnemies(enemies);
     }
 }
