@@ -9,7 +9,7 @@ public interface MapApi {
 
     public Location getCurrentLocation();
 
-    public void updatePosition(Activity activity);
+    public void updatePosition();
 
     public void displayEnemies(List<Enemy> enemies);
 }
