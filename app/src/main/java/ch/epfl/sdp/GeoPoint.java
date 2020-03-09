@@ -5,7 +5,6 @@ import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
-import static java.lang.Math.toDegrees;
 
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
@@ -26,11 +25,11 @@ public final class GeoPoint {
     }
 
     public double longitude() {
-        return toDegrees(this.longitude);
+        return this.longitude;
     }
 
     public double latitude() {
-        return toDegrees(this.latitude);
+        return this.latitude;
     }
 
     /**
