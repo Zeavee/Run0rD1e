@@ -16,6 +16,8 @@ import android.util.Pair;
 
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
@@ -131,6 +133,11 @@ public class GoogleApi implements MapApi {
                             .fillColor(Color.argb(128, 255, 51, 51)).strokeColor(Color.RED).strokeWidth(1f))));
         }
 
+    }
+
+    @Override
+    public void moveCameraOnCurrentLocation() {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
     }
 
     public void setMap(GoogleMap googleMap) {

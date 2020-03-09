@@ -14,5 +14,7 @@ public interface MapApi {
 
     public void displayEnemies(List<Enemy> enemies);
 
+    void moveCameraOnCurrentLocation();
+
     public Bitmap createSmallCircle(int color);
 }

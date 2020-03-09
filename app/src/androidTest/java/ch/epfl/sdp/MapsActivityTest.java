@@ -1,8 +1,8 @@
 package ch.epfl.sdp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 
 import androidx.core.content.ContextCompat;
@@ -17,8 +17,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
-import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
@@ -61,15 +63,12 @@ public class MapsActivityTest {
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<>(MapsActivity.class);
-    @Test
-    public void testWithFakeGoogleMap() {
-    }
 
     @Test
-    public void createSmallCircleWorks() {
-        assertNotNull(mActivityRule.getActivity().getMapApi().createSmallCircle(Color.RED));
-        mActivityRule.getActivity().getMapApi().updatePosition();
-        mActivityRule.getActivity().getMapApi().getCurrentLocation();
-        mActivityRule.getActivity().getMapApi().displayEnemies(null);
+    public void moveCameraWorks() {
+        allowPermissionsIfNeeded(Manifest.permission.ACCESS_FINE_LOCATION);
+        onView(withId(R.id.rulesButton)).perform(click());
+        allowPermissionsIfNeeded(Manifest.permission.ACCESS_FINE_LOCATION);
+
     }
 }
