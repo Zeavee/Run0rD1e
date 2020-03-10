@@ -23,20 +23,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
         });
 
-        Button mapButton = (Button) findViewById(R.id.mapButton);
+        Button mapButton = findViewById(R.id.mapButton);
+        mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
-            }
-        });
-
-        Button rulesButton = (Button) findViewById(R.id.rulesButton);
-
-        rulesButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RuleActivity.class));
-            }
-        });
+        Button rulesButton = findViewById(R.id.rulesButton);
+        rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
     }
 }
