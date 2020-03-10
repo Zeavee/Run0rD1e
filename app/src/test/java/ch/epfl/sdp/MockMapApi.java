@@ -9,16 +9,8 @@ import java.util.List;
 
 public class MockMapApi implements MapApi {
     @Override
-    public Location getCurrentLocation() {
-        Location l = new Location("FakeProvider");
-        l.setTime(10);
-        l.setElapsedRealtimeNanos(10);
-        l.setAccuracy(10);
-        l.setLongitude(40);
-        l.setLatitude(50);
-        l.setSpeed(10);
-        l.setAltitude(1000);
-        return l;
+    public GeoPoint getCurrentLocation() {
+        return new GeoPoint(40, 50);
     }
 
     @Override
