@@ -111,25 +111,29 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public void update() {
         if(moving) {
             GenPoint gp = move();
-            if(bounds.isInside(gp)){
+            if (bounds.isInside(gp)){
                position = gp;
-            }else {
-                switch (movement) {
-                    case LINEAR:
-                        orientation = rand.nextFloat()*2*(float)(Math.PI);
-                        break;
-                    case SINUSOIDAL:
-                        break;
-                    case CIRCULAR:
-                        break;
-                    case CURVED:
-                        break;
-                    case SMOOTH:
-                        break;
-                    case RANDOM:
-                        break;
-                }
+            } else {
+                switchOnMouvement();
             }
+        }
+    }
+
+    private void switchOnMouvement() {
+        switch (movement) {
+            case LINEAR:
+                orientation = rand.nextFloat()*2*(float)(Math.PI);
+                break;
+            case SINUSOIDAL:
+                break;
+            case CIRCULAR:
+                break;
+            case CURVED:
+                break;
+            case SMOOTH:
+                break;
+            case RANDOM:
+                break;
         }
     }
 }

@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-enum Movement {
+public enum Movement {
     LINEAR,
     SINUSOIDAL,
     CIRCULAR,
