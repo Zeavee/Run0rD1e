@@ -7,9 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LeaderboardActivity extends AppCompatActivity {
 
@@ -53,9 +51,5 @@ public class LeaderboardActivity extends AppCompatActivity {
         LeaderboardAdapter adapter = new LeaderboardAdapter(mUsernames, mHealthPoints);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void showTopThree() {
-
     }
 }
