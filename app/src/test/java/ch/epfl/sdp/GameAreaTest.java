@@ -39,4 +39,13 @@ public class GameAreaTest {
         assertEquals(oldGameArea.getCenter().distanceTo(newGameArea.getCenter())/2, oldGameArea.getCenter().distanceTo(tempGameAreaMid.getCenter()), 10);
         assertEquals(0, newGameArea.getCenter().distanceTo(tempGameAreaEnd.getCenter()), 0.01);
     }
+
+    @Test
+    public void getShrinkTransitionReturnsNullOnInvalidTime() {
+        GameArea oldGameArea = new GameArea(10000, new GeoPoint(40, 50));
+        GameArea newGameArea = oldGameArea.shrink(0.5);
+        assertEquals(null, newGameArea.getShrinkTransition(-1, 2, oldGameArea));
+        assertEquals(null, newGameArea.getShrinkTransition(3, 2, oldGameArea));
+        assertEquals(null, newGameArea.getShrinkTransition(0, 2, null));
+    }
 }

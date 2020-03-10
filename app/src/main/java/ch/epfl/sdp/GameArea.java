@@ -44,9 +44,16 @@ public class GameArea {
     }
 
     public GameArea getShrinkTransition(double time, double finalTime, GameArea startCircle) {
-        double outputRadius = (finalTime-time)/finalTime*startCircle.getRadius() + time/finalTime*this.radius;
-        double outputLatitude = (finalTime-time)/finalTime*startCircle.getCenter().latitude() + time/finalTime*this.center.latitude();
-        double outputLongitude = (finalTime-time)/finalTime*startCircle.getCenter().longitude() + time/finalTime*this.center.longitude();
+        if (time > finalTime || time < 0 || startCircle == null) {
+            return null;
+        }
+        double outputRadius = getValueForTime(time, finalTime, startCircle.getRadius(), this.radius);
+        double outputLatitude = getValueForTime(time, finalTime, startCircle.getCenter().latitude(), this.center.latitude());
+        double outputLongitude = getValueForTime(time, finalTime, startCircle.getCenter().longitude(), this.center.longitude());
         return new GameArea(outputRadius, new GeoPoint(outputLongitude, outputLatitude));
+    }
+
+    private double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
+        return (finalTime-time)/finalTime*startValue + time/finalTime*finalValue;
     }
 }
