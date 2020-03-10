@@ -25,7 +25,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +44,8 @@ public class GoogleApi implements MapApi {
     private Activity activity;
     private Pair<Marker, Circle> myCircle;
     private Map<Enemy, Pair<Marker, Circle>> enemiesCircles;
-    private List<Enemy> tempList;
 
     public GoogleApi(LocationManager locationManager, Activity activity) {
-        Enemy tempEnemy = new Enemy(6, 45, 10000);
-        tempList = new ArrayList();
-        tempList.add(tempEnemy);
 
         this.locationManager = locationManager;
         this.activity = activity;
@@ -87,7 +82,6 @@ public class GoogleApi implements MapApi {
 
     @Override
     public void updatePosition() {
-        displayEnemies(tempList);
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
