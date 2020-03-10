@@ -16,9 +16,9 @@ public class GameArea {
         this.center = center;
     }
 
-    public void shrink(double factor) {
+    public GameArea shrink(double factor) {
         if (factor < 0 || factor > 1) {
-            return;
+            return null;
         }
         Random random = new Random();
         double u = random.nextDouble();
@@ -29,8 +29,10 @@ public class GameArea {
         double y = w * sin(t);
         double xPrime = x / cos(toRadians(y));
 
-        radius = factor*radius;
-        center = new GeoPoint(center.longitude()+xPrime, center.latitude()+y);
+        double newRadius = factor*radius;
+        GeoPoint newCenter = new GeoPoint(center.longitude()+xPrime, center.latitude()+y);
+
+        return new GameArea(newRadius, newCenter);
     }
 
     public GeoPoint getCenter() {
@@ -39,5 +41,12 @@ public class GameArea {
 
     public double getRadius() {
         return radius;
+    }
+
+    public GameArea getShrinkTransition(double time, double finalTime, GameArea startCircle) {
+        double outputRadius = (finalTime-time)/finalTime*startCircle.getRadius() + time/finalTime*this.radius;
+        double outputLatitude = (finalTime-time)/finalTime*startCircle.getCenter().latitude() + time/finalTime*this.center.latitude();
+        double outputLongitude = (finalTime-time)/finalTime*startCircle.getCenter().longitude() + time/finalTime*this.center.longitude();
+        return new GameArea(outputRadius, new GeoPoint(outputLongitude, outputLatitude));
     }
 }
