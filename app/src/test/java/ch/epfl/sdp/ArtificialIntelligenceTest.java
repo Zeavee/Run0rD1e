@@ -20,6 +20,7 @@ public class ArtificialIntelligenceTest {
         MovingEntity movingEntity = new MovingEntity();
         movingEntity.setAcceleration(2);
         Boundable boundable = new UnboundedArea();
+        boundable.isInside(null);
         movingEntity.setBounds(boundable);
         GenPoint genPoint = new CartesianPoint(50, 60);
         movingEntity.setPosition(genPoint);
@@ -98,5 +99,18 @@ public class ArtificialIntelligenceTest {
         assertEquals(sqrt(8), cartesianPoint.toPolar().getArg1(), 0.01);
         assertEquals(toRadians(45), cartesianPoint.toPolar().getArg2(), 0.01);
         assertEquals(sqrt(8), cartesianPoint.toPolar().toPolar().getArg1(), 0.01);
+    }
+
+    @Test
+    public void entityDoesNotGetOutOfBoundsWithLinear() {
+        Boundable rectangleBounds = new RectangleBounds(50, 50);
+        MovingEntity movingEntity = new MovingEntity(rectangleBounds);
+        movingEntity.setMoving(true);
+        movingEntity.setMovement(Movement.LINEAR);
+        movingEntity.setVelocity(10);
+        for (int i = 0; i < 1000; ++i) {
+            movingEntity.update();
+            assertEquals(true, rectangleBounds.isInside(movingEntity.getPosition()));
+        }
     }
 }
