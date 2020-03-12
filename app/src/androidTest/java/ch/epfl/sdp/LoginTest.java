@@ -3,13 +3,10 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.widget.Toast;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
-
-import com.google.firebase.firestore.auth.User;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,14 +14,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static androidx.core.content.ContextCompat.startActivity;
-import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.intent.Intents.intending;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
