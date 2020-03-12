@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 public class MockAuthentication implements AuthenticationController {
     private HashMap<String, String> signedIn = new HashMap<String, String>();
     private HashMap<String, String> signedOut = new HashMap<String, String>();
-
+    private String currentSignedInEmail;
     private static final String EMAIL_REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
     private static final String PASS_REGEX =  "^.{8,}$";
 
@@ -36,6 +36,7 @@ public class MockAuthentication implements AuthenticationController {
         signedOut.remove(email);
         signedIn.put(email, password);
         displayVisitor.onSuccessfulAuthentication();
+        currentSignedInEmail = email;
         return 0;
     }
 
@@ -57,13 +58,15 @@ public class MockAuthentication implements AuthenticationController {
         store.setUserAttribute(email, "username", username);
         signedIn.put(email, password);
         displayVisitor.onSuccessfulAuthentication();
+        currentSignedInEmail = email;
         return true;
     }
 
     @Override
-    public boolean signOut(String email) {
-        signedOut.put(email, signedIn.get(email));
-        signedIn.remove(email);
+    public boolean signOut() {
+        signedOut.put(currentSignedInEmail, signedIn.get(currentSignedInEmail));
+        signedIn.remove(currentSignedInEmail);
+        currentSignedInEmail = null;
         return true;
     }
 
