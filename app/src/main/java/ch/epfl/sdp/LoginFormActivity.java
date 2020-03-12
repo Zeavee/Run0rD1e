@@ -36,21 +36,7 @@ public class LoginFormActivity extends AppCompatActivity {
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_SHORT;
 
-        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new AuthenticationOutcomeDisplayVisitor() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                Toast.makeText(context, "Success!", duration).show();
-                Intent myIntent = new Intent(LoginFormActivity.this, MainActivity.class);
-                startActivity(myIntent);
-                finish();
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                Toast.makeText(context, "Oops, something went wrong.", duration).show();
-            }
-        };
-
+        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(LoginFormActivity.this);
         authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
     }
 

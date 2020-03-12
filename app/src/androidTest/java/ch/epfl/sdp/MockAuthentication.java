@@ -1,7 +1,5 @@
 package ch.epfl.sdp;
 
-import com.google.firebase.firestore.auth.User;
-
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -51,7 +49,7 @@ public class MockAuthentication implements AuthenticationController {
         if (signedIn.containsKey(email) || signedOut.containsKey(email)) {
             return false;
         }
-        if (checkValidity(email,password) != 0)
+        if (checkValidity(email,password, passwordConf) != 0)
         {
             return false;
         }
@@ -69,7 +67,7 @@ public class MockAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int checkValidity(String email, String password) {
+    public int checkValidity(String email, String password, String passwordConf) {
         Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
         Pattern passwordPattern = Pattern.compile(PASS_REGEX);
         Matcher emailMatch = emailPattern.matcher(email);

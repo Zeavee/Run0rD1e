@@ -50,23 +50,8 @@ public class LoginTest {
         resultData.putExtra("resultData", "fancyData");
 
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+        mActivityRule.getActivity().authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
 
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(new AuthenticationOutcomeDisplayVisitor() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                Toast.makeText(mActivityRule.getActivity(), "Success!", Toast.LENGTH_SHORT);
-                Intent myIntent = new Intent(mActivityRule.getActivity(), MainActivity.class);
-                mActivityRule.getActivity().startActivity(myIntent);
-                mActivityRule.getActivity().finish();
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                Toast.makeText(mActivityRule.getActivity(), "Failed!", Toast.LENGTH_SHORT);
-            }
-        }, store);
-        //LoginFormActivity.authenticationController = new MockAuthentication();
-        //LoginFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
     }
 
     @After

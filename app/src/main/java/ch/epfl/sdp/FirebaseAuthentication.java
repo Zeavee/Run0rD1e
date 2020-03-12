@@ -40,9 +40,10 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public int signIn(String id, String password) {
-        if (checkValidity(id, password) != 0)
+        int isValid = checkValidity(id, password, password);
+        if (isValid != 0)
         {
-            return checkValidity(id, password);
+            return isValid;
         }
         auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -59,8 +60,8 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean register(final String id, final String username, String password) {
-        if (checkValidity(id, password) != 0)
+    public boolean register(final String id, final String username, String password, String passwordConf) {
+        if (checkValidity(id, password, passwordConf) != 0)
         {
             return false;
         }
@@ -87,7 +88,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int checkValidity(String id, String password) {
+    public int checkValidity(String id, String password, String passwordConf) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(id);
         if ((!matcher.matches()))
@@ -95,7 +96,7 @@ public class FirebaseAuthentication implements AuthenticationController {
             displayVisitor.onFailedAuthentication();
             return 1;
         }
-        if(password.length() < MINIMUM_PASSWORD_LENGTH){
+        if(password.length() < MINIMUM_PASSWORD_LENGTH || (!passwordConf.equals(password))){
             displayVisitor.onFailedAuthentication();
             return 2;
         }

@@ -48,21 +48,7 @@ public class RegisterFormActivity extends AppCompatActivity {
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_SHORT;
 
-        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new AuthenticationOutcomeDisplayVisitor() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                Toast.makeText(context, "Success!", duration).show();
-                Intent myIntent = new Intent(RegisterFormActivity.this, MainActivity.class);
-                startActivity(myIntent);
-                finish();
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                Toast.makeText(context, "Oops, something went wrong.", duration).show();
-            }
-        };
-
+        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(RegisterFormActivity.this);
         authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
     }
 
@@ -70,14 +56,15 @@ public class RegisterFormActivity extends AppCompatActivity {
         final String username = txtUsername.getText().toString();
         final String email = txtEmail.getText().toString().trim();
         String password = txtPassword.getText().toString().trim();
+        String passwordConf = txtPasswordConf.getText().toString().trim();
 
-        switch (authenticationController.checkValidity(email, password))
+        switch (authenticationController.checkValidity(email, password, passwordConf))
         {
             case 1: txtEmail.setError("Email is incorrect"); return;
             case 2: txtPassword.setError("Password is incorrect"); return;
         }
 
-       authenticationController.register(email,username,password);
+       authenticationController.register(email,username,password, passwordConf);
     }
 
     public void backBtn_OnClick(View view) {

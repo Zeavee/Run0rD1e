@@ -38,8 +38,8 @@ public class RegisterTest {
 
     @Before
     public void setUp(){
-        email = "test@mail.com";
-        password = "12345678";
+        email = "amro.abdrabo@gmail.com";
+        password = "password";
 
         // Mock
         Intents.init();
@@ -48,21 +48,7 @@ public class RegisterTest {
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
         store = new MockUserDataController();
 
-        RegisterFormActivity.authenticationController = new MockAuthentication(new AuthenticationOutcomeDisplayVisitor() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                Toast.makeText(mActivityRule.getActivity(), "Success!", Toast.LENGTH_SHORT);
-                Intent myIntent = new Intent(mActivityRule.getActivity(), MainActivity.class);
-                mActivityRule.getActivity().startActivity(myIntent);
-                mActivityRule.finishActivity();
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                Toast.makeText(mActivityRule.getActivity(), "Failed!", Toast.LENGTH_SHORT);
-            }
-        }, store);
-    //new MockAuthController(mActivityRule.getActivity());
+        RegisterFormActivity.authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
     }
 
     @After
@@ -92,57 +78,67 @@ public class RegisterTest {
 
     @Test
     public void registering_ShouldFailOnEmptyEmail(){
-        onView(withId(R.id.username)).perform(typeText("Username"));
+        MissingFieldTestFactory.testField(typeText("Username"), typeText("password"), R.id.username, R.id.password);
+        //onView(withId(R.id.username)).perform(typeText("Username"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.password)).perform(typeText("password"));
         closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.registerbutton)).perform(click());
+        //onView(withId(R.id.passwordconf)).perform(typeText("password"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.registerbutton)).perform(click());
+        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyUsername(){
-        onView(withId(R.id.email)).perform(typeText("test"));
+        MissingFieldTestFactory.testField(typeText("test"), typeText("password"), R.id.email, R.id.password);
+        //onView(withId(R.id.email)).perform(typeText("test"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.password)).perform(typeText("password"));
         closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.registerbutton)).perform(click());
+        //onView(withId(R.id.passwordconf)).perform(typeText("password"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.registerbutton)).perform(click());
+        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyPassword(){
-        onView(withId(R.id.username)).perform(typeText("a"));
+        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //onView(withId(R.id.username)).perform(typeText("a"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.email)).perform(typeText("a"));
         closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("a"));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.registerbutton)).perform(click());
+        //onView(withId(R.id.passwordconf)).perform(typeText("password"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.registerbutton)).perform(click());
+        MissingFieldTestFactory.testField(typeText("password"),click(), R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyPasswordConfirmation(){
-        onView(withId(R.id.username)).perform(typeText("a"));
+        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //onView(withId(R.id.username)).perform(typeText("a"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.email)).perform(typeText("a"));
         closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("a"));
-        closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("password"));
-        closeSoftKeyboard();
-        onView(withId(R.id.registerbutton)).perform(click());
+        //onView(withId(R.id.password)).perform(typeText("password"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.registerbutton)).perform(click());
+        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.password, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
-        onView(withId(R.id.username)).perform(typeText("a"));
+        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //onView(withId(R.id.username)).perform(typeText("a"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.email)).perform(typeText("a"));
         closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("a"));
-        closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("passwor"));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("passwor"));
+        MissingFieldTestFactory.testField(typeText("passwor"), typeText("passwor"), R.id.password, R.id.passwordconf);
+        //onView(withId(R.id.password)).perform(typeText("passwor"));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.passwordconf)).perform(typeText("passwor"));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
     }
@@ -152,13 +148,15 @@ public class RegisterTest {
         String newUsername = "Username";
         String newEmail = "Email";
 
-        onView(withId(R.id.username)).perform(typeText(newUsername));
+        MissingFieldTestFactory.testField(typeText(newUsername), typeText(newEmail), R.id.username, R.id.email);
+        //onView(withId(R.id.username)).perform(typeText(newUsername));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.email)).perform(typeText(newEmail));
         closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText(newEmail));
-        closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText(password));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText(password));
+        MissingFieldTestFactory.testField(typeText(password), typeText(password), R.id.password, R.id.passwordconf);
+        //onView(withId(R.id.password)).perform(typeText(password));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.passwordconf)).perform(typeText(password));
         closeSoftKeyboard();
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
@@ -174,9 +172,10 @@ public class RegisterTest {
     public void registerWhenConnected_ShouldGoToMainScreen(){
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
-        onView(withId(R.id.emaillog)).perform(typeText(email));
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordlog)).perform(typeText(password));
+        MissingFieldTestFactory.testField(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
+        //onView(withId(R.id.emaillog)).perform(typeText(email));
+        //closeSoftKeyboard();
+        //onView(withId(R.id.passwordlog)).perform(typeText(password));
         closeSoftKeyboard();
         intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
