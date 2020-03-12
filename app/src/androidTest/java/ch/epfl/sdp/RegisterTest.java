@@ -78,23 +78,10 @@ public class RegisterTest {
     }
 
     @Test
-    public void registering_ShouldFailOnEmptyEmail(){
-
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("Username"), R.id.username),new Pair(typeText("password"), R.id.password), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-    }
-
-    @Test
-    public void registering_ShouldFailOnEmptyUsername(){
+    public void registering_ShouldFailOnEmptyTextFields(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("test"), R.id.email),new Pair(typeText("password"), R.id.password), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-    }
-
-    @Test
-    public void registering_ShouldFailOnEmptyPassword(){
+        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("Username"), R.id.username),new Pair(typeText("password"), R.id.password), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a"), R.id.email), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-    }
-
-    @Test
-    public void registering_ShouldFailOnEmptyPasswordConfirmation(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a"), R.id.email), new Pair(typeText("password"), R.id.password), new Pair(click(), R.id.registerbutton));
     }
 
