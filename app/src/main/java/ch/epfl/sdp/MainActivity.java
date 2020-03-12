@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,6 +22,14 @@ public class MainActivity extends AppCompatActivity {
         healthPointButton.setOnClickListener(view -> {
                     Intent intent = new Intent(MainActivity.this, GameInfoActivity.class);
                     startActivity(intent);
+        });
+
+        Button inventory = findViewById(R.id.inventory);
+
+        // Capture button clicks
+        inventory.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
+            startActivity(intent);
         });
 
         Button mapButton = (Button) findViewById(R.id.mapButton);
