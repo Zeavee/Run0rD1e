@@ -39,4 +39,10 @@ public class MainActivityTest {
         // This view is in a different Activity, no need to tell Espresso.
         onView(withId(R.id.username_text)).check(matches(withText("admin")));
     }
+
+    @Test
+    public void leaderboardOpens() {
+        onView(withId(R.id.leaderboard)).perform(click());
+        onView(withId(R.id.tv_username1)).check(matches(withText("aaaaa")));
+    }
 }

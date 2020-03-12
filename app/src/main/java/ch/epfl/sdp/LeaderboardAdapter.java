@@ -1,9 +1,9 @@
 package ch.epfl.sdp;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,16 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>{
 
-//    private List<String> mImages = new ArrayList<>();
     private List<String> mUsernames;
     private List<Double> mHealthPoints;
+    private Context mContext;
 
-    public LeaderboardAdapter( List<String> mUsernames, List<Double> mHealthPoints) {
-//        this.mImages = mImages;
+    public LeaderboardAdapter(Context mContext, List<String> mUsernames, List<Double> mHealthPoints) {
+        this.mContext = mContext;
         this.mUsernames = mUsernames;
         this.mHealthPoints = mHealthPoints;
     }
@@ -47,19 +45,14 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView ranking;
-//        CircleImageView image;
         TextView username;
         TextView healthPoint;
-        RelativeLayout parentLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ranking = itemView.findViewById(R.id.ranking);
-//            image = itemView.findViewById(R.id.image);
             username = itemView.findViewById(R.id.username);
             healthPoint = itemView.findViewById(R.id.healthPoint);
-            parentLayout = itemView.findViewById(R.id.list_layout);
-
         }
     }
 }
