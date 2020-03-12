@@ -50,8 +50,8 @@ public class LoginTest {
         resultData.putExtra("resultData", "fancyData");
 
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+        store = new MockUserDataController();
         mActivityRule.getActivity().authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
-
     }
 
     @After
