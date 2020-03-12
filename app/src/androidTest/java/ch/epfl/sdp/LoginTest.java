@@ -42,8 +42,8 @@ public class LoginTest {
 
     @Before
     public void setUp() {
-        email = "test@mail.com";
-        password = "12345678";
+        email = "amro.abdrabo@gmail.com";
+        password = "password";
 
         Intents.init();
         Intent resultData = new Intent();
@@ -57,7 +57,7 @@ public class LoginTest {
                 Toast.makeText(mActivityRule.getActivity(), "Success!", Toast.LENGTH_SHORT);
                 Intent myIntent = new Intent(mActivityRule.getActivity(), MainActivity.class);
                 mActivityRule.getActivity().startActivity(myIntent);
-                mActivityRule.finishActivity();
+                mActivityRule.getActivity().finish();
             }
 
             @Override
@@ -90,9 +90,10 @@ public class LoginTest {
         closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText(password));
         closeSoftKeyboard();
-        intending(toPackage(MainActivity.class.getName())).respondWith(result);
+        //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.loginButton)).perform(click());
-        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
+        closeSoftKeyboard();
+        //intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.logoutBt)).perform(click());
     }
 
@@ -118,13 +119,13 @@ public class LoginTest {
     @Test
     public void loginWithAnEmptyEmailGivesAnError(){
         onView(withId(R.id.loginButton)).perform(click());
-        String text = "email is required";
+        String text = "Email is incorrect";
         onView(withId(R.id.emaillog)).check(matches(hasErrorText(text)));
     }
 
     @Test
     public void loginWithAnEmptyPasswordGivesAnError(){
-        onView(withId(R.id.emaillog)).perform(typeText("NotAUser"));
+        onView(withId(R.id.emaillog)).perform(typeText("amro.abdrabo@gmail.com"));
         closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
         String text = "Password is incorrect";
@@ -133,7 +134,7 @@ public class LoginTest {
 
     @Test
     public void loginOnPasswordSmallerThan8CharsGivesAnError(){
-        onView(withId(R.id.emaillog)).perform(typeText("NotAUser"));
+        onView(withId(R.id.emaillog)).perform(typeText("amro.abdrabo@gmail.com"));
         closeSoftKeyboard();
         onView(withId(R.id.passwordlog)).perform(typeText("1234567"));
         closeSoftKeyboard();

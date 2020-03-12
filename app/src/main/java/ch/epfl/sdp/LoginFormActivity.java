@@ -64,7 +64,7 @@ public class LoginFormActivity extends AppCompatActivity {
         String password = lpassword.getText().toString().trim();
         switch (authenticationController.signIn(email, password))
         {
-            case 1: lusername.setError("Email is incorrect"); break;
+            case 1: lemail.setError("Email is incorrect"); break;
             case 2: lpassword.setError("Password is incorrect"); break;
         }
     }

@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.widget.Toast;
 
 import org.junit.After;
 import org.junit.Before;
@@ -13,6 +14,8 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
+
+import com.google.firebase.firestore.auth.User;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -27,6 +30,7 @@ public class RegisterTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
+    private UserDataController store;
 
     @Rule
     public final ActivityTestRule <RegisterFormActivity> mActivityRule =
@@ -42,8 +46,22 @@ public class RegisterTest {
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+        store = new MockUserDataController();
 
-        RegisterFormActivity.authenticationController = new MockAuthentication();
+        RegisterFormActivity.authenticationController = new MockAuthentication(new AuthenticationOutcomeDisplayVisitor() {
+            @Override
+            public void onSuccessfulAuthentication() {
+                Toast.makeText(mActivityRule.getActivity(), "Success!", Toast.LENGTH_SHORT);
+                Intent myIntent = new Intent(mActivityRule.getActivity(), MainActivity.class);
+                mActivityRule.getActivity().startActivity(myIntent);
+                mActivityRule.finishActivity();
+            }
+
+            @Override
+            public void onFailedAuthentication() {
+                Toast.makeText(mActivityRule.getActivity(), "Failed!", Toast.LENGTH_SHORT);
+            }
+        }, store);
     //new MockAuthController(mActivityRule.getActivity());
     }
 
