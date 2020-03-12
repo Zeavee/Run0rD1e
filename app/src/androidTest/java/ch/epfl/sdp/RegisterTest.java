@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.util.Pair;
+import android.view.View;
 import android.widget.Toast;
 
 import org.junit.After;
@@ -12,11 +13,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.google.firebase.firestore.auth.User;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -32,6 +38,9 @@ public class RegisterTest {
     private String password;
     private Instrumentation.ActivityResult result;
     private UserDataController store;
+    private List<ViewAction> testCases;
+    private List<Integer> testCasesInt;
+
 
     @Rule
     public final ActivityTestRule <RegisterFormActivity> mActivityRule =
@@ -39,6 +48,18 @@ public class RegisterTest {
 
     @Before
     public void setUp(){
+        testCases = new ArrayList<>();
+        testCases.addAll(Arrays.asList(typeText("test"),typeText("password"), typeText("password"), click(),
+                typeText("Username"), typeText("password"), typeText("password"), click(),
+                typeText("a"), typeText("a"), typeText("password"),click(),
+                typeText("a"), typeText("a"), typeText("password"),click()));
+
+        testCasesInt = new ArrayList<>();
+        testCasesInt.addAll(Arrays.asList(R.id.email, R.id.password, R.id.passwordconf, R.id.registerbutton,
+                R.id.username, R.id.password, R.id.passwordconf, R.id.registerbutton,
+                R.id.username, R.id.email, R.id.passwordconf,R.id.registerbutton,
+                R.id.username, R.id.email, R.id.password,R.id.registerbutton));
+
         email = "amro.abdrabo@gmail.com";
         password = "password";
 
@@ -79,10 +100,15 @@ public class RegisterTest {
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields(){
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("test"), R.id.email),new Pair(typeText("password"), R.id.password), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("Username"), R.id.username),new Pair(typeText("password"), R.id.password), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a"), R.id.email), new Pair(typeText("password"), R.id.passwordconf), new Pair(click(), R.id.registerbutton));
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a"), R.id.email), new Pair(typeText("password"), R.id.password), new Pair(click(), R.id.registerbutton));
+        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<ArrayList<Pair<ViewAction, Integer>>>();
+        for (int i = 0 ; i < 4; ++i)
+        {
+            MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i*4), testCasesInt.get(i*4)),
+                    new Pair(testCases.get(i * 4 + 1), testCasesInt.get(i * 4 + 1)),
+                    new Pair(testCases.get(i * 4 + 2), testCasesInt.get(i * 4 + 2)),
+                    new Pair(testCases.get(i * 4 + 3), testCasesInt.get(i * 4 + 3)));
+
+        }
     }
 
     @Test
