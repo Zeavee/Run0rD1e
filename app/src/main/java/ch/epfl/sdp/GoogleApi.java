@@ -29,8 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Math.toDegrees;
-
 public class GoogleApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
     private static double listenDistance = 5; // meters
@@ -117,7 +115,7 @@ public class GoogleApi implements MapApi {
                 enemiesCircles.get(enemy).first.remove();
                 enemiesCircles.get(enemy).second.remove();
             }
-            LatLng enemyPosition = new LatLng(toDegrees(enemy.getLocation().latitude()), toDegrees(enemy.getLocation().longitude()));
+            LatLng enemyPosition = new LatLng(enemy.getLocation().latitude(), enemy.getLocation().longitude());
             enemiesCircles.put(enemy, new Pair<>(mMap.addMarker(new MarkerOptions()
                     .position(enemyPosition)
                     .title("Enemy")

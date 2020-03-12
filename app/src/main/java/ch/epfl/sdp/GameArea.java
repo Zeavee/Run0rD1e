@@ -21,12 +21,21 @@ public class GameArea {
             return null;
         }
         Random random = new Random();
+
+        //random doubles between 0 and 1
         double u = random.nextDouble();
         double v = random.nextDouble();
-        double w = ((1.0-factor)*radius/111300.0) * sqrt(u);
-        double t = 2 * Math.PI * v;
-        double x = w * cos(t);
-        double y = w * sin(t);
+
+        //radius/111300.0 is used because we want to convert the radius into degrees
+        //we want a point that is not too far from the old center so the new circle can fit in the old one
+        double randomDistance = ((1.0-factor)*radius/111300.0) * sqrt(u);
+        double randomAngle = 2 * Math.PI * v;
+
+
+        double x = randomDistance * cos(randomAngle);
+        double y = randomDistance * sin(randomAngle);
+
+        //this is because of East-West shrinking distances
         double xPrime = x / cos(toRadians(y));
 
         double newRadius = factor*radius;
