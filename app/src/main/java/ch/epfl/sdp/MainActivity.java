@@ -25,6 +25,15 @@ public class MainActivity extends AppCompatActivity {
         Button mapButton = findViewById(R.id.mapButton);
         mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
+        // Locate the button in activity_main.xml
+        Button leaderboardButton = findViewById(R.id.leaderboard);
+
+        // Capture button clicks
+        leaderboardButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+            startActivity(intent);
+        });
+
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
     }
