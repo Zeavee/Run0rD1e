@@ -82,7 +82,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean signOut(String email) {
+    public boolean signOut() {
         auth.signOut();
         return true;
     }

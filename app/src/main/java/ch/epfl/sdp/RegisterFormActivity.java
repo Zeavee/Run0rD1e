@@ -30,7 +30,7 @@ public class RegisterFormActivity extends AppCompatActivity {
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
     String userID;
-    public AuthenticationController authenticationController;
+    static AuthenticationController authenticationController;
     public UserDataController userDataController;
 
     @Override
@@ -49,7 +49,7 @@ public class RegisterFormActivity extends AppCompatActivity {
         final int duration = Toast.LENGTH_SHORT;
 
         AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(RegisterFormActivity.this);
-        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
+        authenticationController = LoginFormActivity.authenticationController;//new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
     }
 
     public void registerBtn_OnClick(View view) {
