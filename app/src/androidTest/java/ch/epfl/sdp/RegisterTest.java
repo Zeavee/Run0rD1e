@@ -70,7 +70,8 @@ public class RegisterTest {
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
         store = new MockUserDataController();
 
-        RegisterFormActivity.authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
+        mActivityRule.getActivity().authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
+        mActivityRule.getActivity().userDataController = store;
     }
 
     @After

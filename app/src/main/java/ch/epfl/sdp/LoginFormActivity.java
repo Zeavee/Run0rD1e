@@ -20,8 +20,8 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lusername, lemail, lpassword;
     private Button lLoginButton;
-    static AuthenticationController authenticationController;
-    private UserDataController userDataController;
+    public AuthenticationController authenticationController;
+    public UserDataController userDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class LoginFormActivity extends AppCompatActivity {
 
         final Context context = getApplicationContext();
         final int duration = Toast.LENGTH_SHORT;
-
+        userDataController = new FirestoneUserData();
         AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(LoginFormActivity.this);
         authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
     }

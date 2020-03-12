@@ -30,8 +30,8 @@ public class RegisterFormActivity extends AppCompatActivity {
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
     String userID;
-    static AuthenticationController authenticationController;
-    UserDataController userDataController;
+    public AuthenticationController authenticationController;
+    public UserDataController userDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
