@@ -11,37 +11,19 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import static java.util.Map.Entry;
 
 public class FirestoneUserData implements UserDataController {
-    private Map<String, Object> userAttributes;
     @Override
     public Map<String, Object> getUserData(String id) {
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Players").document(id);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful())
-                {
-                    DocumentSnapshot doc = task.getResult();
-                    if (doc.exists())
-                    {
-                        userAttributes = doc.getData();
-                    }
-                }
-            }
-        });
-        if (userAttributes != null) {
-            return new HashMap<>(userAttributes);
-        }
-        return null;
+        return FirebaseFirestore.getInstance().collection("Players").document(id).get().getResult().getData();
     }
 
     @Override
-    public void setUserAttribute(String id, String attribute, Object value) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public void setUserAttribute(String id, final String attribute, Object value) {
         Map<String, Object> data = new HashMap<>();
         data.put(attribute, value);
-        db.collection("Players").document(id).set(data, SetOptions.merge());
+        FirebaseFirestore.getInstance().collection("Players").document(id).set(data, SetOptions.merge());
 
     }
 }
