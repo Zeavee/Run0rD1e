@@ -37,7 +37,7 @@
         android:id="@+id/emaillog"
         android:layout_width="254dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="56dp"
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text=""
@@ -50,7 +50,7 @@
         android:id="@+id/createAccountBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="28dp"
         android:onClick="createAccountBtn_OnClick"
         android:text="New here? Create Account"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.191" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline8"
