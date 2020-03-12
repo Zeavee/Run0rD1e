@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lusername, lemail, lpassword;
     private Button lLoginButton;
-    public AuthenticationController authenticationController;
+    static AuthenticationController authenticationController;
     public UserDataController userDataController;
 
     @Override
