@@ -3,8 +3,12 @@ package ch.epfl.sdp;
 public class Shield extends Item {
     private double shieldTime;
 
-    public Shield(GeoPoint location, int itemId, boolean isTaken, double shieldTime) {
-        super(location, itemId, isTaken);
+    public Shield(GeoPoint location, boolean isTaken, double shieldTime) {
+        super(location, 2, isTaken, "Protects you from taking damage from the enemy");
         this.shieldTime = shieldTime;
+    }
+
+    public double getShieldTime() {
+        return shieldTime;
     }
 }

@@ -8,4 +8,6 @@ public interface MapApi {
     public Location getCurrentLocation();
 
     public void updatePosition(Activity activity);
+
+    public void displayObject(Object obj);
 }

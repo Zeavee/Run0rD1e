@@ -13,7 +13,6 @@ public class Enemy extends MovingEntity {
         //TODO
     }
 
-    @Override
     public void updateAoeRadius() {
         //TODO
     }

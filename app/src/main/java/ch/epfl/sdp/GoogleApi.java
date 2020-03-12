@@ -83,6 +83,11 @@ public class GoogleApi implements MapApi {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPos));
     }
 
+    @Override
+    public void displayObject(Object obj) {
+        //TODO
+    }
+
     public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
     }

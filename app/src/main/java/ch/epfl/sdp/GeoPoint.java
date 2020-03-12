@@ -1,10 +1,12 @@
 package ch.epfl.sdp;
 
 
+import static java.lang.Math.*;
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
+
 
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
@@ -20,16 +22,16 @@ public final class GeoPoint {
     private final double latitude;
 
     public GeoPoint(double longitude, double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.longitude = toRadians(longitude);
+        this.latitude = toRadians(latitude);
     }
 
     public double longitude() {
-        return this.longitude;
+        return toDegrees(this.longitude);
     }
 
     public double latitude() {
-        return this.latitude;
+        return toDegrees(this.latitude);
     }
 
     /**
