@@ -3,10 +3,13 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
+
+import com.google.firebase.firestore.auth.User;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,6 +17,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -30,6 +34,7 @@ public class LoginTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
+    private UserDataController store;
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
@@ -43,9 +48,24 @@ public class LoginTest {
         Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
+
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        LoginFormActivity.authenticationController = new MockAuthentication();
+        mActivityRule.getActivity().authenticationController = new MockAuthentication(new AuthenticationOutcomeDisplayVisitor() {
+            @Override
+            public void onSuccessfulAuthentication() {
+                Toast.makeText(mActivityRule.getActivity(), "Success!", Toast.LENGTH_SHORT);
+                Intent myIntent = new Intent(mActivityRule.getActivity(), MainActivity.class);
+                mActivityRule.getActivity().startActivity(myIntent);
+                mActivityRule.finishActivity();
+            }
+
+            @Override
+            public void onFailedAuthentication() {
+                Toast.makeText(mActivityRule.getActivity(), "Failed!", Toast.LENGTH_SHORT);
+            }
+        }, store);
+        //LoginFormActivity.authenticationController = new MockAuthentication();
         //LoginFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
     }
 
@@ -107,7 +127,7 @@ public class LoginTest {
         onView(withId(R.id.emaillog)).perform(typeText("NotAUser"));
         closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
-        String text = "password is required";
+        String text = "Password is incorrect";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
     }
 
@@ -118,7 +138,7 @@ public class LoginTest {
         onView(withId(R.id.passwordlog)).perform(typeText("1234567"));
         closeSoftKeyboard();
         onView(withId(R.id.loginButton)).perform(click());
-        String text = "password length has to be greater than 8 Characters";
+        String text = "Password is incorrect";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
     }
 }

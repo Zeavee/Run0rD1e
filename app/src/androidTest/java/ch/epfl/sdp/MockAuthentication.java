@@ -1,5 +1,7 @@
 package ch.epfl.sdp;
 
+import com.google.firebase.firestore.auth.User;
+
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,23 +13,31 @@ public class MockAuthentication implements AuthenticationController {
     private static final String EMAIL_REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
     private static final String PASS_REGEX =  "^.{8,}$";
 
-    public MockAuthentication()
+    private UserDataController store;
+    private AuthenticationOutcomeDisplayVisitor displayVisitor;
+
+    public MockAuthentication(AuthenticationOutcomeDisplayVisitor displayVisitor, UserDataController store)
     {
         // amro.abdrabo@gmail.com has previously registered
+        this.store = store;
+        this.displayVisitor = displayVisitor;
         signedOut.put("amro.abdrabo@gmail.com", "password");
     }
     @Override
     public int signIn(String email, String password) {
         if(!signedOut.containsKey(email)) {
+            displayVisitor.onFailedAuthentication();
             return 1;
         }
 
         if(!signedOut.get(email).equals(password)) {
+            displayVisitor.onFailedAuthentication();
             return 2;
         }
 
         signedOut.remove(email);
         signedIn.put(email, password);
+        displayVisitor.onSuccessfulAuthentication();
         return 0;
     }
 
@@ -45,15 +55,14 @@ public class MockAuthentication implements AuthenticationController {
         {
             return false;
         }
+        store.setUserAttribute(email, "username", username);
         signedIn.put(email, password);
+        displayVisitor.onSuccessfulAuthentication();
         return true;
     }
 
     @Override
     public boolean signOut(String email) {
-        if(!isSignedIn(email)) {
-            return false;
-        }
         signedOut.put(email, signedIn.get(email));
         signedIn.remove(email);
         return true;

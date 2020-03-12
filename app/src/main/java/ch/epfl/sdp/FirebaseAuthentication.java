@@ -69,8 +69,8 @@ public class FirebaseAuthentication implements AuthenticationController {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful())
                 {
-                    displayVisitor.onSuccessfulAuthentication();
                     userDataStore.setUserAttribute(id, "username", username);
+                    displayVisitor.onSuccessfulAuthentication();
                 }
                 else {
                     displayVisitor.onFailedAuthentication();
