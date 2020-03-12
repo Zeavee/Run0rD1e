@@ -40,9 +40,9 @@ public class MainActivityTest {
         onView(withId(R.id.username_text)).check(matches(withText("admin")));
     }
 
-    @Test
-    public void leaderboardOpens() {
-        onView(withId(R.id.leaderboard)).perform(click());
-        onView(withId(R.id.tv_username1)).check(matches(withText("aaaaa")));
-    }
+//    @Test
+//    public void leaderboardOpens() {
+//        onView(withId(R.id.leaderboard)).perform(click());
+//        onView(withId(R.id.tv_username1)).check(matches(withText("aaaaa")));
+//    }
 }
