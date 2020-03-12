@@ -78,37 +78,42 @@ public class RegisterTest {
 
     @Test
     public void registering_ShouldFailOnEmptyEmail(){
-        MissingFieldTestFactory.testField(typeText("Username"), typeText("password"), R.id.username, R.id.password);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
+        //MissingFieldTestFactory.testField(typeText("Username"), typeText("password"), R.id.username, R.id.password);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
+        MissingFieldTestFactory.testFieldFourActions(typeText("Username"),typeText("password"),  typeText("password"), click(), R.id.username, R.id.password, R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyUsername(){
-        MissingFieldTestFactory.testField(typeText("test"), typeText("password"), R.id.email, R.id.password);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
+        //MissingFieldTestFactory.testField(typeText("test"), typeText("password"), R.id.email, R.id.password);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText("password"), click(), R.id.passwordconf, R.id.registerbutton);
+        MissingFieldTestFactory.testFieldFourActions(typeText("test"), typeText("password"), typeText("password"), click(), R.id.email, R.id.password, R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyPassword(){
-        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText("password"),click(), R.id.passwordconf, R.id.registerbutton);
+        //MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText("password"),click(), R.id.passwordconf, R.id.registerbutton);
+        MissingFieldTestFactory.testFieldFourActions(typeText("a"),typeText("a"),  typeText("password"), click(), R.id.username, R.id.email, R.id.passwordconf, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnEmptyPasswordConfirmation(){
-        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText("password"), click(), R.id.password, R.id.registerbutton);
+        //MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText("password"), click(), R.id.password, R.id.registerbutton);
+        MissingFieldTestFactory.testFieldFourActions(typeText("a"), typeText("a"), typeText("password"), click(), R.id.username, R.id.email, R.id.password, R.id.registerbutton);
     }
 
     @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
-        MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText("passwor"), typeText("passwor"), R.id.password, R.id.passwordconf);
+        //MissingFieldTestFactory.testField(typeText("a"), typeText("a"), R.id.username, R.id.email);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText("passwor"), typeText("passwor"), R.id.password, R.id.passwordconf);
+        MissingFieldTestFactory.testFieldFourActions(typeText("a"), typeText("a"),typeText("passwor"), typeText("passwor"), R.id.username, R.id.email, R.id.password, R.id.passwordconf);
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
     }
@@ -117,9 +122,10 @@ public class RegisterTest {
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email";
-        MissingFieldTestFactory.testField(typeText(newUsername), typeText(newEmail), R.id.username, R.id.email);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(typeText(password), typeText(password), R.id.password, R.id.passwordconf);
+        //MissingFieldTestFactory.testField(typeText(newUsername), typeText(newEmail), R.id.username, R.id.email);
+        //closeSoftKeyboard();
+        //MissingFieldTestFactory.testField(typeText(password), typeText(password), R.id.password, R.id.passwordconf);
+        MissingFieldTestFactory.testFieldFourActions(typeText(newUsername), typeText(newEmail), typeText(password), typeText(password), R.id.username, R.id.email, R.id.password, R.id.passwordconf);
         closeSoftKeyboard();
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
@@ -135,8 +141,7 @@ public class RegisterTest {
     public void registerWhenConnected_ShouldGoToMainScreen(){
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
-        MissingFieldTestFactory.testField(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        closeSoftKeyboard();
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
     }

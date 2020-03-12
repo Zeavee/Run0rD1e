@@ -71,23 +71,20 @@ public class LoginTest {
 
     @Test
     public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
-        MissingFieldTestFactory.testField(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        closeSoftKeyboard();
-        MissingFieldTestFactory.testField(click(), click(), R.id.loginButton, R.id.logoutBt);
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
+        MissingFieldTestFactory.testFieldTwoActions(click(), click(), R.id.loginButton, R.id.logoutBt);
     }
 
     @Test
     public void login_shouldWorkWithRegisteredUser(){
-        MissingFieldTestFactory.testField(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        closeSoftKeyboard();
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.logoutBt));
     }
 
     @Test
     public void loginUnregisteredUserGivesAnError(){
-        MissingFieldTestFactory.testField(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
-        closeSoftKeyboard();
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
     }
 
@@ -100,15 +97,14 @@ public class LoginTest {
 
     @Test
     public void loginWithAnEmptyPasswordGivesAnError(){
-        MissingFieldTestFactory.testField(typeText("amro.abdrabo@gmail.com"), click(), R.id.emaillog, R.id.loginButton);
+        MissingFieldTestFactory.testFieldTwoActions(typeText("amro.abdrabo@gmail.com"), click(), R.id.emaillog, R.id.loginButton);
         String text = "Password is incorrect";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
     }
 
     @Test
     public void loginOnPasswordSmallerThan8CharsGivesAnError(){
-        MissingFieldTestFactory.testField(typeText("amro.abdrabo@gmail.com"),typeText("1234567"), R.id.emaillog, R.id.passwordlog);
-        closeSoftKeyboard();
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("amro.abdrabo@gmail.com"),typeText("1234567"), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText("Password is incorrect")));
     }
