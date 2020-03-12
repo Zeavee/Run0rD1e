@@ -1,5 +1,6 @@
 package ch.epfl.sdp;
 
+import android.util.Pair;
 import android.view.View;
 
 import androidx.test.espresso.ViewAction;
@@ -24,14 +25,14 @@ public class MissingFieldTestFactory {
         onView(withId(secondFilledView)).perform(action2);
         closeSoftKeyboard();
     }
-    public static void testFieldFourActions(ViewAction action1, ViewAction action2, ViewAction action3, ViewAction action4, int view1, int view2, int view3, int view4)
+    public static void testFieldFourActions(Pair<ViewAction, Integer> actionInt1, Pair<ViewAction, Integer> actionInt2, Pair<ViewAction, Integer> actionInt3, Pair<ViewAction, Integer> actionInt4)
     {
-        onView(withId(view1)).perform(action1);
+        onView(withId(actionInt1.second)).perform(actionInt1.first);
         closeSoftKeyboard();
-        onView(withId(view2)).perform(action2);
+        onView(withId(actionInt2.second)).perform(actionInt2.first);
         closeSoftKeyboard();
-        onView(withId(view3)).perform(action3);
+        onView(withId(actionInt3.second)).perform(actionInt3.first);
         closeSoftKeyboard();
-        onView(withId(view4)).perform(action4);
+        onView(withId(actionInt4.second)).perform(actionInt4.first);
     }
 }
