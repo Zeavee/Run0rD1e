@@ -45,7 +45,8 @@ public class LoginTest {
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        LoginFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
+        LoginFormActivity.authenticationController = new MockAuthentication();
+        //LoginFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
     }
 
     @After

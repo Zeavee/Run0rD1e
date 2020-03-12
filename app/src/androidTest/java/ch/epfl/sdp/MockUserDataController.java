@@ -9,7 +9,7 @@ public class MockUserDataController implements UserDataController{
     @Override
     public Map<String, Object> getUserData(String id) {
         if(!userData.containsKey(id)) {
-            userData.put(id, new TreeMap<String, Object>());
+            return null;
         }
         return userData.get(id);
     }

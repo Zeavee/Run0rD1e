@@ -37,14 +37,14 @@ public class RegisterTest {
         email = "test@mail.com";
         password = "12345678";
 
-        // Mock<
-
+        // Mock
         Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        RegisterFormActivity.authenticationController = new MockAuthController(mActivityRule.getActivity());
+        RegisterFormActivity.authenticationController = new MockAuthentication();
+    //new MockAuthController(mActivityRule.getActivity());
     }
 
     @After

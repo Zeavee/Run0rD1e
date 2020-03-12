@@ -21,7 +21,7 @@ public class LoginFormActivity extends AppCompatActivity {
     private EditText lusername, lemail, lpassword;
     private Button lLoginButton;
     static AuthenticationController authenticationController;
-    UserDataController userDataController;
+    private UserDataController userDataController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,12 @@ public class LoginFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailedAuthentication() {
-                Toast.makeText(context, "Oups, something went wrong.", duration).show();
+                Toast.makeText(context, "Oops, something went wrong.", duration).show();
             }
         };
 
-        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);    }
+        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
+    }
 
    public void createAccountBtn_OnClick(View view) {
         startActivity(new Intent(this, RegisterFormActivity.class));
@@ -61,22 +62,10 @@ public class LoginFormActivity extends AppCompatActivity {
     public void loginBtn_OnClick(View view) {
         String email = lemail.getText().toString().trim();
         String password = lpassword.getText().toString().trim();
-
-        if (TextUtils.isEmpty(email)) {
-            lemail.setError("email is required");
-            return;
+        switch (authenticationController.signIn(email, password))
+        {
+            case 1: lusername.setError("Email is incorrect"); break;
+            case 2: lpassword.setError("Password is incorrect"); break;
         }
-
-        if (TextUtils.isEmpty((password))) {
-            lpassword.setError("password is required");
-            return;
-        }
-
-        if (password.length() < 8) {
-            lpassword.setError("password length has to be greater than 8 Characters");
-            return;
-        }
-
-        authenticationController.signIn(email, password);
     }
 }

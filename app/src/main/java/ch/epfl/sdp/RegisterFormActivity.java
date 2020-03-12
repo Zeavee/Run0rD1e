@@ -59,7 +59,7 @@ public class RegisterFormActivity extends AppCompatActivity {
 
             @Override
             public void onFailedAuthentication() {
-                Toast.makeText(context, "Oups, something went wrong.", duration).show();
+                Toast.makeText(context, "Oops, something went wrong.", duration).show();
             }
         };
 
@@ -71,17 +71,10 @@ public class RegisterFormActivity extends AppCompatActivity {
         final String email = txtEmail.getText().toString().trim();
         String password = txtPassword.getText().toString().trim();
 
-        if (TextUtils.isEmpty(email)) {
-            txtEmail.setError("email is required");
-            return;
-        }
-        if (TextUtils.isEmpty((password))) {
-            txtPassword.setError("password is required");
-            return;
-        }
-        if (password.length() < 8){
-            txtPassword.setError("password length has to be greater than 8 Characters");
-            return;
+        switch (authenticationController.checkValidity(email, password))
+        {
+            case 1: txtEmail.setError("Email is incorrect"); return;
+            case 2: txtPassword.setError("Password is incorrect"); return;
         }
 
        authenticationController.register(email,username,password);

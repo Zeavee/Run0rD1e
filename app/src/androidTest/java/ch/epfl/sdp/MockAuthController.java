@@ -12,12 +12,12 @@ public class MockAuthController implements AuthenticationController {
     }
 
     @Override
-    public boolean signIn(String email, String password) {
+    public int signIn(String email, String password) {
         signedIn = true;
         Intent myIntent = new Intent(activity, MainActivity.class);
         activity.startActivity(myIntent);
         activity.finish();
-        return true;
+        return 0;
     }
 
     @Override
@@ -43,19 +43,10 @@ public class MockAuthController implements AuthenticationController {
     }
 
     @Override
-    public boolean checkValidity(String email, String password) {
-        return true;
+    public int checkValidity(String email, String password) {
+        return 0;
     }
 
-    @Override
-    public boolean isEmailValid(String email) {
-        return false;
-    }
-
-    @Override
-    public boolean isPasswordValid(String password) {
-        return false;
-    }
 
     public boolean isSignedIn(){
         return signedIn;

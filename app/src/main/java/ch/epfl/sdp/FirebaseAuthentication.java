@@ -24,6 +24,7 @@ public class FirebaseAuthentication implements AuthenticationController {
      * useful for sanitizing input
      */
     private final static String REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
+    private static final int MINIMUM_PASSWORD_LENGTH = 8;
     private AuthenticationOutcomeDisplayVisitor displayVisitor;
     private FirebaseAuth auth;
     private AppCompatActivity activity;
@@ -38,10 +39,10 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean signIn(String id, String password) {
-        if (checkValidity(id, password) == false)
+    public int signIn(String id, String password) {
+        if (checkValidity(id, password) != 0)
         {
-            return false;
+            return checkValidity(id, password);
         }
         auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -49,7 +50,7 @@ public class FirebaseAuthentication implements AuthenticationController {
                 displayVisitor.onSuccessfulAuthentication();
             }
         });
-        return true;
+        return 0;
     }
 
     @Override
@@ -59,7 +60,7 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public boolean register(final String id, final String username, String password) {
-        if (checkValidity(id, password) == false)
+        if (checkValidity(id, password) != 0)
         {
             return false;
         }
@@ -86,26 +87,21 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean checkValidity(String id, String password) {
+    public int checkValidity(String id, String password) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(id);
-        if ((!matcher.matches()) || password.length() < 4)
+        if ((!matcher.matches()))
         {
             displayVisitor.onFailedAuthentication();
-            return false;
+            return 1;
         }
-        return true;
+        if(password.length() < MINIMUM_PASSWORD_LENGTH){
+            displayVisitor.onFailedAuthentication();
+            return 2;
+        }
+        return 0;
     }
 
-    @Override
-    public boolean isEmailValid(String email) {
-        return false;
-    }
-
-    @Override
-    public boolean isPasswordValid(String password) {
-        return false;
-    }
 
    /* @Override
     public Player signedInPlayer() {
