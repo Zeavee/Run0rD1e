@@ -44,8 +44,9 @@ public class MockAuthentication implements AuthenticationController {
         return signedIn.containsKey(email);
     }
 
+
     @Override
-    public boolean register(String email, String username, String password) {
+    public boolean register(String email, String username, String password, String passwordConf) {
         if (signedIn.containsKey(email) || signedOut.containsKey(email)) {
             return false;
         }
@@ -73,7 +74,7 @@ public class MockAuthentication implements AuthenticationController {
         Matcher emailMatch = emailPattern.matcher(email);
         if (!emailMatch.matches()) return 1;
         Matcher passMatch = passwordPattern.matcher(password);
-        if (!passMatch.matches()) return 2;
+        if (!passMatch.matches() || !password.equals(passwordConf)) return 2;
         return 0;
     }
 
