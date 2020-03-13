@@ -1,7 +1,7 @@
 package ch.epfl.sdp;
 
-interface Displayable {
-    public GeoPoint getLocation();
+public interface Displayable {
+    GeoPoint getLocation();
 
-    public EntityType getEntityType();
+    EntityType getEntityType();
 }

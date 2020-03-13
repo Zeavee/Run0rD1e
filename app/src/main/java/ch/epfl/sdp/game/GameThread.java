@@ -45,14 +45,17 @@ public class GameThread extends Thread{
         while(running){
             startTime = System.nanoTime();
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime - timeMillis;
-
-            // TODO syschronization
-            game.update();
-            game.draw();
+            // Does this needs synchronization?
+            try {
+                game.update();
+                game.draw();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             // Wait before refreshing the game
+            timeMillis = (System.nanoTime() - startTime) / 1000000;
+            waitTime = targetTime - timeMillis;
             try {
                 this.sleep(waitTime);
             } catch (InterruptedException e) {
@@ -64,7 +67,7 @@ public class GameThread extends Thread{
             frameCount++;
 
             if(frameCount == FPS){
-                avgFPS = 1000 / ((totalTime / frameCount)) / 1000000;
+                avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
 
                 // Reset values
                 frameCount = 0;
