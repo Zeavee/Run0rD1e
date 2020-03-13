@@ -39,19 +39,13 @@ public class GoogleMapApi implements MapApi {
     private Map<Displayable, MapDrawing> enemiesCircles;
     private Player currentUser;
 
-    public GoogleMapApi(LocationManager locationManager, Activity activity) {
-
-        this.locationManager = locationManager;
-        this.activity = activity;
-
+    public GoogleMapApi() {
         enemiesCircles = new HashMap<>();
 
         currentUser = new Player(0, 0, 100, "current", "test");
 
-        // setup bestProvider
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        bestProvider = locationManager.getBestProvider(criteria, true);
 
         locationListener = new LocationListener() {
             @Override
@@ -69,6 +63,14 @@ public class GoogleMapApi implements MapApi {
             @Override
             public void onProviderDisabled(String provider) {}
         };
+    }
+
+    public void initializeApi(LocationManager locationManager, Activity activity) {
+        this.locationManager = locationManager;
+        this.activity = activity;
+
+        // setup bestProvider
+        bestProvider = locationManager.getBestProvider(criteria, true);
     }
 
     @Override
@@ -90,6 +92,7 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
+        currentUser.location = getCurrentLocation();
         displayEntity(currentUser);
     }
 
@@ -117,7 +120,7 @@ public class GoogleMapApi implements MapApi {
     }
 
     @Override
-    public void displayEntity(Displayable displayable) {
+    synchronized public void displayEntity(Displayable displayable) {
         if (enemiesCircles.containsKey(displayable)) {
             enemiesCircles.get(displayable).marker.remove();
             enemiesCircles.get(displayable).aoe.remove();
@@ -131,7 +134,6 @@ public class GoogleMapApi implements MapApi {
                 displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
                 break;
             case ENEMY:
-                LatLng enemyPosition = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
                 displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
         }
     }

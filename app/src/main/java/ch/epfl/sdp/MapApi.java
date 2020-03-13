@@ -1,6 +1,8 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 
 public interface MapApi {
 
@@ -30,7 +32,10 @@ public interface MapApi {
 
     /**
      * A method to display objects on the map
+     *
      * @param displayable an entity that is displayable on the map
      */
-    public void displayEntity(Displayable displayable);
+     void displayEntity(Displayable displayable);
+
+     public void initializeApi(LocationManager locationManager, Activity activity);
 }

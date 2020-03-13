@@ -12,7 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private MapApi mapApi;
+    public static final MapApi mapApi = new GoogleMapApi();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
-        mapApi = new GoogleMapApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
+        mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
