@@ -25,7 +25,7 @@ public class PlayerTest {
     public void updateHealthTest() {
         enemyArrayList.add(enemy1);
         player1.updateHealth(enemyArrayList);
-        assertEquals(100, player1.getHealthPoints(), 0);
+        assertEquals(50, player1.getHealthPoints(), 0);
         enemyArrayList.add(enemy2);
         player1.updateHealth(enemyArrayList);
         assertFalse(player1.getHealthPoints() >= 100);
@@ -67,9 +67,11 @@ public class PlayerTest {
 
     @Test
     public void shrinkerUseTest() {
-        player1.addInventory(shrinker);
-        player1.useItem(2);
-        assertEquals(40.0, player1.getAoeRadius(), 0);
+        Player player2 = new Player(6.149290, 46.212470, 50,
+                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
+        player2.addInventory(shrinker);
+        player2.useItem(0);
+        assertEquals(50.0, player1.getAoeRadius(), 0);
         TimerTask testTask = new TimerTask() {
             @Override
             public void run() {
