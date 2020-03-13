@@ -22,7 +22,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
-        setMapApi(new GoogleApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this));
+        setMapApi(new GoogleMapApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
@@ -30,7 +30,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        ((GoogleApi) mapApi).setMap(googleMap);
+        ((GoogleMapApi) mapApi).setMap(googleMap);
         mapApi.updatePosition();
     }
 

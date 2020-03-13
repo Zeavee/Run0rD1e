@@ -15,4 +15,9 @@ public class Enemy extends MovingEntity {
     public void updateAoeRadius() {
         //TODO
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.ENEMY;
+    }
 }
