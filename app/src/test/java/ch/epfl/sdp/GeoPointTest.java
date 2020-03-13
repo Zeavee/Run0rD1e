@@ -6,11 +6,11 @@ import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
 
 public class GeoPointTest {
-    private static GeoPoint A = new GeoPoint(toRadians(6.14308), toRadians(46.21023));
-    private static GeoPoint B = new GeoPoint(toRadians(6.56599), toRadians(46.52224));
-    private static GeoPoint C = new GeoPoint(toRadians(7.44428), toRadians(46.94652));
-    private static GeoPoint D = new GeoPoint(toRadians(9.34324), toRadians(47.24942));
-    private static GeoPoint E = new GeoPoint(toRadians(8.86598), toRadians(46.10386));
+    private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
+    private static GeoPoint B = new GeoPoint(6.56599, 46.52224);
+    private static GeoPoint C = new GeoPoint(7.44428, 46.94652);
+    private static GeoPoint D = new GeoPoint(9.34324, 47.24942);
+    private static GeoPoint E = new GeoPoint(8.86598, 46.10386);
 
     @Test
     public void distanceToTesting() {
@@ -22,7 +22,9 @@ public class GeoPointTest {
 
     @Test
     public void otherMethodTest() {
-        assertEquals(toRadians(6.14308), A.longitude(), 0.01);
-        assertEquals(toRadians(46.21023), A.latitude(), 0.01);
+        assertEquals(6.14308, A.longitude(), 0.01);
+        assertEquals(46.21023, A.latitude(), 0.01);
+        assertEquals(A.longitude(), 6.14308, 0.01);
+        assertEquals(A.latitude(), 46.21023, 0.01);
     }
 }
