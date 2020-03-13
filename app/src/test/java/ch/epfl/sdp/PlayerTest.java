@@ -2,8 +2,8 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -35,5 +35,11 @@ public class PlayerTest {
         assertEquals(0, player1.getScore());
         assertEquals(0, player1.getDistanceTraveled(), 0.001);
         assertEquals("test@email.com", player1.getEmail());
+    }
+
+    @Test
+    public void getEntityTypeReturnsUser() {
+        Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
+        assertEquals(EntityType.USER, currentPlayer.getEntityType());
     }
 }

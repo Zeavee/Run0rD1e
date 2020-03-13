@@ -11,13 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="37dp"
-        android:layout_marginBottom="172dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
         android:onClick="registerBtn_OnClick"
         android:text="register"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.241"
+        app:layout_constraintHorizontal_bias="0.344"
         app:layout_constraintStart_toEndOf="@+id/backBtn"
+        app:layout_constraintTop_toBottomOf="@+id/passwordconf"
         tools:ignore="MissingConstraints" />
 
     <EditText
@@ -85,12 +86,12 @@
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="172dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
         android:onClick="backBtn_OnClick"
         android:text="Back"
-        app:layout_constraintBottom_toTopOf="@+id/guideline6"
-        app:layout_constraintStart_toStartOf="@+id/guideline3" />
+        app:layout_constraintStart_toStartOf="@+id/guideline3"
+        app:layout_constraintTop_toBottomOf="@+id/passwordconf" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

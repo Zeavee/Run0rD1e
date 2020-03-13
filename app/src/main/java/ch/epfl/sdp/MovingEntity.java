@@ -4,7 +4,7 @@ import static java.lang.Math.toRadians;
 /**
  * Abstract class representing a moving entity
  */
-public abstract class MovingEntity {
+public abstract class MovingEntity implements Displayable {
     /**
      * GeoPoint representing the localisation of the entity
      */

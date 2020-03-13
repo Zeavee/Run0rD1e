@@ -1,8 +1,8 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
-
-import java.util.List;
+import android.location.LocationManager;
 
 public interface MapApi {
 
@@ -18,12 +18,6 @@ public interface MapApi {
     public void updatePosition();
 
     /**
-     * Displays a list of enemies on the map
-     * @param enemies a list of enemies to display
-     */
-    public void displayEnemies(List<Enemy> enemies);
-
-    /**
      * A method that moves the camera on the current location of the phone
      */
     public void moveCameraOnCurrentLocation();
@@ -35,4 +29,13 @@ public interface MapApi {
      * @return a bitmap, which is an image
      */
     public Bitmap createSmallCircle(int color);
+
+    /**
+     * A method to display objects on the map
+     *
+     * @param displayable an entity that is displayable on the map
+     */
+     void displayEntity(Displayable displayable);
+
+     public void initializeApi(LocationManager locationManager, Activity activity);
 }
