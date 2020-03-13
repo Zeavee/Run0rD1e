@@ -1,5 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-interface Updatable {
+public interface Updatable {
     void update();
 }

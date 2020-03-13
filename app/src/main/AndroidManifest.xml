@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginFormActivity"  />
+        <activity android:name=".LoginFormActivity" />
         <activity android:name=".GameInfoActivity" />
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".RuleActivity" >
