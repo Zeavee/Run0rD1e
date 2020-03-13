@@ -16,4 +16,5 @@ public class Healthpack extends Item {
     public double getHealthPackAmount() {
         return this.healthPackAmount;
     }
+
 }
