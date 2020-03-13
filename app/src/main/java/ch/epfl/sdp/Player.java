@@ -1,11 +1,18 @@
 package ch.epfl.sdp;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player extends MovingEntity {
 
+    //Attributes
     private String username;
     private String email;
     private int score;
@@ -18,6 +25,11 @@ public class Player extends MovingEntity {
     private boolean isPhantom;
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
+
+    public Map<Integer, String> itemIdToItemName = new HashMap<>();
+    public Map<String, Integer> itemNbInventory = new HashMap<>();
+
+
 
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         super(longitude, latitude, aoeRadius);
@@ -32,6 +44,17 @@ public class Player extends MovingEntity {
         this.itemInventory = new ArrayList<Item>();
         this.isPhantom = false;
         this.isShielded = false;
+
+        itemIdToItemName.put(1, "Healthpack");
+        itemIdToItemName.put(2, "Shield");
+        itemIdToItemName.put(3, "Shrinker");
+        itemIdToItemName.put(4, "Scan");
+
+
+        itemNbInventory.put("Healthpack", 0);
+        itemNbInventory.put("Shield", 0);
+        itemNbInventory.put("Shrinker", 0);
+        itemNbInventory.put("Scan", 0);
     }
 
 
@@ -91,13 +114,6 @@ public class Player extends MovingEntity {
         }
     }
 
-
-    private void useShield(Shield s) {
-        isShielded = true;
-        //Countdown for 40 sec
-        isShielded = false;
-    }
-
     public void useItem(int inventoryIndex) {
         Item i = itemInventory.get(inventoryIndex);
         switch(i.getItemID()) {
@@ -134,6 +150,10 @@ public class Player extends MovingEntity {
                 break;
         }
         itemInventory.remove(i);
+        int value = itemNbInventory.get(itemIdToItemName.get(i.getItemID()));
+        value--;
+        itemNbInventory.put(itemIdToItemName.get(i.getItemID()), value);
+
     }
 
     public int getNumberOfItemsInInventory(int itemId) {
@@ -152,6 +172,10 @@ public class Player extends MovingEntity {
 
     public void addInventory(Item i) {
         itemInventory.add(i);
+        String name = itemIdToItemName.get(i.getItemID());
+        int newValue = itemNbInventory.get(name);
+        newValue +=1;
+        itemNbInventory.put(name, newValue);
     }
 
     public boolean isShielded() {return this.isShielded; }

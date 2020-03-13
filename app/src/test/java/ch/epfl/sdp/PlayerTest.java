@@ -68,9 +68,17 @@ public class PlayerTest {
     @Test
     public void shrinkerUseTest() {
         player1.addInventory(shrinker);
-        player1.useItem(40);
+        player1.useItem(2);
         assertEquals(40.0, player1.getAoeRadius(), 0);
-
+        TimerTask testTask = new TimerTask() {
+            @Override
+            public void run() {
+                int dummy = 3;
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(testTask, 5*1000);
+        assertEquals(50, player1.getAoeRadius(), 0);
     }
 
 }
