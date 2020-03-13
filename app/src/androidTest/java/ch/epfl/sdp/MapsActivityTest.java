@@ -1,6 +1,5 @@
 package ch.epfl.sdp;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -19,6 +18,8 @@ import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -69,6 +70,6 @@ public class MapsActivityTest {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 }

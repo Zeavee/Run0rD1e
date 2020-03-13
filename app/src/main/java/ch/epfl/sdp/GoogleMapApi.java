@@ -127,16 +127,17 @@ public class GoogleMapApi implements MapApi {
                 if (currentLocation == null) {
                     return;
                 }
-                LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                displayMarkerCircle(displayable, Color.BLUE, myPos, "My position", 100);
+                currentUser.location = displayable.getLocation();
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
                 break;
             case ENEMY:
                 LatLng enemyPosition = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
-                displayMarkerCircle(displayable, Color.RED, enemyPosition, "Enemy", 1000);
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
         }
     }
 
-    private void displayMarkerCircle(Displayable displayable, int color, LatLng position, String title, int aoeRadius) {
+    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
+        LatLng position = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
         enemiesCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)
