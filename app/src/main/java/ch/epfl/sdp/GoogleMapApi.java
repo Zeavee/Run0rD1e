@@ -12,24 +12,20 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Pair;
 
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class GoogleApi implements MapApi {
+public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
     private static double listenDistance = 5; // meters
 
@@ -40,20 +36,13 @@ public class GoogleApi implements MapApi {
     private LocationListener locationListener;
     private GoogleMap mMap;
     private Activity activity;
-    private Pair<Marker, Circle> myCircle;
-    private Map<Enemy, Pair<Marker, Circle>> enemiesCircles;
+    private Map<Displayable, MapDrawing> enemiesCircles;
+    private Player currentUser;
 
-    public GoogleApi(LocationManager locationManager, Activity activity) {
-
-        this.locationManager = locationManager;
-        this.activity = activity;
-
+    public GoogleMapApi() {
         enemiesCircles = new HashMap<>();
 
-        // setup bestProvider
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        bestProvider = locationManager.getBestProvider(criteria, true);
+        currentUser = new Player(0, 0, 100, "current", "test");
 
         locationListener = new LocationListener() {
             @Override
@@ -71,6 +60,15 @@ public class GoogleApi implements MapApi {
             @Override
             public void onProviderDisabled(String provider) {}
         };
+    }
+
+    public void initializeApi(LocationManager locationManager, Activity activity) {
+        this.locationManager = locationManager;
+        this.activity = activity;
+
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        bestProvider = locationManager.getBestProvider(criteria, true);
     }
 
     @Override
@@ -92,38 +90,8 @@ public class GoogleApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        if (currentLocation == null) {
-            return;
-        }
-
-        LatLng myPos = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        if (myCircle != null) {
-            myCircle.first.remove();
-            myCircle.second.remove();
-        }
-        myCircle = new Pair<>(mMap.addMarker(new MarkerOptions().position(myPos).title("My position").icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(Color.BLUE)))),
-                mMap.addCircle(new CircleOptions().center(myPos).strokeColor(Color.BLUE).fillColor(Color.argb(128, 30,144,255)).radius(1000).strokeWidth(1f)));
-    }
-
-    @Override
-    public void displayEnemies(List<Enemy> enemies) {
-        if (enemies == null) {
-            return;
-        }
-        for (Enemy enemy: enemies) {
-            if (enemiesCircles.containsKey(enemy)) {
-                enemiesCircles.get(enemy).first.remove();
-                enemiesCircles.get(enemy).second.remove();
-            }
-            LatLng enemyPosition = new LatLng(enemy.getLocation().latitude(), enemy.getLocation().longitude());
-            enemiesCircles.put(enemy, new Pair<>(mMap.addMarker(new MarkerOptions()
-                    .position(enemyPosition)
-                    .title("Enemy")
-                    .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(Color.RED)))),
-                    mMap.addCircle(new CircleOptions().center(enemyPosition).radius(enemy.getAoeRadius())
-                            .fillColor(Color.argb(128, 255, 51, 51)).strokeColor(Color.RED).strokeWidth(1f))));
-        }
-
+        currentUser.location = getCurrentLocation();
+        displayEntity(currentUser);
     }
 
     @Override
@@ -147,5 +115,38 @@ public class GoogleApi implements MapApi {
         canvas.drawCircle(25 / 2, 25 / 2,
                 25 / 2, paint);
         return output;
+    }
+
+    @Override
+    synchronized public void displayEntity(Displayable displayable) {
+        if (enemiesCircles.containsKey(displayable)) {
+            enemiesCircles.get(displayable).marker.remove();
+            enemiesCircles.get(displayable).aoe.remove();
+        }
+        switch (displayable.getEntityType()) {
+            case USER:
+                if (currentLocation == null) {
+                    return;
+                }
+                currentUser.location = displayable.getLocation();
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
+                break;
+            case ENEMY:
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+        }
+    }
+
+    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
+        LatLng position = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
+        enemiesCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
+                mMap.addCircle(new CircleOptions()
+                        .center(position)
+                        .strokeColor(color)
+                        .fillColor(color-0x80000000)
+                        .radius(aoeRadius)
+                        .strokeWidth(1f))));
     }
 }

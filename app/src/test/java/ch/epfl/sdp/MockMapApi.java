@@ -1,11 +1,10 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.location.Location;
-
-import java.util.List;
+import android.location.LocationManager;
 
 public class MockMapApi implements MapApi {
     @Override
@@ -15,11 +14,6 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void updatePosition() {
-    }
-
-    @Override
-    public void displayEnemies(List<Enemy> enemies) {
-
     }
 
     @Override
@@ -35,5 +29,15 @@ public class MockMapApi implements MapApi {
         paint.setColor(color);
         canvas.drawCircle(25 / 2, 25 / 2, 25 / 2, paint);
         return output;
+    }
+
+    @Override
+    public void displayEntity(Displayable displayable) {
+
+    }
+
+    @Override
+    public void initializeApi(LocationManager locationManager, Activity activity) {
+
     }
 }

@@ -78,4 +78,9 @@ public class Player extends MovingEntity {
     public String getEmail() {
         return this.email;
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.USER;
+    }
 }
