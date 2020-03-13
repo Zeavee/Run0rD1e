@@ -44,9 +44,6 @@ public class GoogleMapApi implements MapApi {
 
         currentUser = new Player(0, 0, 100, "current", "test");
 
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
@@ -69,7 +66,8 @@ public class GoogleMapApi implements MapApi {
         this.locationManager = locationManager;
         this.activity = activity;
 
-        // setup bestProvider
+        criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
         bestProvider = locationManager.getBestProvider(criteria, true);
     }
 
