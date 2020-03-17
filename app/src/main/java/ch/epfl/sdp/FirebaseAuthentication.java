@@ -1,16 +1,11 @@
 package ch.epfl.sdp;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 /*
  * This class is designed to use Firebase's email and password feature
@@ -23,7 +18,7 @@ public class FirebaseAuthentication implements AuthenticationController {
      *  1 to 20 and the part after can have length ranging from 1 to 20
      * useful for sanitizing input
      */
-    private final static String REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
+    private final static String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
     private static final int MINIMUM_PASSWORD_LENGTH = 8;
     private AuthenticationOutcomeDisplayVisitor displayVisitor;
     private FirebaseAuth auth;
@@ -39,18 +34,13 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int signIn(String id, String password) {
-        int isValid = checkValidity(id, password, password);
+    public int signIn(String email, String password) {
+        int isValid = checkValidity(email, password, password);
         if (isValid != 0)
         {
             return isValid;
         }
-        auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                displayVisitor.onSuccessfulAuthentication();
-            }
-        });
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> displayVisitor.onSuccessfulAuthentication());
         return 0;
     }
 
@@ -60,22 +50,19 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public boolean register(final String id, final String username, String password, String passwordConf) {
-        if (checkValidity(id, password, passwordConf) != 0)
+    public boolean register(final String email, final String username, String password, String passwordConf) {
+        if (checkValidity(email, password, passwordConf) != 0)
         {
             return false;
         }
-        auth.createUserWithEmailAndPassword(id, password).addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful())
-                {
-                    userDataStore.setUserAttribute(id, "username", username);
-                    displayVisitor.onSuccessfulAuthentication();
-                }
-                else {
-                    displayVisitor.onFailedAuthentication();
-                }
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
+            if (task.isSuccessful())
+            {
+                userDataStore.setUserAttribute(email, "username", username);
+                displayVisitor.onSuccessfulAuthentication();
+            }
+            else {
+                displayVisitor.onFailedAuthentication();
             }
         });
         return true;
@@ -88,9 +75,9 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int checkValidity(String id, String password, String passwordConf) {
+    public int checkValidity(String email, String password, String passwordConf) {
         Pattern pattern = Pattern.compile(REGEX);
-        Matcher matcher = pattern.matcher(id);
+        Matcher matcher = pattern.matcher(email);
         if ((!matcher.matches()))
         {
             displayVisitor.onFailedAuthentication();
