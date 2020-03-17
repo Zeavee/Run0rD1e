@@ -4,18 +4,18 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class MockUserDataController implements UserDataController{
-    private TreeMap<String, Map<String, Object>> userData = new TreeMap<>();
+    private TreeMap<String, User> userData = new TreeMap<>();
 
     @Override
-    public Map<String, Object> getUserData(String id) {
-        if(!userData.containsKey(id)) {
+    public User getUserData(String username) {
+        if(!userData.containsKey(username)) {
             return null;
         }
-        return userData.get(id);
+        return userData.get(username);
     }
 
     @Override
-    public void setUserAttribute(String id, String attribute, Object value) {
-        getUserData(id).put(attribute, value);
+    public void setUserAttribute(User user) {
+        userData.put(user.getUsername(), user);
     }
 }

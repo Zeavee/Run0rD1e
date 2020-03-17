@@ -6,7 +6,7 @@ public class User {
     private double healthPoints;
 
     public User() {
-        
+        // need empty constructor for firebase
     }
 
     public User(String username, String email) {

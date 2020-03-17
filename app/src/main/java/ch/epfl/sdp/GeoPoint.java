@@ -12,7 +12,7 @@ import static java.lang.Math.toRadians;
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
  */
-public final class GeoPoint implements Serializable {
+public final class GeoPoint {
 
     /**
      * Constant value which represents the length of Earth's radius (in meters)
@@ -21,9 +21,6 @@ public final class GeoPoint implements Serializable {
 
     private double longitude;
     private double latitude;
-
-    public GeoPoint() {
-    }
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;
