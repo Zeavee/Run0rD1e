@@ -2,8 +2,10 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -50,6 +52,7 @@ public class PlayerTest {
         assertEquals(50, player1.getHealthPoints(), 0);
     }
 
+    @Test
     public void shieldUseTest() {
         player1.addInventory(shield);
         player1.useItem(1);
@@ -83,4 +86,9 @@ public class PlayerTest {
         assertEquals(50, player1.getAoeRadius(), 0);
     }
 
+    @Test
+    public void getEntityTypeReturnsUser() {
+        Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
+        assertEquals(EntityType.USER, currentPlayer.getEntityType());
+    }
 }

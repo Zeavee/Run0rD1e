@@ -13,6 +13,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sdp.MapsActivityTest.allowPermissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -29,6 +30,7 @@ public class MainActivityTest {
     @Test
     public void mapsOpens() {
         onView(withId(R.id.mapButton)).perform(click());
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
@@ -38,5 +40,10 @@ public class MainActivityTest {
 
         // This view is in a different Activity, no need to tell Espresso.
         onView(withId(R.id.username_text)).check(matches(withText("admin")));
+    }
+
+    @Test
+    public void leaderboardOpens() {
+        onView(withId(R.id.leaderboard)).perform(click());
     }
 }

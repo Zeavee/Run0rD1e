@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "111308722886",
+    "firebase_url": "https://strong-land-269613.firebaseio.com",
+    "project_id": "strong-land-269613",
+    "storage_bucket": "strong-land-269613.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111308722886:android:9c119485553ab38c3f3dc7",
+        "android_client_info": {
+          "package_name": "ch.epfl.sdp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111308722886-e2olcvc6qe5rn9svk7ma99ijc98qtj2b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp",
+            "certificate_hash": "d359b58ca12f4dd6f7fd3020a5d7d501fb9a989e"
+          }
+        },
+        {
+          "client_id": "111308722886-kuq312s03ptpkg2ebbdm4ivvk2hd8eli.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd3am8s2ZAGmoRG6cdBryFu0tEMRrYaTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111308722886-kuq312s03ptpkg2ebbdm4ivvk2hd8eli.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

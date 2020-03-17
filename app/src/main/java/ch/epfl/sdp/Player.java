@@ -179,4 +179,9 @@ public class Player extends MovingEntity {
     }
 
     public boolean isShielded() {return this.isShielded; }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.USER;
+    }
 }
