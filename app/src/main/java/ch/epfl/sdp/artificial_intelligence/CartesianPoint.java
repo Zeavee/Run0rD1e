@@ -5,6 +5,13 @@ public class CartesianPoint extends GenPoint{
         super(x, y);
     }
 
+    public void Normalize()
+    {
+        double length = Math.sqrt(arg1*arg1 + arg2*arg2);
+        arg1 /= length;
+        arg2 /= length;
+    }
+
     @Override
     public CartesianPoint toCartesian() {
         return this;
