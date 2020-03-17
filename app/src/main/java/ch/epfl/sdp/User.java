@@ -6,6 +6,7 @@ public class User {
     private double healthPoints;
 
     public User() {
+        
     }
 
     public User(String username, String email) {

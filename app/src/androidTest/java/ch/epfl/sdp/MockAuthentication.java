@@ -55,7 +55,7 @@ public class MockAuthentication implements AuthenticationController {
         {
             return false;
         }
-        store.setUserAttribute(email, "username", username);
+        store.setUserAttribute(new User(username, email));
         signedIn.put(email, password);
         displayVisitor.onSuccessfulAuthentication();
         currentSignedInEmail = email;
