@@ -1,8 +1,6 @@
 package ch.epfl.sdp;
 
 
-import java.io.Serializable;
-
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -19,8 +17,8 @@ public final class GeoPoint {
      */
     public static final double EARTH_RADIUS = 6371000;
 
-    private double longitude;
-    private double latitude;
+    private final double longitude;
+    private final double latitude;
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;
