@@ -1,6 +1,8 @@
 package ch.epfl.sdp;
 
 
+import java.io.Serializable;
+
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -10,15 +12,18 @@ import static java.lang.Math.toRadians;
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
  */
-public final class GeoPoint {
+public final class GeoPoint implements Serializable {
 
     /**
      * Constant value which represents the length of Earth's radius (in meters)
      */
     public static final double EARTH_RADIUS = 6371000;
 
-    private final double longitude;
-    private final double latitude;
+    private double longitude;
+    private double latitude;
+
+    public GeoPoint() {
+    }
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;

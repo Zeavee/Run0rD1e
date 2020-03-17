@@ -58,7 +58,8 @@ public class FirebaseAuthentication implements AuthenticationController {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(activity, task -> {
             if (task.isSuccessful())
             {
-                userDataStore.setUserAttribute(email, "username", username);
+                User user = new User(username, email);
+                userDataStore.setUserAttribute(user);
                 displayVisitor.onSuccessfulAuthentication();
             }
             else {
