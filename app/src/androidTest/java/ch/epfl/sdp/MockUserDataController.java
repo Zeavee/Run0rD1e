@@ -1,13 +1,12 @@
 package ch.epfl.sdp;
 
-import java.util.Map;
 import java.util.TreeMap;
 
 public class MockUserDataController implements UserDataController{
-    private TreeMap<String, User> userData = new TreeMap<>();
+    private TreeMap<String, UserForFirebase> userData = new TreeMap<>();
 
     @Override
-    public User getUserData(String username) {
+    public UserForFirebase getUserData(String username) {
         if(!userData.containsKey(username)) {
             return null;
         }
@@ -15,7 +14,7 @@ public class MockUserDataController implements UserDataController{
     }
 
     @Override
-    public void setUserAttribute(User user) {
-        userData.put(user.getUsername(), user);
+    public void setUserAttribute(UserForFirebase userForFirebase) {
+        userData.put(userForFirebase.getUsername(), userForFirebase);
     }
 }

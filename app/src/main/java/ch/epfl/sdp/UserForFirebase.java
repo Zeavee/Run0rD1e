@@ -1,15 +1,15 @@
 package ch.epfl.sdp;
 
-public class User {
+public class UserForFirebase {
     private String username;
     private String email;
     private double healthPoints;
 
-    public User() {
+    public UserForFirebase() {
         // need empty constructor for firebase
     }
 
-    public User(String username, String email) {
+    public UserForFirebase(String username, String email) {
         this.username = username;
         this.email = email;
         this.healthPoints = 100.0;

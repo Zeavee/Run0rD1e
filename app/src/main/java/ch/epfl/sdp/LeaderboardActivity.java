@@ -17,7 +17,7 @@ import java.util.List;
 public class LeaderboardActivity extends AppCompatActivity {
 
     private FirebaseFirestore firebaseFirestore;
-    private List<User> mUsers = new ArrayList<>();
+    private List<UserForFirebase> mUserForFirebases = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,36 +35,36 @@ public class LeaderboardActivity extends AppCompatActivity {
             .orderBy("healthPoints", Query.Direction.DESCENDING)
             .addSnapshotListener((queryDocumentSnapshots, e) -> {
                 for(QueryDocumentSnapshot documentSnapshot: queryDocumentSnapshots) {
-                    User user = documentSnapshot.toObject(User.class);
-                    mUsers.add(user);
+                    UserForFirebase userForFirebase = documentSnapshot.toObject(UserForFirebase.class);
+                    mUserForFirebases.add(userForFirebase);
                 }
-                setUpLeaderboardView(mUsers);
-                setChampions(mUsers);
+                setUpLeaderboardView(mUserForFirebases);
+                setChampions(mUserForFirebases);
             });
     }
 
-    private void setUpLeaderboardView(List<User> mUsers) {
+    private void setUpLeaderboardView(List<UserForFirebase> mUserForFirebases) {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        LeaderboardAdapter adapter = new LeaderboardAdapter(mUsers);
+        LeaderboardAdapter adapter = new LeaderboardAdapter(mUserForFirebases);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void setChampions(List<User> mUsers) {
+    private void setChampions(List<UserForFirebase> mUserForFirebases) {
         TextView tv_username1 = findViewById(R.id.tv_username1);
-        tv_username1.setText(mUsers.get(0).getUsername());
+        tv_username1.setText(mUserForFirebases.get(0).getUsername());
         TextView tv_healthpoint1 = findViewById(R.id.tv_healthpoint1);
-        tv_healthpoint1.setText(String.valueOf(mUsers.get(0).getHealthPoints()));
+        tv_healthpoint1.setText(String.valueOf(mUserForFirebases.get(0).getHealthPoints()));
 
         TextView tv_username2 = findViewById(R.id.tv_username2);
-        tv_username2.setText(mUsers.get(1).getUsername());
+        tv_username2.setText(mUserForFirebases.get(1).getUsername());
         TextView tv_healthpoint2 = findViewById(R.id.tv_healthpoint2);
-        tv_healthpoint2.setText(String.valueOf(mUsers.get(1).getHealthPoints()));
+        tv_healthpoint2.setText(String.valueOf(mUserForFirebases.get(1).getHealthPoints()));
 
         TextView tv_username3 = findViewById(R.id.tv_username3);
-        tv_username3.setText(mUsers.get(2).getUsername());
+        tv_username3.setText(mUserForFirebases.get(2).getUsername());
         TextView tv_healthpoint3 = findViewById(R.id.tv_healthpoint3);
-        tv_healthpoint3.setText(String.valueOf(mUsers.get(2).getHealthPoints()));
+        tv_healthpoint3.setText(String.valueOf(mUserForFirebases.get(2).getHealthPoints()));
     }
 
 }

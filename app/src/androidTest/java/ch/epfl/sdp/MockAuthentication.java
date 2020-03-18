@@ -55,7 +55,7 @@ public class MockAuthentication implements AuthenticationController {
         {
             return false;
         }
-        store.setUserAttribute(new User(username, email));
+        store.setUserAttribute(new UserForFirebase(username, email));
         signedIn.put(email, password);
         displayVisitor.onSuccessfulAuthentication();
         currentSignedInEmail = email;

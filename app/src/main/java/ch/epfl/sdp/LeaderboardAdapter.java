@@ -12,11 +12,11 @@ import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.ViewHolder>{
 
-    private List<User> mUsers;
+    private List<UserForFirebase> mUserForFirebases;
 
 
-    public LeaderboardAdapter(List<User> mUsers) {
-        this.mUsers = mUsers;
+    public LeaderboardAdapter(List<UserForFirebase> mUserForFirebases) {
+        this.mUserForFirebases = mUserForFirebases;
     }
 
     @NonNull
@@ -29,13 +29,13 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ranking.setText(String.valueOf(position+1));
-        holder.username.setText(mUsers.get(position).getUsername());
-        holder.healthPoint.setText(String.valueOf(mUsers.get(position).getHealthPoints()));
+        holder.username.setText(mUserForFirebases.get(position).getUsername());
+        holder.healthPoint.setText(String.valueOf(mUserForFirebases.get(position).getHealthPoints()));
     }
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return mUserForFirebases.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

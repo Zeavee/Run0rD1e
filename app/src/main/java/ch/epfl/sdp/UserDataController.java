@@ -2,7 +2,7 @@ package ch.epfl.sdp;
 
 public interface UserDataController {
 
-    User getUserData(String username);
+    UserForFirebase getUserData(String username);
 
-    void setUserAttribute(User user);
+    void setUserAttribute(UserForFirebase userForFirebase);
 }
