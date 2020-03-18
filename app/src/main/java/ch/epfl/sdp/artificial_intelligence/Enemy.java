@@ -102,6 +102,7 @@ public class Enemy extends MovingEntity {
             behaviour = Behaviour.WAIT;
         } else {
             super.setBounds(patrolBounds);
+            setForceMove(true);
             super.setVelocity(super.getVelocity() / 2);
             behaviour = Behaviour.PATROL;
         }
@@ -110,6 +111,8 @@ public class Enemy extends MovingEntity {
     private void patrol() {
         if (!patrolBounds.isInside(super.getPosition())) {
             orientToTarget(patrolBounds);
+        } else {
+            setForceMove(false);
         }
 
         if (playerDetected()) {
@@ -137,6 +140,7 @@ public class Enemy extends MovingEntity {
     private void wander() {
         if (timeWandering <= 0) {
             super.setBounds(patrolBounds);
+            setForceMove(true);
             behaviour = Behaviour.PATROL;
         } else {
             timeWandering -= 1;
