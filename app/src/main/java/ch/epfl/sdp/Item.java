@@ -5,27 +5,24 @@ public abstract class Item {
      * GeoPoint representing the localisation of the entity
      */
     GeoPoint location;
-    private int itemID;
+    private String name;
     private boolean isTaken;
     private String description;
 
 
-    public Item(GeoPoint location, int itemId, boolean isTaken, String description) {
+    
+    public Item(GeoPoint location, String name, boolean isTaken, String description) {
         this.location = location;
-        this.itemID = itemId;
+        this.name = name;
         this.isTaken = isTaken;
         this.description = description;
     }
 
-    public void takeItem() {
-        this.isTaken = true;
-    }
-
-    public int getItemID() {
-        return this.itemID;
-    }
+    public void takeItem() {this.isTaken = true;}
 
     public String getDescription() {return this.description; }
 
     public boolean isTaken() {return isTaken;}
+
+    public String getName() {return this.name;}
 }

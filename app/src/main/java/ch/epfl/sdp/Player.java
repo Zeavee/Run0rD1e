@@ -1,12 +1,7 @@
 package ch.epfl.sdp;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,13 +16,11 @@ public class Player extends MovingEntity {
     private double distanceTraveled;
     private double speed;
     private boolean alive;
-    private ArrayList<Item> itemInventory;
     private boolean isPhantom;
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
+    private HashMap<String, Integer> itemInventory = new HashMap<String, Integer>();
 
-    public Map<Integer, String> itemIdToItemName = new HashMap<>();
-    public Map<String, Integer> itemNbInventory = new HashMap<>();
 
 
 
@@ -41,20 +34,8 @@ public class Player extends MovingEntity {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
-        this.itemInventory = new ArrayList<Item>();
         this.isPhantom = false;
         this.isShielded = false;
-
-        itemIdToItemName.put(1, "Healthpack");
-        itemIdToItemName.put(2, "Shield");
-        itemIdToItemName.put(3, "Shrinker");
-        itemIdToItemName.put(4, "Scan");
-
-
-        itemNbInventory.put("Healthpack", 0);
-        itemNbInventory.put("Shield", 0);
-        itemNbInventory.put("Shrinker", 0);
-        itemNbInventory.put("Scan", 0);
     }
 
 
@@ -114,74 +95,76 @@ public class Player extends MovingEntity {
         }
     }
 
-    public void useItem(int inventoryIndex) {
-        Item i = itemInventory.get(inventoryIndex);
-        switch(i.getItemID()) {
-            case 1:
-                useHealthPack((Healthpack) i);
-                break;
-            case 2:
-                isShielded = true;
-                TimerTask shieldPlayer = new TimerTask() {
+    public void useItem(Item i) {
+        int n = itemInventory.get(i.getName());
+        if(n > 0) {
+            switch(i.getName()) {
+                case "Healthpack":
+                    this.healthPoints = this.healthPoints + ((Healthpack) i).getHealthPackAmount();
+                    if (this.healthPoints > MAX_HEALTH) {
+                        this.healthPoints = MAX_HEALTH;
+                    }
+                    break;
+                case "Shield":
+                    isShielded = true;
+                    TimerTask shieldPlayer = new TimerTask() {
                     @Override
                     public void run() {
                         isShielded = false;
                     }
                 };
-                Timer timer = new Timer();
-                timer.schedule(shieldPlayer, (long) ((Shield) i).getShieldTime()*1000);
-                break;
-            case 3:
-                double initialAoeRadius = aoeRadius;
-                aoeRadius = aoeRadius - ((Shrinker) i).getShrinkingRadius();
-                TimerTask shrinkAoeRadius = new TimerTask() {
+                    Timer timer = new Timer();
+                    timer.schedule(shieldPlayer, (long) ((Shield) i).getShieldTime() * 1000);
+                    break;
+                case "Shrinker":
+                    double initialAoeRadius = aoeRadius;
+                    aoeRadius = aoeRadius - ((Shrinker) i).getShrinkingRadius();
+                    TimerTask shrinkAoeRadius = new TimerTask() {
                     @Override
                     public void run() {
-                        aoeRadius = initialAoeRadius;
-                    }
-                };
-                Timer t = new Timer();
-                t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime()*1000);
-                break;
-            case 4:
-                //((Scan) i).showPlayersLocation();
-                break;
-            default:
-                break;
+                            aoeRadius = initialAoeRadius;
+                        }
+                    };
+                    Timer t = new Timer();
+                    t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
+                    break;
+                case "Scan":
+                    //((Scan) i).showPlayersLocation();
+                    break;
+                default:
+                    break;
+            }
+            itemInventory.put(i.getName(), n-1);
         }
-        itemInventory.remove(i);
-        int value = itemNbInventory.get(itemIdToItemName.get(i.getItemID()));
-        value--;
-        itemNbInventory.put(itemIdToItemName.get(i.getItemID()), value);
-
     }
 
-    public int getNumberOfItemsInInventory(int itemId) {
-        int nb = 0;
-        for (Item i : itemInventory) {
-            if(i.getItemID() == itemId) {
-                nb =+ 1;
-            }
-        }
-        return nb;
+    public void setItemInventory(String itemName, int nb) {
+        this.itemInventory.put(itemName, nb);
     }
 
     public void setHealthPoints(double amount) {
         this.healthPoints = amount;
     }
 
-    public void addInventory(Item i) {
-        itemInventory.add(i);
-        String name = itemIdToItemName.get(i.getItemID());
-        int newValue = itemNbInventory.get(name);
-        newValue +=1;
-        itemNbInventory.put(name, newValue);
-    }
 
     public boolean isShielded() {return this.isShielded; }
 
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    public void addItemInInventory(String itemName) {
+        int n = itemInventory.get(itemName);
+        n = n+1;
+        itemInventory.put(itemName, n);
+    }
+
+    public void removeItemInInventory(String itemName) {
+        int n = itemInventory.get(itemName);
+        if(n > 0) {
+            n=n-1;
+        }
+        itemInventory.put(itemName, n);
     }
 }

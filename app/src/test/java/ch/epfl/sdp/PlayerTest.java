@@ -18,7 +18,7 @@ public class PlayerTest {
     private static Enemy enemy2 = new Enemy(6.149596,46.212437, 50); //enemy2's position is close to player1
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
     private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
-    private static Healthpack healthpack = new Healthpack(A, true, 25);
+    private static Healthpack healthpack = new Healthpack(A, false, 25);
     private static Shield shield = new Shield(A, true, 5);
     private static Shrinker shrinker = new Shrinker(A, false, 5, 10);
 
@@ -47,15 +47,15 @@ public class PlayerTest {
     @Test
     public void healthPackUseTest() {
         player1.setHealthPoints(25);
-        player1.addInventory(healthpack);
-        player1.useItem(0);
+        player1.setItemInventory("Healthpack", 1);
+        player1.useItem(healthpack);
         assertEquals(50, player1.getHealthPoints(), 0);
     }
 
     @Test
     public void shieldUseTest() {
-        player1.addInventory(shield);
-        player1.useItem(1);
+        player1.setItemInventory("Shield", 1);
+        player1.useItem(shield);
         assertEquals(true, player1.isShielded());
         TimerTask testTask = new TimerTask() {
             @Override
@@ -72,8 +72,8 @@ public class PlayerTest {
     public void shrinkerUseTest() {
         Player player2 = new Player(6.149290, 46.212470, 50,
                 "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        player2.addInventory(shrinker);
-        player2.useItem(0);
+        player2.setItemInventory("Shrinker", 1);
+        player2.useItem(shrinker);
         assertEquals(50.0, player1.getAoeRadius(), 0);
         TimerTask testTask = new TimerTask() {
             @Override

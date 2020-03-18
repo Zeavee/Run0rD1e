@@ -4,7 +4,7 @@ public class Shield extends Item {
     private double shieldTime;
 
     public Shield(GeoPoint location, boolean isTaken, double shieldTime) {
-        super(location, 2, isTaken, "Protects you from taking damage from the enemy");
+        super(location, "Shield", isTaken, "Protects you from taking damage from the enemy");
         this.shieldTime = shieldTime;
     }
 
