@@ -10,6 +10,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private Movement movement;
     private boolean moving;
     private Boundable bounds;
+    private boolean forceMove;
 
     public MovingEntity(){
         position = new CartesianPoint(0,0);
@@ -19,6 +20,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         movement = Movement.LINEAR;
         moving = false;
         bounds = new UnboundedArea();
+        forceMove = false;
     }
 
     public MovingEntity(Boundable bounds){
@@ -70,6 +72,10 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         this.bounds = bounds;
     }
 
+    public void setForceMove(boolean forceMove) {
+        this.forceMove = forceMove;
+    }
+
     private Random rand = new Random();
 
     private double sinusAmplitude = 1;
@@ -88,6 +94,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public GenPoint move() {
         CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;
         CartesianPoint dirVector = new PolarPoint(velocity, orientation).toCartesian();
+
         switch (movement) {
             case LINEAR:
                 return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
@@ -139,7 +146,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public void update() {
         if(moving) {
             GenPoint gp = move();
-            if (bounds.isInside(gp)){
+            if (bounds.isInside(gp) || forceMove) {
                position = gp;
             } else {
                 switchOnMouvement();
