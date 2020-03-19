@@ -13,7 +13,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     }
 
     @Override
-    public void generateEnemy(GeoPoint point, double radius) {
+    public void generateEnemy(double radius) {
 
     }
 
@@ -34,7 +34,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
 
     @Override
-    GenPoint rule() {
+    GeoPoint rule() {
         return null;
     }
 }

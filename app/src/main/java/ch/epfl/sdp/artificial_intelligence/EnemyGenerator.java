@@ -17,11 +17,11 @@ public abstract class EnemyGenerator {
 
 
     public abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
-    public abstract void generateEnemy(GeoPoint point, double radius);
+    public abstract void generateEnemy(double radius);
     public abstract void setEnemyCreationTime(float time);
     public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
     public abstract void getEnemyIntersectionWithPlayer(Player user);
-    abstract GenPoint rule();
+    abstract GeoPoint rule();
     public List<Enemy> getEnemies()
     {
         List<Enemy> clone = new ArrayList<Enemy>(enemies.size());
