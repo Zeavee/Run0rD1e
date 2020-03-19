@@ -7,18 +7,6 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/offlinebutton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:onClick="onGuestModeClicked"
-        android:text="Play as Guest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/logoutBt"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
