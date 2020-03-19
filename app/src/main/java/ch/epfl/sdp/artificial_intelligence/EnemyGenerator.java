@@ -1,5 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sdp.Enemy;
@@ -14,15 +16,17 @@ public abstract class EnemyGenerator {
     protected List<Enemy> enemies;
 
 
-    abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
-    abstract void generateEnemy(GenPoint point);
-    abstract void setEnemyCreationTime(float time);
-    abstract void setMaxEnemiesPerUnitArea(int enemyCount);
-    abstract void getEnemyIntersectionWithPlayer(Player user);
+    public abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
+    public abstract void generateEnemy(GenPoint point);
+    public abstract void setEnemyCreationTime(float time);
+    public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
+    public abstract void getEnemyIntersectionWithPlayer(Player user);
     abstract GenPoint rule();
-    List<Enemy> getEnemies()
+    public List<Enemy> getEnemies()
     {
-        return enemies;
+        List<Enemy> clone = new ArrayList<Enemy>(enemies.size());
+        for (Enemy item : clone) clone.add(item);
+        return clone;
     }
 
 }

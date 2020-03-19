@@ -1,32 +1,34 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import EnemyGenerator;
+import ch.epfl.sdp.Player;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
-    @Override
-    void setMinDistanceFromPlayer() {
-        this.minDistanceFromPlayer =
-    }
 
     @Override
-    void generateEnemy(GenPoint point) {
+    public void setMinDistanceFromPlayer(int minDistanceFromPlayer) {
 
     }
 
     @Override
-    void setEnemyCreationTime(float time) {
+    public void generateEnemy(GenPoint point) {
 
     }
 
     @Override
-    void setMaxEnemiesPerUnitArea(int enemyCount) {
+    public void setEnemyCreationTime(float time) {
 
     }
 
     @Override
-    void getEnemyIntersectionWithPlayer() {
+    public void setMaxEnemiesPerUnitArea(int enemyCount) {
 
     }
+
+    @Override
+    public void getEnemyIntersectionWithPlayer(Player user) {
+
+    }
+
 
     @Override
     GenPoint rule() {
