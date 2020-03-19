@@ -34,6 +34,9 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             return;
         }
         GeoPoint enemyLocation = rule();
+        if (enemyLocation == null) {
+            return;
+        }
         enemies.add(new Enemy(enemyLocation.longitude(), enemyLocation.latitude(), radius));
     }
 
