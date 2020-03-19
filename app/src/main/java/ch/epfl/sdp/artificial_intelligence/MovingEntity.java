@@ -99,22 +99,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
             case LINEAR:
                 return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
             case SINUSOIDAL:
-                // Perpendicular vec(x,y) = vec(-y,x)
-                CartesianPoint pdirVector = new CartesianPoint(-dirVector.arg2, dirVector.arg1);
-                pdirVector.Normalize();
-
-                sinusAngle += sinusAngleStep;
-                double sine = Math.sin(sinusAngle);
-
-                if(sinusBasePosition == null) {
-                    sinusBasePosition = position.toCartesian();
-                }
-
-                sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
-
-                CartesianPoint sinusMove = new CartesianPoint((float)(pdirVector.arg1 * sine * sinusAmplitude),
-                        (float)(pdirVector.arg2 * sine * sinusAmplitude));
-                return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
+                return sinusoidalMovement(dirVector);
             case CIRCULAR:
                 break;
             case CURVED:
@@ -127,6 +112,25 @@ public class MovingEntity implements Movable, Localizable, Updatable{
 
        return null;
    }
+
+    private CartesianPoint sinusoidalMovement(CartesianPoint dirVector) {
+        // Perpendicular vec(x,y) = vec(-y,x)
+        CartesianPoint pdirVector = new CartesianPoint(-dirVector.arg2, dirVector.arg1);
+        pdirVector.Normalize();
+
+        sinusAngle += sinusAngleStep;
+        double sine = Math.sin(sinusAngle);
+
+        if (sinusBasePosition == null) {
+            sinusBasePosition = position.toCartesian();
+        }
+
+        sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
+
+        CartesianPoint sinusMove = new CartesianPoint((float) (pdirVector.arg1 * sine * sinusAmplitude),
+                (float) (pdirVector.arg2 * sine * sinusAmplitude));
+        return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
+    }
 
     public void setMoving(boolean moving){
         this.moving = moving;

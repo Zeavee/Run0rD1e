@@ -71,7 +71,8 @@ public class Enemy extends MovingEntity {
 
     private void attack() {
         if (timeAttack <= 0) {
-            Player target = playerDetected(detectionDistance / 5);
+            float attackRange = detectionDistance / 5;
+            Player target = playerDetected(attackRange);
 
             if (target != null) {
                 target.setHealthPoints(target.getHealthPoints() - damage * dps);
@@ -85,10 +86,17 @@ public class Enemy extends MovingEntity {
             timeAttack -= 1;
         }
 
+        checkWaiting();
+    }
+
+    public boolean checkWaiting() {
         if (waiting) {
             super.setMoving(false);
             behaviour = Behaviour.WAIT;
+            return true;
         }
+
+        return false;
     }
 
     private Player selectClosestPlayer() {
@@ -120,10 +128,7 @@ public class Enemy extends MovingEntity {
             behaviour = Behaviour.PATROL;
         }
 
-        if (waiting) {
-            super.setMoving(false);
-            behaviour = Behaviour.WAIT;
-        }
+        checkWaiting();
     }
 
     private void patrol() {
@@ -140,10 +145,7 @@ public class Enemy extends MovingEntity {
             behaviour = Behaviour.CHASE;
         }
 
-        if (waiting) {
-            super.setMoving(false);
-            behaviour = Behaviour.WAIT;
-        }
+        checkWaiting();
     }
 
     private void orientToTarget(Localizable localizable) {
@@ -169,10 +171,8 @@ public class Enemy extends MovingEntity {
             timeWandering -= 1;
         }
 
-        if (waiting) {
+        if (checkWaiting()) {
             timeWandering = 100;
-            super.setMoving(false);
-            behaviour = Behaviour.WAIT;
         }
     }
 
