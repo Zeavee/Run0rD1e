@@ -14,13 +14,18 @@ public abstract class EnemyGenerator {
     protected int timeToCreate;
     protected double minDistanceFromPlayer;
     protected List<Enemy> enemies;
+    protected RectangleBounds enclosure;
 
+    public EnemyGenerator(RectangleBounds enclosure)
+    {
+        this.enclosure = enclosure;
+    }
 
-    public abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
+    public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
     public abstract void generateEnemy(double radius);
     public abstract void setEnemyCreationTime(float time);
     public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
-    public abstract void getEnemyIntersectionWithPlayer(Player user);
+    //public abstract void getEnemyIntersectionWithPlayer(Player user);
     abstract GeoPoint rule();
     public List<Enemy> getEnemies()
     {
