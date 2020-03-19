@@ -35,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
+
+        Button inventory = findViewById(R.id.inventory);
+        // Capture button clicks
+        inventory.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void logout(View view) {

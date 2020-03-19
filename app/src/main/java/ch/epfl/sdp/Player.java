@@ -1,6 +1,10 @@
 package ch.epfl.sdp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
@@ -16,6 +20,13 @@ public class Player extends MovingEntity implements Localizable {
     private double distanceTraveled;
     private double speed;
     private boolean alive;
+    private boolean isPhantom;
+    private boolean isShielded;
+    private final double MAX_HEALTH = 100;
+    private HashMap<String, Integer> itemInventory = new HashMap<>();
+
+
+
 
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         super(longitude, latitude, aoeRadius);
@@ -27,6 +38,8 @@ public class Player extends MovingEntity implements Localizable {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
+        this.isPhantom = false;
+        this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
     }
 
@@ -35,16 +48,10 @@ public class Player extends MovingEntity implements Localizable {
         //TODO
     }
 
-    @Override
-    public void updateAoeRadius() {
-        //TODO
-    }
-
-
     public void updateHealth(ArrayList<Enemy> enemies) {
         for (Enemy e : enemies) {
             double distance = this.location.distanceTo(e.getLocation()) - this.aoeRadius - e.getAoeRadius();
-            if (distance < 0) {
+            if (distance < 0 && !isShielded) {
                 this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
             }
         }
@@ -53,10 +60,6 @@ public class Player extends MovingEntity implements Localizable {
 
     public double getHealthPoints() {
         return healthPoints;
-    }
-
-    public void setHealthPoints(double healthPoints) {
-        this.healthPoints = healthPoints;
     }
 
     public boolean isAlive() {
@@ -87,9 +90,85 @@ public class Player extends MovingEntity implements Localizable {
         return this.email;
     }
 
+    public boolean isPhantom() {return this.isPhantom; }
+
+    private void useHealthPack(Healthpack healthpack) {
+        this.healthPoints = this.healthPoints + healthpack.getHealthPackAmount();
+        if (this.healthPoints > MAX_HEALTH) {
+            this.healthPoints = MAX_HEALTH;
+        }
+    }
+
+    public void useItem(Item i) {
+        String name = i.getName();
+        int numberOfInstances = itemInventory.get(name);
+        if(numberOfInstances > 0) {
+            switch(i.getName()) {
+                case "Healthpack":
+                    ((Healthpack) i).increaseHealthPlayer(this, MAX_HEALTH);
+                    break;
+                case "Shield":
+                    isShielded = true;
+                    TimerTask shieldPlayer = new TimerTask() {
+                    @Override
+                    public void run() {
+                        isShielded = false;
+                    }
+                };
+                    Timer timer = new Timer();
+                    timer.schedule(shieldPlayer, (long) ((Shield) i).getShieldTime() * 1000);
+                    break;
+                case "Shrinker":
+                    double initialAoeRadius = aoeRadius;
+                    aoeRadius = aoeRadius - ((Shrinker) i).getShrinkingRadius();
+                    TimerTask shrinkAoeRadius = new TimerTask() {
+                    @Override
+                    public void run() {
+                            aoeRadius = initialAoeRadius;
+                        }
+                    };
+                    Timer t = new Timer();
+                    t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
+                    break;
+                case "Scan":
+                    //((Scan) i).showPlayersLocation();
+                    break;
+                default:
+                    break;
+            }
+            itemInventory.put(i.getName(), numberOfInstances-1);
+        }
+    }
+
+    public void setItemInventory(String itemName, int nb) {
+        this.itemInventory.put(itemName, nb);
+    }
+    public Map<String, Integer> getItemInventory() { return itemInventory; }
+
+    public void setHealthPoints(double amount) {
+        this.healthPoints = amount;
+    }
+
+
+    public boolean isShielded() {return this.isShielded; }
+
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    public void addItemInInventory(String itemName) {
+        int n = itemInventory.get(itemName);
+        n = n+1;
+        itemInventory.put(itemName, n);
+    }
+
+    public void removeItemInInventory(String itemName) {
+        int n = itemInventory.get(itemName);
+        if(n > 0) {
+            n=n-1;
+        }
+        itemInventory.put(itemName, n);
     }
 
     @Override

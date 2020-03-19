@@ -2,7 +2,6 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import static java.lang.Math.toRadians;
 import static org.junit.Assert.assertEquals;
 
 public class GeoPointTest {

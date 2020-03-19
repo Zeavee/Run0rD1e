@@ -1,11 +1,13 @@
 package ch.epfl.sdp;
 
 
+import static java.lang.Math.*;
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
+
 
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
@@ -21,16 +23,16 @@ public final class GeoPoint {
     private final double latitude;
 
     public GeoPoint(double longitude, double latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+        this.longitude = toRadians(longitude);
+        this.latitude = toRadians(latitude);
     }
 
     public double longitude() {
-        return this.longitude;
+        return toDegrees(this.longitude);
     }
 
     public double latitude() {
-        return this.latitude;
+        return toDegrees(this.latitude);
     }
 
     /**
@@ -39,11 +41,10 @@ public final class GeoPoint {
      * @return distance in meters between two points
      */
     public double distanceTo(GeoPoint that) {
-        double lambda1 = toRadians(this.longitude);
-        double phi1 = toRadians(this.latitude);
-
-        double lambda2 = toRadians(that.longitude);
-        double phi2 = toRadians(that.latitude);
+        double lambda1 = this.longitude;
+        double phi1 = this.latitude;
+        double lambda2 = that.longitude;
+        double phi2 = that.latitude;
         double alpha = 2.0 * asin(sqrt(haversin(phi1 - phi2) + cos(phi1)
                         * cos(phi2) * haversin(lambda1 - lambda2)));
 
@@ -68,6 +69,4 @@ public final class GeoPoint {
     private double toMeters(double distanceInRadians) {
         return distanceInRadians * EARTH_RADIUS;
     }
-
-
 }
