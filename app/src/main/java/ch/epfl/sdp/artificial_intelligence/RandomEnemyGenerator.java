@@ -1,7 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import android.widget.ArrayAdapter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -19,6 +17,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     public RandomEnemyGenerator(RectangleBounds enclosure, Player player) {
         super(enclosure, player);
         mapEnemiesToTiles = new HashMap<>();
+        enemies = new ArrayList<>();
     }
 
     @Override
@@ -29,22 +28,27 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
     @Override
     public void generateEnemy(double radius) {
-
+        if (maxEnemiesPerUnitArea <= enemies.size()) {
+            return;
+        }
+        GeoPoint enemyLocation = rule();
+        enemies.add(new Enemy(enemyLocation.longitude(), enemyLocation.latitude(), radius));
     }
 
     @Override
     public void setEnemyCreationTime(float time) {
-
-    }
-
-    @Override
-    public void setMinDistanceFromPlayer(int minDistanceFromPlayer) {
-
+        if (time<0) {
+            return;
+        }
+        timeToCreate = time;
     }
 
     @Override
     public void setMaxEnemiesPerUnitArea(int enemyCount) {
-
+        if (enemyCount<0) {
+            return;
+        }
+        maxEnemiesPerUnitArea = enemyCount;
     }
 
 
@@ -59,7 +63,6 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             if (!mapEnemiesToTiles.containsKey(tileIdx))
             {
                 mapEnemiesToTiles.put(tileIdx, 1);
-                break;
             }
             else {
                 int prevCount = mapEnemiesToTiles.get(tileIdx);

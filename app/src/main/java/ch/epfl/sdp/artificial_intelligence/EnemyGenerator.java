@@ -10,7 +10,7 @@ import ch.epfl.sdp.Player;
 public abstract class EnemyGenerator {
 
     protected int maxEnemiesPerUnitArea;
-    protected int timeToCreate;
+    protected float timeToCreate;
     protected double minDistanceFromPlayer;
     protected List<Enemy> enemies;
     protected RectangleBounds enclosure;
@@ -24,7 +24,6 @@ public abstract class EnemyGenerator {
 
     public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
     public abstract void setEnemyCreationTime(float time);
-    public abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
     public abstract void generateEnemy(double radius);
     public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
     //public abstract void getEnemyIntersectionWithPlayer(Player user);
@@ -32,8 +31,8 @@ public abstract class EnemyGenerator {
 
     public List<Enemy> getEnemies()
     {
-        List<Enemy> clone = new ArrayList<Enemy>(enemies.size());
-        for (Enemy item : clone) clone.add(item);
+        List<Enemy> clone = new ArrayList<>(enemies.size());
+        for (Enemy item : enemies) clone.add(item);
         return clone;
     }
 

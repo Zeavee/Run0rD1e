@@ -7,7 +7,7 @@ public class RectangleBounds implements Boundable {
     private float width;
     private GeoPoint lowerLeft;
 
-    public RectangleBounds(float height, float width){
+    public RectangleBounds(float height, float width, GeoPoint lowerLeft){
         this.height = height;
         this.width = width;
         this.lowerLeft = lowerLeft;
