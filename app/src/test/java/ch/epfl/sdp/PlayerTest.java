@@ -56,16 +56,15 @@ public class PlayerTest {
     public void shieldUseTest() {
         player1.setItemInventory("Shield", 1);
         player1.useItem(shield);
-        assertEquals(true, player1.isShielded());
+        assertTrue(player1.isShielded());
         TimerTask testTask = new TimerTask() {
             @Override
             public void run() {
-                int dummy = 3;
+                assertFalse(player1.isShielded());
             }
         };
         Timer timer = new Timer();
-        timer.schedule(testTask, 5*1000);
-        assertEquals(false, player1.isShielded());
+        timer.schedule(testTask, 8*1000);
     }
 
     @Test

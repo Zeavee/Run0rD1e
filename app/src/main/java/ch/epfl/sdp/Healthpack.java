@@ -10,7 +10,7 @@ public class Healthpack extends Item {
 
     public Healthpack(GeoPoint location, boolean isTaken, double healthPackAmount) {
         super(location,"Healthpack" , isTaken, "Regenerates health points");
-        this.healthPackAmount = 25;
+        this.healthPackAmount = healthPackAmount;
     }
 
     public double getHealthPackAmount() {
