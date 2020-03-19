@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,4 +47,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
+
+    public void onGuestModeClicked(View view)
+    {
+        startActivity(new Intent(MainActivity.this, OfflineMapsActivity.class));
+    }
+
 }
