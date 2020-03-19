@@ -43,12 +43,13 @@ public class MainActivityTest {
     }
 
     @Test
-    public void leaderboardOpens() {
-        onView(withId(R.id.leaderboard)).perform(click());
+    public void InventoryOpens() {
+        onView(withId(R.id.inventory)).perform(click());
     }
 
     @Test
-    public void InventoryOpens() {
-        onView(withId(R.id.inventory)).perform(click());
+    public void leaderboardOpens() {
+        onView(withId(R.id.leaderboard)).perform(click());
+        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
     }
 }
