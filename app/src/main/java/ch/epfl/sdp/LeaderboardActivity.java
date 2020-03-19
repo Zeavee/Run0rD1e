@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class LeaderboardActivity extends AppCompatActivity {
@@ -19,6 +20,17 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         userDataController = new FirestoreUserData();
         mUserForFirebases = new ArrayList<>();
+        SetupLeaderboard setupLeaderboard = new SetupLeaderboard();
+
+        // initialize leaderboard
+        setupLeaderboard.setupLeaderboardView(LeaderboardActivity.this, mUserForFirebases);
+        UserForFirebase user1 = new UserForFirebase("", "");
+        UserForFirebase user2 = new UserForFirebase("", "");
+        UserForFirebase user3 = new UserForFirebase("", "");
+
+        List<UserForFirebase> mUsersInit = new ArrayList<>(Arrays.asList(user1, user2, user3));
+
+        setupLeaderboard.setupChampions(LeaderboardActivity.this, mUsersInit);
 
         userDataController.loadUsersForLeaderboard(LeaderboardActivity.this, new SetupLeaderboard(), mUserForFirebases);
     }
