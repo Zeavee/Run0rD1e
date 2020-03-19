@@ -42,7 +42,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
 //        public void register(Activity registerFormActivity, Player userForFirebase, String email, String password) {
 
-            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             userDataStore.storeUser(userForFirebase);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
@@ -53,19 +53,4 @@ public class FirebaseAuthentication implements AuthenticationController {
     public void signOut() {
         auth.signOut();
     }
-
-
-
-
-   /* @Override
-    public Player signedInPlayer() {
-        String id =  auth.getCurrentUser().getEmail();
-        Map<String, Object> userData = userDataStore.getUserData(id);
-        double longitude = Double.parseDouble(userData.get("longitude").toString());
-        double latitude = Double.parseDouble(userData.get("latitude").toString());
-        double radius = Double.parseDouble(userData.get("radius").toString());
-        String username =userData.get("username").toString();
-        Player p = new Player(longitude, latitude, radius, username, id);
-        return p;
-    }*/
 }

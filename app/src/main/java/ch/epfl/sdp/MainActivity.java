@@ -1,13 +1,29 @@
 package ch.epfl.sdp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import ch.epfl.sdp.game.Game;
+
 public class MainActivity extends AppCompatActivity {
+    private static Game game;
+
+    // Lauches the game loop in another thread, must be destroyed at the end
+    public static void startGame() {
+        if (game != null && !game.isThreadGameTerminated()) {
+            game.initGame();
+        }
+    }
+
+    public static void killGame() {
+        if (game != null && game.isThreadGameTerminated()) {
+            game.destroyGame();
+        }
+    }
 
     public AuthenticationController authenticationController;
 
@@ -15,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        game = new Game(null);
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 
@@ -35,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
-
+      
         Button inventory = findViewById(R.id.inventory);
         // Capture button clicks
         inventory.setOnClickListener(view -> {
@@ -45,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout(View view) {
+        // Stops the game loop and kills the thread
+        MainActivity.killGame();
         authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();

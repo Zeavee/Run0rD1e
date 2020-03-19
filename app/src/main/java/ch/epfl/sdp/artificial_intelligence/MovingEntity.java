@@ -10,18 +10,8 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private Movement movement;
     private boolean moving;
     private Boundable bounds;
-    private boolean forceMove;
-
-    public MovingEntity(){
-        position = new CartesianPoint(0,0);
-        acceleration = 0;
-        velocity = 0;
-        orientation = 0;
-        movement = Movement.LINEAR;
-        moving = false;
-        bounds = new UnboundedArea();
-        forceMove = false;
-    }
+    public double sinusAmplitude = 1;
+    public double sinusAngle;
 
     public MovingEntity(Boundable bounds){
         this();
@@ -72,16 +62,26 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         this.bounds = bounds;
     }
 
+    public double sinusAngleStep = 2 * Math.PI / 60;
+
+    private Random rand = new Random();
+    private boolean forceMove;
+    private CartesianPoint sinusBasePosition;
+
+    public MovingEntity() {
+        position = new CartesianPoint(0, 0);
+        acceleration = 0;
+        velocity = 0;
+        orientation = 0;
+        movement = Movement.LINEAR;
+        moving = false;
+        bounds = new UnboundedArea();
+        forceMove = false;
+    }
+
     public void setForceMove(boolean forceMove) {
         this.forceMove = forceMove;
     }
-
-    private Random rand = new Random();
-
-    public double sinusAmplitude = 1;
-    public double sinusAngle;
-    public double sinusAngleStep = 2*Math.PI / 60;
-    private CartesianPoint sinusBasePosition;
 
     public GenPoint move() {
         CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;

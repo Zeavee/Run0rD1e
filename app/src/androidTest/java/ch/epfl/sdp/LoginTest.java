@@ -63,17 +63,17 @@ public class LoginTest {
     }
 
     @Test
-    public void login_shouldWorkWithRegisteredUser(){
+    public void login_shouldWorkWithRegisteredUser() {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.logoutBt));
     }
 
-    @Test
+   /* @Test
     public void loginUnregisteredUserGivesAnError(){
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-    }
+    }*/
 
     @Test
     public void loginWithAnEmptyEmailGivesAnError(){
@@ -88,4 +88,20 @@ public class LoginTest {
         String text = "Password can't be empty";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
     }
+
+  /*  @Test
+    public void loginUnregisteredUserGivesAnError(){
+        typingEmailPasswordAndCheckHasError("NotAUser@mail.com", "12345678", "User not exist!", R.id.emaillog);
+    }
+
+    @Test
+    public void loginOnPasswordSmallerThan8CharsGivesAnError(){
+        typingEmailPasswordAndCheckHasError("amro.abdrabo@gmail.com", "1234567", "Password not correct", R.id.passwordlog);
+    }
+
+    private void typingEmailPasswordAndCheckHasError(String email, String password, String error, int view) {
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email),typeText(password), R.id.emaillog, R.id.passwordlog);
+        onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(view)).check(matches(hasErrorText(error)));
+    }*/
 }

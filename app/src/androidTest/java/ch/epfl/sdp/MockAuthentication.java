@@ -18,13 +18,11 @@ public class MockAuthentication implements AuthenticationController {
 
     @Override
     public void signIn(Activity loginFormActivity, String email, String password) {
-        if(!registeredUsers.containsKey(email)) {
+        if (!registeredUsers.containsKey(email)) {
             Toast.makeText(loginFormActivity, "User not exist!", Toast.LENGTH_LONG).show();
-        }
-        else if(registeredUsers.get(email) != password) {
+        } else if (registeredUsers.get(email) != password) {
             Toast.makeText(loginFormActivity, "Password not correct", Toast.LENGTH_LONG).show();
-        }
-        else {
+        } else {
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
         }
@@ -32,7 +30,7 @@ public class MockAuthentication implements AuthenticationController {
 
     @Override
     public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
-        if(registeredUsers.containsKey(email)) {
+        if (registeredUsers.containsKey(email)) {
             Toast.makeText(registerFormActivity, "User already exist!", Toast.LENGTH_LONG).show();
         } else {
             registeredUsers.put(email, password);

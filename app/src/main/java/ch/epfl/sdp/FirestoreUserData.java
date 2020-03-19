@@ -16,7 +16,8 @@ public class FirestoreUserData implements UserDataController {
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         UserForFirebase userForFirebase = documentSnapshot.toObject(UserForFirebase.class);
-                        if(!mUserForFirebases.contains(userForFirebase)) mUserForFirebases.add(userForFirebase);
+                        if (!mUserForFirebases.contains(userForFirebase))
+                            mUserForFirebases.add(userForFirebase);
                     }
                     setupLeaderboard.setupLeaderboardView(activity, mUserForFirebases);
                     setupLeaderboard.setupChampions(activity, mUserForFirebases);
