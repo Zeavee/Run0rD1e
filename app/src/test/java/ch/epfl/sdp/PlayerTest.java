@@ -64,25 +64,25 @@ public class PlayerTest {
             }
         };
         Timer timer = new Timer();
-        timer.schedule(testTask, 8*1000);
+        timer.schedule(testTask, 5*1000);
     }
 
     @Test
     public void shrinkerUseTest() {
         Player player2 = new Player(6.149290, 46.212470, 50,
                 "SkyRiS3s", "test2@email.com"); //player position is in Geneva
+        assertEquals(50, player2.getAoeRadius(), 0);
         player2.setItemInventory("Shrinker", 1);
         player2.useItem(shrinker);
-        assertEquals(50.0, player1.getAoeRadius(), 0);
+        assertEquals(40, player2.getAoeRadius() ,0);
         TimerTask testTask = new TimerTask() {
             @Override
             public void run() {
-                int dummy = 3;
+                assertEquals(50, player2.getAoeRadius(), 0);
             }
         };
         Timer timer = new Timer();
         timer.schedule(testTask, 5*1000);
-        assertEquals(50, player1.getAoeRadius(), 0);
     }
 
     @Test
