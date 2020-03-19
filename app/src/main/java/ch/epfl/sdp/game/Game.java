@@ -20,6 +20,7 @@ public class Game implements Updatable, Drawable {
      * change the map before launching)
      */
     public Game(MapApi mapApi) {
+        // Need to test if it is null
         this.map = mapApi;
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
@@ -30,25 +31,33 @@ public class Game implements Updatable, Drawable {
      * Launches the game
      */
     public void initGame() {
-        gameThread.setRunning(true);
-        gameThread.start();
+        if (!gameThread.isRunning()) {
+            gameThread.setRunning(true);
+            gameThread.start();
+        }
     }
 
     /**
      * Kill the game
      */
     public void destroyGame() {
-        boolean retry = true;
-        while (retry) {
-            try {
-                gameThread.setRunning(false);
-                gameThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                retry = false;
+        if (gameThread.isAlive()) {
+            boolean retry = true;
+            while (retry) {
+                try {
+                    gameThread.setRunning(false);
+                    gameThread.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    retry = false;
+                }
             }
         }
+    }
+
+    public boolean isThreadGameTerminated() {
+        return gameThread.getState() == Thread.State.TERMINATED;
     }
 
     public ArrayList<Updatable> getUpdatables() {

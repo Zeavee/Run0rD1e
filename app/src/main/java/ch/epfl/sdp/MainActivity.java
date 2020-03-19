@@ -10,16 +10,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import ch.epfl.sdp.game.Game;
 
 public class MainActivity extends AppCompatActivity {
-    private Game game;
+    private static Game game;
+
+    // Lauches the game loop in another thread, must be destroyed at the end
+    public static void startGame() {
+        if (game != null && !game.isThreadGameTerminated()) {
+            game.initGame();
+        }
+    }
+
+    public static void killGame() {
+        if (game != null && game.isThreadGameTerminated()) {
+            game.destroyGame();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Lauches the game loop in another thread, must be destroyed at the end
         game = new Game(null);
-        game.initGame();
 
         // Locate the button in activity_main.xml
         Button healthPointButton = findViewById(R.id.mainGoButton);
@@ -48,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout(View view) {
         // Stops the game loop and kills the thread
-        game.destroyGame();
+        MainActivity.killGame();
 
         LoginFormActivity.authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));

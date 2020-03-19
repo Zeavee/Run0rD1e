@@ -64,10 +64,12 @@ public class GameThread extends Thread{
     private void waitBeforeRefresh() {
         timeMillis = (System.nanoTime() - startTime) / 1000000;
         waitTime = targetTime - timeMillis;
-        try {
-            this.sleep(waitTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        if (waitTime > 0) {
+            try {
+                this.sleep(waitTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -83,7 +85,7 @@ public class GameThread extends Thread{
             totalTime = 0;
 
             // Print avergage FPS
-            System.out.println(avgFPS);
+            System.out.println("Average FPS: " + avgFPS);
         }
     }
 }

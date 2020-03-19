@@ -39,6 +39,9 @@ public class LoginFormActivity extends AppCompatActivity {
     }
 
     public void loginBtn_OnClick(View view) {
+        // temporarily: should be called when login is successfull
+        MainActivity.startGame();
+
         String email = lemail.getText().toString().trim();
         String password = lpassword.getText().toString().trim();
         switch (authenticationController.signIn(email, password))
