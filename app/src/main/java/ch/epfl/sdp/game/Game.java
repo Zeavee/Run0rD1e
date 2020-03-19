@@ -41,17 +41,19 @@ public class Game implements Updatable, Drawable {
      * Kill the game
      */
     public void destroyGame() {
-        if (gameThread.isAlive()) {
-            boolean retry = true;
-            while (retry) {
-                try {
-                    gameThread.setRunning(false);
-                    gameThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    retry = false;
-                }
+        if(!gameThread.isAlive())
+        {
+            return;
+        }
+
+        while (true) {
+            try {
+                gameThread.setRunning(false);
+                gameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                break;
             }
         }
     }
