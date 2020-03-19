@@ -9,27 +9,20 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    public AuthenticationController authenticationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+
         // Locate the button in activity_main.xml
         Button healthPointButton = findViewById(R.id.mainGoButton);
 
         // Capture button clicks
-        healthPointButton.setOnClickListener(view -> {
-                    Intent intent = new Intent(MainActivity.this, GameInfoActivity.class);
-                    startActivity(intent);
-        });
-
-        Button inventory = findViewById(R.id.inventory);
-
-        // Capture button clicks
-        inventory.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-            startActivity(intent);
-        });
+        healthPointButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 
         Button mapButton = findViewById(R.id.mapButton);
         mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
@@ -38,17 +31,21 @@ public class MainActivity extends AppCompatActivity {
         Button leaderboardButton = findViewById(R.id.leaderboard);
 
         // Capture button clicks
-        leaderboardButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
-            startActivity(intent);
-        });
+        leaderboardButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
 
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
+
+        Button inventory = findViewById(R.id.inventory);
+        // Capture button clicks
+        inventory.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
+            startActivity(intent);
+        });
     }
 
     public void logout(View view) {
-        LoginFormActivity.authenticationController.signOut();
+        authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
