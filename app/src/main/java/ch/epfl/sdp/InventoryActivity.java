@@ -6,30 +6,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class InventoryActivity extends AppCompatActivity {
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<Integer> mAmounts = new ArrayList<>();
+    private Player player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-        initName();
+
+        initPlayer();
     }
 
-    private void initName() {
-        mNames.add("Scan");
-        mNames.add("Shield");
-        mNames.add("Shrink");
-        mNames.add("Healthpack");
-
-        mAmounts.add(4);
-        mAmounts.add(4);
-        mAmounts.add(3);
-        mAmounts.add(2);
-
+    private void initPlayer() {
+        //TODO Later this player should come from the local storage
+        player = new Player(22, 22, 50, "admin", "admin@gmail.com");
+        player.setItemInventory("Healthpack", 2);
+        player.setItemInventory("Shield", 5);
+        player.setItemInventory("Shrinker", 6);
+        player.setItemInventory("Scan", 5);
         initRecyclerView();
     }
 
@@ -37,7 +31,7 @@ public class InventoryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.items_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        ItemsViewAdapter adpater = new ItemsViewAdapter(this, mNames, mAmounts);
+        ItemsViewAdapter adpater = new ItemsViewAdapter(this, player);
         recyclerView.setAdapter(adpater);
     }
 }

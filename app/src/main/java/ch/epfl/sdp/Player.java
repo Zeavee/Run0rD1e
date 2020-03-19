@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,7 +20,7 @@ public class Player extends MovingEntity {
     private boolean isPhantom;
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
-    private HashMap<String, Integer> itemInventory = new HashMap<String, Integer>();
+    private HashMap<String, Integer> itemInventory = new HashMap<>();
 
 
 
@@ -141,6 +142,7 @@ public class Player extends MovingEntity {
     public void setItemInventory(String itemName, int nb) {
         this.itemInventory.put(itemName, nb);
     }
+    public Map<String, Integer> getItemInventory() { return itemInventory; }
 
     public void setHealthPoints(double amount) {
         this.healthPoints = amount;

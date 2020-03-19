@@ -10,17 +10,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.viewHolder>{
     private Context mContext;
-    private ArrayList<String> mNames;
-    private ArrayList<Integer> mAmounts;
+    private Player player;
+    private Map<String, Integer> inventory;
+    private List<String> mNames = new ArrayList<>();
+    private List<Integer> mAmounts = new ArrayList<>();
 
-    public ItemsViewAdapter(Context mContext, ArrayList<String> mNames, ArrayList<Integer> mAmounts) {
+    public ItemsViewAdapter(Context mContext, Player player) {
         this.mContext = mContext;
-        this.mNames = mNames;
-        this.mAmounts = mAmounts;
+        this.player = player;
+        this.inventory = player.getItemInventory();
+        for(String key: inventory.keySet()) {
+            mNames.add(key);
+            mAmounts.add(inventory.get(key));
+        }
     }
 
     @NonNull
@@ -34,10 +44,10 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.view
     public void onBindViewHolder(@NonNull viewHolder holder, int position) {
         holder.name.setText(mNames.get(position));
         holder.amount.setText(String.valueOf(mAmounts.get(position)));
-        holder.button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int amount = Integer.parseInt(holder.amount.getText().toString());
+        holder.button.setOnClickListener(v -> {
+            player.removeItemInInventory(mNames.get(position));
+            int amount = Integer.parseInt(holder.amount.getText().toString());
+            if(amount > 0) {
                 holder.amount.setText(String.valueOf(amount-1));
             }
         });
