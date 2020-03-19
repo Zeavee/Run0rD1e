@@ -6,9 +6,14 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Player extends MovingEntity {
+import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
+import ch.epfl.sdp.artificial_intelligence.GenPoint;
+import ch.epfl.sdp.artificial_intelligence.Localizable;
+
+public class Player extends MovingEntity implements Localizable {
     private String username;
     private String email;
+    private GenPoint position;
     private int score;
     private double healthPoints;
     private double timeTraveled;
@@ -35,8 +40,8 @@ public class Player extends MovingEntity {
         this.alive = true;
         this.isPhantom = false;
         this.isShielded = false;
+        this.position = new CartesianPoint((float) longitude, (float) latitude);
     }
-
 
     @Override
     public void updateLocation() {
@@ -55,6 +60,10 @@ public class Player extends MovingEntity {
 
     public double getHealthPoints() {
         return healthPoints;
+    }
+
+    public void setHealthPoints(double healthPoints) {
+        this.healthPoints = healthPoints;
     }
 
     public boolean isAlive() {
@@ -166,4 +175,8 @@ public class Player extends MovingEntity {
         itemInventory.put(itemName, n);
     }
 
+    @Override
+    public GenPoint getPosition() {
+        return position;
+    }
 }
