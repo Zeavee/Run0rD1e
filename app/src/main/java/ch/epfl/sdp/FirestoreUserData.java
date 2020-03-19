@@ -23,6 +23,11 @@ public class FirestoreUserData implements UserDataController {
                 });
     }
 
+//    @Override
+//    public void storeUser(Player player) {
+//        FirebaseFirestore.getInstance().collection("Users").document(player.getEmail()).set(player);
+//    }
+
     @Override
     public void storeUser(UserForFirebase userForFirebase) {
         FirebaseFirestore.getInstance().collection("Users").document(userForFirebase.getEmail()).set(userForFirebase);

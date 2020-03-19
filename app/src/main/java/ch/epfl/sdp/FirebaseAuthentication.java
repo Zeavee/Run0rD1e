@@ -40,7 +40,9 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+//        public void register(Activity registerFormActivity, Player userForFirebase, String email, String password) {
+
+            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             userDataStore.storeUser(userForFirebase);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();

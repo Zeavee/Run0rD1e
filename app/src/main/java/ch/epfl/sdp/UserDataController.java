@@ -9,4 +9,5 @@ public interface UserDataController {
     void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases);
 
     void storeUser(UserForFirebase userForFirebase);
+//    void storeUser(Player player);
 }
