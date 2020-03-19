@@ -14,15 +14,15 @@ public abstract class EnemyGenerator {
     protected double minDistanceFromPlayer;
     protected List<Enemy> enemies;
     protected RectangleBounds enclosure;
+    protected Player player;
 
-    public EnemyGenerator(RectangleBounds enclosure)
+    public EnemyGenerator(RectangleBounds enclosure, Player player)
     {
         this.enclosure = enclosure;
+        this.player = player;
     }
 
     public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
-    
-    public abstract void generateRandom(GeoPoint playerLocation);
     public abstract void setEnemyCreationTime(float time);
     public abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
     public abstract void generateEnemy(double radius);
