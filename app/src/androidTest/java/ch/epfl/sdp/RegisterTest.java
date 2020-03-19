@@ -80,23 +80,27 @@ public class RegisterTest {
 
     @Test
     public void writingUsername_ShouldBeDisplayed(){
-        onView(withId(R.id.username)).perform(scrollTo()).perform(typeText("Username")).check(matches(withText("Username")));
+        closeSoftKeyboard();
+        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText("Username")));
 
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
-        onView(withId(R.id.email)).perform(scrollTo()).perform(typeText("Email")).check(matches(withText("Email")));
+        closeSoftKeyboard();
+        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
-        onView(withId(R.id.password)).perform(scrollTo()).perform(typeText("password")).check(matches(withText("password")));
+        closeSoftKeyboard();
+        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
-        onView(withId(R.id.passwordconf)).perform(scrollTo()).perform(typeText("password")).check(matches(withText("password")));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
