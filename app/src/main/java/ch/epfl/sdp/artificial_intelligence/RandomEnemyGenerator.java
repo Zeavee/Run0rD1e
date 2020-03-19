@@ -5,7 +5,7 @@ import EnemyGenerator;
 public class RandomEnemyGenerator extends EnemyGenerator {
     @Override
     void setMinDistanceFromPlayer() {
-
+        this.minDistanceFromPlayer =
     }
 
     @Override

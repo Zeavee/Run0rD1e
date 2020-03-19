@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sdp.Enemy;
 import ch.epfl.sdp.GeoPoint;
+import ch.epfl.sdp.Player;
 
 public abstract class EnemyGenerator {
 
@@ -13,11 +14,11 @@ public abstract class EnemyGenerator {
     protected List<Enemy> enemies;
 
 
-    abstract void setMinDistanceFromPlayer();
+    abstract void setMinDistanceFromPlayer(int minDistanceFromPlayer);
     abstract void generateEnemy(GenPoint point);
     abstract void setEnemyCreationTime(float time);
     abstract void setMaxEnemiesPerUnitArea(int enemyCount);
-    abstract void getEnemyIntersectionWithPlayer();
+    abstract void getEnemyIntersectionWithPlayer(Player user);
     abstract GenPoint rule();
     List<Enemy> getEnemies()
     {
