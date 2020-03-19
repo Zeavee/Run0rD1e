@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.viewHolder>{
+public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
     private Context mContext;
     private Player player;
     private Map<String, Integer> inventory;
@@ -35,13 +35,13 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.view
 
     @NonNull
     @Override
-    public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item, parent, false);
-        return new viewHolder(view);
+        return new ItemsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull viewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
         holder.name.setText(mNames.get(position));
         holder.amount.setText(String.valueOf(mAmounts.get(position)));
         holder.button.setOnClickListener(v -> {
@@ -59,12 +59,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.view
         return mNames.size();
     }
 
-    public class viewHolder extends RecyclerView.ViewHolder {
+    public class ItemsViewHolder extends RecyclerView.ViewHolder {
 //        ImageView image;
         TextView name;
         TextView amount;
         Button button;
-        public viewHolder(@NonNull View itemView) {
+        public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
 //            image = itemView.findViewById(R.id.image_view);
             name = itemView.findViewById(R.id.title);
