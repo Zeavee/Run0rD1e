@@ -16,6 +16,11 @@ public class GameArea {
         this.center = center;
     }
 
+    /**
+     * This method find a smaller GameArea that fits entirely inside the current GameArea
+     * @param factor it is a number we multiply with the current GameArea's size to get the new size
+     * @return A random GameArea inside the current one
+     */
     public GameArea shrink(double factor) {
         if (factor < 0 || factor > 1) {
             return null;
@@ -44,14 +49,29 @@ public class GameArea {
         return new GameArea(newRadius, newCenter);
     }
 
+    /**
+     * Method to get the center of the GameArea
+     * @return a GeoPoint which is a location
+     */
     public GeoPoint getCenter() {
         return center;
     }
 
+    /**
+     * Method to get the radius of the GameArea
+     * @return the radius
+     */
     public double getRadius() {
         return radius;
     }
 
+    /**
+     * Method that gives all the transitions states to display the shrinking of the GameArea
+     * @param time the time which has passed since the start of the shrinking
+     * @param finalTime the time when the shrinking will end
+     * @param startCircle the old GameArea
+     * @return a GameArea we can display for animation the transition
+     */
     public GameArea getShrinkTransition(double time, double finalTime, GameArea startCircle) {
         if (time > finalTime || time < 0 || startCircle == null) {
             return null;
