@@ -7,7 +7,7 @@ import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class EnemyGeneratorTest {
     @Test
@@ -22,7 +22,7 @@ public class EnemyGeneratorTest {
 
     @Test
     public void setMaxEnemiesWorks() {
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(10000, 10000, new GeoPoint(44.999, 44.999)),
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(1, 1, new GeoPoint(44.999, 44.999)),
                 new Player(45, 45, 100, "a", "b"));
         enemyGenerator.setMaxEnemiesPerUnitArea(2);
         for (int i = 0; i<4; ++i) {
@@ -34,7 +34,7 @@ public class EnemyGeneratorTest {
     @Test
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(10000, 10000, new GeoPoint(44.999, 44.999)), player);
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(1, 1, new GeoPoint(44.999, 44.999)), player);
         enemyGenerator.setMaxEnemiesPerUnitArea(10);
         enemyGenerator.setMinDistanceFromPlayer(1000);
         for (int i = 0; i<10; ++i) {

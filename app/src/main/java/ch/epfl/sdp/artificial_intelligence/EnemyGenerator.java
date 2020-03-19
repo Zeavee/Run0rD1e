@@ -2,6 +2,7 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 import ch.epfl.sdp.Enemy;
 import ch.epfl.sdp.GeoPoint;
@@ -15,6 +16,8 @@ public abstract class EnemyGenerator {
     protected List<Enemy> enemies;
     protected RectangleBounds enclosure;
     protected Player player;
+    protected Timer timer;
+    protected float timeRemaining;
 
     public EnemyGenerator(RectangleBounds enclosure, Player player)
     {

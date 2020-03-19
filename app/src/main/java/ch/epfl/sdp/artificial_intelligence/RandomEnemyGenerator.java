@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Timer;
 
 import ch.epfl.sdp.Enemy;
 import ch.epfl.sdp.GeoPoint;
@@ -18,6 +19,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         super(enclosure, player);
         mapEnemiesToTiles = new HashMap<>();
         enemies = new ArrayList<>();
+        timer = new Timer();
     }
 
     @Override
@@ -55,27 +57,16 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     @Override
     GeoPoint rule() {
         Random rd = new Random();
+        Thread thread = new Thread();
+        thread.run();
         int maxIter = 500;
-        long tileIdx;
         while(maxIter > 0)
         {
-            tileIdx = Math.round((rd.nextDouble())*enclosure.getHeight()*enclosure.getWidth()) - 1;
-            if (!mapEnemiesToTiles.containsKey(tileIdx))
-            {
-                mapEnemiesToTiles.put(tileIdx, 1);
-            }
-            else {
-                int prevCount = mapEnemiesToTiles.get(tileIdx);
-                if (prevCount < maxEnemiesPerUnitArea)
-                {
-                    mapEnemiesToTiles.put(tileIdx, prevCount+1);
-                    break;
-                }
-            }
-            double xcoord = tileIdx % ((int)enclosure.getWidth());
-            double ycoord = tileIdx / ((int)enclosure.getHeight());
+            double xcoord = rd.nextDouble() * enclosure.getWidth();
+            double ycoord = rd.nextDouble() * enclosure.getHeight();
             GeoPoint enemy = new GeoPoint(xcoord + enclosure.getLowerLeftAnchor().longitude(), ycoord+enclosure.getLowerLeftAnchor().latitude());
-            if (enemy.distanceTo(player.getLocation()) >= minDistanceFromPlayer) return enemy;
+            double distance = enemy.distanceTo(player.getLocation());
+            if (distance > minDistanceFromPlayer) return enemy;
             --maxIter;
         }
         return null;
