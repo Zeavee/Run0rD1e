@@ -47,12 +47,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
         holder.name.setText(mNames.get(position));
-        holder.amount.setText(String.valueOf(mAmounts.get(position)));
+        holder.amountOfItem.setText(String.valueOf(mAmounts.get(position)));
         holder.button.setOnClickListener(v -> {
             player.removeItemInInventory(mNames.get(position));
-            int amount = Integer.parseInt(holder.amount.getText().toString());
+            int amount = Integer.parseInt(holder.amountOfItem.getText().toString());
             if(amount > 0) {
-                holder.amount.setText(String.valueOf(amount-1));
+                holder.amountOfItem.setText(String.valueOf(amount-1));
             }
         });
 
