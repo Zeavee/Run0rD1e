@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import java.util.ArrayList;
 
+import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
 
@@ -26,6 +27,7 @@ public class Player extends MovingEntity implements Localizable {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
+        this.position = new CartesianPoint((float) longitude, (float) latitude);
     }
 
     @Override

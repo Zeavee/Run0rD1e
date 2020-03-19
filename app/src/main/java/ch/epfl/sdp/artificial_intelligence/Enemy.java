@@ -24,10 +24,18 @@ public class Enemy extends MovingEntity {
         this.players = players;
         behaviour = Behaviour.WAIT;
         timeAttack = 100; // Needs calibration
-        timeWandering = 1000;
+        timeWandering = 100;
         this.patrolBounds = patrolBounds;
         this.maxBounds = maxBounds;
         this.waiting = false;
+    }
+
+    public Behaviour getBehaviour() {
+        return behaviour;
+    }
+
+    public int getTimeAttack() {
+        return timeAttack;
     }
 
     private void behave() {
@@ -63,10 +71,13 @@ public class Enemy extends MovingEntity {
 
     private void attack() {
         if (timeAttack <= 0) {
-            Player target = selectClosestPlayer();
+            Player target = playerDetected(detectionDistance / 5);
 
             if (target != null) {
                 target.setHealthPoints(target.getHealthPoints() - damage * dps);
+            } else {
+                setMoving(true);
+                behaviour = Behaviour.CHASE;
             }
 
             timeAttack = 100;
@@ -94,17 +105,24 @@ public class Enemy extends MovingEntity {
     }
 
     private void chase() {
-        if (playerDetected()) {
-            Player target = selectClosestPlayer();
+        Player target = playerDetected(detectionDistance);
+
+        if (target != null) {
             orientToTarget(target);
-        } else if (waiting) {
-            super.setMoving(false);
-            behaviour = Behaviour.WAIT;
+            if (playerDetected(detectionDistance / 5) != null) {
+                super.setMoving(false);
+                behaviour = Behaviour.ATTACK;
+            }
         } else {
             super.setBounds(patrolBounds);
             setForceMove(true);
             super.setVelocity(super.getVelocity() / 2);
             behaviour = Behaviour.PATROL;
+        }
+
+        if (waiting) {
+            super.setMoving(false);
+            behaviour = Behaviour.WAIT;
         }
     }
 
@@ -115,7 +133,7 @@ public class Enemy extends MovingEntity {
             setForceMove(false);
         }
 
-        if (playerDetected()) {
+        if (playerDetected(detectionDistance) != null) {
             super.setBounds(maxBounds);
             super.setVelocity(super.getVelocity() * 2);
             super.setMoving(true);
@@ -132,9 +150,13 @@ public class Enemy extends MovingEntity {
         setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
     }
 
-    private boolean playerDetected() {
+    private Player playerDetected(float distance) {
         Player target = selectClosestPlayer();
-        return target.getPosition().toCartesian().distanceFrom(getPosition()) < detectionDistance;
+        if (target.getPosition().toCartesian().distanceFrom(getPosition()) < distance) {
+            return target;
+        } else {
+            return null;
+        }
     }
 
     private void wander() {
@@ -142,8 +164,15 @@ public class Enemy extends MovingEntity {
             super.setBounds(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
+            timeWandering = 100;
         } else {
             timeWandering -= 1;
+        }
+
+        if (waiting) {
+            timeWandering = 100;
+            super.setMoving(false);
+            behaviour = Behaviour.WAIT;
         }
     }
 
