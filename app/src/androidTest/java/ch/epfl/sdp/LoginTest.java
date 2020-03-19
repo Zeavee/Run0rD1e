@@ -71,13 +71,6 @@ public class LoginTest {
     }
 
     @Test
-    public void loginUnregisteredUserGivesAnError(){
-        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
-        onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.emaillog)).check(matches(hasErrorText("Email is incorrect")));
-    }
-
-    @Test
     public void loginWithAnEmptyEmailGivesAnError(){
         onView(withId(R.id.loginButton)).perform(click());
         String text = "Email is incorrect";
@@ -92,9 +85,18 @@ public class LoginTest {
     }
 
     @Test
+    public void loginUnregisteredUserGivesAnError(){
+        typingEmailPasswordAndCheckHasError("NotAUser@mail.com", "12345678", "Email is incorrect");
+    }
+
+    @Test
     public void loginOnPasswordSmallerThan8CharsGivesAnError(){
-        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("amro.abdrabo@gmail.com"),typeText("1234567"), R.id.emaillog, R.id.passwordlog);
+        typingEmailPasswordAndCheckHasError("amro.abdrabo@gmail.com", "1234567", "Password is incorrect");
+    }
+
+    private void typingEmailPasswordAndCheckHasError(String email, String password, String error) {
+        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email),typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.passwordlog)).check(matches(hasErrorText("Password is incorrect")));
+        onView(withId(R.id.passwordlog)).check(matches(hasErrorText(error)));
     }
 }
