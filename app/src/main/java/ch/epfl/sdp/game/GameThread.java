@@ -9,6 +9,13 @@ public class GameThread extends Thread{
     private boolean running;
     private Game game;
 
+    private long startTime;
+    private long timeMillis;
+    private long waitTime;
+    private long totalTime = 0;
+    private int frameCount = 0;
+    private long targetTime = 1000 / FPS;
+
     public GameThread(Game game){
         this.game = game;
     }
@@ -34,13 +41,6 @@ public class GameThread extends Thread{
      */
     @Override
     public void run(){
-        long startTime;
-        long timeMillis;
-        long waitTime;
-        long totalTime = 0;
-        int frameCount = 0;
-        long targetTime = 1000 / FPS;
-
         // Main loop of the game
         while(running){
             startTime = System.nanoTime();
@@ -54,28 +54,36 @@ public class GameThread extends Thread{
             }
 
             // Wait before refreshing the game
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime - timeMillis;
-            try {
-                this.sleep(waitTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitBeforeRefresh();
 
             // Compute FPS for testing
-            totalTime += System.nanoTime() - startTime;
-            frameCount++;
+            computeFPS();
+        }
+    }
 
-            if(frameCount == FPS){
-                avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
+    private void waitBeforeRefresh() {
+        timeMillis = (System.nanoTime() - startTime) / 1000000;
+        waitTime = targetTime - timeMillis;
+        try {
+            this.sleep(waitTime);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-                // Reset values
-                frameCount = 0;
-                totalTime = 0;
+    private void computeFPS() {
+        totalTime += System.nanoTime() - startTime;
+        frameCount++;
 
-                // Print avergage FPS
-                System.out.println(avgFPS);
-            }
+        if(frameCount == FPS){
+            avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
+
+            // Reset values
+            frameCount = 0;
+            totalTime = 0;
+
+            // Print avergage FPS
+            System.out.println(avgFPS);
         }
     }
 }

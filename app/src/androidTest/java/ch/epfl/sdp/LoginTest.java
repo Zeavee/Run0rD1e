@@ -19,6 +19,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -66,19 +67,14 @@ public class LoginTest {
     public void loginRegisteredUser_AuthenticateTheUser_OpenMainScreen_Logout(){
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         MissingFieldTestFactory.testFieldTwoActions(click(), click(), R.id.loginButton, R.id.logoutBt);
-    }
-
-    @Test
-    public void login_shouldWorkWithRegisteredUser(){
-        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.logoutBt));
+        onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
     }
 
     @Test
     public void loginUnregisteredUserGivesAnError(){
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
+        onView(withId(R.id.emaillog)).check(matches(hasErrorText("Email is incorrect")));
     }
 
     @Test
