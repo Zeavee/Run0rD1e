@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -27,7 +28,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
-        //InternetConnectionManager
+        InternetConnectionManager.getInstance().setCurrentActivity(this);
+        InternetConnectionManager.getInstance().startConnectionMonitor();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
@@ -42,11 +44,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void switchMode(ConnectionMode cm) {
-
+        System.out.println(" IT WAS CALLEED     CALLED CALLED ");
+        Intent offline = new Intent(MapsActivity.this, OfflineMapsActivity.class);
+        InternetConnectionManager.getInstance().stopMonitor();
+        startActivity(offline);
+        finish();
     }
 
     @Override
     public Activity getActivity() {
-        return null;
+        return this;
     }
 }
