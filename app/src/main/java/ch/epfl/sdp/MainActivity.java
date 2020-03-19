@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Lauches the game loop in another thread, must be destroyed at the end
-        game = new Game();
+        game = new Game(null);
         game.initGame();
 
         // Locate the button in activity_main.xml

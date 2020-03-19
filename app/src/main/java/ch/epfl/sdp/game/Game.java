@@ -6,8 +6,6 @@ import ch.epfl.sdp.Displayable;
 import ch.epfl.sdp.MapApi;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 
-import static ch.epfl.sdp.MapsActivity.mapApi;
-
 /**
  * Main model of the game, it is used for state changes and animations.
  */
@@ -21,7 +19,7 @@ public class Game implements Updatable, Drawable {
      * Instantiates a new game (uses mapApi by default. So for tests you need to
      * change the map before launching)
      */
-    public Game(){
+    public Game(MapApi mapApi) {
         this.map = mapApi;
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
@@ -51,6 +49,14 @@ public class Game implements Updatable, Drawable {
                 retry = false;
             }
         }
+    }
+
+    public ArrayList<Updatable> getUpdatables() {
+        return updatables;
+    }
+
+    public ArrayList<Displayable> getDisplayables() {
+        return displayables;
     }
 
     public void setMapApi(MapApi mapApi) {
