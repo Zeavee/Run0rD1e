@@ -1,6 +1,6 @@
 package ch.epfl.sdp;
 
-interface Displayable {
+public interface Displayable {
     /**
      * Method for getting the location for displaying on the map
      * @return a GeoPoint which is a location

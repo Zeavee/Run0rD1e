@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public void logout() {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
-        LoginFormActivity.authenticationController.signOut();
+        authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
