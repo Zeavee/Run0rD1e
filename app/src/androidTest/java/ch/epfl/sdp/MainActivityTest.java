@@ -45,6 +45,7 @@ public class MainActivityTest {
     @Test
     public void leaderboardOpens() {
         onView(withId(R.id.leaderboard)).perform(click());
+        onView(withId(R.id.tv_username1)).check(matches(withText("aaaaa")));
     }
 
     public void InventoryOpens() {
