@@ -12,15 +12,16 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     public UserDataController userDataController;
     private List<UserForFirebase> mUserForFirebases;
+    private SetupLeaderboard setupLeaderboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
 
-        userDataController = new FirestoreUserData();
+
         mUserForFirebases = new ArrayList<>();
-        SetupLeaderboard setupLeaderboard = new SetupLeaderboard();
+        setupLeaderboard = new SetupLeaderboard();
 
         // initialize leaderboard
         UserForFirebase user1 = new UserForFirebase("", "");
@@ -31,6 +32,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         setupLeaderboard.setupLeaderboardView(LeaderboardActivity.this, mUsersInit);
         setupLeaderboard.setupChampions(LeaderboardActivity.this, mUsersInit);
 
-        userDataController.loadUsersForLeaderboard(LeaderboardActivity.this, new SetupLeaderboard(), mUserForFirebases);
+        userDataController = new FirestoreUserData();
+        userDataController.loadUsersForLeaderboard(LeaderboardActivity.this, setupLeaderboard, mUserForFirebases);
     }
 }

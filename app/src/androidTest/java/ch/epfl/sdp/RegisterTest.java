@@ -90,25 +90,25 @@ public class RegisterTest {
     @Test
     public void writingUsername_ShouldBeDisplayed(){
         closeSoftKeyboard();
-        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText("Username")));
+        onView(withId(R.id.username)).perform(typeText("Username"));
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
         closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText("Email")));
+        onView(withId(R.id.email)).perform(typeText("Email"));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
         closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText("password")));
+        onView(withId(R.id.password)).perform(typeText("password"));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
         closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText("password")));
+        onView(withId(R.id.passwordconf)).perform(typeText("password"));
     }
 
     @Test
