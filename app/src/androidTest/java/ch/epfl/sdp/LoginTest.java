@@ -86,17 +86,17 @@ public class LoginTest {
 
     @Test
     public void loginUnregisteredUserGivesAnError(){
-        typingEmailPasswordAndCheckHasError("NotAUser@mail.com", "12345678", "Email is incorrect");
+        typingEmailPasswordAndCheckHasError("NotAUser@mail.com", "12345678", "Email is incorrect", R.id.emaillog);
     }
 
     @Test
     public void loginOnPasswordSmallerThan8CharsGivesAnError(){
-        typingEmailPasswordAndCheckHasError("amro.abdrabo@gmail.com", "1234567", "Password is incorrect");
+        typingEmailPasswordAndCheckHasError("amro.abdrabo@gmail.com", "1234567", "Password is incorrect", R.id.passwordlog);
     }
 
-    private void typingEmailPasswordAndCheckHasError(String email, String password, String error) {
+    private void typingEmailPasswordAndCheckHasError(String email, String password, String error, int view) {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email),typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.passwordlog)).check(matches(hasErrorText(error)));
+        onView(withId(view)).check(matches(hasErrorText(error)));
     }
 }
