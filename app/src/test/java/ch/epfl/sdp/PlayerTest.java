@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,8 +20,8 @@ public class PlayerTest {
     private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
     private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
     private static Healthpack healthpack = new Healthpack(A, false, 25);
-    private static Shield shield = new Shield(A, true, 5);
-    private static Shrinker shrinker = new Shrinker(A, false, 5, 10);
+    private static Shield shield = new Shield(A, true, 4.5);
+    private static Shrinker shrinker = new Shrinker(A, false, 4.5, 10);
 
 
     @Test
@@ -53,41 +54,43 @@ public class PlayerTest {
     }
 
     @Test
-    public void shieldUseTest() {
+    public void shieldUseTest() throws InterruptedException {
         player1.setItemInventory("Shield", 1);
         player1.useItem(shield);
         assertTrue(player1.isShielded());
-        TimerTask testTask = new TimerTask() {
-            @Override
-            public void run() {
-                assertFalse(player1.isShielded());
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(testTask, 5*1000);
+        TimeUnit.SECONDS.sleep(5);
+        assertFalse(player1.isShielded());
     }
 
     @Test
-    public void shrinkerUseTest() {
+    public void shrinkerUseTest() throws InterruptedException {
         Player player2 = new Player(6.149290, 46.212470, 50,
                 "SkyRiS3s", "test2@email.com"); //player position is in Geneva
         assertEquals(50, player2.getAoeRadius(), 0);
         player2.setItemInventory("Shrinker", 1);
         player2.useItem(shrinker);
         assertEquals(40, player2.getAoeRadius() ,0);
-        TimerTask testTask = new TimerTask() {
-            @Override
-            public void run() {
-                assertEquals(50, player2.getAoeRadius(), 0);
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(testTask, 5*1000);
+        TimeUnit.SECONDS.sleep(5);
+        assertEquals(50, player2.getAoeRadius(), 0);
     }
 
     @Test
     public void getEntityTypeReturnsUser() {
         Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
         assertEquals(EntityType.USER, currentPlayer.getEntityType());
+    }
+
+    @Test
+    public void addItemToInventory() {
+        player1.setItemInventory("Healthpack", 1);
+        player1.addItemInInventory("Healthpack");
+        assertEquals(2, player1.getItemInventory().get("Healthpack"), 0);
+    }
+
+    @Test
+    public void removeItem() {
+        player1.setItemInventory("Healthpack", 6);
+        player1.removeItemInInventory("Healthpack");
+        assertEquals(5, player1.getItemInventory().get("Healthpack"), 0);
     }
 }
