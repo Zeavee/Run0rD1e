@@ -27,6 +27,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -78,26 +79,23 @@ public class RegisterTest {
 
     @Test
     public void writingUsername_ShouldBeDisplayed(){
-        onView(withId(R.id.username)).perform(typeText("Username"));
-        onView(withId(R.id.username)).check(matches(withText("Username")));
+        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText("Username")));
+
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
-        onView(withId(R.id.email)).perform(typeText("Email"));
-        onView(withId(R.id.email)).check(matches(withText("Email")));
+        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
-        onView(withId(R.id.password)).perform(typeText("password"));
-        onView(withId(R.id.password)).check(matches(withText("password")));
+        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-        onView(withId(R.id.passwordconf)).check(matches(withText("password")));
+        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
