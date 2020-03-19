@@ -62,10 +62,6 @@ public class Player extends MovingEntity implements Localizable {
         return healthPoints;
     }
 
-    public void setHealthPoints(double healthPoints) {
-        this.healthPoints = healthPoints;
-    }
-
     public boolean isAlive() {
         return alive;
     }

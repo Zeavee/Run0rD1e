@@ -69,6 +69,4 @@ public final class GeoPoint {
     private double toMeters(double distanceInRadians) {
         return distanceInRadians * EARTH_RADIUS;
     }
-
-
 }
