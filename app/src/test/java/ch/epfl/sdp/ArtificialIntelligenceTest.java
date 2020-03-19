@@ -42,6 +42,39 @@ public class ArtificialIntelligenceTest {
     }
 
     @Test
+    public void SinusMovementWorks() {
+        MovingEntity movingEntity = new MovingEntity();
+        movingEntity.setAcceleration(2);
+        Boundable boundable = new UnboundedArea();
+        boundable.isInside(null);
+        movingEntity.setBounds(boundable);
+        GenPoint genPoint = new CartesianPoint(10, 10);
+        movingEntity.setPosition(genPoint);
+        movingEntity.setMovement(Movement.SINUSOIDAL);
+        movingEntity.setMoving(true);
+        movingEntity.setOrientation(0);
+        movingEntity.setVelocity(10);
+        movingEntity.sinusAmplitude = 2;
+        movingEntity.sinusAngleStep = 2*Math.PI / 4;
+
+        movingEntity.update();
+        assertEquals(20, movingEntity.getPosition().getArg1(), 0.01);
+        assertEquals(12, movingEntity.getPosition().getArg2(), 0.01);
+
+        movingEntity.update();
+        assertEquals(30, movingEntity.getPosition().getArg1(), 0.01);
+        assertEquals(10, movingEntity.getPosition().getArg2(), 0.01);
+
+        movingEntity.update();
+        assertEquals(40, movingEntity.getPosition().getArg1(), 0.01);
+        assertEquals(8, movingEntity.getPosition().getArg2(), 0.01);
+
+        movingEntity.update();
+        assertEquals(50, movingEntity.getPosition().getArg1(), 0.01);
+        assertEquals(10, movingEntity.getPosition().getArg2(), 0.01);
+    }
+
+    @Test
     public void secondConstructorWorks() {
         Boundable boundable = new UnboundedArea();
         MovingEntity movingEntity = new MovingEntity(boundable);
@@ -60,9 +93,6 @@ public class ArtificialIntelligenceTest {
         movingEntity.setMovement(Movement.SMOOTH);
         movingEntity.update();
         assertEquals(null, movingEntity.getPosition());
-        movingEntity.setMovement(Movement.SINUSOIDAL);
-        movingEntity.update();
-        assertEquals(null, movingEntity.getPosition());
         movingEntity.setMovement(Movement.CIRCULAR);
         movingEntity.update();
         assertEquals(null, movingEntity.getPosition());
@@ -78,10 +108,6 @@ public class ArtificialIntelligenceTest {
         assertEquals(null, movingEntity.getPosition());
         assertEquals(1.0, movingEntity.getOrientation(), 0.01);
         movingEntity.setMovement(Movement.SMOOTH);
-        movingEntity.update();
-        assertEquals(null, movingEntity.getPosition());
-        assertEquals(1.0, movingEntity.getOrientation(), 0.01);
-        movingEntity.setMovement(Movement.SINUSOIDAL);
         movingEntity.update();
         assertEquals(null, movingEntity.getPosition());
         assertEquals(1.0, movingEntity.getOrientation(), 0.01);

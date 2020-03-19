@@ -10,6 +10,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private Movement movement;
     private boolean moving;
     private Boundable bounds;
+    private boolean forceMove;
 
     public MovingEntity(){
         position = new CartesianPoint(0,0);
@@ -19,6 +20,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         movement = Movement.LINEAR;
         moving = false;
         bounds = new UnboundedArea();
+        forceMove = false;
     }
 
     public MovingEntity(Boundable bounds){
@@ -70,28 +72,57 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         this.bounds = bounds;
     }
 
+    public void setForceMove(boolean forceMove) {
+        this.forceMove = forceMove;
+    }
+
     private Random rand = new Random();
 
-    public GenPoint move(){
-       switch (movement){
-           case LINEAR:
-               CartesianPoint cp = new PolarPoint(velocity, orientation).toCartesian();
-               CartesianPoint cp2 = position.toCartesian();
-               return new CartesianPoint(cp.arg1 + cp2.arg1, cp.arg2 + cp2.arg2);
-           case SINUSOIDAL:
-               break;
-           case CIRCULAR:
-               break;
-           case CURVED:
-               break;
-           case SMOOTH:
-               break;
-           case RANDOM:
-               break;
+    public double sinusAmplitude = 1;
+    public double sinusAngle;
+    public double sinusAngleStep = 2*Math.PI / 60;
+    private CartesianPoint sinusBasePosition;
+
+    public GenPoint move() {
+        CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;
+        CartesianPoint dirVector = new PolarPoint(velocity, orientation).toCartesian();
+
+        switch (movement) {
+            case LINEAR:
+                return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
+            case SINUSOIDAL:
+                return sinusoidalMovement(dirVector);
+            case CIRCULAR:
+                break;
+            case CURVED:
+                break;
+            case SMOOTH:
+                break;
+            case RANDOM:
+                break;
        }
 
        return null;
    }
+
+    private CartesianPoint sinusoidalMovement(CartesianPoint dirVector) {
+        // Perpendicular vec(x,y) = vec(-y,x)
+        CartesianPoint pdirVector = new CartesianPoint(-dirVector.arg2, dirVector.arg1);
+        pdirVector.Normalize();
+
+        sinusAngle += sinusAngleStep;
+        double sine = Math.sin(sinusAngle);
+
+        if (sinusBasePosition == null) {
+            sinusBasePosition = position.toCartesian();
+        }
+
+        sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
+
+        CartesianPoint sinusMove = new CartesianPoint((float) (pdirVector.arg1 * sine * sinusAmplitude),
+                (float) (pdirVector.arg2 * sine * sinusAmplitude));
+        return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
+    }
 
     public void setMoving(boolean moving){
         this.moving = moving;
@@ -111,7 +142,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public void update() {
         if(moving) {
             GenPoint gp = move();
-            if (bounds.isInside(gp)){
+            if (bounds.isInside(gp) || forceMove) {
                position = gp;
             } else {
                 switchOnMouvement();
