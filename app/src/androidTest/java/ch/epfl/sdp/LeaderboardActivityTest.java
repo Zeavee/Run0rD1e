@@ -19,6 +19,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class LeaderboardActivityTest {
+    private static final int DELAY = 3000;
 
     @Rule
     public final ActivityTestRule<LeaderboardActivity> mActivityRule =
@@ -31,16 +32,16 @@ public class LeaderboardActivityTest {
         resultData.putExtra("resultData", "fancyData");
 
         mActivityRule.getActivity().userDataController = new MockUserDataController();
-        UserForFirebase user1 = new UserForFirebase("aaa", "email");
+        UserForFirebase user1 = new UserForFirebase("aaaaa", "email");
         user1.setHealthPoints(100);
 
-        UserForFirebase user2 = new UserForFirebase("bbb", "email");
+        UserForFirebase user2 = new UserForFirebase("bbbbb", "email");
         user1.setHealthPoints(90);
 
-        UserForFirebase user3 = new UserForFirebase("ccc", "email");
+        UserForFirebase user3 = new UserForFirebase("ccccc", "email");
         user1.setHealthPoints(80);
 
-        UserForFirebase user4 = new UserForFirebase("ddd", "email");
+        UserForFirebase user4 = new UserForFirebase("ddddd", "email");
         user1.setHealthPoints(70);
 
         mActivityRule.getActivity().userDataController.storeUser(user1);
@@ -56,8 +57,19 @@ public class LeaderboardActivityTest {
 
     @Test
     public void testRecyclerview() {
-        onView(withId(R.id.tv_username1)).check(matches(withText("aaa")));
-        onView(withId(R.id.tv_username2)).check(matches(withText("bbb")));
-        onView(withId(R.id.tv_username2)).check(matches(withText("ccc")));
+        sleep();
+        onView(withId(R.id.tv_username1)).check(matches(withText("aaaaaa")));
+        System.out.println(withId(R.id.tv_username1));
+        onView(withId(R.id.tv_username2)).check(matches(withText("bbbbbb")));
+        onView(withId(R.id.tv_username3)).check(matches(withText("cccccc")));
+    }
+
+
+    private static void sleep() {
+        try {
+            Thread.sleep(LeaderboardActivityTest.DELAY);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Cannot execute Thread.sleep()");
+        }
     }
 }
