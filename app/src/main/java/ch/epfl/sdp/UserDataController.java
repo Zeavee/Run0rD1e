@@ -1,10 +1,13 @@
 package ch.epfl.sdp;
 
-import java.util.Map;
+import android.app.Activity;
+
+import java.util.List;
 
 public interface UserDataController {
 
-    Map<String, Object> getUserData(String id);
+    void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases);
 
-    void setUserAttribute(String id, String attribute, Object value);
+    void storeUser(UserForFirebase userForFirebase);
+//    void storeUser(Player player);
 }

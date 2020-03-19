@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public AuthenticationController authenticationController;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
         game = new Game(null);
 
+        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+
         // Locate the button in activity_main.xml
         Button healthPointButton = findViewById(R.id.mainGoButton);
 
         // Capture button clicks
-        healthPointButton.setOnClickListener(view -> {
-                    Intent intent = new Intent(MainActivity.this, GameInfoActivity.class);
-                    startActivity(intent);
-        });
+        healthPointButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 
         Button mapButton = findViewById(R.id.mapButton);
         mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
@@ -48,10 +49,7 @@ public class MainActivity extends AppCompatActivity {
         Button leaderboardButton = findViewById(R.id.leaderboard);
 
         // Capture button clicks
-        leaderboardButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
-            startActivity(intent);
-        });
+        leaderboardButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
 
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
@@ -60,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public void logout(View view) {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
-
-        LoginFormActivity.authenticationController.signOut();
+        authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }

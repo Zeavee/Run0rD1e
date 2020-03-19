@@ -31,7 +31,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -78,10 +77,9 @@ public class RegisterTest {
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        store = new MockUserDataController();
 
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
-        mActivityRule.getActivity().userDataController = store;
+        store = new MockUserDataController();
+        mActivityRule.getActivity().authenticationController = new MockAuthentication(store);
     }
 
     @After
@@ -91,27 +89,31 @@ public class RegisterTest {
 
     @Test
     public void writingUsername_ShouldBeDisplayed(){
-        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText(containsString("Username"))));
+        closeSoftKeyboard();
+        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText("Username")));
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
-        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText(containsString("Email"))));
+        closeSoftKeyboard();
+        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
-        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText(containsString("password"))));
+        closeSoftKeyboard();
+        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
-        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText(containsString("password"))));
+        closeSoftKeyboard();
+        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields(){
-        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<ArrayList<Pair<ViewAction, Integer>>>();
+        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0 ; i < 4; ++i)
         {
             MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i*4), testCasesInt.get(i*4)),

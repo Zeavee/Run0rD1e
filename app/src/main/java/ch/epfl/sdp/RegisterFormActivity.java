@@ -1,21 +1,24 @@
 package ch.epfl.sdp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterFormActivity extends AppCompatActivity {
+    private final static String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
+    private static final int MINIMUM_PASSWORD_LENGTH = 8;
+
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
-    String userID;
-    static AuthenticationController authenticationController;
-    public UserDataController userDataController;
+
+    public AuthenticationController authenticationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +30,8 @@ public class RegisterFormActivity extends AppCompatActivity {
         txtPassword = findViewById(R.id.password);
         txtPasswordConf = findViewById(R.id.passwordconf);
         registerButton = findViewById(R.id.registerbutton);
-        userDataController = new FirestoneUserData();
 
-        final Context context = getApplicationContext();
-        final int duration = Toast.LENGTH_SHORT;
-
-        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(RegisterFormActivity.this);
-        authenticationController = LoginFormActivity.authenticationController;//new FirebaseAuthentication(authenticationOutcomeDisplayVisitor,userDataController,this);
+        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
     }
 
     public void registerBtn_OnClick(View view) {
@@ -42,18 +40,35 @@ public class RegisterFormActivity extends AppCompatActivity {
         String password = txtPassword.getText().toString().trim();
         String passwordConf = txtPasswordConf.getText().toString().trim();
 
-        switch (authenticationController.checkValidity(username, email, password, passwordConf))
-        {
-            case 1: txtEmail.setError("Email is incorrect"); return;
-            case 2: txtPassword.setError("Password is incorrect"); return;
-            case 3: txtUsername.setError("Username is incorrect"); break;
+        switch (checkValidity(email, password, passwordConf)) {
+            case 1:
+                txtEmail.setError("Email is incorrect");
+                return;
+            case 2:
+                txtPassword.setError("Password is incorrect");
+                return;
         }
 
-       authenticationController.register(email,username,password, passwordConf);
+        UserForFirebase userForFirebase = new UserForFirebase(username, email);
+        authenticationController.register(RegisterFormActivity.this, userForFirebase, email, password);
+//        Player player = new Player(22, 22, 22, username, email);
+//        authenticationController.register(RegisterFormActivity.this, player, email, password);
     }
 
     public void backBtn_OnClick(View view) {
-        startActivity(new Intent(this, LoginFormActivity.class));
+        startActivity(new Intent(RegisterFormActivity.this, LoginFormActivity.class));
         finish();
+    }
+
+    public int checkValidity(String email, String password, String passwordConf) {
+        Pattern pattern = Pattern.compile(REGEX);
+        Matcher matcher = pattern.matcher(email);
+        if ((!matcher.matches())) {
+            return 1;
+        }
+        if (password.length() < MINIMUM_PASSWORD_LENGTH || (!passwordConf.equals(password))) {
+            return 2;
+        }
+        return 0;
     }
 }

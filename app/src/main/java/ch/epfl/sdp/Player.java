@@ -2,10 +2,14 @@ package ch.epfl.sdp;
 
 import java.util.ArrayList;
 
-public class Player extends MovingEntity {
+import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
+import ch.epfl.sdp.artificial_intelligence.GenPoint;
+import ch.epfl.sdp.artificial_intelligence.Localizable;
 
+public class Player extends MovingEntity implements Localizable {
     private String username;
     private String email;
+    private GenPoint position;
     private int score;
     private double healthPoints;
     private double timeTraveled;
@@ -23,8 +27,8 @@ public class Player extends MovingEntity {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
+        this.position = new CartesianPoint((float) longitude, (float) latitude);
     }
-
 
     @Override
     public void updateLocation() {
@@ -49,6 +53,10 @@ public class Player extends MovingEntity {
 
     public double getHealthPoints() {
         return healthPoints;
+    }
+
+    public void setHealthPoints(double healthPoints) {
+        this.healthPoints = healthPoints;
     }
 
     public boolean isAlive() {
@@ -82,5 +90,10 @@ public class Player extends MovingEntity {
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    @Override
+    public GenPoint getPosition() {
+        return position;
     }
 }
