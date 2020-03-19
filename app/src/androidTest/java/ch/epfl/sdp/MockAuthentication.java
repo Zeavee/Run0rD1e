@@ -1,84 +1,53 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.widget.Toast;
+
 import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MockAuthentication implements AuthenticationController {
-    private HashMap<String, String> signedIn = new HashMap<String, String>();
-    private HashMap<String, String> signedOut = new HashMap<String, String>();
-    private String currentSignedInEmail;
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9\\.]{1,20}@.{1,20}$";
-    private static final String PASS_REGEX =  "^.{8,}$";
-
+    private HashMap<String, String> registeredUsers;
     private UserDataController store;
-    private AuthenticationOutcomeDisplayVisitor displayVisitor;
 
-    public MockAuthentication(AuthenticationOutcomeDisplayVisitor displayVisitor, UserDataController store)
+    public MockAuthentication(UserDataController store)
     {
-        // amro.abdrabo@gmail.com has previously registered
         this.store = store;
-        this.displayVisitor = displayVisitor;
-        signedOut.put("amro.abdrabo@gmail.com", "password");
+        this.registeredUsers = new HashMap<>();
     }
+
     @Override
-    public int signIn(String email, String password) {
-        if(!signedOut.containsKey(email)) {
-            displayVisitor.onFailedAuthentication();
-            return 1;
+    public void signIn(Activity loginFormActivity, String email, String password) {
+        if(!registeredUsers.containsKey(email)) {
+            Toast.makeText(loginFormActivity, "User not exist!", Toast.LENGTH_LONG).show();
         }
-
-        if(!signedOut.get(email).equals(password)) {
-            displayVisitor.onFailedAuthentication();
-            return 2;
+        else if(registeredUsers.get(email) != password) {
+            Toast.makeText(loginFormActivity, "Password not correct", Toast.LENGTH_LONG).show();
         }
-
-        signedOut.remove(email);
-        signedIn.put(email, password);
-        displayVisitor.onSuccessfulAuthentication();
-        currentSignedInEmail = email;
-        return 0;
-    }
-
-    @Override
-    public boolean isSignedIn(String email) {
-        return signedIn.containsKey(email);
-    }
-
-
-    @Override
-    public boolean register(String email, String username, String password, String passwordConf) {
-        if (signedIn.containsKey(email) || signedOut.containsKey(email)) {
-            return false;
+        else {
+            loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
+            loginFormActivity.finish();
         }
-        if (checkValidity(email,password, passwordConf) != 0)
-        {
-            return false;
+    }
+
+    @Override
+    public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
+        if(registeredUsers.containsKey(email)) {
+            Toast.makeText(registerFormActivity, "User already exist!", Toast.LENGTH_LONG).show();
+        } else {
+            registeredUsers.put(email, password);
+            store.storeUser(new UserForFirebase(email, password));
+            registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
+            registerFormActivity.finish();
         }
-        store.setUserAttribute(new UserForFirebase(username, email));
-        signedIn.put(email, password);
-        displayVisitor.onSuccessfulAuthentication();
-        currentSignedInEmail = email;
-        return true;
     }
 
     @Override
-    public boolean signOut() {
-        signedOut.put(currentSignedInEmail, signedIn.get(currentSignedInEmail));
-        signedIn.remove(currentSignedInEmail);
-        currentSignedInEmail = null;
-        return true;
+    public void signOut() {
     }
 
-    @Override
-    public int checkValidity(String email, String password, String passwordConf) {
-        Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
-        Pattern passwordPattern = Pattern.compile(PASS_REGEX);
-        Matcher emailMatch = emailPattern.matcher(email);
-        if (!emailMatch.matches()) return 1;
-        Matcher passMatch = passwordPattern.matcher(password);
-        if (!passMatch.matches() || !password.equals(passwordConf)) return 2;
-        return 0;
-    }
-
+//    @Override
+//    public boolean isSignedIn(String email) {
+//        return signedIn.containsKey(email);
+//    }
 }

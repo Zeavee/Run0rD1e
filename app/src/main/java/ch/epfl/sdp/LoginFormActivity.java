@@ -9,8 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lemail, lpassword;
-    static AuthenticationController authenticationController;
-    public UserDataController userDataController;
+
+    public AuthenticationController authenticationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,23 +20,20 @@ public class LoginFormActivity extends AppCompatActivity {
         lemail = findViewById(R.id.emaillog);
         lpassword = findViewById(R.id.passwordlog);
 
-        userDataController = new FirestoreUserData();
-        AuthenticationOutcomeDisplayVisitor authenticationOutcomeDisplayVisitor = new DefaultAuthenticationDisplay(LoginFormActivity.this);
-        authenticationController = new FirebaseAuthentication(authenticationOutcomeDisplayVisitor, userDataController,this);
+        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
     }
 
    public void createAccountBtn_OnClick(View view) {
-        startActivity(new Intent(this, RegisterFormActivity.class));
+        startActivity(new Intent(LoginFormActivity.this, RegisterFormActivity.class));
         finish();
     }
 
     public void loginBtn_OnClick(View view) {
         String email = lemail.getText().toString().trim();
         String password = lpassword.getText().toString().trim();
-        switch (authenticationController.signIn(email, password))
-        {
-            case 1: lemail.setError("Email is incorrect"); break;
-            case 2: lpassword.setError("Password is incorrect"); break;
-        }
+
+        if (email.isEmpty()) {lemail.setError("Email can't be empty"); return;}
+        if (password.isEmpty()) {lpassword.setError("Password can't be empty");return;}
+        authenticationController.signIn(LoginFormActivity.this, email, password);
     }
 }

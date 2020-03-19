@@ -4,21 +4,17 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.util.Pair;
-import android.view.View;
-import android.widget.Toast;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import com.google.firebase.firestore.auth.User;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +24,11 @@ import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -68,10 +66,9 @@ public class RegisterTest {
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        store = new MockUserDataController();
 
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(new DefaultAuthenticationDisplay(mActivityRule.getActivity()), store);
-        mActivityRule.getActivity().userDataController = store;
+        store = new MockUserDataController();
+        mActivityRule.getActivity().authenticationController = new MockAuthentication(store);
     }
 
     @After
@@ -82,26 +79,30 @@ public class RegisterTest {
     @Test
     public void writingUsername_ShouldBeDisplayed(){
         onView(withId(R.id.username)).perform(typeText("Username"));
+        onView(withId(R.id.username)).check(matches(withText("Username")));
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
         onView(withId(R.id.email)).perform(typeText("Email"));
+        onView(withId(R.id.email)).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
         onView(withId(R.id.password)).perform(typeText("password"));
+        onView(withId(R.id.password)).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
+        onView(withId(R.id.passwordconf)).check(matches(withText("password")));
     }
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields(){
-        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<ArrayList<Pair<ViewAction, Integer>>>();
+        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0 ; i < 4; ++i)
         {
             MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i*4), testCasesInt.get(i*4)),

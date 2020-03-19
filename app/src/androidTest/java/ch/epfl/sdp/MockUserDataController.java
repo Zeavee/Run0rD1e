@@ -1,20 +1,22 @@
 package ch.epfl.sdp;
 
-import java.util.TreeMap;
+import android.app.Activity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MockUserDataController implements UserDataController{
-    private TreeMap<String, UserForFirebase> userData = new TreeMap<>();
+    private List<UserForFirebase> userData = new ArrayList<>();
 
     @Override
-    public UserForFirebase getUserData(String username) {
-        if(!userData.containsKey(username)) {
-            return null;
-        }
-        return userData.get(username);
+    public void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases) {
+        mUserForFirebases = userData;
+        setupLeaderboard.setupLeaderboardView(activity, mUserForFirebases);
+        setupLeaderboard.setupChampions(activity, mUserForFirebases);
     }
 
     @Override
-    public void setUserAttribute(UserForFirebase userForFirebase) {
-        userData.put(userForFirebase.getUsername(), userForFirebase);
+    public void storeUser(UserForFirebase userForFirebase) {
+        userData.add(userForFirebase);
     }
 }

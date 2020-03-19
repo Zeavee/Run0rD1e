@@ -1,22 +1,30 @@
 package ch.epfl.sdp;
 
-import android.util.Log;
+import android.app.Activity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import static android.content.ContentValues.TAG;
+import java.util.List;
 
 public class FirestoreUserData implements UserDataController {
-    FirebaseFirestore fstore = FirebaseFirestore.getInstance();
     @Override
-    public UserForFirebase getUserData(String username) {
-        return (UserForFirebase) fstore.collection("Users").document(username).get().getResult().getData();
+    public void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases) {
+        FirebaseFirestore.getInstance().collection("Users")
+                .orderBy("healthPoints", Query.Direction.DESCENDING)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        UserForFirebase userForFirebase = documentSnapshot.toObject(UserForFirebase.class);
+                        if(!mUserForFirebases.contains(userForFirebase)) mUserForFirebases.add(userForFirebase);
+                    }
+                    setupLeaderboard.setupLeaderboardView(activity, mUserForFirebases);
+                    setupLeaderboard.setupChampions(activity, mUserForFirebases);
+                });
     }
 
     @Override
-    public void setUserAttribute(UserForFirebase userForFirebase) {
-        fstore.collection("Users").document(userForFirebase.getUsername()).set(userForFirebase)
-                .addOnSuccessListener(aVoid -> Log.d(TAG, "onSuccess: success saved"))
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: failed"));
+    public void storeUser(UserForFirebase userForFirebase) {
+        FirebaseFirestore.getInstance().collection("Users").document(userForFirebase.getEmail()).set(userForFirebase);
     }
 }

@@ -1,5 +1,7 @@
 package ch.epfl.sdp;
 
+import java.util.Objects;
+
 public class UserForFirebase {
     private String username;
     private String email;
@@ -38,4 +40,18 @@ public class UserForFirebase {
     public void setHealthPoints(double healthPoints) {
         this.healthPoints = healthPoints;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserForFirebase that = (UserForFirebase) o;
+        return Objects.equals(email, that.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
 }

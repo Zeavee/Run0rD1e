@@ -1,8 +1,12 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
+
+import java.util.List;
+
 public interface UserDataController {
 
-    UserForFirebase getUserData(String username);
+    void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases);
 
-    void setUserAttribute(UserForFirebase userForFirebase);
+    void storeUser(UserForFirebase userForFirebase);
 }
