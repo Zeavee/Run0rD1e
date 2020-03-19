@@ -6,7 +6,6 @@ import org.mockito.Mockito;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.game.GameThread;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -80,7 +79,8 @@ public class GameTest {
         MapApi mockMapApi = mock(MapApi.class);
 
         // act
-        Game game = new Game(mockMapApi);
+        Game game = new Game(null);
+        game.setMapApi(mockMapApi);
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
         game.draw();
@@ -131,22 +131,18 @@ public class GameTest {
     }
 
     @Test
-    public void fakeTest()
+    public void gameThread_runs()
     {
-        Game mockGame = mock(Game.class);
-        GameThread thread = new GameThread(mockGame);
-        thread.setRunning(true);
-        thread.start();
+        Game game = new Game(null);
+        game.initGame();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        thread.setRunning(false);
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        game.destroyGame();
+
+        // assert
+        Assert.assertFalse(game.gameThread.isRunning());
     }
 }

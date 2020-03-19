@@ -10,7 +10,7 @@ import ch.epfl.sdp.artificial_intelligence.Updatable;
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable, Drawable {
-    private GameThread gameThread;
+    public GameThread gameThread;
     private MapApi map;
     private ArrayList<Updatable> updatables;
     private ArrayList<Displayable> displayables;
