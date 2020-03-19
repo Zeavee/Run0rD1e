@@ -23,6 +23,7 @@ import java.util.List;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -79,23 +80,23 @@ public class RegisterTest {
 
     @Test
     public void writingUsername_ShouldBeDisplayed(){
-        onView(withId(R.id.username)).perform(typeText("Username")).check(matches(withText("Username")));
+        onView(withId(R.id.username)).perform(scrollTo()).perform(typeText("Username")).check(matches(withText("Username")));
 
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
-        onView(withId(R.id.email)).perform(typeText("Email")).check(matches(withText("Email")));
+        onView(withId(R.id.email)).perform(scrollTo()).perform(typeText("Email")).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed(){
-        onView(withId(R.id.password)).perform(typeText("password")).check(matches(withText("password")));
+        onView(withId(R.id.password)).perform(scrollTo()).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
-        onView(withId(R.id.passwordconf)).perform(typeText("password")).check(matches(withText("password")));
+        onView(withId(R.id.passwordconf)).perform(scrollTo()).perform(typeText("password")).check(matches(withText("password")));
     }
 
     @Test
