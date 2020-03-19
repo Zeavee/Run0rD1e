@@ -61,9 +61,9 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
 //        ImageView image;
-        TextView name;
-        TextView amount;
-        Button button;
+        private  TextView name;
+        private TextView amount;
+        private Button button;
         public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
 //            image = itemView.findViewById(R.id.image_view);
