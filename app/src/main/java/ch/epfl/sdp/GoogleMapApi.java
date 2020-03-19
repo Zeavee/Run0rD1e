@@ -119,6 +119,9 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     synchronized public void displayEntity(Displayable displayable) {
+        if (displayable == null) {
+            return;
+        }
         if (enemiesCircles.containsKey(displayable)) {
             enemiesCircles.get(displayable).marker.remove();
             enemiesCircles.get(displayable).aoe.remove();

@@ -13,12 +13,12 @@ public abstract class EnemyGenerator {
     protected List<Enemy> enemies;
 
 
-    abstract void setMinDistanceFromPlayer();
-    abstract void generateEnemy(GenPoint point);
-    abstract void setEnemyCreationTime(float time);
-    abstract void setMaxEnemiesPerUnitArea(int enemyCount);
-    abstract void getEnemyIntersectionWithPlayer();
-    List<Enemy> getEnemies()
+    public abstract void generateRandom(GeoPoint playerLocation);
+    public abstract void setMinDistanceFromPlayer(double distance);
+    public abstract void generateEnemy(GeoPoint point, double aoeRadius);
+    public abstract void setEnemyCreationTime(float time);
+    public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
+    public List<Enemy> getEnemies()
     {
         return enemies;
     }
