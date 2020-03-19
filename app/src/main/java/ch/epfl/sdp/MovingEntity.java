@@ -16,7 +16,7 @@ public abstract class MovingEntity implements Displayable {
     }
 
     public abstract void updateLocation();
-    public abstract void updateAoeRadius();
+    //public abstract void updateAoeRadius();
 
     public GeoPoint getLocation() {
         return this.location;

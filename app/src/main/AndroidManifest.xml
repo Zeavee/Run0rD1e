@@ -29,6 +29,7 @@
         <activity android:name=".GameInfoActivity" />
         <activity android:name=".LeaderboardActivity" />
         <activity android:name=".RuleActivity" />
+        <activity android:name=".InventoryActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

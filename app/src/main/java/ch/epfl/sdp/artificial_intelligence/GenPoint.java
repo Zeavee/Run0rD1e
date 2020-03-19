@@ -9,14 +9,15 @@ public abstract class GenPoint {
         this.arg2 = arg2;
     }
 
-    public abstract CartesianPoint toCartesian();
-    public abstract PolarPoint toPolar();
-
     public float getArg1() {
         return arg1;
     }
-
     public float getArg2() {
         return arg2;
     }
+
+    public abstract CartesianPoint toCartesian();
+    public abstract PolarPoint toPolar();
+
+
 }
