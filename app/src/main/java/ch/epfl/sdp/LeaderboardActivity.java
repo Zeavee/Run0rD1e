@@ -23,13 +23,12 @@ public class LeaderboardActivity extends AppCompatActivity {
         SetupLeaderboard setupLeaderboard = new SetupLeaderboard();
 
         // initialize leaderboard
-        setupLeaderboard.setupLeaderboardView(LeaderboardActivity.this, mUserForFirebases);
         UserForFirebase user1 = new UserForFirebase("", "");
         UserForFirebase user2 = new UserForFirebase("", "");
         UserForFirebase user3 = new UserForFirebase("", "");
 
         List<UserForFirebase> mUsersInit = new ArrayList<>(Arrays.asList(user1, user2, user3));
-
+        setupLeaderboard.setupLeaderboardView(LeaderboardActivity.this, mUsersInit);
         setupLeaderboard.setupChampions(LeaderboardActivity.this, mUsersInit);
 
         userDataController.loadUsersForLeaderboard(LeaderboardActivity.this, new SetupLeaderboard(), mUserForFirebases);
