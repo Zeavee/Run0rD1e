@@ -14,6 +14,7 @@ public class ItemsTest {
     private static Shrinker shrinker = new Shrinker(A, true, 40, 10);
     private static Scan scan = new Scan(A, false, 40);
 
+
     @Test
     public void healthpackTest() {
         assertFalse(healthpack.isTaken());
@@ -24,7 +25,13 @@ public class ItemsTest {
     public void shieldTest() {
         assertFalse(shield.isTaken());
         assertEquals(40, shield.getShieldTime(), 0);
+    }
 
+    @Test
+    public void shrinkerTest() {
+        assertTrue(shrinker.isTaken());
+        assertEquals(40, shrinker.getShrinkTime(), 0);
+        assertEquals(10, shrinker.getShrinkingRadius(), 0);
     }
 
 }

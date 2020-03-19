@@ -8,9 +8,4 @@ public class Scan extends Item {
         super(location, "Scan", isTaken, "Item that scans the entire map and reveals other players for a short delay");
         this.scanTime = scanTime;
     }
-
-    public void showPlayersLocation(ArrayList<Player> allPlayers, MapApi map) {
-        //TODO
-    }
-
 }

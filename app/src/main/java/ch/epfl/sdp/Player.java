@@ -97,14 +97,12 @@ public class Player extends MovingEntity {
     }
 
     public void useItem(Item i) {
-        int n = itemInventory.get(i.getName());
-        if(n > 0) {
+        String name = i.getName();
+        int numberOfInstances = itemInventory.get(name);
+        if(numberOfInstances > 0) {
             switch(i.getName()) {
                 case "Healthpack":
-                    this.healthPoints = this.healthPoints + ((Healthpack) i).getHealthPackAmount();
-                    if (this.healthPoints > MAX_HEALTH) {
-                        this.healthPoints = MAX_HEALTH;
-                    }
+                    ((Healthpack) i).increaseHealthPlayer(this, MAX_HEALTH);
                     break;
                 case "Shield":
                     isShielded = true;
@@ -135,7 +133,7 @@ public class Player extends MovingEntity {
                 default:
                     break;
             }
-            itemInventory.put(i.getName(), n-1);
+            itemInventory.put(i.getName(), numberOfInstances-1);
         }
     }
 
@@ -169,4 +167,5 @@ public class Player extends MovingEntity {
         }
         itemInventory.put(itemName, n);
     }
+
 }
