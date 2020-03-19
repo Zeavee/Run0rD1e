@@ -1,4 +1,4 @@
-/*package ch.epfl.sdp;
+package ch.epfl.sdp;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,9 +13,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class GameTest {
+
     @Test
-    public void update_ShouldUpdateAllUpdatables()
-    {
+    public void update_ShouldUpdateAllUpdatables() {
         // arrange
         Updatable upd1 = mock(Updatable.class);
         Updatable upd2 = mock(Updatable.class);
@@ -149,5 +149,4 @@ public class GameTest {
             e.printStackTrace();
         }
     }
-
-}*/
+}
