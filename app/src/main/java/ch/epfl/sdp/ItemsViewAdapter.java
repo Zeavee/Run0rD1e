@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static ch.epfl.sdp.R.id.amount;
+import static ch.epfl.sdp.R.id.title;
+import static ch.epfl.sdp.R.id.useitem;
+
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
     private Context mContext;
     private Player player;
@@ -61,15 +65,16 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
 //        ImageView image;
-        private  TextView name;
-        private TextView amount;
+        private TextView name;
+        private TextView amountOfItem;
         private Button button;
+
         public ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
 //            image = itemView.findViewById(R.id.image_view);
-            name = itemView.findViewById(R.id.title);
-            button = itemView.findViewById(R.id.useitem);
-            amount = itemView.findViewById(R.id.amount);
+            name = itemView.findViewById(title);
+            button = itemView.findViewById(useitem);
+            amountOfItem = itemView.findViewById(amount);
 
         }
     }
