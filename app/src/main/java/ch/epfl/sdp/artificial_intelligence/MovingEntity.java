@@ -78,18 +78,10 @@ public class MovingEntity implements Movable, Localizable, Updatable{
 
     private Random rand = new Random();
 
-    private double sinusAmplitude = 1;
-    private double sinusAngle;
-    private double sinusAngleStep = 2*Math.PI / 60;
+    public double sinusAmplitude = 1;
+    public double sinusAngle;
+    public double sinusAngleStep = 2*Math.PI / 60;
     private CartesianPoint sinusBasePosition;
-
-    public void setSinusAmplitude(double sinusAmplitude) {
-        this.sinusAmplitude = sinusAmplitude;
-    }
-
-    public void setSinusAngleStep(double sinusAngleStep) {
-        this.sinusAngleStep = sinusAngleStep;
-    }
 
     public GenPoint move() {
         CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;

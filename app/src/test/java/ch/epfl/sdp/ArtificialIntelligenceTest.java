@@ -54,8 +54,8 @@ public class ArtificialIntelligenceTest {
         movingEntity.setMoving(true);
         movingEntity.setOrientation(0);
         movingEntity.setVelocity(10);
-        movingEntity.setSinusAmplitude(2);
-        movingEntity.setSinusAngleStep(2*Math.PI / 4);
+        movingEntity.sinusAmplitude = 2;
+        movingEntity.sinusAngleStep = 2*Math.PI / 4;
 
         movingEntity.update();
         assertEquals(20, movingEntity.getPosition().getArg1(), 0.01);
