@@ -34,4 +34,14 @@ public class ItemsTest {
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
     }
 
+
+    @Test
+    public void increaseHealth() {
+        Player player1 = new Player(6.149290, 46.212470, 50,
+                "Skyris", "test@email.com"); //player position is in Geneva
+        player1.setHealthPoints(30);
+        healthpack.increaseHealthPlayer(player1, 100);
+        assertEquals(90, player1.getHealthPoints(), 0);
+    }
+
 }

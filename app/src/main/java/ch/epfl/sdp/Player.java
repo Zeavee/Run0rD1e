@@ -7,8 +7,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Player extends MovingEntity {
-
-    //Attributes
     private String username;
     private String email;
     private int score;
