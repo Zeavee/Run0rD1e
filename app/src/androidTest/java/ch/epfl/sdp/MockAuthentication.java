@@ -51,7 +51,7 @@ public class MockAuthentication implements AuthenticationController {
         if (signedIn.containsKey(email) || signedOut.containsKey(email)) {
             return false;
         }
-        if (checkValidity(email,password, passwordConf) != 0)
+        if (checkValidity(username, email, password, passwordConf) != 0)
         {
             return false;
         }
@@ -71,10 +71,11 @@ public class MockAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int checkValidity(String email, String password, String passwordConf) {
+    public int checkValidity(String username, String email, String password, String passwordConf) {
         Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
         Pattern passwordPattern = Pattern.compile(PASS_REGEX);
         Matcher emailMatch = emailPattern.matcher(email);
+        if (username.isEmpty()) return 3;
         if (!emailMatch.matches()) return 1;
         Matcher passMatch = passwordPattern.matcher(password);
         if (!passMatch.matches() || !password.equals(passwordConf)) return 2;

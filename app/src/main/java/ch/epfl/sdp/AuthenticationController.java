@@ -5,5 +5,5 @@ public interface AuthenticationController {
     boolean isSignedIn(String email);
     boolean register(String email, String username, String password, String passwordConf);
     boolean signOut();
-    int checkValidity(String email, String password, String passwordConf);
+    int checkValidity(String username, String id, String password, String passwordConf);
 }

@@ -16,6 +16,9 @@ public class MockUserDataController implements UserDataController{
 
     @Override
     public void setUserAttribute(String id, String attribute, Object value) {
+        if (!userData.containsKey(id)) {
+            userData.put(id, new TreeMap<>());
+        }
         getUserData(id).put(attribute, value);
     }
 }

@@ -1,16 +1,15 @@
 package ch.epfl.sdp;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 /*
  * This class is designed to use Firebase's email and password feature
@@ -40,17 +39,12 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public int signIn(String id, String password) {
-        int isValid = checkValidity(id, password, password);
+        int isValid = checkValidity("someUsername", id, password, password);
         if (isValid != 0)
         {
             return isValid;
         }
-        auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-            @Override
-            public void onSuccess(AuthResult authResult) {
-                displayVisitor.onSuccessfulAuthentication();
-            }
-        });
+        auth.signInWithEmailAndPassword(id, password).addOnSuccessListener(authResult -> displayVisitor.onSuccessfulAuthentication());
         return 0;
     }
 
@@ -61,7 +55,7 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public boolean register(final String id, final String username, String password, String passwordConf) {
-        if (checkValidity(id, password, passwordConf) != 0)
+        if (checkValidity(username, id, password, passwordConf) != 0)
         {
             return false;
         }
@@ -88,9 +82,12 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public int checkValidity(String id, String password, String passwordConf) {
+    public int checkValidity(String username, String id, String password, String passwordConf) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(id);
+        if (username.isEmpty()) {
+            return 3;
+        }
         if ((!matcher.matches()))
         {
             displayVisitor.onFailedAuthentication();
