@@ -18,6 +18,7 @@ public abstract class EnemyGenerator {
     abstract void setEnemyCreationTime(float time);
     abstract void setMaxEnemiesPerUnitArea(int enemyCount);
     abstract void getEnemyIntersectionWithPlayer();
+    abstract GenPoint rule();
     List<Enemy> getEnemies()
     {
         return enemies;
