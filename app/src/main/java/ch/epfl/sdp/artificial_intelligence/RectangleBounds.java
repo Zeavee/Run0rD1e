@@ -1,14 +1,30 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import ch.epfl.sdp.GeoPoint;
+
 public class RectangleBounds implements Boundable {
     private float height;
     private float width;
+    private GeoPoint lowerLeft;
 
-    public RectangleBounds(float height, float width){
+    public RectangleBounds(float height, float width, GeoPoint lowerLeft){
         this.height = height;
         this.width = width;
+        this.lowerLeft = lowerLeft;
     }
 
+    public float getHeight()
+    {
+        return height;
+    }
+    public float getWidth()
+    {
+        return width;
+    }
+    public GeoPoint getLowerLeftAnchor()
+    {
+        return lowerLeft;
+    }
     @Override
     public boolean isInside(GenPoint genPoint) {
         if (genPoint == null) {

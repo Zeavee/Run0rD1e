@@ -2,7 +2,6 @@ package ch.epfl.sdp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,20 +52,26 @@ public class MainActivity extends AppCompatActivity {
 
         Button rulesButton = findViewById(R.id.rulesButton);
         rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
-      
+  
         Button inventory = findViewById(R.id.inventory);
         // Capture button clicks
         inventory.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
             startActivity(intent);
         });
+
+        Button logoutButton = findViewById(R.id.logoutBt);
+        logoutButton.setOnClickListener(v -> logout());
     }
 
-    public void logout(View view) {
+    public void logout() {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
         authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
+
 }
+    
+

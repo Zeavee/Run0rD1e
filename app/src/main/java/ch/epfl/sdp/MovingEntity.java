@@ -1,6 +1,4 @@
 package ch.epfl.sdp;
-import static java.lang.Math.toRadians;
-
 /**
  * Abstract class representing a moving entity
  */
