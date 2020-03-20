@@ -6,7 +6,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private GenPoint position;
     private float velocity;
     private float acceleration;
-    private float orientation;
+    private double orientation;
     private Movement movement;
     private boolean moving;
     private Boundable bounds;
@@ -38,11 +38,11 @@ public class MovingEntity implements Movable, Localizable, Updatable{
         this.acceleration = acceleration;
     }
 
-    public float getOrientation() {
+    public double getOrientation() {
         return orientation;
     }
 
-    public void setOrientation(float orientation) {
+    public void setOrientation(double orientation) {
         this.orientation = orientation;
     }
 

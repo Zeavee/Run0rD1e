@@ -1,13 +1,13 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 public class PolarPoint extends GenPoint{
-    public PolarPoint(float r, float theta) {
+    public PolarPoint(double r, double theta) {
         super(r, theta);
     }
 
     @Override
     public CartesianPoint toCartesian() {
-        return new CartesianPoint(Double.valueOf(arg1*Math.cos(arg2)).floatValue(),Double.valueOf(arg1*Math.sin(arg2)).floatValue());
+        return new CartesianPoint(arg1 * Math.cos(arg2), arg1 * Math.sin(arg2));
     }
 
     @Override
