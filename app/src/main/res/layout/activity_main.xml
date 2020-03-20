@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard" />
+        app:layout_constraintTop_toBottomOf="@+id/inventory" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline9"
@@ -90,11 +90,11 @@
 
     <Button
         android:id="@+id/inventory"
-        android:layout_width="0dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="28dp"
         android:text="Inventory"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mapButton"
-        app:layout_constraintStart_toEndOf="@+id/rulesButton" />
+        app:layout_constraintStart_toEndOf="@+id/rulesButton"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard" />
 </androidx.constraintlayout.widget.ConstraintLayout>
