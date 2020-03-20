@@ -24,8 +24,8 @@ public class BehaviourTest {
         player = new Player(0, 0, 0, "", "");
         List<Player> players = new ArrayList<>();
         players.add(player);
-        RectangleBounds patrolBounds = new RectangleBounds(10, 10);
-        RectangleBounds maxBounds = new RectangleBounds(100, 100);
+        RectangleBounds patrolBounds = new RectangleBounds(10, 10, null);
+        RectangleBounds maxBounds = new RectangleBounds(100, 100, null);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
         CartesianPoint patrolCenter = new CartesianPoint(10, 10);
         LocalBounds localBounds = new LocalBounds(null, null);

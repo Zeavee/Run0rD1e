@@ -98,7 +98,7 @@ public class ArtificialIntelligenceTest {
         assertEquals(null, movingEntity.getPosition());
 
         movingEntity.setOrientation(1);
-        movingEntity.setBounds(new RectangleBounds(5, 10));
+        movingEntity.setBounds(new RectangleBounds(5, 10, null));
         movingEntity.setMovement(Movement.RANDOM);
         movingEntity.update();
         assertEquals(null, movingEntity.getPosition());
@@ -129,7 +129,7 @@ public class ArtificialIntelligenceTest {
 
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
-        Boundable rectangleBounds = new RectangleBounds(50, 50);
+        Boundable rectangleBounds = new RectangleBounds(50, 50, null);
         MovingEntity movingEntity = new MovingEntity(rectangleBounds);
         movingEntity.setMoving(true);
         movingEntity.setMovement(Movement.LINEAR);
