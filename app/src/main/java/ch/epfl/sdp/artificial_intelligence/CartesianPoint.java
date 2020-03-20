@@ -1,7 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 public class CartesianPoint extends GenPoint{
-    public CartesianPoint(float x, float y) {
+    public CartesianPoint(double x, double y) {
         super(x, y);
     }
 
@@ -17,9 +17,9 @@ public class CartesianPoint extends GenPoint{
      * @param gp The point we want to know the distance from
      * @return the distance from that point
      */
-    public float distanceFrom(GenPoint gp) {
+    public double distanceFrom(GenPoint gp) {
         CartesianPoint cp = gp.toCartesian();
-        return (float) Math.sqrt((cp.arg1 - this.arg1) * (cp.arg1 - this.arg1) + (cp.arg2 - this.arg2) * (cp.arg2 - this.arg2));
+        return Math.sqrt((cp.arg1 - this.arg1) * (cp.arg1 - this.arg1) + (cp.arg2 - this.arg2) * (cp.arg2 - this.arg2));
     }
 
     public CartesianPoint vector(GenPoint to) {
