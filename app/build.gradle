@@ -62,7 +62,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // GeoConverter
-    implementation 'com.github.Jotschi:geoconvert:1ff034710f9387464399e6e7197f78e5d0d591d3'
+    implementation 'com.github.xni06:JCoord:master-SNAPSHOT'
 }
 
 tasks.withType(Test) {

@@ -47,7 +47,7 @@ public class EnemyGeneratorTest {
             enemyGenerator.generateEnemy(100);
         }
         for (Enemy enemy: enemyGenerator.getEnemies()) {
-            assertEquals(true, enemy.location.distanceTo(player.location) > 1000);
+            assertEquals(true, enemy.getLocation().distanceTo(player.getLocation()) > 1000);
         }
     }
 
