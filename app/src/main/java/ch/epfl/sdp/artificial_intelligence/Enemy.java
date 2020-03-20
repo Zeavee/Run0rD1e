@@ -2,7 +2,7 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.List;
 
-import ch.epfl.sdp.Player;
+import ch.epfl.sdp.entity.Player;
 
 public class Enemy extends MovingEntity {
     private Behaviour behaviour;

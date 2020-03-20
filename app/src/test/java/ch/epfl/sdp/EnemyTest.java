@@ -2,6 +2,10 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.map.Displayable;
+
 import static org.junit.Assert.assertEquals;
 
 public class EnemyTest {

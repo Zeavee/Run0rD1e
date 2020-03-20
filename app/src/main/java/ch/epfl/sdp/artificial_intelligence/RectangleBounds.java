@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import ch.epfl.sdp.GeoPoint;
+import ch.epfl.sdp.map.GeoPoint;
 
 public class RectangleBounds implements Boundable {
     private float height;

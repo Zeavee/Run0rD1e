@@ -6,10 +6,16 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.database.AuthenticationController;
-import ch.epfl.sdp.database.FirebaseAuthentication;
+import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.logic.GameInfoActivity;
+import ch.epfl.sdp.logic.RuleActivity;
+import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.FirebaseAuthentication;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.InventoryActivity;
+import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;

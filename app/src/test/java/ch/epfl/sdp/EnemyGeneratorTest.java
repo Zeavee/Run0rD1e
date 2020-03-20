@@ -5,6 +5,9 @@ import org.junit.Test;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.map.GeoPoint;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;

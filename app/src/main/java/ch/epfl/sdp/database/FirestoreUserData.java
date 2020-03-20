@@ -8,9 +8,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
 
-import ch.epfl.sdp.SetupLeaderboard;
-import ch.epfl.sdp.UserDataController;
-import ch.epfl.sdp.UserForFirebase;
+import ch.epfl.sdp.leaderboard.SetupLeaderboard;
 
 public class FirestoreUserData implements UserDataController {
     @Override
