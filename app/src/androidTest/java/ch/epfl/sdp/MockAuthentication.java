@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
+import ch.epfl.sdp.database.AuthenticationController;
+
 public class MockAuthentication implements AuthenticationController {
     private HashMap<String, String> registeredUsers;
     private UserDataController store;

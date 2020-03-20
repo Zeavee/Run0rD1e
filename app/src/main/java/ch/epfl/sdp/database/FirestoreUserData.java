@@ -1,4 +1,4 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.database;
 
 import android.app.Activity;
 
@@ -7,6 +7,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
+
+import ch.epfl.sdp.SetupLeaderboard;
+import ch.epfl.sdp.UserDataController;
+import ch.epfl.sdp.UserForFirebase;
 
 public class FirestoreUserData implements UserDataController {
     @Override

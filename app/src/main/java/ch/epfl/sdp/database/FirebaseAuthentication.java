@@ -1,10 +1,14 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.database;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.UserDataController;
+import ch.epfl.sdp.UserForFirebase;
 
 /*
  * This class is designed to use Firebase's email and password feature

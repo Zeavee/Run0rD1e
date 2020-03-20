@@ -1,6 +1,8 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.database;
 
 import android.app.Activity;
+
+import ch.epfl.sdp.UserForFirebase;
 
 public interface AuthenticationController {
     void signIn(Activity activity, String email, String password);

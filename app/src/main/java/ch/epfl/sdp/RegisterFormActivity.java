@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ch.epfl.sdp.database.AuthenticationController;
+import ch.epfl.sdp.database.FirebaseAuthentication;
+import ch.epfl.sdp.database.FirestoreUserData;
+
 public class RegisterFormActivity extends AppCompatActivity {
     private final static String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
     private static final int MINIMUM_PASSWORD_LENGTH = 8;

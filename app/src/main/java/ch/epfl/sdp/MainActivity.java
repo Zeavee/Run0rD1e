@@ -6,6 +6,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.database.AuthenticationController;
+import ch.epfl.sdp.database.FirebaseAuthentication;
+import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.game.Game;
 
 public class MainActivity extends AppCompatActivity {

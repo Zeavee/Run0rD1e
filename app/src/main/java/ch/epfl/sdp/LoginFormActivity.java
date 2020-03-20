@@ -7,6 +7,10 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.database.AuthenticationController;
+import ch.epfl.sdp.database.FirebaseAuthentication;
+import ch.epfl.sdp.database.FirestoreUserData;
+
 public class LoginFormActivity extends AppCompatActivity {
     public AuthenticationController authenticationController;
     private EditText lemail, lpassword;
