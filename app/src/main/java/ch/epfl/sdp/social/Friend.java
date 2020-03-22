@@ -13,9 +13,17 @@ public class Friend extends UserForFirebase {
     {
         this.wrappedUser = usr;
     }
+    public String getName()
+    {
+        return wrappedUser.getUsername() + ": " + wrappedUser.getEmail();
+    }
     public int getFriendCount()
     {
         return friends.size();
+    }
+    public boolean isFriendsWith(Friend usr)
+    {
+        return usr.friends.contains(this) && this.friends.contains(usr);
     }
     public void addFriend(Friend usr)
     {
