@@ -2,8 +2,8 @@ package ch.epfl.sdp.game;
 
 import java.util.ArrayList;
 
-import ch.epfl.sdp.Displayable;
-import ch.epfl.sdp.MapApi;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 
 /**

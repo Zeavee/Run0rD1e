@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-import ch.epfl.sdp.Enemy;
-import ch.epfl.sdp.GeoPoint;
-import ch.epfl.sdp.Player;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.Player;
 
 public abstract class EnemyGenerator {
 

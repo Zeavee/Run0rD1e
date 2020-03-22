@@ -5,13 +5,27 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.dummy.DummyContent;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.InventoryActivity;
+import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.logic.GameInfoActivity;
+import ch.epfl.sdp.logic.RuleActivity;
+import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.FirebaseAuthentication;
+import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.map.MapsActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FriendsFragment.OnListFragmentInteractionListener {
     private static Game game;
+    private boolean isFriendsListVisible = false;
+    private FragmentTransaction transaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
+    private FriendsFragment fragment;
 
-    // Lauches the game loop in another thread, must be destroyed at the end
+    // Launches the game loop in another thread, must be destroyed at the end
     public static void startGame() {
         if (game != null && !game.isThreadGameTerminated()) {
             game.initGame();
@@ -62,6 +76,18 @@ public class MainActivity extends AppCompatActivity {
 
         Button logoutButton = findViewById(R.id.logoutBt);
         logoutButton.setOnClickListener(v -> logout());
+
+        Button friendButton = findViewById(R.id.friendsButton);
+        friendButton.setOnClickListener(v -> {
+            if (!isFriendsListVisible) {
+                fragment = FriendsFragment.newInstance(1);
+                transaction.replace(R.id.container, fragment).commit();
+                isFriendsListVisible = true;
+            } else {
+                fragment.closeFrag();
+                isFriendsListVisible = false;
+            }
+        });
     }
 
     public void logout() {
@@ -72,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+
+    }
 }
     
 

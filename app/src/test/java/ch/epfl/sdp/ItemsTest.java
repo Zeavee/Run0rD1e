@@ -2,8 +2,13 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.map.GeoPoint;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

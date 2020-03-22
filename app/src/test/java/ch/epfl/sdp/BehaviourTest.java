@@ -11,6 +11,7 @@ import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.entity.Player;
 
 import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;

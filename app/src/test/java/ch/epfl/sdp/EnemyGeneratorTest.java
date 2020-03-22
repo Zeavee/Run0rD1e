@@ -6,6 +6,9 @@ import org.junit.Test;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.social.Friend;
 
 import static junit.framework.TestCase.assertEquals;
@@ -46,7 +49,7 @@ public class EnemyGeneratorTest {
             enemyGenerator.generateEnemy(100);
         }
         for (Enemy enemy: enemyGenerator.getEnemies()) {
-            assertEquals(true, enemy.location.distanceTo(player.location) > 1000);
+            assertEquals(true, enemy.getLocation().distanceTo(player.getLocation()) > 1000);
         }
     }
 

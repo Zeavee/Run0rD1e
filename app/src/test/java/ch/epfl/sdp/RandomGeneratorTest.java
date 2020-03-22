@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.logic.RandomGenerator;
+
 public class RandomGeneratorTest {
     private static RandomGenerator randGen = new RandomGenerator();
 

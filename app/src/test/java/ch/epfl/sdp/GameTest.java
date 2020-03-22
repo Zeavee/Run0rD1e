@@ -6,6 +6,8 @@ import org.mockito.Mockito;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

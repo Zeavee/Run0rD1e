@@ -2,6 +2,8 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.database.UserForFirebase;
+
 import static org.junit.Assert.assertEquals;
 
 public class UserForFirebaseTest {
