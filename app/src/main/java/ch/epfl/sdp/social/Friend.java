@@ -28,12 +28,12 @@ public class Friend extends UserForFirebase {
     public void addFriend(Friend usr)
     {
         friends.add(usr);
-        usr.addFriend(this);
+        usr.friends.add(this);
     }
     public void unFriend(Friend usr)
     {
         friends.remove(usr);
-        usr.unFriend(this);
+        usr.friends.remove(this);
     }
     public List<Friend> getFriends() {
         List<Friend> friends = new ArrayList<>();
