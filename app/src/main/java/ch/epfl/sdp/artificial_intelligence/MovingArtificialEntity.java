@@ -1,8 +1,14 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import android.graphics.Point;
+
 import java.util.Random;
 
-public class MovingEntity implements Movable, Localizable, Updatable{
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.MovingEntity;
+import ch.epfl.sdp.map.GeoPoint;
+
+public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
     private float velocity;
     private float acceleration;
@@ -13,7 +19,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public double sinusAmplitude = 1;
     public double sinusAngle;
 
-    public MovingEntity(Boundable bounds){
+    public MovingArtificialEntity(Boundable bounds){
         this();
         this.bounds = bounds;
     }
@@ -68,7 +74,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private boolean forceMove;
     private CartesianPoint sinusBasePosition;
 
-    public MovingEntity() {
+    public MovingArtificialEntity() {
         position = new CartesianPoint(0, 0);
         acceleration = 0;
         velocity = 0;
@@ -153,7 +159,7 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private void switchOnMouvement() {
         switch (movement) {
             case LINEAR:
-                orientation = rand.nextFloat()*2*(float)(Math.PI);
+                orientation = rand.nextFloat() * 2 * (float) (Math.PI);
                 break;
             case SINUSOIDAL:
                 break;
@@ -166,5 +172,10 @@ public class MovingEntity implements Movable, Localizable, Updatable{
             case RANDOM:
                 break;
         }
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return null;
     }
 }

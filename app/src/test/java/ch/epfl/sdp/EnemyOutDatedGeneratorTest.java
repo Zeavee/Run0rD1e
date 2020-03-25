@@ -5,14 +5,14 @@ import org.junit.Test;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
-import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.map.GeoPoint;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class EnemyGeneratorTest {
+public class EnemyOutDatedGeneratorTest {
     @Test
     public void generateEnemyWorks() {
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(10000, 10000, new GeoPoint(44.999, 44.999)),
@@ -46,8 +46,8 @@ public class EnemyGeneratorTest {
         for (int i = 0; i<10; ++i) {
             enemyGenerator.generateEnemy(100);
         }
-        for (Enemy enemy: enemyGenerator.getEnemies()) {
-            assertEquals(true, enemy.getLocation().distanceTo(player.getLocation()) > 1000);
+        for (EnemyOutDated enemyOutDated : enemyGenerator.getEnemies()) {
+            assertEquals(true, enemyOutDated.getLocation().distanceTo(player.getLocation()) > 1000);
         }
     }
 

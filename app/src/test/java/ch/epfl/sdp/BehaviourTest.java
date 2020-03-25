@@ -32,7 +32,7 @@ public class BehaviourTest {
         LocalBounds localBounds = new LocalBounds(null, null);
         localBounds.setBounds(patrolBounds);
         localBounds.setPosition(patrolCenter);
-        enemy = new Enemy(players, 10, 1, 50, localBounds, maxBounds);
+        enemy = new Enemy(players, 10, 1, 50, 20,  localBounds, maxBounds);
         enemy.setVelocity(1);
     }
 

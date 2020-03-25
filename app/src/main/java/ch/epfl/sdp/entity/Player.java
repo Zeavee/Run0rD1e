@@ -13,6 +13,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.map.GeoPoint;
 
 public class Player extends MovingEntity implements Localizable {
     private String username;
@@ -33,7 +34,8 @@ public class Player extends MovingEntity implements Localizable {
 
 
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
-        super(longitude, latitude, aoeRadius);
+        GeoPoint g = new GeoPoint(longitude, latitude);
+        this.setLocation(g);
         this.username = username;
         this.email = email;
         this.score = 0;
@@ -45,15 +47,12 @@ public class Player extends MovingEntity implements Localizable {
         this.isPhantom = false;
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
+        this.setAoeRadius(aoeRadius);
     }
 
-    @Override
-    public void updateLocation() {
-        //TODO
-    }
 
-    public void updateHealth(ArrayList<Enemy> enemies) {
-        for (Enemy e : enemies) {
+    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
+        for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
                 this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
