@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+import ch.epfl.sdp.game.DatabaseHelper;
 
 public class LoginFormActivity extends AppCompatActivity {
     public AuthenticationController authenticationController;
@@ -20,11 +21,16 @@ public class LoginFormActivity extends AppCompatActivity {
         lpassword = findViewById(R.id.passwordlog);
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+        DatabaseHelper.UserData loggedUser = new DatabaseHelper(this).getLoggedUser();
+        if(loggedUser != null)  {
+            MainActivity.startGame();
+            authenticationController.signIn(LoginFormActivity.this, loggedUser.email, loggedUser.password);
+        }
     }
 
    public void createAccountBtn_OnClick(View view) {
        startActivity(new Intent(LoginFormActivity.this, RegisterFormActivity.class));
-        finish();
+       finish();
     }
 
     public void loginBtn_OnClick(View view) {

@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import ch.epfl.sdp.game.DatabaseHelper;
 
 /*
  * This class is designed to use Firebase's email and password feature
@@ -30,6 +33,7 @@ public class FirebaseAuthentication implements AuthenticationController {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
+            new DatabaseHelper(loginFormActivity).saveLoggedUser(email, password);
         }).addOnFailureListener(e -> Toast.makeText(loginFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
@@ -47,6 +51,11 @@ public class FirebaseAuthentication implements AuthenticationController {
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
+    }
+
+    public FirebaseUser getCurrentUser()
+    {
+        return auth.getCurrentUser();
     }
 
     @Override

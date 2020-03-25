@@ -6,6 +6,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 
 public class MainActivity extends AppCompatActivity {
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
         authenticationController.signOut();
+        new DatabaseHelper(this).deleteAllUsers();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
