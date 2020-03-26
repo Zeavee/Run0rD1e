@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RuleActivity">
+    tools:context=".logic.RuleActivity">
 
     <TextView
         android:id="@+id/rule1"
@@ -76,7 +76,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="24dp"
-        android:text="4. If a player stands too close to an enemy, he loses health points."
+        android:text="4. If a player stands too close to an enemyOutDated, he loses health points."
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

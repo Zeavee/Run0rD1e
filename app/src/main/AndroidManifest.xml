@@ -19,17 +19,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".LoginFormActivity">
+        <activity android:name=".login.LoginFormActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GameInfoActivity" />
-        <activity android:name=".LeaderboardActivity" />
-        <activity android:name=".RuleActivity" />
-        <activity android:name=".InventoryActivity"></activity>
+        <activity android:name=".logic.GameInfoActivity" />
+        <activity android:name=".leaderboard.LeaderboardActivity" />
+        <activity android:name=".logic.RuleActivity" />
+        <activity android:name=".item.InventoryActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -43,9 +43,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MapsActivity"
+            android:name=".map.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name=".RegisterFormActivity" />
+        <activity android:name=".login.RegisterFormActivity" />
     </application>
 
 </manifest>

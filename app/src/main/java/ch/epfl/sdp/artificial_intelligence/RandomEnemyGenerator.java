@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 
-import ch.epfl.sdp.Enemy;
-import ch.epfl.sdp.GeoPoint;
-import ch.epfl.sdp.Player;
+import ch.epfl.sdp.entity.EnemyOutDated;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.Player;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
 
@@ -37,7 +37,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         if (enemyLocation == null) {
             return;
         }
-        enemies.add(new Enemy(enemyLocation.longitude(), enemyLocation.latitude(), radius));
+        enemies.add(new EnemyOutDated(enemyLocation.longitude(), enemyLocation.latitude(), radius));
     }
 
     @Override
