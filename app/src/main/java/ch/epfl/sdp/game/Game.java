@@ -2,9 +2,9 @@ package ch.epfl.sdp.game;
 
 import java.util.ArrayList;
 
-import ch.epfl.sdp.Displayable;
-import ch.epfl.sdp.MapApi;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * Main model of the game, it is used for state changes and animations.
@@ -12,8 +12,8 @@ import ch.epfl.sdp.artificial_intelligence.Updatable;
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
     private MapApi map;
-    private ArrayList<Updatable> updatables;
-    private ArrayList<Displayable> displayables;
+    private static ArrayList<Updatable> updatables;
+    private static ArrayList<Displayable> displayables;
 
     /**
      * Instantiates a new game (uses mapApi by default. So for tests you need to
@@ -27,39 +27,28 @@ public class Game implements Updatable, Drawable {
         gameThread = new GameThread(this);
     }
 
-    /**
-     * Launches the game
-     */
-    public void initGame() {
-        if (!gameThread.isRunning()) {
-            gameThread.setRunning(true);
-            gameThread.start();
+    public static void addToUpdateList(Updatable updatable) {
+        if (updatable != null) {
+            updatables.add(updatable);
         }
     }
 
-    /**
-     * Kill the game
-     */
-    public void destroyGame() {
-        if(!gameThread.isAlive())
-        {
-            return;
-        }
-
-        while (true) {
-            try {
-                gameThread.setRunning(false);
-                gameThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                break;
-            }
+    public static void removeFromUpdateList(Updatable updatable) {
+        if (updatable != null) {
+            updatables.remove(updatable);
         }
     }
 
-    public boolean isThreadGameTerminated() {
-        return gameThread.getState() == Thread.State.TERMINATED;
+    public static void addToDisplayList(Displayable displayable) {
+        if (displayable != null) {
+            displayables.add(displayable);
+        }
+    }
+
+    public static void removeFromDisplayList(Displayable displayable) {
+        if (displayable != null) {
+            displayables.remove(displayable);
+        }
     }
 
     public ArrayList<Updatable> getUpdatables() {
@@ -76,27 +65,27 @@ public class Game implements Updatable, Drawable {
         }
     }
 
-    public void addToUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.add(updatable);
+    /**
+     * Launches the game
+     */
+    public void initGame() {
+        if (gameThread.getState() == Thread.State.NEW) {
+            gameThread.setRunning(true);
+            gameThread.start();
         }
     }
 
-    public void removeFromUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.remove(updatable);
-        }
-    }
-
-    public void addToDisplayList(Displayable displayable) {
-        if (displayable != null) {
-            displayables.add(displayable);
-        }
-    }
-
-    public void removeFromDisplayList(Displayable displayable) {
-        if (displayable != null) {
-            displayables.remove(displayable);
+    /**
+     * Kill the game
+     */
+    public void destroyGame() {
+        while (gameThread.getState() != Thread.State.TERMINATED) {
+            try {
+                gameThread.setRunning(false);
+                gameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
