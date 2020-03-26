@@ -77,10 +77,5 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
             button = view.findViewById(R.id.chat_button);
             button.setOnClickListener(v -> myClickListener.onItemClick(getAdapterPosition(), v));
         }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }
