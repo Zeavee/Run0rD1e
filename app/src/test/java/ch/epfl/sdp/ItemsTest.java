@@ -47,6 +47,8 @@ public class ItemsTest {
     public void scanTest() {
         String a = scan.getDescription();
         assertEquals("Item that scans the entire map and reveals other players for a short delay", a);
+        Player player1 = new Player(6.149290, 46.212470, 50,
+                "Skyris", "test@email.com"); //player position is in Geneva
     }
 
 
