@@ -26,5 +26,4 @@ public class LeaderoardViewModel extends AndroidViewModel {
     }
 
     public void insert(LeaderboardEntity user) {sRepository.insert(user); }
-    public void insertAll(List<LeaderboardEntity> users ) {sRepository.insertAll(users);}
 }

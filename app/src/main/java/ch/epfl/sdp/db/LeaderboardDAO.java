@@ -20,9 +20,6 @@ public interface LeaderboardDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(LeaderboardEntity user);
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<LeaderboardEntity> users);
-
     @Query("DELETE FROM leaderboard_table")
     void deleteAll();
 }

@@ -41,10 +41,4 @@ public class DataRepository {
             mDatabase.LeaderboardDAO().insert(user);
         });
     }
-
-    void insertAll(List<LeaderboardEntity> users) {
-        mDatabase.databaseWriteExecutor.execute(() -> {
-            mDatabase.LeaderboardDAO().insertAll(users);
-        });
-    }
 }
