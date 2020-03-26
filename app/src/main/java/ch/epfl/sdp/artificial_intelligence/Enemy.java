@@ -4,6 +4,7 @@ import java.util.List;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
@@ -15,19 +16,33 @@ public class Enemy extends MovingArtificialEntity {
     private int timeAttack;
     private int timeWandering;
     private LocalBounds patrolBounds;
-    private Boundable maxBounds;
     private boolean waiting;
 
-    public Enemy(List<Player> players, int damage, float dps, float detectionDistance, double aoeRadius , LocalBounds patrolBounds, Boundable maxBounds) {
+    public Enemy() {
+        super(new RectangleBounds(50, 50, null));
+        super.setAoeRadius(1);
+        super.setVelocity(1);
+        super.setMoving(true);
+        this.damage = 1;
+        this.dps = 1;
+        this.detectionDistance = 1;
+        this.players = PlayerManager.getPlayers();
+        behaviour = Behaviour.PATROL;
+        timeAttack = 100; // Needs calibration
+        timeWandering = 100;
+        this.patrolBounds = new LocalBounds(new UnboundedArea(), getPosition());
+        this.waiting = false;
+    }
+
+    public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
-        this.players = players;
+        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
         timeAttack = 100; // Needs calibration
         timeWandering = 100;
         this.patrolBounds = patrolBounds;
-        this.maxBounds = maxBounds;
         this.waiting = false;
         if (aoeRadius < detectionDistance) {
             this.setAoeRadius(aoeRadius);
@@ -145,7 +160,6 @@ public class Enemy extends MovingArtificialEntity {
         }
 
         if (playerDetected(detectionDistance) != null) {
-            super.setBounds(maxBounds);
             super.setVelocity(super.getVelocity() * 2);
             super.setMoving(true);
             behaviour = Behaviour.CHASE;
@@ -160,7 +174,7 @@ public class Enemy extends MovingArtificialEntity {
 
     private Player playerDetected(double distance) {
         Player target = selectClosestPlayer();
-        if (target.getPosition().toCartesian().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
+        if (target != null && target.getPosition().toCartesian().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
             return target;
         } else {
             return null;

@@ -3,15 +3,13 @@ package ch.epfl.sdp;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;
@@ -23,8 +21,8 @@ public class BehaviourTest {
     @Before
     public void setup() {
         player = new Player(0, 0, 0, "", "");
-        List<Player> players = new ArrayList<>();
-        players.add(player);
+        PlayerManager playerManager = new PlayerManager();
+        PlayerManager.addPlayer(player);
         RectangleBounds patrolBounds = new RectangleBounds(10, 10, null);
         RectangleBounds maxBounds = new RectangleBounds(100, 100, null);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
@@ -32,7 +30,7 @@ public class BehaviourTest {
         LocalBounds localBounds = new LocalBounds(null, null);
         localBounds.setBounds(patrolBounds);
         localBounds.setPosition(patrolCenter);
-        enemy = new Enemy(players, 10, 1, 50, 20,  localBounds, maxBounds);
+        enemy = new Enemy(10, 1, 50, 20, localBounds, maxBounds);
         enemy.setVelocity(1);
     }
 

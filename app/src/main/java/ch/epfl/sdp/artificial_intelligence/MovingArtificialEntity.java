@@ -1,12 +1,9 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import android.graphics.Point;
-
 import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.MovingEntity;
-import ch.epfl.sdp.map.GeoPoint;
 
 public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
@@ -18,6 +15,18 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     private Boundable bounds;
     public double sinusAmplitude = 1;
     public double sinusAngle;
+
+    public MovingArtificialEntity() {
+        super();
+        position = new CartesianPoint(0, 0);
+        acceleration = 0;
+        velocity = 0;
+        orientation = 0;
+        movement = Movement.LINEAR;
+        moving = false;
+        bounds = new UnboundedArea();
+        forceMove = false;
+    }
 
     public MovingArtificialEntity(Boundable bounds){
         this();
@@ -74,23 +83,12 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     private boolean forceMove;
     private CartesianPoint sinusBasePosition;
 
-    public MovingArtificialEntity() {
-        position = new CartesianPoint(0, 0);
-        acceleration = 0;
-        velocity = 0;
-        orientation = 0;
-        movement = Movement.LINEAR;
-        moving = false;
-        bounds = new UnboundedArea();
-        forceMove = false;
-    }
-
     public void setForceMove(boolean forceMove) {
         this.forceMove = forceMove;
     }
 
     public GenPoint move() {
-        CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;
+        CartesianPoint cartesianPosition = position.toCartesian();
         CartesianPoint dirVector = new PolarPoint(velocity, orientation).toCartesian();
 
         switch (movement) {
