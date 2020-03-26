@@ -37,6 +37,11 @@ public class MockMapApi implements MapApi {
     }
 
     @Override
+    public void unDisplayEntity(Displayable displayable) {
+        
+    }
+
+    @Override
     public void initializeApi(LocationManager locationManager, Activity activity) {
 
     }

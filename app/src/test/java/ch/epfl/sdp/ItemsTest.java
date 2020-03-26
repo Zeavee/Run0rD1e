@@ -12,7 +12,7 @@ public class ItemsTest {
     private static Healthpack healthpack = new Healthpack(A,false, 60);
     private static Shield shield = new Shield(A, false, 40);
     private static Shrinker shrinker = new Shrinker(A, true, 40, 10);
-    private static Scan scan = new Scan(A, false, 40);
+    //private static Scan scan = new Scan(A, false, 40, null);
 
 
     @Test

@@ -24,6 +24,7 @@ public class Player extends MovingEntity implements Localizable {
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
     private HashMap<String, Integer> itemInventory = new HashMap<>();
+    private ArrayList<Player> otherPlayers;
 
 
 
@@ -131,9 +132,6 @@ public class Player extends MovingEntity implements Localizable {
                     t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
                     break;
                 case "Scan":
-                    //((Scan) i).showPlayersLocation();
-                    break;
-                default:
                     break;
             }
             itemInventory.put(i.getName(), numberOfInstances-1);
