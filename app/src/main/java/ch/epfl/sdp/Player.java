@@ -132,6 +132,9 @@ public class Player extends MovingEntity implements Localizable {
                     t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
                     break;
                 case "Scan":
+                    ((Scan) i).showAllPlayers();
+                    break;
+                default:
                     break;
             }
             itemInventory.put(i.getName(), numberOfInstances-1);
