@@ -31,9 +31,12 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         lv = findViewById(R.id.messages_view);
 
         messageAdapter = new MessageAdapter(this);
+        lv.setAdapter(messageAdapter);
 
-        chatRepo = new ChatRepository(this);
+        chatRepo = FriendsListActivity.getChatRepo();//new ChatRepository(this); //ChatActivity.getChatRepo();
+        chatRepo.setContextActivity(this);
         chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
+        sendButton.setOnClickListener(this::onSendClicked);
     }
     public void  onSendClicked(View v)
     {
@@ -41,7 +44,8 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
     public static ChatRepository getChatRepo()
     {
-        return chatRepo;
+
+         return chatRepo;
     }
 
     public static void setChattingWith(String chattingWith) {
@@ -53,6 +57,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         if (chat == null || chat.isEmpty())
         {
             Chat c = new Chat();
+            System.out.println("effff4839859000000038ffffffff");
             c.setFrom("amro.abdrabo@gmail.com");
             c.setTo("shaima@abc.com");
             chatRepo.addChat(c);

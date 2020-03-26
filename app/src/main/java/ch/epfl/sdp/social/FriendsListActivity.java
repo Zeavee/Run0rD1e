@@ -18,7 +18,11 @@ import ch.epfl.sdp.item.ItemsViewAdapter;
 public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {
     private User usr_amr;
     private User usr_shaima;
-    private ChatRepository chatRepo;
+    private static ChatRepository chatRepo;
+
+    public static ChatRepository getChatRepo() {
+        return chatRepo;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

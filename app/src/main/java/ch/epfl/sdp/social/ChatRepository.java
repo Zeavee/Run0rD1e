@@ -26,6 +26,10 @@ public class ChatRepository {
         messagesFetched = false;
     }
 
+    public void setContextActivity(Activity contextActivity) {
+        this.contextActivity = contextActivity;
+    }
+
     public void sendMessage(String content, int chat_id) {
 
         Message m = new Message();
