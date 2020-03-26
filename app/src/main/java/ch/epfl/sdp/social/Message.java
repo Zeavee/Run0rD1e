@@ -16,7 +16,7 @@ public class Message {
 
     public Date date;
     @NonNull
-    public String text;
+    private String text;
 
     private int chat_id;
 
@@ -48,5 +48,9 @@ public class Message {
     }
     public int getChat_id() {
         return chat_id;
+    }
+    public String getPlayerName() { return "curr"; }
+    public boolean getIsFromUser() {
+        return true;
     }
 }

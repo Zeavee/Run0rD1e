@@ -1,14 +1,14 @@
 package ch.epfl.sdp.social;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Date;
 import java.util.List;
 
 import ch.epfl.sdp.R;
@@ -21,6 +21,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     private static ChatRepository chatRepo;
     private static String chattingWith;
     private Chat chat;
+    private MessageAdapter messageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +30,14 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         message = findViewById(R.id.messageField);
         lv = findViewById(R.id.messages_view);
 
+        messageAdapter = new MessageAdapter(this);
+
         chatRepo = new ChatRepository(this);
         chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
-        // * TODO MAKE AN ITEM ON THE LIST HAVE TEXT FROM MESSAGE EDIT TEXT*
+        messageAdapter.add(new Message(new Date(), message.getText().toString()));
     }
     public static ChatRepository getChatRepo()
     {
