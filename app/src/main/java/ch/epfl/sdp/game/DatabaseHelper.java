@@ -40,7 +40,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         catch (Exception ex)
         {
-            int a = 5;
+            System.out.println(ex);
         }
     }
 
@@ -69,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         catch (Exception ex)
         {
-            int a = 5;
+            System.out.println(ex);
         }
     }
 
@@ -93,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         catch (Exception ex)
         {
-            int a = 5;
+            System.out.println(ex);
         }
     }
 
