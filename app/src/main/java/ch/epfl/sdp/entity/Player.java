@@ -25,7 +25,6 @@ public class Player extends MovingEntity implements Localizable {
     private double distanceTraveled;
     private double speed;
     private boolean alive;
-    private boolean isPhantom;
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
     private HashMap<String, Integer> itemInventory = new HashMap<>();
@@ -45,7 +44,6 @@ public class Player extends MovingEntity implements Localizable {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
-        this.isPhantom = false;
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
@@ -70,9 +68,9 @@ public class Player extends MovingEntity implements Localizable {
         return alive;
     }
 
-    public double getSpeed() {
+/*    public double getSpeed() {
         return speed;
-    }
+    }*/
 
     public double getTimeTraveled() {
         return timeTraveled;
@@ -93,8 +91,6 @@ public class Player extends MovingEntity implements Localizable {
     public String getEmail() {
         return this.email;
     }
-
-    public boolean isPhantom() {return this.isPhantom; }
 
     private void useHealthPack(Healthpack healthpack) {
         this.healthPoints = this.healthPoints + healthpack.getHealthPackAmount();
@@ -135,9 +131,6 @@ public class Player extends MovingEntity implements Localizable {
                     t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
                     break;
                 case "Scan":
-                    //((Scan) i).showPlayersLocation();
-                    break;
-                default:
                     break;
             }
             itemInventory.put(i.getName(), numberOfInstances-1);
