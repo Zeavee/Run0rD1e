@@ -18,11 +18,11 @@ import ch.epfl.sdp.R;
  */
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 
-    private final List<Friend> mValues;
+    private final List<User> mValues;
     private final FriendsListActivity.OnListFragmentInteractionListener mListener;
     private static MyClickListener myClickListener;
 
-    public MyFriendsRecyclerViewAdapter(List<Friend> items, FriendsListActivity.OnListFragmentInteractionListener listener) {
+    public MyFriendsRecyclerViewAdapter(List<User> items, FriendsListActivity.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -45,7 +45,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
     @Override
     public void onBindViewHolder(final FriendsViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).getUsername());
+        holder.mIdView.setText(mValues.get(position).getEmail());
 
         holder.mView.setOnClickListener(v -> {
             if (null != mListener) {
@@ -66,7 +66,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         public final Button button;
         public final TextView mIdView;
         public final TextView mContentView;
-        public Friend mItem;
+        public User mItem;
 
         public FriendsViewHolder(View view) {
             super(view);

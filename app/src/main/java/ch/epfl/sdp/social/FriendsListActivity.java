@@ -14,7 +14,7 @@ import ch.epfl.sdp.database.UserForFirebase;
 import ch.epfl.sdp.item.ItemsViewAdapter;
 
 public class FriendsListActivity extends AppCompatActivity {
-    private Friend friends;
+    private User friends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,10 @@ public class FriendsListActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        friends = new Friend(new UserForFirebase("tempUsername", "tempEmail@email.com"));
-        friends.addFriend(new Friend(new UserForFirebase("tempUsername2", "tempEmail2@email.com")));
-        friends.addFriend(new Friend(new UserForFirebase("tempUsername3", "tempEmail3@email.com")));
+        friends = new User("amro@abc.com", "amro", "abdo");
+        //friends = new Friend(new UserForFirebase("tempUsername", "tempEmail@email.com"));
+        //friends.addFriend(new Friend(new UserForFirebase("tempUsername2", "tempEmail2@email.com")));
+        //friends.addFriend(new Friend(new UserForFirebase("tempUsername3", "tempEmail3@email.com")));
 
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
@@ -49,6 +50,6 @@ public class FriendsListActivity extends AppCompatActivity {
 
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Friend friend);
+        void onListFragmentInteraction(User friend);
     }
 }
