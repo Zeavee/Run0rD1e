@@ -39,6 +39,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="10dp"
             android:background="@drawable/ic_send_black_24dp"
+            android:onClick="onSendClicked"
             android:padding="20dp"
             android:scaleType="fitCenter" />
     </LinearLayout>

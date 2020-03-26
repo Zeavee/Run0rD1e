@@ -27,7 +27,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         chatRepo = new ChatRepository(this);
-        usr_amr = new User("amro@abc.com", "amro", "abdo");
+        usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
         usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
         chatRepo.addUser(usr_amr);
         chatRepo.addUser(usr_shaima);
@@ -52,6 +52,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
 
         });
         adapter.setOnItemClickListener((position, v) -> {
+            ChatActivity.setChattingWith(friends.get(0).getEmail());
             Intent intent = new Intent(FriendsListActivity.this , ChatActivity.class);
             startActivity(intent);
         });

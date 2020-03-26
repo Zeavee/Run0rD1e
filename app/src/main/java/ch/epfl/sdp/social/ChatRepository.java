@@ -101,8 +101,8 @@ public class ChatRepository {
             protected List<String> doInBackground(Void... voids) {
                 messagesFetched = false;
                 List<String> msgList = new LinkedList<>();
-                msgList.addAll(chatDB.daoAccess().getChatFromOwnerToReceiver(id_owner, id_rec));
-                msgList.addAll(chatDB.daoAccess().getChatToOwnerFromSender(id_owner, id_rec));
+                msgList.addAll(chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+                msgList.addAll(chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
                 return msgList;
             }
 
@@ -124,5 +124,22 @@ public class ChatRepository {
             }
         }.execute();
 
+    }
+
+    public void getChat(String current, String other)
+    {
+        new AsyncTask<Void, Void, List<Chat>>() {
+
+            @Override
+            protected List<Chat> doInBackground(Void... voids) {
+                return chatDB.daoAccess().getChatFromCurrentToOther(current, other);
+            }
+
+            @Override
+            protected void onPostExecute(List<Chat> exists)
+            {
+                ((WaitOnChatRetrieval)contextActivity).chatFetched(exists);
+            }
+        }.execute();
     }
 }
