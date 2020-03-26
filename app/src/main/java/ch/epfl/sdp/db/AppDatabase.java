@@ -11,8 +11,6 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -89,16 +87,16 @@ abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-    private static List<LeaderboardEntity> generateUsers(){
-        String[] usernames = new String[]{"aaa", "bbb", "ccc", "ddd", "eee"};
-        Double[] healthPoints = new Double[]{100D, 90D, 80D, 70D, 60D};
-        List<LeaderboardEntity> users = new ArrayList<>();
-        for(int i = 0; i < usernames.length; i++){
-            LeaderboardEntity user = new LeaderboardEntity(usernames[i]+"@gmail.com", usernames[i], healthPoints[i]);
-            users.add(user);
-        }
-        return users;
-    }
+//    private static List<LeaderboardEntity> generateUsers(){
+//        String[] usernames = new String[]{"aaa", "bbb", "ccc", "ddd", "eee"};
+//        Double[] healthPoints = new Double[]{100D, 90D, 80D, 70D, 60D};
+//        List<LeaderboardEntity> users = new ArrayList<>();
+//        for(int i = 0; i < usernames.length; i++){
+//            LeaderboardEntity user = new LeaderboardEntity(usernames[i]+"@gmail.com", usernames[i], healthPoints[i]);
+//            users.add(user);
+//        }
+//        return users;
+//    }
 
     public LiveData<Boolean> getDatabaseCreated() {
         return mIsDatabaseCreated;

@@ -19,8 +19,8 @@ public final class GeoPoint {
      */
     public static final double EARTH_RADIUS = 6371000;
 
-    public double longitude;
-    public double latitude;
+    private double longitude;
+    private double latitude;
 
     public GeoPoint() {
     }
@@ -36,6 +36,22 @@ public final class GeoPoint {
 
     public double latitude() {
         return toDegrees(this.latitude);
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     /**
