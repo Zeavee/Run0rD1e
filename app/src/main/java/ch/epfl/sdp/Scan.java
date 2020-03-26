@@ -29,6 +29,7 @@ public class Scan extends Item {
         for (Player p : players) {
             map.displayEntity(p);
         }
+        //Not undisplaying as of yet
   /*      Timer timer = new Timer();
         TimerTask turnOffScaner = new TimerTask() {
             @Override
