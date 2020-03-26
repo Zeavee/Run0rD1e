@@ -10,16 +10,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import ch.epfl.sdp.db.LeaderboardEntity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.UserForFirebase;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>{
+    private List<LeaderboardEntity> mUsers;
 
-    private List<UserForFirebase> mUserForFirebases;
-
-
-    public LeaderboardAdapter(List<UserForFirebase> mUserForFirebases) {
-        this.mUserForFirebases = mUserForFirebases;
+    public LeaderboardAdapter() {
     }
 
     @NonNull
@@ -31,26 +28,41 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
-        holder.ranking.setText(String.valueOf(position+1));
-        holder.username.setText(mUserForFirebases.get(position).getUsername());
-        holder.healthPoint.setText(String.valueOf(mUserForFirebases.get(position).getHealthPoints()));
+        if (mUsers != null) {
+            holder.ranking.setText(String.valueOf(position+1));
+            holder.username.setText(mUsers.get(position).getUsername());
+            holder.score.setText(String.valueOf(mUsers.get(position).getScore()));
+        } else {
+            // Covers the case of data not being ready yet.
+            holder.ranking.setText("");
+            holder.username.setText("");
+            holder.score.setText("");
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return mUserForFirebases.size();
+        if (mUsers != null)
+            return mUsers.size();
+        else return 0;
+    }
+
+    void setLeaderboard(List<LeaderboardEntity> mUsers) {
+        this.mUsers = mUsers;
+        notifyDataSetChanged();
     }
 
     public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
         TextView ranking;
         TextView username;
-        TextView healthPoint;
+        TextView score;
 
         public LeaderboardViewHolder(@NonNull View itemView) {
             super(itemView);
             ranking = itemView.findViewById(R.id.ranking);
             username = itemView.findViewById(R.id.username);
-            healthPoint = itemView.findViewById(R.id.healthPoint);
+            score = itemView.findViewById(R.id.score);
         }
     }
 }

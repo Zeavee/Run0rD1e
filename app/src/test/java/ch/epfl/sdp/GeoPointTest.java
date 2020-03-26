@@ -28,4 +28,15 @@ public class GeoPointTest {
         assertEquals(A.longitude(), 6.14308, 0.01);
         assertEquals(A.latitude(), 46.21023, 0.01);
     }
+
+    @Test
+    public void testGetterAndSetter() {
+        GeoPoint geoPoint = new GeoPoint(22,22);
+        geoPoint.setLongitude(66);
+        geoPoint.setLatitude(66);
+
+        assertEquals(66, geoPoint.getLongitude(),0.1);
+        assertEquals(66, geoPoint.getLatitude(), 0.1);
+
+    }
 }

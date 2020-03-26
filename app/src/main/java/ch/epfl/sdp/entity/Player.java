@@ -18,7 +18,7 @@ import ch.epfl.sdp.map.GeoPoint;
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
-    public GenPoint position;
+    public CartesianPoint position;
     public int score;
     public double healthPoints;
     public double timeTraveled;
@@ -28,6 +28,10 @@ public class Player extends MovingEntity implements Localizable {
     public boolean isShielded;
     public final double MAX_HEALTH = 100;
     public HashMap<String, Integer> itemInventory = new HashMap<>();
+
+    public Player() {
+        super();
+    }
 
     public Player(String username, String email) {
         this(0, 0, 1, username, email);
