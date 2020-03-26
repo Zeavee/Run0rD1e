@@ -7,6 +7,7 @@ import android.widget.Toast;
 import java.util.HashMap;
 
 import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.login.AuthenticationController;
 
 public class MockAuthentication implements AuthenticationController {
