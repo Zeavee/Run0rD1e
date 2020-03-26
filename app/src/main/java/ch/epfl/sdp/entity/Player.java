@@ -16,18 +16,18 @@ import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Player extends MovingEntity implements Localizable {
-    private String username;
-    private String email;
-    private GenPoint position;
-    private int score;
-    private double healthPoints;
-    private double timeTraveled;
-    private double distanceTraveled;
-    private double speed;
-    private boolean alive;
-    private boolean isShielded;
-    private final double MAX_HEALTH = 100;
-    private HashMap<String, Integer> itemInventory = new HashMap<>();
+    public String username;
+    public String email;
+    public GenPoint position;
+    public int score;
+    public double healthPoints;
+    public double timeTraveled;
+    public double distanceTraveled;
+    public double speed;
+    public boolean alive;
+    public boolean isShielded;
+    public final double MAX_HEALTH = 100;
+    public HashMap<String, Integer> itemInventory = new HashMap<>();
 
     public Player(String username, String email) {
         this(0, 0, 1, username, email);
@@ -68,9 +68,9 @@ public class Player extends MovingEntity implements Localizable {
         return alive;
     }
 
-/*    public double getSpeed() {
+   public double getSpeed() {
         return speed;
-    }*/
+    }
 
     public double getTimeTraveled() {
         return timeTraveled;
