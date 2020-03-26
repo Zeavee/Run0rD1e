@@ -5,7 +5,11 @@ import android.app.Activity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockUserDataController implements UserDataController{
+import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.UserForFirebase;
+import ch.epfl.sdp.leaderboard.SetupLeaderboard;
+
+public class MockUserDataController implements UserDataController {
     private List<UserForFirebase> userData = new ArrayList<>();
 
     @Override

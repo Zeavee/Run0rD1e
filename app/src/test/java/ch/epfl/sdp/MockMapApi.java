@@ -6,6 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.LocationManager;
 
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapApi;
+
 public class MockMapApi implements MapApi {
     @Override
     public GeoPoint getCurrentLocation() {

@@ -60,6 +60,9 @@ dependencies {
 
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    // GeoConverter
+    implementation 'com.github.xni06:JCoord:master-SNAPSHOT'
 }
 
 tasks.withType(Test) {
