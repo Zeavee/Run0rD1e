@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.dummy.DummyContent;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -18,12 +17,12 @@ import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.social.FriendsListActivity;
 
-public class MainActivity extends AppCompatActivity implements FriendsFragment.OnListFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
     private static Game game;
     private boolean isFriendsListVisible = false;
     private FragmentTransaction transaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
-    private FriendsFragment fragment;
 
     // Launches the game loop in another thread, must be destroyed at the end
     public static void startGame() {
@@ -79,14 +78,8 @@ public class MainActivity extends AppCompatActivity implements FriendsFragment.O
 
         Button friendButton = findViewById(R.id.friendsButton);
         friendButton.setOnClickListener(v -> {
-            if (!isFriendsListVisible) {
-                fragment = FriendsFragment.newInstance(1);
-                transaction.replace(R.id.container, fragment).commit();
-                isFriendsListVisible = true;
-            } else {
-                fragment.closeFrag();
-                isFriendsListVisible = false;
-            }
+            Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -96,11 +89,6 @@ public class MainActivity extends AppCompatActivity implements FriendsFragment.O
         authenticationController.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
-    }
-
-    @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-
     }
 }
     

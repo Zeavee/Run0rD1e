@@ -57,12 +57,21 @@ dependencies {
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
+    implementation 'it.xabaras.android.espresso:recyclerview-child-actions:1.0'
 
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     // GeoConverter
     implementation 'com.github.Jotschi:geoconvert:1ff034710f9387464399e6e7197f78e5d0d591d3'
+
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
+        // Necessary to avoid version conflicts
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'recyclerview-v7'
+    }
 }
 
 tasks.withType(Test) {

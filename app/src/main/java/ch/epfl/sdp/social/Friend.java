@@ -3,7 +3,7 @@ package ch.epfl.sdp.social;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.UserForFirebase;
+import ch.epfl.sdp.database.UserForFirebase;
 
 public class Friend extends UserForFirebase {
 
@@ -12,11 +12,13 @@ public class Friend extends UserForFirebase {
     public Friend(UserForFirebase usr)
     {
         this.wrappedUser = usr;
+        friends = new ArrayList<>();
     }
     public String getName()
     {
         return wrappedUser.getUsername() + ": " + wrappedUser.getEmail();
     }
+    public String getUsername() { return wrappedUser.getUsername(); }
     public int getFriendCount()
     {
         return friends.size();
@@ -37,7 +39,7 @@ public class Friend extends UserForFirebase {
     }
     public List<Friend> getFriends() {
         List<Friend> friends = new ArrayList<>();
-        friends.addAll(friends);
+        friends.addAll(this.friends);
         return friends;
     }
 }

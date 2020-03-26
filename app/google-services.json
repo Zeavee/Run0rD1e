@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "111308722886-2f465i6gog7dgpcumun2qoma5bu5d778.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp",
+            "certificate_hash": "5de0ce4956e5b0a12467362cdedbbff30dceefb9"
+          }
+        },
+        {
+          "client_id": "111308722886-41bijlhb0h1kq2fk426h4qisdo0kqudh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.epfl.sdp",
+            "certificate_hash": "e5b9429bebf1868c7891fc17698998d59f648710"
+          }
+        },
+        {
           "client_id": "111308722886-e2olcvc6qe5rn9svk7ma99ijc98qtj2b.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

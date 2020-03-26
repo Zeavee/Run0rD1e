@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ch.epfl.sdp.dummy.DummyContent;
-import ch.epfl.sdp.dummy.DummyContent.DummyItem;
+import ch.epfl.sdp.social.Friend;
 
 /**
  * A fragment representing a list of Items.
@@ -70,7 +69,7 @@ public class FriendsFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyFriendsRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            //recyclerView.setAdapter(new MyFriendsRecyclerViewAdapter(new ArrayList<>(), mListener));
         }
         return view;
     }
@@ -105,10 +104,6 @@ public class FriendsFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
-    }
-
-    public void closeFrag() {
-        getActivity().onBackPressed();
+        void onListFragmentInteraction(Friend item);
     }
 }
