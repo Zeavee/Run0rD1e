@@ -31,8 +31,9 @@ public interface ChatAccessor {
     public void addChat(Chat c);
 
     // Get all friends of owner, friendID1 must be lexicographically before friendID2
-    /*@Query("SELECT friendID2 FROM IsFriendsWith WHERE IsFriendsWith.friendID1=:friend1 AND IsFriendsWith.friendID2=:friend2")
-    public List<String> areFriends(String friend1, String friend2);*/ // to-do for next week
+    @Query("SELECT friendID2 FROM IsFriendsWith WHERE IsFriendsWith.friendID1=:friend1 AND IsFriendsWith.friendID2=:friend2")
+    public List<String> areFriends(String friend1, String friend2);
+
 
 
     // Get all friends of owner, friendID1 must be lexicographically before friendID2
