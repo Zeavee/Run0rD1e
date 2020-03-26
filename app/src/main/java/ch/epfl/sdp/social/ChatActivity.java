@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import java.util.List;
 
@@ -16,22 +17,24 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
     private ImageButton sendButton;
     private EditText message;
+    private ListView lv;
     private static ChatRepository chatRepo;
     private static String chattingWith;
-    private List<Chat> chat;
+    private Chat chat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         sendButton = findViewById(R.id.sendMessageButton);
         message = findViewById(R.id.messageField);
+        lv = findViewById(R.id.messages_view);
 
         chatRepo = new ChatRepository(this);
         chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
-        chatRepo.addChat(new Chat());
+        // * TODO MAKE AN ITEM ON THE LIST HAVE TEXT FROM MESSAGE EDIT TEXT*
     }
     public static ChatRepository getChatRepo()
     {
@@ -44,6 +47,15 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
     @Override
     public void chatFetched(List<Chat> chat) {
-        this.chat = chat;
+        if (chat == null || chat.isEmpty())
+        {
+            Chat c = new Chat();
+            c.setFrom("amro.abdrabo@gmail.com");
+            c.setTo("shaima@abc.com");
+            chatRepo.addChat(c);
+            this.chat = c;
+            return;
+        }
+        this.chat = chat.get(0);
     }
 }
