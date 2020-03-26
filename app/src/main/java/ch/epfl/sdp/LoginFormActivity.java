@@ -20,6 +20,8 @@ public class LoginFormActivity extends AppCompatActivity {
         lpassword = findViewById(R.id.passwordlog);
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+        findViewById(R.id.button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, LeaderboardActivity.class)));
+
     }
 
    public void createAccountBtn_OnClick(View view) {
