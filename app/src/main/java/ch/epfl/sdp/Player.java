@@ -11,22 +11,23 @@ import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
 
 public class Player extends MovingEntity implements Localizable {
-    private String username;
-    private String email;
-    private GenPoint position;
-    private int score;
-    private double healthPoints;
-    private double timeTraveled;
-    private double distanceTraveled;
-    private double speed;
-    private boolean alive;
-    private boolean isPhantom;
-    private boolean isShielded;
-    private final double MAX_HEALTH = 100;
-    private HashMap<String, Integer> itemInventory = new HashMap<>();
+    public String username;
+    public String email;
+    public CartesianPoint position;
+    public int score;
+    public double healthPoints;
+    public double timeTraveled;
+    public  double distanceTraveled;
+    public double speed;
+    public boolean alive;
+    public boolean isPhantom;
+    public boolean isShielded;
+    public final double MAX_HEALTH = 100;
+    public HashMap<String, Integer> itemInventory = new HashMap<>();
 
-
-
+    public Player() {
+        super();
+    }
 
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         super(longitude, latitude, aoeRadius);

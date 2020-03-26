@@ -1,8 +1,11 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 public abstract class GenPoint {
-    float arg1;
-    float arg2;
+    public float arg1;
+    public float arg2;
+
+    public GenPoint() {
+    }
 
     public GenPoint(float arg1, float arg2){
         this.arg1 = arg1;

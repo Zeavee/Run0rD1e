@@ -19,8 +19,11 @@ public final class GeoPoint {
      */
     public static final double EARTH_RADIUS = 6371000;
 
-    private final double longitude;
-    private final double latitude;
+    public double longitude;
+    public double latitude;
+
+    public GeoPoint() {
+    }
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = toRadians(longitude);

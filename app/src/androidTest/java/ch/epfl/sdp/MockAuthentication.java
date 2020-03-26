@@ -29,12 +29,12 @@ public class MockAuthentication implements AuthenticationController {
     }
 
     @Override
-    public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
+    public void register(Activity registerFormActivity, Player player, String email, String password) {
         if (registeredUsers.containsKey(email)) {
             Toast.makeText(registerFormActivity, "User already exist!", Toast.LENGTH_LONG).show();
         } else {
             registeredUsers.put(email, password);
-            store.storeUser(new UserForFirebase(email, password));
+            store.storeUser(new Player(22,22,22,email, password));
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }
