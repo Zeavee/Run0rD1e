@@ -69,7 +69,7 @@ abstract class AppDatabase extends RoomDatabase {
 
     private static void addDelay() {
         try {
-            Thread.sleep(400);
+            Thread.sleep(100);
         } catch (InterruptedException ignored) {
         }
     }
