@@ -30,16 +30,16 @@ public class Scan extends Item {
             map.displayEntity(p);
         }
         //Not undisplaying as of yet
-  /*      Timer timer = new Timer();
-        TimerTask turnOffScaner = new TimerTask() {
-            @Override
-            public void run() {
-                for(Player p: players) {
-                    map.unDisplayEntity(p);
-                }
-            }
-        };
+        //Timer timer = new Timer();
+        //TimerTask turnOffScaner = new TimerTask() {
+            //@Override
+            //public void run() {
+                //for(Player p: players) {
+                    //map.unDisplayEntity(p);
+                //}
+            //}
+        //};
 
-        timer.schedule(turnOffScaner, (long) scanTime * 1000);*/
+        //timer.schedule(turnOffScaner, (long) scanTime * 1000);
     }
 }
