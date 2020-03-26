@@ -14,6 +14,7 @@ public class Scan extends Item {
     }
 
     public void showAllPlayers() {
+
         ArrayList<Player> players = new ArrayList<>();
         Player player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         Player player2 = new Player(6.56599, 46.52224, 50, "Iris", "test2@email.com");
@@ -28,6 +29,7 @@ public class Scan extends Item {
         for (Player p : players) {
             map.displayEntity(p);
         }
+  /*      Timer timer = new Timer();
         TimerTask turnOffScaner = new TimerTask() {
             @Override
             public void run() {
@@ -36,7 +38,7 @@ public class Scan extends Item {
                 }
             }
         };
-        Timer timer = new Timer();
-        timer.schedule(turnOffScaner, (long) scanTime * 1000);
+
+        timer.schedule(turnOffScaner, (long) scanTime * 1000);*/
     }
 }
