@@ -96,14 +96,14 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
                 return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
             case SINUSOIDAL:
                 return sinusoidalMovement(dirVector);
-            case CIRCULAR:
+          /*  case CIRCULAR:
                 break;
             case CURVED:
                 break;
             case SMOOTH:
                 break;
             case RANDOM:
-                break;
+                break;*/
        }
 
        return null;
@@ -161,14 +161,14 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
                 break;
             case SINUSOIDAL:
                 break;
-            case CIRCULAR:
+           /* case CIRCULAR:
                 break;
             case CURVED:
                 break;
             case SMOOTH:
                 break;
             case RANDOM:
-                break;
+                break;*/
         }
     }
 

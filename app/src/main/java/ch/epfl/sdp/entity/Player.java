@@ -30,8 +30,9 @@ public class Player extends MovingEntity implements Localizable {
     private final double MAX_HEALTH = 100;
     private HashMap<String, Integer> itemInventory = new HashMap<>();
 
-
-
+    public Player(String username, String email) {
+        this(0, 0, 1, username, email);
+    }
 
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         GeoPoint g = new GeoPoint(longitude, latitude);

@@ -82,7 +82,6 @@ public class ArtificialIntelligenceTest {
         assertEquals(true, boundable.isInside(movingArtificialEntity.getPosition()));
     }
 
-    // I don't see the point of your test
    /* @Test
     public void unimplementedMovement() {
         Boundable boundable = new UnboundedArea();

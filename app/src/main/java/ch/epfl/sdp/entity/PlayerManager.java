@@ -14,7 +14,7 @@ public class PlayerManager {
     }
 
     public static void removePlayer(Player player) {
-        players.add(player);
+        players.remove(player);
     }
 
     public static ArrayList<Player> getPlayers() {
