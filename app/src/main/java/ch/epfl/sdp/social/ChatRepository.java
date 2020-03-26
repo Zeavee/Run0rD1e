@@ -65,27 +65,33 @@ public class ChatRepository {
         }.execute();
     }
 
-    /*public void addFriend(final User user1, final User user2)
+    public void fetchFriends(final User user)
     {
-        new AsyncTask<Void, Void, Void>() {
+        new AsyncTask<Void, Void, List<User>>() {
             @Override
-            protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().addFriendPair(new IsFriendsWith(user1.email, user2.email));
-                return null;
+            protected List<User> doInBackground(Void... voids) {
+                return chatDB.daoAccess().areFriends(user.email);
+            }
+
+            @Override
+            protected void onPostExecute(List<User> friends)
+            {
+                ((WaitsOnFriendFetch)contextActivity).friendsFetched(friends);
             }
         }.execute();
     }
 
-    public void areFriends(final User user1, final User user2)
+    public void addFriends(final User user1, final User user2)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().areFriends(user1.email, user2.email);
+                chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
+                chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
                 return null;
             }
         }.execute();
-    } */ //todo for next week
+    }
 
     public void getMessages(final String id_owner, final String id_rec) {
 

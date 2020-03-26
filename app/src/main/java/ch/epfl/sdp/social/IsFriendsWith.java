@@ -22,14 +22,8 @@ public class IsFriendsWith {
 
     public IsFriendsWith(String friendID1, String friendID2)
     {
-        if (friendID1.compareTo(friendID2) < 0)
-        {
             this.friendID1 = friendID1;
             this.friendID2 = friendID2;
-        }else{
-            this.friendID2 = friendID1;
-            this.friendID1 = friendID2;
-        }
     }
 
     public IsFriendsWith()
