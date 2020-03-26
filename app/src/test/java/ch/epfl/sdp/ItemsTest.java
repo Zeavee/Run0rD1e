@@ -24,6 +24,8 @@ public class ItemsTest {
     public void shieldTest() {
         assertFalse(shield.isTaken());
         assertEquals(40, shield.getShieldTime(), 0);
+        shield.takeItem();
+        assertTrue(shield.isTaken());
     }
 
     @Test

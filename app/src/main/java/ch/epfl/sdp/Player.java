@@ -24,7 +24,6 @@ public class Player extends MovingEntity implements Localizable {
     private boolean isShielded;
     private final double MAX_HEALTH = 100;
     private HashMap<String, Integer> itemInventory = new HashMap<>();
-    private ArrayList<Player> otherPlayers;
 
 
 
@@ -42,11 +41,6 @@ public class Player extends MovingEntity implements Localizable {
         this.isPhantom = false;
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
-    }
-
-    @Override
-    public void updateLocation() {
-        //TODO
     }
 
     public void updateHealth(ArrayList<Enemy> enemies) {
@@ -175,5 +169,10 @@ public class Player extends MovingEntity implements Localizable {
     @Override
     public GenPoint getPosition() {
         return position;
+    }
+
+    @Override
+    public void updateLocation() {
+
     }
 }
