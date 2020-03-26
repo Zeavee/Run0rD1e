@@ -7,7 +7,7 @@ public interface AuthenticationController {
 
     //    boolean isSignedIn(String email);
     void register(Activity activity, UserForFirebase userForFirebase, String email, String password);
-    
+
     //    void register(Activity activity, Player player, String email, String password);
     void signOut();
 }
