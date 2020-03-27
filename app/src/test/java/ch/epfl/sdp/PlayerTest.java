@@ -9,6 +9,7 @@ import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.Displayable;
