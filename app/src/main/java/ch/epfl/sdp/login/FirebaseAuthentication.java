@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.database.UserDataController;
-import ch.epfl.sdp.database.UserForFirebase;
+import ch.epfl.sdp.entity.Player;
 
 /*
  * This class is designed to use Firebase's email and password feature
@@ -43,11 +43,10 @@ public class FirebaseAuthentication implements AuthenticationController {
 //    }
 
     @Override
-    public void register(Activity registerFormActivity, UserForFirebase userForFirebase, String email, String password) {
-//        public void register(Activity registerFormActivity, Player userForFirebase, String email, String password) {
+    public void register(Activity registerFormActivity, Player player, String email, String password) {
 
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            userDataStore.storeUser(userForFirebase);
+            userDataStore.storeUser(player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());

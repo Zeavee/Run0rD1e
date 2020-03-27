@@ -12,10 +12,6 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link Friend} and makes a call to the
- * specified {@link FriendsListActivity.OnListFragmentInteractionListener}.
- */
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 
     private final List<User> mValues;

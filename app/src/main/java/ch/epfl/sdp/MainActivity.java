@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -26,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
 
     // Launches the game loop in another thread, must be destroyed at the end
     public static void startGame() {
-        if (game != null && !game.isThreadGameTerminated()) {
+        if (game != null) {
             game.initGame();
         }
     }
 
     public static void killGame() {
-        if (game != null && game.isThreadGameTerminated()) {
+        if (game != null) {
             game.destroyGame();
         }
     }
@@ -44,7 +45,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        PlayerManager playerManager = new PlayerManager();
+
         game = new Game(null);
+
+        startGame();
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 
