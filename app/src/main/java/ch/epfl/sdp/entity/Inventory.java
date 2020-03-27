@@ -21,35 +21,18 @@ public class Inventory {
     }
 
     public void useItem(Item i) {
-        String name = i.getName();
-        int numberOfInstances = items.get(name);
+        int numberOfInstances = items.get(i.getName());
+
         if (numberOfInstances > 0) {
             switch (i.getName()) {
                 case "Healthpack":
                     ((Healthpack) i).increaseHealthPlayer(player, Player.MAX_HEALTH);
                     break;
                 case "Shield":
-                    player.setShielded(true);
-                    TimerTask shieldPlayer = new TimerTask() {
-                        @Override
-                        public void run() {
-                            player.setShielded(false);
-                        }
-                    };
-                    Timer timer = new Timer();
-                    timer.schedule(shieldPlayer, (long) ((Shield) i).getShieldTime() * 1000);
+                    useShield((Shield) i);
                     break;
                 case "Shrinker":
-                    double initialAoeRadius = player.getAoeRadius();
-                    player.setAoeRadius(player.getAoeRadius() - ((Shrinker) i).getShrinkingRadius());
-                    TimerTask shrinkAoeRadius = new TimerTask() {
-                        @Override
-                        public void run() {
-                            player.setAoeRadius(initialAoeRadius);
-                        }
-                    };
-                    Timer t = new Timer();
-                    t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
+                    useShrinker((Shrinker) i);
                     break;
                 case "Scan":
                     ((Scan) i).showAllPlayers();
@@ -57,8 +40,34 @@ public class Inventory {
                 default:
                     break;
             }
+
             items.put(i.getName(), numberOfInstances - 1);
         }
+    }
+
+    private void useShield(Shield shield) {
+        player.setShielded(true);
+        TimerTask shieldPlayer = new TimerTask() {
+            @Override
+            public void run() {
+                player.setShielded(false);
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(shieldPlayer, (long) shield.getShieldTime() * 1000);
+    }
+
+    private void useShrinker(Shrinker shrinker) {
+        double initialAoeRadius = player.getAoeRadius();
+        player.setAoeRadius(player.getAoeRadius() - shrinker.getShrinkingRadius());
+        TimerTask shrinkAoeRadius = new TimerTask() {
+            @Override
+            public void run() {
+                player.setAoeRadius(initialAoeRadius);
+            }
+        };
+        Timer t = new Timer();
+        t.schedule(shrinkAoeRadius, (long) shrinker.getShrinkTime() * 1000);
     }
 
     private void useHealthPack(Healthpack healthpack) {
