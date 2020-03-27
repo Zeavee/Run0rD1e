@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final MapApi mapApi = new GoogleMapApi();
