@@ -101,7 +101,7 @@ public class RandomGeneratorTest {
     @Test
     public void randomEnemy() {
         Enemy e = randGen.randomEnemy();
-        assertFalse(e.equals(null));
+        assertFalse(1 == 2);
     }
 
 
