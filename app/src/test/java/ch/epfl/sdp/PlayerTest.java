@@ -56,15 +56,15 @@ public class PlayerTest {
     @Test
     public void healthPackUseTest() {
         player1.setHealthPoints(25);
-        player1.setItemInventory("Healthpack", 1);
-        player1.useItem(healthpack);
+        player1.getInventory().setItemQuantity("Healthpack", 1);
+        player1.getInventory().useItem(healthpack);
         assertEquals(50, player1.getHealthPoints(), 0);
     }
 
     @Test
     public void shieldUseTest() throws InterruptedException {
-        player1.setItemInventory("Shield", 1);
-        player1.useItem(shield);
+        player1.getInventory().setItemQuantity("Shield", 1);
+        player1.getInventory().useItem(shield);
         assertTrue(player1.isShielded());
         TimeUnit.SECONDS.sleep(5);
         assertFalse(player1.isShielded());
@@ -75,8 +75,8 @@ public class PlayerTest {
         Player player2 = new Player(6.149290, 46.212470, 50,
                 "SkyRiS3s", "test2@email.com"); //player position is in Geneva
         assertEquals(50, player2.getAoeRadius(), 0);
-        player2.setItemInventory("Shrinker", 1);
-        player2.useItem(shrinker);
+        player2.getInventory().setItemQuantity("Shrinker", 1);
+        player2.getInventory().useItem(shrinker);
         assertEquals(40, player2.getAoeRadius() ,0);
         TimeUnit.SECONDS.sleep(5);
         assertEquals(50, player2.getAoeRadius(), 0);
@@ -86,9 +86,9 @@ public class PlayerTest {
     public void scanTest() {
         Player player2 = new Player(6.149290, 46.212470, 50,
                 "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        player2.setItemInventory("Scan", 1);
-        player2.useItem(scan);
-        assertEquals(0, player2.getItemInventory().get("Scan"), 0);
+        player2.getInventory().setItemQuantity("Scan", 1);
+        player2.getInventory().useItem(scan);
+        assertEquals(0, player2.getInventory().getItems().get("Scan"), 0);
     }
 
     @Test
@@ -99,15 +99,15 @@ public class PlayerTest {
 
     @Test
     public void addItemToInventory() {
-        player1.setItemInventory("Healthpack", 1);
-        player1.addItemInInventory("Healthpack");
-        assertEquals(2, player1.getItemInventory().get("Healthpack"), 0);
+        player1.getInventory().setItemQuantity("Healthpack", 1);
+        player1.getInventory().addItem("Healthpack");
+        assertEquals(2, player1.getInventory().getItems().get("Healthpack"), 0);
     }
 
     @Test
     public void removeItem() {
-        player1.setItemInventory("Healthpack", 6);
-        player1.removeItemInInventory("Healthpack");
-        assertEquals(5, player1.getItemInventory().get("Healthpack"), 0);
+        player1.getInventory().setItemQuantity("Healthpack", 6);
+        player1.getInventory().removeItem("Healthpack");
+        assertEquals(5, player1.getInventory().getItems().get("Healthpack"), 0);
     }
 }

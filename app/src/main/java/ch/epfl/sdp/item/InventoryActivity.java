@@ -6,8 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Player;
 
 public class InventoryActivity extends AppCompatActivity {
     private Player player;
@@ -23,10 +23,10 @@ public class InventoryActivity extends AppCompatActivity {
     private void initPlayer() {
         //TODO Later this player should come from the local storage
         player = new Player(22, 22, 50, "admin", "admin@gmail.com");
-        player.setItemInventory("Healthpack", 2);
-        player.setItemInventory("Shield", 5);
-        player.setItemInventory("Shrinker", 6);
-        player.setItemInventory("Scan", 5);
+        player.getInventory().setItemQuantity("Healthpack", 2);
+        player.getInventory().setItemQuantity("Shield", 5);
+        player.getInventory().setItemQuantity("Shrinker", 6);
+        player.getInventory().setItemQuantity("Scan", 5);
         initRecyclerView();
     }
 

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Player;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
@@ -31,7 +31,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
     public ItemsViewAdapter(Context mContext, Player player) {
         this.mContext = mContext;
         this.player = player;
-        this.inventory = player.getItemInventory();
+        this.inventory = player.getInventory().getItems();
         for(String key: inventory.keySet()) {
             mNames.add(key);
             mAmounts.add(inventory.get(key));
@@ -50,7 +50,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(mNames.get(position));
         holder.amountOfItem.setText(String.valueOf(mAmounts.get(position)));
         holder.button.setOnClickListener(v -> {
-            player.removeItemInInventory(mNames.get(position));
+            player.getInventory().removeItem(mNames.get(position));
             int amount = Integer.parseInt(holder.amountOfItem.getText().toString());
             if(amount > 0) {
                 holder.amountOfItem.setText(String.valueOf(amount-1));
