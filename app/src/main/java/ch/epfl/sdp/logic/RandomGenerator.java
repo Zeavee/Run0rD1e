@@ -1,18 +1,16 @@
 package ch.epfl.sdp.logic;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.RecursiveAction;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.PolarPoint;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -129,12 +127,12 @@ public class RandomGenerator {
          GeoPoint g5 = randomGeoPoint();
          Player p5 = new Player(g5.longitude(), g5.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
 
-         List<Player> players = new ArrayList<>();
-         players.add(p1);
-         players.add(p2);
-         players.add(p3);
-         players.add(p4);
-         players.add(p5);
+         PlayerManager playerManager = new PlayerManager();
+         PlayerManager.addPlayer(p1);
+         PlayerManager.addPlayer(p2);
+         PlayerManager.addPlayer(p3);
+         PlayerManager.addPlayer(p4);
+         PlayerManager.addPlayer(p5);
 
          int randBound = rand.nextInt(20);
          int randomDmg = rand.nextInt(randBound);
@@ -144,6 +142,7 @@ public class RandomGenerator {
 
          LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
          UnboundedArea randomArea = new UnboundedArea();
+
          Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
      }
