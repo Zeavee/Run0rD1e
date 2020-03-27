@@ -2,6 +2,7 @@ package ch.epfl.sdp.social;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
 import androidx.room.Room;
@@ -52,7 +53,8 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                singleton.chatDB.daoAccess().sendMessage(message);
+                try { singleton.chatDB.daoAccess().sendMessage(message); }
+                catch (SQLiteConstraintException e){}
                 return null;
             }
         }.execute();
@@ -62,7 +64,10 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                singleton.chatDB.daoAccess().addChat(c);
+                try {
+                    singleton.chatDB.daoAccess().addChat(c);
+                }
+                catch (SQLiteConstraintException e){}
                 return null;
             }
         }.execute();
@@ -72,7 +77,13 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                singleton.chatDB.daoAccess().addUser(usr);
+                try {
+                    singleton.chatDB.daoAccess().addUser(usr);
+                }
+                catch(SQLiteConstraintException e)
+                {
+
+                }
                 return null;
             }
         }.execute();
@@ -99,8 +110,10 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
-                singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
+                try {
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
+                }catch (SQLiteConstraintException e) {}
                 return null;
             }
         }.execute();
@@ -131,7 +144,10 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                singleton.chatDB.daoAccess().sendMessage(new Message(((Timestamp)data.get("date")).toDate(), data.get("text").toString()));
+                try {
+                    singleton.chatDB.daoAccess().sendMessage(new Message(((Timestamp) data.get("date")).toDate(), data.get("text").toString()));
+                }catch (SQLiteConstraintException e)
+                { }
                 return null;
             }
         }.execute();

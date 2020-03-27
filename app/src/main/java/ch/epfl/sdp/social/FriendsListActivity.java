@@ -32,10 +32,15 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         chatRepo = ChatRepository.createRepo(this);
         usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
         usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
-        chatRepo.addUser(usr_amr);
-        chatRepo.addUser(usr_shaima);
-        chatRepo.addFriends(usr_amr, usr_shaima);
-        chatRepo.fetchFriends(usr_amr);
+        try {
+            chatRepo.addUser(usr_amr);
+            chatRepo.addUser(usr_shaima);
+            chatRepo.addFriends(usr_amr, usr_shaima);
+            chatRepo.fetchFriends(usr_amr);
+        }
+        catch(Exception e){
+            System.out.println("hihi hihi" +e.getMessage());
+        }
         //friends = new Friend(new UserForFirebase("tempUsername", "tempEmail@email.com"));
         //friends.addFriend(new Friend(new UserForFirebase("tempUsername2", "tempEmail2@email.com")));
         //friends.addFriend(new Friend(new UserForFirebase("tempUsername3", "tempEmail3@email.com")));
