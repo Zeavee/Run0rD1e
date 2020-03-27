@@ -75,18 +75,10 @@ public class ChatActivityTest {
 
         try{Thread.sleep(3000);} catch (Exception e){}
         ViewInteraction button = onView(
-                allOf(withId(R.id.friendsButton), isDisplayed()));
+                allOf(withId(R.id.friendsButton), withText("Friends"), isDisplayed()));
         button.check(matches(isDisplayed()));
 
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.friendsButton), withText("Friends"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                11),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
+        button.perform(click());
 
         ViewInteraction textView = onView(
                 allOf(withId(R.id.item_number), withText("shaima@abc.com"), isDisplayed()));
