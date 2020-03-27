@@ -13,7 +13,10 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.map.GeoPoint;
+
+
 
 public class Player extends MovingEntity implements Localizable {
     public String username;
@@ -136,6 +139,9 @@ public class Player extends MovingEntity implements Localizable {
                     t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
                     break;
                 case "Scan":
+                    ((Scan) i).showAllPlayers();
+                    break;
+                default:
                     break;
             }
             itemInventory.put(i.getName(), numberOfInstances-1);
@@ -177,4 +183,5 @@ public class Player extends MovingEntity implements Localizable {
     public GenPoint getPosition() {
         return position;
     }
+
 }

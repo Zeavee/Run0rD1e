@@ -25,4 +25,17 @@
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/scanButton"
+        android:layout_width="90dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="32dp"
+        android:text="scan"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.906"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/map"
+        map:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

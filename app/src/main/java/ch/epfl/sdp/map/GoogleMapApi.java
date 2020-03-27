@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.TextViewCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,11 +39,11 @@ public class GoogleMapApi implements MapApi {
     private LocationListener locationListener;
     private GoogleMap mMap;
     private Activity activity;
-    private Map<Displayable, MapDrawing> enemiesCircles;
+    private Map<Displayable, MapDrawing> entityCircles;
     private Player currentUser;
 
     public GoogleMapApi() {
-        enemiesCircles = new HashMap<>();
+        entityCircles = new HashMap<>();
 
         currentUser = new Player(0, 0, 100, "current", "test");
 
@@ -124,10 +125,7 @@ public class GoogleMapApi implements MapApi {
         if (displayable == null) {
             return;
         }
-        if (enemiesCircles.containsKey(displayable)) {
-            enemiesCircles.get(displayable).marker.remove();
-            enemiesCircles.get(displayable).aoe.remove();
-        }
+        removeMarkers(displayable);
         switch (displayable.getEntityType()) {
             case USER:
                 if (currentLocation == null) {
@@ -138,12 +136,32 @@ public class GoogleMapApi implements MapApi {
                 break;
             case ENEMY:
                 displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+                break;
+            case PLAYER:
+                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
+                break;
+            case ITEM:
+                displayMarkerCircle(displayable, Color.GREEN, "Item", 50);
+        }
+    }
+
+
+    @Override
+    synchronized public void unDisplayEntity(Displayable displayable) {
+        removeMarkers(displayable);
+        entityCircles.remove(displayable);
+    }
+
+    private void removeMarkers(Displayable displayable) {
+        if (entityCircles.containsKey(displayable)) {
+            entityCircles.get(displayable).marker.remove();
+            entityCircles.get(displayable).aoe.remove();
         }
     }
 
     private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
         LatLng position = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
-        enemiesCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)
                 .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
@@ -154,4 +172,5 @@ public class GoogleMapApi implements MapApi {
                         .radius(aoeRadius)
                         .strokeWidth(1f))));
     }
+
 }
