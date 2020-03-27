@@ -92,7 +92,6 @@ public class ChatRepository {
     // This method must be
     public void fetchFriends(final User user)
     {
-        //return singleton.chatDB.daoAccess().areFriends(user.email);
         new AsyncTask<Void, Void, List<User>>() {
             private Activity context;
             @Override
