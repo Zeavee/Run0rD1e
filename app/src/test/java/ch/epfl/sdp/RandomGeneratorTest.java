@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
+import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 
 public class RandomGeneratorTest {
@@ -87,6 +88,12 @@ public class RandomGeneratorTest {
             assertTrue(p.getLocation().latitude() <= 47);
             assertTrue(p.getLocation().latitude() >= 45);
         }
+    }
+
+    @Test
+    public void randomEnemy() {
+        Enemy e = randGen.randomEnemy();
+        assertTrue(e != null);
     }
 
 
