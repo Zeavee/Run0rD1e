@@ -30,13 +30,14 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         chatRepo = ChatRepository.createRepo(this);
+        chatRepo.setContextActivity(this);
         usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
         usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
         try {
             chatRepo.addUser(usr_amr);
             chatRepo.addUser(usr_shaima);
             chatRepo.addFriends(usr_amr, usr_shaima);
-            initRecyclerView(chatRepo.fetchFriends(usr_amr));
+            chatRepo.fetchFriends(usr_amr);
         }
         catch(Exception e){
             System.out.println("hihi hihi" +e.getMessage());

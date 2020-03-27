@@ -90,21 +90,23 @@ public class ChatRepository {
     }
 
     // This method must be
-    public List<User> fetchFriends(final User user)
+    public void fetchFriends(final User user)
     {
-        return singleton.chatDB.daoAccess().areFriends(user.email);
-       /* new AsyncTask<Void, Void, List<User>>() {
+        //return singleton.chatDB.daoAccess().areFriends(user.email);
+        new AsyncTask<Void, Void, List<User>>() {
+            private Activity context;
             @Override
             protected List<User> doInBackground(Void... voids) {
+                context = singleton.contextActivity;
                 return singleton.chatDB.daoAccess().areFriends(user.email);
             }
 
             @Override
             protected void onPostExecute(List<User> friends)
             {
-                ((WaitsOnFriendFetch)(singleton.contextActivity)).friendsFetched(friends);
+                ((WaitsOnFriendFetch)(context)).friendsFetched(friends);
             }
-        }.execute();*/
+        }.execute();
     }
 
     public void addFriends(final User user1, final User user2)
