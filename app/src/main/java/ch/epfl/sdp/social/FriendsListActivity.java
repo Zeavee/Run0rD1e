@@ -12,17 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.UserForFirebase;
 import ch.epfl.sdp.item.ItemsViewAdapter;
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {
     private User usr_amr;
     private User usr_shaima;
-    private static ChatRepository chatRepo;
+    private ChatRepository chatRepo;
 
-    public static ChatRepository getChatRepo() {
+    /*public static ChatRepository getChatRepo() {
         return chatRepo;
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
