@@ -2,10 +2,8 @@ package ch.epfl.sdp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -22,8 +20,6 @@ import ch.epfl.sdp.social.FriendsListActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
-    private boolean isFriendsListVisible = false;
-    private FragmentTransaction transaction = MainActivity.this.getSupportFragmentManager().beginTransaction();
 
     // Launches the game loop in another thread, must be destroyed at the end
     public static void startGame() {
@@ -53,36 +49,22 @@ public class MainActivity extends AppCompatActivity {
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 
-        // Locate the button in activity_main.xml
-        Button healthPointButton = findViewById(R.id.mainGoButton);
+        findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 
-        // Capture button clicks
-        healthPointButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
+        findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
-        Button mapButton = findViewById(R.id.mapButton);
-        mapButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
+        findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
 
-        // Locate the button in activity_main.xml
-        Button leaderboardButton = findViewById(R.id.leaderboard);
+        findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
 
-        // Capture button clicks
-        leaderboardButton.setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
-
-        Button rulesButton = findViewById(R.id.rulesButton);
-        rulesButton.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
-  
-        Button inventory = findViewById(R.id.inventory);
-        // Capture button clicks
-        inventory.setOnClickListener(view -> {
+        findViewById(R.id.inventory).setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
             startActivity(intent);
         });
 
-        Button logoutButton = findViewById(R.id.logoutBt);
-        logoutButton.setOnClickListener(v -> logout());
+        findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 
-        Button friendButton = findViewById(R.id.friendsButton);
-        friendButton.setOnClickListener(v -> {
+        findViewById(R.id.friendsButton).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
             startActivity(intent);
         });
