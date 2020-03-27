@@ -3,11 +3,7 @@ package ch.epfl.sdp;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.rule.ActivityTestRule;
 
 import org.hamcrest.Description;
@@ -17,9 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import ch.epfl.sdp.social.ChatActivity;
-import ch.epfl.sdp.social.FriendsListActivity;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
