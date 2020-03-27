@@ -9,6 +9,7 @@ import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.Displayable;
@@ -29,7 +30,7 @@ public class PlayerTest {
     private static Healthpack healthpack = new Healthpack(A, false, 25);
     private static Shield shield = new Shield(A, true, 4.5);
     private static Shrinker shrinker = new Shrinker(A, false, 4.5, 10);
-
+    private static Scan scan = new Scan(A, false, 50, new MockMapApi());
 
     @Test
     public void updateHealthTest() {
@@ -79,6 +80,15 @@ public class PlayerTest {
         assertEquals(40, player2.getAoeRadius() ,0);
         TimeUnit.SECONDS.sleep(5);
         assertEquals(50, player2.getAoeRadius(), 0);
+    }
+
+    @Test
+    public void scanTest() {
+        Player player2 = new Player(6.149290, 46.212470, 50,
+                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
+        player2.setItemInventory("Scan", 1);
+        player2.useItem(scan);
+        assertEquals(0, player2.getItemInventory().get("Scan"), 0);
     }
 
     @Test
