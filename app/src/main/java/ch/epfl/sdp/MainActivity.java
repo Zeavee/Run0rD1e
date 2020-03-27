@@ -5,8 +5,11 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.game.DatabaseHelper;
+
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.entity.PlayerManager;
+
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
         authenticationController.signOut();
+        new DatabaseHelper(this).deleteAllUsers();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
