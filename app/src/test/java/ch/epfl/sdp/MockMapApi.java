@@ -6,6 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.LocationManager;
 
+import org.junit.Test;
+
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
@@ -41,7 +44,19 @@ public class MockMapApi implements MapApi {
     }
 
     @Override
+    public void unDisplayEntity(Displayable displayable) {
+        
+    }
+
+    @Override
     public void initializeApi(LocationManager locationManager, Activity activity) {
 
+    }
+
+    @Test
+    public void unDisplayEntity() {
+        Player player1 = new Player(6.149290, 46.212470, 50,
+                "Skyris", "test@email.com"); //player position is in Geneva
+        this.unDisplayEntity(player1);
     }
 }

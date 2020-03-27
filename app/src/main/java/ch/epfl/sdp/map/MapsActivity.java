@@ -12,6 +12,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final MapApi mapApi = new GoogleMapApi();
@@ -23,6 +24,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
+
+        Button scanButton = findViewById(R.id.scanButton);
+        Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30, mapApi);
+        scanButton.setOnClickListener(v -> scan.showAllPlayers());
 
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
 
