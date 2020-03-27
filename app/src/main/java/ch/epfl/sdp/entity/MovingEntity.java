@@ -11,16 +11,12 @@ public abstract class MovingEntity implements Displayable {
      * GeoPoint representing the localisation of the entity
      */
     private GeoPoint location;
-
     private double aoeRadius;
 
-    public MovingEntity(double longitude, double latitude, double aoeRadius) {
-        this.location = new GeoPoint(longitude, latitude);
-        this.aoeRadius = aoeRadius;
+    public MovingEntity() {
+        location = new GeoPoint(0,0);
+        aoeRadius = 0;
     }
-
-    public abstract void updateLocation();
-    //public abstract void updateAoeRadius();
 
     public GeoPoint getLocation() {
         return this.location;

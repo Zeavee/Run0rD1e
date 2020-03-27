@@ -7,9 +7,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 
 public class LoginFormActivity extends AppCompatActivity {
     public AuthenticationController authenticationController;
@@ -24,6 +24,8 @@ public class LoginFormActivity extends AppCompatActivity {
         lpassword = findViewById(R.id.passwordlog);
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+        findViewById(R.id.button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, LeaderboardActivity.class)));
+
     }
 
    public void createAccountBtn_OnClick(View view) {
@@ -32,9 +34,6 @@ public class LoginFormActivity extends AppCompatActivity {
     }
 
     public void loginBtn_OnClick(View view) {
-        // temporarily: should be called when login is successfull
-        MainActivity.startGame();
-
         String email = lemail.getText().toString().trim();
         String password = lpassword.getText().toString().trim();
 

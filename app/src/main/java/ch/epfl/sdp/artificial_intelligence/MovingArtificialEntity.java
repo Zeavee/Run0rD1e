@@ -2,7 +2,10 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.Random;
 
-public class MovingEntity implements Movable, Localizable, Updatable{
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.MovingEntity;
+
+public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
     private float velocity;
     private float acceleration;
@@ -13,7 +16,19 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     public double sinusAmplitude = 1;
     public double sinusAngle;
 
-    public MovingEntity(Boundable bounds){
+    public MovingArtificialEntity() {
+        super();
+        position = new CartesianPoint(0, 0);
+        acceleration = 0;
+        velocity = 0;
+        orientation = 0;
+        movement = Movement.LINEAR;
+        moving = false;
+        bounds = new UnboundedArea();
+        forceMove = false;
+    }
+
+    public MovingArtificialEntity(Boundable bounds){
         this();
         this.bounds = bounds;
     }
@@ -68,23 +83,12 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private boolean forceMove;
     private CartesianPoint sinusBasePosition;
 
-    public MovingEntity() {
-        position = new CartesianPoint(0, 0);
-        acceleration = 0;
-        velocity = 0;
-        orientation = 0;
-        movement = Movement.LINEAR;
-        moving = false;
-        bounds = new UnboundedArea();
-        forceMove = false;
-    }
-
     public void setForceMove(boolean forceMove) {
         this.forceMove = forceMove;
     }
 
     public GenPoint move() {
-        CartesianPoint cartesianPosition = position != null ? position.toCartesian() : null;
+        CartesianPoint cartesianPosition = position.toCartesian();
         CartesianPoint dirVector = new PolarPoint(velocity, orientation).toCartesian();
 
         switch (movement) {
@@ -92,14 +96,14 @@ public class MovingEntity implements Movable, Localizable, Updatable{
                 return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
             case SINUSOIDAL:
                 return sinusoidalMovement(dirVector);
-            case CIRCULAR:
+          /*  case CIRCULAR:
                 break;
             case CURVED:
                 break;
             case SMOOTH:
                 break;
             case RANDOM:
-                break;
+                break;*/
        }
 
        return null;
@@ -153,18 +157,23 @@ public class MovingEntity implements Movable, Localizable, Updatable{
     private void switchOnMouvement() {
         switch (movement) {
             case LINEAR:
-                orientation = rand.nextFloat()*2*(float)(Math.PI);
+                orientation = rand.nextFloat() * 2 * (float) (Math.PI);
                 break;
             case SINUSOIDAL:
                 break;
-            case CIRCULAR:
+           /* case CIRCULAR:
                 break;
             case CURVED:
                 break;
             case SMOOTH:
                 break;
             case RANDOM:
-                break;
+                break;*/
         }
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return null;
     }
 }

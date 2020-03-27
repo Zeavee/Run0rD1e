@@ -2,32 +2,51 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.List;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
-public class Enemy extends MovingEntity {
+public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
     private List<Player> players; // For now I use a list of players, but it could be nice to have
     // a static manager of players.
     private int damage;
     private float dps; // damage per second
-    private float detectionDistance;
+    private double detectionDistance;
     private int timeAttack;
     private int timeWandering;
     private LocalBounds patrolBounds;
-    private Boundable maxBounds;
     private boolean waiting;
 
-    public Enemy(List<Player> players, int damage, float dps, float detectionDistance, LocalBounds patrolBounds, Boundable maxBounds) {
+    public Enemy() {
+        super(new RectangleBounds(50, 50, null));
+        super.setAoeRadius(1);
+        super.setVelocity(1);
+        super.setMoving(true);
+        this.damage = 1;
+        this.dps = 1;
+        this.detectionDistance = 1;
+        this.players = PlayerManager.getPlayers();
+        behaviour = Behaviour.PATROL;
+        timeAttack = 100; // Needs calibration
+        timeWandering = 100;
+        this.patrolBounds = new LocalBounds(new UnboundedArea(), getPosition());
+        this.waiting = false;
+    }
+
+    public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
-        this.players = players;
+        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
         timeAttack = 100; // Needs calibration
         timeWandering = 100;
         this.patrolBounds = patrolBounds;
-        this.maxBounds = maxBounds;
         this.waiting = false;
+        if (aoeRadius < detectionDistance) {
+            this.setAoeRadius(aoeRadius);
+        }
     }
 
     public Behaviour getBehaviour() {
@@ -71,9 +90,8 @@ public class Enemy extends MovingEntity {
 
     private void attack() {
         if (timeAttack <= 0) {
-            float attackRange = detectionDistance / 5;
+            double attackRange = this.getAoeRadius();
             Player target = playerDetected(attackRange);
-
             if (target != null) {
                 target.setHealthPoints(target.getHealthPoints() - damage * dps);
             } else {
@@ -101,10 +119,13 @@ public class Enemy extends MovingEntity {
 
     private Player selectClosestPlayer() {
         Player target = null;
-        float minDistance = Float.MAX_VALUE;
+        double minDistance = Double.MAX_VALUE;
+        double currDistance;
 
         for (Player player : players) {
-            if (player.getPosition().toCartesian().distanceFrom(getPosition()) < minDistance && player.isAlive()) {
+            currDistance = player.getPosition().toCartesian().distanceFrom(getPosition()) - player.getAoeRadius();
+            if (currDistance < minDistance && player.isAlive() && !player.isShielded()) {
+                minDistance = currDistance;
                 target = player;
             }
         }
@@ -117,7 +138,7 @@ public class Enemy extends MovingEntity {
 
         if (target != null) {
             orientToTarget(target);
-            if (playerDetected(detectionDistance / 5) != null) {
+            if (playerDetected(this.getAoeRadius())!= null) {
                 super.setMoving(false);
                 behaviour = Behaviour.ATTACK;
             }
@@ -139,7 +160,6 @@ public class Enemy extends MovingEntity {
         }
 
         if (playerDetected(detectionDistance) != null) {
-            super.setBounds(maxBounds);
             super.setVelocity(super.getVelocity() * 2);
             super.setMoving(true);
             behaviour = Behaviour.CHASE;
@@ -152,9 +172,9 @@ public class Enemy extends MovingEntity {
         setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
     }
 
-    private Player playerDetected(float distance) {
+    private Player playerDetected(double distance) {
         Player target = selectClosestPlayer();
-        if (target.getPosition().toCartesian().distanceFrom(getPosition()) < distance) {
+        if (target != null && target.getPosition().toCartesian().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
             return target;
         } else {
             return null;
@@ -181,4 +201,10 @@ public class Enemy extends MovingEntity {
         super.update();
         behave();
     }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.ENEMY;
+    }
+
 }

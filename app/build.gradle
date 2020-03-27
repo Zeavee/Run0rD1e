@@ -61,6 +61,8 @@ dependencies {
 
     // circle image view
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    annotationProcessor 'androidx.room:room-compiler:2.2.5'
 
     // GeoConverter
     implementation 'com.github.Jotschi:geoconvert:1ff034710f9387464399e6e7197f78e5d0d591d3'
@@ -74,6 +76,7 @@ dependencies {
     }
     implementation 'androidx.room:room-runtime:2.1.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    implementation 'com.github.xni06:JCoord:master-SNAPSHOT'
 }
 
 tasks.withType(Test) {

@@ -1,6 +1,10 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 public class CartesianPoint extends GenPoint{
+    public CartesianPoint() {
+        super();
+    }
+
     public CartesianPoint(double x, double y) {
         super(x, y);
     }

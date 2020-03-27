@@ -1,15 +1,11 @@
 package ch.epfl.sdp.database;
 
-import android.app.Activity;
-
-import java.util.List;
-
-import ch.epfl.sdp.leaderboard.SetupLeaderboard;
+import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.entity.Player;
 
 public interface UserDataController {
 
-    void loadUsersForLeaderboard(Activity activity, SetupLeaderboard setupLeaderboard, List<UserForFirebase> mUserForFirebases);
+    void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel);
 
-    void storeUser(UserForFirebase userForFirebase);
-//    void storeUser(Player player);
+    void storeUser(Player player);
 }

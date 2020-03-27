@@ -7,7 +7,7 @@ import java.util.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
 
 public class GameInfoActivity extends AppCompatActivity {
@@ -17,8 +17,8 @@ public class GameInfoActivity extends AppCompatActivity {
             50,
             "admin",
             "admin@epfl.ch");
-    Enemy enemy = new Enemy(6.149596,46.212437, 50); //enemy's position is close to player
-    ArrayList<Enemy> enemyArrayList = new ArrayList<>(Arrays.asList(enemy));
+    EnemyOutDated enemyOutDated = new EnemyOutDated(6.149596,46.212437, 50); //enemy's position is close to player
+    ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<>(Arrays.asList(enemyOutDated));
 
     TextView username, healthPoint;
 
@@ -68,7 +68,7 @@ public class GameInfoActivity extends AppCompatActivity {
                         Thread.sleep(refreshTime);
                         runOnUiThread(() -> {
                             if (player.getHealthPoints() > 0)
-                                player.updateHealth(enemyArrayList);});
+                                player.updateHealth(enemyOutDatedArrayList);});
                     }
                 } catch (InterruptedException e) {
                 }

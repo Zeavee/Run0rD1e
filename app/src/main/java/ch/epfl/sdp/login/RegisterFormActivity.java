@@ -12,8 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.UserForFirebase;
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.entity.Player;
 
 public class RegisterFormActivity extends AppCompatActivity {
     private final static String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
@@ -53,10 +53,8 @@ public class RegisterFormActivity extends AppCompatActivity {
                 return;
         }
 
-        UserForFirebase userForFirebase = new UserForFirebase(username, email);
-        authenticationController.register(RegisterFormActivity.this, userForFirebase, email, password);
-//        Player player = new Player(22, 22, 22, username, email);
-//        authenticationController.register(RegisterFormActivity.this, player, email, password);
+        Player player = new Player(22, 22, 22, username, email);
+        authenticationController.register(RegisterFormActivity.this, player, email, password);
     }
 
     public void backBtn_OnClick(View view) {

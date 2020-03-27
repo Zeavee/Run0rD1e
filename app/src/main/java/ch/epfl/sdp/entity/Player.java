@@ -13,27 +13,34 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.map.GeoPoint;
 
 public class Player extends MovingEntity implements Localizable {
-    private String username;
-    private String email;
-    private GenPoint position;
-    private int score;
-    private double healthPoints;
-    private double timeTraveled;
-    private double distanceTraveled;
-    private double speed;
-    private boolean alive;
-    private boolean isPhantom;
-    private boolean isShielded;
-    private final double MAX_HEALTH = 100;
-    private HashMap<String, Integer> itemInventory = new HashMap<>();
+    public String username;
+    public String email;
+    public CartesianPoint position;
+    public int score;
+    public double healthPoints;
+    public double timeTraveled;
+    public double distanceTraveled;
+    public double speed;
+    public boolean alive;
+    public boolean isShielded;
+    public final double MAX_HEALTH = 100;
+    public HashMap<String, Integer> itemInventory = new HashMap<>();
 
+    public Player() {
+        super();
+    }
 
+    public Player(String username, String email) {
+        this(0, 0, 1, username, email);
+    }
 
-
+    //Contstructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
-        super(longitude, latitude, aoeRadius);
+        GeoPoint g = new GeoPoint(longitude, latitude);
+        this.setLocation(g);
         this.username = username;
         this.email = email;
         this.score = 0;
@@ -42,18 +49,14 @@ public class Player extends MovingEntity implements Localizable {
         this.timeTraveled = 0;
         this.speed = 0;
         this.alive = true;
-        this.isPhantom = false;
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
+        this.setAoeRadius(aoeRadius);
     }
 
-    @Override
-    public void updateLocation() {
-        //TODO
-    }
 
-    public void updateHealth(ArrayList<Enemy> enemies) {
-        for (Enemy e : enemies) {
+    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
+        for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
                 this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
@@ -70,7 +73,7 @@ public class Player extends MovingEntity implements Localizable {
         return alive;
     }
 
-    public double getSpeed() {
+   public double getSpeed() {
         return speed;
     }
 
@@ -93,8 +96,6 @@ public class Player extends MovingEntity implements Localizable {
     public String getEmail() {
         return this.email;
     }
-
-    public boolean isPhantom() {return this.isPhantom; }
 
     private void useHealthPack(Healthpack healthpack) {
         this.healthPoints = this.healthPoints + healthpack.getHealthPackAmount();
@@ -135,9 +136,6 @@ public class Player extends MovingEntity implements Localizable {
                     t.schedule(shrinkAoeRadius, (long) ((Shrinker) i).getShrinkTime() * 1000);
                     break;
                 case "Scan":
-                    //((Scan) i).showPlayersLocation();
-                    break;
-                default:
                     break;
             }
             itemInventory.put(i.getName(), numberOfInstances-1);
