@@ -61,7 +61,7 @@ public class ChatActivityTest {
     public void testPhase2FriendList()
     {
         try{Thread.sleep(3000);} catch (Exception e){}
-        ViewInteraction button = onView(withId(R.id.friendsButton));
+        ViewInteraction button = onView(withText("Friends"));
         button.perform(click());
 
         ViewInteraction textView = onView(
@@ -231,7 +231,7 @@ public class ChatActivityTest {
     }
 
     public void checkForPersistence() {
-        ViewInteraction appCompatButton5 = onView(withId(R.id.friendsButton));
+        ViewInteraction appCompatButton5 = onView(withText("Friends"));
         appCompatButton5.perform(click());
 
         ViewInteraction appCompatButton6 = onView(
