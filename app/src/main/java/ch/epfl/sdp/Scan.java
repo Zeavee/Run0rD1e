@@ -42,4 +42,8 @@ public class Scan extends Item {
 
         //timer.schedule(turnOffScaner, (long) scanTime * 1000);
     }
+
+    public double getScanTime() {
+        return scanTime;
+    }
 }
