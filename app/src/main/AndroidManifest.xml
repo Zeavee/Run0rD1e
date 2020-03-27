@@ -18,6 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".social.ChatActivity"></activity>
+        <activity
+            android:name=".social.FriendsListActivity"
+            android:label="@string/title_activity_friends_list"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainActivity" />
         <activity android:name=".login.LoginFormActivity">
             <intent-filter>
@@ -29,7 +34,7 @@
         <activity android:name=".logic.GameInfoActivity" />
         <activity android:name=".leaderboard.LeaderboardActivity" />
         <activity android:name=".logic.RuleActivity" />
-        <activity android:name=".item.InventoryActivity"></activity>
+        <activity android:name=".item.InventoryActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

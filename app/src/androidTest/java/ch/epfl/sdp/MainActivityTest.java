@@ -28,6 +28,12 @@ public class MainActivityTest {
     }
 
     @Test
+    public void friendsListOpens() {
+        onView(withId(R.id.friendsButton)).perform(click());
+        onView(withId(R.id.app_bar)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void mapsOpens() {
         onView(withId(R.id.mapButton)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
