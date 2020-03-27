@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.mockito.internal.matchers.Null;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
@@ -100,7 +101,7 @@ public class RandomGeneratorTest {
     @Test
     public void randomEnemy() {
         Enemy e = randGen.randomEnemy();
-        assertTrue(e != null);
+        assertFalse(e.equals(null));
     }
 
 
