@@ -13,7 +13,7 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 
-public class ChatActivity extends AppCompatActivity implements WaitOnChatRetrieval {
+public class ChatActivity extends AppCompatActivity implements WaitOnChatRetrieval, AsyncResponse {
 
     private ImageButton sendButton;
     private EditText message;
@@ -21,6 +21,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     private static ChatRepository chatRepo;
     private static String chattingWith;
     private Chat chat;
+    private List<String> messages;
     private MessageAdapter messageAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +34,20 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         messageAdapter = new MessageAdapter(this);
         lv.setAdapter(messageAdapter);
 
-        chatRepo = FriendsListActivity.getChatRepo();//new ChatRepository(this); //ChatActivity.getChatRepo();
+        chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
         chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
         sendButton.setOnClickListener(this::onSendClicked);
+        loadExistingMessages();
+    }
+    public void loadExistingMessages()
+    {
+        chatRepo.getMessages("amro.abdrabo@gmail.com", "shaima@abc.com");
     }
     public void  onSendClicked(View v)
     {
         messageAdapter.add(new Message(new Date(), message.getText().toString()));
+        chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
     }
     public static ChatRepository getChatRepo()
     {
@@ -65,5 +72,14 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
             return;
         }
         this.chat = chat.get(0);
+    }
+
+    @Override
+    public void messageFetchFinished(List<String> output) {
+        messages = output;
+        for (String el: messages)
+        {
+            messageAdapter.add(new Message(new Date(), el));
+        }
     }
 }

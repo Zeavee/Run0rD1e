@@ -19,15 +19,24 @@ public class ChatRepository {
     private ChatDatabase chatDB;
     private Activity contextActivity;
     private List<String> messages;
-    private boolean messagesFetched;
-    public ChatRepository(Activity contextActivity) {
+    private static boolean singletonCreated = false;
+    private static ChatRepository singleton;
+    public static ChatRepository createRepo(Activity contextActivity)
+    {
+        if (!singletonCreated) {
+            singleton = new ChatRepository(contextActivity);
+            singletonCreated =true;
+            return singleton;
+        }
+        else return singleton;
+    }
+    private ChatRepository(Activity contextActivity) {
         chatDB = Room.inMemoryDatabaseBuilder(contextActivity.getApplicationContext(), ChatDatabase.class).build();
         this.contextActivity = contextActivity;
-        messagesFetched = false;
     }
 
     public void setContextActivity(Activity contextActivity) {
-        this.contextActivity = contextActivity;
+        singleton.contextActivity = contextActivity;
     }
 
     public void sendMessage(String content, int chat_id) {
@@ -36,14 +45,14 @@ public class ChatRepository {
         m.setText(content);
         m.setDate(new Date());
         m.setChat_id(chat_id);
-        sendMessage(m);
+        singleton.sendMessage(m);
     }
 
     private void sendMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().sendMessage(message);
+                singleton.chatDB.daoAccess().sendMessage(message);
                 return null;
             }
         }.execute();
@@ -53,7 +62,7 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().addChat(c);
+                singleton.chatDB.daoAccess().addChat(c);
                 return null;
             }
         }.execute();
@@ -63,7 +72,7 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().addUser(usr);
+                singleton.chatDB.daoAccess().addUser(usr);
                 return null;
             }
         }.execute();
@@ -74,13 +83,13 @@ public class ChatRepository {
         new AsyncTask<Void, Void, List<User>>() {
             @Override
             protected List<User> doInBackground(Void... voids) {
-                return chatDB.daoAccess().areFriends(user.email);
+                return singleton.chatDB.daoAccess().areFriends(user.email);
             }
 
             @Override
             protected void onPostExecute(List<User> friends)
             {
-                ((WaitsOnFriendFetch)contextActivity).friendsFetched(friends);
+                ((WaitsOnFriendFetch)singleton.contextActivity).friendsFetched(friends);
             }
         }.execute();
     }
@@ -90,8 +99,8 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
-                chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
+                singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
+                singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
                 return null;
             }
         }.execute();
@@ -103,17 +112,16 @@ public class ChatRepository {
 
             @Override
             protected List<String> doInBackground(Void... voids) {
-                messagesFetched = false;
                 List<String> msgList = new LinkedList<>();
-                msgList.addAll(chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
-                msgList.addAll(chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
                 return msgList;
             }
 
             @Override
             protected void onPostExecute(List<String> ls)
             {
-                ((AsyncResponse)contextActivity).messageFetchFinished(ls);
+                ((AsyncResponse)singleton.contextActivity).messageFetchFinished(ls);
             }
         }.execute();
 
@@ -123,7 +131,7 @@ public class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                chatDB.daoAccess().sendMessage(new Message(((Timestamp)data.get("date")).toDate(), data.get("text").toString()));
+                singleton.chatDB.daoAccess().sendMessage(new Message(((Timestamp)data.get("date")).toDate(), data.get("text").toString()));
                 return null;
             }
         }.execute();
@@ -136,13 +144,13 @@ public class ChatRepository {
 
             @Override
             protected List<Chat> doInBackground(Void... voids) {
-                return chatDB.daoAccess().getChatFromCurrentToOther(current, other);
+                return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
             }
 
             @Override
             protected void onPostExecute(List<Chat> exists)
             {
-                ((WaitOnChatRetrieval)contextActivity).chatFetched(exists);
+                ((WaitOnChatRetrieval)singleton.contextActivity).chatFetched(exists);
             }
         }.execute();
     }
