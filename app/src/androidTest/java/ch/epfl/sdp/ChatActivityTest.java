@@ -42,9 +42,74 @@ public class ChatActivityTest {
     @Rule
     public ActivityTestRule<LoginFormActivity> mActivityTestRule = new ActivityTestRule<>(LoginFormActivity.class);
 
+    public void testPhase1Login()
+    {
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.emaillog), childAtPosition(childAtPosition(withId(android.R.id.content), 0), 2),
+                        isDisplayed()));
+        appCompatEditText.perform(replaceText("amro.abdrabo@gmail.com"), closeSoftKeyboard());
+        ViewInteraction appCompatEditText2 = onView(
+                allOf(withId(R.id.passwordlog), childAtPosition(childAtPosition(withId(android.R.id.content), 0), 1),
+                        isDisplayed()));
+        appCompatEditText2.perform(replaceText("password"), closeSoftKeyboard());
+        ViewInteraction appCompatButton = onView(
+                allOf(withId(R.id.loginButton), withText("Login"), childAtPosition(childAtPosition(withId(android.R.id.content), 0), 0),
+                        isDisplayed()));
+        appCompatButton.perform(click());
+    }
+
+    public void testPhase2FriendList()
+    {
+        try{Thread.sleep(3000);} catch (Exception e){}
+        ViewInteraction button = onView(withId(R.id.friendsButton));
+        button.perform(click());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.item_number), withText("shaima@abc.com"), isDisplayed()));
+        textView.check(matches(withText("shaima@abc.com")));
+
+        ViewInteraction frameLayout = onView(
+                allOf(withId(R.id.toolbar_layout), withContentDescription("FriendsListActivity"), isDisplayed()));
+        frameLayout.check(matches(isDisplayed()));
+    }
+
+    public void chatWithShaima()
+    {
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.chat_button), withText("chat"), childAtPosition(childAtPosition(withId(R.id.friends_recyclerview),
+                        0), 2), isDisplayed()));
+        appCompatButton3.perform(click());
+        ViewInteraction appCompatEditText3 = onView(
+                allOf(withId(R.id.messageField), childAtPosition(childAtPosition(withClassName(is("android.widget.LinearLayout")),
+                        1), 0), isDisplayed()));
+        appCompatEditText3.perform(replaceText("hi"), closeSoftKeyboard());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withId(R.id.sendMessageButton), childAtPosition(childAtPosition(withClassName(is("android.widget.LinearLayout")),
+                                        1), 1), isDisplayed()));
+        appCompatImageButton.perform(click());
+        ViewInteraction textView2 = onView(
+                allOf(withId(R.id.message_body), withText("hi"), isDisplayed()));
+        textView2.check(matches(withText("hi")));
+    }
+
+    public void chatWithShaimaAgain() {
+        ViewInteraction appCompatButton4 = onView(
+                allOf(withId(R.id.chat_button), withText("chat"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.friends_recyclerview),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatButton4.perform(click());
+        pressBack();
+    }
+
     @Test
     public void chatActivityTest() {
-        ViewInteraction appCompatEditText = onView(
+        testPhase1Login();
+       /* ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.emaillog),
                         childAtPosition(
                                 childAtPosition(
@@ -52,9 +117,9 @@ public class ChatActivityTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("amro.abdrabo@gmail.com"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("amro.abdrabo@gmail.com"), closeSoftKeyboard());*/
 
-        ViewInteraction appCompatEditText2 = onView(
+        /*ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.passwordlog),
                         childAtPosition(
                                 childAtPosition(
@@ -62,9 +127,9 @@ public class ChatActivityTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("password"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("password"), closeSoftKeyboard());*/
 
-        ViewInteraction appCompatButton = onView(
+        /*ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginButton), withText("Login"),
                         childAtPosition(
                                 childAtPosition(
@@ -72,9 +137,11 @@ public class ChatActivityTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatButton.perform(click());
+        appCompatButton.perform(click());*/
 
-        try{Thread.sleep(3000);} catch (Exception e){}
+        //Phase 1 done
+
+       /* try{Thread.sleep(3000);} catch (Exception e){}
         ViewInteraction button = onView(withId(R.id.friendsButton));
         button.check(matches(isDisplayed()));
         //button.check(matches(withText("Friends")));
@@ -87,9 +154,11 @@ public class ChatActivityTest {
 
         ViewInteraction frameLayout = onView(
                 allOf(withId(R.id.toolbar_layout), withContentDescription("FriendsListActivity"), isDisplayed()));
-        frameLayout.check(matches(isDisplayed()));
+        frameLayout.check(matches(isDisplayed()));*/
 
-        ViewInteraction appCompatButton3 = onView(
+       testPhase2FriendList();
+
+        /*ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.chat_button), withText("chat"),
                         childAtPosition(
                                 childAtPosition(
@@ -122,10 +191,11 @@ public class ChatActivityTest {
         ViewInteraction textView2 = onView(
                 allOf(withId(R.id.message_body), withText("hi"), isDisplayed()));
         textView2.check(matches(withText("hi")));
-
+         */
+        chatWithShaima();
         pressBack();
 
-        ViewInteraction appCompatButton4 = onView(
+        /*ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.chat_button), withText("chat"),
                         childAtPosition(
                                 childAtPosition(
@@ -135,11 +205,12 @@ public class ChatActivityTest {
                         isDisplayed()));
         appCompatButton4.perform(click());
 
-        pressBack();
+        pressBack();*/
+        chatWithShaimaAgain();
 
         pressBack();
 
-        ViewInteraction appCompatButton5 = onView(
+        /*ViewInteraction appCompatButton5 = onView(
                 allOf(withId(R.id.friendsButton), withText("Friends"), isDisplayed()));
         appCompatButton5.perform(click());
 
@@ -155,8 +226,28 @@ public class ChatActivityTest {
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.message_body), withText("hi"), isDisplayed()));
+        textView3.check(matches(withText("hi")));*/
+        checkForPersistence();
+    }
+
+    public void checkForPersistence() {
+        ViewInteraction appCompatButton5 = onView(withId(R.id.friendsButton));
+        appCompatButton5.perform(click());
+
+        ViewInteraction appCompatButton6 = onView(
+                allOf(withId(R.id.chat_button), withText("chat"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.friends_recyclerview),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatButton6.perform(click());
+        ViewInteraction textView3 = onView(
+                allOf(withId(R.id.message_body), withText("hi"), isDisplayed()));
         textView3.check(matches(withText("hi")));
     }
+
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
