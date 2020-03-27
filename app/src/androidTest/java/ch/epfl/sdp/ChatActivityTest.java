@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -74,9 +75,9 @@ public class ChatActivityTest {
         appCompatButton.perform(click());
 
         try{Thread.sleep(3000);} catch (Exception e){}
-        ViewInteraction button = onView(
-                allOf(withId(R.id.friendsButton), withText("Friends"), isDisplayed()));
+        ViewInteraction button = onView(withId(R.id.friendsButton));
         button.check(matches(isDisplayed()));
+        //button.check(matches(withText("Friends")));
 
         button.perform(click());
 
@@ -139,13 +140,7 @@ public class ChatActivityTest {
         pressBack();
 
         ViewInteraction appCompatButton5 = onView(
-                allOf(withId(R.id.friendsButton), withText("Friends"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                11),
-                        isDisplayed()));
+                allOf(withId(R.id.friendsButton), withText("Friends"), isDisplayed()));
         appCompatButton5.perform(click());
 
         ViewInteraction appCompatButton6 = onView(
