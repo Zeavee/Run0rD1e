@@ -32,7 +32,7 @@ public class ChatRepository {
         else return singleton;
     }
     private ChatRepository(Activity contextActivity) {
-        chatDB = Room.inMemoryDatabaseBuilder(contextActivity.getApplicationContext(), ChatDatabase.class).build();
+        chatDB = Room.inMemoryDatabaseBuilder(contextActivity.getApplicationContext(), ChatDatabase.class).allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
 
@@ -89,9 +89,11 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void fetchFriends(final User user)
+    // This method must be
+    public List<User> fetchFriends(final User user)
     {
-        new AsyncTask<Void, Void, List<User>>() {
+        return singleton.chatDB.daoAccess().areFriends(user.email);
+       /* new AsyncTask<Void, Void, List<User>>() {
             @Override
             protected List<User> doInBackground(Void... voids) {
                 return singleton.chatDB.daoAccess().areFriends(user.email);
@@ -102,7 +104,7 @@ public class ChatRepository {
             {
                 ((WaitsOnFriendFetch)(singleton.contextActivity)).friendsFetched(friends);
             }
-        }.execute();
+        }.execute();*/
     }
 
     public void addFriends(final User user1, final User user2)

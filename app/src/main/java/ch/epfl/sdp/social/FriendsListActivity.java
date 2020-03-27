@@ -36,7 +36,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
             chatRepo.addUser(usr_amr);
             chatRepo.addUser(usr_shaima);
             chatRepo.addFriends(usr_amr, usr_shaima);
-            chatRepo.fetchFriends(usr_amr);
+            initRecyclerView(chatRepo.fetchFriends(usr_amr));
         }
         catch(Exception e){
             System.out.println("hihi hihi" +e.getMessage());
