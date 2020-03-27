@@ -62,15 +62,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteAllUsers() {
-        try
-        {
             SQLiteDatabase writableDatabase = getWritableDatabase();
             writableDatabase.execSQL("DELETE FROM " + USERS_TABLE_NAME);
-        }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
     }
 
     public class UserData
