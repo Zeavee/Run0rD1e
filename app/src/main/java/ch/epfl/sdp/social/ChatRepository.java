@@ -100,7 +100,7 @@ public class ChatRepository {
             @Override
             protected void onPostExecute(List<User> friends)
             {
-                ((WaitsOnFriendFetch)singleton.contextActivity).friendsFetched(friends);
+                ((WaitsOnFriendFetch)(singleton.contextActivity)).friendsFetched(friends);
             }
         }.execute();
     }
@@ -166,7 +166,7 @@ public class ChatRepository {
             @Override
             protected void onPostExecute(List<Chat> exists)
             {
-                ((WaitOnChatRetrieval)singleton.contextActivity).chatFetched(exists);
+                ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
             }
         }.execute();
     }
