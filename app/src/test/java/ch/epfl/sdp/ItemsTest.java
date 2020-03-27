@@ -17,8 +17,7 @@ public class ItemsTest {
     private static Healthpack healthpack = new Healthpack(A,false, 60);
     private static Shield shield = new Shield(A, false, 40);
     private static Shrinker shrinker = new Shrinker(A, true, 40, 10);
-    private static Scan scan = new Scan(A, false, 40);
-
+    private static Scan scan = new Scan(A, false, 50, new MockMapApi());
 
     @Test
     public void healthpackTest() {
@@ -30,6 +29,8 @@ public class ItemsTest {
     public void shieldTest() {
         assertFalse(shield.isTaken());
         assertEquals(40, shield.getShieldTime(), 0);
+        shield.takeItem();
+        assertTrue(shield.isTaken());
     }
 
     @Test
@@ -47,6 +48,13 @@ public class ItemsTest {
         player1.setHealthPoints(30);
         healthpack.increaseHealthPlayer(player1, 100);
         assertEquals(90, player1.getHealthPoints(), 0);
+    }
+
+    @Test
+    public void scanTest() {
+        String a = scan.getDescription();
+        assertEquals("Item that scans the entire map and reveals other players for a short delay", a);
+        scan.showAllPlayers();
     }
 
 }

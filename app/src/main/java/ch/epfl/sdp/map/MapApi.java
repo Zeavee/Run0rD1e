@@ -37,5 +37,7 @@ public interface MapApi {
      */
      void displayEntity(Displayable displayable);
 
+     void unDisplayEntity(Displayable displayable);
+
      public void initializeApi(LocationManager locationManager, Activity activity);
 }
