@@ -40,10 +40,9 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomGenPointTest() {
-        for (int i = 0; i < 5; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 1; i <= 5; i++) {
+            for (int j = 1; j <= 5; j++) {
                 GenPoint q = randGen.randomGenPoint(i,j);
-                System.out.println(q.toCartesian().getArg1());
                 assertTrue(q.toCartesian().getArg1() <= i);
                 assertTrue(q.toCartesian().getArg2() <= j);
             }
@@ -90,7 +89,7 @@ public class RandomGeneratorTest {
         }
     }
 
-    
+
 
 
 }

@@ -70,18 +70,6 @@ public class RandomGenerator {
      }
 
      public GenPoint randomGenPoint(int a, int b) {
-       if (a == 0) {
-           a = 1;
-       } else if (a < 0) {
-           a = -1 * a;
-       }
-
-       if (b == 0) {
-           b = 1;
-       } else if(b < 0) {
-           b = -1* b;
-       }
-
        CartesianPoint point = new CartesianPoint(rand.nextInt(a), rand.nextInt(b));
        return point;
      }
