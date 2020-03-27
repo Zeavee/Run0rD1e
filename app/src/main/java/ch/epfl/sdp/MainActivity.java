@@ -57,17 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
 
-        findViewById(R.id.inventory).setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, InventoryActivity.class);
-            startActivity(intent);
-        });
+        findViewById(R.id.inventory).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, InventoryActivity.class)));
 
         findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 
-        findViewById(R.id.friendsButton).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, FriendsListActivity.class);
-            startActivity(intent);
-        });
+        findViewById(R.id.friendsButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, FriendsListActivity.class)));
     }
 
     public void logout() {
