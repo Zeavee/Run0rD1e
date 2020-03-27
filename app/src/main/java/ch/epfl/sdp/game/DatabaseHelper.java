@@ -87,18 +87,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
-        try
-        {
-            sqLiteDatabase.execSQL(USERS_CREATE_TABLE);
-        }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
+        sqLiteDatabase.execSQL(USERS_CREATE_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // do nothing
-    }
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){}
 }
