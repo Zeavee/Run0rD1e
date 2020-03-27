@@ -8,6 +8,11 @@ import android.location.LocationManager;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapApi;
+
 public class MockMapApi implements MapApi {
     @Override
     public GeoPoint getCurrentLocation() {

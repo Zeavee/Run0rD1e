@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.login.RegisterFormActivity;
+
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginFormActivity">
+    tools:context=".login.LoginFormActivity">
 
     <Button
         android:id="@+id/loginButton"
@@ -28,6 +28,7 @@
         android:ems="10"
         android:inputType="textPassword"
         android:text=""
+        android:hint="Password"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -41,6 +42,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text=""
+        android:hint="Email"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"

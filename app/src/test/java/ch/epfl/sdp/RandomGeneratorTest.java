@@ -7,6 +7,13 @@ import org.junit.Test;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.logic.RandomGenerator;
+import ch.epfl.sdp.map.GeoPoint;
 
 public class RandomGeneratorTest {
     private static RandomGenerator randGen = new RandomGenerator();

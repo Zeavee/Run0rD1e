@@ -3,9 +3,16 @@ package ch.epfl.sdp;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
+import ch.epfl.sdp.entity.EnemyOutDated;
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,9 +22,9 @@ import static org.junit.Assert.assertTrue;
 public class PlayerTest {
     private static Player player1 = new Player(6.149290, 46.212470, 50,
             "Skyris", "test@email.com"); //player position is in Geneva
-    private static Enemy enemy1 = new Enemy(6.568390, 46.520730, 50); //enemy1's position is at EPFL
-    private static Enemy enemy2 = new Enemy(6.149596,46.212437, 50); //enemy2's position is close to player1
-    private static ArrayList<Enemy> enemyArrayList = new ArrayList<Enemy>();
+    private static EnemyOutDated enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50); //enemy1's position is at EPFL
+    private static EnemyOutDated enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50); //enemy2's position is close to player1
+    private static ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
     private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
     private static Healthpack healthpack = new Healthpack(A, false, 25);
     private static Shield shield = new Shield(A, true, 4.5);
@@ -26,11 +33,11 @@ public class PlayerTest {
 
     @Test
     public void updateHealthTest() {
-        enemyArrayList.add(enemy1);
-        player1.updateHealth(enemyArrayList);
+        enemyOutDatedArrayList.add(enemyOutDated1);
+        player1.updateHealth(enemyOutDatedArrayList);
         assertEquals(50, player1.getHealthPoints(), 0);
-        enemyArrayList.add(enemy2);
-        player1.updateHealth(enemyArrayList);
+        enemyOutDatedArrayList.add(enemyOutDated2);
+        player1.updateHealth(enemyOutDatedArrayList);
         assertFalse(player1.getHealthPoints() >= 100);
     }
 
