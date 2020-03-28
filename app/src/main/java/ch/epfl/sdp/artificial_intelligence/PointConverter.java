@@ -25,7 +25,7 @@ public class PointConverter {
      * @return a point transformed from the plane to a geodesic surface
      */
     public static GeoPoint GenPointToGeoPoint(GenPoint genPoint, GeoPoint refGeoPoint) {
-        int lngZone = (int) Math.floor((refGeoPoint.getLatitude() + 180) / 6.0) + 1;
+        int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
         char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
         CartesianPoint cp = genPoint.toCartesian();
         UTMRef utm = new UTMRef(lngZone, latZone, cp.arg1, cp.arg2);
