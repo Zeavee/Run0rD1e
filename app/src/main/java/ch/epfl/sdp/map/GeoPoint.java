@@ -22,9 +22,7 @@ public final class GeoPoint {
     private double longitude;
     private double latitude;
 
-    public GeoPoint() {
-
-    }
+    public GeoPoint() {}
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;
