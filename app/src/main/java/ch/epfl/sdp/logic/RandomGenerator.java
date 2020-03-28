@@ -111,21 +111,21 @@ public class RandomGenerator {
 
      public Player randomPlayer() {
        GeoPoint g = randomGeoPoint();
-       Player p = new Player(g.longitude(), g.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+       Player p = new Player(g.getLongitude(), g.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
        return p;
      }
 
      public Enemy randomEnemy() {
          GeoPoint g1 = randomGeoPoint();
-         Player p1 = new Player(g1.longitude(), g1.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p1 = new Player(g1.getLongitude(), g1.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g2 = randomGeoPoint();
-         Player p2 = new Player(g2.longitude(), g2.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p2 = new Player(g2.getLongitude(), g2.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g3 = randomGeoPoint();
-         Player p3 = new Player(g3.longitude(), g3.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p3 = new Player(g3.getLongitude(), g3.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g4 = randomGeoPoint();
-         Player p4 = new Player(g4.longitude(), g4.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p4 = new Player(g4.getLongitude(), g4.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g5 = randomGeoPoint();
-         Player p5 = new Player(g5.longitude(), g5.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
 
          PlayerManager playerManager = new PlayerManager();
          PlayerManager.addPlayer(p1);
