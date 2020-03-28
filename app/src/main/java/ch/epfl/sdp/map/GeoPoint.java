@@ -26,16 +26,8 @@ public final class GeoPoint {
     }
 
     public GeoPoint(double longitude, double latitude) {
-        this.longitude = toRadians(longitude);
-        this.latitude = toRadians(latitude);
-    }
-
-    public double longitude() {
-        return toDegrees(this.longitude);
-    }
-
-    public double latitude() {
-        return toDegrees(this.latitude);
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public double getLongitude() {
@@ -60,10 +52,10 @@ public final class GeoPoint {
      * @return distance in meters between two points
      */
     public double distanceTo(GeoPoint that) {
-        double lambda1 = this.longitude;
-        double phi1 = this.latitude;
-        double lambda2 = that.longitude;
-        double phi2 = that.latitude;
+        double lambda1 = toRadians(this.longitude);
+        double phi1 = toRadians(this.latitude);
+        double lambda2 = toRadians(that.longitude);
+        double phi2 = toRadians(that.latitude);
         double alpha = 2.0 * asin(sqrt(haversin(phi1 - phi2) + cos(phi1)
                         * cos(phi2) * haversin(lambda1 - lambda2)));
 
