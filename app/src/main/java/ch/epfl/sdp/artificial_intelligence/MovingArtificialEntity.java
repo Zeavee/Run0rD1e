@@ -123,8 +123,8 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
         sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
 
-        CartesianPoint sinusMove = new CartesianPoint((float) (pdirVector.arg1 * sine * sinusAmplitude),
-                (float) (pdirVector.arg2 * sine * sinusAmplitude));
+        double sinusMoveLength = sine * sinusAmplitude;
+        CartesianPoint sinusMove = new CartesianPoint(pdirVector.arg1 * sinusMoveLength, pdirVector.arg2 * sinusMoveLength);
         return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
     }
 
