@@ -13,9 +13,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.widget.TextViewCompat;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -26,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.core.app.ActivityCompat;
 import ch.epfl.sdp.entity.Player;
 
 public class GoogleMapApi implements MapApi {
@@ -98,6 +96,8 @@ public class GoogleMapApi implements MapApi {
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
         currentUser.setLocation(getCurrentLocation());
         displayEntity(currentUser);
+        LatLng currentLocationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 14));
     }
 
     @Override
