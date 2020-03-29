@@ -4,5 +4,6 @@ public enum EntityType {
     ENEMY,
     PLAYER,
     ITEM,
-    USER
+    USER,
+    SHELTER
 }

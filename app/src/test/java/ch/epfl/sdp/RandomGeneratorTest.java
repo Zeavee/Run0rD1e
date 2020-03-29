@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.internal.matchers.Null;
 
@@ -101,7 +102,7 @@ public class RandomGeneratorTest {
     @Test
     public void randomEnemy() {
         Enemy e = randGen.randomEnemy();
-        assertFalse(1 == 2);
+        assertNotNull(e);
     }
 
 
