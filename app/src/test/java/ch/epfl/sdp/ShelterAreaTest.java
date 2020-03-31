@@ -3,7 +3,6 @@ package ch.epfl.sdp;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
@@ -62,10 +61,10 @@ public class ShelterAreaTest {
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));
         assertTrue(shelterArea.isInShelterArea(player1));
-        assertFalse(player2.isShielded);
-        assertFalse(player3.isShielded);
-        assertFalse(player4.isShielded);
-        assertTrue(player1.isShielded);
+        assertFalse(player2.isShielded());
+        assertFalse(player3.isShielded());
+        assertFalse(player4.isShielded());
+        assertTrue(player1.isShielded());
     }
 
 
