@@ -5,28 +5,39 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.login.AuthenticationController;
-import ch.epfl.sdp.login.FirebaseAuthentication;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
 
     public static final MapApi mapApi = new GoogleMapApi();
+    private TextView username, healthPointText;
+    private ProgressBar healthPointProgressBar;
+    private Handler handler = new Handler();
+
+    // Hardcoded at this stage, later will use currentUser in game
+    Player player = new Player(6.149290,
+            46.212470,
+            50,
+            "admin",
+            "admin@epfl.ch");
+
 //    public static final UserDataController firestoreUserData = new FirestoreUserData();
 //    public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
 //
@@ -48,10 +59,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30, mapApi);
         scanButton.setOnClickListener(v -> scan.showAllPlayers());
 
+        username = findViewById(R.id.gameinfo_username_text);
+        healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
+        healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
+        username.setText(player.username);
+
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
+
+        Thread thread = showGameInfoThread();
+        thread.start();
 
 //        // just to test the fetch data from cloud firebase GetLobby function and StoreUser function
 //        Thread thread = test();
@@ -80,6 +99,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private Thread showGameInfoThread() {
+        Thread thread = new Thread(() -> {
+            while (player.getHealthPoints() > 0) {
+                // Update the progress bar and display the
+                //current value in the text view
+                handler.post(() -> {
+                    healthPointProgressBar.setProgress((int) Math.round(player.getHealthPoints()));
+                    healthPointText.setText(player.getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                });
+                try {
+                    // Sleep for 200 milliseconds.
+                    Thread.sleep(2000);
+                    player.setHealthPoints(55);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        return thread;
+    }
 //    /**
 //     * just to test the fetch data from cloud firebase GetLobby function and StoreUser function
 //     *

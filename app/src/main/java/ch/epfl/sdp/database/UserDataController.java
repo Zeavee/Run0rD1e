@@ -1,13 +1,11 @@
 package ch.epfl.sdp.database;
 
-import java.util.List;
-
-import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.db.AppViewModel;
 import ch.epfl.sdp.entity.Player;
 
 public interface UserDataController {
 
-    void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel);
+    void syncCloudFirebaseToRoom(AppViewModel appViewModel);
 
     void storeUser(String collectionName, Player player);
 
