@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import androidx.core.content.ContextCompat;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -11,11 +15,6 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -29,7 +28,8 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 public class MapsActivityTest {
 
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
-    private static final int GRANT_BUTTON_INDEX = 1;
+    private static final int GRANT_BUTTON_INDEX = 0;
+    private static final int DENY_BUTTON_INDEX = 1;
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         try {
@@ -40,6 +40,24 @@ public class MapsActivityTest {
                         .clickable(true)
                         .checkable(false)
                         .index(GRANT_BUTTON_INDEX));
+                if (allowPermissions.exists()) {
+                    allowPermissions.click();
+                }
+            }
+        } catch (UiObjectNotFoundException e) {
+            System.out.println("There is no permissions dialog to interact with");
+        }
+    }
+
+    public static void denyPermissionsIfNeeded(String permissionNeeded) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
+                sleep();
+                UiDevice device = UiDevice.getInstance(getInstrumentation());
+                UiObject allowPermissions = device.findObject(new UiSelector()
+                        .clickable(true)
+                        .checkable(false)
+                        .index(DENY_BUTTON_INDEX));
                 if (allowPermissions.exists()) {
                     allowPermissions.click();
                 }
@@ -68,10 +86,18 @@ public class MapsActivityTest {
             new ActivityTestRule<>(MapsActivity.class);
 
     @Test
-    public void moveCameraWorks() {
+    public void denyRequestPermissionWorks() {
+        denyPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        onView(withId(R.id.recenter)).perform(click());
+        sleep();
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void myPositionButtonWorks() {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 }
