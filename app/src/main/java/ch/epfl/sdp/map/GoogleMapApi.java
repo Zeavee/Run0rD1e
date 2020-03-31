@@ -163,7 +163,7 @@ public class GoogleMapApi implements MapApi {
     }
 
     private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
-        LatLng position = new LatLng(displayable.getLocation().latitude(), displayable.getLocation().longitude());
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)

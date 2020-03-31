@@ -37,7 +37,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         if (enemyLocation == null) {
             return;
         }
-        enemies.add(new EnemyOutDated(enemyLocation.longitude(), enemyLocation.latitude(), radius));
+        enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         {
             double xcoord = rd.nextDouble() * enclosure.getWidth();
             double ycoord = rd.nextDouble() * enclosure.getHeight();
-            GeoPoint enemy = new GeoPoint(xcoord + enclosure.getLowerLeftAnchor().longitude(), ycoord+enclosure.getLowerLeftAnchor().latitude());
+            GeoPoint enemy = new GeoPoint(xcoord + enclosure.getLowerLeftAnchor().getLongitude(), ycoord+enclosure.getLowerLeftAnchor().getLatitude());
             double distance = enemy.distanceTo(player.getLocation());
             if (distance > minDistanceFromPlayer) return enemy;
             --maxIter;
