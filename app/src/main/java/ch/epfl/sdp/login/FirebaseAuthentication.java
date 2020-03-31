@@ -41,6 +41,12 @@ public class FirebaseAuthentication implements AuthenticationController {
         }).addOnFailureListener(e -> Toast.makeText(loginFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
+    @Override
+    public String getEmailOfCurrentUser() {
+        if(auth.getCurrentUser() == null) return null;
+        else return auth.getCurrentUser().getEmail();
+    }
+
 //    @Override
 //    public boolean isSignedIn(String email) {
 //        return auth.getCurrentUser() != null;
@@ -50,15 +56,10 @@ public class FirebaseAuthentication implements AuthenticationController {
     public void register(Activity registerFormActivity, Player player, String email, String password) {
 
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            userDataStore.storeUser(player);
+            userDataStore.storeUser("Users", player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
-    }
-
-    public FirebaseUser getCurrentUser()
-    {
-        return auth.getCurrentUser();
     }
 
     @Override
