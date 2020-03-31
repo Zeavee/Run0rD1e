@@ -17,6 +17,8 @@ public interface MapApi {
      */
     public void updatePosition();
 
+    void onLocationUpdatesGranted();
+
     /**
      * A method that moves the camera on the current location of the phone
      */
