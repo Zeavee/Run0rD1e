@@ -55,11 +55,11 @@ public class ShelterArea implements Displayable {
     public void shelter() {
         for (Player p : players) {
             if(!playersInShelterArea.contains(p) && isInRange(p)) {
-                p.isShielded = true;
+                p.setShielded(true);
                 playersInShelterArea.add(p);
             }
             else if(playersInShelterArea.contains(p) && !isInRange(p)) {
-                p.isShielded = false;
+                p.setShielded(false);
                 playersInShelterArea.remove(p);
             }
         }

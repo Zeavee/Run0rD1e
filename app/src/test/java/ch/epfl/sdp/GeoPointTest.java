@@ -23,20 +23,9 @@ public class GeoPointTest {
 
     @Test
     public void otherMethodTest() {
-        assertEquals(6.14308, A.longitude(), 0.01);
-        assertEquals(46.21023, A.latitude(), 0.01);
-        assertEquals(A.longitude(), 6.14308, 0.01);
-        assertEquals(A.latitude(), 46.21023, 0.01);
-    }
-
-    @Test
-    public void testGetterAndSetter() {
-        GeoPoint geoPoint = new GeoPoint(22,22);
-        geoPoint.setLongitude(66);
-        geoPoint.setLatitude(66);
-
-        assertEquals(66, geoPoint.getLongitude(),0.1);
-        assertEquals(66, geoPoint.getLatitude(), 0.1);
-
+        assertEquals(6.14308, A.getLongitude(), 0.01);
+        assertEquals(46.21023, A.getLatitude(), 0.01);
+        assertEquals(A.getLongitude(), 6.14308, 0.01);
+        assertEquals(A.getLatitude(), 46.21023, 0.01);
     }
 }

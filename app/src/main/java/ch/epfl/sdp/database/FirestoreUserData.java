@@ -50,8 +50,17 @@ public class FirestoreUserData implements UserDataController, Updatable {
             });
     }
 
+    private long lastUpdateTime = 0;
     @Override
     public void update() {
+        if(lastUpdateTime == 0) {
+            lastUpdateTime = System.currentTimeMillis();
+        }
 
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastUpdateTime >= 1000) {
+            lastUpdateTime = currentTime;
+            getLobby("Users");
+        }
     }
 }

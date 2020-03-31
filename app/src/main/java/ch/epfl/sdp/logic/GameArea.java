@@ -46,7 +46,7 @@ public class GameArea {
         double xPrime = x / cos(toRadians(y));
 
         double newRadius = factor*radius;
-        GeoPoint newCenter = new GeoPoint(center.longitude()+xPrime, center.latitude()+y);
+        GeoPoint newCenter = new GeoPoint(center.getLongitude()+xPrime, center.getLatitude()+y);
 
         return new GameArea(newRadius, newCenter);
     }
@@ -79,8 +79,8 @@ public class GameArea {
             return null;
         }
         double outputRadius = getValueForTime(time, finalTime, startCircle.getRadius(), this.radius);
-        double outputLatitude = getValueForTime(time, finalTime, startCircle.getCenter().latitude(), this.center.latitude());
-        double outputLongitude = getValueForTime(time, finalTime, startCircle.getCenter().longitude(), this.center.longitude());
+        double outputLatitude = getValueForTime(time, finalTime, startCircle.getCenter().getLatitude(), this.center.getLatitude());
+        double outputLongitude = getValueForTime(time, finalTime, startCircle.getCenter().getLongitude(), this.center.getLongitude());
         return new GameArea(outputRadius, new GeoPoint(outputLongitude, outputLatitude));
     }
 

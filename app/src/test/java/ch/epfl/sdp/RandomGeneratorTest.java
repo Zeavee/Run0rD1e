@@ -44,8 +44,8 @@ public class RandomGeneratorTest {
     public void randomGeoPointTest() {
         GeoPoint g = randGen.randomGeoPoint();
         GeoPoint f = new GeoPoint(0,0);
-        assertFalse(g.longitude() == f.longitude());
-        assertFalse(g.latitude() == f.latitude());
+        assertFalse(g.getLongitude() == f.getLongitude());
+        assertFalse(g.getLatitude() == f.getLatitude());
     }
 
     @Test
@@ -92,10 +92,10 @@ public class RandomGeneratorTest {
     public void randomPlayer() {
         for (int i = 0; i <5; i++) {
             Player p = randGen.randomPlayer();
-            assertTrue(p.getLocation().longitude() >= 5);
-            assertTrue(p.getLocation().longitude() <= 7);
-            assertTrue(p.getLocation().latitude() <= 47);
-            assertTrue(p.getLocation().latitude() >= 45);
+            assertTrue(p.getLocation().getLongitude() >= 5);
+            assertTrue(p.getLocation().getLongitude() <= 7);
+            assertTrue(p.getLocation().getLatitude() <= 47);
+            assertTrue(p.getLocation().getLatitude() >= 45);
         }
     }
 
