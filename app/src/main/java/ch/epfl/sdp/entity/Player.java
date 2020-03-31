@@ -16,8 +16,6 @@ import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.map.GeoPoint;
 
-
-
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
@@ -184,4 +182,43 @@ public class Player extends MovingEntity implements Localizable {
         return position;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPosition(CartesianPoint position) {
+        this.position = position;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setTimeTraveled(double timeTraveled) {
+        this.timeTraveled = timeTraveled;
+    }
+
+    public void setDistanceTraveled(double distanceTraveled) {
+        this.distanceTraveled = distanceTraveled;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public void setShielded(boolean shielded) {
+        isShielded = shielded;
+    }
+
+    public void setItemInventory(HashMap<String, Integer> itemInventory) {
+        this.itemInventory = itemInventory;
+    }
 }
