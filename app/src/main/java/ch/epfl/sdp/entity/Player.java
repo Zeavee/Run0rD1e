@@ -1,6 +1,5 @@
 package ch.epfl.sdp.entity;
 
-
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 

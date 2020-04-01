@@ -9,22 +9,22 @@ import ch.epfl.sdp.map.MapsActivity;
 
 public class PlayerManager implements Updatable {
     private static PlayerManager instance;
-    private Map<String, Player> players = new HashMap<>();
+    private static Map<String, Player> players = new HashMap<>();
 
 
-    private PlayerManager() { }
+    public PlayerManager() { }
 
-    public void addPlayer(Player player) {
+    public static void addPlayer(Player player) {
         players.put(player.getEmail(), player);
     }
 
-    public void removePlayer(Player player) {
+    public static void removePlayer(Player player) {
         if(players.containsKey(player.getEmail())) {
             players.remove(player.getEmail());
         }
     }
 
-    public ArrayList<Player> getPlayers() {
+    public static ArrayList<Player> getPlayers() {
         ArrayList<Player> resultPlayers = new ArrayList<>();
         for(Map.Entry<String, Player> entry: players.entrySet()){
             resultPlayers.add(entry.getValue());
@@ -43,7 +43,7 @@ public class PlayerManager implements Updatable {
         return PlayerManager.instance;
     }
 
-    public Player getPlayer(String email) {
+    public static Player getPlayer(String email) {
         return players.get(email);
     }
 
