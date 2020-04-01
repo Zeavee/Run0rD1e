@@ -1,8 +1,15 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
-public abstract class Item {
+public abstract class Item implements Displayable, Updatable {
     /**
      * GeoPoint representing the localisation of the entity
      */
@@ -18,14 +25,38 @@ public abstract class Item {
         this.name = name;
         this.isTaken = isTaken;
         this.description = description;
+        Game.addToUpdateList(this);
     }
 
-    public void takeItem() {this.isTaken = true;}
+    public void takeItem() {
+        this.isTaken = true;
+        MapsActivity.mapApi.unDisplayEntity(this);
+    }
 
     public String getDescription() {return this.description; }
 
     public boolean isTaken() {return isTaken;}
 
     public String getName() {return this.name;}
+
+    @Override
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    @Override
+    public void update() {
+        for (Player player: PlayerManager.getPlayers()) {
+            if (this.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 0 && !isTaken) {
+                player.addItemInInventory(name);
+                takeItem();
+            }
+        }
+    }
+
+     @Override
+    public EntityType getEntityType() {
+        return EntityType.ITEM;
+     }
 
 }

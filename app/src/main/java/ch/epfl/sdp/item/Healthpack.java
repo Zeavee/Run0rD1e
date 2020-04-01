@@ -1,8 +1,8 @@
 package ch.epfl.sdp.item;
 
 
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.map.GeoPoint;
 
 /**
  * Class representing a healthpack

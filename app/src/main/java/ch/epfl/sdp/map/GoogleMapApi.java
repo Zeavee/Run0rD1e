@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.widget.TextViewCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
@@ -46,6 +46,8 @@ public class GoogleMapApi implements MapApi {
         entityCircles = new HashMap<>();
 
         currentUser = new Player(0, 0, 100, "current", "test");
+        PlayerManager.addPlayer(currentUser);
+
 
         locationListener = new LocationListener() {
             @Override

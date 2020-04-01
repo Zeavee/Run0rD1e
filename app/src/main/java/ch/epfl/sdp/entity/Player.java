@@ -40,7 +40,7 @@ public class Player extends MovingEntity implements Localizable {
         this(0, 0, 1, username, email);
     }
 
-    //Contstructor for the class
+    //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         GeoPoint g = new GeoPoint(longitude, latitude);
         this.setLocation(g);
