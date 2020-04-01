@@ -1,6 +1,8 @@
 package ch.epfl.sdp.entity;
 
-import androidx.room.Ignore;
+
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 
@@ -10,21 +12,28 @@ import ch.epfl.sdp.artificial_intelligence.Localizable;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.GeoPoint;
 
+@IgnoreExtraProperties
 public class Player extends MovingEntity implements Localizable, Updatable {
     public String username;
     public String email;
+    @Exclude
     public CartesianPoint position;
     public int score;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
+
+    @Exclude
     public boolean alive;
 
-    @Ignore
+    @Exclude
     public final static double MAX_HEALTH = 100;
 
+    @Exclude
     private boolean isShielded;
+
+    @Exclude
     private Inventory inventory;
 
     public Player() {
@@ -66,6 +75,7 @@ public class Player extends MovingEntity implements Localizable, Updatable {
         return healthPoints;
     }
 
+    @Exclude
     public boolean isAlive() {
         return alive;
     }
@@ -98,13 +108,16 @@ public class Player extends MovingEntity implements Localizable, Updatable {
         this.healthPoints = amount;
     }
 
+    @Exclude
     public boolean isShielded() {return this.isShielded; }
 
+    @Exclude
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
     }
 
+    @Exclude
     @Override
     public GenPoint getPosition() {
         return position;
@@ -146,6 +159,7 @@ public class Player extends MovingEntity implements Localizable, Updatable {
         isShielded = shielded;
     }
 
+    @Exclude
     public Inventory getInventory() {
         return inventory;
     }
@@ -153,8 +167,6 @@ public class Player extends MovingEntity implements Localizable, Updatable {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
-
-    public void setIsShielded(boolean isShielded) {this.isShielded = isShielded;}
 
     @Override
     public void update() {

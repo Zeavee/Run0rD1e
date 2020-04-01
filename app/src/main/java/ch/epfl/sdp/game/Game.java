@@ -75,28 +75,25 @@ public class Game implements Updatable, Drawable {
      */
     public void initGame() {
         if (gameThread.getState() == Thread.State.NEW) {
-            gameThread.initializeGame();
             gameThread.setRunning(true);
             gameThread.start();
         }
     }
 
     public void setEnvironment() {
-        new Thread(new Runnable() {
-            public void run() {
-                MapsActivity.currentUserEmail =  MapsActivity.authenticationController.getEmailOfCurrentUser();
-                while(MapsActivity.currentUserEmail == null) {}
+        MapsActivity.currentUserEmail =  MapsActivity.authenticationController.getEmailOfCurrentUser();
+        while(MapsActivity.currentUserEmail == null) {}
 
-                //fetch all players from lobby for the first time
-                MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
+        //fetch all players from lobby for the first time
+        MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
 
-                // wait until all data fetched
-                while(PlayerManager.getInstance().getMapPlayers().size() != 7) {}
+        // wait until all data fetched
+        while(PlayerManager.getInstance().getMapPlayers().size() != 7) {}
 
-                //initialize the currentUser
-                MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
-            }
-        }).start();
+        //initialize the currentUser
+        MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
+
+        this.updatables.add(PlayerManager.getInstance());
     }
 
     /**

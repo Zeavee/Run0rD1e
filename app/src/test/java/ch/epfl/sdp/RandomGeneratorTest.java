@@ -2,11 +2,8 @@ package ch.epfl.sdp;
 
 import static org.junit.Assert.*;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
 
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.entity.Player;

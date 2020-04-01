@@ -5,12 +5,12 @@ import android.util.Log;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 import ch.epfl.sdp.db.AppViewModel;
 import ch.epfl.sdp.db.PlayerEntity;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 

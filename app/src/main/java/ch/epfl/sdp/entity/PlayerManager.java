@@ -49,7 +49,7 @@ public class PlayerManager implements Updatable {
 
     @Override
     public void update() {
-        MapsActivity.firestoreUserData.storeUser(MapsActivity.lobbyCollectionName, getPlayer(MapsActivity.currentUserEmail));
+        MapsActivity.firestoreUserData.storeUser(MapsActivity.lobbyCollectionName, MapsActivity.currentUser);
         MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
     }
 

@@ -43,7 +43,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
-    private Handler handler = new Handler();
 
     boolean flag = false;
 
@@ -115,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Thread showGameInfoThread() {
+        Handler handler = new Handler();
         Thread thread = new Thread(() -> {
             while (currentUser != null && currentUser.getHealthPoints() > 0) {
                 // Update the progress bar and display the

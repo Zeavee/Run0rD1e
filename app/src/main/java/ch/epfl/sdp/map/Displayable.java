@@ -1,5 +1,7 @@
 package ch.epfl.sdp.map;
 
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import ch.epfl.sdp.entity.EntityType;
 
 public interface Displayable {

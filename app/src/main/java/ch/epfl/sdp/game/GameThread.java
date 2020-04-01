@@ -20,9 +20,6 @@ public class GameThread extends Thread{
         this.game = game;
     }
 
-    public void initializeGame(){
-        game.setEnvironment();
-    }
     /**
      * Get the actual state of the loop
      * @return true if it is running, false otherwise
@@ -44,6 +41,8 @@ public class GameThread extends Thread{
      */
     @Override
     public void run(){
+        game.setEnvironment();
+
         // Main loop of the game
         while(running){
             startTime = System.nanoTime();
