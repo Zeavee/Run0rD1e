@@ -15,6 +15,7 @@ public class Scan extends TimedItem {
     public Scan(GeoPoint location, boolean isTaken, int scanTime, MapApi map) {
         super(location, "Scan", isTaken, "Item that scans the entire map and reveals other players for a short delay", scanTime);
         this.map = map;
+        showAllPlayers();
     }
 
     public void showAllPlayers() {

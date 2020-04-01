@@ -11,6 +11,7 @@ public class Shield extends TimedItem  {
     public Shield(GeoPoint location, boolean isTaken, int shieldTime, Player player) {
         super(location, "Shield", isTaken, "Protects you from taking damage from the enemy", shieldTime);
         this.player = player;
+        player.setShielded(true);
     }
 
     @Override

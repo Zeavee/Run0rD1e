@@ -91,21 +91,21 @@ public class RandomGenerator {
        return h;
      }
 
-     public Shield randomShield() {
+     public Shield randomShield(Player player) {
        GeoPoint A = randomGeoPoint();
-       Shield s = new Shield(A, false, rand.nextInt()*10+20, null);
+       Shield s = new Shield(A, false, rand.nextInt(1)*10+20, player);
        return s;
      }
 
-     public Shrinker randomShrinker() {
+     public Shrinker randomShrinker(Player player) {
        GeoPoint A =  randomGeoPoint();
-       Shrinker s = new Shrinker(A, false, rand.nextInt(), rand.nextDouble(), null);
+       Shrinker s = new Shrinker(A, false, rand.nextInt(1), rand.nextDouble(), player);
        return s;
      }
 
      public Scan randomScan() {
        MapApi map = null;
-       Scan s = new Scan(randomGeoPoint(), false, rand.nextInt(), map);
+       Scan s = new Scan(randomGeoPoint(), false, rand.nextInt(1), map);
        return s;
      }
 

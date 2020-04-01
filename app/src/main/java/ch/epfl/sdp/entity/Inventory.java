@@ -11,6 +11,7 @@ import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.item.TimedItem;
 
 public class Inventory {
     private Player player;
@@ -29,33 +30,18 @@ public class Inventory {
                     player.setHealthPoints(Player.MAX_HEALTH);
                     break;
                 case "Shield":
-                    useShield(new Shield(null, false, 10, player));
+                    Game.addToUpdateList(new Shield(null, false, 10, player));
                     break;
                 case "Shrinker":
-                    useShrinker(new Shrinker(null,false,10,10,player));
+                    Game.addToUpdateList(new Shrinker(null,false,10,10,player));
                     break;
                 case "Scan":
-                    useScan(new Scan(null, false, 10, null));
+                    Game.addToUpdateList(new Scan(null, false, 10, null));
                     break;
                 default:
                     break;
             }
         }
-    }
-
-    private void useShield(Shield shield) {
-        player.setShielded(true);
-        Game.addToUpdateList(shield);
-    }
-
-    private void useShrinker(Shrinker shrinker) {
-        player.setAoeRadius(player.getAoeRadius() - shrinker.getShrinkingRadius());
-        Game.addToUpdateList(shrinker);
-    }
-
-    private void useScan(Scan scan){
-        scan.showAllPlayers();
-        Game.addToUpdateList(scan);
     }
 
     private void useHealthPack(Healthpack healthpack) {

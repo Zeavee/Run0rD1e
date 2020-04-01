@@ -2,6 +2,7 @@ package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Shrinker extends TimedItem {
@@ -12,6 +13,7 @@ public class Shrinker extends TimedItem {
         super(location, "Shrinker", isTaken, "Shrinks your area of effect for a small time", shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
         this.player = player;
+        player.setAoeRadius(player.getAoeRadius() - getShrinkingRadius());
     }
 
     public double getShrinkingRadius() {return this.shrinkingRadius;}
