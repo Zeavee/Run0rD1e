@@ -4,7 +4,6 @@ import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 
@@ -26,8 +25,6 @@ public abstract class Item implements Displayable, Updatable {
 
     public void takeItem() {
         this.isTaken = true;
-        Game.removeFromUpdateList(this);
-        Game.removeFromDisplayList(this);
     }
 
     public String getDescription() {return this.description; }
@@ -54,6 +51,11 @@ public abstract class Item implements Displayable, Updatable {
      @Override
     public EntityType getEntityType() {
         return EntityType.ITEM;
+     }
+
+     @Override
+    public Boolean isActive() {
+        return !isTaken;
      }
 
 }

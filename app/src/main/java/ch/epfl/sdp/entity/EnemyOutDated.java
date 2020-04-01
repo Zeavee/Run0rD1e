@@ -6,14 +6,21 @@ public class EnemyOutDated extends MovingEntity {
 
     GeoPoint location;
     double aoeRadius;
+    boolean isActive;
 
     public EnemyOutDated(double longitude, double latitude, double aoeRadius) {
         location = new GeoPoint(longitude, latitude);
         this.aoeRadius = aoeRadius;
+        this.isActive = true;
     }
 
     @Override
     public EntityType getEntityType() {
         return EntityType.ENEMY;
+    }
+
+    @Override
+    public Boolean isActive() {
+        return isActive;
     }
 }

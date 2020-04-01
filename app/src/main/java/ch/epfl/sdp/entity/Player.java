@@ -20,6 +20,7 @@ public class Player extends MovingEntity implements Localizable {
     public final static double MAX_HEALTH = 100;
     private boolean isShielded;
     private Inventory inventory;
+    private boolean isActive;
 
     public Player() {
         super();
@@ -45,6 +46,7 @@ public class Player extends MovingEntity implements Localizable {
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
         this.inventory = new Inventory(this);
+        this.isActive = true;
     }
 
     public void updateHealth(ArrayList<EnemyOutDated> enemies) {
@@ -101,6 +103,11 @@ public class Player extends MovingEntity implements Localizable {
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    @Override
+    public Boolean isActive() {
+        return isActive;
     }
 
     @Override

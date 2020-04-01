@@ -48,7 +48,6 @@ public class Game implements Updatable, Drawable {
     public static void removeFromDisplayList(Displayable displayable) {
         if (displayable != null) {
             displayables.remove(displayable);
-            map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
         }
     }
 
@@ -106,7 +105,12 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            if (displayable.isActive()) {
+                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            } else {
+                map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
+                removeFromDisplayList(displayable);
+            }
         }
     }
 }

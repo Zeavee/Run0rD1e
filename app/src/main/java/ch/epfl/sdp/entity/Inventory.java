@@ -87,7 +87,7 @@ public class Inventory {
     }
 
     public void removeItem(String itemName) {
-        if (items.containsKey(itemName)) {
+        if (!items.containsKey(itemName)) {
             return;
         }
         int n = items.get(itemName);

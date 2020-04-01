@@ -15,6 +15,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     private Boundable bounds;
     public double sinusAmplitude = 1;
     public double sinusAngle;
+    private boolean isActive;
 
     public MovingArtificialEntity() {
         super();
@@ -26,6 +27,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         moving = false;
         bounds = new UnboundedArea();
         forceMove = false;
+        isActive = true;
     }
 
     public MovingArtificialEntity(Boundable bounds){
@@ -175,5 +177,10 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     @Override
     public EntityType getEntityType() {
         return null;
+    }
+
+    @Override
+    public Boolean isActive() {
+        return isActive;
     }
 }
