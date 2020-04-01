@@ -66,9 +66,14 @@ public class Game implements Updatable, Drawable {
     }
 
     /**
-     * Launches the game
+     * Launches the game loop
      */
     public void initGame() {
+        // It is not legal to start a terminated thread, we have create a new one
+        if(gameThread.getState() == Thread.State.TERMINATED){
+            gameThread = new GameThread(this);
+        }
+
         if (gameThread.getState() == Thread.State.NEW) {
             gameThread.setRunning(true);
             gameThread.start();

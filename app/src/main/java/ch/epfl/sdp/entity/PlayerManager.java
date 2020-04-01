@@ -3,11 +3,7 @@ package ch.epfl.sdp.entity;
 import java.util.ArrayList;
 
 public class PlayerManager {
-    private static ArrayList<Player> players;
-
-    public PlayerManager() {
-        players = new ArrayList<>();
-    }
+    private static ArrayList<Player> players = new ArrayList<>();
 
     public static void addPlayer(Player player) {
         players.add(player);
@@ -19,5 +15,9 @@ public class PlayerManager {
 
     public static ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public static void removeAll(){
+        players.clear();
     }
 }

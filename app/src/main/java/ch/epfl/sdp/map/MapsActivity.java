@@ -26,7 +26,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
         Button scanButton = findViewById(R.id.scanButton);
-        Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30, mapApi);
+        Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30);
         scanButton.setOnClickListener(v -> scan.showAllPlayers());
 
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);

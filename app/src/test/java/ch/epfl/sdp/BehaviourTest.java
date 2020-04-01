@@ -20,8 +20,8 @@ public class BehaviourTest {
 
     @Before
     public void setup() {
+        PlayerManager.removeAll();
         player = new Player(0, 0, 0, "", "");
-        PlayerManager playerManager = new PlayerManager();
         PlayerManager.addPlayer(player);
         RectangleBounds patrolBounds = new RectangleBounds(10, 10, null);
         RectangleBounds maxBounds = new RectangleBounds(100, 100, null);

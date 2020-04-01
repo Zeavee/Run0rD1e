@@ -2,16 +2,12 @@ package ch.epfl.sdp.entity;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.item.TimedItem;
 
 public class Inventory {
     private Player player;
@@ -36,7 +32,7 @@ public class Inventory {
                     Game.addToUpdateList(new Shrinker(null,false,10,10,player));
                     break;
                 case "Scan":
-                    Game.addToUpdateList(new Scan(null, false, 10, null));
+                    Game.addToUpdateList(new Scan(null, false, 10));
                     break;
                 default:
                     break;
@@ -44,12 +40,12 @@ public class Inventory {
         }
     }
 
-    private void useHealthPack(Healthpack healthpack) {
+    /*private void useHealthPack(Healthpack healthpack) {
         player.healthPoints = player.healthPoints + healthpack.getHealthPackAmount();
         if (player.healthPoints > Player.MAX_HEALTH) {
             player.healthPoints = Player.MAX_HEALTH;
         }
-    }
+    }*/
 
     public void addItem(String itemName) {
         int n = items.get(itemName);

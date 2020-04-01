@@ -105,7 +105,7 @@ public class RandomGenerator {
 
      public Scan randomScan() {
        MapApi map = null;
-       Scan s = new Scan(randomGeoPoint(), false, rand.nextInt(1), map);
+       Scan s = new Scan(randomGeoPoint(), false, rand.nextInt(1));
        return s;
      }
 

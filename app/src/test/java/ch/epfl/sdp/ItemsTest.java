@@ -32,7 +32,7 @@ public class ItemsTest {
         healthpack = new Healthpack(A,false, 60);
         shield = new Shield(A, false, 40,player);
         shrinker = new Shrinker(A, true, 40, 10,player);
-        scan = new Scan(A, false, 50, new MockMapApi());
+        scan = new Scan(A, false, 50);
     }
 
     @Test

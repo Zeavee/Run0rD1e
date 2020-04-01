@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.database.FirestoreUserData;
@@ -43,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        PlayerManager playerManager = new PlayerManager();
 
         game = new Game(null);
 

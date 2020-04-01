@@ -1,8 +1,6 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Shrinker extends TimedItem {
@@ -21,7 +19,6 @@ public class Shrinker extends TimedItem {
     @Override
     public void update() {
         super.update();
-        System.out.println(String.format("Update shrinker, count %d", counter));
 
         if(super.counter == 0) {
             player.setAoeRadius(player.getAoeRadius() + getShrinkingRadius());
