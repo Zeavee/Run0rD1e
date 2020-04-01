@@ -50,13 +50,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(mNames.get(position));
         holder.amountOfItem.setText(String.valueOf(mAmounts.get(position)));
         holder.button.setOnClickListener(v -> {
-            player.getInventory().removeItem(mNames.get(position));
-            int amount = Integer.parseInt(holder.amountOfItem.getText().toString());
-            if(amount > 0) {
-                holder.amountOfItem.setText(String.valueOf(amount-1));
-            }
-        });
+            // Using an item will decrease it's amount
+            player.getInventory().useItem(mNames.get(position));
 
+            // Update the quantity of that item
+            holder.amountOfItem.setText(String.valueOf(player.getInventory().getItems().get(mNames.get(position))));
+        });
     }
 
     @Override

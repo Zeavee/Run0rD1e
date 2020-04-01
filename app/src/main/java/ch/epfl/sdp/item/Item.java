@@ -27,5 +27,4 @@ public abstract class Item {
     public boolean isTaken() {return isTaken;}
 
     public String getName() {return this.name;}
-
 }

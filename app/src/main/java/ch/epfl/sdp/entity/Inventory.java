@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
@@ -20,54 +21,41 @@ public class Inventory {
         this.items = new HashMap<>();
     }
 
-    public void useItem(Item i) {
-        int numberOfInstances = items.get(i.getName());
-
-        if (numberOfInstances > 0) {
-            switch (i.getName()) {
+    public void useItem(String itemName) {
+        if (items.get(itemName) > 0) {
+            removeItem(itemName);
+            switch (itemName) {
                 case "Healthpack":
-                    ((Healthpack) i).increaseHealthPlayer(player, Player.MAX_HEALTH);
+                    player.setHealthPoints(Player.MAX_HEALTH);
                     break;
                 case "Shield":
-                    useShield((Shield) i);
+                    useShield(new Shield(null, false, 10, player));
                     break;
                 case "Shrinker":
-                    useShrinker((Shrinker) i);
+                    useShrinker(new Shrinker(null,false,10,10,player));
                     break;
                 case "Scan":
-                    ((Scan) i).showAllPlayers();
+                    useScan(new Scan(null, false, 10, null));
                     break;
                 default:
                     break;
             }
-
-            items.put(i.getName(), numberOfInstances - 1);
         }
     }
 
     private void useShield(Shield shield) {
         player.setShielded(true);
-        TimerTask shieldPlayer = new TimerTask() {
-            @Override
-            public void run() {
-                player.setShielded(false);
-            }
-        };
-        Timer timer = new Timer();
-        timer.schedule(shieldPlayer, (long) shield.getShieldTime() * 1000);
+        Game.addToUpdateList(shield);
     }
 
     private void useShrinker(Shrinker shrinker) {
-        double initialAoeRadius = player.getAoeRadius();
         player.setAoeRadius(player.getAoeRadius() - shrinker.getShrinkingRadius());
-        TimerTask shrinkAoeRadius = new TimerTask() {
-            @Override
-            public void run() {
-                player.setAoeRadius(initialAoeRadius);
-            }
-        };
-        Timer t = new Timer();
-        t.schedule(shrinkAoeRadius, (long) shrinker.getShrinkTime() * 1000);
+        Game.addToUpdateList(shrinker);
+    }
+
+    private void useScan(Scan scan){
+        scan.showAllPlayers();
+        Game.addToUpdateList(scan);
     }
 
     private void useHealthPack(Healthpack healthpack) {

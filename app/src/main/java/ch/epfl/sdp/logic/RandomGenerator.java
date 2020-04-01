@@ -93,19 +93,19 @@ public class RandomGenerator {
 
      public Shield randomShield() {
        GeoPoint A = randomGeoPoint();
-       Shield s = new Shield(A, false, rand.nextDouble()*10+20);
+       Shield s = new Shield(A, false, rand.nextInt()*10+20, null);
        return s;
      }
 
      public Shrinker randomShrinker() {
        GeoPoint A =  randomGeoPoint();
-       Shrinker s = new Shrinker(A, false, rand.nextDouble(), rand.nextDouble());
+       Shrinker s = new Shrinker(A, false, rand.nextInt(), rand.nextDouble(), null);
        return s;
      }
 
      public Scan randomScan() {
        MapApi map = null;
-       Scan s = new Scan(randomGeoPoint(), false, rand.nextDouble(), map);
+       Scan s = new Scan(randomGeoPoint(), false, rand.nextInt(), map);
        return s;
      }
 
