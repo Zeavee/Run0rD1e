@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -19,6 +20,10 @@ import ch.epfl.sdp.social.FriendsListActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
+    public PlayerManager playerManager;
+    public static String lobbyCollectionName;
+    public static FirestoreUserData firebaseUserData;
+    public static String currentUserEmail;
 
     // Launches the game loop in another thread, must be destroyed at the end
     public static void startGame() {
@@ -41,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         game = new Game(null);
+
+        currentUserEmail = authenticationController.getEmailOfCurrentUser();
+
+        while(currentUserEmail == null){
+
+        }
+        fire
 
         startGame();
 

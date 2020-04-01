@@ -3,15 +3,15 @@ package ch.epfl.sdp.entity;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class PlayerManager {
-    private static PlayerManager instance = new PlayerManager();
+import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.artificial_intelligence.Updatable;
+
+public class PlayerManager implements Updatable {
+    private static PlayerManager instance;
     private Map<String, Player> players;
 
-    private PlayerManager() {}
 
-    public static PlayerManager getInstance() {
-        return instance;
-    }
+    private PlayerManager() { }
 
     public void addPlayer(Player player) {
         players.put(player.getEmail(), player);
@@ -31,7 +31,21 @@ public class PlayerManager {
         return resultPlayers;
     }
 
+    public static PlayerManager getInstance () {
+        if (PlayerManager.instance == null) {
+            PlayerManager.instance = new PlayerManager ();
+        }
+        return PlayerManager.instance;
+    }
+
     public Player getPlayer(String email) {
         return players.get(email);
     }
+
+    @Override
+    public void update() {
+        MainActivity.firebaseUserData.storeUser(MainActivity.lobbyCollectionName, getPlayer(MainActivity.currentUserEmail));
+        MainActivity.firebaseUserData.getLobby(MainActivity.lobbyCollectionName);
+    }
+
 }

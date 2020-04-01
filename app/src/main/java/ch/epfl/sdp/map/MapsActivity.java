@@ -11,20 +11,23 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.FirebaseAuthentication;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
@@ -43,11 +46,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             "admin",
             "admin@epfl.ch");
 
-//    public static final UserDataController firestoreUserData = new FirestoreUserData();
-//    public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
-//
-//    // Use the email as the key to identify the CurrentUser in the List of players
-//    public static String emailOfCurrentUser = authenticationController.getEmailOfCurrentUser();
+    public static final UserDataController firestoreUserData = new FirestoreUserData();
+    public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
+
+    // Use the email as the key to identify the CurrentUser in the List of players
+    public static String emailOfCurrentUser = authenticationController.getEmailOfCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
