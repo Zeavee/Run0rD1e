@@ -5,21 +5,19 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.game.DatabaseHelper;
-
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.entity.PlayerManager;
-
+import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
-import ch.epfl.sdp.logic.GameInfoActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
+
+//import ch.epfl.sdp.item.InventoryActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
@@ -54,15 +52,11 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.startButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
-        findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
-
         findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
         findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
 
         findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
-
-        findViewById(R.id.inventory).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, InventoryActivity.class)));
 
         findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 

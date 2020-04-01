@@ -2,6 +2,7 @@ package ch.epfl.sdp.map;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,7 +23,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
@@ -30,6 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
     private Handler handler = new Handler();
+
+    boolean flag = false;
 
     // Hardcoded at this stage, later will use currentUser in game
     Player player = new Player(6.149290,
@@ -58,6 +64,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button scanButton = findViewById(R.id.scanButton);
         Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30, mapApi);
         scanButton.setOnClickListener(v -> scan.showAllPlayers());
+
+        findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
+
+
+        Button inventoryButton = findViewById(R.id.button_inventory);
+        InventoryFragment inventoryFragment = new InventoryFragment();
+        inventoryButton.setOnClickListener(v -> {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
+            if(flag) {
+                transaction.remove(inventoryFragment);
+            } else {
+                transaction.add(R.id.fragment_inventory_container, inventoryFragment);
+            }
+            flag = !flag;
+            transaction.commit();
+        });
 
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
