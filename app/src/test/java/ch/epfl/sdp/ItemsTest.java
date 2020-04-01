@@ -1,23 +1,42 @@
 package ch.epfl.sdp;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+
 public class ItemsTest {
     private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
     private static Healthpack healthpack = new Healthpack(A,false, 60);
     private static Shield shield = new Shield(A, false, 40);
     private static Shrinker shrinker = new Shrinker(A, true, 40, 10);
     private static Scan scan = new Scan(A, false, 50, new MockMapApi());
+
+    @Before
+    public void executeBefore() {
+        MapApi mockMapApi = new MockMapApi();
+        new PlayerManager();
+        MapsActivity mockMapsActivity = mock(MapsActivity.class);
+        doAnswer((i) -> null).when(mockMapsActivity).runOnUiThread(any(Runnable.class));
+        mockMapApi.initializeApi(null, mockMapsActivity);
+        new Game(mockMapApi);
+    }
 
     @Test
     public void healthpackTest() {

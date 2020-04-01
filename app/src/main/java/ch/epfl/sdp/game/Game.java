@@ -11,7 +11,7 @@ import ch.epfl.sdp.map.MapApi;
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
-    private MapApi map;
+    private static MapApi map;
     private static ArrayList<Updatable> updatables;
     private static ArrayList<Displayable> displayables;
 
@@ -48,6 +48,7 @@ public class Game implements Updatable, Drawable {
     public static void removeFromDisplayList(Displayable displayable) {
         if (displayable != null) {
             displayables.remove(displayable);
+            map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
         }
     }
 
