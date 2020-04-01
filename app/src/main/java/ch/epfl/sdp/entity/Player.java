@@ -1,9 +1,8 @@
 package ch.epfl.sdp.entity;
 
-import androidx.room.Ignore;
-
 import java.util.ArrayList;
 
+import androidx.room.Ignore;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
