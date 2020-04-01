@@ -7,15 +7,14 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
-import ch.epfl.sdp.db.PlayerEntity;
 import ch.epfl.sdp.db.AppViewModel;
+import ch.epfl.sdp.db.PlayerEntity;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.entity.PlayerManager;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class FirestoreUserData implements UserDataController, Updatable {
+public class FirestoreUserData implements UserDataController {
     @Override
     public void syncCloudFirebaseToRoom(AppViewModel appViewModel) {
         FirebaseFirestore.getInstance().collection("Users")
@@ -42,7 +41,7 @@ public class FirestoreUserData implements UserDataController, Updatable {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         Player player = document.toObject(Player.class);
-                        MapsActivity.playerManager.addPlayer(player);
+                        PlayerManager.getInstance().addPlayer(player);
                     }
                 } else {
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -50,17 +49,4 @@ public class FirestoreUserData implements UserDataController, Updatable {
             });
     }
 
-    private long lastUpdateTime = 0;
-    @Override
-    public void update() {
-        if(lastUpdateTime == 0) {
-            lastUpdateTime = System.currentTimeMillis();
-        }
-
-        long currentTime = System.currentTimeMillis();
-        if(currentTime - lastUpdateTime >= 1000) {
-            lastUpdateTime = currentTime;
-            getLobby("Users");
-        }
-    }
 }

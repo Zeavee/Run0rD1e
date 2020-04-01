@@ -26,7 +26,7 @@ public class Enemy extends MovingArtificialEntity {
         this.damage = 1;
         this.dps = 1;
         this.detectionDistance = 1;
-        this.players = PlayerManager.getPlayers();
+        this.players = PlayerManager.getInstance().getPlayers();
         behaviour = Behaviour.PATROL;
         timeAttack = 100; // Needs calibration
         timeWandering = 100;
@@ -38,7 +38,7 @@ public class Enemy extends MovingArtificialEntity {
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
-        this.players = PlayerManager.getPlayers();
+        this.players = PlayerManager.getInstance().getPlayers();
         behaviour = Behaviour.WAIT;
         timeAttack = 100; // Needs calibration
         timeWandering = 100;

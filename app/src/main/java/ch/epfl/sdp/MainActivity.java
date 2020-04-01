@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -17,7 +16,6 @@ import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
 
-//import ch.epfl.sdp.item.InventoryActivity;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
@@ -42,15 +40,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        PlayerManager playerManager = new PlayerManager();
-
         game = new Game(null);
 
         startGame();
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
-
-        findViewById(R.id.startButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
         findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
