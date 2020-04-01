@@ -1,18 +1,16 @@
 package ch.epfl.sdp.logic;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.RecursiveAction;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.PolarPoint;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -113,28 +111,28 @@ public class RandomGenerator {
 
      public Player randomPlayer() {
        GeoPoint g = randomGeoPoint();
-       Player p = new Player(g.longitude(), g.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+       Player p = new Player(g.getLongitude(), g.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
        return p;
      }
 
      public Enemy randomEnemy() {
          GeoPoint g1 = randomGeoPoint();
-         Player p1 = new Player(g1.longitude(), g1.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p1 = new Player(g1.getLongitude(), g1.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g2 = randomGeoPoint();
-         Player p2 = new Player(g2.longitude(), g2.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p2 = new Player(g2.getLongitude(), g2.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g3 = randomGeoPoint();
-         Player p3 = new Player(g3.longitude(), g3.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p3 = new Player(g3.getLongitude(), g3.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g4 = randomGeoPoint();
-         Player p4 = new Player(g4.longitude(), g4.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p4 = new Player(g4.getLongitude(), g4.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
          GeoPoint g5 = randomGeoPoint();
-         Player p5 = new Player(g5.longitude(), g5.latitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+         Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
 
-         List<Player> players = new ArrayList<>();
-         players.add(p1);
-         players.add(p2);
-         players.add(p3);
-         players.add(p4);
-         players.add(p5);
+         PlayerManager playerManager = new PlayerManager();
+         PlayerManager.addPlayer(p1);
+         PlayerManager.addPlayer(p2);
+         PlayerManager.addPlayer(p3);
+         PlayerManager.addPlayer(p4);
+         PlayerManager.addPlayer(p5);
 
          int randBound = rand.nextInt(20);
          int randomDmg = rand.nextInt(randBound);
@@ -144,6 +142,7 @@ public class RandomGenerator {
 
          LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
          UnboundedArea randomArea = new UnboundedArea();
+
          Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
      }
