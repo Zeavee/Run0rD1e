@@ -114,25 +114,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Thread showGameInfoThread() {
-        Handler handler = new Handler();
-        Thread thread = new Thread(() -> {
-            while (currentUser != null && currentUser.getHealthPoints() > 0) {
-                // Update the progress bar and display the
-                //current value in the text view
-                handler.post(() -> {
-                    healthPointProgressBar.setProgress((int) Math.round(currentUser.getHealthPoints()));
-                    healthPointText.setText(currentUser.getHealthPoints()+"/"+healthPointProgressBar.getMax());
-                    username.setText(currentUser.getUsername());
-                });
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
                 try {
-                    // Sleep for 200 milliseconds.
-                    Thread.sleep(200);
+                    while (!isInterrupted()) {
+                        Thread.sleep(2000);
+                        runOnUiThread(() -> {
+                            if (currentUser != null && currentUser.getHealthPoints() > 0) {
+                                healthPointProgressBar.setProgress((int) Math.round(currentUser.getHealthPoints()));
+                                healthPointText.setText(currentUser.getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                                username.setText(currentUser.getUsername());
+                            }
+                        });
+                    }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
-        });
-
+        };
         return thread;
     }
 
