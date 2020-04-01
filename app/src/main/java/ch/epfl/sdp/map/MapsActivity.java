@@ -43,6 +43,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapApi.updatePosition();
 
         Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
-        mapApi.displayEntity(hp);
+        //mapApi.displayEntity(hp);
     }
 }

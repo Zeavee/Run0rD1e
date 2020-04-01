@@ -7,7 +7,8 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapsActivity;
+
+import static ch.epfl.sdp.map.MapsActivity.mapApi;
 
 public abstract class Item implements Displayable, Updatable {
     /**
@@ -26,11 +27,14 @@ public abstract class Item implements Displayable, Updatable {
         this.isTaken = isTaken;
         this.description = description;
         Game.addToUpdateList(this);
+        Game.addToDisplayList(this);
     }
 
     public void takeItem() {
         this.isTaken = true;
-        MapsActivity.mapApi.unDisplayEntity(this);
+        Game.removeFromUpdateList(this);
+        Game.removeFromDisplayList(this);
+        mapApi.getActivity().runOnUiThread(() -> mapApi.unDisplayEntity(this));
     }
 
     public String getDescription() {return this.description; }
@@ -48,7 +52,7 @@ public abstract class Item implements Displayable, Updatable {
     public void update() {
         for (Player player: PlayerManager.getPlayers()) {
             if (this.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 0 && !isTaken) {
-                player.addItemInInventory(name);
+                player.getInventory().addItem(name);
                 takeItem();
             }
         }

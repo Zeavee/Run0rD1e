@@ -78,12 +78,18 @@ public class Inventory {
     }
 
     public void addItem(String itemName) {
+        if (!items.containsKey(itemName)) {
+            items.put(itemName, 0);
+        }
         int n = items.get(itemName);
         n = n + 1;
         items.put(itemName, n);
     }
 
     public void removeItem(String itemName) {
+        if (items.containsKey(itemName)) {
+            return;
+        }
         int n = items.get(itemName);
         if (n > 0) {
             n = n - 1;

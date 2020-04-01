@@ -77,6 +77,12 @@ public class GoogleMapApi implements MapApi {
     }
 
     @Override
+    public Activity getActivity() {
+        return activity;
+    }
+
+
+    @Override
     public GeoPoint getCurrentLocation() {
         if (currentLocation != null)
             return new GeoPoint(currentLocation.getLongitude(), currentLocation.getLatitude());
