@@ -127,12 +127,12 @@ public class RandomGenerator {
          GeoPoint g5 = randomGeoPoint();
          Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
 
-         PlayerManager playerManager = new PlayerManager();
-         PlayerManager.addPlayer(p1);
-         PlayerManager.addPlayer(p2);
-         PlayerManager.addPlayer(p3);
-         PlayerManager.addPlayer(p4);
-         PlayerManager.addPlayer(p5);
+         PlayerManager playerManager = PlayerManager.getInstance();
+         playerManager.addPlayer(p1);
+         playerManager.addPlayer(p2);
+         playerManager.addPlayer(p3);
+         playerManager.addPlayer(p4);
+         playerManager.addPlayer(p5);
 
          int randBound = rand.nextInt(20);
          int randomDmg = rand.nextInt(randBound);

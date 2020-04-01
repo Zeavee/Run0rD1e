@@ -10,17 +10,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -43,9 +41,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //
 //    // Use the email as the key to identify the CurrentUser in the List of players
 //    public static String emailOfCurrentUser = authenticationController.getEmailOfCurrentUser();
-
-    // PlayerManager
-    public static PlayerManager playerManager = new PlayerManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

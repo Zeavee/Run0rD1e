@@ -1,27 +1,29 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerManager {
-    private static Map<String, Player> players;
+    private static PlayerManager instance = new PlayerManager();
+    private Map<String, Player> players;
 
-    public PlayerManager() {
-        players = new HashMap<>();
+    private PlayerManager() {}
+
+    public static PlayerManager getInstance() {
+        return instance;
     }
 
-    public static void addPlayer(Player player) {
+    public void addPlayer(Player player) {
         players.put(player.getEmail(), player);
     }
 
-    public static void removePlayer(Player player) {
+    public void removePlayer(Player player) {
         if(players.containsKey(player.getEmail())) {
             players.remove(player.getEmail());
         }
     }
 
-    public static ArrayList<Player> getPlayers() {
+    public ArrayList<Player> getPlayers() {
         ArrayList<Player> resultPlayers = new ArrayList<>();
         for(Map.Entry<String, Player> entry: players.entrySet()){
             resultPlayers.add(entry.getValue());
@@ -29,7 +31,7 @@ public class PlayerManager {
         return resultPlayers;
     }
 
-    public static Player getPlayer(String email) {
+    public Player getPlayer(String email) {
         return players.get(email);
     }
 }
