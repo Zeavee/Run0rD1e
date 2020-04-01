@@ -32,7 +32,7 @@ public interface ChatAccessor {
 
     // Get all friends of owner, friendID1 must be lexicographically before friendID2
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
-            "IsFriendsWith.friendID2<>:friend OR " +
+            "IsFriendsWith.friendID2<>:friend AND " +
             "IsFriendsWith.friendID1=:friend)")
     public List<User> areFriends(String friend);
 

@@ -9,19 +9,27 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.ItemsViewAdapter;
+import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.FirebaseAuthentication;
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {
-    private User usr_amr;
-    private User usr_shaima;
     private ChatRepository chatRepo;
 
-    /*public static ChatRepository getChatRepo() {
-        return chatRepo;
-    }*/
+    // To get the user info
+    private static String current_email_id;
+
+    // This should be called from the Authentication class's signIn/signUp success callback
+    public static void setChatEmailID(String email_id)
+    {
+        current_email_id = email_id;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +39,21 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         setSupportActionBar(toolbar);
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
-        usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
-        usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
+        //auth = new FirebaseAuthentication(null);
+        //auth.getClass()
+        //user_cur =  new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ,
+        //usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
+
+
+        //usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
         try {
-            chatRepo.addUser(usr_amr);
-            chatRepo.addUser(usr_shaima);
-            chatRepo.addFriends(usr_amr, usr_shaima);
-            chatRepo.fetchFriends(usr_amr);
+            //chatRepo.addUser(usr_amr);
+            //chatRepo.addUser(usr_shaima);
+            //chatRepo.addFriends(usr_amr, usr_shaima);
+            chatRepo.fetchFriends(new User(current_email_id));
         }
         catch(Exception e){
-            System.out.println("hihi hihi" +e.getMessage());
+            System.out.println("NOOOO" +e.getMessage());
         }
         //friends = new Friend(new UserForFirebase("tempUsername", "tempEmail@email.com"));
         //friends.addFriend(new Friend(new UserForFirebase("tempUsername2", "tempEmail2@email.com")));
@@ -61,7 +74,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
 
         });
         adapter.setOnItemClickListener((position, v) -> {
-            ChatActivity.setChattingWith(friends.get(0).getEmail());
+            ChatActivity.setChattingWith(friends.get(position).getEmail());
             Intent intent = new Intent(FriendsListActivity.this , ChatActivity.class);
             startActivity(intent);
         });

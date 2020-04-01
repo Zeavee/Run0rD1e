@@ -15,34 +15,16 @@ public class User {
     @NonNull
     public String email;
 
-    public User(String email, String firstName, String lastName)
+    public User(String email)
     {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
-    public String firstName;
-    public String lastName;
+    private String firstName;
 
     @NonNull
     public String getEmail() {
         return email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Ignore
-    private List<User> friends;
-    public List<User> getFriends()
-    {
-        return friends;
     }
 
 }
