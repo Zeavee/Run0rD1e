@@ -11,18 +11,19 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -31,26 +32,20 @@ import ch.epfl.sdp.login.FirebaseAuthentication;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
-
+    public static final String lobbyCollectionName = "Users";
     public static final MapApi mapApi = new GoogleMapApi();
+    public static final FirestoreUserData firestoreUserData = new FirestoreUserData();
+    public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
+
+    private static Game game;
+    public static String currentUserEmail;
+    public static Player currentUser;
+
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
     private Handler handler = new Handler();
 
     boolean flag = false;
-
-    // Hardcoded at this stage, later will use currentUser in game
-    Player player = new Player(6.149290,
-            46.212470,
-            50,
-            "admin",
-            "admin@epfl.ch");
-
-    public static final UserDataController firestoreUserData = new FirestoreUserData();
-    public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
-
-    // Use the email as the key to identify the CurrentUser in the List of players
-    public static String emailOfCurrentUser = authenticationController.getEmailOfCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +60,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         scanButton.setOnClickListener(v -> scan.showAllPlayers());
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
-
 
         Button inventoryButton = findViewById(R.id.button_inventory);
         InventoryFragment inventoryFragment = new InventoryFragment();
@@ -84,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
-        username.setText(player.username);
+        username.setText("");
 
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
 
@@ -94,9 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Thread thread = showGameInfoThread();
         thread.start();
 
-//        // just to test the fetch data from cloud firebase GetLobby function and StoreUser function
-//        Thread thread = test();
-//        thread.start();
+        game = new Game(mapApi);
+        startGame();
     }
 
     @Override
@@ -123,17 +116,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private Thread showGameInfoThread() {
         Thread thread = new Thread(() -> {
-            while (player.getHealthPoints() > 0) {
+            while (currentUser != null && currentUser.getHealthPoints() > 0) {
                 // Update the progress bar and display the
                 //current value in the text view
                 handler.post(() -> {
-                    healthPointProgressBar.setProgress((int) Math.round(player.getHealthPoints()));
-                    healthPointText.setText(player.getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                    healthPointProgressBar.setProgress((int) Math.round(currentUser.getHealthPoints()));
+                    healthPointText.setText(currentUser.getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                    username.setText(currentUser.getUsername());
                 });
                 try {
                     // Sleep for 200 milliseconds.
-                    Thread.sleep(2000);
-                    player.setHealthPoints(55);
+                    Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -142,30 +135,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return thread;
     }
-//    /**
-//     * just to test the fetch data from cloud firebase GetLobby function and StoreUser function
-//     *
-//     * @return
-//     */
-//    private Thread test() {
-//        Thread thread = new Thread() {
-//            @Override
-//            public void run() {
-//                // just to test the fetch data from cloud firebase function and StoreUser function
-//                firestoreUserData.getLobby("Users");
-//                // Since fetching the data is asynchronized, for the purpose of test, just wait
-//                while(playerManager.getPlayers().size() != 7) {}
-//
-//                if(emailOfCurrentUser == null ){}
-//                else{
-//                    Player currentUser = playerManager.getPlayer(emailOfCurrentUser);
-//
-//                    //Just for the purpose of test, check this value on Cloudfirebase website
-//                    currentUser.healthPoints = 44.6;
-//                    firestoreUserData.storeUser("Users", currentUser);
-//                }
-//            }
-//        };
-//        return thread;
-//    }
+
+    // Launches the game loop in another thread, must be destroyed at the end
+    public static void startGame() {
+        if (game != null) {
+            game.initGame();
+        }
+    }
+
+    public static void killGame() {
+        if (game != null) {
+            game.destroyGame();
+        }
+    }
 }

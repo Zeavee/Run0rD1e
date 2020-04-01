@@ -30,7 +30,7 @@ public class FirestoreUserData implements UserDataController {
 
     @Override
     public void storeUser(String collectionName, Player player) {
-        FirebaseFirestore.getInstance().collection(collectionName).document(player.getEmail()).set(player, SetOptions.merge());
+        FirebaseFirestore.getInstance().collection(collectionName).document(player.getEmail()).set(player);
     }
 
     @Override

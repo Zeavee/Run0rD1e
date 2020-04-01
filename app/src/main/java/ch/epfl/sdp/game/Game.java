@@ -1,10 +1,15 @@
 package ch.epfl.sdp.game;
 
+import com.google.common.collect.Maps;
+
 import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 /**
  * Main model of the game, it is used for state changes and animations.
@@ -70,9 +75,28 @@ public class Game implements Updatable, Drawable {
      */
     public void initGame() {
         if (gameThread.getState() == Thread.State.NEW) {
+            gameThread.initializeGame();
             gameThread.setRunning(true);
             gameThread.start();
         }
+    }
+
+    public void setEnvironment() {
+        new Thread(new Runnable() {
+            public void run() {
+                MapsActivity.currentUserEmail =  MapsActivity.authenticationController.getEmailOfCurrentUser();
+                while(MapsActivity.currentUserEmail == null) {}
+
+                //fetch all players from lobby for the first time
+                MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
+
+                // wait until all data fetched
+                while(PlayerManager.getInstance().getMapPlayers().size() != 7) {}
+
+                //initialize the currentUser
+                MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
+            }
+        }).start();
     }
 
     /**

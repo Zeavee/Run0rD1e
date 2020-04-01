@@ -1,14 +1,15 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class PlayerManager implements Updatable {
     private static PlayerManager instance;
-    private Map<String, Player> players;
+    private Map<String, Player> players = new HashMap<>();
 
 
     private PlayerManager() { }
@@ -31,6 +32,10 @@ public class PlayerManager implements Updatable {
         return resultPlayers;
     }
 
+    public Map<String, Player> getMapPlayers() {
+        return players;
+    }
+
     public static PlayerManager getInstance () {
         if (PlayerManager.instance == null) {
             PlayerManager.instance = new PlayerManager ();
@@ -44,8 +49,8 @@ public class PlayerManager implements Updatable {
 
     @Override
     public void update() {
-        MainActivity.firebaseUserData.storeUser(MainActivity.lobbyCollectionName, getPlayer(MainActivity.currentUserEmail));
-        MainActivity.firebaseUserData.getLobby(MainActivity.lobbyCollectionName);
+        MapsActivity.firestoreUserData.storeUser(MapsActivity.lobbyCollectionName, getPlayer(MapsActivity.currentUserEmail));
+        MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
     }
 
 }

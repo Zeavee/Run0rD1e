@@ -19,24 +19,20 @@ import ch.epfl.sdp.social.FriendsListActivity;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static Game game;
-    public PlayerManager playerManager;
-    public static String lobbyCollectionName;
-    public static FirestoreUserData firebaseUserData;
-    public static String currentUserEmail;
+//    private static Game game;
 
     // Launches the game loop in another thread, must be destroyed at the end
-    public static void startGame() {
-        if (game != null) {
-            game.initGame();
-        }
-    }
-
-    public static void killGame() {
-        if (game != null) {
-            game.destroyGame();
-        }
-    }
+//    public static void startGame() {
+//        if (game != null) {
+//            game.initGame();
+//        }
+//    }
+//
+//    public static void killGame() {
+//        if (game != null) {
+//            game.destroyGame();
+//        }
+//    }
 
     public AuthenticationController authenticationController;
 
@@ -45,16 +41,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        game = new Game(null);
+//        game = new Game(null);
 
-        currentUserEmail = authenticationController.getEmailOfCurrentUser();
-
-        while(currentUserEmail == null){
-
-        }
-        fire
-
-        startGame();
+//        startGame();
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 
@@ -71,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout() {
         // Stops the game loop and kills the thread
-        MainActivity.killGame();
+//        MainActivity.killGame();
         authenticationController.signOut();
         new DatabaseHelper(this).deleteAllUsers();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));

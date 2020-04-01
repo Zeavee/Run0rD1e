@@ -1,5 +1,7 @@
 package ch.epfl.sdp.entity;
 
+import androidx.room.Ignore;
+
 import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
@@ -18,7 +20,10 @@ public class Player extends MovingEntity implements Localizable, Updatable {
     public double distanceTraveled;
     public double speed;
     public boolean alive;
+
+    @Ignore
     public final static double MAX_HEALTH = 100;
+
     private boolean isShielded;
     private Inventory inventory;
 
@@ -149,8 +154,12 @@ public class Player extends MovingEntity implements Localizable, Updatable {
         this.inventory = inventory;
     }
 
+    public void setIsShielded(boolean isShielded) {this.isShielded = isShielded;}
+
     @Override
     public void update() {
 
     }
+
+
 }
