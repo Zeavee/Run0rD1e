@@ -125,5 +125,6 @@ public class PlayerTest {
         player2.setAlive(false);
         assertFalse(player2.isAlive());
     }
+    
 
 }
