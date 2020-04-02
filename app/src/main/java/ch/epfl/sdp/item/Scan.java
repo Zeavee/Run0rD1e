@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 import java.util.ArrayList;
+
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
@@ -46,5 +48,10 @@ public class Scan extends Item {
 
     public double getScanTime() {
         return scanTime;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.SCAN;
     }
 }

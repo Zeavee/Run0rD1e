@@ -25,6 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
@@ -137,22 +138,31 @@ public class GoogleMapApi implements MapApi {
             return;
         }
         removeMarkers(displayable);
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
         switch (displayable.getEntityType()) {
             case USER:
                 if (currentLocation == null) {
                     return;
                 }
                 currentUser.setLocation(displayable.getLocation());
-                displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 100, position);
                 break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000, position);
                 break;
             case PLAYER:
-                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
+                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100, position);
                 break;
-            case ITEM:
-                displayMarkerCircle(displayable, Color.GREEN, "Item", 50);
+            case HEALTHPACK:
+                displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack, position);
+                break;
+            case SCAN:
+                displaySmallIcon(displayable, "Scan", R.drawable.radar, position);
+                break;
+            case SHIELD:
+                displaySmallIcon(displayable, "Shield", R.drawable.shield, position);
+            case SHRINKER:
+                break;
         }
     }
 
@@ -165,13 +175,21 @@ public class GoogleMapApi implements MapApi {
 
     private void removeMarkers(Displayable displayable) {
         if (entityCircles.containsKey(displayable)) {
-            entityCircles.get(displayable).marker.remove();
-            entityCircles.get(displayable).aoe.remove();
+            if (entityCircles.get(displayable).hasMarker())
+                entityCircles.get(displayable).getMarker().remove();
+            if (entityCircles.get(displayable).hasCircle())
+                entityCircles.get(displayable).getAoe().remove();
         }
     }
 
-    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+    public void displaySmallIcon(Displayable displayable, String title, int id, LatLng position) {
+        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromResource(id)))));
+    }
+
+    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius, LatLng position) {
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)
