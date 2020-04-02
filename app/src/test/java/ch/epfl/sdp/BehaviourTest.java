@@ -109,3 +109,4 @@ public class BehaviourTest {
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }
 }
+
