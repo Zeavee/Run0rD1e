@@ -13,7 +13,7 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 
-public class ChatActivity extends AppCompatActivity implements WaitOnChatRetrieval, AsyncResponse {
+public class ChatActivity extends AppCompatActivity implements WaitOnChatRetrieval, WaitsOnMessageFetch {
 
     private ImageButton sendButton;
     private EditText message;
@@ -21,8 +21,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     private static ChatRepository chatRepo;
     private static String chattingWith;
     private Chat chat;
-    private List<String> messages;
+    private List<Message> messages;
     private MessageAdapter messageAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,17 +42,20 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         //chatRepo.addChat(new Chat("amro.abdrabo@gmail.com", chattingWith));
         //chatRepo.addChat(new Chat(chattingWith, "amro.abdrabo@gmail.com"));
 
-        chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
+        chatRepo.getChat("stupid1@gmail.com", chattingWith);
         sendButton.setOnClickListener(this::onSendClicked);
         loadExistingMessages();
     }
     public void loadExistingMessages()
     {
-        chatRepo.getMessages("amro.abdrabo@gmail.com", chattingWith);
+        FireStoreToSQLiteAdapter.setListener(this);
+        FireStoreToSQLiteAdapter.fetchFireStoreDataIntoSQLite("stupid1@gmail.com", chattingWith);
+        chatRepo.getMessages("stupid1@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
         messageAdapter.add(new Message(new Date(), message.getText().toString()));
+        // TODO: send to FireStore as well
         chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
     }
     public static ChatRepository getChatRepo()
@@ -65,9 +70,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
     @Override
     public void chatFetched(List<Chat> chat) {
+        // this if will be unnecessary since the chat is added when the user adds a friend
         if (chat == null || chat.isEmpty())
         {
-            Chat c = new Chat("amro.abdrabo@gmail.com", chattingWith);
+            Chat c = new Chat("stupid1@gmail.com", chattingWith);
             System.out.println("effff4839859000000038ffffffff");
             //c.setFrom("amro.abdrabo@gmail.com");
             //c.setTo("shaima@abc.com");
@@ -79,11 +85,11 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
 
     @Override
-    public void messageFetchFinished(List<String> output) {
+    public void messageFetchFinished(List<Message> output) {
         messages = output;
-        for (String el: messages)
+        for (Message el: messages)
         {
-            messageAdapter.add(new Message(new Date(), el));
+            messageAdapter.add(el);
         }
     }
 }

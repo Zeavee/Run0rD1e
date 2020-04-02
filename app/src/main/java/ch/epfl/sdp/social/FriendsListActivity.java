@@ -25,7 +25,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
     private ChatRepository chatRepo;
 
     // To get the user info
-    private static String current_email_id;
+    private static String current_email_id= "stupid1@gmail.com";
 
     // This should be called from the Authentication class's signIn/signUp success callback
     public static void setChatEmailID(String email_id)
@@ -48,6 +48,8 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         setContentView(R.layout.activity_friends_list);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        current_email_id= "stupid1@gmail.com";
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
         //auth = new FirebaseAuthentication(null);
@@ -56,8 +58,8 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         //usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
 
         //try {
-            chatRepo.addUser(new User("abd1@g"));
-            chatRepo.addUser(new User("abd1@g"));
+            //chatRepo.addUser(new User("abd1@g"));
+            //chatRepo.addUser(new User("abd1@g"));
         //}
         //catch (SQLiteConstraintException e)
        // {
@@ -109,6 +111,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
     @Override
     public void friendsFetched(List<User> friends) {
         initRecyclerView(friends);
+        Log.d("RESUMED ", "size   " + friends.size());
     }
 
     public void onAddFriendClicked(View v)

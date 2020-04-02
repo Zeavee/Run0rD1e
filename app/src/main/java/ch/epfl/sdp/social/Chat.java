@@ -23,7 +23,7 @@ public class Chat {
     @PrimaryKey(autoGenerate = true)
     public int chat_id;
 
-
+    // TODO make more restrictive access modifiers later
     public String to;
     public String from;
 

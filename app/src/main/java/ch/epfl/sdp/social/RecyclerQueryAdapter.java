@@ -98,7 +98,7 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
         private void completeDBSetup()
         {
             // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
-            User cur_usr = new User("amro.abdrabo@gmail.com");
+            User cur_usr = new User("stupid1@gmail.com");
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
             ChatRepository.addUser(cur_usr);
             ChatRepository.addUser(befriended_usr);

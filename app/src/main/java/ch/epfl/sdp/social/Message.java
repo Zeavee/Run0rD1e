@@ -14,18 +14,17 @@ import java.util.Date;
         )})
 public class Message {
 
-    public Date date;
+    private Date date;
     @NonNull
     private String text;
 
     private int chat_id;
 
-    public Message(Date date, String content)
+    public Message(Date date, String text)
     {
         this.date = date;
-        this.text = content;
+        this.text = text;
     }
-    public Message(){}
 
     public void setDate(Date date) {
         this.date = date;

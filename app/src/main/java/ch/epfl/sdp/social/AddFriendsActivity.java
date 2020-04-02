@@ -23,7 +23,6 @@ public class AddFriendsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerQueryAdapter adapter;
     private List<User> friends_to_add;
-    private Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
