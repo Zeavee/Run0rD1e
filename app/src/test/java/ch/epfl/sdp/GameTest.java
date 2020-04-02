@@ -132,19 +132,19 @@ public class GameTest {
         Assert.assertEquals(1, game.getDisplayables().size());
     }
 
-    @Test
-    public void gameThread_runs()
-    {
-        Game game = new Game(null);
-        game.initGame();
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        game.destroyGame();
-
-        // assert
-        Assert.assertFalse(game.gameThread.isRunning());
-    }
+//    @Test
+//    public void gameThread_runs()
+//    {
+//        Game game = new Game(null);
+//        game.initGame();
+//        try {
+//            Thread.sleep(100);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        game.destroyGame();
+//
+//        // assert
+//        Assert.assertFalse(game.gameThread.isRunning());
+//    }
 }
