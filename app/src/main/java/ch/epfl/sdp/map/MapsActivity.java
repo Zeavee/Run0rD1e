@@ -20,10 +20,6 @@ import ch.epfl.sdp.item.Scan;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final MapApi mapApi = new GoogleMapApi();
 
-    public static MapApi getMapApi() {
-        return mapApi;
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
