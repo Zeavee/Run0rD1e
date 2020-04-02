@@ -19,7 +19,7 @@ public class MapDrawingTest {
         assertNull(mapDrawing.getMarker());
 
         MapDrawing mapDrawingOnlyMarker = new MapDrawing(null);
-        assertEquals(true, mapDrawing.hasMarker());
-        assertEquals(false, mapDrawing.hasCircle());
+        assertEquals(true, mapDrawingOnlyMarker.hasMarker());
+        assertEquals(false, mapDrawingOnlyMarker.hasCircle());
     }
 }

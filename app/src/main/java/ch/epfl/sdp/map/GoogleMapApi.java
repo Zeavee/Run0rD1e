@@ -134,35 +134,24 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     synchronized public void displayEntity(Displayable displayable) {
-        if (displayable == null) {
-            return;
-        }
+        if (displayable == null) return;
         removeMarkers(displayable);
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
         switch (displayable.getEntityType()) {
             case USER:
-                if (currentLocation == null) {
-                    return;
-                }
+                if (currentLocation == null) return;
                 currentUser.setLocation(displayable.getLocation());
-                displayMarkerCircle(displayable, Color.BLUE, "My position", 100, position);
-                break;
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 100); break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000, position);
-                break;
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
             case PLAYER:
-                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100, position);
-                break;
+                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
             case HEALTHPACK:
-                displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack, position);
-                break;
+                displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack); break;
             case SCAN:
-                displaySmallIcon(displayable, "Scan", R.drawable.radar, position);
-                break;
+                displaySmallIcon(displayable, "Scan", R.drawable.radar); break;
             case SHIELD:
-                displaySmallIcon(displayable, "Shield", R.drawable.shield, position);
-            case SHRINKER:
-                break;
+                displaySmallIcon(displayable, "Shield", R.drawable.shield);
+            case SHRINKER: break;
         }
     }
 
@@ -182,14 +171,16 @@ public class GoogleMapApi implements MapApi {
         }
     }
 
-    public void displaySmallIcon(Displayable displayable, String title, int id, LatLng position) {
+    public void displaySmallIcon(Displayable displayable, String title, int id) {
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)
                 .icon(BitmapDescriptorFactory.fromResource(id)))));
     }
 
-    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius, LatLng position) {
+    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)
