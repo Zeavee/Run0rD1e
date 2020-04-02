@@ -5,7 +5,7 @@ public class Movement {
     private float acceleration;
     private double orientation;
     private MovementType movementType;
-    private double sinusAmplitude = 1;
+    private double sinusAmplitude;
     private double sinusAngle;
 
     public Movement() {
@@ -13,6 +13,8 @@ public class Movement {
         velocity = 0;
         orientation = 0;
         movementType = MovementType.LINEAR;
+        sinusAngle = 0;
+        sinusAmplitude = 1;
     }
 
     public float getVelocity() {
