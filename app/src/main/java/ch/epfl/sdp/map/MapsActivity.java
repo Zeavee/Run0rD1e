@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final MapApi mapApi = new GoogleMapApi();
     public static final FirestoreUserData firestoreUserData = new FirestoreUserData();
     public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
+    private static InventoryFragment inventoryFragment = new InventoryFragment();
 
     private static Game game;
     public static String currentUserEmail;
@@ -60,20 +62,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
-        Button inventoryButton = findViewById(R.id.button_inventory);
-        InventoryFragment inventoryFragment = new InventoryFragment();
-        inventoryButton.setOnClickListener(v -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
-            if(flag) {
-                transaction.remove(inventoryFragment);
-            } else {
-                transaction.add(R.id.fragment_inventory_container, inventoryFragment);
-            }
-            flag = !flag;
-            transaction.commit();
-        });
-
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
@@ -84,8 +72,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
 
-        Thread thread = showGameInfoThread();
-        thread.start();
+        showGameInfoThread().start();
 
         game = new Game(mapApi);
         startGame();
@@ -111,6 +98,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mapApi.onLocationUpdatesGranted();
             }
         }
+    }
+
+    public void showInventory(View v) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
+        if(flag) {
+            transaction.remove(inventoryFragment);
+        } else {
+            transaction.add(R.id.fragment_inventory_container, inventoryFragment);
+        }
+        flag = !flag;
+        transaction.commit();
     }
 
     private Thread showGameInfoThread() {

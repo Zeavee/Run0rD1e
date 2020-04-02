@@ -100,4 +100,10 @@ public class MapsActivityTest {
         sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void inventoryOpens() {
+        onView(withId(R.id.button_inventory)).perform(click());
+        onView(withId(R.id.fragment_inventory_container)).check(matches(isDisplayed()));
+    }
 }

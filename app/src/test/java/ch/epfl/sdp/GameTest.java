@@ -132,6 +132,22 @@ public class GameTest {
         Assert.assertEquals(1, game.getDisplayables().size());
     }
 
+    @Test
+    public void gameThread_starts()
+    {
+        Game game = new Game(null);
+        game.initGame();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        game.destroyGame();
+
+        // assert
+        Assert.assertTrue(game.gameThread.isRunning());
+    }
+
 //    @Test
 //    public void gameThread_runs()
 //    {
