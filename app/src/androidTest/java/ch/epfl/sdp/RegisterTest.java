@@ -131,14 +131,14 @@ public class RegisterTest {
         }
     }
 
-    @Test
+ /*   @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
-    }
-
+    }*/
+/*
     @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
@@ -148,7 +148,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }
+    }*/
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
