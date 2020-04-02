@@ -11,7 +11,7 @@ public class MockUserDataController implements UserDataController {
     private List<Player> userData = new ArrayList<>();
 
     @Override
-    public void syncCloudFirebaseToRoom(AppViewModel appViewModel) {
+    public void syncCloudFirebaseToRoom(AppViewModel appViewModel, String collectionName) {
 
     }
 

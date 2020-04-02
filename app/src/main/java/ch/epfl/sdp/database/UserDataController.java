@@ -5,7 +5,7 @@ import ch.epfl.sdp.entity.Player;
 
 public interface UserDataController {
 
-    void syncCloudFirebaseToRoom(AppViewModel appViewModel);
+    void syncCloudFirebaseToRoom(AppViewModel appViewModel, String collectionName);
 
     void storeUser(String collectionName, Player player);
 

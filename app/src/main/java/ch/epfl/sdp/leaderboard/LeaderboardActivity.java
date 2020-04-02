@@ -15,6 +15,7 @@ import ch.epfl.sdp.db.AppViewModel;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private AppViewModel appViewModel;
@@ -42,7 +43,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         appViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
 
         userDataController = new FirestoreUserData();
-        userDataController.syncCloudFirebaseToRoom(appViewModel);
+        userDataController.syncCloudFirebaseToRoom(appViewModel, MapsActivity.lobbyCollectionName);
     }
 
     private void setupChampions(List<PlayerEntity> players) {

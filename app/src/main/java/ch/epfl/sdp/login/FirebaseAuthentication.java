@@ -56,7 +56,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     public void register(Activity registerFormActivity, Player player, String email, String password) {
 
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            userDataStore.storeUser("Users", player);
+            userDataStore.storeUser(RegisterFormActivity.registerCollectionName, player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());

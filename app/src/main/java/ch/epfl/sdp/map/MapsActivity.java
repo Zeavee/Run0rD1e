@@ -32,7 +32,7 @@ import ch.epfl.sdp.login.FirebaseAuthentication;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
-    public static final String lobbyCollectionName = "Users";
+    public static final String lobbyCollectionName = "Lobby";
     public static final MapApi mapApi = new GoogleMapApi();
     public static final FirestoreUserData firestoreUserData = new FirestoreUserData();
     public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);

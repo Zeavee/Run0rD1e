@@ -18,6 +18,7 @@ import ch.epfl.sdp.entity.Player;
 public class RegisterFormActivity extends AppCompatActivity {
     private final static String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
     private static final int MINIMUM_PASSWORD_LENGTH = 8;
+    public static String registerCollectionName = "Players";
 
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
