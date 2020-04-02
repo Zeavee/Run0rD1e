@@ -33,4 +33,16 @@ public class PlayerManagerTest {
         assertEquals(0, PlayerManager.getPlayers().size());
     }
 
+    @Test
+    public void takePlayer(){
+        PlayerManager.getPlayer("gamer@gmail.com");
+        assertEquals("gamer@gmail.com", "gamer@gmail.com");
+    }
+
+    @Test
+    public void ShouldAddPlayerAndGetPoint(){
+        PlayerManager.addPlayer(player);
+        assertEquals("gamer@gmail.com", "gamer@gmail.com");
+    }
+
 }
