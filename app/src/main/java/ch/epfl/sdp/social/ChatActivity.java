@@ -34,7 +34,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         message = findViewById(R.id.messageField);
         lv = findViewById(R.id.messages_view);
 
-        messageAdapter = new MessageAdapter(this);
+        messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
 
         chatRepo = ChatRepository.createRepo(this);
@@ -56,7 +56,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     public void  onSendClicked(View v)
     {
         Message m = new Message(new Date(), message.getText().toString());
-        messageAdapter.add(new MessageDecorator(m, true));
+        messageAdapter.add(new MessageDecorator(m, false));
         chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
         // TODO: clean way to get email of user
         FireStoreToSQLiteAdapter.sendLocalDataToFireStore("stupid1@gmail.com",chattingWith,m);

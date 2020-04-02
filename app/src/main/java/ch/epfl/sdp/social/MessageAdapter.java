@@ -16,10 +16,12 @@ import ch.epfl.sdp.R;
 // MessageAdapter.java
 public class MessageAdapter extends BaseAdapter {
 
-    List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
-    Context context;
+    private List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
+    private String remote_user_id;
+    private Context context;
 
-    public MessageAdapter(Context context) {
+    public MessageAdapter(Context context, String remote_user_id) {
+        this.remote_user_id = remote_user_id;
         this.context = context;
     }
 
@@ -62,7 +64,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.messageBody = convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
 
-            holder.name.setText(message.getPlayerName());
+            holder.name.setText(remote_user_id);
             holder.messageBody.setText(message.getText());
         }
 
