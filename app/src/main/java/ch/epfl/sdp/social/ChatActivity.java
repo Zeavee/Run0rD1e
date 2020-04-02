@@ -49,7 +49,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         sendButton.setOnClickListener(this::onSendClicked);
 
         // Very important to use the singleton to reduce thinking (Done before activity switch inside friendsListActivity)
-        // setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance());
+        // setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); done in friendsListActivity
         loadExistingMessages();
     }
     public void loadExistingMessages()
@@ -100,6 +100,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         messages = output;
         for (Message el: messages)
         {
+            // TODO: Add the messages to SQLite and delete them from FireStore
             messageAdapter.add(new MessageDecorator(el, true));
         }
     }

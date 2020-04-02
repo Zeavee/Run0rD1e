@@ -20,6 +20,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.ItemsViewAdapter;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
+import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {
     private ChatRepository chatRepo;
@@ -52,7 +53,10 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         current_email_id= "stupid1@gmail.com";
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
+
+        // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created
         ChatActivity.setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); // placed here for mock testing purposes
+        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new FirestoreFriendsFetcher())); // placed here for mock testing purposes
         //auth = new FirebaseAuthentication(null);
         //auth.getClass()
         //user_cur =  new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ,

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
@@ -21,8 +22,8 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
     private List<User> friendsList;
     private RemoteFriendFetcher server;
 
-    public RecyclerQueryAdapter(List<User> friendsList, RemoteFriendFetcher server) {
-        this.friendsList = friendsList;
+    public RecyclerQueryAdapter(RemoteFriendFetcher server) {
+        this.friendsList = new ArrayList<>();
         this.server = server;
         this.server.setListener(this);
     }
