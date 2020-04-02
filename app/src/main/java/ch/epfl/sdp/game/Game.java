@@ -51,6 +51,10 @@ public class Game implements Updatable, Drawable {
         }
     }
 
+    public static boolean updatablesContains(Updatable updatable){
+        return updatables.contains(updatable);
+    }
+
     public ArrayList<Updatable> getUpdatables() {
         return updatables;
     }

@@ -1,15 +1,18 @@
 package ch.epfl.sdp;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
 import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
@@ -24,6 +27,11 @@ public class TimedItemTest {
     @Before
     public void setup(){
         player = new Player();
+    }
+
+    @After
+    public void teardown(){
+        PlayerManager.removeAll();
     }
 
     @Test
@@ -48,20 +56,32 @@ public class TimedItemTest {
         }
 
         timedItem.update();
+        assertFalse(Game.updatablesContains(timedItem));
     }
 
     @Test
     public void scanGetsUpdated(){
+        MockMapApi map = new MockMapApi();
+        MapsActivity.setMapApi(map);
+        PlayerManager.addPlayer(player);
         Scan scan = new Scan(null, false, countTime);
 
-        scan.update();
-        // Cannot assert that mapApi has changed...
+        while (scan.getRemainingTime() > 0){
+            assertFalse(map.getDisplayables().isEmpty());
+            scan.update();
+        }
+
+        // getRemainingTime is in seconds so we still have some frames
+        for(int i = FPS - 1; i > 0; --i){
+            assertFalse(map.getDisplayables().isEmpty());
+            scan.update();
+        }
+
+        assertTrue(map.getDisplayables().isEmpty());
     }
 
     @Test
     public void shieldSetsShieldedWhenUpdated(){
-
-
         assertFalse(player.isShielded());
         Shield shield = new Shield(null, false, countTime, player);
 
@@ -97,8 +117,5 @@ public class TimedItemTest {
         }
 
         assertTrue(player.getAoeRadius() == originalRadius);
-        // Cannot assert that mapApi has changed...
     }
-
-
 }

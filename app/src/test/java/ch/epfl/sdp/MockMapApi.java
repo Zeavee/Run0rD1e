@@ -8,12 +8,20 @@ import android.location.LocationManager;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {
+    private ArrayList<Displayable> displayables = new ArrayList<>();
+
+    public ArrayList<Displayable> getDisplayables(){
+        return displayables;
+    }
+
     @Override
     public GeoPoint getCurrentLocation() {
         return new GeoPoint(40, 50);
@@ -40,12 +48,12 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void displayEntity(Displayable displayable) {
-
+        displayables.add(displayable);
     }
 
     @Override
     public void unDisplayEntity(Displayable displayable) {
-        
+        displayables.remove(displayable);
     }
 
     @Override
