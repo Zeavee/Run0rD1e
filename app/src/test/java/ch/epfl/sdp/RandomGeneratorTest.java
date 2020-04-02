@@ -96,12 +96,12 @@ public class RandomGeneratorTest {
         }
     }
 
-    @Test
-    public void randomEnemy() {
-        Enemy e = randGen.randomEnemy();
-//        assertNotNull(e);
-        assertTrue(true);
-    }
+//    @Test
+//    public void randomEnemy() {
+//        Enemy e = randGen.randomEnemy();
+////        assertNotNull(e);
+//        assertTrue(true);
+//    }
 
 
 
