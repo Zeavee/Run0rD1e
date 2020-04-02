@@ -16,11 +16,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /*
- This class fetches messages from FireStore and places them in the local SQLite database
+ This class fetches messages from FireStore and places them in the local SQLite database.
  */
 public class FireStoreToSQLiteAdapter {
 
@@ -32,8 +34,8 @@ public class FireStoreToSQLiteAdapter {
         FireStoreToSQLiteAdapter.listener = listener;
     }
 
-    // owner is "stupid1@gmail.com" i.e the currently signed in user
-    public static void fetchFireStoreDataIntoSQLite(String owner, String sender)
+    // Gets the incoming messages from FireStore. Owner is "stupid1@gmail.com" i.e the currently signed in user
+    public static void sendFireStoreDataToLocal(String owner, String sender)
     {
         List<Message> remoteMessages = new ArrayList<>();
 
@@ -49,11 +51,20 @@ public class FireStoreToSQLiteAdapter {
                     for (QueryDocumentSnapshot doc: result) {
                         remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(), (String)doc.getData().get("content")));
                     }
-                    ((WaitsOnMessageFetch)listener).messageFetchFinished(remoteMessages);
+                    ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages);
                 }
             }
         });
         // TODO: deletion for a later week (doesn't affect demo since app starts a new)
 
+    }
+
+    // Sends outgoing messages to User "to"'s message inbox
+    public static void sendLocalDataToFireStore(String current_usr, String to, Message m)
+    {
+        Map<String, Object> data = new HashMap<>();
+        data.put("content", m.getText());
+        data.put("date", new Timestamp(new Date()));
+        remoteHost.collection("Users").document(to).collection("Texts").document(current_usr).collection("Texts").document().set(data);
     }
 }

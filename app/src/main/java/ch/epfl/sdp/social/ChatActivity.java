@@ -49,20 +49,22 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     public void loadExistingMessages()
     {
         FireStoreToSQLiteAdapter.setListener(this);
-        FireStoreToSQLiteAdapter.fetchFireStoreDataIntoSQLite("stupid1@gmail.com", chattingWith);
-        chatRepo.getMessages("stupid1@gmail.com", chattingWith);
+        FireStoreToSQLiteAdapter.sendFireStoreDataToLocal("stupid1@gmail.com", chattingWith);
+        chatRepo.getMessagesReceived("stupid1@gmail.com", chattingWith);
+        chatRepo.getMessagesSent("stupid1@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
-        messageAdapter.add(new Message(new Date(), message.getText().toString()));
-        // TODO: send to FireStore as well
+        Message m = new Message(new Date(), message.getText().toString());
+        messageAdapter.add(new MessageDecorator(m, true));
         chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
+        // TODO: clean way to get email of user
+        FireStoreToSQLiteAdapter.sendLocalDataToFireStore("stupid1@gmail.com",chattingWith,m);
     }
-    public static ChatRepository getChatRepo()
+   /* public static ChatRepository getChatRepo()
     {
-
          return chatRepo;
-    }
+    }*/
 
     public static void setChattingWith(String chattingWith) {
         ChatActivity.chattingWith = chattingWith;
@@ -84,12 +86,38 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         this.chat = chat.get(0);
     }
 
+    public static class MessageDecorator{
+        private Message m;
+        private boolean incoming;
+        public MessageDecorator(Message m, boolean incoming)
+        {
+            this.m = m;
+            this.incoming = incoming;
+        }
+
+        public Message getM() {
+            return m;
+        }
+
+        public boolean isIncoming() {
+            return incoming;
+        }
+    }
     @Override
-    public void messageFetchFinished(List<Message> output) {
+    public void incomingMessageFetchFinished(List<Message> output) {
         messages = output;
         for (Message el: messages)
         {
-            messageAdapter.add(el);
+            messageAdapter.add(new MessageDecorator(el, true));
+        }
+    }
+
+    @Override
+    public void outgoingMessageFetchFinished(List<Message> output) {
+        messages = output;
+        for (Message el: messages)
+        {
+            messageAdapter.add(new MessageDecorator(el, false));
         }
     }
 }

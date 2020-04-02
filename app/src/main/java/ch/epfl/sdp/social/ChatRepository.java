@@ -129,15 +129,15 @@ public final class ChatRepository {
         }.execute();
     }
 
-    public static void getMessages(final String id_owner, final String id_rec) {
+    public static void getMessagesReceived(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
-                msgList.add(new Message(new Date(), "8*^&=*%^&*()90")); // canary value (temporary solution for now)
+                //msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+                //msgList.add(new Message(new Date(), "8*^&=*%^&*()90")); // canary value (temporary solution for now)
                 msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
                 return msgList;
             }
@@ -145,11 +145,34 @@ public final class ChatRepository {
             @Override
             protected void onPostExecute(List<Message> ls)
             {
-                ((WaitsOnMessageFetch)singleton.contextActivity).messageFetchFinished(ls);
+                ((WaitsOnMessageFetch)singleton.contextActivity).incomingMessageFetchFinished(ls);
             }
         }.execute();
 
     }
+
+
+    public static void getMessagesSent(final String id_owner, final String id_rec) {
+
+        new AsyncTask<Void, Void, List<Message>>() {
+
+            @Override
+            protected List<Message> doInBackground(Void... voids) {
+                List<Message> msgList = new LinkedList<>();
+                msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_rec, id_owner));
+                return msgList;
+            }
+
+            @Override
+            protected void onPostExecute(List<Message> ls)
+            {
+                ((WaitsOnMessageFetch)singleton.contextActivity).outgoingMessageFetchFinished(ls);
+            }
+        }.execute();
+
+    }
+
+
 
     public static void insertMessageFromRemote(Timestamp tm, String content) {
         new AsyncTask<Void, Void, Void>() {
