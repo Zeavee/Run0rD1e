@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.widget.SearchView;
@@ -15,13 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
+import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
     private RecyclerQueryAdapter adapter;
-    private List<String> moviesList;
+    private List<User> friends_to_add;
     private Toolbar mActionBarToolbar;
 
     @Override
@@ -32,10 +33,8 @@ public class AddFriendsActivity extends AppCompatActivity {
         
         
         recyclerView = findViewById(R.id.recyclerQueryFriends);
-        moviesList = new ArrayList<>();
-        moviesList.add("ehllo");
-        moviesList.add("sami");
-        adapter = new RecyclerQueryAdapter(moviesList);
+        friends_to_add = new ArrayList<>();
+        adapter = new RecyclerQueryAdapter(friends_to_add, new FirestoreFriendsFetcher());
 
 
         // layoutManager of recyclerView implemented in the xml file
@@ -63,7 +62,8 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                ((WaitsOnUserFetch)adapter).updateSearch(newText);
+                //adapter.getFilter().filter(newText);
                 return false;
             }
         });

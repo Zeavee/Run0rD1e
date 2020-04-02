@@ -15,9 +15,24 @@ public class User {
     @NonNull
     public String email;
 
+    @Ignore
+    private String username;
+
     public User(String email)
     {
         this.email = email;
+    }
+
+    // This constructor should not be used for database related operations (hence @Ignore)
+    @Ignore
+    public User(String email, String username)
+    {
+        this.email = email;
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @NonNull
