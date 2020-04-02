@@ -36,15 +36,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
-
-        Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
-        Game.addToDisplayList(hp);
-        Game.addToUpdateList(hp);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         ((GoogleMapApi) mapApi).setMap(googleMap);
         mapApi.updatePosition();
+        Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
+        Game.addToDisplayList(hp);
+        Game.addToUpdateList(hp);
     }
 }
