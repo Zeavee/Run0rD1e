@@ -161,6 +161,6 @@ public class RegisterTest {
         onView(withId(R.id.backBtn)).perform(click());
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.createAccountBtn)).perform(click());
+        //onView(withId(R.id.createAccountBtn)).perform(click());
     }
 }

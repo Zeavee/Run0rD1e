@@ -32,5 +32,5 @@ public class PlayerManagerTest {
         PlayerManager.removePlayer(player);
         assertEquals(0, PlayerManager.getPlayers().size());
     }
-    
+
 }
