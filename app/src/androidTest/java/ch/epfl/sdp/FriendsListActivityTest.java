@@ -43,6 +43,7 @@ public class FriendsListActivityTest {
                 .check(matches(withText(startsWith("Hello"))));
     }
 
+
     public static class MyViewAction {
 
         public static ViewAction clickChildViewWithId(final int id) {

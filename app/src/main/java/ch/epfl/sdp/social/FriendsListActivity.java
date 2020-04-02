@@ -87,6 +87,10 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         initRecyclerView(friends);
     }
 
+    public void onAddFriendClicked(View v)
+    {
+        startActivity(new Intent(FriendsListActivity.this, AddFriendsActivity.class));
+    }
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(User friend);

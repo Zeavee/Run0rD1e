@@ -9,11 +9,22 @@ import ch.epfl.sdp.R;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
-    RecyclerView rv;
+
+    private RecyclerView recyclerView;
+    private RecyclerQueryAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-        rv = findViewById(R.id.recyclerQueryFriends);
+
+        recyclerView = findViewById(R.id.recyclerQueryFriends);
+        adapter = new RecyclerQueryAdapter();
+
+        // layoutManager of recyclerView implemented in the xml file
+        recyclerView.setAdapter(adapter);
+
+
     }
 }
