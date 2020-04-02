@@ -24,6 +24,11 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     private List<Message> messages;
     private MessageAdapter messageAdapter;
 
+    public static void setRemoteToSQLiteAdapter(RemoteToSQLiteAdapter remoteToSQLiteAdapter) {
+        ChatActivity.remoteToSQLiteAdapter = remoteToSQLiteAdapter;
+    }
+
+    private static RemoteToSQLiteAdapter remoteToSQLiteAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,17 +44,18 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
-        //chatRepo.addChat(new Chat("amro.abdrabo@gmail.com", chattingWith));
-        //chatRepo.addChat(new Chat(chattingWith, "amro.abdrabo@gmail.com"));
 
         chatRepo.getChat("stupid1@gmail.com", chattingWith);
         sendButton.setOnClickListener(this::onSendClicked);
+
+        // Very important to use the singleton to reduce thinking (Done before activity switch inside friendsListActivity)
+        // setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance());
         loadExistingMessages();
     }
     public void loadExistingMessages()
     {
-        FireStoreToSQLiteAdapter.setListener(this);
-        FireStoreToSQLiteAdapter.sendFireStoreDataToLocal("stupid1@gmail.com", chattingWith);
+        remoteToSQLiteAdapter.getInstance().setListener(this);
+        remoteToSQLiteAdapter.getInstance().sendRemoteServerDataToLocal("stupid1@gmail.com", chattingWith);
         chatRepo.getMessagesReceived("stupid1@gmail.com", chattingWith);
         chatRepo.getMessagesSent("stupid1@gmail.com", chattingWith);
     }
@@ -58,13 +64,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         Message m = new Message(new Date(), message.getText().toString());
         messageAdapter.add(new MessageDecorator(m, false));
         chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
+
         // TODO: clean way to get email of user
-        FireStoreToSQLiteAdapter.sendLocalDataToFireStore("stupid1@gmail.com",chattingWith,m);
+        remoteToSQLiteAdapter.getInstance().sendLocalDataToRemoteServer("stupid1@gmail.com",chattingWith,m);
     }
-   /* public static ChatRepository getChatRepo()
-    {
-         return chatRepo;
-    }*/
 
     public static void setChattingWith(String chattingWith) {
         ChatActivity.chattingWith = chattingWith;
@@ -72,21 +75,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
     @Override
     public void chatFetched(List<Chat> chat) {
-        // this if will be unnecessary since the chat is added when the user adds a friend
-        if (chat == null || chat.isEmpty())
-        {
-            Chat c = new Chat("stupid1@gmail.com", chattingWith);
-            System.out.println("effff4839859000000038ffffffff");
-            //c.setFrom("amro.abdrabo@gmail.com");
-            //c.setTo("shaima@abc.com");
-            chatRepo.addChat(c);
-            this.chat = c;
-            return;
-        }
         this.chat = chat.get(0);
     }
 
-    public static class MessageDecorator{
+    public static final class MessageDecorator{
         private Message m;
         private boolean incoming;
         public MessageDecorator(Message m, boolean incoming)

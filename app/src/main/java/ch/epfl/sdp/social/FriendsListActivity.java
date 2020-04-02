@@ -52,6 +52,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         current_email_id= "stupid1@gmail.com";
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
+        ChatActivity.setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); // placed here for mock testing purposes
         //auth = new FirebaseAuthentication(null);
         //auth.getClass()
         //user_cur =  new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ,

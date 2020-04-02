@@ -21,6 +21,13 @@ public class AddFriendsActivity extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
+
+    // Used for mocking
+    public void setAdapter(RecyclerQueryAdapter adapter) {
+        this.adapter = adapter;
+        recyclerView.setAdapter(adapter);
+    }
+
     private RecyclerQueryAdapter adapter;
     private List<User> friends_to_add;
 
@@ -33,11 +40,13 @@ public class AddFriendsActivity extends AppCompatActivity {
         
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         friends_to_add = new ArrayList<>();
+
+        // This can be mocked by doing a setAdapter method that injects  new RecyclerQueryAdapter(friends_to_add, new MockFriendsFetcher());
+        // inside @Before
         adapter = new RecyclerQueryAdapter(friends_to_add, new FirestoreFriendsFetcher());
 
 
         // layoutManager of recyclerView implemented in the xml file
-        
         recyclerView.setAdapter(adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);

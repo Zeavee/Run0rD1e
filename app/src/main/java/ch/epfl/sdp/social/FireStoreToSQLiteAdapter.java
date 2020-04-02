@@ -23,19 +23,22 @@ import java.util.Map;
 
 /*
  This class fetches messages from FireStore and places them in the local SQLite database.
+ As usual, singleton design.
  */
-public class FireStoreToSQLiteAdapter {
+public class FireStoreToSQLiteAdapter implements  RemoteToSQLiteAdapter {
 
     private static final FirebaseFirestore remoteHost = FirebaseFirestore.getInstance();
-
     private static Context listener;
+    private static FireStoreToSQLiteAdapter singleton = new FireStoreToSQLiteAdapter();
 
-    public static void setListener(Context listener) {
-        FireStoreToSQLiteAdapter.listener = listener;
+    public FireStoreToSQLiteAdapter getInstance() { return singleton; }
+
+    public void setListener(Context listener) {
+        singleton.listener = listener;
     }
 
     // Gets the incoming messages from FireStore. Owner is "stupid1@gmail.com" i.e the currently signed in user
-    public static void sendFireStoreDataToLocal(String owner, String sender)
+    public void sendRemoteServerDataToLocal(String owner, String sender)
     {
         List<Message> remoteMessages = new ArrayList<>();
 
@@ -46,7 +49,6 @@ public class FireStoreToSQLiteAdapter {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful())
                 {
-                    //Log.d("for owner ", owner);
                     QuerySnapshot result = task.getResult();
                     for (QueryDocumentSnapshot doc: result) {
                         remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(), (String)doc.getData().get("content")));
@@ -60,7 +62,7 @@ public class FireStoreToSQLiteAdapter {
     }
 
     // Sends outgoing messages to User "to"'s message inbox
-    public static void sendLocalDataToFireStore(String current_usr, String to, Message m)
+    public void sendLocalDataToRemoteServer(String current_usr, String to, Message m)
     {
         Map<String, Object> data = new HashMap<>();
         data.put("content", m.getText());
