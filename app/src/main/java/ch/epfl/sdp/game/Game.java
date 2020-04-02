@@ -59,12 +59,6 @@ public class Game implements Updatable, Drawable {
         return displayables;
     }
 
-    public void setMapApi(MapApi mapApi) {
-        if (mapApi != null) {
-            this.map = mapApi;
-        }
-    }
-
     /**
      * Launches the game
      */

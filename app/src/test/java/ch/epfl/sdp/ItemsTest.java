@@ -28,6 +28,14 @@ public class ItemsTest {
     }
 
     @Test
+    public void ifItemNotInInventoryNothingHappens() {
+        Player player = new Player(6.149290, 46.212470, 50,
+                "Skyris", "test@email.com"); //player position is in Geneva
+        player.getInventory().removeItem("test");
+        assertEquals(0, player.getInventory().getItems().size());
+    }
+
+    @Test
     public void shieldTest() {
         assertFalse(shield.isTaken());
         assertEquals(40, shield.getShieldTime(), 0);
@@ -51,7 +59,10 @@ public class ItemsTest {
                 "Skyris", "test@email.com"); //player position is in Geneva
         player1.setHealthPoints(30);
         healthpack.increaseHealthPlayer(player1, 100);
+        player1.getInventory().addItem(healthpack.getName());
         assertEquals(90, player1.getHealthPoints(), 0);
+        player1.getInventory().useItem(healthpack);
+        assertEquals(100, player1.getHealthPoints(), 0);
     }
 
     @Test
