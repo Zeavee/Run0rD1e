@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.util.Pair;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,6 +30,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -111,7 +113,7 @@ public class RegisterTest {
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
     }
 
-/*    @Test
+    @Test
     public void registering_ShouldFailOnEmptyTextFields(){
         List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0 ; i < 4; ++i)
@@ -127,16 +129,16 @@ public class RegisterTest {
             onView(withId(R.id.createAccountBtn)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
-    }*/
+    }
 
- /*   @Test
+    @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
-    }*/
-/*
+    }
+
     @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
@@ -146,7 +148,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
@@ -161,6 +163,6 @@ public class RegisterTest {
         onView(withId(R.id.backBtn)).perform(click());
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
-        //onView(withId(R.id.createAccountBtn)).perform(click());
+        onView(withId(R.id.createAccountBtn)).perform(click());
     }
 }
