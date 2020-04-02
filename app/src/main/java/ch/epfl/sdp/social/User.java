@@ -20,8 +20,6 @@ public class User {
         this.email = email;
     }
 
-    private String firstName;
-
     @NonNull
     public String getEmail() {
         return email;
