@@ -163,5 +163,4 @@ public class RegisterTest {
         //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
     }
-    
 }
