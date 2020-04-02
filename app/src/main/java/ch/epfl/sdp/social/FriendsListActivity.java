@@ -1,7 +1,9 @@
 package ch.epfl.sdp.social;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +33,15 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         current_email_id = email_id;
     }
 
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        chatRepo.setContextActivity(this);
+        chatRepo.fetchFriends(new User(current_email_id));
+        //chatRepo.
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +55,22 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         //user_cur =  new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ,
         //usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
 
+        //try {
+            chatRepo.addUser(new User("abd1@g"));
+            chatRepo.addUser(new User("abd1@g"));
+        //}
+        //catch (SQLiteConstraintException e)
+       // {
+          //  Log.d("loloo", e.getMessage() + " fuckkkkkk");
+           // if (e.getMessage().contains("UNIQUE"))
+            //{
+             //   Log.d("lolz", " got fucked by unique");
+            //}
+        //}
 
         //usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
         try {
+            Log.d("The current enmail ISSS", current_email_id);
             //chatRepo.addUser(usr_amr);
             //chatRepo.addUser(usr_shaima);
             //chatRepo.addFriends(usr_amr, usr_shaima);

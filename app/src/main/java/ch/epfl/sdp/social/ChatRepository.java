@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -33,6 +34,7 @@ public final class ChatRepository {
         else return singleton;
     }
     private ChatRepository(Context contextActivity) {
+        //chatDB = Room.inMemoryDatabaseBuilder(databaseBuilder(contextActivity, ChatDatabase.class, "hello").build();
         chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
@@ -65,10 +67,11 @@ public final class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try {
-                    singleton.chatDB.daoAccess().addChat(c);
+                try { singleton.chatDB.daoAccess().addChat(c); }
+                catch (SQLiteConstraintException e)
+                {
+                    // already added, do nothing
                 }
-                catch (SQLiteConstraintException e){}
                 return null;
             }
         }.execute();
@@ -83,7 +86,7 @@ public final class ChatRepository {
                 }
                 catch(SQLiteConstraintException e)
                 {
-
+                   //User already added to the database, do nothing
                 }
                 return null;
             }
@@ -116,8 +119,11 @@ public final class ChatRepository {
             protected Void doInBackground(Void... voids) {
                 try {
                     singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
-                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
-                }catch (SQLiteConstraintException e) {}
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email)); // friendship is symmetric
+                }catch (SQLiteConstraintException e) {
+                     // foreign key was not found so add both users to user db (done in caller)
+                    Log.d("ChatRepo Exception", "Caller must ensure users added to DB");
+                }
                 return null;
             }
         }.execute();
@@ -131,6 +137,7 @@ public final class ChatRepository {
             protected List<String> doInBackground(Void... voids) {
                 List<String> msgList = new LinkedList<>();
                 msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+                msgList.add("*()&90!^%9_+)(98&*"); // canary value (temporary solution for now)
                 msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
                 return msgList;
             }

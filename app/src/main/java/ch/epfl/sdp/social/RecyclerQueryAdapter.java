@@ -91,14 +91,20 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             // Let it know which UI context thread to run on
             ChatRepository.setContextActivity(v.getContext());
 
+            completeDBSetup();
+            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
+        }
+
+        private void completeDBSetup()
+        {
             // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
             User cur_usr = new User("amro.abdrabo@gmail.com");
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
-            ChatRepository.addFriends(befriended_usr, cur_usr);
-            ChatRepository.addFriends(cur_usr, befriended_usr); // Friendship is symmetric (not in life but in this game)
-
-
-            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
+            ChatRepository.addUser(cur_usr);
+            ChatRepository.addUser(befriended_usr);
+            ChatRepository.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));
+            ChatRepository.addChat(new Chat(befriended_usr.getEmail(), cur_usr.getEmail()));
+            ChatRepository.addFriends(befriended_usr, cur_usr); // symmetry handled in called function
         }
     }
 }

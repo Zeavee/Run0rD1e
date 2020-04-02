@@ -27,6 +27,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
         sendButton = findViewById(R.id.sendMessageButton);
         message = findViewById(R.id.messageField);
         lv = findViewById(R.id.messages_view);
@@ -36,13 +37,16 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
 
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
+        //chatRepo.addChat(new Chat("amro.abdrabo@gmail.com", chattingWith));
+        //chatRepo.addChat(new Chat(chattingWith, "amro.abdrabo@gmail.com"));
+
         chatRepo.getChat("amro.abdrabo@gmail.com", chattingWith);
         sendButton.setOnClickListener(this::onSendClicked);
         loadExistingMessages();
     }
     public void loadExistingMessages()
     {
-        chatRepo.getMessages("amro.abdrabo@gmail.com", "shaima@abc.com");
+        chatRepo.getMessages("amro.abdrabo@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
@@ -63,10 +67,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     public void chatFetched(List<Chat> chat) {
         if (chat == null || chat.isEmpty())
         {
-            Chat c = new Chat();
+            Chat c = new Chat("amro.abdrabo@gmail.com", chattingWith);
             System.out.println("effff4839859000000038ffffffff");
-            c.setFrom("amro.abdrabo@gmail.com");
-            c.setTo("shaima@abc.com");
+            //c.setFrom("amro.abdrabo@gmail.com");
+            //c.setTo("shaima@abc.com");
             chatRepo.addChat(c);
             this.chat = c;
             return;
