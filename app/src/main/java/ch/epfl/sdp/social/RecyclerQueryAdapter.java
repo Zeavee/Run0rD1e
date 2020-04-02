@@ -38,11 +38,8 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.usernameTextView.setText(friendsList.get(position).getUsername());
         holder.emailTextView.setText(friendsList.get(position).getEmail());
-
-
     }
 
     @Override
@@ -85,10 +82,22 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             });
         }
 
-        /// Here is where you add that the user become friends in both firestore and sqlite
+        /// Here is where you add that the user become friends in both FireStore and SQLite
         @Override
         public void onClick(View v) {
-            //ChatRepository.createRepo()
+            // If it is not created already
+            ChatRepository singleton = ChatRepository.createRepo(v.getContext());
+
+            // Let it know which UI context thread to run on
+            ChatRepository.setContextActivity(v.getContext());
+
+            // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
+            User cur_usr = new User("amro.abdrabo@gmail.com");
+            User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
+            ChatRepository.addFriends(befriended_usr, cur_usr);
+            ChatRepository.addFriends(cur_usr, befriended_usr); // Friendship is symmetric (not in life but in this game)
+
+
             Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
         }
     }

@@ -2,6 +2,7 @@ package ch.epfl.sdp.social;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 
@@ -15,14 +16,14 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressLint("StaticFieldLeak")
-public class ChatRepository {
+public final class ChatRepository {
 
     private ChatDatabase chatDB;
-    private Activity contextActivity;
+    private Context contextActivity;
     private List<String> messages;
     private static boolean singletonCreated = false;
     private static ChatRepository singleton;
-    public static ChatRepository createRepo(Activity contextActivity)
+    public static ChatRepository createRepo(Context contextActivity)
     {
         if (!singletonCreated) {
             singleton = new ChatRepository(contextActivity);
@@ -31,16 +32,16 @@ public class ChatRepository {
         }
         else return singleton;
     }
-    private ChatRepository(Activity contextActivity) {
-        chatDB = Room.inMemoryDatabaseBuilder(contextActivity.getApplicationContext(), ChatDatabase.class).allowMainThreadQueries().build();
+    private ChatRepository(Context contextActivity) {
+        chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
 
-    public void setContextActivity(Activity contextActivity) {
+    public static void setContextActivity(Context contextActivity) {
         singleton.contextActivity = contextActivity;
     }
 
-    public void sendMessage(String content, int chat_id) {
+    public static void sendMessage(String content, int chat_id) {
 
         Message m = new Message();
         m.setText(content);
@@ -49,7 +50,7 @@ public class ChatRepository {
         singleton.sendMessage(m);
     }
 
-    private void sendMessage(final Message message) {
+    private static void sendMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -60,7 +61,7 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void addChat(final Chat c) {
+    public static void addChat(final Chat c) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -73,7 +74,7 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void addUser(final User usr) {
+    public static void addUser(final User usr) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -90,10 +91,10 @@ public class ChatRepository {
     }
 
     // This method must be
-    public void fetchFriends(final User user)
+    public static void fetchFriends(final User user)
     {
         new AsyncTask<Void, Void, List<User>>() {
-            private Activity context;
+            private Context context;
             @Override
             protected List<User> doInBackground(Void... voids) {
                 context = singleton.contextActivity;
@@ -108,7 +109,7 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void addFriends(final User user1, final User user2)
+    public static void addFriends(final User user1, final User user2)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -122,7 +123,7 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void getMessages(final String id_owner, final String id_rec) {
+    public static void getMessages(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<String>>() {
 
@@ -143,7 +144,7 @@ public class ChatRepository {
 
     }
 
-    public void insertMessageFromRemote(final Map<String, Object> data) {
+    public static void insertMessageFromRemote(final Map<String, Object> data) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -157,7 +158,7 @@ public class ChatRepository {
 
     }
 
-    public void getChat(String current, String other)
+    public static void getChat(String current, String other)
     {
         new AsyncTask<Void, Void, List<Chat>>() {
 
