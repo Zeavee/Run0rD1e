@@ -22,7 +22,7 @@ public class GameTest {
         Updatable upd2 = mock(Updatable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToUpdateList(upd1);
         game.addToUpdateList(upd2);
         game.update();
@@ -36,7 +36,7 @@ public class GameTest {
     public void addToUpdateList_ShouldIgnoreNull()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToUpdateList(null);
 
         // assert
@@ -47,7 +47,7 @@ public class GameTest {
     public void addToUpdateList_ShouldAddUpdatable()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToUpdateList(mock(Updatable.class));
 
         // assert
@@ -63,7 +63,7 @@ public class GameTest {
         Updatable mockNonExistingUpdatable = mock(Updatable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToUpdateList(mockUpdatable1);
         game.addToUpdateList(mockUpdatable2);
         game.removeFromUpdateList(mockUpdatable1);
@@ -81,7 +81,7 @@ public class GameTest {
         MapApi mockMapApi = mock(MapApi.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.setMapApi(mockMapApi);
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
@@ -95,7 +95,7 @@ public class GameTest {
     public void addToDisplayList_ShouldIgnoreNull()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToDisplayList(null);
 
         // assert
@@ -106,7 +106,7 @@ public class GameTest {
     public void addToDisplayList_ShouldAddDisplayable()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToDisplayList(mock(Displayable.class));
 
         // assert
@@ -122,7 +122,7 @@ public class GameTest {
         Displayable mockNonExistingDisplayable = mock(Displayable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game(null, null);
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
         game.removeFromDisplayList(mockDisplayable1);
@@ -135,17 +135,17 @@ public class GameTest {
     @Test
     public void gameThread_starts()
     {
-        Game game = new Game(null);
+        Game game = new Game(null, new MockInitializeGame());
         game.initGame();
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//        game.destroyGame();
+        game.destroyGame();
 
         // assert
-        Assert.assertTrue(game.gameThread.isRunning());
+        Assert.assertFalse(game.gameThread.isRunning());
     }
 
 //    @Test

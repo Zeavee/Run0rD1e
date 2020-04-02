@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.database.InitializeGameFirestore;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryFragment;
@@ -74,7 +75,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         showGameInfoThread().start();
 
-        game = new Game(mapApi);
+        game = new Game(mapApi, new InitializeGameFirestore());
         startGame();
     }
 

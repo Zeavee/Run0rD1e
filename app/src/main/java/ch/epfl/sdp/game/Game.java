@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.database.InitializeGame;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
@@ -17,6 +18,7 @@ import ch.epfl.sdp.map.MapsActivity;
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
     private MapApi map;
+    private InitializeGame initializeGame;
     private static ArrayList<Updatable> updatables;
     private static ArrayList<Displayable> displayables;
 
@@ -24,9 +26,10 @@ public class Game implements Updatable, Drawable {
      * Instantiates a new game (uses mapApi by default. So for tests you need to
      * change the map before launching)
      */
-    public Game(MapApi mapApi) {
+    public Game(MapApi mapApi, InitializeGame initializeGame) {
         // Need to test if it is null
         this.map = mapApi;
+        this.initializeGame = initializeGame;
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         gameThread = new GameThread(this);
@@ -81,19 +84,9 @@ public class Game implements Updatable, Drawable {
     }
 
     public void setEnvironment() {
-        MapsActivity.currentUserEmail =  MapsActivity.authenticationController.getEmailOfCurrentUser();
-        while(MapsActivity.currentUserEmail == null) {}
+        initializeGame.setGameEnvironment();
 
-        //fetch all players from lobby for the first time
-        MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
-
-        // wait until all data fetched
-        while(PlayerManager.getInstance().getMapPlayers().size() != 7) {}
-
-        //initialize the currentUser
-        MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
-
-        this.updatables.add(PlayerManager.getInstance());
+//        this.updatables.add(PlayerManager.getInstance());
     }
 
     /**
