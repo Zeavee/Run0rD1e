@@ -8,11 +8,10 @@ import java.util.ArrayList;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
-import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
-public class Player extends MovingEntity implements Localizable, Updatable {
+public class Player extends MovingEntity implements Localizable{
     public String username;
     public String email;
     @Exclude
@@ -165,11 +164,6 @@ public class Player extends MovingEntity implements Localizable, Updatable {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
-    }
-
-    @Override
-    public void update() {
-
     }
 
 

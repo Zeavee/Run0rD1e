@@ -22,7 +22,9 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     private static Player player1 = new Player(6.149290, 46.212470, 50,
-            "Skyris", "test@email.com"); //player position is in Geneva
+            "SkyRiS3s", "test@email.com"); //player position is in Geneva
+    private static Player player2 = new Player(5.149290, 30.212470, 40,
+            "gamer", "gamer@gmail.com"); //player position
     private static EnemyOutDated enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50); //enemy1's position is at EPFL
     private static EnemyOutDated enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50); //enemy2's position is close to player1
     private static ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
@@ -45,7 +47,7 @@ public class PlayerTest {
     @Test
     public void otherMethodTest() {
         assertTrue(player1.isAlive());
-        assertEquals("Skyris", player1.getUsername());
+        assertEquals("SkyRiS3s", player1.getUsername());
         assertEquals(0, player1.getSpeed(), 0.001);
         assertEquals(0, player1.getTimeTraveled(), 0.001);
         assertEquals(0, player1.getScore());
@@ -109,5 +111,18 @@ public class PlayerTest {
         player1.getInventory().setItemQuantity("Healthpack", 6);
         player1.getInventory().removeItem("Healthpack");
         assertEquals(5, player1.getInventory().getItems().get("Healthpack"), 0);
+    }
+
+    @Test
+    public void playerIsAlive(){
+        player2.setAlive(true);
+        assertTrue(player2.isAlive());
+        assertEquals("gamer", player2.getUsername());
+        assertEquals("gamer@gmail.com", player2.getEmail());
+    }
+    @Test
+    public void playerIsNotAlive(){
+        player2.setAlive(false);
+        assertFalse(player2.isAlive());
     }
 }
