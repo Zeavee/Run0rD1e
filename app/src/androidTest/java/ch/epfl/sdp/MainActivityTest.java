@@ -53,8 +53,8 @@ public class MainActivityTest {
         onView(withId(R.id.inventory)).perform(click());
     }
 
-    @Test
+   /* @Test
     public void leaderboardOpens() {
         onView(withId(R.id.leaderboard)).perform(click());
-    }
+    }*/
 }
