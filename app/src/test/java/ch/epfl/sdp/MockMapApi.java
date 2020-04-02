@@ -16,6 +16,7 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {
+    // Used for tests
     private ArrayList<Displayable> displayables = new ArrayList<>();
 
     public ArrayList<Displayable> getDisplayables(){
