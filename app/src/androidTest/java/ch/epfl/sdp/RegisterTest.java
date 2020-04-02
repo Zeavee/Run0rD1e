@@ -5,11 +5,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.util.Pair;
 
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.intent.Intents;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.rule.ActivityTestRule;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,6 +15,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
@@ -34,7 +33,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -141,7 +139,7 @@ public class RegisterTest {
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
     }
 
-    /*@Test
+    @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -150,7 +148,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
@@ -159,12 +157,12 @@ public class RegisterTest {
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
     }
 
-    /*@Test
+    @Test
     public void registerWhenConnected_ShouldGoToMainScreen(){
         //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
-    }*/
+    }
 }

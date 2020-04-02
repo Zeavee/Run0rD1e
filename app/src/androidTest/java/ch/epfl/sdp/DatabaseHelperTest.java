@@ -34,12 +34,6 @@ public class DatabaseHelperTest {
     }
 
     @Test
-    public void getLoggedUser_noUser_ReturnsNull() {
-        DatabaseHelper.UserData loggedUser = databaseHelper.getLoggedUser();
-        Assert.assertNull(loggedUser);
-    }
-
-    @Test
     public void deleteUsers_deletesUsers() {
         databaseHelper.saveLoggedUser("user@example.com", "abcdefgh");
         databaseHelper.deleteAllUsers();
