@@ -139,7 +139,7 @@ public class RegisterTest {
         Intents.release();
     }
 
-    /*@Test
+    @Test
     public void writingUsername_ShouldBeDisplayed(){
         closeSoftKeyboard();
         onView(withId(R.id.username)).perform(typeText("Username"));
@@ -161,7 +161,7 @@ public class RegisterTest {
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
         closeSoftKeyboard();
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
-    }*/
+    }
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields(){
@@ -183,15 +183,15 @@ public class RegisterTest {
     }
 
     // for now
-    /*@Test
+    @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -200,16 +200,16 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
     // for now
-    /*
+
     @Test
     public void backButton_ShouldGoToLoginForm(){
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
-    }*/
+    }
 
     /*@Test
     public void registerWhenConnected_ShouldGoToMainScreen(){
