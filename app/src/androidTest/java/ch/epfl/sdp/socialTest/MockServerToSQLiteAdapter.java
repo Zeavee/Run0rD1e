@@ -30,8 +30,7 @@ public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
 
         // pretend that remote messages on FireStore are the following
         List<Message> remoteMessages = new ArrayList<>();
-        remoteMessages.addAll(Arrays.asList(new Message(new Date(), "Hello Amro"),
-                new Message(new Date(), "lullabies")));
+        remoteMessages.add(new Message(new Date(), "Shaima is not stupid, from user with ID stupid2"));
         ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages);
 
     }

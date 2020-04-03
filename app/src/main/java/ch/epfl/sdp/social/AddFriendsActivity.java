@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.widget.SearchView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +22,20 @@ import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
 public class AddFriendsActivity extends AppCompatActivity {
 
 
-    private RecyclerView recyclerView;
+    private static RecyclerView recyclerView;
+    public static ArrayList<RecyclerQueryAdapter> container = new ArrayList<>(); // for mock testing also
+    private static RecyclerQueryAdapter cached_adapter = null;
 
     // Used for mocking (to be called before being created inside)
     public static void setAdapter(RecyclerQueryAdapter newAdapter) {
-        adapter = newAdapter;
-        //recyclerView.setAdapter(adapter);
+        if (newAdapter == null)
+        {
+            Log.d("HOOWWWW", "DAFUQQQQQQQQ");
+        }
+        cached_adapter = newAdapter;
+        //recyclerView.setAdapter(newAdapter);
+        container.clear();
+        container.add(newAdapter);
     }
 
     private static RecyclerQueryAdapter adapter;
@@ -36,8 +46,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
 
-        
-        
+
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         //friends_to_add = new ArrayList<>();
 
@@ -47,12 +56,20 @@ public class AddFriendsActivity extends AppCompatActivity {
 
 
         // layoutManager of recyclerView implemented in the xml file
-        recyclerView.setAdapter(adapter);
+        // recyclerView.setAdapter(adapter);
+        
+        // when it comes alive, it will use this adapter
+        useCachedAdapter();
+        container.clear();
+        container.add(cached_adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-
-
-
+        
+    }
+    
+    private void useCachedAdapter()
+    {
+        recyclerView.setAdapter(cached_adapter);
     }
 
     @Override
@@ -70,7 +87,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((WaitsOnUserFetch)adapter).updateSearch(newText);
+                ((WaitsOnUserFetch)container.get(0)).updateSearch(newText);
                 //adapter.getFilter().filter(newText);
                 return false;
             }
