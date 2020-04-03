@@ -1,15 +1,23 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +48,7 @@ public class GameTest {
         game.addToUpdateList(null);
 
         // assert
-        Assert.assertEquals(0, game.getUpdatables().size());
+        assertEquals(0, game.getUpdatables().size());
     }
 
     @Test
@@ -51,7 +59,7 @@ public class GameTest {
         game.addToUpdateList(mock(Updatable.class));
 
         // assert
-        Assert.assertEquals(1, game.getUpdatables().size());
+        assertEquals(1, game.getUpdatables().size());
     }
 
     @Test
@@ -70,25 +78,33 @@ public class GameTest {
         game.removeFromUpdateList(mockNonExistingUpdatable);
 
         // assert
-        Assert.assertEquals(1, game.getUpdatables().size());
+        assertEquals(1, game.getUpdatables().size());
     }
 
     @Test
-    public void draw_shouldDisplayAllDisplayables() {
+    public void itemShouldNotBeInListAfterTaken() throws InterruptedException {
         // arrange
-        Displayable mockDisplayable1 = mock(Displayable.class);
-        Displayable mockDisplayable2 = mock(Displayable.class);
-        MapApi mockMapApi = mock(MapApi.class);
+        Item healthpack = new Healthpack(new GeoPoint(45, 45), false, 10);
+        MapApi mockMapApi = new MockMapApi();
+        Activity activity = mock(Activity.class);
+        new PlayerManager();
+        doAnswer((i) -> null).when(activity).runOnUiThread(any(Runnable.class));
+        mockMapApi.initializeApi(null, activity);
 
         // act
-        Game game = new Game(null);
-        game.setMapApi(mockMapApi);
-        game.addToDisplayList(mockDisplayable1);
-        game.addToDisplayList(mockDisplayable2);
-        game.draw();
+        Game game = new Game(mockMapApi);
+        game.addToDisplayList(healthpack);
+        game.addToUpdateList(healthpack);
+        game.initGame();
 
         // assert
-        verify(mockMapApi, Mockito.times(2)).displayEntity(any(Displayable.class));
+        assertEquals(true, healthpack.isActive());
+        Player player = new Player(45, 45, 50, "TestPlayer", "Test@Test.com");
+        PlayerManager.addPlayer(player);
+        Thread.sleep(1000);
+        assertEquals(false, healthpack.isActive());
+
+
     }
 
     @Test
@@ -99,7 +115,7 @@ public class GameTest {
         game.addToDisplayList(null);
 
         // assert
-        Assert.assertEquals(0, game.getDisplayables().size());
+        assertEquals(0, game.getDisplayables().size());
     }
 
     @Test
@@ -110,7 +126,7 @@ public class GameTest {
         game.addToDisplayList(mock(Displayable.class));
 
         // assert
-        Assert.assertEquals(1, game.getDisplayables().size());
+        assertEquals(1, game.getDisplayables().size());
     }
 
     @Test
@@ -129,7 +145,7 @@ public class GameTest {
         game.removeFromDisplayList(mockNonExistingDisplayable);
 
         // assert
-        Assert.assertEquals(1, game.getDisplayables().size());
+        assertEquals(1, game.getDisplayables().size());
     }
 
     @Test

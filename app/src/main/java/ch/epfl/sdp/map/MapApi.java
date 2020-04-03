@@ -40,4 +40,6 @@ public interface MapApi {
      void unDisplayEntity(Displayable displayable);
 
      public void initializeApi(LocationManager locationManager, Activity activity);
+
+     Activity getActivity();
 }

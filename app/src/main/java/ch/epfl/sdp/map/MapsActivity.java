@@ -12,6 +12,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -39,5 +42,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         ((GoogleMapApi) mapApi).setMap(googleMap);
         mapApi.updatePosition();
+        Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
+        Game.addToDisplayList(hp);
+        Game.addToUpdateList(hp);
     }
 }

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         PlayerManager playerManager = new PlayerManager();
 
-        game = new Game(null);
+        game = new Game(MapsActivity.mapApi);
 
         startGame();
 

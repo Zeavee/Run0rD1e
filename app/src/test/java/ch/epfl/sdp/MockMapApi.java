@@ -14,6 +14,8 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {
+    private Activity activity;
+
     @Override
     public GeoPoint getCurrentLocation() {
         return new GeoPoint(40, 50);
@@ -50,7 +52,12 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void initializeApi(LocationManager locationManager, Activity activity) {
+        this.activity = activity;
+    }
 
+    @Override
+    public Activity getActivity() {
+        return activity;
     }
 
     @Test

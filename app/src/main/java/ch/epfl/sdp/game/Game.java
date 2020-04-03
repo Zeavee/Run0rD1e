@@ -11,7 +11,7 @@ import ch.epfl.sdp.map.MapApi;
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
-    private MapApi map;
+    private static MapApi map;
     private static ArrayList<Updatable> updatables;
     private static ArrayList<Displayable> displayables;
 
@@ -59,12 +59,6 @@ public class Game implements Updatable, Drawable {
         return displayables;
     }
 
-    public void setMapApi(MapApi mapApi) {
-        if (mapApi != null) {
-            this.map = mapApi;
-        }
-    }
-
     /**
      * Launches the game
      */
@@ -105,7 +99,12 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            map.displayEntity(displayable);
+            if (displayable.isActive()) {
+                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            } else {
+                map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
+                removeFromDisplayList(displayable);
+            }
         }
     }
 }

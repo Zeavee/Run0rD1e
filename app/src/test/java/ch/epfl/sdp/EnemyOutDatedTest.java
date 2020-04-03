@@ -21,5 +21,6 @@ public class EnemyOutDatedTest {
     public void getEntityTypeReturnsUser() {
         Displayable currentPlayer = new EnemyOutDated(0,0,0);
         assertEquals(EntityType.ENEMY, currentPlayer.getEntityType());
+        assertEquals(true, currentPlayer.isActive());
     }
 }
