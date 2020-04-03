@@ -120,13 +120,6 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-/*
-            if (displayable.isActive()) {
-                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
-            } else {
-                map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
-                removeFromDisplayList(displayable);
-            }*/
             map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
         }
     }

@@ -9,6 +9,8 @@ import ch.epfl.sdp.artificial_intelligence.Movement;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
@@ -136,7 +138,7 @@ public class ArtificialIntelligenceTest {
         movingArtificialEntity.setVelocity(10);
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
-            assertEquals(true, rectangleBounds.isInside(movingArtificialEntity.getPosition()));
+            assertTrue(rectangleBounds.isInside(movingArtificialEntity.getPosition()));
         }
     }
 }

@@ -145,12 +145,11 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
     @Override
     public void update() {
-        System.out.print("Update Moving Artificial Entity");
         if(moving) {
             GenPoint gp = move();
             if (bounds.isInside(gp) || forceMove) {
                position = gp;
-               this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699,46.215788)));
+               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699,46.215788)));
             } else {
                 switchOnMouvement();
             }

@@ -27,6 +27,7 @@ public class PlayerManagerTest {
 
     @Test
     public void removingPlayerShouldDecreasePlayerNumber() {
+        PlayerManager.emptyPlayers();
         PlayerManager.addPlayer(player);
         assertEquals(1, PlayerManager.getPlayers().size());
         PlayerManager.removePlayer(player);

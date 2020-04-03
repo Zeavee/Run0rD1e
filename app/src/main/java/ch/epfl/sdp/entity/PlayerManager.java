@@ -53,4 +53,8 @@ public class PlayerManager implements Updatable {
         MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
     }
 
+    public static void emptyPlayers() {
+        players = new HashMap<>();
+    }
+
 }

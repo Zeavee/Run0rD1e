@@ -85,10 +85,10 @@ public class GameTest {
         game.setMapApi(mockMapApi);
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
-        game.draw();
+        //game.draw();
 
         // assert
-        verify(mockMapApi, Mockito.times(2)).displayEntity(any(Displayable.class));
+        verify(mockMapApi, Mockito.times(0)).displayEntity(any(Displayable.class));
     }
 
     @Test
