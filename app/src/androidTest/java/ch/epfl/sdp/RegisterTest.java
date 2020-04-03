@@ -123,8 +123,7 @@ public class RegisterTest {
 
         email = "amro.abdrabo@gmail.com";
         password = "password";
-
-        // Mock
+        
         Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
