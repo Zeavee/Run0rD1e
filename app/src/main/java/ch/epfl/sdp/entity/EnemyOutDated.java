@@ -1,5 +1,6 @@
 package ch.epfl.sdp.entity;
 
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class EnemyOutDated extends MovingEntity {

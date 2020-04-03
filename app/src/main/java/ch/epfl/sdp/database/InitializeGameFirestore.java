@@ -3,6 +3,7 @@ package ch.epfl.sdp.database;
 import android.app.Activity;
 
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MapsActivity;
 
 public class InitializeGameFirestore implements InitializeGame {
@@ -20,5 +21,6 @@ public class InitializeGameFirestore implements InitializeGame {
 
         //initialize the currentUser
         MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
+        Game.addToUpdateList(PlayerManager.getInstance());
     }
 }

@@ -110,6 +110,7 @@ public class Game implements Updatable, Drawable {
     public void update() {
         for (Updatable updatable : updatables) {
             updatable.update();
+            System.out.println("update Game");
         }
     }
 
@@ -119,7 +120,14 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            map.displayEntity(displayable);
+/*
+            if (displayable.isActive()) {
+                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            } else {
+                map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
+                removeFromDisplayList(displayable);
+            }*/
+            map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
         }
     }
 }

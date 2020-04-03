@@ -73,4 +73,5 @@ public class ShelterArea implements Displayable {
     public boolean isInShelterArea(Player p) {
         return this.playersInShelterArea.contains(p);
     }
+
 }

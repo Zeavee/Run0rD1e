@@ -30,7 +30,6 @@ import ch.epfl.sdp.entity.Player;
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
     private static double listenDistance = 5; // meters
-
     private Location currentLocation;
     private LocationManager locationManager;
     private Criteria criteria;
@@ -73,6 +72,11 @@ public class GoogleMapApi implements MapApi {
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         bestProvider = locationManager.getBestProvider(criteria, true);
+    }
+
+    @Override
+    public Activity getActivity() {
+        return activity;
     }
 
     @Override
@@ -151,13 +155,17 @@ public class GoogleMapApi implements MapApi {
                 displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
                 break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 300);
                 break;
             case PLAYER:
                 displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
                 break;
             case ITEM:
                 displayMarkerCircle(displayable, Color.GREEN, "Item", 50);
+                break;
+            case SHELTER:
+                displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 200);
+                break;
         }
     }
 
@@ -177,6 +185,8 @@ public class GoogleMapApi implements MapApi {
 
     private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
         LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+        System.out.println(displayable.getLocation().getLongitude());
+        System.out.println(displayable.getLocation().getLatitude());
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)

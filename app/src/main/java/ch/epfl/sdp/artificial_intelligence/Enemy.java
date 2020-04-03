@@ -1,12 +1,15 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
 
-public class Enemy extends MovingArtificialEntity {
+public class Enemy extends MovingArtificialEntity implements Displayable {
     private Behaviour behaviour;
     private List<Player> players; // For now I use a list of players, but it could be nice to have
     // a static manager of players.
@@ -21,12 +24,15 @@ public class Enemy extends MovingArtificialEntity {
     public Enemy() {
         super(new RectangleBounds(50, 50, null));
         super.setAoeRadius(1);
-        super.setVelocity(1);
+        super.setVelocity(200);
         super.setMoving(true);
         this.damage = 1;
         this.dps = 1;
         this.detectionDistance = 1;
-        this.players = PlayerManager.getInstance().getPlayers();
+        Player user = new Player(6.149290, 46.212470, 100, "user", "user");
+        user.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.149290, 46.212470)).toCartesian());
+        this.players = new ArrayList<Player>();
+        players.add(user);
         behaviour = Behaviour.PATROL;
         timeAttack = 100; // Needs calibration
         timeWandering = 100;
@@ -124,7 +130,12 @@ public class Enemy extends MovingArtificialEntity {
 
         for (Player player : players) {
             currDistance = player.getPosition().toCartesian().distanceFrom(getPosition()) - player.getAoeRadius();
+            System.out.println(this.getPosition().arg1);
+            System.out.println(this.getPosition().arg2);
+            System.out.println(player.getPosition().arg1);
+            System.out.println(player.getPosition().arg2);
             if (currDistance < minDistance && player.isAlive() && !player.isShielded()) {
+                System.out.println("I am here");
                 minDistance = currDistance;
                 target = player;
             }
