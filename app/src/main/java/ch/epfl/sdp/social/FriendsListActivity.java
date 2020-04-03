@@ -57,25 +57,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
         // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created
         ChatActivity.setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); // placed here for mock testing purposes
         AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new FirestoreFriendsFetcher())); // placed here for mock testing purposes
-        //auth = new FirebaseAuthentication(null);
-        //auth.getClass()
-        //user_cur =  new User(FirebaseAuth.getInstance().getCurrentUser().getEmail(), ,
-        //usr_amr = new User("amro.abdrabo@gmail.com", "amro", "abdo");
-
-        //try {
-            //chatRepo.addUser(new User("abd1@g"));
-            //chatRepo.addUser(new User("abd1@g"));
-        //}
-        //catch (SQLiteConstraintException e)
-       // {
-          //  Log.d("loloo", e.getMessage() + " fuckkkkkk");
-           // if (e.getMessage().contains("UNIQUE"))
-            //{
-             //   Log.d("lolz", " got fucked by unique");
-            //}
-        //}
-
-        //usr_shaima = new User("shaima@abc.com", "shaima", "hhhhh");
+        
         try {
             Log.d("The current enmail ISSS", current_email_id);
             //chatRepo.addUser(usr_amr);
