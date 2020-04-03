@@ -135,7 +135,7 @@ public class RandomGenerator {
          PlayerManager.addPlayer(p5);
 
          int randBound = rand.nextInt(20);
-         int randomDmg = rand.nextInt(randBound);
+         int randomDmg = rand.nextInt(randBound+1);
          float randomdps = rand.nextFloat();
          float randomDetectionDistance = rand.nextFloat()*10 + 50;
          RectangleBounds r = new RectangleBounds(10, 10, randomGeoPoint());

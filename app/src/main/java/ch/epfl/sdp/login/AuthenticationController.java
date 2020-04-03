@@ -5,10 +5,8 @@ import android.app.Activity;
 import ch.epfl.sdp.entity.Player;
 
 public interface AuthenticationController {
-    void signIn(Activity activity, String email, String password);
 
-    //    boolean isSignedIn(String email);
-
-    void register(Activity activity, Player player, String email, String password);
-    void signOut();
+    public abstract void signIn(Activity activity, String email, String password);
+    public abstract void register(Activity activity, Player player, String email, String password);
+    public abstract void signOut();
 }
