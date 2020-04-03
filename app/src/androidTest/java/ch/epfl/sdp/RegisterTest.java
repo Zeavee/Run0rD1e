@@ -91,7 +91,7 @@ public class RegisterTest {
         Intents.release();
     }
 
-    @Test
+/*    @Test
     public void writingUsername_ShouldBeDisplayed(){
         closeSoftKeyboard();
         onView(withId(R.id.username)).perform(typeText("Username"));
@@ -113,7 +113,7 @@ public class RegisterTest {
     public void writingPasswordConfiguration_ShouldBeDisplayed(){
         closeSoftKeyboard();
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
-    }
+    }*/
 
  /*   @Test
     public void registering_ShouldFailOnEmptyTextFields(){
