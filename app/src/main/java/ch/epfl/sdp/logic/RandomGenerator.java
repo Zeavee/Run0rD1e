@@ -115,35 +115,35 @@ public class RandomGenerator {
        return p;
      }
 
-     public Enemy randomEnemy() {
-         GeoPoint g1 = randomGeoPoint();
-         Player p1 = new Player(g1.getLongitude(), g1.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
-         GeoPoint g2 = randomGeoPoint();
-         Player p2 = new Player(g2.getLongitude(), g2.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
-         GeoPoint g3 = randomGeoPoint();
-         Player p3 = new Player(g3.getLongitude(), g3.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
-         GeoPoint g4 = randomGeoPoint();
-         Player p4 = new Player(g4.getLongitude(), g4.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
-         GeoPoint g5 = randomGeoPoint();
-         Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
-
-         PlayerManager playerManager = PlayerManager.getInstance();
-         playerManager.addPlayer(p1);
-         playerManager.addPlayer(p2);
-         playerManager.addPlayer(p3);
-         playerManager.addPlayer(p4);
-         playerManager.addPlayer(p5);
-
-         int randBound = rand.nextInt(20);
-         int randomDmg = rand.nextInt(randBound);
-         float randomdps = rand.nextFloat();
-         float randomDetectionDistance = rand.nextFloat()*10 + 50;
-         RectangleBounds r = new RectangleBounds(10, 10, randomGeoPoint());
-
-         LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
-         UnboundedArea randomArea = new UnboundedArea();
-
-         Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
-         return e;
-     }
+//     public Enemy randomEnemy() {
+//         GeoPoint g1 = randomGeoPoint();
+//         Player p1 = new Player(g1.getLongitude(), g1.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+//         GeoPoint g2 = randomGeoPoint();
+//         Player p2 = new Player(g2.getLongitude(), g2.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+//         GeoPoint g3 = randomGeoPoint();
+//         Player p3 = new Player(g3.getLongitude(), g3.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+//         GeoPoint g4 = randomGeoPoint();
+//         Player p4 = new Player(g4.getLongitude(), g4.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+//         GeoPoint g5 = randomGeoPoint();
+//         Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
+//
+//         PlayerManager playerManager = PlayerManager.getInstance();
+//         playerManager.addPlayer(p1);
+//         playerManager.addPlayer(p2);
+//         playerManager.addPlayer(p3);
+//         playerManager.addPlayer(p4);
+//         playerManager.addPlayer(p5);
+//
+//         int randBound = rand.nextInt(20);
+//         int randomDmg = rand.nextInt(randBound);
+//         float randomdps = rand.nextFloat();
+//         float randomDetectionDistance = rand.nextFloat()*10 + 50;
+//         RectangleBounds r = new RectangleBounds(10, 10, randomGeoPoint());
+//
+//         LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
+//         UnboundedArea randomArea = new UnboundedArea();
+//
+//         Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
+//         return e;
+//     }
 }

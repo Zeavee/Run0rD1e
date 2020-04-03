@@ -106,4 +106,10 @@ public class MapsActivityTest {
         onView(withId(R.id.button_inventory)).perform(click());
         onView(withId(R.id.fragment_inventory_container)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void leaderboardOpens() throws InterruptedException {
+        onView(withId(R.id.button_leaderboard)).perform(click());
+        Thread.sleep(2000);
+    }
 }
