@@ -115,7 +115,7 @@ public class RegisterTest {
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
     }
 
-   @Test
+    @Test
     public void registering_ShouldFailOnEmptyTextFields(){
         List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0 ; i < 4; ++i)
@@ -141,7 +141,7 @@ public class RegisterTest {
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
     }
 
-    @Test
+    /*@Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -150,7 +150,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }
+    }*/
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
