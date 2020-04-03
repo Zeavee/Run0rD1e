@@ -11,8 +11,6 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
-import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
@@ -76,7 +74,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS - 1; i > 0; --i){
+        for(int i = FPS; i > 0; --i){
             assertFalse(map.getDisplayables().isEmpty());
             scan.update();
         }
@@ -96,7 +94,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS - 1; i > 0; --i){
+        for(int i = FPS; i > 0; --i){
             assertTrue(user.isShielded());
             shield.update();
         }
@@ -117,7 +115,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS - 1; i > 0; --i){
+        for(int i = FPS; i > 0; --i){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
             shrinker.update();
         }
