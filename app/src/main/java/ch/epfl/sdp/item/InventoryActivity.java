@@ -17,16 +17,16 @@ public class InventoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
 
-        initPlayer();
+        initInventory();
     }
 
-    private void initPlayer() {
+    private void initInventory() {
         //TODO Later this player should come from the local storage
         player = new Player(22, 22, 50, "admin", "admin@gmail.com");
-        player.getInventory().setItemQuantity("Healthpack", 2);
-        player.getInventory().setItemQuantity("Shield", 5);
-        player.getInventory().setItemQuantity("Shrinker", 6);
-        player.getInventory().setItemQuantity("Scan", 5);
+        player.getInventory().setItemQuantity(new Healthpack(10), 2);
+        player.getInventory().setItemQuantity(new Shield(10), 5);
+        player.getInventory().setItemQuantity(new Shrinker(10,10), 6);
+        player.getInventory().setItemQuantity(new Scan(10), 5);
         initRecyclerView();
     }
 

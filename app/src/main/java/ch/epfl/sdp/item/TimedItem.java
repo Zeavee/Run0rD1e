@@ -8,10 +8,16 @@ public abstract class TimedItem extends Item implements Updatable {
     protected int counter;
     private final int FPS = 30;
 
-    public TimedItem(GeoPoint location, String name, boolean isTaken, String description, int countTime) {
-        super(location, name, isTaken, description);
+    public TimedItem(String name, String description, int countTime) {
+        super(name, description);
         counter = countTime*FPS;
     }
+
+    public void use(){
+        Game.addToUpdateList(this);
+    }
+
+    public abstract void stopUsing();
 
     public int getRemainingTime(){
         return counter/FPS;
@@ -22,6 +28,7 @@ public abstract class TimedItem extends Item implements Updatable {
         if(counter > 0){
             --counter;
         }else{
+            stopUsing();
             Game.removeFromUpdateList(this);
         }
     }

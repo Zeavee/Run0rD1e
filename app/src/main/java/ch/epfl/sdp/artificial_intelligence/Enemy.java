@@ -21,7 +21,7 @@ public class Enemy extends MovingArtificialEntity {
     public Enemy() {
         super(new RectangleBounds(50, 50, null));
         super.setAoeRadius(1);
-        super.setVelocity(1);
+        super.getMovement().setVelocity(1);
         super.setMoving(true);
         this.damage = 1;
         this.dps = 1;
@@ -145,7 +145,7 @@ public class Enemy extends MovingArtificialEntity {
         } else {
             super.setBounds(patrolBounds);
             setForceMove(true);
-            super.setVelocity(super.getVelocity() / 2);
+            super.getMovement().setVelocity(super.getMovement().getVelocity() / 2);
             behaviour = Behaviour.PATROL;
         }
 
@@ -160,7 +160,7 @@ public class Enemy extends MovingArtificialEntity {
         }
 
         if (playerDetected(detectionDistance) != null) {
-            super.setVelocity(super.getVelocity() * 2);
+            super.getMovement().setVelocity(super.getMovement().getVelocity() * 2);
             super.setMoving(true);
             behaviour = Behaviour.CHASE;
         }
@@ -169,7 +169,7 @@ public class Enemy extends MovingArtificialEntity {
     }
 
     private void orientToTarget(Localizable localizable) {
-        setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
+        getMovement().setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
     }
 
     private Player playerDetected(double distance) {

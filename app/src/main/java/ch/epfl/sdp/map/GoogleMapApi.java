@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.widget.TextViewCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -26,7 +25,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.Map;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
@@ -46,6 +47,8 @@ public class GoogleMapApi implements MapApi {
         entityCircles = new HashMap<>();
 
         currentUser = new Player(0, 0, 100, "current", "test");
+        PlayerManager.addPlayer(currentUser);
+
 
         locationListener = new LocationListener() {
             @Override
@@ -73,6 +76,12 @@ public class GoogleMapApi implements MapApi {
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         bestProvider = locationManager.getBestProvider(criteria, true);
     }
+
+    @Override
+    public Activity getActivity() {
+        return activity;
+    }
+
 
     @Override
     public GeoPoint getCurrentLocation() {
@@ -125,26 +134,24 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     synchronized public void displayEntity(Displayable displayable) {
-        if (displayable == null) {
-            return;
-        }
+        if (displayable == null) return;
         removeMarkers(displayable);
         switch (displayable.getEntityType()) {
             case USER:
-                if (currentLocation == null) {
-                    return;
-                }
+                if (currentLocation == null) return;
                 currentUser.setLocation(displayable.getLocation());
-                displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
-                break;
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 100); break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
-                break;
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
             case PLAYER:
-                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
-                break;
-            case ITEM:
-                displayMarkerCircle(displayable, Color.GREEN, "Item", 50);
+                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
+            case HEALTHPACK:
+                displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack); break;
+            case SCAN:
+                displaySmallIcon(displayable, "Scan", R.drawable.radar); break;
+            case SHIELD:
+                displaySmallIcon(displayable, "Shield", R.drawable.shield);
+            case SHRINKER: break;
         }
     }
 
@@ -157,9 +164,19 @@ public class GoogleMapApi implements MapApi {
 
     private void removeMarkers(Displayable displayable) {
         if (entityCircles.containsKey(displayable)) {
-            entityCircles.get(displayable).marker.remove();
-            entityCircles.get(displayable).aoe.remove();
+            if (entityCircles.get(displayable).hasMarker())
+                entityCircles.get(displayable).getMarker().remove();
+            if (entityCircles.get(displayable).hasCircle())
+                entityCircles.get(displayable).getAoe().remove();
         }
+    }
+
+    public void displaySmallIcon(Displayable displayable, String title, int id) {
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromResource(id)))));
     }
 
     private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {

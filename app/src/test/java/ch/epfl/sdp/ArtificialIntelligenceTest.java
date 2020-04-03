@@ -4,8 +4,9 @@ import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.Boundable;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
+import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
-import ch.epfl.sdp.artificial_intelligence.Movement;
+import ch.epfl.sdp.artificial_intelligence.MovementType;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
@@ -17,22 +18,22 @@ import static junit.framework.TestCase.assertEquals;
 public class ArtificialIntelligenceTest {
     @Test
     public void LinearMovementWorks() {
-        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity();
-        movingArtificialEntity.setAcceleration(2);
+        MovingArtificialEntity movingArtificialEntity = new Enemy();
+        movingArtificialEntity.getMovement().setAcceleration(2);
         Boundable boundable = new UnboundedArea();
         boundable.isInside(null);
         movingArtificialEntity.setBounds(boundable);
         GenPoint genPoint = new CartesianPoint(50, 60);
         movingArtificialEntity.setPosition(genPoint);
-        movingArtificialEntity.setMovement(Movement.LINEAR);
+        movingArtificialEntity.getMovement().setMovementType(MovementType.LINEAR);
         movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.setOrientation(0);
-        movingArtificialEntity.setVelocity(10);
+        movingArtificialEntity.getMovement().setOrientation(0);
+        movingArtificialEntity.getMovement().setVelocity(10);
 
-        assertEquals(2, movingArtificialEntity.getAcceleration(), 0.01);
-        assertEquals(Movement.LINEAR, movingArtificialEntity.getMovement());
-        assertEquals(10.0, movingArtificialEntity.getVelocity(), 0.01);
-        assertEquals(0.0, movingArtificialEntity.getOrientation(), 0.01);
+        assertEquals(2, movingArtificialEntity.getMovement().getAcceleration(), 0.01);
+        assertEquals(MovementType.LINEAR, movingArtificialEntity.getMovement().getMovementType());
+        assertEquals(10.0, movingArtificialEntity.getMovement().getVelocity(), 0.01);
+        assertEquals(0.0, movingArtificialEntity.getMovement().getOrientation(), 0.01);
         assertEquals(true, movingArtificialEntity.isMoving());
 
         movingArtificialEntity.update();
@@ -43,18 +44,18 @@ public class ArtificialIntelligenceTest {
 
     @Test
     public void SinusMovementWorks() {
-        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity();
-        movingArtificialEntity.setAcceleration(2);
+        MovingArtificialEntity movingArtificialEntity = new Enemy();
+        movingArtificialEntity.getMovement().setAcceleration(2);
         Boundable boundable = new UnboundedArea();
         boundable.isInside(null);
         movingArtificialEntity.setBounds(boundable);
         GenPoint genPoint = new CartesianPoint(10, 10);
         movingArtificialEntity.setPosition(genPoint);
-        movingArtificialEntity.setMovement(Movement.SINUSOIDAL);
+        movingArtificialEntity.getMovement().setMovementType(MovementType.SINUSOIDAL);
         movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.setOrientation(0);
-        movingArtificialEntity.setVelocity(10);
-        movingArtificialEntity.sinusAmplitude = 2;
+        movingArtificialEntity.getMovement().setOrientation(0);
+        movingArtificialEntity.getMovement().setVelocity(10);
+        movingArtificialEntity.getMovement().setSinusAmplitude(2);;
         movingArtificialEntity.sinusAngleStep = 2 * Math.PI / 4;
 
         movingArtificialEntity.update();
@@ -77,7 +78,8 @@ public class ArtificialIntelligenceTest {
     @Test
     public void secondConstructorWorks() {
         Boundable boundable = new UnboundedArea();
-        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(boundable);
+        MovingArtificialEntity movingArtificialEntity = new Enemy();
+        movingArtificialEntity.setBounds(boundable);
         assertEquals(boundable, movingArtificialEntity.getBounds());
         assertEquals(true, boundable.isInside(movingArtificialEntity.getPosition()));
     }
@@ -130,10 +132,11 @@ public class ArtificialIntelligenceTest {
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
         Boundable rectangleBounds = new RectangleBounds(50, 50, null);
-        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(rectangleBounds);
+        MovingArtificialEntity movingArtificialEntity = new Enemy();
+        movingArtificialEntity.setBounds(rectangleBounds);
         movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.setMovement(Movement.LINEAR);
-        movingArtificialEntity.setVelocity(10);
+        movingArtificialEntity.getMovement().setMovementType(MovementType.LINEAR);
+        movingArtificialEntity.getMovement().setVelocity(10);
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
             assertEquals(true, rectangleBounds.isInside(movingArtificialEntity.getPosition()));

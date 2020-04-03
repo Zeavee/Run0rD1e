@@ -26,8 +26,6 @@ public class IsFriendsWith {
             this.friendID2 = friendID2;
     }
 
-    public IsFriendsWith()
-    {}
 
     public String getFriendID1() {
         return friendID1;

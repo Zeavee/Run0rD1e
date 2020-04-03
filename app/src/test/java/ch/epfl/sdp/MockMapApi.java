@@ -18,14 +18,22 @@ import ch.epfl.sdp.map.MapApi;
 public class MockMapApi implements MapApi {
     // Used for tests
     private ArrayList<Displayable> displayables = new ArrayList<>();
+    private GeoPoint currentLocation = new GeoPoint(40, 50);
+
 
     public ArrayList<Displayable> getDisplayables(){
         return displayables;
     }
 
+    private Activity activity;
+
     @Override
     public GeoPoint getCurrentLocation() {
-        return new GeoPoint(40, 50);
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(GeoPoint currentLocation){
+        this.currentLocation = currentLocation;
     }
 
     @Override
@@ -59,7 +67,12 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void initializeApi(LocationManager locationManager, Activity activity) {
+        this.activity = activity;
+    }
 
+    @Override
+    public Activity getActivity() {
+        return activity;
     }
 
     @Test

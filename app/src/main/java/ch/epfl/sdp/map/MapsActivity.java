@@ -11,7 +11,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -30,8 +37,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
         Button scanButton = findViewById(R.id.scanButton);
-        Scan scan = new Scan(new GeoPoint(9.34324, 47.24942), true, 30);
-        scanButton.setOnClickListener(v -> scan.showAllPlayers());
+
+        Scan scan = new Scan(30);
+        ItemBox itemBox = new ItemBox();
+        itemBox.putItems(scan,1);
+        itemBox.setLocation(new GeoPoint(9.34324, 47.24942));
+        scanButton.setOnClickListener(v -> scan.use());
 
         mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
 
@@ -43,5 +54,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         ((GoogleMapApi) mapApi).setMap(googleMap);
         mapApi.updatePosition();
+        Healthpack healthpack = new Healthpack(10);
+        ItemBox itemBox = new ItemBox();
+        itemBox.putItems(healthpack,1);
+        itemBox.setLocation(new GeoPoint(7.9592, 47.0407));
+
+        Game.addToDisplayList(itemBox);
+        Game.addToUpdateList(itemBox);
     }
 }

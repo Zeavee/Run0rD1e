@@ -22,11 +22,14 @@ import static org.junit.Assert.assertTrue;
 public class TimedItemTest {
     public final int FPS = 30;
     public final int countTime = 2;
-    Player player;
+    Player user;
 
     @Before
-    public void setup(){
-        player = new Player();
+    public void setup() {
+        MapsActivity.setMapApi(new MockMapApi());
+        Player player = new Player();
+        PlayerManager.setUser(player);
+        user = PlayerManager.getUser();
     }
 
     @After
@@ -36,7 +39,7 @@ public class TimedItemTest {
 
     @Test
     public void timedItemCounterIsDecrementedBy1WhenUpdated(){
-        TimedItem timedItem = new TimedItem(null, null, false, null, countTime) {};
+        TimedItem timedItem = new Shield(countTime) {};
 
         for(int i = countTime*FPS; i > 0; --i) {
             assertEquals(timedItem.getRemainingTime(), i/FPS);
@@ -47,8 +50,8 @@ public class TimedItemTest {
 
     @Test
     public void timedItemIsDeletedFromTheListWhenTimeIsFinished(){
-        TimedItem timedItem = new TimedItem(null, null, false, null, countTime) {};
-        Game game = new Game(null);
+        TimedItem timedItem = new Shield(countTime) {};
+        Game game = new Game();
         Game.addToUpdateList(timedItem);
 
         for(int i = countTime*FPS; i > 0; --i) {
@@ -63,8 +66,9 @@ public class TimedItemTest {
     public void scanGetsUpdated(){
         MockMapApi map = new MockMapApi();
         MapsActivity.setMapApi(map);
-        PlayerManager.addPlayer(player);
-        Scan scan = new Scan(null, false, countTime);
+        PlayerManager.addPlayer(user);
+        Scan scan = new Scan(countTime);
+        scan.use();
 
         while (scan.getRemainingTime() > 0){
             assertFalse(map.getDisplayables().isEmpty());
@@ -82,40 +86,42 @@ public class TimedItemTest {
 
     @Test
     public void shieldSetsShieldedWhenUpdated(){
-        assertFalse(player.isShielded());
-        Shield shield = new Shield(null, false, countTime, player);
+        assertFalse(user.isShielded());
+        Shield shield = new Shield(countTime);
+        shield.use();
 
         while (shield.getRemainingTime() > 0){
-            assertTrue(player.isShielded());
+            assertTrue(user.isShielded());
             shield.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = FPS - 1; i > 0; --i){
-            assertTrue(player.isShielded());
+            assertTrue(user.isShielded());
             shield.update();
         }
 
-        assertFalse(player.isShielded());
+        assertFalse(user.isShielded());
     }
 
     @Test
     public void shrinkerChangesAOERadiusBack(){
-        Double originalRadius = player.getAoeRadius();
+        Double originalRadius = user.getAoeRadius();
         int removeAoeRadius = 10;
-        Shrinker shrinker = new Shrinker(null, false,countTime, removeAoeRadius, player);
+        Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
+        shrinker.use();
 
         while (shrinker.getRemainingTime() > 0){
-            assertTrue(player.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
             shrinker.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = FPS - 1; i > 0; --i){
-            assertTrue(player.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
             shrinker.update();
         }
 
-        assertTrue(player.getAoeRadius() == originalRadius);
+        assertTrue(user.getAoeRadius() == originalRadius);
     }
 }

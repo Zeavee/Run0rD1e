@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 /**
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
-    private MapApi map;
     private static ArrayList<Updatable> updatables;
     private static ArrayList<Displayable> displayables;
 
@@ -19,12 +19,10 @@ public class Game implements Updatable, Drawable {
      * Instantiates a new game (uses mapApi by default. So for tests you need to
      * change the map before launching)
      */
-    public Game(MapApi mapApi) {
-        // Need to test if it is null
-        this.map = mapApi;
+    public Game() {
+        gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
-        gameThread = new GameThread(this);
     }
 
     public static void addToUpdateList(Updatable updatable) {
@@ -55,18 +53,16 @@ public class Game implements Updatable, Drawable {
         return updatables.contains(updatable);
     }
 
+    public static boolean displayablesContains(Displayable displayable){
+        return updatables.contains(displayable);
+    }
+
     public ArrayList<Updatable> getUpdatables() {
         return updatables;
     }
 
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
-    }
-
-    public void setMapApi(MapApi mapApi) {
-        if (mapApi != null) {
-            this.map = mapApi;
-        }
     }
 
     /**
@@ -114,7 +110,12 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            map.displayEntity(displayable);
+            if (displayable.isActive()) {
+                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
+            } else {
+                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.unDisplayEntity(displayable));
+                removeFromDisplayList(displayable);
+            }
         }
     }
 }

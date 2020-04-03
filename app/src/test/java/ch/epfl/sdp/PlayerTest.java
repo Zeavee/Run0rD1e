@@ -36,9 +36,10 @@ public class PlayerTest {
 
     @Before
     public void setup(){
-        Game game = new Game(null);
+        Game game = new Game();
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
+        PlayerManager.setUser(player1);
         enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50);
         enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50);
         enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
@@ -73,63 +74,17 @@ public class PlayerTest {
 
     @Test
     public void healthPackUseTest() {
-        // Cannot choose different healthpacks for now
-        player1.setHealthPoints(25);
-        player1.getInventory().setItemQuantity("Healthpack", 1);
-        player1.getInventory().useItem("Healthpack");
+        Healthpack healthpack = new Healthpack(1);
 
-        /*assertEquals(100, player1.getHealthPoints(), 0);*/
-    }
+        PlayerManager.getUser().setHealthPoints(10);
+        healthpack.use();
 
-    @Test
-    public void shieldUseTest() throws InterruptedException {
-        // Deprecated: in UseItem, we pass a name instead of an Item, so we don't have it's reference
-        player1.getInventory().setItemQuantity("Shield", 1);
-        player1.getInventory().useItem("Shield");
-        assertTrue(player1.isShielded());
-        /*TimeUnit.SECONDS.sleep(5);
-        assertFalse(player1.isShielded());*/
-    }
-
-    @Test
-    public void shrinkerUseTest() throws InterruptedException {
-        // Deprecated: in UseItem, we pass a name instead of an Item, so we don't have it's reference
-        Player player2 = new Player(6.149290, 46.212470, 50,
-                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        assertEquals(50, player2.getAoeRadius(), 0);
-        player2.getInventory().setItemQuantity("Shrinker", 1);
-        player2.getInventory().useItem("Shrinker");
-        assertEquals(40, player2.getAoeRadius() ,0);
-        /*TimeUnit.SECONDS.sleep(5);
-        assertEquals(50, player2.getAoeRadius(), 0);*/
-    }
-
-    @Test
-    public void scanTest() {
-        Player player2 = new Player(6.149290, 46.212470, 50,
-                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        player2.getInventory().setItemQuantity("Scan", 1);
-        player2.getInventory().useItem("Scan");
-        assertEquals(0, player2.getInventory().getItems().get("Scan"), 0);
+        assertTrue(PlayerManager.getUser().getHealthPoints() == 11);
     }
 
     @Test
     public void getEntityTypeReturnsUser() {
         Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
         assertEquals(EntityType.USER, currentPlayer.getEntityType());
-    }
-
-    @Test
-    public void addItemToInventory() {
-        player1.getInventory().setItemQuantity("Healthpack", 1);
-        player1.getInventory().addItem("Healthpack");
-        assertEquals(2, player1.getInventory().getItems().get("Healthpack"), 0);
-    }
-
-    @Test
-    public void removeItem() {
-        player1.getInventory().setItemQuantity("Healthpack", 6);
-        player1.getInventory().removeItem("Healthpack");
-        assertEquals(5, player1.getInventory().getItems().get("Healthpack"), 0);
     }
 }

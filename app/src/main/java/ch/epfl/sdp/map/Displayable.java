@@ -14,4 +14,6 @@ public interface Displayable {
      * @return an EntityType which is an enum of types
      */
     public EntityType getEntityType();
+
+    boolean isActive();
 }

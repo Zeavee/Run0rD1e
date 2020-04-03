@@ -9,6 +9,10 @@ public class CartesianPoint extends GenPoint{
         super(x, y);
     }
 
+    public CartesianPoint add(GenPoint that){
+        return new CartesianPoint(this.arg1 + that.toCartesian().arg1, this.arg2 + that.toCartesian().arg2);
+    }
+
     public void Normalize() {
         double length = Math.sqrt(arg1 * arg1 + arg2 * arg2);
         arg1 /= length;

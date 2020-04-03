@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
+import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Player extends MovingEntity implements Localizable {
@@ -20,17 +21,19 @@ public class Player extends MovingEntity implements Localizable {
     public final static double MAX_HEALTH = 100;
     private boolean isShielded;
     private Inventory inventory;
+    private boolean isActive;
 
     public Player() {
-        super();
+        this("","");
     }
 
     public Player(String username, String email) {
         this(0, 0, 1, username, email);
     }
 
-    //Contstructor for the class
+    //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+        super();
         GeoPoint g = new GeoPoint(longitude, latitude);
         this.setLocation(g);
         this.username = username;
@@ -44,7 +47,8 @@ public class Player extends MovingEntity implements Localizable {
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory();
+        this.isActive = true;
     }
 
     public void updateHealth(ArrayList<EnemyOutDated> enemies) {
@@ -101,6 +105,11 @@ public class Player extends MovingEntity implements Localizable {
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    @Override
+    public boolean isActive() {
+        return isActive;
     }
 
     @Override

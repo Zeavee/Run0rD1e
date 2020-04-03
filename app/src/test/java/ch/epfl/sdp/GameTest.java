@@ -1,15 +1,26 @@
 package ch.epfl.sdp;
 
+import android.app.Activity;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -22,7 +33,7 @@ public class GameTest {
         Updatable upd2 = mock(Updatable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToUpdateList(upd1);
         game.addToUpdateList(upd2);
         game.update();
@@ -36,22 +47,22 @@ public class GameTest {
     public void addToUpdateList_ShouldIgnoreNull()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToUpdateList(null);
 
         // assert
-        Assert.assertEquals(0, game.getUpdatables().size());
+        assertEquals(0, game.getUpdatables().size());
     }
 
     @Test
     public void addToUpdateList_ShouldAddUpdatable()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToUpdateList(mock(Updatable.class));
 
         // assert
-        Assert.assertEquals(1, game.getUpdatables().size());
+        assertEquals(1, game.getUpdatables().size());
     }
 
     @Test
@@ -63,54 +74,38 @@ public class GameTest {
         Updatable mockNonExistingUpdatable = mock(Updatable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToUpdateList(mockUpdatable1);
         game.addToUpdateList(mockUpdatable2);
         game.removeFromUpdateList(mockUpdatable1);
         game.removeFromUpdateList(mockNonExistingUpdatable);
 
         // assert
-        Assert.assertEquals(1, game.getUpdatables().size());
+        assertEquals(1, game.getUpdatables().size());
     }
 
-    @Test
-    public void draw_shouldDisplayAllDisplayables() {
-        // arrange
-        Displayable mockDisplayable1 = mock(Displayable.class);
-        Displayable mockDisplayable2 = mock(Displayable.class);
-        MapApi mockMapApi = mock(MapApi.class);
 
-        // act
-        Game game = new Game(null);
-        game.setMapApi(mockMapApi);
-        game.addToDisplayList(mockDisplayable1);
-        game.addToDisplayList(mockDisplayable2);
-        game.draw();
-
-        // assert
-        verify(mockMapApi, Mockito.times(2)).displayEntity(any(Displayable.class));
-    }
 
     @Test
     public void addToDisplayList_ShouldIgnoreNull()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToDisplayList(null);
 
         // assert
-        Assert.assertEquals(0, game.getDisplayables().size());
+        assertEquals(0, game.getDisplayables().size());
     }
 
     @Test
     public void addToDisplayList_ShouldAddDisplayable()
     {
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToDisplayList(mock(Displayable.class));
 
         // assert
-        Assert.assertEquals(1, game.getDisplayables().size());
+        assertEquals(1, game.getDisplayables().size());
     }
 
     @Test
@@ -122,20 +117,20 @@ public class GameTest {
         Displayable mockNonExistingDisplayable = mock(Displayable.class);
 
         // act
-        Game game = new Game(null);
+        Game game = new Game();
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
         game.removeFromDisplayList(mockDisplayable1);
         game.removeFromDisplayList(mockNonExistingDisplayable);
 
         // assert
-        Assert.assertEquals(1, game.getDisplayables().size());
+        assertEquals(1, game.getDisplayables().size());
     }
 
     @Test
     public void gameThread_runs()
     {
-        Game game = new Game(null);
+        Game game = new Game();
         game.initGame();
         try {
             Thread.sleep(100);

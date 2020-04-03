@@ -1,27 +1,31 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
-    Player player;
     private double shrinkingRadius;
 
-    public Shrinker(GeoPoint location, boolean isTaken, int shrinkTime, double shrinkingRadius, Player player) {
-        super(location, "Shrinker", isTaken, "Shrinks your area of effect for a small time", shrinkTime);
+    public Shrinker(int shrinkTime, double shrinkingRadius) {
+        super("Shrinker", "Shrinks your area of effect for a small time", shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
-        this.player = player;
-        player.setAoeRadius(player.getAoeRadius() - getShrinkingRadius());
+    }
+
+    @Override
+    public void use() {
+        super.use();
+        PlayerManager.getUser().setAoeRadius(PlayerManager.getUser().getAoeRadius() - getShrinkingRadius());
+    }
+
+    @Override
+    public void stopUsing(){
+        PlayerManager.getUser().setAoeRadius(PlayerManager.getUser().getAoeRadius() + getShrinkingRadius());
+    }
+
+    public EntityType getEntityType() {
+        return EntityType.SHRINKER;
     }
 
     public double getShrinkingRadius() {return this.shrinkingRadius;}
-
-    @Override
-    public void update() {
-        super.update();
-
-        if(super.counter == 0) {
-            player.setAoeRadius(player.getAoeRadius() + getShrinkingRadius());
-        }
-    }
 }
+
