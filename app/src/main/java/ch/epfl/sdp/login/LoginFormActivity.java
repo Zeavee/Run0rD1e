@@ -6,15 +6,22 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.dependency.injection.DependencyVisitor;
+import ch.epfl.sdp.game.CacheableUserInfo;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.game.MockDatabaseHelper;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 
-public class LoginFormActivity extends AppCompatActivity {
-    public AuthenticationController authenticationController;
+public class LoginFormActivity extends AppCompatActivity  {
+    public static AuthenticationController authenticationController = null;
     private EditText lemail, lpassword;
+    public static CacheableUserInfo loggedUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +31,11 @@ public class LoginFormActivity extends AppCompatActivity {
         lemail = findViewById(R.id.emaillog);
         lpassword = findViewById(R.id.passwordlog);
 
-        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
-        DatabaseHelper.UserData loggedUser = new DatabaseHelper(this).getLoggedUser();
+        // Important to check if dv (dependency visitor) is null, otherwise dependencies could be set by a dependency visitor and thus we wouldn't want to overwrite
+
+        authenticationController = (authenticationController ==null)?  new FirebaseAuthentication(new FirestoreUserData()) : authenticationController;
+        loggedUser = (loggedUser == null) ?  new DatabaseHelper(this).getLoggedUser() : loggedUser;
+
         if(loggedUser != null)  {
             authenticationController.signIn(LoginFormActivity.this, loggedUser.email, loggedUser.password);
         }
