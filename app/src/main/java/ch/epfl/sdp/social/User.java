@@ -15,34 +15,29 @@ public class User {
     @NonNull
     public String email;
 
-    public User(String email, String firstName, String lastName)
+    @Ignore
+    private String username;
+
+    public User(String email)
     {
         this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
-    public String firstName;
-    public String lastName;
+    // This constructor should not be used for database related operations (hence @Ignore)
+    @Ignore
+    public User(String email, String username)
+    {
+        this.email = email;
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
+    }
 
     @NonNull
     public String getEmail() {
         return email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    @Ignore
-    private List<User> friends;
-    public List<User> getFriends()
-    {
-        return friends;
     }
 
 }
