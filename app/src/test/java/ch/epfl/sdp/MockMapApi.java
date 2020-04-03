@@ -57,6 +57,11 @@ public class MockMapApi implements MapApi {
 
     }
 
+    @Override
+    public Activity getActivity() {
+        return null;
+    }
+
     @Test
     public void unDisplayEntity() {
         Player player1 = new Player(6.149290, 46.212470, 50,
