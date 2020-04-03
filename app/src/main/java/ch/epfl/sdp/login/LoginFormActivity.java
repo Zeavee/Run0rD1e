@@ -6,15 +6,11 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import ch.epfl.sdp.database.UserDataController;
-import ch.epfl.sdp.dependency.injection.DependencyVisitor;
 import ch.epfl.sdp.game.CacheableUserInfo;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.game.MockDatabaseHelper;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 
 public class LoginFormActivity extends AppCompatActivity  {
