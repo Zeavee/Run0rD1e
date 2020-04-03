@@ -91,11 +91,11 @@ public class RegisterTest {
         Intents.release();
     }
 
-    /*@Test
+    @Test
     public void writingUsername_ShouldBeDisplayed(){
         closeSoftKeyboard();
         onView(withId(R.id.username)).perform(typeText("Username"));
-    }*/
+    }
 
     @Test
     public void writingEmail_ShouldBeDisplayed(){
@@ -115,7 +115,7 @@ public class RegisterTest {
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
     }
 
- /*   @Test
+   @Test
     public void registering_ShouldFailOnEmptyTextFields(){
         List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0 ; i < 4; ++i)
@@ -131,17 +131,17 @@ public class RegisterTest {
             onView(withId(R.id.createAccountBtn)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
-    }*/
+    }
 
- /*   @Test
+    @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -150,7 +150,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
