@@ -12,14 +12,9 @@ public interface ChatAccessor {
     //final static Date today = new Date();
 
     @Transaction
-    @Query("SELECT message.text FROM message WHERE message.chat_id IN " +
+    @Query("SELECT * FROM message WHERE message.chat_id IN " +
             "(SELECT chat.chat_id FROM chat WHERE chat.`from` = :sender AND chat.`to` = :owner)")
-    public List<String> getMessagesToOwnerFromSender(String owner, String sender);
-
-    @Transaction
-    @Query("SELECT message.text FROM message WHERE message.chat_id IN " +
-            "(SELECT chat.chat_id FROM chat WHERE chat.`from` = :owner AND chat.`to` = :receiver)")
-    public List<String> getMessagesFromOwnerToReceiver(String owner, String receiver);
+    public List<Message> getMessagesToOwnerFromSender(String owner, String sender);
 
     @Insert
     public void sendMessage(Message m);
@@ -32,7 +27,7 @@ public interface ChatAccessor {
 
     // Get all friends of owner, friendID1 must be lexicographically before friendID2
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
-            "IsFriendsWith.friendID2<>:friend OR " +
+            "IsFriendsWith.friendID2<>:friend AND " +
             "IsFriendsWith.friendID1=:friend)")
     public List<User> areFriends(String friend);
 

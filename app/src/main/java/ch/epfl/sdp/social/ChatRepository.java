@@ -1,9 +1,10 @@
 package ch.epfl.sdp.social;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -12,17 +13,16 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 @SuppressLint("StaticFieldLeak")
-public class ChatRepository {
+public final class ChatRepository {
 
     private ChatDatabase chatDB;
-    private Activity contextActivity;
+    private Context contextActivity;
     private List<String> messages;
     private static boolean singletonCreated = false;
     private static ChatRepository singleton;
-    public static ChatRepository createRepo(Activity contextActivity)
+    public static ChatRepository createRepo(Context contextActivity)
     {
         if (!singletonCreated) {
             singleton = new ChatRepository(contextActivity);
@@ -31,69 +31,73 @@ public class ChatRepository {
         }
         else return singleton;
     }
-    private ChatRepository(Activity contextActivity) {
-        chatDB = Room.inMemoryDatabaseBuilder(contextActivity.getApplicationContext(), ChatDatabase.class).allowMainThreadQueries().build();
+    private ChatRepository(Context contextActivity) {
+        //chatDB = Room.inMemoryDatabaseBuilder(databaseBuilder(contextActivity, ChatDatabase.class, "hello").build();
+        chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
 
-    public void setContextActivity(Activity contextActivity) {
+    public static void setContextActivity(Context contextActivity) {
         singleton.contextActivity = contextActivity;
     }
 
-    public void sendMessage(String content, int chat_id) {
+    public static void sendMessage(String content, int chat_id) {
 
-        Message m = new Message();
-        m.setText(content);
-        m.setDate(new Date());
+        Message m = new Message(new Date(), content);
         m.setChat_id(chat_id);
         singleton.sendMessage(m);
     }
 
-    private void sendMessage(final Message message) {
+    private static void sendMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try { singleton.chatDB.daoAccess().sendMessage(message); }
-                catch (SQLiteConstraintException e){}
+                //try {
+                    singleton.chatDB.daoAccess().sendMessage(message);
+                //}
+                //catch (SQLiteConstraintException e){}
                 return null;
             }
         }.execute();
     }
 
-    public void addChat(final Chat c) {
+    public static void addChat(final Chat c) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try {
+                //try {
                     singleton.chatDB.daoAccess().addChat(c);
-                }
-                catch (SQLiteConstraintException e){}
+                //}
+                //catch (SQLiteConstraintException e)
+                //{
+                    // already added, do nothing
+                //}
                 return null;
             }
         }.execute();
     }
 
-    public void addUser(final User usr) {
+    public static void addUser(final User usr) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try {
+                //try {
                     singleton.chatDB.daoAccess().addUser(usr);
-                }
-                catch(SQLiteConstraintException e)
-                {
-
-                }
+                //}
+                //catch(SQLiteConstraintException e)
+                //{
+                   //User already added to the database, do nothing
+                //}
                 return null;
             }
         }.execute();
     }
 
     // This method must be
-    public void fetchFriends(final User user)
+    public static void fetchFriends(final User user)
     {
         new AsyncTask<Void, Void, List<User>>() {
-            private Activity context;
+            private Context context;
             @Override
             protected List<User> doInBackground(Void... voids) {
                 context = singleton.contextActivity;
@@ -108,56 +112,83 @@ public class ChatRepository {
         }.execute();
     }
 
-    public void addFriends(final User user1, final User user2)
+    public static void addFriends(final User user1, final User user2)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try {
+                //try {
                     singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
-                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email));
-                }catch (SQLiteConstraintException e) {}
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email)); // friendship is symmetric
+                //}catch (SQLiteConstraintException e) {
+                     // foreign key was not found so add both users to user db (done in caller)
+                  //  Log.d("ChatRepo Exception", "Caller must ensure users added to DB");
+                //}
                 return null;
             }
         }.execute();
     }
 
-    public void getMessages(final String id_owner, final String id_rec) {
+    public static void getMessagesReceived(final String id_owner, final String id_rec) {
 
-        new AsyncTask<Void, Void, List<String>>() {
+        new AsyncTask<Void, Void, List<Message>>() {
 
             @Override
-            protected List<String> doInBackground(Void... voids) {
-                List<String> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+            protected List<Message> doInBackground(Void... voids) {
+                List<Message> msgList = new LinkedList<>();
+                //msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
+                //msgList.add(new Message(new Date(), "8*^&=*%^&*()90")); // canary value (temporary solution for now)
                 msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
                 return msgList;
             }
 
             @Override
-            protected void onPostExecute(List<String> ls)
+            protected void onPostExecute(List<Message> ls)
             {
-                ((AsyncResponse)singleton.contextActivity).messageFetchFinished(ls);
+                ((WaitsOnMessageFetch)singleton.contextActivity).incomingMessageFetchFinished(ls);
             }
         }.execute();
 
     }
 
-    public void insertMessageFromRemote(final Map<String, Object> data) {
+
+    public static void getMessagesSent(final String id_owner, final String id_rec) {
+
+        new AsyncTask<Void, Void, List<Message>>() {
+
+            @Override
+            protected List<Message> doInBackground(Void... voids) {
+                List<Message> msgList = new LinkedList<>();
+                msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_rec, id_owner));
+                return msgList;
+            }
+
+            @Override
+            protected void onPostExecute(List<Message> ls)
+            {
+                ((WaitsOnMessageFetch)singleton.contextActivity).outgoingMessageFetchFinished(ls);
+            }
+        }.execute();
+
+    }
+
+
+
+    public static void insertMessageFromRemote(Timestamp tm, String content) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                try {
-                    singleton.chatDB.daoAccess().sendMessage(new Message(((Timestamp) data.get("date")).toDate(), data.get("text").toString()));
-                }catch (SQLiteConstraintException e)
-                { }
+                //try {
+                    singleton.chatDB.daoAccess().sendMessage(new Message(tm.toDate(), content));
+                //}catch (SQLiteConstraintException e)
+                //{ }
                 return null;
             }
         }.execute();
 
     }
 
-    public void getChat(String current, String other)
+    public static void getChat(String current, String other)
     {
         new AsyncTask<Void, Void, List<Chat>>() {
 

@@ -16,14 +16,16 @@ import ch.epfl.sdp.R;
 // MessageAdapter.java
 public class MessageAdapter extends BaseAdapter {
 
-    List<Message> messages = new ArrayList<>();
-    Context context;
+    private List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
+    private String remote_user_id;
+    private Context context;
 
-    public MessageAdapter(Context context) {
+    public MessageAdapter(Context context, String remote_user_id) {
+        this.remote_user_id = remote_user_id;
         this.context = context;
     }
 
-    public void add(Message message) {
+    public void add(ChatActivity.MessageDecorator message) {
         this.messages.add(message);
         notifyDataSetChanged(); // to render the list we need to notify
     }
@@ -48,9 +50,9 @@ public class MessageAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         MessageViewHolder holder = new MessageViewHolder();
         LayoutInflater messageInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        Message message = messages.get(i);
+        Message message = messages.get(i).getM();
 
-        if (message.getIsFromUser()) { // this message was sent by us so let's create a basic chat bubble on the right
+        if (!messages.get(i).isIncoming()) { // this message was sent by us so let's create a basic chat bubble on the right
             convertView = messageInflater.inflate(R.layout.my_message, null);
             holder.messageBody = convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
@@ -62,7 +64,7 @@ public class MessageAdapter extends BaseAdapter {
             holder.messageBody = convertView.findViewById(R.id.message_body);
             convertView.setTag(holder);
 
-            holder.name.setText(message.getPlayerName());
+            holder.name.setText(remote_user_id);
             holder.messageBody.setText(message.getText());
         }
 

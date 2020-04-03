@@ -14,18 +14,17 @@ import java.util.Date;
         )})
 public class Message {
 
-    public Date date;
+    private Date date;
     @NonNull
     private String text;
 
     private int chat_id;
 
-    public Message(Date date, String content)
+    public Message(Date date, String text)
     {
         this.date = date;
-        this.text = content;
+        this.text = text;
     }
-    public Message(){}
 
     public void setDate(Date date) {
         this.date = date;
@@ -48,9 +47,5 @@ public class Message {
     }
     public int getChat_id() {
         return chat_id;
-    }
-    public String getPlayerName() { return "curr"; }
-    public boolean getIsFromUser() {
-        return true;
     }
 }

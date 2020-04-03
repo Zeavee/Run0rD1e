@@ -20,20 +20,19 @@ import androidx.room.PrimaryKey;
 })
 public class Chat {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int chat_id;
-    //public String owner;
+
+    // TODO make more restrictive access modifiers later
     public String to;
     public String from;
 
-    public Chat()
+    public Chat(String from, String to)
     {
-        ++instanceCount;
-        this.chat_id = instanceCount;
+        this.from = from;
+        this.to = to;
     }
 
-    @Ignore
-    public static int instanceCount = 0;
 
     public int getChat_id()
     {
@@ -44,14 +43,9 @@ public class Chat {
         return from;
     }
 
-
     public String getTo()
     {
         return to;
-    }
-
-    public void setChat_id(int chat_id) {
-        this.chat_id = chat_id;
     }
 
 
