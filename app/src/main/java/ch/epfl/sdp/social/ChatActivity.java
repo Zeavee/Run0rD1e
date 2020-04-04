@@ -1,13 +1,11 @@
 package ch.epfl.sdp.social;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.Timestamp;
@@ -33,8 +31,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
 
     private static RemoteToSQLiteAdapter remoteToSQLiteAdapter;
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

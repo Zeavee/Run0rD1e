@@ -33,8 +33,8 @@ public final class ChatRepository {
     }
 
     private ChatRepository(Context contextActivity) {
-        chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
-        //chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
+        //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
+        chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
 
