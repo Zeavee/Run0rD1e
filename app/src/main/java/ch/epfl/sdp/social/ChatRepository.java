@@ -188,24 +188,26 @@ public final class ChatRepository {
 
     }
 
-    public static void getChat(String current, String other)
+    public static Chat getChat(String current, String other)
     {
+        Chat output = null;
         try {
-            new AsyncTask<Void, Void, List<Chat>>() {
+            output = new AsyncTask<Void, Void, List<Chat>>() {
 
                 @Override
                 protected List<Chat> doInBackground(Void... voids) {
                     return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
                 }
 
-                @Override
+                /*@Override
                 protected void onPostExecute(List<Chat> exists) {
                     ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
-                }
-            }.execute().get();
+                }*/
+            }.execute().get().get(0);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
+        return output;
     }
 
     public Chat getChatDirectly(String current, String other) {

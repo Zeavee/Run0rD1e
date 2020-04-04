@@ -50,7 +50,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
 
-        chatRepo.getChat("stupid1@gmail.com", chattingWith);
+        chat = chatRepo.getChat("stupid1@gmail.com", chattingWith);
         sendButton.setOnClickListener(this::onSendClicked);
 
         // Very important to use the singleton to reduce thinking (Done before activity switch inside friendsListActivity)
@@ -60,10 +60,10 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
     public void loadExistingMessages()
     {
-        remoteToSQLiteAdapter.getInstance().setListener(this);
-        remoteToSQLiteAdapter.getInstance().sendRemoteServerDataToLocal("stupid1@gmail.com", chattingWith, chat.chat_id);
         chatRepo.getMessagesReceived("stupid1@gmail.com", chattingWith);
         chatRepo.getMessagesSent("stupid1@gmail.com", chattingWith);
+        remoteToSQLiteAdapter.getInstance().setListener(this);
+        remoteToSQLiteAdapter.getInstance().sendRemoteServerDataToLocal("stupid1@gmail.com", chattingWith, chat.chat_id);
     }
     public void  onSendClicked(View v)
     {

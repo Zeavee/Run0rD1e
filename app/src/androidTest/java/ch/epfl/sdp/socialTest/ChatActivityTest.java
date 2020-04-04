@@ -1,4 +1,4 @@
-package ch.epfl.sdp.login;
+package ch.epfl.sdp.socialTest;
 
 
 import android.view.View;
@@ -22,8 +22,6 @@ import ch.epfl.sdp.social.AddFriendsActivity;
 import ch.epfl.sdp.social.ChatActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.RecyclerQueryAdapter;
-import ch.epfl.sdp.socialTest.MockFriendsFetcher;
-import ch.epfl.sdp.socialTest.MockServerToSQLiteAdapter;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
