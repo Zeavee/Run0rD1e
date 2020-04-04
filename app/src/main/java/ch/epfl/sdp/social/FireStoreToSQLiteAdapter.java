@@ -1,20 +1,16 @@
 package ch.epfl.sdp.social;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +21,7 @@ import java.util.Map;
  This class fetches messages from FireStore and places them in the local SQLite database.
  As usual, singleton design.
  */
-public class FireStoreToSQLiteAdapter implements  RemoteToSQLiteAdapter {
+public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
 
     private static final FirebaseFirestore remoteHost = FirebaseFirestore.getInstance();
     private static Context listener;
@@ -38,7 +34,7 @@ public class FireStoreToSQLiteAdapter implements  RemoteToSQLiteAdapter {
     }
 
     // Gets the incoming messages from FireStore. Owner is "stupid1@gmail.com" i.e the currently signed in user
-    public void sendRemoteServerDataToLocal(String owner, String sender)
+    public void sendRemoteServerDataToLocal(String owner, String sender, int chat_id)
     {
         List<Message> remoteMessages = new ArrayList<>();
 
@@ -51,14 +47,15 @@ public class FireStoreToSQLiteAdapter implements  RemoteToSQLiteAdapter {
                 {
                     QuerySnapshot result = task.getResult();
                     for (QueryDocumentSnapshot doc: result) {
-                        remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(), (String)doc.getData().get("content")));
+                        remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(), (String)doc.getData().get("content"), chat_id));
+                        remoteHost.collection("Users").document(owner).collection("Texts").document(sender).collection("Texts")
+                                .document(doc.getId()).update("read", true);
                     }
-                    ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages);
+                    ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages, true);
                 }
             }
         });
         // TODO: deletion for a later week (doesn't affect demo since app starts a new)
-
     }
 
     // Sends outgoing messages to User "to"'s message inbox

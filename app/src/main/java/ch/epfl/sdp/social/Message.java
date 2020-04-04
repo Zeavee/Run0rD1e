@@ -20,10 +20,11 @@ public class Message {
 
     private int chat_id;
 
-    public Message(Date date, String text)
+    public Message(Date date, String text, int chat_id)
     {
         this.date = date;
         this.text = text;
+        this.chat_id = chat_id;
     }
 
     public void setDate(Date date) {

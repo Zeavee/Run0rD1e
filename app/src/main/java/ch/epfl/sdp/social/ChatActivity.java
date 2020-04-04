@@ -8,6 +8,8 @@ import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.Timestamp;
+
 import java.util.Date;
 import java.util.List;
 
@@ -55,15 +57,15 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     public void loadExistingMessages()
     {
         remoteToSQLiteAdapter.getInstance().setListener(this);
-        remoteToSQLiteAdapter.getInstance().sendRemoteServerDataToLocal("stupid1@gmail.com", chattingWith);
+        remoteToSQLiteAdapter.getInstance().sendRemoteServerDataToLocal("stupid1@gmail.com", chattingWith, chat.chat_id);
         chatRepo.getMessagesReceived("stupid1@gmail.com", chattingWith);
         chatRepo.getMessagesSent("stupid1@gmail.com", chattingWith);
     }
     public void  onSendClicked(View v)
     {
-        Message m = new Message(new Date(), message.getText().toString());
+        Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
         messageAdapter.add(new MessageDecorator(m, false));
-        chatRepo.sendMessage(message.getText().toString(), this.chat.getChat_id());
+        chatRepo.sendMessage(message.getText().toString(), chatRepo.getChatDirectly(chat.to, chat.from).getChat_id());
 
         // TODO: clean way to get email of user
         remoteToSQLiteAdapter.getInstance().sendLocalDataToRemoteServer("stupid1@gmail.com",chattingWith,m);
@@ -96,11 +98,14 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         }
     }
     @Override
-    public void incomingMessageFetchFinished(List<Message> output) {
+    public void incomingMessageFetchFinished(List<Message> output, boolean isFromServer) {
         messages = output;
         for (Message el: messages)
         {
             // TODO: Add the messages to SQLite and delete them from FireStore
+            if (isFromServer) {
+                chatRepo.insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
+            }
             messageAdapter.add(new MessageDecorator(el, true));
         }
     }

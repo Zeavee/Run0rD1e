@@ -6,6 +6,6 @@ public interface RemoteToSQLiteAdapter {
 
      RemoteToSQLiteAdapter getInstance();
      void setListener(Context listener);
-     void sendRemoteServerDataToLocal(String owner, String sender);
+     void sendRemoteServerDataToLocal(String owner, String sender, int chat_id);
      void sendLocalDataToRemoteServer(String current_usr, String to, Message m);
 }

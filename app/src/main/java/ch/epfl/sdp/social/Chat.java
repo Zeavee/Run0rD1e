@@ -2,11 +2,13 @@ package ch.epfl.sdp.social;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(foreignKeys = {
+@Entity(indices = {@Index(value = {"from", "to"},
+        unique = true)},
+        foreignKeys = {
         @ForeignKey(
                 entity = User.class,
                 parentColumns = "userID",

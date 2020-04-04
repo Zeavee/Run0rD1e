@@ -3,7 +3,6 @@ package ch.epfl.sdp.socialTest;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
         // pretend that remote messages on FireStore are the following
         List<Message> remoteMessages = new ArrayList<>();
         remoteMessages.add(new Message(new Date(), "Shaima is not stupid, from user with ID stupid2"));
-        ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages);
+        ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages, true);
 
     }
 
