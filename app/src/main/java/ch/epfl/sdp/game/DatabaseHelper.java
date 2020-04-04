@@ -66,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             writableDatabase.execSQL("DELETE FROM " + USERS_TABLE_NAME);
     }
 
-    public class UserData
+    public class UserData extends CacheableUserInfo
     {
         public UserData(String email, String password) {
             this.email = email;

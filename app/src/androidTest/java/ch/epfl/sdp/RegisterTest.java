@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.util.Log;
 import android.util.Pair;
 
 import androidx.test.espresso.ViewAction;
@@ -21,8 +22,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.dependency.injection.DependencyVisitor;
+import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
+import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -46,14 +52,56 @@ public class RegisterTest {
     private List<Integer> testCasesInt;
     private List<Integer> emptyFields;
     private List<String> errorTexts;
+    private DependencyVisitor dv = new DependencyVisitor() {
+        @Override
+        public void setDependency(UserDataController dependency) {
+
+        }
+
+        @Override
+        public void setDependency(AuthenticationController dependency) {
+                LoginFormActivity.authenticationController = dependency;
+                RegisterFormActivity.authenticationController = dependency;
+        }
+
+        @Override
+        public void setDependency(MapApi dependency) {
+
+        }
+
+        @Override
+        public void setDependency(RemoteToSQLiteAdapter dependency) {
+
+        }
+
+        @Override
+        public void setDependency(RemoteFriendFetcher dataController) {
+
+        }
+
+        @Override
+        public void inject() {
+            setDependency(new MockAuthentication(new MockUserDataController()));
+        }
+
+    };
 
 
     @Rule
-    public final ActivityTestRule <RegisterFormActivity> mActivityRule =
-            new ActivityTestRule <>(RegisterFormActivity.class);
+    public ActivityTestRule <RegisterFormActivity> mActivityRule =
+            new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class){
+             @Override
+             protected void beforeActivityLaunched()
+            {
+                dv.inject();
+            }
+    };
+
 
     @Before
     public void setUp(){
+
+
         testCases = new ArrayList<>();
         testCases.addAll(Arrays.asList(typeText("test"),typeText("password"), typeText("password"), click(),
                 typeText("Username"), typeText("password"), typeText("password"), click(),
@@ -75,8 +123,7 @@ public class RegisterTest {
 
         email = "amro.abdrabo@gmail.com";
         password = "password";
-
-        // Mock
+        
         Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
@@ -127,12 +174,14 @@ public class RegisterTest {
             if (i>0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
+            Log.d("COUNTER", " "+i);
             onView(withId(R.id.backBtn)).perform(click());
             onView(withId(R.id.createAccountBtn)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
     }
 
+    // for now
     @Test
     public void registering_ShouldFailOnPasswordSmallerThan8(){
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
@@ -141,7 +190,7 @@ public class RegisterTest {
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
     }
 
-    /*@Test
+    @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -150,7 +199,9 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
+
+    // for now
 
     @Test
     public void backButton_ShouldGoToLoginForm(){
