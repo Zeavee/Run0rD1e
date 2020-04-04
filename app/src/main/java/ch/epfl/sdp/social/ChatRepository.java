@@ -30,9 +30,10 @@ public final class ChatRepository {
         }
         else return singleton;
     }
+
     private ChatRepository(Context contextActivity) {
-        //chatDB = Room.inMemoryDatabaseBuilder(databaseBuilder(contextActivity, ChatDatabase.class, "hello").build();
-        chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
+        chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
+        //chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
 
@@ -115,13 +116,13 @@ public final class ChatRepository {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
-                //try {
+                try {
                     singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
                     singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email)); // friendship is symmetric
-                //}catch (SQLiteConstraintException e) {
+                }catch (SQLiteConstraintException e) {
                      // foreign key was not found so add both users to user db (done in caller)
                   //  Log.d("ChatRepo Exception", "Caller must ensure users added to DB");
-                //}
+                }
                 return null;
             }
         }.execute();

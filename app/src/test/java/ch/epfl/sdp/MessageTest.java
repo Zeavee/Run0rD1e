@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import ch.epfl.sdp.social.Message;
-import static org.junit.Assert.assertEquals;
+
 import static org.junit.Assert.assertTrue;
 
 public class MessageTest {
@@ -13,7 +13,7 @@ public class MessageTest {
     @Test
     public void testMessageWorks()
     {
-        Message m = new Message(new Date(0),"hello" );
+        Message m = new Message(new Date(0),"hello", 500);
         m.setDate(new Date(1));
         m.setText("hallo");
         m.setChat_id(1000);

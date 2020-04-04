@@ -25,11 +25,11 @@ public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
     }
 
     @Override
-    public void sendRemoteServerDataToLocal(String owner, String sender) {
+    public void sendRemoteServerDataToLocal(String owner, String sender, int chat_id) {
 
         // pretend that remote messages on FireStore are the following
         List<Message> remoteMessages = new ArrayList<>();
-        remoteMessages.add(new Message(new Date(), "Shaima is not stupid, from user with ID stupid2"));
+        remoteMessages.add(new Message(new Date(), "Shaima is not stupid, from user with ID stupid3", chat_id));
         ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages, true);
 
     }
