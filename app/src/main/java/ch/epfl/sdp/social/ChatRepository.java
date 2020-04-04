@@ -12,6 +12,7 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @SuppressLint("StaticFieldLeak")
 public final class ChatRepository {
@@ -189,22 +190,36 @@ public final class ChatRepository {
 
     public static void getChat(String current, String other)
     {
-        //new AsyncTask<Void, Void, List<Chat>>() {
+        try {
+            new AsyncTask<Void, Void, List<Chat>>() {
 
-        //    @Override
-        //    protected List<Chat> doInBackground(Void... voids) {
-        List exists = singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
-        //    }
+                @Override
+                protected List<Chat> doInBackground(Void... voids) {
+                    return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
+                }
 
-        //    @Override
-        //    protected void onPostExecute(List<Chat> exists)
-        //    {
-        ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
-        //    }
-        //}.execute();
+                @Override
+                protected void onPostExecute(List<Chat> exists) {
+                    ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
+                }
+            }.execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public Chat getChatDirectly(String current, String other) {
-        return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other).get(0);
+        Chat output = null;
+        try {
+            output = new AsyncTask<Void, Void, Chat>() {
+                @Override
+                protected Chat doInBackground(Void... voids) {
+                    return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other).get(0);
+                }
+            }.execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return output;
     }
 }

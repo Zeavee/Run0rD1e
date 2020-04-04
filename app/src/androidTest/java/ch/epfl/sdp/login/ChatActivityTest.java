@@ -102,7 +102,7 @@ public class ChatActivityTest {
                                                 1)),
                                 0),
                         isDisplayed()));
-        searchAutoComplete.perform(replaceText("stupid3"), closeSoftKeyboard());
+        searchAutoComplete.perform(replaceText("stupid2"), closeSoftKeyboard());
 
         Thread.sleep(3000);
 
