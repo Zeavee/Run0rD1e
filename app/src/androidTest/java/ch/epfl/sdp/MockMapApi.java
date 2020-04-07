@@ -49,12 +49,13 @@ public class MockMapApi implements MapApi {
 
     @Override
     public Bitmap createSmallCircle(int color) {
-        Bitmap output = Bitmap.createBitmap(25, 25, Bitmap.Config.ARGB_8888);
+      /*  Bitmap output = Bitmap.createBitmap(25, 25, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
         paint.setColor(color);
         canvas.drawCircle(25 / 2, 25 / 2, 25 / 2, paint);
-        return output;
+        return output;*/
+      return null;
     }
 
     @Override
