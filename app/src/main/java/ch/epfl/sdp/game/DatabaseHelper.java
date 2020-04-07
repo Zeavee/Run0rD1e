@@ -72,9 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             this.email = email;
             this.password = password;
         }
-
-        public String email;
-        public String password;
     }
 
     @Override
