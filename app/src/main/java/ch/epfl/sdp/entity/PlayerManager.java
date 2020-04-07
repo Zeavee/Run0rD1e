@@ -24,6 +24,7 @@ public class PlayerManager {
 
     public static void setUser(Player player){
         user = player;
+        addPlayer(user);
     }
 
     public static Player getUser(){

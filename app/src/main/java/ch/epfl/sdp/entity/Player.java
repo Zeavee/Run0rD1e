@@ -108,8 +108,8 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Override
-    public boolean isActive() {
-        return isActive;
+    public boolean once() {
+        return false;
     }
 
     @Override

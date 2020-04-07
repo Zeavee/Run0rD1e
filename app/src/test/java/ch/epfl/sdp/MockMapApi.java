@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.LocationManager;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -73,6 +75,11 @@ public class MockMapApi implements MapApi {
     @Override
     public Activity getActivity() {
         return activity;
+    }
+
+    @Override
+    public void setMap(GoogleMap googleMap) {
+
     }
 
     @Test

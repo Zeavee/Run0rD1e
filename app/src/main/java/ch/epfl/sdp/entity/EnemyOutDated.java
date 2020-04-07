@@ -20,7 +20,7 @@ public class EnemyOutDated extends MovingEntity {
     }
 
     @Override
-    public boolean isActive() {
-        return isActive;
+    public boolean once() {
+        return false;
     }
 }

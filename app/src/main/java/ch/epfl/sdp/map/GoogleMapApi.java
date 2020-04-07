@@ -41,14 +41,9 @@ public class GoogleMapApi implements MapApi {
     private GoogleMap mMap;
     private Activity activity;
     private Map<Displayable, MapDrawing> entityCircles;
-    private Player currentUser;
 
     public GoogleMapApi() {
         entityCircles = new HashMap<>();
-
-        currentUser = new Player(0, 0, 100, "current", "test");
-        PlayerManager.addPlayer(currentUser);
-
 
         locationListener = new LocationListener() {
             @Override
@@ -105,8 +100,8 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        currentUser.setLocation(getCurrentLocation());
-        displayEntity(currentUser);
+        PlayerManager.getUser().setLocation(getCurrentLocation());
+        displayEntity(PlayerManager.getUser());
     }
 
     @Override
@@ -139,12 +134,15 @@ public class GoogleMapApi implements MapApi {
         switch (displayable.getEntityType()) {
             case USER:
                 if (currentLocation == null) return;
-                currentUser.setLocation(displayable.getLocation());
+                PlayerManager.getUser().setLocation(displayable.getLocation());
                 displayMarkerCircle(displayable, Color.BLUE, "My position", 100); break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
+                //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
+                displaySmallIcon(displayable, "ItemBox", R.drawable.enemy);break;
             case PLAYER:
                 displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
+            case ITEMBOX:
+                displaySmallIcon(displayable, "ItemBox", R.drawable.itembox);break;
             case HEALTHPACK:
                 displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack); break;
             case SCAN:

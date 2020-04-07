@@ -29,7 +29,7 @@ public class FriendsListActivityTest {
     public final ActivityTestRule<FriendsListActivity> mActivityRule =
             new ActivityTestRule<>(FriendsListActivity.class);
 
-    @Test
+  /*  @Test
     public void chatOpensAndMessageIsSent() {
         onView(withId(R.id.friends_recyclerview)).perform(
                 RecyclerViewActions.actionOnItemAtPosition(0, MyViewAction.clickChildViewWithId(R.id.chat_button)));
@@ -41,7 +41,7 @@ public class FriendsListActivityTest {
                 .atPosition(0)
                 .onChildView(withId(R.id.message_body))
                 .check(matches(withText(startsWith("Hello"))));
-    }
+    }*/
 
     public static class MyViewAction {
 

@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
@@ -25,11 +26,9 @@ import static ch.epfl.sdp.R.id.useitem;
 
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
     private Context mContext;
-    private Player player;
 
-    public ItemsViewAdapter(Context mContext, Player player) {
+    public ItemsViewAdapter(Context mContext) {
         this.mContext = mContext;
-        this.player = player;
     }
 
     @NonNull
@@ -41,14 +40,13 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        LinkedHashMap items = player.getInventory().getItems();
+        LinkedHashMap items = PlayerManager.getUser().getInventory().getItems();
         Item item = (Item) (items.keySet().toArray())[position];
-
         holder.name.setText(item.getName());
         holder.amountOfItem.setText(String.valueOf(items.get(item)));
         holder.button.setOnClickListener(v -> {
             item.use();
-            player.getInventory().removeItem(item);
+            PlayerManager.getUser().getInventory().removeItem(item);
 
             // Update the quantity of that item
             holder.amountOfItem.setText(String.valueOf(items.get(item)));
@@ -57,7 +55,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public int getItemCount() {
-        return player.getInventory().getItems().size();
+        return PlayerManager.getUser().getInventory().getItems().size();
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
@@ -66,12 +64,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         private TextView amountOfItem;
         private Button button;
 
-        public ItemsViewHolder(@NonNull View itemView) {
-            super(itemView);
-//            image = itemView.findViewById(R.id.image_view);
-            name = itemView.findViewById(title);
-            button = itemView.findViewById(useitem);
-            amountOfItem = itemView.findViewById(amount);
+    public ItemsViewHolder(@NonNull View itemView) {
+        super(itemView);
+//      image = itemView.findViewById(R.id.image_view);
+        name = itemView.findViewById(title);
+        button = itemView.findViewById(useitem);
+        amountOfItem = itemView.findViewById(amount);
 
         }
     }

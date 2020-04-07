@@ -15,5 +15,5 @@ public interface Displayable {
      */
     public EntityType getEntityType();
 
-    boolean isActive();
+    boolean once();
 }

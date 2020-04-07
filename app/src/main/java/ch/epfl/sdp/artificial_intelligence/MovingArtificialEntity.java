@@ -144,7 +144,7 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
     }
 
     @Override
-    public boolean isActive() {
-        return isActive;
+    public boolean once() {
+        return false;
     }
 }

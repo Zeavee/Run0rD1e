@@ -28,11 +28,13 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
 
     @Override
     public void update() {
+        System.out.println("lat: " + getLocation().getLatitude() + " lon: " + getLocation().getLongitude());
+
         for (Player player: PlayerManager.getPlayers()) {
-            if (super.getLocation().distanceTo(player.getLocation()) -player.getAoeRadius() < 0) {
-                super.setActive(true);
+            if (super.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 0) {
                 react(player);
                 if(once){
+                    //super.setActive(false);
                     // Make it disappear from the game
                     Game.removeFromUpdateList(this);
                     Game.removeFromDisplayList(this);

@@ -39,13 +39,20 @@ public class Game implements Updatable, Drawable {
 
     public static void addToDisplayList(Displayable displayable) {
         if (displayable != null) {
-            displayables.add(displayable);
+            if(displayable.once()){
+                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
+            }else{
+                displayables.add(displayable);
+            }
         }
     }
 
     public static void removeFromDisplayList(Displayable displayable) {
         if (displayable != null) {
             displayables.remove(displayable);
+            if(MapsActivity.mapApi.getActivity() != null) {
+                MapsActivity.mapApi.getActivity().runOnUiThread(() -> MapsActivity.mapApi.unDisplayEntity(displayable));
+            }
         }
     }
 
@@ -110,12 +117,8 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            if (displayable.isActive()) {
-                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
-            } else {
-                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.unDisplayEntity(displayable));
-                removeFromDisplayList(displayable);
-            }
+            System.out.println("Display: " + displayable.getEntityType().toString());
+            MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
         }
     }
 }

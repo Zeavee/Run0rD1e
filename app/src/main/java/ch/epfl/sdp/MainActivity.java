@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.database.FirestoreUserData;
@@ -13,12 +14,15 @@ import ch.epfl.sdp.entity.PlayerManager;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
+import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.logic.GameInfoActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
 import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
 
@@ -44,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        PlayerManager playerManager = new PlayerManager();
-
-        game = new Game();
-
-        startGame();
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 

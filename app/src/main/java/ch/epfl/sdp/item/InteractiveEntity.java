@@ -9,10 +9,10 @@ import ch.epfl.sdp.map.MapsActivity;
 public abstract class InteractiveEntity implements Displayable {
     private EntityType entityType;
     private GeoPoint location;
-    private boolean active;
+    //private boolean active;
 
     public InteractiveEntity(EntityType entityType) {
-        this(entityType,  RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100) , false);
+        this(entityType,  RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 1000) , false);
     }
 
     public InteractiveEntity(EntityType entityType, GeoPoint location) {
@@ -22,7 +22,7 @@ public abstract class InteractiveEntity implements Displayable {
     public InteractiveEntity(EntityType entityType, GeoPoint location, boolean active) {
         this.entityType = entityType;
         this.location = location;
-        this.active = active;
+        //this.active = active;
     }
 
     @Override
@@ -40,11 +40,9 @@ public abstract class InteractiveEntity implements Displayable {
     }
 
     @Override
-    public boolean isActive() {
-        return active;
-    }
+    public abstract boolean once();
 
-    public void setActive(boolean active){
+    /*public void setActive(boolean active){
         this.active = active;
-    }
+    }*/
 }

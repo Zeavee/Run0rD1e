@@ -24,7 +24,7 @@ public class ItemBoxTest {
         location = new GeoPoint(0,0);
         player = new Player();
         player.setLocation(location);
-        PlayerManager.addPlayer(player);
+        PlayerManager.setUser(player);
         mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
         Game game = new Game();
