@@ -4,6 +4,9 @@ import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.MovingEntity;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public abstract class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
@@ -19,7 +22,7 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
         bounds = new UnboundedArea();
         forceMove = false;
         isActive = true;
-        movement = new Movement();
+        movement = new Movement(MovementType.LINEAR);
     }
 
     public MovingArtificialEntity(Boundable bounds){
@@ -105,11 +108,18 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
     }
 
     @Override
+    public void setLocation(GeoPoint geoPoint){
+        super.setLocation(geoPoint);
+        setPosition(PointConverter.GeoPointToGenPoint(geoPoint));
+    }
+
+    @Override
     public void update() {
         if(moving) {
-            GenPoint gp = move();
-            if (bounds.isInside(gp) || forceMove) {
-               position = gp;
+            GenPoint position = move();
+            if (bounds.isInside(position) || forceMove) {
+               this.position = position;
+               super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
             } else {
                 switchOnMouvement();
             }
@@ -117,25 +127,15 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
     }
 
     private void switchOnMouvement() {
-        switch (movement.getMovementType()) {
-            case LINEAR:
-                movement.setOrientation(rand.nextFloat() * 2 * (float) (Math.PI));
-                break;
-            case SINUSOIDAL:
-                break;
-           /* case CIRCULAR:
-                break;
-            case CURVED:
-                break;
-            case SMOOTH:
-                break;
-            case RANDOM:
-                break;*/
-        }
+        movement.setOrientation(rand.nextFloat() * 2 * (float) (Math.PI));
     }
 
     public Movement getMovement() {
         return movement;
+    }
+
+    public void setMovement(Movement movement){
+        this.movement = movement;
     }
 
     @Override

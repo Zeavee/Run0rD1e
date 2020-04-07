@@ -35,6 +35,7 @@ public class DatabaseHelperTest {
 
     @Test
     public void getLoggedUser_noUser_ReturnsNull() {
+        // TODO Beware that a user can stay connected, maybe use a setup to remove connected user
         DatabaseHelper.UserData loggedUser = databaseHelper.getLoggedUser();
         Assert.assertNull(loggedUser);
     }

@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
@@ -101,6 +102,7 @@ public class GoogleMapApi implements MapApi {
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
         PlayerManager.getUser().setLocation(getCurrentLocation());
+        PlayerManager.getUser().setPosition(PointConverter.GeoPointToGenPoint(PlayerManager.getUser().getLocation()));
         displayEntity(PlayerManager.getUser());
     }
 
@@ -138,7 +140,7 @@ public class GoogleMapApi implements MapApi {
                 displayMarkerCircle(displayable, Color.BLUE, "My position", 100); break;
             case ENEMY:
                 //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
-                displaySmallIcon(displayable, "ItemBox", R.drawable.enemy);break;
+                displaySmallIcon(displayable, "Enemy", R.drawable.enemy);break;
             case PLAYER:
                 displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
             case ITEMBOX:

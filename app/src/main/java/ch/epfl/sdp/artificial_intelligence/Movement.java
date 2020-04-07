@@ -8,11 +8,11 @@ public class Movement {
     private double sinusAmplitude;
     private double sinusAngle;
 
-    public Movement() {
+    public Movement(MovementType movementType) {
         acceleration = 0;
         velocity = 0;
         orientation = 0;
-        movementType = MovementType.LINEAR;
+        this.movementType = movementType;
         sinusAngle = 0;
         sinusAmplitude = 1;
     }

@@ -117,7 +117,6 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            System.out.println("Display: " + displayable.getEntityType().toString());
             MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
         }
     }

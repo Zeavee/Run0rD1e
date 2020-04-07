@@ -16,6 +16,13 @@ import java.util.Map;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.artificial_intelligence.GenPoint;
+import ch.epfl.sdp.artificial_intelligence.LocalBounds;
+import ch.epfl.sdp.artificial_intelligence.Movement;
+import ch.epfl.sdp.artificial_intelligence.MovementType;
+import ch.epfl.sdp.artificial_intelligence.PointConverter;
+import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -73,9 +80,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Game.addToDisplayList(itemBox);
         Game.addToUpdateList(itemBox);
 
-        Enemy enemy = new Enemy();
-        enemy.setLocation(new GeoPoint(6.1419, 46.2201));
+        GeoPoint local = new GeoPoint(6.2419, 46.2201);
+        GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
+        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500,3500), PointConverter.GeoPointToGenPoint(local));
+        Enemy enemy = new Enemy(localBounds, new UnboundedArea());
+        enemy.setLocation(enemyPos);
+        Movement movement = new Movement(MovementType.LINEAR);
+        movement.setVelocity(25);
+        enemy.setMovement(movement);
+
 
         Game.addToDisplayList(enemy);
+        Game.addToUpdateList(enemy);
     }
 }

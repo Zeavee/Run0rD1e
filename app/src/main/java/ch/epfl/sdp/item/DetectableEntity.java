@@ -27,7 +27,7 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
     public abstract void react(Player player);
 
     private boolean detectedBy(Player player){
-        return super.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 0;
+        return super.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 1;
     }
 
     // Makes it disappear from the game
@@ -36,14 +36,18 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
         Game.removeFromDisplayList(this);
     }
 
+    private void afterDetected(Player player){
+        react(player);
+        if(once){
+            finalizeEntity();
+        }
+    }
+
     @Override
     public void update() {
         for (Player player: PlayerManager.getPlayers()) {
             if (detectedBy(player)) {
-                react(player);
-                if(once){
-                    finalizeEntity();
-                }
+                afterDetected(player);
             }
         }
     }

@@ -5,6 +5,8 @@ import java.util.List;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
@@ -19,29 +21,36 @@ public class Enemy extends MovingArtificialEntity {
     private boolean waiting;
 
     public Enemy() {
-        super(new RectangleBounds(50, 50, null));
+        super(new RectangleBounds(20000, 10000));
         super.setAoeRadius(1);
-        super.getMovement().setVelocity(1);
+        super.getMovement().setVelocity(50);
         super.setMoving(true);
         this.damage = 1;
         this.dps = 1;
         this.detectionDistance = 1;
         this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.PATROL;
-        timeAttack = 100; // Needs calibration
-        timeWandering = 100;
+        timeAttack = 30; // Needs calibration
+        timeWandering = 30;
         this.patrolBounds = new LocalBounds(new UnboundedArea(), getPosition());
         this.waiting = false;
     }
 
+    public Enemy(LocalBounds patrolBounds, Boundable maxBounds){
+        this(0,0,1000,50, patrolBounds, maxBounds);
+    }
+
     public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
+        super(maxBounds);
+        super.getMovement().setVelocity(25);
+        super.setMoving(true);
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
         this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
-        timeAttack = 100; // Needs calibration
-        timeWandering = 100;
+        timeAttack = 30; // Needs calibration
+        timeWandering = 30;
         this.patrolBounds = patrolBounds;
         this.waiting = false;
         if (aoeRadius < detectionDistance) {
@@ -99,7 +108,7 @@ public class Enemy extends MovingArtificialEntity {
                 behaviour = Behaviour.CHASE;
             }
 
-            timeAttack = 100;
+            timeAttack = 30;
         } else {
             timeAttack -= 1;
         }
@@ -186,13 +195,13 @@ public class Enemy extends MovingArtificialEntity {
             super.setBounds(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
-            timeWandering = 100;
+            timeWandering = 30;
         } else {
             timeWandering -= 1;
         }
 
         if (checkWaiting()) {
-            timeWandering = 100;
+            timeWandering = 30;
         }
     }
 

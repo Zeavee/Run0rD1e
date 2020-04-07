@@ -1,5 +1,8 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
+
 public class LocalBounds implements Boundable, Localizable {
     private Boundable bounds;
     private CartesianPoint position;
@@ -23,12 +26,16 @@ public class LocalBounds implements Boundable, Localizable {
         return bounds.isInside(vect);
     }
 
-    @Override
-    public GenPoint getPosition() {
-        return position;
+    public GeoPoint getLocation() {
+        return PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation());
     }
 
     public void setPosition(GenPoint position) {
         this.position = position.toCartesian();
+    }
+
+    @Override
+    public GenPoint getPosition() {
+        return position;
     }
 }

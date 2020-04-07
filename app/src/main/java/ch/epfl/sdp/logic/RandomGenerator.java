@@ -141,7 +141,7 @@ public class RandomGenerator {
          int randomDmg = rand.nextInt(randBound+1);
          float randomdps = rand.nextFloat();
          float randomDetectionDistance = rand.nextFloat()*10 + 50;
-         RectangleBounds r = new RectangleBounds(10, 10, randomGeoPoint());
+         RectangleBounds r = new RectangleBounds(10, 10);
 
          LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
          UnboundedArea randomArea = new UnboundedArea();

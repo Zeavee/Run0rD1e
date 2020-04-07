@@ -117,6 +117,10 @@ public class Player extends MovingEntity implements Localizable {
         return position;
     }
 
+    public void setPosition(GenPoint genPoint){
+        this.position = genPoint.toCartesian();
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
