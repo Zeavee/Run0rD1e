@@ -1,5 +1,8 @@
 package ch.epfl.sdp.entity;
 
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
@@ -7,24 +10,34 @@ import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
 import ch.epfl.sdp.map.GeoPoint;
 
+@IgnoreExtraProperties
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
+    @Exclude
     public CartesianPoint position;
     public int score;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
+
+    @Exclude
     public boolean alive;
+
+    @Exclude
     public final static double MAX_HEALTH = 100;
+
+    @Exclude
     private boolean isShielded;
+
+    @Exclude
     private Inventory inventory;
+
+    @Exclude
     private boolean isActive;
 
-    public Player() {
-        super();
-    }
+    public Player() { super(); }
 
     public Player(String username, String email) {
         this(0, 0, 1, username, email);
@@ -62,6 +75,7 @@ public class Player extends MovingEntity implements Localizable {
         return healthPoints;
     }
 
+    @Exclude
     public boolean isAlive() {
         return alive;
     }
@@ -94,27 +108,32 @@ public class Player extends MovingEntity implements Localizable {
         this.healthPoints = amount;
     }
 
+    @Exclude
     public boolean isShielded() {return this.isShielded; }
 
     public void setShielded(boolean shielded) {
         isShielded = shielded;
     }
 
+    @Exclude
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
     }
 
+    @Exclude
     @Override
     public Boolean isActive() {
         return isActive;
     }
 
+    @Exclude
     @Override
     public GenPoint getPosition() {
         return position;
     }
 
+    @Exclude
     public Inventory getInventory() {
         return inventory;
     }
