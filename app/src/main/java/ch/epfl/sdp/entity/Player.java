@@ -58,6 +58,7 @@ public class Player extends MovingEntity implements Localizable{
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
         this.inventory = new Inventory(this);
+        //this.setPosition();
     }
 
     public void updateHealth(ArrayList<EnemyOutDated> enemies) {

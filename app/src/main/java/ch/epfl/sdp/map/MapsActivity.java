@@ -93,8 +93,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startGame();
         currentEnnemy = new Enemy();
         currentEnnemy.setLocation(new GeoPoint(6.145606,46.209633));
-        currentEnnemy.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.145606,46.209633)));
+        currentEnnemy.setPosition(PointConverter.GeoPointToGenPoint(currentEnnemy.getLocation()));
         game.addToDisplayList(currentEnnemy);
+        game.addToUpdateList(currentEnnemy);
     }
 
     @Override

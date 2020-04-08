@@ -1,10 +1,13 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import com.google.firebase.firestore.util.Assert;
+
 import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.MovingEntity;
 import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
@@ -149,7 +152,8 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
             GenPoint gp = move();
             if (bounds.isInside(gp) || forceMove) {
                position = gp;
-               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699,46.215788)));
+               this.setLocation(PointConverter.GenPointToGeoPoint(gp, MapsActivity.mapApi.getCurrentLocation()));
+               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699, 46.215788))); //Needs to be changed to the line above, but BehaviourTest does not pass, I keep it hardcoded for now as I work on a solution
             } else {
                 switchOnMouvement();
             }

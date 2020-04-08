@@ -110,7 +110,6 @@ public class Game implements Updatable, Drawable {
     public void update() {
         for (Updatable updatable : updatables) {
             updatable.update();
-            System.out.println("update Game");
         }
     }
 

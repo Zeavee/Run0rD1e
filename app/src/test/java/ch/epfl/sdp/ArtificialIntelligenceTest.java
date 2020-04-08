@@ -9,6 +9,8 @@ import ch.epfl.sdp.artificial_intelligence.Movement;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
+import ch.epfl.sdp.map.GeoPoint;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -131,13 +133,14 @@ public class ArtificialIntelligenceTest {
 
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
-        Boundable rectangleBounds = new RectangleBounds(50, 50, null);
+        Boundable rectangleBounds = new RectangleBounds(50, 50, new GeoPoint(0, 0));
         MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(rectangleBounds);
         movingArtificialEntity.setMoving(true);
         movingArtificialEntity.setMovement(Movement.LINEAR);
         movingArtificialEntity.setVelocity(10);
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
+            System.out.print(movingArtificialEntity.getPosition().getArg1());
             assertTrue(rectangleBounds.isInside(movingArtificialEntity.getPosition()));
         }
     }

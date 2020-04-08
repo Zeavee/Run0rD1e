@@ -3,6 +3,8 @@ package ch.epfl.sdp;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
@@ -10,6 +12,7 @@ import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.logic.RandomGenerator;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -22,8 +25,9 @@ public class BehaviourTest {
         player = new Player(0, 0, 0, "", "");
         PlayerManager playerManager = new PlayerManager();
         PlayerManager.addPlayer(player);
-        RectangleBounds patrolBounds = new RectangleBounds(10, 10, null);
-        RectangleBounds maxBounds = new RectangleBounds(100, 100, null);
+        RandomGenerator r = new RandomGenerator();
+        RectangleBounds patrolBounds = new RectangleBounds(10, 10, r.randomGeoPoint());
+        RectangleBounds maxBounds = new RectangleBounds(100, 100, r.randomGeoPoint());
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
         CartesianPoint patrolCenter = new CartesianPoint(10, 10);
         LocalBounds localBounds = new LocalBounds(null, null);

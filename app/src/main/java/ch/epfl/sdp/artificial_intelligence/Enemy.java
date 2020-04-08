@@ -8,12 +8,14 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class Enemy extends MovingArtificialEntity implements Displayable {
     private Behaviour behaviour;
+
+    private int damage;
     private List<Player> players; // For now I use a list of players, but it could be nice to have
     // a static manager of players.
-    private int damage;
     private float dps; // damage per second
     private double detectionDistance;
     private int timeAttack;
@@ -22,13 +24,13 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
     private boolean waiting;
 
     public Enemy() {
-        super(new RectangleBounds(50, 50, null));
+        super(new RectangleBounds(5000, 5000, new GeoPoint(6.145606,46.209633)));
         super.setAoeRadius(1);
-        super.setVelocity(200);
+        super.setVelocity(1);
         super.setMoving(true);
         this.damage = 1;
         this.dps = 1;
-        this.detectionDistance = 1;
+        this.detectionDistance = 300;
         Player user = new Player(6.149290, 46.212470, 100, "user", "user");
         user.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.149290, 46.212470)).toCartesian());
         this.players = new ArrayList<Player>();
@@ -130,12 +132,7 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
 
         for (Player player : players) {
             currDistance = player.getPosition().toCartesian().distanceFrom(getPosition()) - player.getAoeRadius();
-            System.out.println(this.getPosition().arg1);
-            System.out.println(this.getPosition().arg2);
-            System.out.println(player.getPosition().arg1);
-            System.out.println(player.getPosition().arg2);
             if (currDistance < minDistance && player.isAlive() && !player.isShielded()) {
-                System.out.println("I am here");
                 minDistance = currDistance;
                 target = player;
             }
@@ -211,6 +208,8 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
     public void update() {
         super.update();
         behave();
+        System.out.println(this.behaviour);
+        System.out.println("Player Health: " + players.get(0).getHealthPoints());
     }
 
     @Override

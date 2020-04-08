@@ -152,10 +152,10 @@ public class GoogleMapApi implements MapApi {
                     return;
                 }
                 currentUser.setLocation(displayable.getLocation());
-                displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
+                displayMarkerCircle(displayable, Color.BLUE, "My position", 50);
                 break;
             case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 300);
+                displayMarkerCircle(displayable, Color.RED, "Enemy", 200);
                 break;
             case PLAYER:
                 displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
@@ -164,7 +164,7 @@ public class GoogleMapApi implements MapApi {
                 displayMarkerCircle(displayable, Color.GREEN, "Item", 50);
                 break;
             case SHELTER:
-                displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 200);
+                displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
                 break;
         }
     }
