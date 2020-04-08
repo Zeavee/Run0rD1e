@@ -13,6 +13,7 @@ import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.logic.RandomGenerator;
+import ch.epfl.sdp.map.GeoPoint;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -34,6 +35,7 @@ public class BehaviourTest {
         localBounds.setBounds(patrolBounds);
         localBounds.setPosition(patrolCenter);
         enemy = new Enemy(10, 1, 50, 20, localBounds, maxBounds);
+        enemy.setLocation(new GeoPoint(6.147467, 46.210428));
         enemy.setVelocity(1);
     }
 

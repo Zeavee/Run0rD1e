@@ -140,7 +140,6 @@ public class ArtificialIntelligenceTest {
         movingArtificialEntity.setVelocity(10);
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
-            System.out.print(movingArtificialEntity.getPosition().getArg1());
             assertTrue(rectangleBounds.isInside(movingArtificialEntity.getPosition()));
         }
     }

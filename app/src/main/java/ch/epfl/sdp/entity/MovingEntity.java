@@ -17,6 +17,7 @@ public abstract class MovingEntity implements Displayable {
         location = new GeoPoint(0,0);
         aoeRadius = 0;
     }
+
     public GeoPoint getLocation() {
         return this.location;
     }

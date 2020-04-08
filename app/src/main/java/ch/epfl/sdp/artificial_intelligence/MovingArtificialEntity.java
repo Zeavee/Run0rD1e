@@ -153,7 +153,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
             if (bounds.isInside(gp) || forceMove) {
                position = gp;
                this.setLocation(PointConverter.GenPointToGeoPoint(gp, MapsActivity.mapApi.getCurrentLocation()));
-               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699, 46.215788))); //Needs to be changed to the line above, but BehaviourTest does not pass, I keep it hardcoded for now as I work on a solution
+               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699, 46.215788)));
             } else {
                 switchOnMouvement();
             }
