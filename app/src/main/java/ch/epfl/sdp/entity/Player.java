@@ -1,7 +1,9 @@
 package ch.epfl.sdp.entity;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.ArrayList;
 
@@ -36,6 +38,9 @@ public class Player extends MovingEntity implements Localizable {
 
     @Exclude
     private boolean isActive;
+
+    @ServerTimestamp
+    public Timestamp timestamp;
 
     public Player() { super(); }
 
@@ -136,5 +141,9 @@ public class Player extends MovingEntity implements Localizable {
     @Exclude
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }
