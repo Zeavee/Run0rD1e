@@ -41,10 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        game = new Game(null);
-
-//        startGame();
-
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 
         findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));

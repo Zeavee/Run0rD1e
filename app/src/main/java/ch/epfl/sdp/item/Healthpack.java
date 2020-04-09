@@ -1,8 +1,9 @@
 package ch.epfl.sdp.item;
 
 
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.map.GeoPoint;
 
 /**
  * Class representing a healthpack
@@ -28,5 +29,10 @@ public class Healthpack extends Item {
 
     public double getHealthPackAmount() {
         return this.healthPackAmount;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.HEALTHPACK;
     }
 }

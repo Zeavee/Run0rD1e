@@ -11,7 +11,7 @@ import ch.epfl.sdp.artificial_intelligence.Localizable;
 import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
-public class Player extends MovingEntity implements Localizable{
+public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
     @Exclude
@@ -33,6 +33,7 @@ public class Player extends MovingEntity implements Localizable{
 
     @Exclude
     private Inventory inventory;
+    private boolean isActive;
 
     public Player() {
         super();
@@ -42,7 +43,7 @@ public class Player extends MovingEntity implements Localizable{
         this(0, 0, 1, username, email);
     }
 
-    //Contstructor for the class
+    //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         GeoPoint g = new GeoPoint(longitude, latitude);
         this.setLocation(g);
@@ -58,17 +59,17 @@ public class Player extends MovingEntity implements Localizable{
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
         this.inventory = new Inventory(this);
-        //this.setPosition();
+        this.isActive = true;
     }
 
-    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
+/*    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
                 this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
             }
         }
-    }
+    }*/
 
     public double getHealthPoints() {
         return healthPoints;
@@ -117,6 +118,11 @@ public class Player extends MovingEntity implements Localizable{
     }
 
     @Exclude
+    @Override
+    public Boolean isActive() {
+        return isActive;
+    }
+
     @Override
     public GenPoint getPosition() {
         return position;

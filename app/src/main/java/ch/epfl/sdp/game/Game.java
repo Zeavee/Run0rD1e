@@ -8,6 +8,7 @@ import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.database.InitializeGame;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
@@ -17,7 +18,7 @@ import ch.epfl.sdp.map.MapsActivity;
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
-    private MapApi map;
+    private static MapApi map;
     private InitializeGame initializeGame;
     private static ArrayList<Updatable> updatables;
     private static ArrayList<Displayable> displayables;
@@ -67,12 +68,6 @@ public class Game implements Updatable, Drawable {
         return displayables;
     }
 
-    public void setMapApi(MapApi mapApi) {
-        if (mapApi != null) {
-            this.map = mapApi;
-        }
-    }
-
     /**
      * Launches the game
      */
@@ -119,7 +114,16 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            if (displayable instanceof Item) {
+                if (displayable.isActive()) {
+                    map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+                } else {
+                    map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
+                    removeFromDisplayList(displayable);
+                }
+            } else {
+                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+            }
         }
     }
 }

@@ -5,7 +5,6 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Healthpack;
@@ -25,24 +24,11 @@ public class PlayerTest {
             "SkyRiS3s", "test@email.com"); //player position is in Geneva
     private static Player player2 = new Player(5.149290, 30.212470, 40,
             "gamer", "gamer@gmail.com"); //player position
-    private static EnemyOutDated enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50); //enemy1's position is at EPFL
-    private static EnemyOutDated enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50); //enemy2's position is close to player1
-    private static ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
     private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
     private static Healthpack healthpack = new Healthpack(A, false, 25);
     private static Shield shield = new Shield(A, true, 4.5);
     private static Shrinker shrinker = new Shrinker(A, false, 4.5, 10);
     private static Scan scan = new Scan(A, false, 50, new MockMapApi());
-
-    @Test
-    public void updateHealthTest() {
-        enemyOutDatedArrayList.add(enemyOutDated1);
-        player1.updateHealth(enemyOutDatedArrayList);
-        assertEquals(50, player1.getHealthPoints(), 0);
-        enemyOutDatedArrayList.add(enemyOutDated2);
-        player1.updateHealth(enemyOutDatedArrayList);
-        assertFalse(player1.getHealthPoints() >= 100);
-    }
 
     @Test
     public void otherMethodTest() {

@@ -34,6 +34,11 @@ public class ShelterArea implements Displayable {
         return EntityType.SHELTER;
     }
 
+    @Override
+    public Boolean isActive() {
+        return true;
+    }
+
     public double getAoeRadius() {
         return aoeRadius;
     }

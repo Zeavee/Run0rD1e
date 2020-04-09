@@ -36,7 +36,7 @@ public class BehaviourTest {
         localBounds.setPosition(patrolCenter);
         enemy = new Enemy(10, 1, 50, 20, localBounds, maxBounds);
         enemy.setLocation(new GeoPoint(6.147467, 46.210428));
-        enemy.setVelocity(1);
+        enemy.getMovement().setVelocity(1);
     }
 
     @Test

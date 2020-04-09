@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
-
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.entity.Player;
 
@@ -18,7 +16,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     public RandomEnemyGenerator(RectangleBounds enclosure, Player player) {
         super(enclosure, player);
         mapEnemiesToTiles = new HashMap<>();
-        enemies = new ArrayList<>();
+        enemies = new ArrayList<Enemy>();
         timer = new Timer();
     }
 
@@ -37,7 +35,10 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         if (enemyLocation == null) {
             return;
         }
-        enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
+        //enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
+        Enemy e = new Enemy();
+        e.setLocation(enemyLocation);
+        enemies.add(e);
     }
 
     @Override

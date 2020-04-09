@@ -11,25 +11,19 @@ import ch.epfl.sdp.map.MapsActivity;
 
 public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private GenPoint position;
-    private float velocity;
-    private float acceleration;
-    private double orientation;
-    private Movement movement;
     private boolean moving;
     private Boundable bounds;
-    public double sinusAmplitude = 1;
-    public double sinusAngle;
+    private Movement movement;
+    private boolean isActive;
 
     public MovingArtificialEntity() {
         super();
         position = new CartesianPoint(0, 0);
-        acceleration = 0;
-        velocity = 0;
-        orientation = 0;
-        movement = Movement.LINEAR;
         moving = false;
         bounds = new UnboundedArea();
         forceMove = false;
+        isActive = true;
+        movement = new Movement();
     }
 
     public MovingArtificialEntity(Boundable bounds){
@@ -39,38 +33,6 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
     public void setPosition(GenPoint position) {
         this.position = position;
-    }
-
-    public float getVelocity() {
-        return velocity;
-    }
-
-    public void setVelocity(float velocity) {
-        this.velocity = velocity;
-    }
-
-    public float getAcceleration() {
-        return acceleration;
-    }
-
-    public void setAcceleration(float acceleration) {
-        this.acceleration = acceleration;
-    }
-
-    public double getOrientation() {
-        return orientation;
-    }
-
-    public void setOrientation(double orientation) {
-        this.orientation = orientation;
-    }
-
-    public Movement getMovement() {
-        return movement;
-    }
-
-    public void setMovement(Movement movement){
-        this.movement = movement;
     }
 
     public Boundable getBounds() {
@@ -93,9 +55,9 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
     public GenPoint move() {
         CartesianPoint cartesianPosition = position.toCartesian();
-        CartesianPoint dirVector = new PolarPoint(velocity, orientation).toCartesian();
+        CartesianPoint dirVector = new PolarPoint(movement.getVelocity(), movement.getOrientation()).toCartesian();
 
-        switch (movement) {
+        switch (movement.getMovementType()) {
             case LINEAR:
                 return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
             case SINUSOIDAL:
@@ -118,8 +80,8 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         CartesianPoint pdirVector = new CartesianPoint(-dirVector.arg2, dirVector.arg1);
         pdirVector.Normalize();
 
-        sinusAngle += sinusAngleStep;
-        double sine = Math.sin(sinusAngle);
+        movement.setSinusAngle(movement.getSinusAngle()+sinusAngleStep);
+        double sine = Math.sin(movement.getSinusAngle());
 
         if (sinusBasePosition == null) {
             sinusBasePosition = position.toCartesian();
@@ -127,8 +89,8 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
         sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
 
-        double sinusMoveLength = sine * sinusAmplitude;
-        CartesianPoint sinusMove = new CartesianPoint(pdirVector.arg1 * sinusMoveLength, pdirVector.arg2 * sinusMoveLength);
+        CartesianPoint sinusMove = new CartesianPoint((float) (pdirVector.arg1 * sine * movement.getSinusAmplitude()),
+                (float) (pdirVector.arg2 * sine * movement.getSinusAmplitude()));
         return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
     }
 
@@ -152,8 +114,8 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
             GenPoint gp = move();
             if (bounds.isInside(gp) || forceMove) {
                position = gp;
-               this.setLocation(PointConverter.GenPointToGeoPoint(gp, MapsActivity.mapApi.getCurrentLocation()));
-               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699, 46.215788)));
+               //this.setLocation(PointConverter.GenPointToGeoPoint(gp, MapsActivity.mapApi.getCurrentLocation()));
+               this.setLocation(PointConverter.GenPointToGeoPoint(gp, new GeoPoint(6.149699, 46.215788)));
             } else {
                 switchOnMouvement();
             }
@@ -161,9 +123,9 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     }
 
     private void switchOnMouvement() {
-        switch (movement) {
+        switch (movement.getMovementType()) {
             case LINEAR:
-                orientation = rand.nextFloat() * 2 * (float) (Math.PI);
+                movement.setOrientation(rand.nextFloat() * 2 * (float) (Math.PI));
                 break;
             case SINUSOIDAL:
                 break;
@@ -178,8 +140,17 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         }
     }
 
+    public Movement getMovement() {
+        return movement;
+    }
+
     @Override
     public EntityType getEntityType() {
         return null;
+    }
+
+    @Override
+    public Boolean isActive() {
+        return isActive;
     }
 }

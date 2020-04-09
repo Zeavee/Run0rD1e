@@ -1,9 +1,6 @@
 package ch.epfl.sdp.item;
-import java.util.ArrayList;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.entity.EnemyOutDated;
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
@@ -18,7 +15,6 @@ public class Scan extends Item {
     }
 
     public void showAllPlayers() {
-        map.displayEntity(new EnemyOutDated(6.149290, 46.212470, 100));
        /* ArrayList<Player> players = new ArrayList<>();
         Player player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         Player player2 = new Player(6.56599, 46.52224, 50, "Iris", "test2@email.com");
@@ -49,5 +45,10 @@ public class Scan extends Item {
 
     public double getScanTime() {
         return scanTime;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.SCAN;
     }
 }

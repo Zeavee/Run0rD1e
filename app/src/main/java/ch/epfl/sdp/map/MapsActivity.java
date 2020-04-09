@@ -1,14 +1,11 @@
 package ch.epfl.sdp.map;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -30,13 +27,12 @@ import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.InitializeGameFirestore;
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.InventoryFragment;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
@@ -101,13 +97,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         ((GoogleMapApi) mapApi).setMap(googleMap);
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_UPDATES_REQUEST_CODE);
             return;
         }
-
         mapApi.onLocationUpdatesGranted();
         Player p1 = new Player(6.144188, 46.206738, 100, "player1", "player1@email.com");
         p1.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.144188, 46.206738)).toCartesian());
@@ -117,6 +111,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ShelterArea a2 = new ShelterArea(new GeoPoint(6.149699, 46.215788), 200, players);
         mapApi.displayEntity(a1);
         mapApi.displayEntity(a2);
+        mapApi.updatePosition();
+        Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
+        Game.addToDisplayList(hp);
+        Game.addToUpdateList(hp);
     }
 
     @Override

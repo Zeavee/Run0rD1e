@@ -1,5 +1,6 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Shrinker extends Item {
@@ -14,4 +15,9 @@ public class Shrinker extends Item {
     public double getShrinkingRadius() {return this.shrinkingRadius;}
 
     public double getShrinkTime() {return this.shrinkTime;}
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.SHRINKER;
+    }
 }

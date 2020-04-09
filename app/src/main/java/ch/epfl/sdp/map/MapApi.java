@@ -43,5 +43,6 @@ public interface MapApi {
 
      public void initializeApi(LocationManager locationManager, Activity activity);
 
-    Activity getActivity();
+
+     Activity getActivity();
 }

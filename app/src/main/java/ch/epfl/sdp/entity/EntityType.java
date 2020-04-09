@@ -3,7 +3,10 @@ package ch.epfl.sdp.entity;
 public enum EntityType {
     ENEMY,
     PLAYER,
-    ITEM,
+    HEALTHPACK,
+    SCAN,
+    SHIELD,
+    SHRINKER,
     USER,
     SHELTER
 }

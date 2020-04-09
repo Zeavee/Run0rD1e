@@ -1,5 +1,6 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class Shield extends Item {
@@ -12,5 +13,10 @@ public class Shield extends Item {
 
     public double getShieldTime() {
         return shieldTime;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.SHIELD;
     }
 }

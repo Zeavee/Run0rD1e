@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
@@ -23,6 +24,15 @@ public class ItemsTest {
     public void healthpackTest() {
         assertFalse(healthpack.isTaken());
         assertEquals(60.0, healthpack.getHealthPackAmount(), 0);
+        assertEquals(EntityType.HEALTHPACK, healthpack.getEntityType());
+    }
+
+    @Test
+    public void ifItemNotInInventoryNothingHappens() {
+        Player player = new Player(6.149290, 46.212470, 50,
+                "Skyris", "test@email.com"); //player position is in Geneva
+        player.getInventory().removeItem("test");
+        assertEquals(0, player.getInventory().getItems().size());
     }
 
     @Test
@@ -31,6 +41,7 @@ public class ItemsTest {
         assertEquals(40, shield.getShieldTime(), 0);
         shield.takeItem();
         assertTrue(shield.isTaken());
+        assertEquals(EntityType.SHIELD, shield.getEntityType());
     }
 
     @Test
@@ -38,6 +49,7 @@ public class ItemsTest {
         assertTrue(shrinker.isTaken());
         assertEquals(40, shrinker.getShrinkTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
+        assertEquals(EntityType.SHRINKER, shrinker.getEntityType());
     }
 
 
@@ -47,7 +59,10 @@ public class ItemsTest {
                 "Skyris", "test@email.com"); //player position is in Geneva
         player1.setHealthPoints(30);
         healthpack.increaseHealthPlayer(player1, 100);
+        player1.getInventory().addItem(healthpack.getName());
         assertEquals(90, player1.getHealthPoints(), 0);
+        player1.getInventory().useItem(healthpack);
+        assertEquals(100, player1.getHealthPoints(), 0);
     }
 
     @Test
@@ -55,6 +70,7 @@ public class ItemsTest {
         String a = scan.getDescription();
         assertEquals("Item that scans the entire map and reveals other players for a short delay", a);
         scan.showAllPlayers();
+        assertEquals(EntityType.SCAN, scan.getEntityType());
     }
 
 }
