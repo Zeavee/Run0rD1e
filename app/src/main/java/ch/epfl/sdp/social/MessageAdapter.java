@@ -30,7 +30,7 @@ public class MessageAdapter extends BaseAdapter {
         while (messages.size() > i && messages.get(i).getM().getDate().compareTo(message.getM().getDate()) <= 0) {
             ++i;
         }
-        this.messages.add(i+1, message);
+        this.messages.add(i, message);
         notifyDataSetChanged(); // to render the list we need to notify
     }
 
