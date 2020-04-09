@@ -22,7 +22,7 @@ public class RegisterFormActivity extends AppCompatActivity {
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
 
-    public AuthenticationController authenticationController;
+    public static AuthenticationController authenticationController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

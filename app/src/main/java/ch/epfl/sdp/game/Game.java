@@ -1,6 +1,7 @@
 package ch.epfl.sdp.game;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.Displayable;
@@ -12,7 +13,9 @@ import ch.epfl.sdp.map.MapsActivity;
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
+    private static MapApi map; // is it a good idea?
     private static ArrayList<Updatable> updatables;
+    private static Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private static ArrayList<Displayable> displayables;
 
     /**
@@ -26,34 +29,31 @@ public class Game implements Updatable, Drawable {
     }
 
     public static void addToUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.add(updatable);
-        }
+        updatables.add(updatable);
     }
 
     public static void removeFromUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.remove(updatable);
-        }
+        updatables.remove(updatable);
+    }
+
+    /**
+     * Remove the current iterated element from the update list
+     */
+    public static void removeCurrentFromUpdateList() {
+        itUpdatable.remove();
     }
 
     public static void addToDisplayList(Displayable displayable) {
-        if (displayable != null) {
-            if(displayable.once()){
-                MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
-            }else{
-                displayables.add(displayable);
-            }
+        MapsActivity.mapApi.displayEntity(displayable);
+
+        if (!displayable.once()) {
+            displayables.add(displayable);
         }
     }
 
     public static void removeFromDisplayList(Displayable displayable) {
-        if (displayable != null) {
-            displayables.remove(displayable);
-            if(MapsActivity.mapApi.getActivity() != null) {
-                MapsActivity.mapApi.getActivity().runOnUiThread(() -> MapsActivity.mapApi.unDisplayEntity(displayable));
-            }
-        }
+        MapsActivity.mapApi.unDisplayEntity(displayable);
+        displayables.remove(displayable);
     }
 
     public static boolean updatablesContains(Updatable updatable){
@@ -106,8 +106,10 @@ public class Game implements Updatable, Drawable {
      */
     @Override
     public void update() {
-        for (Updatable updatable : updatables) {
-            updatable.update();
+        itUpdatable = updatables.iterator();
+
+        while (itUpdatable.hasNext()) {
+            itUpdatable.next().update();
         }
     }
 
@@ -117,7 +119,7 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            MapsActivity.mapApi.getActivity().runOnUiThread(() ->  MapsActivity.mapApi.displayEntity(displayable));
+            MapsActivity.mapApi.displayEntity(displayable);
         }
     }
 }

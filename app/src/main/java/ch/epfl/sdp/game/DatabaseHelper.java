@@ -44,14 +44,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public UserData getLoggedUser()
-    {
+    public UserData getLoggedUser() {
         UserData result = null;
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + USERS_TABLE_NAME, null);
 
-        if (c.moveToNext())
-        {
+        if (c.moveToNext()) {
             String email = c.getString(c.getColumnIndex(USERS_EMAIL));
             String password = c.getString(c.getColumnIndex(USERS_PASSWORD));
             result = new UserData(email, password);
@@ -66,15 +64,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             writableDatabase.execSQL("DELETE FROM " + USERS_TABLE_NAME);
     }
 
-    public class UserData
+    public class UserData extends CacheableUserInfo
     {
         public UserData(String email, String password) {
             this.email = email;
             this.password = password;
         }
-
-        public String email;
-        public String password;
     }
 
     @Override

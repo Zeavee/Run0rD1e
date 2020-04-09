@@ -12,12 +12,12 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class ItemBoxTest {
     Player player;
     GeoPoint location;
     MockMapApi mockMapApi;
+    Game game;
 
     @Before
     public void setup() {
@@ -27,7 +27,7 @@ public class ItemBoxTest {
         PlayerManager.setUser(player);
         mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
-        Game game = new Game();
+        game = new Game();
     }
 
     @After
@@ -41,7 +41,7 @@ public class ItemBoxTest {
         ItemBox itemBox = new ItemBox();
         itemBox.setLocation(location);
 
-        itemBox.update();
+        game.update();
 
         assertFalse(Game.updatablesContains(itemBox));
         assertFalse(Game.displayablesContains(itemBox));

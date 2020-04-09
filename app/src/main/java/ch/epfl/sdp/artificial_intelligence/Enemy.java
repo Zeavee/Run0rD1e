@@ -5,8 +5,6 @@ import java.util.List;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapsActivity;
 
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;

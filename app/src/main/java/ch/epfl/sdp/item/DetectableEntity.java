@@ -32,7 +32,7 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
 
     // Makes it disappear from the game
     private void finalizeEntity(){
-        Game.removeFromUpdateList(this);
+        Game.removeCurrentFromUpdateList();
         Game.removeFromDisplayList(this);
     }
 

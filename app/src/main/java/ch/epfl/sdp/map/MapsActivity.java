@@ -11,12 +11,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.Movement;
 import ch.epfl.sdp.artificial_intelligence.MovementType;
@@ -27,9 +23,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.item.Scan;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static MapApi mapApi = new GoogleMapApi();
@@ -46,9 +40,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
-        Button scanButton = findViewById(R.id.scanButton);
+        /* Button scanButton = findViewById(R.id.scanButton);
 
-      /*  Scan scan = new Scan(30);
+       Scan scan = new Scan(30);
         ItemBox itemBox = new ItemBox();
         itemBox.putItems(scan,1);
         itemBox.setLocation(new GeoPoint(9.34324, 47.24942));
@@ -72,14 +66,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Game game = new Game();
         game.initGame();
 
-        Healthpack healthpack = new Healthpack(10);
-        ItemBox itemBox = new ItemBox();
-        itemBox.putItems(healthpack,1);
-        itemBox.setLocation(new GeoPoint(6.14, 46.22));
-
-        Game.addToDisplayList(itemBox);
-        Game.addToUpdateList(itemBox);
-
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
         LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500,3500), PointConverter.GeoPointToGenPoint(local));
@@ -89,8 +75,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         movement.setVelocity(25);
         enemy.setMovement(movement);
 
-
         Game.addToDisplayList(enemy);
         Game.addToUpdateList(enemy);
+
+        Healthpack healthpack = new Healthpack(10);
+        ItemBox itemBox = new ItemBox();
+        itemBox.putItems(healthpack, 1);
+        itemBox.setLocation(new GeoPoint(6.14, 46.22));
+
+        Game.addToDisplayList(itemBox);
+        Game.addToUpdateList(itemBox);
     }
 }
