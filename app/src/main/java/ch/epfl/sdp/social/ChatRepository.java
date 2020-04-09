@@ -138,7 +138,7 @@ public final class ChatRepository {
                 List<Message> msgList = new LinkedList<>();
                 //msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
                 //msgList.add(new Message(new Date(), "8*^&=*%^&*()90")); // canary value (temporary solution for now)
-                msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_rec, id_owner));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessages(id_rec, id_owner));
                 return msgList;
             }
 
@@ -159,7 +159,7 @@ public final class ChatRepository {
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessagesToOwnerFromSender(id_owner, id_rec));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessages(id_owner, id_rec));
                 return msgList;
             }
 
@@ -204,21 +204,6 @@ public final class ChatRepository {
                     ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
                 }*/
             }.execute().get().get(0);
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return output;
-    }
-
-    public Chat getChatDirectly(String current, String other) {
-        Chat output = null;
-        try {
-            output = new AsyncTask<Void, Void, Chat>() {
-                @Override
-                protected Chat doInBackground(Void... voids) {
-                    return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other).get(0);
-                }
-            }.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }

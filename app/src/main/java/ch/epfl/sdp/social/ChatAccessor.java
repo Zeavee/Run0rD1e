@@ -14,7 +14,7 @@ public interface ChatAccessor {
     @Transaction
     @Query("SELECT * FROM message WHERE message.chat_id IN " +
             "(SELECT chat.chat_id FROM chat WHERE chat.`from` = :sender AND chat.`to` = :owner)")
-    public List<Message> getMessagesToOwnerFromSender(String owner, String sender);
+    public List<Message> getMessages(String owner, String sender);
 
     @Insert
     public void sendMessage(Message m);

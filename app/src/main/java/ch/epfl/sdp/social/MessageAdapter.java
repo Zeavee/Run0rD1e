@@ -26,7 +26,11 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     public void add(ChatActivity.MessageDecorator message) {
-        this.messages.add(message);
+        int i = 0;
+        while (messages.size() > i && messages.get(i).getM().getDate().compareTo(message.getM().getDate()) <= 0) {
+            ++i;
+        }
+        this.messages.add(i+1, message);
         notifyDataSetChanged(); // to render the list we need to notify
     }
 
@@ -70,18 +74,6 @@ public class MessageAdapter extends BaseAdapter {
 
         return convertView;
     }
-
-    public void sortMessages() {
-        for (int i = 0; i < messages.size()-1; i++)
-            for (int j = 0; j < messages.size()-i-1; j++)
-                if (messages.get(j).getM().getDate().compareTo(messages.get(j+1).getM().getDate())>0)
-                {
-                    ChatActivity.MessageDecorator temp = messages.get(j);
-                    messages.set(j, messages.get(j+1));
-                    messages.set(j+1,temp);
-                }
-    }
-
 }
 
 class MessageViewHolder {

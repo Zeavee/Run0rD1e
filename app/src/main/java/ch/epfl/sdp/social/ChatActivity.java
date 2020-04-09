@@ -31,7 +31,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
 
     private static RemoteToSQLiteAdapter remoteToSQLiteAdapter;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,6 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         // Very important to use the singleton to reduce thinking (Done before activity switch inside friendsListActivity)
         // setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); done in friendsListActivity
         loadExistingMessages();
-        messageAdapter.sortMessages();
     }
     public void loadExistingMessages()
     {
@@ -66,7 +65,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     {
         Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
         messageAdapter.add(new MessageDecorator(m, false));
-        chatRepo.sendMessage(message.getText().toString(), chatRepo.getChatDirectly(chat.to, chat.from).getChat_id());
+        chatRepo.sendMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
 
         // TODO: clean way to get email of user
         remoteToSQLiteAdapter.getInstance().sendLocalDataToRemoteServer("stupid1@gmail.com",chattingWith,m);
