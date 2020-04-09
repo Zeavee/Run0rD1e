@@ -44,30 +44,33 @@ public class FirestoreUserData implements UserDataController {
             .limit(1)
             .get()
             .addOnCompleteListener(task -> {
-                Map<String, Object> data = new HashMap<>();
-                if (task.isSuccessful()) {
-                    if (task.getResult().isEmpty()) {
-                        DocumentReference docRefLobby = collectionReference.document();
-                        DocumentReference docRefPlayer = docRefLobby.collection(PlayerManager.PLAYERS_PATH).document(player.getEmail());
-                        data.put("count", 1);
-                        data.put("startGame", false);
-                        docRefPlayer.set(player);
-                        docRefLobby.set(data, SetOptions.merge());
-                    } else{
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            DocumentReference docRefLobby = document.getReference();
-                            DocumentReference docRefPlayer = docRefLobby.collection(PlayerManager.PLAYERS_PATH).document(player.getEmail());
-                            long newCount = document.getLong("count") + 1;
-
-                            docRefPlayer.set(player);
-                            docRefLobby.update("count", newCount);
-                        }
-                    }
-                } else {
+                if(!task.isSuccessful()) {
                     Log.d("FAILURE", "Error getting documents: ", task.getException());
+                    return;
                 }
+
+                if (task.getResult().isEmpty())
+                    createNewLobby(collectionReference.document(), player);
+                else
+                    addPlayerToLobby(task.getResult().iterator().next(), player);
             });
     }
 
+    private void createNewLobby(DocumentReference docRefLobby, Player player) {
+        Map<String, Object> data = new HashMap<>();
+        DocumentReference docRefPlayer = docRefLobby.collection(PlayerManager.PLAYERS_PATH).document(player.getEmail());
+        data.put("count", 1);
+        data.put("startGame", false);
+        docRefPlayer.set(player);
+        docRefLobby.set(data, SetOptions.merge());
+    }
 
+    private void addPlayerToLobby(QueryDocumentSnapshot document, Player player) {
+        DocumentReference docRefLobby = document.getReference();
+        DocumentReference docRefPlayer = docRefLobby.collection(PlayerManager.PLAYERS_PATH).document(player.getEmail());
+        long newCount = document.getLong("count") + 1;
+
+        docRefPlayer.set(player);
+        docRefLobby.update("count", newCount);
+    }
 }
