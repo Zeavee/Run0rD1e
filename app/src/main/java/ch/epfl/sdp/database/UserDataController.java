@@ -8,4 +8,6 @@ public interface UserDataController {
     void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel);
 
     void storeUser(Player player);
+
+    void joinLobby(Player player);
 }

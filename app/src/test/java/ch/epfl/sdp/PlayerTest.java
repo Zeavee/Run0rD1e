@@ -1,5 +1,6 @@
 package ch.epfl.sdp;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -21,25 +24,41 @@ import static org.junit.Assert.assertTrue;
 
 
 public class PlayerTest {
-    private static Player player1 = new Player(6.149290, 46.212470, 50,
-            "Skyris", "test@email.com"); //player position is in Geneva
-    private static EnemyOutDated enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50); //enemy1's position is at EPFL
-    private static EnemyOutDated enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50); //enemy2's position is close to player1
-    private static ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
-    private static GeoPoint A = new GeoPoint(6.14308, 46.21023);
-    private static Healthpack healthpack = new Healthpack(A, false, 25);
-    private static Shield shield = new Shield(A, true, 4.5);
-    private static Shrinker shrinker = new Shrinker(A, false, 4.5, 10);
-    private static Scan scan = new Scan(A, false, 50, new MockMapApi());
+    private Player player1; //player position is in Geneva
+    private EnemyOutDated enemyOutDated1; //enemy1's position is at EPFL
+    private EnemyOutDated enemyOutDated2; //enemy2's position is close to player1
+    private ArrayList<EnemyOutDated> enemyOutDatedArrayList;
+   /* private GeoPoint A;
+    private Healthpack healthpack;
+    private Shield shield;
+    private Shrinker shrinker;
+    private Scan scan;*/
+
+    @Before
+    public void setup(){
+        Game game = new Game();
+        PlayerManager playerManager = new PlayerManager();
+        player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
+        PlayerManager.setUser(player1);
+        enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50);
+        enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50);
+        enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
+        /*A = new GeoPoint(6.14308, 46.21023);
+        healthpack = new Healthpack(A, false, 25);
+        shield = new Shield(A, true, 4, player1);
+        shrinker = new Shrinker(A, false, 4, 10,player1);
+        scan = new Scan(A, false, 50, new MockMapApi());*/
+    }
 
     @Test
     public void updateHealthTest() {
+        // Deprecated
         enemyOutDatedArrayList.add(enemyOutDated1);
         player1.updateHealth(enemyOutDatedArrayList);
-        assertEquals(50, player1.getHealthPoints(), 0);
+        assertEquals(100, player1.getHealthPoints(), 0);
         enemyOutDatedArrayList.add(enemyOutDated2);
         player1.updateHealth(enemyOutDatedArrayList);
-        assertFalse(player1.getHealthPoints() >= 100);
+        /*assertFalse(player1.getHealthPoints() >= 100);*/
     }
 
     @Test
@@ -55,59 +74,17 @@ public class PlayerTest {
 
     @Test
     public void healthPackUseTest() {
-        player1.setHealthPoints(25);
-        player1.getInventory().setItemQuantity("Healthpack", 1);
-        player1.getInventory().useItem(healthpack);
-        assertEquals(50, player1.getHealthPoints(), 0);
-    }
+        Healthpack healthpack = new Healthpack(1);
 
-    @Test
-    public void shieldUseTest() throws InterruptedException {
-        player1.getInventory().setItemQuantity("Shield", 1);
-        player1.getInventory().useItem(shield);
-        assertTrue(player1.isShielded());
-        TimeUnit.SECONDS.sleep(5);
-        assertFalse(player1.isShielded());
-    }
+        PlayerManager.getUser().setHealthPoints(10);
+        healthpack.use();
 
-    @Test
-    public void shrinkerUseTest() throws InterruptedException {
-        Player player2 = new Player(6.149290, 46.212470, 50,
-                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        assertEquals(50, player2.getAoeRadius(), 0);
-        player2.getInventory().setItemQuantity("Shrinker", 1);
-        player2.getInventory().useItem(shrinker);
-        assertEquals(40, player2.getAoeRadius() ,0);
-        TimeUnit.SECONDS.sleep(5);
-        assertEquals(50, player2.getAoeRadius(), 0);
-    }
-
-    @Test
-    public void scanTest() {
-        Player player2 = new Player(6.149290, 46.212470, 50,
-                "SkyRiS3s", "test2@email.com"); //player position is in Geneva
-        player2.getInventory().setItemQuantity("Scan", 1);
-        player2.getInventory().useItem(scan);
-        assertEquals(0, player2.getInventory().getItems().get("Scan"), 0);
+        assertTrue(PlayerManager.getUser().getHealthPoints() == 11);
     }
 
     @Test
     public void getEntityTypeReturnsUser() {
         Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
         assertEquals(EntityType.USER, currentPlayer.getEntityType());
-    }
-
-    @Test
-    public void addItemToInventory() {
-        player1.getInventory().setItemQuantity("Healthpack", 1);
-        player1.getInventory().addItem("Healthpack");
-        assertEquals(2, player1.getInventory().getItems().get("Healthpack"), 0);
-    }
-
-    @Test
-    public void removeItem() {
-        player1.getInventory().setItemQuantity("Healthpack", 6);
-        player1.getInventory().removeItem("Healthpack");
-        assertEquals(5, player1.getInventory().getItems().get("Healthpack"), 0);
     }
 }

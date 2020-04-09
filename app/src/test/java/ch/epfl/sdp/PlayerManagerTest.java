@@ -1,7 +1,11 @@
 package ch.epfl.sdp;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -14,8 +18,8 @@ public class PlayerManagerTest {
 
     @Before
     public void setup() {
-        PlayerManager playerManager = new PlayerManager();
         player = new Player("Username", "Email");
+        PlayerManager.removeAll();
     }
 
     @Test

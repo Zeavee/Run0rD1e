@@ -8,25 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class InventoryActivity extends AppCompatActivity {
-    private Player player;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventory);
-
-        initPlayer();
+        initRecyclerView();
     }
 
-    private void initPlayer() {
-        //TODO Later this player should come from the local storage
-        player = new Player(22, 22, 50, "admin", "admin@gmail.com");
-        player.getInventory().setItemQuantity("Healthpack", 2);
-        player.getInventory().setItemQuantity("Shield", 5);
-        player.getInventory().setItemQuantity("Shrinker", 6);
-        player.getInventory().setItemQuantity("Scan", 5);
+    private void initInventory() {
         initRecyclerView();
     }
 
@@ -34,7 +26,7 @@ public class InventoryActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = findViewById(R.id.items_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        ItemsViewAdapter adpater = new ItemsViewAdapter(this, player);
+        ItemsViewAdapter adpater = new ItemsViewAdapter(this);
         recyclerView.setAdapter(adpater);
     }
 }
