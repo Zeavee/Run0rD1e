@@ -52,7 +52,6 @@ public class MovingArtificialEntityTest {
         assertEquals(60, movingArtificialEntity.getPosition().getArg2(), 0.01);
     }
 
-    // TODO Redo sinusoidal movement test
     @Test
     public void SinusMovementWorks() {
         GenPoint initialPosition = PointConverter.GeoPointToGenPoint(map.getCurrentLocation());

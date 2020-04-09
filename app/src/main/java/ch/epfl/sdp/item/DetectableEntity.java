@@ -9,7 +9,7 @@ import ch.epfl.sdp.map.GeoPoint;
 
 public abstract class DetectableEntity extends InteractiveEntity implements Updatable {
     private boolean once;
-    private boolean detected = false;
+    private boolean finalized = false;
 
     public DetectableEntity(EntityType entityType) {
         this(entityType, true);
@@ -41,6 +41,7 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
         react(player);
         if(once){
             finalizeEntity();
+            finalized = true;
         }
     }
 
@@ -49,16 +50,13 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
      */
     @Override
     public void update() {
-        for (Player player: PlayerManager.getPlayers()) {
-            detected = detectedBy(player);
-
-            if (detected) {
-                afterDetected(player);
+        int i = 0;
+        while (i < PlayerManager.getPlayers().size() && !finalized) {
+            if (detectedBy(PlayerManager.getPlayers().get(i))) {
+                afterDetected(PlayerManager.getPlayers().get(i));
             }
 
-            if (detected && once) {
-                break;
-            }
+            ++i;
         }
     }
 }

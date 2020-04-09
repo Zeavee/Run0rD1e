@@ -65,14 +65,16 @@ public class ItemBoxTest {
             public void use() {
             }
         };
-        ItemBox itemBox = new ItemBox();
 
-        itemBox.setLocation(location);
-        itemBox.putItems(item, 1);
 
         assertFalse(PlayerManager.getUser().getInventory().getItems().containsKey(item));
 
         for (int i = 0; i < 2; ++i) {
+            ItemBox itemBox = new ItemBox();
+
+            itemBox.setLocation(location);
+            itemBox.putItems(item, 1);
+
             Game.addToUpdateList(itemBox);
             Game.addToDisplayList(itemBox);
 

@@ -49,11 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mapApi.setMap(googleMap);
-        mapApi.updatePosition();
-
+    private void initEnvironment() {
         // Game example
         Game game = new Game();
         game.initGame();
@@ -81,6 +77,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Game.addToDisplayList(itemBox);
         Game.addToUpdateList(itemBox);
         //  -------------------------------------------
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapApi.setMap(googleMap);
+        mapApi.updatePosition();
+
+        initEnvironment();
 
         // Setting the user
         Player user = new Player(6.3419, 46.2301, 22, "startGame2", "startGame2@gmail.com");
