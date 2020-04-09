@@ -21,7 +21,7 @@ public class LocalBounds implements Boundable, Localizable {
     @Override
     public boolean isInside(GenPoint genPoint) {
         CartesianPoint cp = genPoint.toCartesian();
-        CartesianPoint vect = position.vector(cp);
+        CartesianPoint vect = position.subtract(cp);
 
         return bounds.isInside(vect);
     }

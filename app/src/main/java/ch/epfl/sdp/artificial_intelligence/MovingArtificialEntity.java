@@ -4,34 +4,29 @@ import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.MovingEntity;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
-public abstract class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
-    private GenPoint position;
-    private boolean moving;
-    private Boundable bounds;
+public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
     private Movement movement;
-    private boolean isActive;
+    private Boundable bounds;
+    private boolean moving;
+    private boolean forceMove = false;
+    private Random rand = new Random();
+    ;
 
     public MovingArtificialEntity() {
         super();
-        position = new CartesianPoint(0, 0);
-        moving = false;
+        movement = new LinearMovement(PointConverter.GeoPointToGenPoint(getLocation()));
         bounds = new UnboundedArea();
-        forceMove = false;
-        isActive = true;
-        movement = new Movement(MovementType.LINEAR);
+        moving = true;
     }
 
-    public MovingArtificialEntity(Boundable bounds){
-        this();
+    public MovingArtificialEntity(Movement movement, Boundable bounds, boolean moving) {
+        super();
+        this.movement = movement;
         this.bounds = bounds;
-    }
-
-    public void setPosition(GenPoint position) {
-        this.position = position;
+        this.moving = moving;
     }
 
     public Boundable getBounds() {
@@ -42,88 +37,28 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
         this.bounds = bounds;
     }
 
-    public double sinusAngleStep = 2 * Math.PI / 60;
-
-    private Random rand = new Random();
-    private boolean forceMove;
-    private CartesianPoint sinusBasePosition;
-
     public void setForceMove(boolean forceMove) {
         this.forceMove = forceMove;
     }
 
-    public GenPoint move() {
-        CartesianPoint cartesianPosition = position.toCartesian();
-        CartesianPoint dirVector = new PolarPoint(movement.getVelocity(), movement.getOrientation()).toCartesian();
-
-        switch (movement.getMovementType()) {
-            case LINEAR:
-                return new CartesianPoint(cartesianPosition.arg1 + dirVector.arg1, cartesianPosition.arg2 + dirVector.arg2);
-            case SINUSOIDAL:
-                return sinusoidalMovement(dirVector);
-          /*  case CIRCULAR:
-                break;
-            case CURVED:
-                break;
-            case SMOOTH:
-                break;
-            case RANDOM:
-                break;*/
-       }
-
-       return null;
-   }
-
-    private CartesianPoint sinusoidalMovement(CartesianPoint dirVector) {
-        // Perpendicular vec(x,y) = vec(-y,x)
-        CartesianPoint pdirVector = new CartesianPoint(-dirVector.arg2, dirVector.arg1);
-        pdirVector.Normalize();
-
-        movement.setSinusAngle(movement.getSinusAngle()+sinusAngleStep);
-        double sine = Math.sin(movement.getSinusAngle());
-
-        if (sinusBasePosition == null) {
-            sinusBasePosition = position.toCartesian();
+    @Override
+    public void move() {
+        GenPoint position = movement.nextPosition();
+        if (bounds.isInside(position) || forceMove) {
+            movement.setPosition(position);
+            super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
+        } else {
+            switchOnMouvement();
         }
-
-        sinusBasePosition = new CartesianPoint(sinusBasePosition.arg1 + dirVector.arg1, sinusBasePosition.arg2 + dirVector.arg2);
-
-        CartesianPoint sinusMove = new CartesianPoint((float) (pdirVector.arg1 * sine * movement.getSinusAmplitude()),
-                (float) (pdirVector.arg2 * sine * movement.getSinusAmplitude()));
-        return new CartesianPoint(sinusBasePosition.arg1 + sinusMove.arg1, sinusBasePosition.arg2 + sinusMove.arg2);
     }
-
-    public void setMoving(boolean moving){
-        this.moving = moving;
-   }
 
     @Override
     public boolean isMoving() {
         return moving;
     }
 
-    @Override
-    public GenPoint getPosition() {
-        return position;
-    }
-
-    @Override
-    public void setLocation(GeoPoint geoPoint){
-        super.setLocation(geoPoint);
-        setPosition(PointConverter.GeoPointToGenPoint(geoPoint));
-    }
-
-    @Override
-    public void update() {
-        if(moving) {
-            GenPoint position = move();
-            if (bounds.isInside(position) || forceMove) {
-               this.position = position;
-               super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
-            } else {
-                switchOnMouvement();
-            }
-        }
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 
     private void switchOnMouvement() {
@@ -139,12 +74,34 @@ public abstract class MovingArtificialEntity extends MovingEntity implements Mov
     }
 
     @Override
+    public void setLocation(GeoPoint geoPoint) {
+        super.setLocation(geoPoint);
+        movement.setPosition(PointConverter.GeoPointToGenPoint(geoPoint));
+    }
+
+    @Override
+    public void update() {
+        if (moving) {
+            move();
+        }
+    }
+
+    @Override
     public EntityType getEntityType() {
-        return null;
+        return EntityType.NONE;
     }
 
     @Override
     public boolean once() {
         return false;
+    }
+
+    @Override
+    public GenPoint getPosition() {
+        return movement.getPosition();
+    }
+
+    public void setPosition(GenPoint position) {
+        movement.setPosition(position);
     }
 }

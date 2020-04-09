@@ -13,7 +13,7 @@ public class CartesianPoint extends GenPoint{
         return new CartesianPoint(this.arg1 + that.toCartesian().arg1, this.arg2 + that.toCartesian().arg2);
     }
 
-    public void Normalize() {
+    public void normalize() {
         double length = Math.sqrt(arg1 * arg1 + arg2 * arg2);
         arg1 /= length;
         arg2 /= length;
@@ -30,9 +30,13 @@ public class CartesianPoint extends GenPoint{
         return Math.sqrt((cp.arg1 - this.arg1) * (cp.arg1 - this.arg1) + (cp.arg2 - this.arg2) * (cp.arg2 - this.arg2));
     }
 
-    public CartesianPoint vector(GenPoint to) {
-        CartesianPoint cto = to.toCartesian();
-        return new CartesianPoint(cto.arg1 - this.arg1, cto.arg2 - this.arg2);
+    public CartesianPoint subtract(GenPoint that) {
+        CartesianPoint cthat = that.toCartesian();
+        return new CartesianPoint(cthat.arg1 - this.arg1, cthat.arg2 - this.arg2);
+    }
+
+    public CartesianPoint multiply(double factor) {
+        return this.toPolar().changeRadius(factor).toCartesian();
     }
 
     @Override

@@ -7,14 +7,14 @@ import ch.epfl.sdp.artificial_intelligence.Boundable;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
+import ch.epfl.sdp.artificial_intelligence.LinearMovement;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.MovementType;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
 import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static java.lang.Math.sqrt;
@@ -28,24 +28,20 @@ public class MovingArtificialEntityTest {
     public void setup(){
         map = new MockMapApi();
         MapsActivity.setMapApi(map);
+        map.setCurrentLocation(new GeoPoint(40, 50));
     }
 
     @Test
     public void LinearMovementWorks() {
         MovingArtificialEntity movingArtificialEntity = new Enemy();
-        movingArtificialEntity.getMovement().setAcceleration(2);
-        Boundable boundable = new UnboundedArea();
-        boundable.isInside(null);
-        movingArtificialEntity.setBounds(boundable);
-        GenPoint genPoint = new CartesianPoint(50, 60);
-        movingArtificialEntity.setPosition(genPoint);
-        movingArtificialEntity.getMovement().setMovementType(MovementType.LINEAR);
-        movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.getMovement().setOrientation(0);
-        movingArtificialEntity.getMovement().setVelocity(10);
+        movingArtificialEntity.setBounds(new UnboundedArea());
+        LinearMovement movement = new LinearMovement(new CartesianPoint(50, 60));
+        movingArtificialEntity.setMovement(movement);
+
+        movement.setVelocity(10);
+        movement.setAcceleration(2);
 
         assertEquals(2, movingArtificialEntity.getMovement().getAcceleration(), 0.01);
-        assertEquals(MovementType.LINEAR, movingArtificialEntity.getMovement().getMovementType());
         assertEquals(10.0, movingArtificialEntity.getMovement().getVelocity(), 0.01);
         assertEquals(0.0, movingArtificialEntity.getMovement().getOrientation(), 0.01);
         assertEquals(true, movingArtificialEntity.isMoving());
@@ -57,36 +53,32 @@ public class MovingArtificialEntityTest {
     }
 
     // TODO Redo sinusoidal movement test
-  /*  @Test
+    @Test
     public void SinusMovementWorks() {
+        GenPoint initialPosition = PointConverter.GeoPointToGenPoint(map.getCurrentLocation());
         MovingArtificialEntity movingArtificialEntity = new Enemy();
-        movingArtificialEntity.getMovement().setAcceleration(2);
-        Boundable boundable = new UnboundedArea();
-        movingArtificialEntity.setBounds(boundable);
-        movingArtificialEntity.setPosition(PointConverter.GeoPointToGenPoint(MapsActivity.mapApi.getCurrentLocation()));
-        movingArtificialEntity.getMovement().setMovementType(MovementType.SINUSOIDAL);
-        movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.getMovement().setOrientation(0);
-        movingArtificialEntity.getMovement().setVelocity(10);
-        movingArtificialEntity.getMovement().setSinusAmplitude(2);;
-        movingArtificialEntity.sinusAngleStep = 2 * Math.PI / 4;
+        movingArtificialEntity.setBounds(new UnboundedArea());
+        SinusoidalMovement movement = new SinusoidalMovement(initialPosition, 2, 2 * Math.PI / 4);
+
+        movement.setVelocity(10);
+        movingArtificialEntity.setMovement(movement);
 
         movingArtificialEntity.update();
-        assertEquals(20, movingArtificialEntity.getPosition().getArg1(), 0.01);
-        assertEquals(12, movingArtificialEntity.getPosition().getArg2(), 0.01);
+        assertEquals(10 + initialPosition.getArg1(), movingArtificialEntity.getPosition().getArg1(), 0.01);
+        assertEquals(2 + initialPosition.getArg2(), movingArtificialEntity.getPosition().getArg2(), 0.01);
 
         movingArtificialEntity.update();
-        assertEquals(30, movingArtificialEntity.getPosition().getArg1(), 0.01);
-        assertEquals(10, movingArtificialEntity.getPosition().getArg2(), 0.01);
+        assertEquals(20 + initialPosition.getArg1(), movingArtificialEntity.getPosition().getArg1(), 0.01);
+        assertEquals(2 + initialPosition.getArg2(), movingArtificialEntity.getPosition().getArg2(), 0.01);
 
         movingArtificialEntity.update();
-        assertEquals(40, movingArtificialEntity.getPosition().getArg1(), 0.01);
-        assertEquals(8, movingArtificialEntity.getPosition().getArg2(), 0.01);
+        assertEquals(30 + initialPosition.getArg1(), movingArtificialEntity.getPosition().getArg1(), 0.01);
+        assertEquals(0 + initialPosition.getArg2(), movingArtificialEntity.getPosition().getArg2(), 0.01);
 
         movingArtificialEntity.update();
-        assertEquals(50, movingArtificialEntity.getPosition().getArg1(), 0.01);
-        assertEquals(10, movingArtificialEntity.getPosition().getArg2(), 0.01);
-    }*/
+        assertEquals(40 + initialPosition.getArg1(), movingArtificialEntity.getPosition().getArg1(), 0.01);
+        assertEquals(0 + initialPosition.getArg2(), movingArtificialEntity.getPosition().getArg2(), 0.01);
+    }
 
     @Test
     public void secondConstructorWorks() {
@@ -144,17 +136,18 @@ public class MovingArtificialEntityTest {
 
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
-        GeoPoint location = new GeoPoint(40,50);
+        GeoPoint entityLocation = new GeoPoint(40, 50);
+        GenPoint entityPos = PointConverter.GeoPointToGenPoint(entityLocation);
         Boundable rectangleBounds = new RectangleBounds(50, 50);
-        LocalBounds patrolBounds = new LocalBounds(rectangleBounds, PointConverter.GeoPointToGenPoint(location));
-        MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, new UnboundedArea());
-        movingArtificialEntity.setBounds(rectangleBounds);
-        movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.getMovement().setMovementType(MovementType.LINEAR);
-        movingArtificialEntity.getMovement().setVelocity(10);
-        movingArtificialEntity.setLocation(location);
+        LocalBounds patrolBounds = new LocalBounds(rectangleBounds, entityPos);
+        MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, rectangleBounds);
+        LinearMovement movement = new LinearMovement(entityPos);
 
-        map.setCurrentLocation(location);
+        movement.setVelocity(10);
+        movingArtificialEntity.setMovement(movement);
+
+
+        map.setCurrentLocation(entityLocation);
         //PointConverter.GenPointToGeoPoint(new CartesianPoint(-1,-1), MapsActivity.mapApi.getCurrentLocation());
 
         for (int i = 0; i < 1000; ++i) {

@@ -19,10 +19,11 @@ public class Enemy extends MovingArtificialEntity {
     private boolean waiting;
 
     public Enemy() {
-        super(new RectangleBounds(20000, 10000));
+        super();
         super.setAoeRadius(1);
         super.getMovement().setVelocity(50);
         super.setMoving(true);
+        super.setBounds(new RectangleBounds(20000, 10000));
         this.damage = 1;
         this.dps = 1;
         this.detectionDistance = 1;
@@ -39,9 +40,10 @@ public class Enemy extends MovingArtificialEntity {
     }
 
     public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
-        super(maxBounds);
+        super();
         super.getMovement().setVelocity(25);
         super.setMoving(true);
+        super.setBounds(maxBounds);
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
@@ -176,7 +178,7 @@ public class Enemy extends MovingArtificialEntity {
     }
 
     private void orientToTarget(Localizable localizable) {
-        getMovement().setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
+        getMovement().setOrientation(getPosition().toCartesian().subtract(localizable.getPosition()).toPolar().arg2);
     }
 
     private Player playerDetected(double distance) {

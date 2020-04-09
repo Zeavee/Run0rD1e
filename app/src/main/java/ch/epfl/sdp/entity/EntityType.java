@@ -8,5 +8,6 @@ public enum EntityType {
     SCAN,
     SHIELD,
     SHRINKER,
-    USER
+    USER,
+    NONE
 }
