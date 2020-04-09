@@ -39,11 +39,7 @@ public class FirestoreUserData implements UserDataController {
     @Override
     public void joinLobby(Player player) {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(PlayerManager.LOBBY_PATH);
-        collectionReference
-            .whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_Lobby)
-            .limit(1)
-            .get()
-            .addOnCompleteListener(task -> {
+        collectionReference.whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_Lobby).limit(1).get().addOnCompleteListener(task -> {
                 Map<String, Object> data = new HashMap<>();
                 if (task.isSuccessful()) {
                     if (task.getResult().isEmpty()) {
@@ -63,9 +59,7 @@ public class FirestoreUserData implements UserDataController {
                             docRefLobby.update("count", newCount);
                         }
                     }
-                } else {
-                    Log.d("FAILURE", "Error getting documents: ", task.getException());
-                }
+                } else { Log.d("FAILURE", "Error getting documents: ", task.getException()); }
             });
     }
 
