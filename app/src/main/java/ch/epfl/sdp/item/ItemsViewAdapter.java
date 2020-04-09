@@ -11,11 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
@@ -23,19 +26,9 @@ import static ch.epfl.sdp.R.id.useitem;
 
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
     private Context mContext;
-    private Player player;
-    private Map<String, Integer> inventory;
-    private List<String> mNames = new ArrayList<>();
-    private List<Integer> mAmounts = new ArrayList<>();
 
-    public ItemsViewAdapter(Context mContext, Player player) {
+    public ItemsViewAdapter(Context mContext) {
         this.mContext = mContext;
-        this.player = player;
-        this.inventory = player.getInventory().getItems();
-        for(String key: inventory.keySet()) {
-            mNames.add(key);
-            mAmounts.add(inventory.get(key));
-        }
     }
 
     @NonNull
@@ -47,21 +40,22 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        holder.name.setText(mNames.get(position));
-        holder.amountOfItem.setText(String.valueOf(mAmounts.get(position)));
+        LinkedHashMap items = PlayerManager.getUser().getInventory().getItems();
+        Item item = (Item) (items.keySet().toArray())[position];
+        holder.name.setText(item.getName());
+        holder.amountOfItem.setText(String.valueOf(items.get(item)));
         holder.button.setOnClickListener(v -> {
-            player.getInventory().removeItem(mNames.get(position));
-            int amount = Integer.parseInt(holder.amountOfItem.getText().toString());
-            if(amount > 0) {
-                holder.amountOfItem.setText(String.valueOf(amount-1));
-            }
-        });
+            item.use();
+            PlayerManager.getUser().getInventory().removeItem(item);
 
+            // Update the quantity of that item
+            holder.amountOfItem.setText(String.valueOf(items.get(item)));
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mNames.size();
+        return PlayerManager.getUser().getInventory().getItems().size();
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
@@ -70,12 +64,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         private TextView amountOfItem;
         private Button button;
 
-        public ItemsViewHolder(@NonNull View itemView) {
-            super(itemView);
-//            image = itemView.findViewById(R.id.image_view);
-            name = itemView.findViewById(title);
-            button = itemView.findViewById(useitem);
-            amountOfItem = itemView.findViewById(amount);
+    public ItemsViewHolder(@NonNull View itemView) {
+        super(itemView);
+//      image = itemView.findViewById(R.id.image_view);
+        name = itemView.findViewById(title);
+        button = itemView.findViewById(useitem);
+        amountOfItem = itemView.findViewById(amount);
 
         }
     }

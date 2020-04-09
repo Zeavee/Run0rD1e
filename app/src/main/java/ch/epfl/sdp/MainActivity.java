@@ -5,11 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.game.DatabaseHelper;
-
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.entity.PlayerManager;
-
+import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -43,12 +40,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        PlayerManager playerManager = new PlayerManager();
-
-        game = new Game(MapsActivity.mapApi);
-
-        startGame();
 
         authenticationController = new FirebaseAuthentication(new FirestoreUserData());
 

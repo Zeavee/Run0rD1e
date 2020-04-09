@@ -40,20 +40,20 @@ public class FirestoreUserData implements UserDataController {
     public void joinLobby(Player player) {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(PlayerManager.LOBBY_PATH);
         collectionReference
-            .whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_Lobby)
-            .limit(1)
-            .get()
-            .addOnCompleteListener(task -> {
-                if(!task.isSuccessful()) {
-                    Log.d("FAILURE", "Error getting documents: ", task.getException());
-                    return;
-                }
+                .whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_Lobby)
+                .limit(1)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Log.d("FAILURE", "Error getting documents: ", task.getException());
+                        return;
+                    }
 
-                if (task.getResult().isEmpty())
-                    createNewLobby(collectionReference.document(), player);
-                else
-                    addPlayerToLobby(task.getResult().iterator().next(), player);
-            });
+                    if (task.getResult().isEmpty())
+                        createNewLobby(collectionReference.document(), player);
+                    else
+                        addPlayerToLobby(task.getResult().iterator().next(), player);
+                });
     }
 
     private void createNewLobby(DocumentReference docRefLobby, Player player) {

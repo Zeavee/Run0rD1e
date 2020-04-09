@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 
+import com.google.android.gms.maps.GoogleMap;
+
 public interface MapApi {
 
     /**
@@ -42,4 +44,6 @@ public interface MapApi {
      public void initializeApi(LocationManager locationManager, Activity activity);
 
      Activity getActivity();
+
+     void setMap(GoogleMap googleMap);
 }

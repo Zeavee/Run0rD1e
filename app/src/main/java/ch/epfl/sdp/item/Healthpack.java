@@ -1,9 +1,8 @@
 package ch.epfl.sdp.item;
 
-
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.PlayerManager;
 
 /**
  * Class representing a healthpack
@@ -12,26 +11,24 @@ import ch.epfl.sdp.map.GeoPoint;
 public class Healthpack extends Item {
     private double healthPackAmount;
 
-
-
-    public Healthpack(GeoPoint location, boolean isTaken, double healthPackAmount) {
-        super(location,"Healthpack" , isTaken, "Regenerates health points");
+    public Healthpack(double healthPackAmount) {
+        super(String.format("Healthpack (%f)", healthPackAmount), String.format("Regenerates %f health points", healthPackAmount));
         this.healthPackAmount = healthPackAmount;
     }
 
-    public void increaseHealthPlayer(Player player, double maxHealth) {
-        double increasedHP = player.getHealthPoints() + healthPackAmount;
-        if (increasedHP > maxHealth) {
-            increasedHP = maxHealth;
+    @Override
+    public void use() {
+        double increasedHP = PlayerManager.getUser().getHealthPoints() + healthPackAmount;
+        if (increasedHP > Player.MAX_HEALTH) {
+            increasedHP = Player.MAX_HEALTH;
         }
-        player.setHealthPoints(increasedHP);
+        PlayerManager.getUser().setHealthPoints(increasedHP);
     }
 
     public double getHealthPackAmount() {
         return this.healthPackAmount;
     }
 
-    @Override
     public EntityType getEntityType() {
         return EntityType.HEALTHPACK;
     }

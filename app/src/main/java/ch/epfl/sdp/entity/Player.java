@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
+import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
@@ -17,32 +18,28 @@ public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
     @Exclude
-    public CartesianPoint position;
+    public final static double MAX_HEALTH = 100;
     public int score;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
-
+    @Exclude
+    public CartesianPoint position;
     @Exclude
     public boolean alive;
-
-    @Exclude
-    public final static double MAX_HEALTH = 100;
-
+    @ServerTimestamp
+    public Timestamp timestamp;
     @Exclude
     private boolean isShielded;
-
     @Exclude
     private Inventory inventory;
-
     @Exclude
     private boolean isActive;
 
-    @ServerTimestamp
-    public Timestamp timestamp;
-
-    public Player() { super(); }
+    public Player() {
+        this("","");
+    }
 
     public Player(String username, String email) {
         this(0, 0, 1, username, email);
@@ -50,6 +47,7 @@ public class Player extends MovingEntity implements Localizable {
 
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+        super();
         GeoPoint g = new GeoPoint(longitude, latitude);
         this.setLocation(g);
         this.username = username;
@@ -63,7 +61,7 @@ public class Player extends MovingEntity implements Localizable {
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory();
         this.isActive = true;
     }
 
@@ -85,7 +83,7 @@ public class Player extends MovingEntity implements Localizable {
         return alive;
     }
 
-   public double getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
@@ -128,8 +126,8 @@ public class Player extends MovingEntity implements Localizable {
 
     @Exclude
     @Override
-    public Boolean isActive() {
-        return isActive;
+    public boolean once() {
+        return false;
     }
 
     @Exclude
@@ -139,6 +137,10 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
+    public void setPosition(GenPoint genPoint){
+        this.position = genPoint.toCartesian();
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
