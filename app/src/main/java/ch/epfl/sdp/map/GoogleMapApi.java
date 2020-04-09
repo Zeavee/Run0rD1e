@@ -101,7 +101,8 @@ public class GoogleMapApi implements MapApi {
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
         PlayerManager.getUser().setLocation(getCurrentLocation());
         PlayerManager.getUser().setPosition(PointConverter.GeoPointToGenPoint(PlayerManager.getUser().getLocation()));
-        displayEntity(PlayerManager.getUser());
+        removeMarkers(PlayerManager.getUser());
+        displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
     }
 
     @Override
@@ -133,11 +134,7 @@ public class GoogleMapApi implements MapApi {
             //if (displayable == null) return;
             removeMarkers(displayable);
             switch (displayable.getEntityType()) {
-                case USER:
-                    // if (currentLocation == null) return;
-                    PlayerManager.getUser().setLocation(displayable.getLocation());
-                    displayMarkerCircle(displayable, Color.BLUE, "My position", 100);
-                    break;
+                // only display User when position is updated
                 case ENEMY:
                     //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
                     displaySmallIcon(displayable, "Enemy", R.drawable.enemy);

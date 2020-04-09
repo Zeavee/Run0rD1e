@@ -1,30 +1,25 @@
 package ch.epfl.sdp;
 
-import android.app.Activity;
-
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class GameTest {
+
+    @Before
+    public void setup() {
+        MockMapApi mockMapApi = new MockMapApi();
+        MapsActivity.setMapApi(mockMapApi);
+    }
 
     @Test
     public void update_ShouldUpdateAllUpdatables() {
@@ -41,17 +36,6 @@ public class GameTest {
         // assert
         verify(upd1).update();
         verify(upd2).update();
-    }
-
-    @Test
-    public void addToUpdateList_ShouldIgnoreNull()
-    {
-        // act
-        Game game = new Game();
-        game.addToUpdateList(null);
-
-        // assert
-        assertEquals(0, game.getUpdatables().size());
     }
 
     @Test
@@ -82,19 +66,6 @@ public class GameTest {
 
         // assert
         assertEquals(1, game.getUpdatables().size());
-    }
-
-
-
-    @Test
-    public void addToDisplayList_ShouldIgnoreNull()
-    {
-        // act
-        Game game = new Game();
-        game.addToDisplayList(null);
-
-        // assert
-        assertEquals(0, game.getDisplayables().size());
     }
 
     @Test
