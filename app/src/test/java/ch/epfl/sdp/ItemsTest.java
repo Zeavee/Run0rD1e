@@ -15,7 +15,6 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ItemsTest {
@@ -87,9 +86,6 @@ public class ItemsTest {
 
     @Test
     public void scanTest() {
-        String a = scan.getDescription();
-        assertEquals("Item that scans the entire map and reveals other players for a short delay", a);
-
         scan.use();
         assertEquals(EntityType.SCAN, scan.getEntityType());
     }

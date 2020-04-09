@@ -1,15 +1,12 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.map.GeoPoint;
 
 public class Shield extends TimedItem  {
 
     public Shield(int shieldTime) {
-        super("Shield", "Protects you from taking damage from the enemy", shieldTime);
+        super(String.format("Shield (%d)", shieldTime), String.format("Protects you from taking damage from the enemy for %d seconds", shieldTime), shieldTime);
     }
 
     @Override

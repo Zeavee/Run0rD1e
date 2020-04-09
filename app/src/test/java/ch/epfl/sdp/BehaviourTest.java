@@ -6,7 +6,6 @@ import org.junit.Test;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.Player;
@@ -25,7 +24,7 @@ public class BehaviourTest {
     public void setup() {
         MapsActivity.setMapApi(new MockMapApi());
         PlayerManager.removeAll();
-        GeoPoint local = new GeoPoint(0,0);
+        GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
         PlayerManager.addPlayer(player);
         RectangleBounds patrolBounds = new RectangleBounds(10, 10);
@@ -35,6 +34,7 @@ public class BehaviourTest {
         LocalBounds localBounds = new LocalBounds(patrolBounds, patrolCenter);
         enemy = new Enemy(10, 1, 50, 20, localBounds, maxBounds);
         enemy.getMovement().setVelocity(1);
+        enemy.setLocation(local);
     }
 
     @Test

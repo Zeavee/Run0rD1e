@@ -23,6 +23,7 @@ public class ItemBoxTest {
 
     @Before
     public void setup() {
+        PlayerManager.removeAll(); // Just to be sure that there are no players
         location = new GeoPoint(0,0);
         player = new Player();
         player.setLocation(location);

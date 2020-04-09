@@ -89,41 +89,6 @@ public class MovingArtificialEntityTest {
         assertEquals(true, boundable.isInside(movingArtificialEntity.getPosition()));
     }
 
-   /* @Test
-    public void unimplementedMovement() {
-        Boundable boundable = new UnboundedArea();
-        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(boundable);
-        movingArtificialEntity.setMoving(true);
-        movingArtificialEntity.setMovement(Movement.CURVED);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        movingArtificialEntity.setMovement(Movement.SMOOTH);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        movingArtificialEntity.setMovement(Movement.CIRCULAR);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-
-        movingArtificialEntity.setOrientation(1);
-        movingArtificialEntity.setBounds(new RectangleBounds(5, 10, null));
-        movingArtificialEntity.setMovement(Movement.RANDOM);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        assertEquals(1.0, movingArtificialEntity.getOrientation(), 0.01);
-        movingArtificialEntity.setMovement(Movement.CURVED);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        assertEquals(1.0, movingArtificialEntity.getOrientation(), 0.01);
-        movingArtificialEntity.setMovement(Movement.SMOOTH);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        assertEquals(1.0, movingArtificialEntity.getOrientation(), 0.01);
-        movingArtificialEntity.setMovement(Movement.CIRCULAR);
-        movingArtificialEntity.update();
-        assertEquals(null, movingArtificialEntity.getPosition());
-        assertEquals(1.0, movingArtificialEntity.getOrientation(), 0.01);
-    }*/
-
     @Test
     public void conversionsWork() {
         GenPoint cartesianPoint = new CartesianPoint(2, 2);

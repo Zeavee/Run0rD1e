@@ -19,4 +19,9 @@ public class MockUserDataController implements UserDataController {
     public void storeUser(Player player) {
         userData.add(player);
     }
+
+    @Override
+    public void joinLobby(Player player) {
+
+    }
 }

@@ -9,6 +9,7 @@ import ch.epfl.sdp.map.GeoPoint;
 
 public abstract class DetectableEntity extends InteractiveEntity implements Updatable {
     private boolean once;
+    private boolean detected = false;
 
     public DetectableEntity(EntityType entityType) {
         this(entityType, true);
@@ -43,11 +44,20 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
         }
     }
 
+    /**
+     * Sorry it's more complicated due to codeclimate
+     */
     @Override
     public void update() {
         for (Player player: PlayerManager.getPlayers()) {
-            if (detectedBy(player)) {
+            detected = detectedBy(player);
+
+            if (detected) {
                 afterDetected(player);
+            }
+
+            if (detected && once) {
+                break;
             }
         }
     }

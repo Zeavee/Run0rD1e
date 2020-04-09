@@ -12,7 +12,7 @@ public class Healthpack extends Item {
     private double healthPackAmount;
 
     public Healthpack(double healthPackAmount) {
-        super("Healthpack","Regenerates health points");
+        super(String.format("Healthpack (%f)", healthPackAmount), String.format("Regenerates %f health points", healthPackAmount));
         this.healthPackAmount = healthPackAmount;
     }
 
