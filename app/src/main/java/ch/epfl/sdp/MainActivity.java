@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.killGame();
         authenticationController.signOut();
         new DatabaseHelper(this).deleteAllUsers();
+        LoginFormActivity.loggedUser = null;
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }
