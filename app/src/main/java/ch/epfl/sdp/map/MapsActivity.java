@@ -5,12 +5,11 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import androidx.fragment.app.FragmentActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.UserDataController;
@@ -24,7 +23,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static final String TAG = "Test Firebase";
     public static final MapApi mapApi = new GoogleMapApi();
     public static UserDataController userDataController = new FirestoreUserData();
-    Player currentUser = new Player(7.9592, 47.0407, 22, "startGame1", "startGame1@gmail.com");
+    Player currentUser = new Player(7.9592, 47.0407, 22, "startGame2", "startGame2@gmail.com");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
