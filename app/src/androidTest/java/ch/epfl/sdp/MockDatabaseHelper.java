@@ -1,11 +1,12 @@
-package ch.epfl.sdp.game;
+package ch.epfl.sdp;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import ch.epfl.sdp.game.CacheableUserInfo;
 
 public class MockDatabaseHelper extends SQLiteOpenHelper {
 
@@ -13,9 +14,8 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
         super(context, "MockUser.db", null, 1);
     }
 
-    public UserData getLoggedUser()
-    {
-        return new UserData("","");
+    public UserData getLoggedUser() {
+        return new UserData("", "");
     }
 
     @Override
@@ -28,15 +28,14 @@ public class MockDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public class UserData extends CacheableUserInfo
-    {
+    public class UserData extends CacheableUserInfo {
+        public String email;
+        public String password;
+
         // The email and password can be hard coded according to the test
         public UserData(String email, String password) {
             this.email = email;
             this.password = password;
         }
-
-        public String email;
-        public String password;
     }
 }

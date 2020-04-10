@@ -13,11 +13,15 @@ import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
  */
 public interface DependencyVisitor {
 
-     void setDependency(UserDataController dependency);
-     void setDependency(AuthenticationController dependency);
-     void setDependency(MapApi dependency);
-     void setDependency(RemoteToSQLiteAdapter dependency);
-     void setDependency(RemoteFriendFetcher dataController);
+    void setDependency(UserDataController dependency);
+
+    void setDependency(AuthenticationController dependency);
+
+    void setDependency(MapApi dependency);
+
+    void setDependency(RemoteToSQLiteAdapter dependency);
+
+    void setDependency(RemoteFriendFetcher dataController);
 
     void inject();
 

@@ -6,8 +6,10 @@ import java.util.Random;
 import java.util.Timer;
 
 import ch.epfl.sdp.entity.EnemyOutDated;
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.logic.RandomGenerator;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
 
@@ -60,18 +62,28 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     @Override
     GeoPoint rule() {
         Random rd = new Random();
-        Thread thread = new Thread();
-        thread.run();
+        GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
         int maxIter = 500;
-        while(maxIter > 0)
-        {
-            double xcoord = rd.nextDouble() * enclosure.getWidth();
-            double ycoord = rd.nextDouble() * enclosure.getHeight();
-            GeoPoint enemy = new GeoPoint(xcoord + enclosure.getLowerLeftAnchor().getLongitude(), ycoord+enclosure.getLowerLeftAnchor().getLatitude());
-            double distance = enemy.distanceTo(player.getLocation());
-            if (distance > minDistanceFromPlayer) return enemy;
+        while(maxIter > 0) {
+            // TODO better randomization
+            GeoPoint local = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
+            enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
+            Float f1 = rd.nextFloat() * 5000;
+            Float f2 = rd.nextFloat() * 5000;
+            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2), PointConverter.GeoPointToGenPoint(local));
+            Boundable boundable = new UnboundedArea();
+            Enemy enemy = new Enemy(localBounds, boundable);
+            enemy.setLocation(enemyPos);
+            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));
+            movement.setVelocity(5);
+            movement.setAngleStep(0.1);
+            movement.setAmplitude(10);
+            movement.setAngle(1);
+            enemy.setMovement(movement);
+
             --maxIter;
         }
-        return null;
+
+        return enemyPos;
     }
 }

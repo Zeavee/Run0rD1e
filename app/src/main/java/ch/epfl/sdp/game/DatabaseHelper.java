@@ -44,14 +44,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public UserData getLoggedUser()
-    {
+    public UserData getLoggedUser() {
         UserData result = null;
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM " + USERS_TABLE_NAME, null);
 
-        if (c.moveToNext())
-        {
+        if (c.moveToNext()) {
             String email = c.getString(c.getColumnIndex(USERS_EMAIL));
             String password = c.getString(c.getColumnIndex(USERS_PASSWORD));
             result = new UserData(email, password);
@@ -72,9 +70,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             this.email = email;
             this.password = password;
         }
-
-        public String email;
-        public String password;
     }
 
     @Override

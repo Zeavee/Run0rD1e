@@ -3,9 +3,15 @@ package ch.epfl.sdp;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -20,6 +26,17 @@ public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void setup(){
+        MapsActivity.setMapApi(new MockMapApi());
+        PlayerManager.setUser(new Player());
+    }
+
+    @After
+    public void teardown(){
+        PlayerManager.setUser(null);
+    }
 
     @Test
     public void rulesOpens() {

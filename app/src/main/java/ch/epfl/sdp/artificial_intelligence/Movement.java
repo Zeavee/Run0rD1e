@@ -1,20 +1,24 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-public class Movement {
+public abstract class Movement {
+    private GenPoint position;
     private float velocity;
     private float acceleration;
     private double orientation;
-    private MovementType movementType;
-    private double sinusAmplitude;
-    private double sinusAngle;
 
-    public Movement() {
+    public Movement(GenPoint initialPosition) {
+        position = initialPosition;
+        velocity = 1;
         acceleration = 0;
-        velocity = 0;
         orientation = 0;
-        movementType = MovementType.LINEAR;
-        sinusAngle = 0;
-        sinusAmplitude = 1;
+    }
+
+    public GenPoint getPosition() {
+        return position;
+    }
+
+    public void setPosition(GenPoint position) {
+        this.position = position;
     }
 
     public float getVelocity() {
@@ -41,27 +45,5 @@ public class Movement {
         this.orientation = orientation;
     }
 
-    public MovementType getMovementType() {
-        return movementType;
-    }
-
-    public void setMovementType(MovementType movementType){
-        this.movementType = movementType;
-    }
-
-    public double getSinusAmplitude() {
-        return sinusAmplitude;
-    }
-
-    public void setSinusAmplitude(double sinusAmplitude) {
-        this.sinusAmplitude = sinusAmplitude;
-    }
-
-    public double getSinusAngle() {
-        return sinusAngle;
-    }
-
-    public void setSinusAngle(double sinusAngle) {
-        this.sinusAngle = sinusAngle;
-    }
+    public abstract GenPoint nextPosition();
 }
