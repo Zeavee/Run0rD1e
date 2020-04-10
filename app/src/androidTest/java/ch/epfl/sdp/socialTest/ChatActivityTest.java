@@ -53,24 +53,31 @@ public class ChatActivityTest {
         appCompatEditText3.perform(viewActions);
     }
 
-    @Test
-    public void chatActivityTest2() throws InterruptedException {
-        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new MockFriendsFetcher()));
-        ChatActivity.setRemoteToSQLiteAdapter(new MockServerToSQLiteAdapter().getInstance());
+    private Matcher<View> chatActivityTest2Helper2(int id1, int id2, int pos1, int pos2) {
+        return childAtPosition(allOf(withId(id1), childAtPosition(withId(id2), pos1)), pos2);
+    }
+
+    private void addStupid2AsFriend() {
         ViewInteraction appCompatButton3 = onView(allOf(withId(R.id.button_add_friends), withText("Add Friends"),
                 childAtPosition(allOf(withId(R.id.toolbar_layout), withContentDescription("FriendsListActivity"),
                         childAtPosition(allOf(withId(R.id.app_bar), childAtPosition(childAtPosition(withId(android.R.id.content), 0), 0)), 0)), 1), isDisplayed()));
         appCompatButton3.perform(click());
 
         ViewInteraction actionMenuItemView = onView(allOf(withId(R.id.action_search), withContentDescription("Search"),
-                childAtPosition(childAtPosition(allOf(withId(R.id.action_bar), childAtPosition(allOf(withId(R.id.action_bar_container),
-                                childAtPosition(withId(R.id.decor_content_parent), 1)), 0)), 1), 0), isDisplayed()));
+                childAtPosition(childAtPosition(allOf(withId(R.id.action_bar), chatActivityTest2Helper2(R.id.action_bar_container, R.id.decor_content_parent, 1, 0)), 1), 0), isDisplayed()));
         actionMenuItemView.perform(click());
 
         ViewInteraction searchAutoComplete = onView(allOf(withId(R.id.search_src_text), childAtPosition(allOf(withId(R.id.search_plate),
-                childAtPosition(allOf(withId(R.id.search_edit_frame), childAtPosition(allOf(withId(R.id.search_bar),
-                        childAtPosition(withId(R.id.action_search), 0)), 2)), 1)), 0), isDisplayed()));
+                childAtPosition(allOf(withId(R.id.search_edit_frame), chatActivityTest2Helper2(R.id.search_bar, R.id.action_search, 0, 2)), 1)), 0), isDisplayed()));
         searchAutoComplete.perform(replaceText("stupid2"), closeSoftKeyboard());
+    }
+
+    @Test
+    public void chatActivityTest2() throws InterruptedException {
+        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new MockFriendsFetcher()));
+        ChatActivity.setRemoteToSQLiteAdapter(new MockServerToSQLiteAdapter().getInstance());
+
+        addStupid2AsFriend();
 
         Thread.sleep(3000);
 
