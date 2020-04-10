@@ -10,4 +10,6 @@ public interface UserDataController {
     void storeUser(Player player);
 
     void joinLobby(Player player);
+
+    void fetchPlayers();
 }

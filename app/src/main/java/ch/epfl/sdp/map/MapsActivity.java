@@ -81,16 +81,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapApi.setMap(googleMap);
-        mapApi.updatePosition();
-
-        initEnvironment();
-
         // Setting the user
         Player user = new Player(6.3419, 46.2301, 22, "startGame2", "startGame2@gmail.com");
         user.setAoeRadius(10); // detection radius would be a better name, aoe (Area of effect)
         // means affecting (like attacking) all entity inside the area, in this case the circle.
         PlayerManager.setUser(user);
+
+        mapApi.setMap(googleMap);
+        mapApi.updatePosition();
+
+        initEnvironment();
 
         // Join
         userDataController.joinLobby(PlayerManager.getUser());
