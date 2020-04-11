@@ -1,6 +1,7 @@
 package ch.epfl.sdp.map;
 
 import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 public interface Displayable {
     /**
@@ -15,5 +16,10 @@ public interface Displayable {
      */
     public EntityType getEntityType();
 
-    boolean once();
+    /**
+     * Method to decide if the entity must be displayed only once.
+     *
+     * @return True if the entity should be displayed only once.
+     */
+    boolean isOnce();
 }

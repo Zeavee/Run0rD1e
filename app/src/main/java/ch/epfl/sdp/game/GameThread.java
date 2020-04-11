@@ -1,28 +1,28 @@
 package ch.epfl.sdp.game;
 
 /**
- * Manages the main loop
+ * Manages the main loop.
  */
 public class GameThread extends Thread{
     public static final int FPS = 30;
-    private double avgFPS;
     private boolean running;
     private Game game;
-
     private long startTime;
-    private long timeMillis;
-    private long waitTime;
     private long totalTime = 0;
     private int frameCount = 0;
-    private long targetTime = 1000 / FPS;
 
+    /**
+     * Creates a thread for the game loop.
+     *
+     * @param game The current game.
+     */
     public GameThread(Game game){
         this.game = game;
     }
 
     /**
-     * Get the actual state of the loop
-     * @return true if it is running, false otherwise
+     * Get the actual state of the loop.
+     * @return true if it is running, false otherwise.
      */
     public boolean isRunning() {
         return running;
@@ -30,14 +30,14 @@ public class GameThread extends Thread{
 
     /**
      * Set true to start or continue the loop, false to stop it.
-     * @param running defines the state of the loop
+     * @param running defines the state of the loop.
      */
     public void setRunning(boolean running) {
         this.running = running;
     }
 
     /**
-     * Main loop that can be parameterized, started and stoped, manages frames and updates
+     * Main loop that can be parameterized, started and stopped, manages frames and updates.
      */
     @Override
     public void run(){
@@ -61,9 +61,13 @@ public class GameThread extends Thread{
         }
     }
 
+    /**
+     * Wait some time if the frame is finished before the target time.
+     */
     private void waitBeforeRefresh() {
-        timeMillis = (System.nanoTime() - startTime) / 1000000;
-        waitTime = targetTime - timeMillis;
+        long timeMillis = (System.nanoTime() - startTime) / 1000000;
+        long targetTime = 1000 / FPS;
+        long waitTime = targetTime - timeMillis;
         if (waitTime > 0) {
             try {
                 this.sleep(waitTime);
@@ -73,12 +77,15 @@ public class GameThread extends Thread{
         }
     }
 
+    /**
+     * Utility method to compute the average FPS.
+     */
     private void computeFPS() {
         totalTime += System.nanoTime() - startTime;
         frameCount++;
 
-        if(frameCount == FPS){
-            avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
+        if(frameCount == FPS) {
+            double avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
 
             // Reset values
             frameCount = 0;

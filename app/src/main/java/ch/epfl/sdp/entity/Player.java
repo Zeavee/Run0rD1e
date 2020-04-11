@@ -7,11 +7,10 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.ArrayList;
 
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
-import ch.epfl.sdp.artificial_intelligence.Positionable;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
-import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
 public class Player extends MovingEntity implements Positionable {
@@ -126,19 +125,19 @@ public class Player extends MovingEntity implements Positionable {
 
     @Exclude
     @Override
-    public boolean once() {
+    public boolean isOnce() {
         return false;
     }
 
     @Exclude
     @Override
-    public GenPoint getPosition() {
+    public CartesianPoint getPosition() {
         return position;
     }
 
     @Exclude
-    public void setPosition(GenPoint genPoint){
-        this.position = genPoint.toCartesian();
+    public void setPosition(CartesianPoint position) {
+        this.position = position;
     }
 
     @Exclude

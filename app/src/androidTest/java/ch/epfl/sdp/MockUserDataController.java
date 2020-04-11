@@ -24,4 +24,9 @@ public class MockUserDataController implements UserDataController {
     public void joinLobby(Player player) {
 
     }
+
+    @Override
+    public void fetchPlayers() {
+
+    }
 }

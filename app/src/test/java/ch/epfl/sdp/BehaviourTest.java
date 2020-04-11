@@ -4,13 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static junit.framework.TestCase.assertSame;
@@ -27,12 +27,12 @@ public class BehaviourTest {
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
         PlayerManager.addPlayer(player);
-        RectangleBounds patrolBounds = new RectangleBounds(10, 10);
-        RectangleBounds maxBounds = new RectangleBounds(100, 100);
+        RectangleArea patrolBounds = new RectangleArea(10, 10);
+        RectangleArea maxBounds = new RectangleArea(100, 100);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
         CartesianPoint patrolCenter = new CartesianPoint(10, 10);
-        LocalBounds localBounds = new LocalBounds(patrolBounds, patrolCenter);
-        enemy = new Enemy(10, 1, 50, 20, localBounds, maxBounds);
+        LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
+        enemy = new Enemy(10, 1, 50, 20, localArea, maxBounds);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }

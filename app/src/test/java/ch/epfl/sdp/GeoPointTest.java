@@ -2,7 +2,7 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +23,7 @@ public class GeoPointTest {
 
     @Test
     public void otherMethodTest() {
-        GeoPoint genPoint = new GeoPoint();
+        GeoPoint geoPoint = new GeoPoint();
         assertEquals(6.14308, A.getLongitude(), 0.01);
         assertEquals(46.21023, A.getLatitude(), 0.01);
         A.setLatitude(A.getLatitude());

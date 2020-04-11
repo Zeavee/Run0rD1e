@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
@@ -12,14 +11,9 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 

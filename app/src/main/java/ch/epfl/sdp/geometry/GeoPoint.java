@@ -1,7 +1,6 @@
-package ch.epfl.sdp.map;
+package ch.epfl.sdp.geometry;
 
 
-import static java.lang.Math.*;
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;

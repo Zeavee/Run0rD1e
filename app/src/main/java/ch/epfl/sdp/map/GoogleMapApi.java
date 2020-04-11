@@ -26,8 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.PointConverter;
 
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
@@ -100,7 +101,7 @@ public class GoogleMapApi implements MapApi {
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
         PlayerManager.getUser().setLocation(getCurrentLocation());
-        PlayerManager.getUser().setPosition(PointConverter.geoPointToGenPoint(PlayerManager.getUser().getLocation()));
+        PlayerManager.getUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getUser().getLocation()));
         removeMarkers(PlayerManager.getUser());
         displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
     }

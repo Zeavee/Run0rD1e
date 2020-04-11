@@ -1,22 +1,23 @@
 package ch.epfl.sdp;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
 
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.logic.RandomGenerator;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.utils.RandomGenerator;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class RandomGeneratorTest {
     private RandomGenerator randGen;
@@ -55,12 +56,12 @@ public class RandomGeneratorTest {
     }
 
     @Test
-    public void randomGenPointTest() {
+    public void randomCartesianPointTest() {
         for (int i = 1; i <= 5; i++) {
             for (int j = 1; j <= 5; j++) {
-                GenPoint q = randGen.randomGenPoint(i,j);
-                assertTrue(q.toCartesian().getArg1() <= i);
-                assertTrue(q.toCartesian().getArg2() <= j);
+                CartesianPoint q = randGen.randomCartesianPoint(i, j);
+                assertTrue(q.getX() <= i);
+                assertTrue(q.getY() <= j);
             }
         }
     }

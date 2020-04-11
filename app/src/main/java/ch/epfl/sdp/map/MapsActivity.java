@@ -13,16 +13,17 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.PointConverter;
-import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.PointConverter;
+import ch.epfl.sdp.geometry.RectangleArea;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 
@@ -57,10 +58,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Enemy -------------------------------------------
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500, 3500), PointConverter.geoPointToGenPoint(local));
-        Enemy enemy = new Enemy(localBounds, new UnboundedArea());
+        LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
+        Enemy enemy = new Enemy(localArea, new UnboundedArea());
         enemy.setLocation(enemyPos);
-        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToGenPoint(enemyPos));
+        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
         movement.setVelocity(5);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);

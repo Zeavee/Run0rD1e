@@ -2,28 +2,28 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
-import ch.epfl.sdp.artificial_intelligence.PointConverter;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.PointConverter;
 
 import static org.junit.Assert.assertTrue;
 
 public class PointConverterTest {
 
     @Test
-    public void geoPointToGenPointHasPrecisionOfMillimetersForLon0Lat0() {
+    public void geoPointToCartesianPointHasPrecisionOfMillimetersForLon0Lat0() {
         GeoPoint geoPoint = new GeoPoint(0, 0);
-        GenPoint genPoint = PointConverter.geoPointToGenPoint(geoPoint);
-        GeoPoint geoPointConvertedBack = PointConverter.genPointToGeoPoint(genPoint, geoPoint);
+        CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(geoPoint);
+        GeoPoint geoPointConvertedBack = PointConverter.cartesianPointToGeoPoint(cartesianPoint, geoPoint);
         double distance = geoPoint.distanceTo(geoPointConvertedBack);
         assertTrue(distance <= 0.001);
     }
 
     @Test
-    public void geoPointToGenPointHasPrecisionOfMillimetersForLon50Lat50() {
+    public void geoPointToCartesianPointHasPrecisionOfMillimetersForLon50Lat50() {
         GeoPoint geoPoint = new GeoPoint(50, 50);
-        GenPoint genPoint = PointConverter.geoPointToGenPoint(geoPoint);
-        GeoPoint geoPointConvertedBack = PointConverter.genPointToGeoPoint(genPoint, new GeoPoint(53, 0));
+        CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(geoPoint);
+        GeoPoint geoPointConvertedBack = PointConverter.cartesianPointToGeoPoint(cartesianPoint, new GeoPoint(53, 0));
         double distance = geoPoint.distanceTo(geoPointConvertedBack);
         assertTrue(distance <= 0.001);
     }

@@ -1,23 +1,22 @@
-package ch.epfl.sdp.logic;
+package ch.epfl.sdp.utils;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
-import ch.epfl.sdp.artificial_intelligence.LocalBounds;
-import ch.epfl.sdp.artificial_intelligence.PointConverter;
-import ch.epfl.sdp.artificial_intelligence.PolarPoint;
-import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
-import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.PointConverter;
+import ch.epfl.sdp.geometry.RectangleArea;
+import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.geometry.Vector;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.map.GeoPoint;
 
 public class RandomGenerator {
    private static Random rand = new Random();
@@ -79,17 +78,17 @@ public class RandomGenerator {
        return new GeoPoint(randomLong, randomLat);
      }
 
-     public GenPoint randomGenPoint(int a, int b) {
-       CartesianPoint point = new CartesianPoint(rand.nextInt(a), rand.nextInt(b));
-       return point;
-     }
-
      // Chooses a random location on a circle of chosen radius
      public static GeoPoint randomLocationOnCircle(GeoPoint reference, int radius){
-         PolarPoint pp = (new PolarPoint(radius,rand.nextDouble()*Math.PI));
-         GenPoint ref = PointConverter.geoPointToGenPoint(reference);
-         return PointConverter.genPointToGeoPoint(ref.toCartesian().add(pp), reference);
+         Vector vector = Vector.fromPolar(radius, rand.nextDouble() * Math.PI);
+         CartesianPoint ref = PointConverter.geoPointToCartesianPoint(reference);
+         return PointConverter.cartesianPointToGeoPoint(ref.asOriginTo(vector), reference);
      }
+
+    public CartesianPoint randomCartesianPoint(int a, int b) {
+        CartesianPoint point = new CartesianPoint(rand.nextInt(a), rand.nextInt(b));
+        return point;
+    }
 
      public Healthpack randomHealthPack() {
        Healthpack h = new Healthpack(rand.nextInt(25)+25);
@@ -140,9 +139,9 @@ public class RandomGenerator {
          int randomDmg = rand.nextInt(randBound+1);
          float randomdps = rand.nextFloat();
          float randomDetectionDistance = rand.nextFloat()*10 + 50;
-         RectangleBounds r = new RectangleBounds(10, 10);
+         RectangleArea r = new RectangleArea(10, 10);
 
-         LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
+         LocalArea l = new LocalArea(r, randomCartesianPoint(1, 5));
          UnboundedArea randomArea = new UnboundedArea();
 
          Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);

@@ -8,8 +8,8 @@ import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.DetectableEntity;
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertFalse;

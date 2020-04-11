@@ -10,14 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 import static ch.epfl.sdp.R.id.amount;
@@ -40,7 +35,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        LinkedHashMap items = PlayerManager.getUser().getInventory().getItems();
+        Map items = PlayerManager.getUser().getInventory().getItems();
         Item item = (Item) (items.keySet().toArray())[position];
         holder.name.setText(item.getName());
         holder.amountOfItem.setText(String.valueOf(items.get(item)));

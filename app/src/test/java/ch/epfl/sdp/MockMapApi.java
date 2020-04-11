@@ -13,8 +13,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {

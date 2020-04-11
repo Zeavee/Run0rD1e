@@ -6,6 +6,8 @@ import android.location.LocationManager;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import ch.epfl.sdp.geometry.GeoPoint;
+
 public interface MapApi {
 
     /**

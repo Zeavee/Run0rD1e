@@ -1,6 +1,6 @@
 package ch.epfl.sdp.entity;
 
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 
 /**

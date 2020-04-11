@@ -5,9 +5,9 @@ import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static junit.framework.TestCase.assertEquals;
@@ -22,7 +22,7 @@ public class EnemyOutDatedGeneratorTest {
 
     @Test
     public void generateEnemyWorks() {
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(10000, 10000),
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(10000, 10000),
                 new Player(45, 45, 100, "a", "b"));
         enemyGenerator.setMaxEnemiesPerUnitArea(1);
         enemyGenerator.setMaxEnemiesPerUnitArea(-1);
@@ -35,7 +35,7 @@ public class EnemyOutDatedGeneratorTest {
 
     @Test
     public void setMaxEnemiesWorks() {
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(1, 1),
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1),
                 new Player(45, 45, 100, "a", "b"));
         enemyGenerator.setMaxEnemiesPerUnitArea(2);
         for (int i = 0; i<4; ++i) {
@@ -47,7 +47,7 @@ public class EnemyOutDatedGeneratorTest {
     @Test
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleBounds(1, 1), player);
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1), player);
         enemyGenerator.setMaxEnemiesPerUnitArea(10);
         enemyGenerator.setMinDistanceFromPlayer(1000);
         for (int i = 0; i<10; ++i) {

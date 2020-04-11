@@ -5,7 +5,7 @@ package ch.epfl.sdp.artificial_intelligence;
  */
 public interface Updatable {
     /**
-     * This method updates the state of an updatable object it is called by the game loop.
+     * This method updates the state of an updatable object when it is called by the game loop.
      */
     void update();
 }

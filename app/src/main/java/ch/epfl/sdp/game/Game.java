@@ -11,7 +11,7 @@ import ch.epfl.sdp.map.MapsActivity;
 /**
  * Main model of the game, it is used for state changes and animations.
  */
-public class Game implements Updatable, Drawable {
+public class Game implements Updatable {
     public GameThread gameThread;
     private static MapApi map; // is it a good idea?
     private static ArrayList<Updatable> updatables;
@@ -28,46 +28,82 @@ public class Game implements Updatable, Drawable {
         displayables = new ArrayList<>();
     }
 
+    /**
+     * Add the given updatable entity to the game.
+     *
+     * @param updatable The updatable to be added.
+     */
     public static void addToUpdateList(Updatable updatable) {
         updatables.add(updatable);
     }
 
+    /**
+     * Remove the given updatable entity from the game.
+     * @param updatable The updatable to be removed.
+     */
     public static void removeFromUpdateList(Updatable updatable) {
         updatables.remove(updatable);
     }
 
     /**
-     * Remove the current iterated element from the update list
+     * Remove the current iterated element from the update list.
      */
     public static void removeCurrentFromUpdateList() {
         itUpdatable.remove();
     }
 
+    /**
+     * Add the given displayable entity to the game. If the once flag of the displayable is true
+     * display the entity one time and don't add to the list.
+     * @param displayable The displayable to be added.
+     */
     public static void addToDisplayList(Displayable displayable) {
         MapsActivity.mapApi.displayEntity(displayable);
 
-        if (!displayable.once()) {
+        if (!displayable.isOnce()) {
             displayables.add(displayable);
         }
     }
 
+    /**
+     * Remove the given displayable entity from the game.
+     * @param displayable The displayable to be removed.
+     */
     public static void removeFromDisplayList(Displayable displayable) {
         MapsActivity.mapApi.unDisplayEntity(displayable);
         displayables.remove(displayable);
     }
 
+    /**
+     * Checks if the updatable is in the list of updatables.
+     * @param updatable The updatable to check.
+     * @return True if the updatable is in the list.
+     */
     public static boolean updatablesContains(Updatable updatable){
         return updatables.contains(updatable);
     }
 
+    /**
+     * Checks if the displayable is in the list of displayables.
+     * @param displayable The displayable to check.
+     * @return True if the updatable is in the list.
+     */
     public static boolean displayablesContains(Displayable displayable){
         return updatables.contains(displayable);
     }
 
+    /**
+     * Gets the list of updatables.
+     * @return A list with all the updatables.
+     */
     public ArrayList<Updatable> getUpdatables() {
         return updatables;
     }
 
+    /**
+     * Gets the list of displayables.
+     * @return A list with all the displayables.
+     */
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
     }
@@ -116,7 +152,6 @@ public class Game implements Updatable, Drawable {
     /**
      * Show the changes in the screen, will lead to animation
      */
-    @Override
     public void draw() {
         for (Displayable displayable : displayables) {
             MapsActivity.mapApi.displayEntity(displayable);

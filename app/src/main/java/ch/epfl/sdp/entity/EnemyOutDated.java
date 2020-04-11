@@ -1,6 +1,6 @@
 package ch.epfl.sdp.entity;
 
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 public class EnemyOutDated extends MovingEntity {
 
@@ -20,7 +20,7 @@ public class EnemyOutDated extends MovingEntity {
     }
 
     @Override
-    public boolean once() {
+    public boolean isOnce() {
         return false;
     }
 }
