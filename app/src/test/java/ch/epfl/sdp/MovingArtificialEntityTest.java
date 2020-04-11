@@ -3,7 +3,7 @@ package ch.epfl.sdp;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.Boundable;
+import ch.epfl.sdp.artificial_intelligence.Area;
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
@@ -54,7 +54,7 @@ public class MovingArtificialEntityTest {
 
     @Test
     public void SinusMovementWorks() {
-        GenPoint initialPosition = PointConverter.GeoPointToGenPoint(map.getCurrentLocation());
+        GenPoint initialPosition = PointConverter.geoPointToGenPoint(map.getCurrentLocation());
         MovingArtificialEntity movingArtificialEntity = new Enemy();
         movingArtificialEntity.setBounds(new UnboundedArea());
         SinusoidalMovement movement = new SinusoidalMovement(initialPosition, 2, 2 * Math.PI / 4);
@@ -81,11 +81,11 @@ public class MovingArtificialEntityTest {
 
     @Test
     public void secondConstructorWorks() {
-        Boundable boundable = new UnboundedArea();
+        Area area = new UnboundedArea();
         MovingArtificialEntity movingArtificialEntity = new Enemy();
-        movingArtificialEntity.setBounds(boundable);
-        assertEquals(boundable, movingArtificialEntity.getBounds());
-        assertEquals(true, boundable.isInside(movingArtificialEntity.getPosition()));
+        movingArtificialEntity.setBounds(area);
+        assertEquals(area, movingArtificialEntity.getBounds());
+        assertEquals(true, area.isInside(movingArtificialEntity.getPosition()));
     }
 
     @Test
@@ -101,8 +101,8 @@ public class MovingArtificialEntityTest {
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
         GeoPoint entityLocation = new GeoPoint(40, 50);
-        GenPoint entityPos = PointConverter.GeoPointToGenPoint(entityLocation);
-        Boundable rectangleBounds = new RectangleBounds(50, 50);
+        GenPoint entityPos = PointConverter.geoPointToGenPoint(entityLocation);
+        Area rectangleBounds = new RectangleBounds(50, 50);
         LocalBounds patrolBounds = new LocalBounds(rectangleBounds, entityPos);
         MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, rectangleBounds);
         LinearMovement movement = new LinearMovement(entityPos);

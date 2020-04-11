@@ -1,5 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-public interface Boundable {
+public interface Area {
     boolean isInside(GenPoint genPoint);
 }

@@ -3,18 +3,18 @@ package ch.epfl.sdp.artificial_intelligence;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
-public class LocalBounds implements Boundable, Localizable {
-    private Boundable bounds;
+public class LocalBounds implements Area, Positionable {
+    private Area bounds;
     private CartesianPoint position;
 
-    public LocalBounds(Boundable bounds, GenPoint position) {
+    public LocalBounds(Area bounds, GenPoint position) {
         this.bounds = bounds;
         if (position != null) {
             this.position = position.toCartesian();
         }
     }
 
-    public void setBounds(Boundable bounds) {
+    public void setBounds(Area bounds) {
         this.bounds = bounds;
     }
 
@@ -27,7 +27,7 @@ public class LocalBounds implements Boundable, Localizable {
     }
 
     public GeoPoint getLocation() {
-        return PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation());
+        return PointConverter.genPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation());
     }
 
     public void setPosition(GenPoint position) {

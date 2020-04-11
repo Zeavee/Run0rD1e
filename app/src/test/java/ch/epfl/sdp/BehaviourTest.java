@@ -49,7 +49,7 @@ public class BehaviourTest {
         }
 
         if (enemy.getBehaviour() == Behaviour.ATTACK) {
-            while (enemy.getTimeAttack() > 0) {
+            while (enemy.getAttackTimeDelay() > 0) {
                 enemy.update();
             }
 

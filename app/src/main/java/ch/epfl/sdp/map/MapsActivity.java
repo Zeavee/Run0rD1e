@@ -57,10 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Enemy -------------------------------------------
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500,3500), PointConverter.GeoPointToGenPoint(local));
+        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500, 3500), PointConverter.geoPointToGenPoint(local));
         Enemy enemy = new Enemy(localBounds, new UnboundedArea());
         enemy.setLocation(enemyPos);
-        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));
+        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToGenPoint(enemyPos));
         movement.setVelocity(5);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);

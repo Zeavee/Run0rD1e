@@ -70,11 +70,11 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
-            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2), PointConverter.GeoPointToGenPoint(local));
-            Boundable boundable = new UnboundedArea();
-            Enemy enemy = new Enemy(localBounds, boundable);
+            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2), PointConverter.geoPointToGenPoint(local));
+            Area area = new UnboundedArea();
+            Enemy enemy = new Enemy(localBounds, area);
             enemy.setLocation(enemyPos);
-            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));
+            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToGenPoint(enemyPos));
             movement.setVelocity(5);
             movement.setAngleStep(0.1);
             movement.setAmplitude(10);

@@ -1,5 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-public interface Localizable {
+public interface Positionable {
     GenPoint getPosition();
 }

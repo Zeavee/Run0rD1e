@@ -9,12 +9,12 @@ import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
-import ch.epfl.sdp.artificial_intelligence.Localizable;
+import ch.epfl.sdp.artificial_intelligence.Positionable;
 import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
-public class Player extends MovingEntity implements Localizable {
+public class Player extends MovingEntity implements Positionable {
     public String username;
     public String email;
     @Exclude

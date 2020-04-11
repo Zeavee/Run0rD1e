@@ -13,8 +13,8 @@ public class PointConverterTest {
     @Test
     public void geoPointToGenPointHasPrecisionOfMillimetersForLon0Lat0() {
         GeoPoint geoPoint = new GeoPoint(0, 0);
-        GenPoint genPoint = PointConverter.GeoPointToGenPoint(geoPoint);
-        GeoPoint geoPointConvertedBack = PointConverter.GenPointToGeoPoint(genPoint, geoPoint);
+        GenPoint genPoint = PointConverter.geoPointToGenPoint(geoPoint);
+        GeoPoint geoPointConvertedBack = PointConverter.genPointToGeoPoint(genPoint, geoPoint);
         double distance = geoPoint.distanceTo(geoPointConvertedBack);
         assertTrue(distance <= 0.001);
     }
@@ -22,8 +22,8 @@ public class PointConverterTest {
     @Test
     public void geoPointToGenPointHasPrecisionOfMillimetersForLon50Lat50() {
         GeoPoint geoPoint = new GeoPoint(50, 50);
-        GenPoint genPoint = PointConverter.GeoPointToGenPoint(geoPoint);
-        GeoPoint geoPointConvertedBack = PointConverter.GenPointToGeoPoint(genPoint, new GeoPoint(53, 0));
+        GenPoint genPoint = PointConverter.geoPointToGenPoint(geoPoint);
+        GeoPoint geoPointConvertedBack = PointConverter.genPointToGeoPoint(genPoint, new GeoPoint(53, 0));
         double distance = geoPoint.distanceTo(geoPointConvertedBack);
         assertTrue(distance <= 0.001);
     }

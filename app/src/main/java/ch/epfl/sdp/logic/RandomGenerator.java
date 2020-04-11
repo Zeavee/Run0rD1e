@@ -18,7 +18,6 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
 
 public class RandomGenerator {
    private static Random rand = new Random();
@@ -88,8 +87,8 @@ public class RandomGenerator {
      // Chooses a random location on a circle of chosen radius
      public static GeoPoint randomLocationOnCircle(GeoPoint reference, int radius){
          PolarPoint pp = (new PolarPoint(radius,rand.nextDouble()*Math.PI));
-         GenPoint ref = PointConverter.GeoPointToGenPoint(reference);
-         return PointConverter.GenPointToGeoPoint(ref.toCartesian().add(pp), reference);
+         GenPoint ref = PointConverter.geoPointToGenPoint(reference);
+         return PointConverter.genPointToGeoPoint(ref.toCartesian().add(pp), reference);
      }
 
      public Healthpack randomHealthPack() {

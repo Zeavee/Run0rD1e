@@ -7,11 +7,10 @@ import uk.me.jstott.jcoord.UTMRef;
 public class PointConverter {
     /**
      * Get a GenPoint from a GeoPoint
-     *
      * @param geoPoint a point on a geodesic surface
      * @return a point transformed from the geodesic surface to the plane
      */
-    public static GenPoint GeoPointToGenPoint(GeoPoint geoPoint) {
+    public static GenPoint geoPointToGenPoint(GeoPoint geoPoint) {
         LatLng laln = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
         UTMRef utm = laln.toUTMRef();
         return new CartesianPoint(utm.getEasting(), utm.getNorthing());
@@ -24,7 +23,7 @@ public class PointConverter {
      *                    playing location
      * @return a point transformed from the plane to a geodesic surface
      */
-    public static GeoPoint GenPointToGeoPoint(GenPoint genPoint, GeoPoint refGeoPoint) {
+    public static GeoPoint genPointToGeoPoint(GenPoint genPoint, GeoPoint refGeoPoint) {
         int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
         char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
         CartesianPoint cp = genPoint.toCartesian();

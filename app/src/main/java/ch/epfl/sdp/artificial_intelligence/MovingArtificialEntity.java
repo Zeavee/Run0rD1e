@@ -7,9 +7,9 @@ import ch.epfl.sdp.entity.MovingEntity;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
-public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
+public class MovingArtificialEntity extends MovingEntity implements Movable, Positionable, Updatable {
     private Movement movement;
-    private Boundable bounds;
+    private Area bounds;
     private boolean moving;
     private boolean forceMove = false;
     private Random rand = new Random();
@@ -17,23 +17,23 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
 
     public MovingArtificialEntity() {
         super();
-        movement = new LinearMovement(PointConverter.GeoPointToGenPoint(getLocation()));
+        movement = new LinearMovement(PointConverter.geoPointToGenPoint(getLocation()));
         bounds = new UnboundedArea();
         moving = true;
     }
 
-    public MovingArtificialEntity(Movement movement, Boundable bounds, boolean moving) {
+    public MovingArtificialEntity(Movement movement, Area bounds, boolean moving) {
         super();
         this.movement = movement;
         this.bounds = bounds;
         this.moving = moving;
     }
 
-    public Boundable getBounds() {
+    public Area getBounds() {
         return bounds;
     }
 
-    public void setBounds(Boundable bounds) {
+    public void setBounds(Area bounds) {
         this.bounds = bounds;
     }
 
@@ -46,7 +46,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         GenPoint position = movement.nextPosition();
         if (bounds.isInside(position) || forceMove) {
             movement.setPosition(position);
-            super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
+            super.setLocation(PointConverter.genPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
         } else {
             switchOnMouvement();
         }
@@ -76,7 +76,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     @Override
     public void setLocation(GeoPoint geoPoint) {
         super.setLocation(geoPoint);
-        movement.setPosition(PointConverter.GeoPointToGenPoint(geoPoint));
+        movement.setPosition(PointConverter.geoPointToGenPoint(geoPoint));
     }
 
     @Override

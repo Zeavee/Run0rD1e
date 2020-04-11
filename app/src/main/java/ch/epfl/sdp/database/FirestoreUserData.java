@@ -58,7 +58,7 @@ public class FirestoreUserData implements UserDataController {
 
     @Override
     public void fetchPlayers() {
-        
+
     }
 
     private void createNewLobby(DocumentReference docRefLobby, Player player) {

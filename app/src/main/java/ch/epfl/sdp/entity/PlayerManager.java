@@ -2,6 +2,8 @@ package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
 
+import ch.epfl.sdp.artificial_intelligence.GenPoint;
+
 public class PlayerManager {
     private static ArrayList<Player> players = new ArrayList<>();
     public static final int NUMBER_OF_PLAYERS_IN_Lobby = 10;
@@ -32,5 +34,27 @@ public class PlayerManager {
 
     public static Player getUser(){
         return user;
+    }
+
+    /**
+     * Selects the closest player alive from a given position.
+     *
+     * @return A Player representing the closest player alive from a given position. If there is no
+     * player alive it returns null.
+     */
+    public static Player selectClosestPlayer(GenPoint position) {
+        Player target = null;
+        double minDistance = Double.MAX_VALUE;
+        double currDistance;
+
+        for (Player player : players) {
+            currDistance = player.getPosition().toCartesian().distanceFrom(position) - player.getAoeRadius();
+            if (currDistance < minDistance && player.isAlive()) {
+                minDistance = currDistance;
+                target = player;
+            }
+        }
+
+        return target;
     }
 }

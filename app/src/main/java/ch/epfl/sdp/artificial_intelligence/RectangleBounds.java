@@ -2,7 +2,7 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import ch.epfl.sdp.map.GeoPoint;
 
-public class RectangleBounds implements Boundable {
+public class RectangleBounds implements Area {
     private float halfHeight;
     private float halfWidth;
     private GeoPoint lowerLeft;

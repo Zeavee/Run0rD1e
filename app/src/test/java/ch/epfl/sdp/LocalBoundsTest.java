@@ -17,7 +17,7 @@ public class LocalBoundsTest {
     public void testSetters() {
         MapsActivity.setMapApi(new MockMapApi());
         GeoPoint geoPoint = new GeoPoint(40, 50);
-        GenPoint genPoint = PointConverter.GeoPointToGenPoint(geoPoint);
+        GenPoint genPoint = PointConverter.geoPointToGenPoint(geoPoint);
         LocalBounds localBounds = new LocalBounds(new UnboundedArea(), new CartesianPoint());
         localBounds.setBounds(new UnboundedArea());
         localBounds.setPosition(genPoint);
