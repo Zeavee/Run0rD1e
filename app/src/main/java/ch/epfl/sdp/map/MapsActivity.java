@@ -31,7 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public static MapApi mapApi = new GoogleMapApi();
     public static UserDataController userDataController = new FirestoreUserData();
 
-    public static void setMapApi(MapApi map){
+    public static void setMapApi(MapApi map) {
         mapApi = map;
     }
 
@@ -57,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Enemy -------------------------------------------
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500,3500), PointConverter.GeoPointToGenPoint(local));
+        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500, 3500), PointConverter.GeoPointToGenPoint(local));
         Enemy enemy = new Enemy(localBounds, new UnboundedArea());
         enemy.setLocation(enemyPos);
         SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));

@@ -10,6 +10,7 @@ public interface MapApi {
 
     /**
      * Method for the current location
+     *
      * @return the current location of the phone
      */
     public GeoPoint getCurrentLocation();
@@ -27,6 +28,7 @@ public interface MapApi {
     /**
      * A method that creates a small circle that has always the same size on screen,
      * so we can see it even when the map is not zoomed
+     *
      * @param color a color in RGB
      * @return a bitmap, which is an image
      */
@@ -37,13 +39,13 @@ public interface MapApi {
      *
      * @param displayable an entity that is displayable on the map
      */
-     void displayEntity(Displayable displayable);
+    void displayEntity(Displayable displayable);
 
-     void unDisplayEntity(Displayable displayable);
+    void unDisplayEntity(Displayable displayable);
 
-     public void initializeApi(LocationManager locationManager, Activity activity);
+    public void initializeApi(LocationManager locationManager, Activity activity);
 
-     Activity getActivity();
+    Activity getActivity();
 
-     void setMap(GoogleMap googleMap);
+    void setMap(GoogleMap googleMap);
 }

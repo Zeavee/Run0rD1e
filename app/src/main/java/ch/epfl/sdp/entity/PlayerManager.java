@@ -21,16 +21,16 @@ public class PlayerManager {
         return players;
     }
 
-    public static void removeAll(){
+    public static void removeAll() {
         players.clear();
     }
 
-    public static void setUser(Player player){
+    public static void setUser(Player player) {
         user = player;
         addPlayer(user);
     }
 
-    public static Player getUser(){
+    public static Player getUser() {
         return user;
     }
 }

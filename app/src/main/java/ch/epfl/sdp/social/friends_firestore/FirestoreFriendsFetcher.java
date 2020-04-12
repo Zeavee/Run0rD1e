@@ -24,11 +24,9 @@ public class FirestoreFriendsFetcher extends RemoteFriendFetcher {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                for (DocumentSnapshot doc: docs)
-                {
-                    if (doc.getId().contains(constraint))
-                    {
-                        filtered.add(new User(doc.getId(), (String)doc.getData().get("username")));
+                for (DocumentSnapshot doc : docs) {
+                    if (doc.getId().contains(constraint)) {
+                        filtered.add(new User(doc.getId(), (String) doc.getData().get("username")));
                     }
                 }
                 waiter.signalFriendsFetched(filtered);

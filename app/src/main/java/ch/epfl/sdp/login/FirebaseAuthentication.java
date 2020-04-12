@@ -52,8 +52,7 @@ public class FirebaseAuthentication implements AuthenticationController {
         }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
-    public static FirebaseUser getCurrentUser()
-    {
+    public static FirebaseUser getCurrentUser() {
         return auth.getCurrentUser();
     }
 

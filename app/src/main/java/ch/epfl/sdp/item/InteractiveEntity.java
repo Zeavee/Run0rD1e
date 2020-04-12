@@ -12,7 +12,7 @@ public abstract class InteractiveEntity implements Displayable {
     private boolean once;
 
     public InteractiveEntity(EntityType entityType) {
-        this(entityType,  RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 1000) , false);
+        this(entityType, RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 1000), false);
     }
 
     public InteractiveEntity(EntityType entityType, GeoPoint location) {
@@ -30,7 +30,7 @@ public abstract class InteractiveEntity implements Displayable {
         return location;
     }
 
-    public void setLocation(GeoPoint location){
+    public void setLocation(GeoPoint location) {
         this.location = location;
     }
 

@@ -22,14 +22,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     USERS_PASSWORD + " TEXT NOT NULL" +
                     ")";
 
-    public DatabaseHelper(Context context)
-    {
+    public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
     public void saveLoggedUser(String email, String password) {
-        try
-        {
+        try {
             SQLiteDatabase writableDatabase = getWritableDatabase();
             String sqlQuery = String.format("INSERT INTO %s (%s, %s) VALUES (?, ?)",
                     USERS_TABLE_NAME, USERS_EMAIL, USERS_PASSWORD, email, password);
@@ -37,9 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             stmt.bindString(1, email);
             stmt.bindString(2, password);
             stmt.executeInsert();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }
@@ -60,12 +56,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void deleteAllUsers() {
-            SQLiteDatabase writableDatabase = getWritableDatabase();
-            writableDatabase.execSQL("DELETE FROM " + USERS_TABLE_NAME);
+        SQLiteDatabase writableDatabase = getWritableDatabase();
+        writableDatabase.execSQL("DELETE FROM " + USERS_TABLE_NAME);
     }
 
-    public class UserData extends CacheableUserInfo
-    {
+    public class UserData extends CacheableUserInfo {
         public UserData(String email, String password) {
             this.email = email;
             this.password = password;
@@ -73,11 +68,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase)
-    {
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(USERS_CREATE_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion){}
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
 }

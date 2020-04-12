@@ -19,7 +19,8 @@ public class PointConverter {
 
     /**
      * Get a GeoPoint from a GenPoint
-     * @param genPoint point in the plane (unit in meters)
+     *
+     * @param genPoint    point in the plane (unit in meters)
      * @param refGeoPoint reference point on the surface of earth, must be close to the actual
      *                    playing location
      * @return a point transformed from the plane to a geodesic surface

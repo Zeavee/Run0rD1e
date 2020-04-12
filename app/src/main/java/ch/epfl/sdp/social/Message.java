@@ -20,8 +20,7 @@ public class Message {
 
     private int chat_id;
 
-    public Message(Date date, String text)
-    {
+    public Message(Date date, String text) {
         this.date = date;
         this.text = text;
     }
@@ -37,14 +36,15 @@ public class Message {
     public void setText(String text) {
         this.text = text;
     }
-    public Date getDate()
-    {
+
+    public Date getDate() {
         return date;
     }
-    public String getText()
-    {
+
+    public String getText() {
         return text;
     }
+
     public int getChat_id() {
         return chat_id;
     }

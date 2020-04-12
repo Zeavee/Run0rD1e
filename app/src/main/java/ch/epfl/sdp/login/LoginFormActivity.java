@@ -32,7 +32,7 @@ public class LoginFormActivity extends AppCompatActivity {
         authenticationController = (authenticationController == null) ? new FirebaseAuthentication(new FirestoreUserData()) : authenticationController;
         loggedUser = (loggedUser == null) ? new DatabaseHelper(this).getLoggedUser() : loggedUser;
 
-        if(loggedUser != null)  {
+        if (loggedUser != null) {
             authenticationController.signIn(LoginFormActivity.this, loggedUser.email, loggedUser.password);
         }
 
@@ -40,9 +40,9 @@ public class LoginFormActivity extends AppCompatActivity {
 
     }
 
-   public void createAccountBtn_OnClick(View view) {
-       startActivity(new Intent(LoginFormActivity.this, RegisterFormActivity.class));
-       finish();
+    public void createAccountBtn_OnClick(View view) {
+        startActivity(new Intent(LoginFormActivity.this, RegisterFormActivity.class));
+        finish();
     }
 
     public void loginBtn_OnClick(View view) {

@@ -10,13 +10,13 @@ public class ItemBox extends DetectableEntity {
     private Map<Item, Integer> items;
     private boolean taken;
 
-    public ItemBox(){
+    public ItemBox() {
         super(EntityType.ITEMBOX);
         this.items = new HashMap<>();
         taken = false;
     }
 
-    public void putItems(Item item, int quantity){
+    public void putItems(Item item, int quantity) {
         items.put(item, quantity);
     }
 
@@ -29,10 +29,10 @@ public class ItemBox extends DetectableEntity {
         taken = true;
         Inventory inventory = player.getInventory();
         int quantity = 0;
-        for (Map.Entry<Item, Integer> itemQuant: items.entrySet()) {
+        for (Map.Entry<Item, Integer> itemQuant : items.entrySet()) {
             quantity = itemQuant.getValue();
 
-            if(inventory.getItems().get(itemQuant.getKey()) != null){
+            if (inventory.getItems().get(itemQuant.getKey()) != null) {
                 quantity += inventory.getItems().get(itemQuant.getKey());
             }
 

@@ -24,7 +24,7 @@ public class Market extends InteractiveEntity implements Displayable {
         super(EntityType.MARKET, RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 1000), true);
         stock = new HashMap<>();
         Random random = new Random();
-        for (Item item: randomGenerator.randomItemsList()) {
+        for (Item item : randomGenerator.randomItemsList()) {
             stock.put(item, new Pair<>(random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
         }
     }
@@ -39,7 +39,7 @@ public class Market extends InteractiveEntity implements Displayable {
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
             return false;
         } else {
-            stock.put(item, new Pair<>(currentStock-1, price));
+            stock.put(item, new Pair<>(currentStock - 1, price));
             player.getInventory().addItem(item.createCopy());
         }
         return true;

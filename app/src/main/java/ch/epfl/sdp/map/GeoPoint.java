@@ -1,7 +1,6 @@
 package ch.epfl.sdp.map;
 
 
-import static java.lang.Math.*;
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -49,6 +48,7 @@ public final class GeoPoint {
 
     /**
      * Method which computes the distance in meters between two GeoPoints
+     *
      * @param that is a point on Earth
      * @return distance in meters between two points
      */
@@ -58,23 +58,25 @@ public final class GeoPoint {
         double lambda2 = toRadians(that.longitude);
         double phi2 = toRadians(that.latitude);
         double alpha = 2.0 * asin(sqrt(haversin(phi1 - phi2) + cos(phi1)
-                        * cos(phi2) * haversin(lambda1 - lambda2)));
+                * cos(phi2) * haversin(lambda1 - lambda2)));
 
         return toMeters(alpha);
     }
 
     /**
      * Method which computes haversin(x)
+     *
      * @param x
-     * @return [sin(x/2)]^2
+     * @return [sin(x / 2)]^2
      */
     private double haversin(double x) {
-        double y = sin(x/2);
-        return y*y;
+        double y = sin(x / 2);
+        return y * y;
     }
 
     /**
      * Method which converts radians to meters
+     *
      * @param distanceInRadians
      * @return the corresponding distance in meters
      */

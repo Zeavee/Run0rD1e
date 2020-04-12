@@ -19,7 +19,7 @@ public class Inventory {
 
     public void removeItem(Item item) {
         if (items.containsKey(item)) {
-            if(items.get(item) > 0) {
+            if (items.get(item) > 0) {
                 items.put(item, items.get(item) - 1);
             }
         }
@@ -33,10 +33,10 @@ public class Inventory {
         return items;
     }
 
-    public int size(){
+    public int size() {
         int size = 0;
 
-        for (int value :items.values()) {
+        for (int value : items.values()) {
             size += value;
         }
 

@@ -35,8 +35,8 @@ public class Enemy extends MovingArtificialEntity {
         this.waiting = false;
     }
 
-    public Enemy(LocalBounds patrolBounds, Boundable maxBounds){
-        this(0,0,1000,50, patrolBounds, maxBounds);
+    public Enemy(LocalBounds patrolBounds, Boundable maxBounds) {
+        this(0, 0, 1000, 50, patrolBounds, maxBounds);
     }
 
     public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
@@ -147,7 +147,7 @@ public class Enemy extends MovingArtificialEntity {
 
         if (target != null) {
             orientToTarget(target);
-            if (playerDetected(this.getAoeRadius())!= null) {
+            if (playerDetected(this.getAoeRadius()) != null) {
                 super.setMoving(false);
                 behaviour = Behaviour.ATTACK;
             }

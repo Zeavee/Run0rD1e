@@ -19,6 +19,7 @@ public abstract class GenPoint {
     public double getArg2() {
         return arg2;
     }
+
     public void setArg1(float arg1) {
         this.arg1 = arg1;
     }
@@ -28,5 +29,6 @@ public abstract class GenPoint {
     }
 
     public abstract CartesianPoint toCartesian();
+
     public abstract PolarPoint toPolar();
 }

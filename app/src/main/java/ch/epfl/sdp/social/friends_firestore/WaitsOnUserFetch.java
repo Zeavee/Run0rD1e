@@ -7,5 +7,6 @@ import ch.epfl.sdp.social.User;
 public interface WaitsOnUserFetch {
 
     void signalFriendsFetched(List<User> fetched_friends);
+
     void updateSearch(String friendQuery);
 }

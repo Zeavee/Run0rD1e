@@ -10,21 +10,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
 import static ch.epfl.sdp.R.id.useitem;
 
-public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
+public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
     private Context mContext;
 
     public ItemsViewAdapter(Context mContext) {
@@ -59,17 +54,17 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
-//        ImageView image;
+        //        ImageView image;
         private TextView name;
         private TextView amountOfItem;
         private Button button;
 
-    public ItemsViewHolder(@NonNull View itemView) {
-        super(itemView);
+        public ItemsViewHolder(@NonNull View itemView) {
+            super(itemView);
 //      image = itemView.findViewById(R.id.image_view);
-        name = itemView.findViewById(title);
-        button = itemView.findViewById(useitem);
-        amountOfItem = itemView.findViewById(amount);
+            name = itemView.findViewById(title);
+            button = itemView.findViewById(useitem);
+            amountOfItem = itemView.findViewById(amount);
 
         }
     }

@@ -44,7 +44,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
     @Override
     public void setEnemyCreationTime(float time) {
-        if (time<0) {
+        if (time < 0) {
             return;
         }
         timeToCreate = time;
@@ -52,7 +52,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
     @Override
     public void setMaxEnemiesPerUnitArea(int enemyCount) {
-        if (enemyCount<0) {
+        if (enemyCount < 0) {
             return;
         }
         maxEnemiesPerUnitArea = enemyCount;
@@ -64,7 +64,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         Random rd = new Random();
         GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
         int maxIter = 500;
-        while(maxIter > 0) {
+        while (maxIter > 0) {
             // TODO better randomization
             GeoPoint local = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
             enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));

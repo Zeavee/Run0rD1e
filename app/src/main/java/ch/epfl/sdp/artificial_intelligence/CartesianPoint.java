@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-public class CartesianPoint extends GenPoint{
+public class CartesianPoint extends GenPoint {
     public CartesianPoint() {
         super();
     }
@@ -9,7 +9,7 @@ public class CartesianPoint extends GenPoint{
         super(x, y);
     }
 
-    public CartesianPoint add(GenPoint that){
+    public CartesianPoint add(GenPoint that) {
         return new CartesianPoint(this.arg1 + that.toCartesian().arg1, this.arg2 + that.toCartesian().arg2);
     }
 
@@ -46,6 +46,6 @@ public class CartesianPoint extends GenPoint{
 
     @Override
     public PolarPoint toPolar() {
-        return new PolarPoint(Double.valueOf(Math.sqrt(arg1*arg1 + arg2*arg2)).floatValue(),Double.valueOf(Math.atan2(arg2,arg1)).floatValue());
+        return new PolarPoint(Double.valueOf(Math.sqrt(arg1 * arg1 + arg2 * arg2)).floatValue(), Double.valueOf(Math.atan2(arg2, arg1)).floatValue());
     }
 }

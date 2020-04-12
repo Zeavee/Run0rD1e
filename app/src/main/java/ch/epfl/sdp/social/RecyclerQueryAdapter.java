@@ -17,7 +17,7 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
 import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
 
-public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOnUserFetch {
+public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOnUserFetch {
 
     private List<User> friendsList;
     private RemoteFriendFetcher server;
@@ -60,8 +60,7 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
         server.getFriendsFromServer(friendQuery);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imageView;
         private TextView emailTextView, usernameTextView;
@@ -72,7 +71,7 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             emailTextView = itemView.findViewById(R.id.textViewEmail);
             usernameTextView = itemView.findViewById(R.id.textViewUsername);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
                 public boolean onLongClick(View v) {
@@ -93,11 +92,10 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             ChatRepository.setContextActivity(v.getContext());
 
             completeDBSetup();
-            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend", Toast.LENGTH_SHORT).show();
         }
 
-        private void completeDBSetup()
-        {
+        private void completeDBSetup() {
             // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
             User cur_usr = new User("stupid1@gmail.com");
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());

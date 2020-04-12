@@ -40,7 +40,7 @@ public class Player extends MovingEntity implements Localizable {
     private int money;
 
     public Player() {
-        this("","");
+        this("", "");
     }
 
     public Player(String username, String email) {
@@ -71,7 +71,7 @@ public class Player extends MovingEntity implements Localizable {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
-                this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
+                this.healthPoints = this.healthPoints + 1 / distance * 10; //distance is negative
             }
         }
     }
@@ -114,7 +114,9 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public boolean isShielded() {return this.isShielded; }
+    public boolean isShielded() {
+        return this.isShielded;
+    }
 
     public void setShielded(boolean shielded) {
         isShielded = shielded;
@@ -139,7 +141,7 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public void setPosition(GenPoint genPoint){
+    public void setPosition(GenPoint genPoint) {
         this.position = genPoint.toCartesian();
     }
 
@@ -152,7 +154,9 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public int getMoney() { return money; }
+    public int getMoney() {
+        return money;
+    }
 
     @Exclude
     public boolean removeMoney(int amount) {

@@ -2,9 +2,11 @@ package ch.epfl.sdp.logic;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import java.util.*;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.EnemyOutDated;
@@ -17,7 +19,7 @@ public class GameInfoActivity extends AppCompatActivity {
             50,
             "admin",
             "admin@epfl.ch");
-    EnemyOutDated enemyOutDated = new EnemyOutDated(6.149596,46.212437, 50); //enemy's position is close to player
+    EnemyOutDated enemyOutDated = new EnemyOutDated(6.149596, 46.212437, 50); //enemy's position is close to player
     ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<>(Arrays.asList(enemyOutDated));
 
     TextView username, healthPoint;
@@ -68,7 +70,8 @@ public class GameInfoActivity extends AppCompatActivity {
                         Thread.sleep(refreshTime);
                         runOnUiThread(() -> {
                             if (player.getHealthPoints() > 0)
-                                player.updateHealth(enemyOutDatedArrayList);});
+                                player.updateHealth(enemyOutDatedArrayList);
+                        });
                     }
                 } catch (InterruptedException e) {
                 }
@@ -78,7 +81,7 @@ public class GameInfoActivity extends AppCompatActivity {
     }
 
     private void updateHealthPoint() {
-        double roundOff = Math.round(player.getHealthPoints()*100.0)/100.0;
+        double roundOff = Math.round(player.getHealthPoints() * 100.0) / 100.0;
         healthPoint.setText(String.valueOf(roundOff));
     }
 }

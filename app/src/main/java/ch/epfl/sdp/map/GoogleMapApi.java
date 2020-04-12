@@ -52,13 +52,16 @@ public class GoogleMapApi implements MapApi {
             }
 
             @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
             @Override
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
             @Override
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
     }
 
@@ -193,7 +196,7 @@ public class GoogleMapApi implements MapApi {
                 mMap.addCircle(new CircleOptions()
                         .center(position)
                         .strokeColor(color)
-                        .fillColor(color-0x80000000)
+                        .fillColor(color - 0x80000000)
                         .radius(aoeRadius)
                         .strokeWidth(1f))));
     }

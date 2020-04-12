@@ -1,22 +1,19 @@
 package ch.epfl.sdp.social;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import androidx.appcompat.widget.SearchView;
 
-import java.lang.reflect.Array;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
 import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
 
 public class AddFriendsActivity extends AppCompatActivity {
@@ -28,8 +25,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
     // Used for mocking (to be called before being created inside)
     public static void setAdapter(RecyclerQueryAdapter newAdapter) {
-        if (newAdapter == null)
-        {
+        if (newAdapter == null) {
             Log.d("HOOWWWW", "DAFUQQQQQQQQ");
         }
         cached_adapter = newAdapter;
@@ -57,18 +53,17 @@ public class AddFriendsActivity extends AppCompatActivity {
 
         // layoutManager of recyclerView implemented in the xml file
         // recyclerView.setAdapter(adapter);
-        
+
         // when it comes alive, it will use this adapter
         useCachedAdapter();
         container.clear();
         container.add(cached_adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-        
+
     }
-    
-    private void useCachedAdapter()
-    {
+
+    private void useCachedAdapter() {
         recyclerView.setAdapter(cached_adapter);
     }
 
@@ -87,7 +82,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((WaitsOnUserFetch)container.get(0)).updateSearch(newText);
+                ((WaitsOnUserFetch) container.get(0)).updateSearch(newText);
                 //adapter.getFilter().filter(newText);
                 return false;
             }

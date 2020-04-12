@@ -2,7 +2,6 @@ package ch.epfl.sdp.social;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 
@@ -27,15 +26,13 @@ public class Chat {
     public String to;
     public String from;
 
-    public Chat(String from, String to)
-    {
+    public Chat(String from, String to) {
         this.from = from;
         this.to = to;
     }
 
 
-    public int getChat_id()
-    {
+    public int getChat_id() {
         return chat_id;
     }
 
@@ -43,8 +40,7 @@ public class Chat {
         return from;
     }
 
-    public String getTo()
-    {
+    public String getTo() {
         return to;
     }
 

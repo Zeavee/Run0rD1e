@@ -13,7 +13,7 @@ import java.util.List;
 import ch.epfl.sdp.db.LeaderboardEntity;
 import ch.epfl.sdp.R;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>{
+public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder> {
     private List<LeaderboardEntity> mUsers;
 
     public LeaderboardAdapter() {
@@ -29,7 +29,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
         if (mUsers != null) {
-            holder.ranking.setText(String.valueOf(position+1));
+            holder.ranking.setText(String.valueOf(position + 1));
             holder.username.setText(mUsers.get(position).getUsername());
             holder.score.setText(String.valueOf(mUsers.get(position).getScore()));
         } else {

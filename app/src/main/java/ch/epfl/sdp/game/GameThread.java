@@ -3,7 +3,7 @@ package ch.epfl.sdp.game;
 /**
  * Manages the main loop
  */
-public class GameThread extends Thread{
+public class GameThread extends Thread {
     private int FPS = 30;
     private double avgFPS;
     private boolean running;
@@ -16,12 +16,13 @@ public class GameThread extends Thread{
     private int frameCount = 0;
     private long targetTime = 1000 / FPS;
 
-    public GameThread(Game game){
+    public GameThread(Game game) {
         this.game = game;
     }
 
     /**
      * Get the actual state of the loop
+     *
      * @return true if it is running, false otherwise
      */
     public boolean isRunning() {
@@ -30,6 +31,7 @@ public class GameThread extends Thread{
 
     /**
      * Set true to start or continue the loop, false to stop it.
+     *
      * @param running defines the state of the loop
      */
     public void setRunning(boolean running) {
@@ -40,9 +42,9 @@ public class GameThread extends Thread{
      * Main loop that can be parameterized, started and stoped, manages frames and updates
      */
     @Override
-    public void run(){
+    public void run() {
         // Main loop of the game
-        while(running){
+        while (running) {
             startTime = System.nanoTime();
 
             // Does this needs synchronization?
@@ -77,7 +79,7 @@ public class GameThread extends Thread{
         totalTime += System.nanoTime() - startTime;
         frameCount++;
 
-        if(frameCount == FPS){
+        if (frameCount == FPS) {
             avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
 
             // Reset values

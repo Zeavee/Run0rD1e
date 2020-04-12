@@ -56,11 +56,11 @@ public class Game implements Updatable, Drawable {
         displayables.remove(displayable);
     }
 
-    public static boolean updatablesContains(Updatable updatable){
+    public static boolean updatablesContains(Updatable updatable) {
         return updatables.contains(updatable);
     }
 
-    public static boolean displayablesContains(Displayable displayable){
+    public static boolean displayablesContains(Displayable displayable) {
         return updatables.contains(displayable);
     }
 
@@ -77,7 +77,7 @@ public class Game implements Updatable, Drawable {
      */
     public void initGame() {
         // It is not legal to start a terminated thread, we have create a new one
-        if(gameThread.getState() == Thread.State.TERMINATED){
+        if (gameThread.getState() == Thread.State.TERMINATED) {
             gameThread = new GameThread(this);
         }
 

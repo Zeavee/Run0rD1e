@@ -19,21 +19,23 @@ public abstract class EnemyGenerator {
     protected Timer timer;
     protected float timeRemaining;
 
-    public EnemyGenerator(RectangleBounds enclosure, Player player)
-    {
+    public EnemyGenerator(RectangleBounds enclosure, Player player) {
         this.enclosure = enclosure;
         this.player = player;
     }
 
     public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
+
     public abstract void setEnemyCreationTime(float time);
+
     public abstract void generateEnemy(double radius);
+
     public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
+
     //public abstract void getEnemyIntersectionWithPlayer(Player user);
     abstract GeoPoint rule();
 
-    public List<EnemyOutDated> getEnemies()
-    {
+    public List<EnemyOutDated> getEnemies() {
         List<EnemyOutDated> clone = new ArrayList<>(enemies.size());
         for (EnemyOutDated item : enemies) clone.add(item);
         return clone;

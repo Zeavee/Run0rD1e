@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-public class PolarPoint extends GenPoint{
+public class PolarPoint extends GenPoint {
     public PolarPoint(double r, double theta) {
         super(r, theta);
     }

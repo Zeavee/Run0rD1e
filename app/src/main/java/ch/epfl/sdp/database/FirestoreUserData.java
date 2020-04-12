@@ -21,14 +21,14 @@ public class FirestoreUserData implements UserDataController {
     @Override
     public void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel) {
         FirebaseFirestore.getInstance().collection("Users")
-            .orderBy("healthPoints", Query.Direction.DESCENDING)
-            .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Player player = documentSnapshot.toObject(Player.class);
-                    LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
-                    leaderoardViewModel.insert(user);
-                }
-            });
+                .orderBy("healthPoints", Query.Direction.DESCENDING)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Player player = documentSnapshot.toObject(Player.class);
+                        LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
+                        leaderoardViewModel.insert(user);
+                    }
+                });
     }
 
     @Override

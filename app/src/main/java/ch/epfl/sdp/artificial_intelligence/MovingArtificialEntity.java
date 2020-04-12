@@ -69,7 +69,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         return movement;
     }
 
-    public void setMovement(Movement movement){
+    public void setMovement(Movement movement) {
         this.movement = movement;
     }
 
