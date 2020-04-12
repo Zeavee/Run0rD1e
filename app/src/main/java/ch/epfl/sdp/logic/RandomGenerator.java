@@ -1,6 +1,7 @@
 package ch.epfl.sdp.logic;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
@@ -14,11 +15,11 @@ import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
 
 public class RandomGenerator {
    private static Random rand = new Random();
@@ -97,12 +98,12 @@ public class RandomGenerator {
        return h;
      }
 
-     public Shield randomShield(Player player) {
+     public Shield randomShield() {
        Shield s = new Shield(rand.nextInt(1)*10+20);
        return s;
      }
 
-     public Shrinker randomShrinker(Player player) {
+     public Shrinker randomShrinker() {
        Shrinker s = new Shrinker( rand.nextInt(1), rand.nextDouble());
        return s;
      }
@@ -148,5 +149,15 @@ public class RandomGenerator {
 
          Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
+     }
+
+
+     public List<Item> randomItemsList() {
+         ArrayList<Item> result = new ArrayList<>();
+         result.add(randomHealthPack());
+         result.add(randomScan());
+         result.add(randomShield());
+         result.add(randomShrinker());
+         return result;
      }
 }

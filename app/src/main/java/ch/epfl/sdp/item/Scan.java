@@ -6,8 +6,16 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.MapsActivity;
 
 public class Scan extends TimedItem {
+    private int scanTime;
+
     public Scan(int scanTime) {
         super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
+        this.scanTime = scanTime;
+    }
+
+    @Override
+    public Item createCopy() {
+        return new Scan(scanTime);
     }
 
     @Override

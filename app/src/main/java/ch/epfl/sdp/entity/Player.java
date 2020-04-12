@@ -36,6 +36,8 @@ public class Player extends MovingEntity implements Localizable {
     private Inventory inventory;
     @Exclude
     private boolean isActive;
+    @Exclude
+    private int money;
 
     public Player() {
         this("","");
@@ -147,5 +149,13 @@ public class Player extends MovingEntity implements Localizable {
 
     public Timestamp getTimestamp() {
         return timestamp;
+    }
+
+    @Exclude
+    public int getMoney() { return money; }
+
+    @Exclude
+    public boolean removeMoney(int amount) {
+        return true;
     }
 }

@@ -1,12 +1,8 @@
 package ch.epfl.sdp;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.internal.matchers.Null;
 
-import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.entity.Player;
@@ -17,6 +13,11 @@ import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.logic.RandomGenerator;
 import ch.epfl.sdp.map.GeoPoint;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class RandomGeneratorTest {
     private RandomGenerator randGen;
@@ -73,14 +74,14 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomShieldTest() {
-        Shield s = randGen.randomShield(new Player());
+        Shield s = randGen.randomShield();
         assertTrue(s.getRemainingTime() >= 20);
         assertTrue(s.getRemainingTime() <= 30);
     }
 
     @Test
     public void randomShrinker() {
-        Shrinker s = randGen.randomShrinker(new Player());
+        Shrinker s = randGen.randomShrinker();
         assertTrue(s.getRemainingTime() >= 0);
         assertTrue(s.getRemainingTime() <= 1);
         assertTrue(s.getShrinkingRadius() >= 0);

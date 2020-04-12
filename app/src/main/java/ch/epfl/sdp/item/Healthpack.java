@@ -17,6 +17,11 @@ public class Healthpack extends Item {
     }
 
     @Override
+    public Item createCopy() {
+        return new Healthpack(healthPackAmount);
+    }
+
+    @Override
     public void use() {
         double increasedHP = PlayerManager.getUser().getHealthPoints() + healthPackAmount;
         if (increasedHP > Player.MAX_HEALTH) {

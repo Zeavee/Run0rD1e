@@ -9,6 +9,12 @@ public abstract class Item {
         this.description = description;
     }
 
+    public Item(Item item) {
+
+    }
+
+    public abstract Item createCopy();
+
     public String getName() {return this.name;}
 
     public String getDescription() {return this.description; }
