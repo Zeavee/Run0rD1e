@@ -1,19 +1,19 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.GeoPoint;
 
 public class Trap extends Item implements Updatable {
-    private GenPoint trapPosition;
+    private GeoPoint trapPosition;
     private int damage;
     private int radius;
     private Player owner;
 
     public Trap(int damage, int radius) {
-        super(String.format("Trap (%f)", damage), String.format("Deal %f health points damages to the player that walks on it", damage));
+        super(String.format("Trap (%d)", damage), String.format("Deal %d health points damages to the player that walks on it", damage));
         this.damage = damage;
         this.radius = radius;
     }
@@ -24,7 +24,7 @@ public class Trap extends Item implements Updatable {
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,
         //getUser would return the wrong player (the server)
         owner = PlayerManager.getUser();
-        trapPosition = owner.getPosition();
+        trapPosition = owner.getLocation();
         Game.addToUpdateList(this);
     }
 
@@ -32,7 +32,7 @@ public class Trap extends Item implements Updatable {
     public void update() {
         boolean hasSomeoneTakenDamage = false;
         for (Player p : PlayerManager.getPlayers()) {
-            if (p.position.distanceFrom(trapPosition) < radius && p != owner) {
+            if (p.getLocation().distanceTo(trapPosition) < radius && p != owner) {
                 p.setHealthPoints(p.getHealthPoints() - damage);
                 hasSomeoneTakenDamage = true;
             }
