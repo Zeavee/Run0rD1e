@@ -46,5 +46,7 @@ public class TrapTest {
         opponent.setLocation(new GeoPoint(42, 42));
         Thread.sleep(1000);
         assertEquals(90.0, opponent.getHealthPoints(), 0.01);
+
+        game.destroyGame();
     }
 }
