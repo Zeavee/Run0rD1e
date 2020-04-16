@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -11,6 +12,7 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 public class TrapTest {
@@ -48,5 +50,16 @@ public class TrapTest {
         assertEquals(90.0, opponent.getHealthPoints(), 0.01);
 
         game.destroyGame();
+    }
+
+    @Test
+    public void trapCorrectlyImplementsTest() {
+        Player player = new Player(45, 45, 100, "username1", "email1@email.com");
+        PlayerManager.setUser(player);
+        Trap trap = new Trap(10, 100);
+        assertTrue(trap.once());
+        assertEquals(EntityType.TRAP, trap.getEntityType());
+        trap.use();
+        assertNotNull(trap.getLocation());
     }
 }
