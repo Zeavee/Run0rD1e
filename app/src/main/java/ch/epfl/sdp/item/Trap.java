@@ -1,12 +1,14 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 
-public class Trap extends Item implements Updatable {
+public class Trap extends Item implements Updatable, Displayable {
     private GeoPoint trapPosition;
     private int damage;
     private int radius;
@@ -26,6 +28,9 @@ public class Trap extends Item implements Updatable {
         owner = PlayerManager.getUser();
         trapPosition = owner.getLocation();
         Game.addToUpdateList(this);
+        if (owner == PlayerManager.getUser()) {
+            Game.addToDisplayList(this);
+        }
     }
 
     @Override
@@ -40,5 +45,20 @@ public class Trap extends Item implements Updatable {
         if (hasSomeoneTakenDamage) {
             Game.removeFromUpdateList(this);
         }
+    }
+
+    @Override
+    public GeoPoint getLocation() {
+        return trapPosition;
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.TRAP;
+    }
+
+    @Override
+    public boolean once() {
+        return true;
     }
 }
