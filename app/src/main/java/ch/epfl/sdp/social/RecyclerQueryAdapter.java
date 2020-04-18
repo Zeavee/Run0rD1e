@@ -14,18 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
-import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
 
-public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOnUserFetch {
+public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
-    private RemoteFriendFetcher server;
 
-    public RecyclerQueryAdapter(RemoteFriendFetcher server) {
+    public RecyclerQueryAdapter() {
         this.friendsList = new ArrayList<>();
-        this.server = server;
-        this.server.setListener(this);
     }
 
     @NonNull
@@ -48,16 +43,10 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
         return friendsList.size();
     }
 
-
     @Override
-    public void signalFriendsFetched(List<User> fetched_friends) {
+    public void contentFetched(List<User> fetched_friends) {
         friendsList = fetched_friends;
         notifyDataSetChanged();
-    }
-
-    @Override
-    public void updateSearch(String friendQuery) {
-        server.getFriendsFromServer(friendQuery);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
@@ -87,7 +76,7 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
         @Override
         public void onClick(View v) {
             // If it is not created already
-            ChatRepository singleton = ChatRepository.createRepo(v.getContext());
+            ChatRepository.createRepo(v.getContext());
 
             // Let it know which UI context thread to run on
             ChatRepository.setContextActivity(v.getContext());

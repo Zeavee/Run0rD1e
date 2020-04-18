@@ -12,11 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.social.User;
+import ch.epfl.sdp.social.WaitsOn;
 
-public class FirestoreFriendsFetcher extends RemoteFriendFetcher {
+public class FriendsRepositery implements RemoteFriendFetcher {
 
     @Override
-    public void getFriendsFromServer(String constraint) {
+    public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
         if (constraint == null) return;
         List<User> filtered = new ArrayList<>();
         FirebaseFirestore.getInstance().collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -24,14 +25,12 @@ public class FirestoreFriendsFetcher extends RemoteFriendFetcher {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                for (DocumentSnapshot doc: docs)
-                {
-                    if (doc.getId().contains(constraint))
-                    {
-                        filtered.add(new User(doc.getId(), (String)doc.getData().get("username")));
+                for (DocumentSnapshot doc : docs) {
+                    if (doc.getId().contains(constraint)) {
+                        filtered.add(new User(doc.getId(), (String) doc.getData().get("username")));
                     }
                 }
-                waiter.signalFriendsFetched(filtered);
+                waiter.contentFetched(filtered);
 
             }
         });

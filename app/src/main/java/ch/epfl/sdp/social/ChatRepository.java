@@ -107,7 +107,7 @@ public final class ChatRepository {
             @Override
             protected void onPostExecute(List<User> friends)
             {
-                ((WaitsOnFriendFetch)(context)).friendsFetched(friends);
+                ((WaitsOn<User>)(context)).contentFetched(friends);
             }
         }.execute();
     }
@@ -145,7 +145,7 @@ public final class ChatRepository {
             @Override
             protected void onPostExecute(List<Message> ls)
             {
-                ((WaitsOnMessageFetch)singleton.contextActivity).incomingMessageFetchFinished(ls, false);
+                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false);
             }
         }.execute();
 
@@ -166,7 +166,7 @@ public final class ChatRepository {
             @Override
             protected void onPostExecute(List<Message> ls)
             {
-                ((WaitsOnMessageFetch)singleton.contextActivity).outgoingMessageFetchFinished(ls);
+                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetched(ls);
             }
         }.execute();
 

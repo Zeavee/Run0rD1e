@@ -51,7 +51,7 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
                         remoteHost.collection("Users").document(owner).collection("Texts").document(sender).collection("Texts")
                                 .document(doc.getId()).update("read", true);
                     }
-                    ((WaitsOnMessageFetch)listener).incomingMessageFetchFinished(remoteMessages, true);
+                    ((WaitsOnWithServer<Message>)listener).contentFetchedWithServer(remoteMessages, true);
                 }
             }
         });

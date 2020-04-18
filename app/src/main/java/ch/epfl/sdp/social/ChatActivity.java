@@ -15,7 +15,7 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 
-public class ChatActivity extends AppCompatActivity implements WaitOnChatRetrieval, WaitsOnMessageFetch {
+public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer<Message> {
 
     private ImageButton sendButton;
     private EditText message;
@@ -75,10 +75,6 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         ChatActivity.chattingWith = chattingWith;
     }
 
-    @Override
-    public void chatFetched(List<Chat> chat) {
-        this.chat = chat.get(0);
-    }
 
     public static final class MessageDecorator{
         private Message m;
@@ -98,7 +94,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
         }
     }
     @Override
-    public void incomingMessageFetchFinished(List<Message> output, boolean isFromServer) {
+    public void contentFetchedWithServer(List<Message> output, boolean isFromServer) {
         messages = output;
         for (Message el: messages)
         {
@@ -111,7 +107,7 @@ public class ChatActivity extends AppCompatActivity implements WaitOnChatRetriev
     }
 
     @Override
-    public void outgoingMessageFetchFinished(List<Message> output) {
+    public void contentFetched(List<Message> output) {
         messages = output;
         for (Message el: messages)
         {

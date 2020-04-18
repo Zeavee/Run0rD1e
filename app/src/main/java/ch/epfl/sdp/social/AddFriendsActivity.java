@@ -1,45 +1,36 @@
 package ch.epfl.sdp.social;
 
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import androidx.appcompat.widget.SearchView;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
-import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
+import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
-
 
     private static RecyclerView recyclerView;
     public static ArrayList<RecyclerQueryAdapter> container = new ArrayList<>(); // for mock testing also
     private static RecyclerQueryAdapter cached_adapter = null;
+    private static RemoteFriendFetcher server;
 
     // Used for mocking (to be called before being created inside)
     public static void setAdapter(RecyclerQueryAdapter newAdapter) {
-        if (newAdapter == null)
-        {
-            Log.d("HOOWWWW", "DAFUQQQQQQQQ");
-        }
         cached_adapter = newAdapter;
-        //recyclerView.setAdapter(newAdapter);
         container.clear();
         container.add(newAdapter);
     }
 
-    private static RecyclerQueryAdapter adapter;
-    private List<User> friends_to_add;
+    public static void setServer(RemoteFriendFetcher server) {
+        AddFriendsActivity.server = server;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,15 +39,6 @@ public class AddFriendsActivity extends AppCompatActivity {
 
 
         recyclerView = findViewById(R.id.recyclerQueryFriends);
-        //friends_to_add = new ArrayList<>();
-
-        // This can be mocked by doing a setAdapter method that injects  new RecyclerQueryAdapter(friends_to_add, new MockFriendsFetcher());
-        // inside @Before
-        // adapter = new RecyclerQueryAdapter(friends_to_add, new FirestoreFriendsFetcher()); // not compatible with testing
-
-
-        // layoutManager of recyclerView implemented in the xml file
-        // recyclerView.setAdapter(adapter);
         
         // when it comes alive, it will use this adapter
         useCachedAdapter();
@@ -87,8 +69,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((WaitsOnUserFetch)container.get(0)).updateSearch(newText);
-                //adapter.getFilter().filter(newText);
+                server.getFriendsFromServer(newText, container.get(0));
                 return false;
             }
         });

@@ -1,15 +1,12 @@
 package ch.epfl.sdp.social.friends_firestore;
 
 
+import ch.epfl.sdp.social.User;
+import ch.epfl.sdp.social.WaitsOn;
 
 /*
 This interface provides an abstraction for class that fetch all friends from the remote server
  */
-public abstract class RemoteFriendFetcher {
-     protected WaitsOnUserFetch waiter;
-     public  abstract  void getFriendsFromServer(String constraint);
-     public void setListener(WaitsOnUserFetch listener)
-     {
-          this.waiter = listener;
-     }
+public interface RemoteFriendFetcher {
+    void getFriendsFromServer(String constraint, WaitsOn<User> waiter);
 }

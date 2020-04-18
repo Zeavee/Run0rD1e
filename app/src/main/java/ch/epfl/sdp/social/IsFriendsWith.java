@@ -20,10 +20,9 @@ public class IsFriendsWith {
     @NonNull
     private String friendID2;
 
-    public IsFriendsWith(String friendID1, String friendID2)
-    {
-            this.friendID1 = friendID1;
-            this.friendID2 = friendID2;
+    public IsFriendsWith(String friendID1, String friendID2) {
+        this.friendID1 = friendID1;
+        this.friendID2 = friendID2;
     }
 
 
