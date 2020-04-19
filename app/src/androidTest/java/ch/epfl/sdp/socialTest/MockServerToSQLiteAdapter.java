@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.epfl.sdp.social.Message;
 import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.social.WaitsOnMessageFetch;
+import ch.epfl.sdp.social.WaitsOnWithServer;
 
 public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
     private static Context listener;
@@ -32,7 +32,7 @@ public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
         if (!alreadySentMessage) {
             List<Message> remoteMessages = new ArrayList<>();
             remoteMessages.add(new Message(new Date(), "Shaima is not stupid, from user with ID stupid2", chat_id));
-            ((WaitsOnMessageFetch) listener).incomingMessageFetchFinished(remoteMessages, true);
+            ((WaitsOnWithServer<Message>) listener).contentFetchedWithServer(remoteMessages, true);
             alreadySentMessage = true;
         }
 

@@ -74,7 +74,8 @@ public class ChatActivityTest {
 
     @Test
     public void chatActivityTest2() throws InterruptedException {
-        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new MockFriendsFetcher()));
+        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter());
+        AddFriendsActivity.setServer(new MockFriendsFetcher());
         ChatActivity.setRemoteToSQLiteAdapter(new MockServerToSQLiteAdapter().getInstance());
 
         addStupid2AsFriend();
