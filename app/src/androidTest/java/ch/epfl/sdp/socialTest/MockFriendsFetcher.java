@@ -7,11 +7,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sdp.social.User;
+import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
 
-public class MockFriendsFetcher extends RemoteFriendFetcher {
+public class MockFriendsFetcher implements RemoteFriendFetcher {
     @Override
-    public void getFriendsFromServer(String constraint) {
+    public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
         List<User> all = new ArrayList<>();
         List<User> filtered = new ArrayList<>();
         all.addAll(Arrays.asList(new User("stupid0@gmail.com", "stupid0"), new User("stupid1@gmail.com", "stupid1"),
@@ -27,6 +28,6 @@ public class MockFriendsFetcher extends RemoteFriendFetcher {
                 filtered.add(el);
             }
         }
-        waiter.signalFriendsFetched(filtered);
+        waiter.contentFetched(filtered);
     }
 }
