@@ -150,4 +150,15 @@ public class Player extends MovingEntity implements Localizable {
     public Timestamp getTimestamp() {
         return timestamp;
     }
+
+    public void updateLocalScore() {
+        if (isAlive()) {
+            int bonusPoints = 10;
+            if (distanceTraveled > distanceTraveledAtLastCheck + 10) {
+                bonusPoints += 10;
+            }
+            distanceTraveledAtLastCheck = distanceTraveled;
+            currentGameScore += bonusPoints;
+        }
+    }
 }
