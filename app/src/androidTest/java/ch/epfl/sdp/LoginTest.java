@@ -14,7 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.UserDataController;
 import ch.epfl.sdp.login.LoginFormActivity;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -47,7 +47,7 @@ public class LoginTest {
 
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
         store = new MockUserDataController();
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(store);
+        mActivityRule.getActivity().authenticationAPI = new MockAuthentication(store);
     }
 
     @After

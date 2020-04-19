@@ -1,6 +1,4 @@
-package ch.epfl.sdp.database;
-
-import ch.epfl.sdp.item.ItemBox;
+package ch.epfl.sdp.database.firebase;
 
 public interface ClientDatabaseAPI extends UserDataController {
     void sendHealthPoints(double healthPoints);

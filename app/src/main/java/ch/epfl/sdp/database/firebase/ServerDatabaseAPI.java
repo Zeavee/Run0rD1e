@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database;
+package ch.epfl.sdp.database.firebase;
 
 import java.util.List;
 

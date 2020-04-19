@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.FirestoreUserData;
+import ch.epfl.sdp.database.firebase.FirestoreUserData;
 import ch.epfl.sdp.entity.Player;
 
 public class RegisterFormActivity extends AppCompatActivity {
@@ -22,7 +22,7 @@ public class RegisterFormActivity extends AppCompatActivity {
     EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
     Button registerButton;
 
-    public static AuthenticationController authenticationController;
+    public static AuthenticationAPI authenticationAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class RegisterFormActivity extends AppCompatActivity {
         txtPasswordConf = findViewById(R.id.passwordconf);
         registerButton = findViewById(R.id.registerbutton);
 
-        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+        authenticationAPI = new FirebaseAuthenticationAPI(new FirestoreUserData());
     }
 
     public void registerBtn_OnClick(View view) {
@@ -54,7 +54,7 @@ public class RegisterFormActivity extends AppCompatActivity {
         }
 
         Player player = new Player(22, 22, 22, username, email);
-        authenticationController.register(RegisterFormActivity.this, player, email, password);
+        authenticationAPI.register(RegisterFormActivity.this, player, email, password);
     }
 
     public void backBtn_OnClick(View view) {

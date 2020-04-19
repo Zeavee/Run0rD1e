@@ -13,8 +13,8 @@ import java.util.List;
 import ch.epfl.sdp.db.LeaderboardEntity;
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.FirestoreUserData;
+import ch.epfl.sdp.database.firebase.UserDataController;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private LeaderoardViewModel leaderoardViewModel;

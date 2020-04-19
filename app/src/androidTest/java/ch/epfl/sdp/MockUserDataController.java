@@ -3,7 +3,7 @@ package ch.epfl.sdp;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.UserDataController;
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 

@@ -6,11 +6,11 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.UserDataController;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.AuthenticationAPI;
 
-public class MockAuthentication implements AuthenticationController {
+public class MockAuthentication implements AuthenticationAPI {
     private HashMap<String, String> registeredUsers;
     private UserDataController store;
 

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database;
+package ch.epfl.sdp.database.firebase;
 
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
