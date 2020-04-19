@@ -14,8 +14,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -30,7 +30,7 @@ import ch.epfl.sdp.item.ItemBox;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final String TAG = "Test Firebase";
     public static MapApi mapApi = new GoogleMapApi();
-    public static UserDataController userDataController = new FirestoreUserData();
+    public static CommonDatabaseAPI commonDatabaseAPI = new CommonFirestoreDatabaseAPI();
 
     public static void setMapApi(MapApi map){
         mapApi = map;
@@ -94,6 +94,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         initEnvironment();
 
         // Join
-        userDataController.joinLobby(PlayerManager.getUser());
+        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
     }
 }

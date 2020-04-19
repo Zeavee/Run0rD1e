@@ -6,15 +6,15 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.AuthenticationAPI;
 
-public class MockAuthentication implements AuthenticationController {
+public class MockAuthentication implements AuthenticationAPI {
     private HashMap<String, String> registeredUsers;
-    private UserDataController store;
+    private CommonDatabaseAPI store;
 
-    public MockAuthentication(UserDataController store)
+    public MockAuthentication(CommonDatabaseAPI store)
     {
         this.store = store;
         this.registeredUsers = new HashMap<>();
@@ -38,7 +38,7 @@ public class MockAuthentication implements AuthenticationController {
             Toast.makeText(registerFormActivity, "User already exist!", Toast.LENGTH_LONG).show();
         } else {
             registeredUsers.put(email, password);
-            store.storeUser(new Player(22,22,22,email, password));
+            store.addUser(new Player(22,22,22,email, password), );
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }

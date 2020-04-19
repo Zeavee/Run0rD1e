@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.dependency.injection.DependencyVisitor;
-import ch.epfl.sdp.login.AuthenticationController;
+import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
 import ch.epfl.sdp.map.MapApi;
@@ -46,21 +46,21 @@ public class RegisterTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
-    private UserDataController store;
+    private CommonDatabaseAPI store;
     private List<ViewAction> testCases;
     private List<Integer> testCasesInt;
     private List<Integer> emptyFields;
     private List<String> errorTexts;
     private DependencyVisitor dv = new DependencyVisitor() {
         @Override
-        public void setDependency(UserDataController dependency) {
+        public void setDependency(CommonDatabaseAPI dependency) {
 
         }
 
         @Override
-        public void setDependency(AuthenticationController dependency) {
-            LoginFormActivity.authenticationController = dependency;
-            RegisterFormActivity.authenticationController = dependency;
+        public void setDependency(AuthenticationAPI dependency) {
+            LoginFormActivity.authenticationAPI = dependency;
+            RegisterFormActivity.authenticationAPI = dependency;
         }
 
         @Override
@@ -80,7 +80,7 @@ public class RegisterTest {
 
         @Override
         public void inject() {
-            setDependency(new MockAuthentication(new MockUserDataController()));
+            setDependency(new MockAuthentication(new MockCommonDatabaseAPI()));
         }
 
     };
@@ -127,8 +127,8 @@ public class RegisterTest {
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        store = new MockUserDataController();
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(store);
+        store = new MockCommonDatabaseAPI();
+        mActivityRule.getActivity().authenticationAPI = new MockAuthentication(store);
     }
 
     @After

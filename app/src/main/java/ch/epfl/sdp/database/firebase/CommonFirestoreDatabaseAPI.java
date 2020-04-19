@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database;
+package ch.epfl.sdp.database.firebase;
 
 import android.util.Log;
 
@@ -17,23 +17,30 @@ import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
-public class FirestoreUserData implements UserDataController {
+public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
+    private static final String USER_COLLECTION_NAME = "AllUsers";
+    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+
     @Override
     public void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel) {
         FirebaseFirestore.getInstance().collection("Users")
-            .orderBy("healthPoints", Query.Direction.DESCENDING)
-            .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Player player = documentSnapshot.toObject(Player.class);
-                    LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
-                    leaderoardViewModel.insert(user);
-                }
-            });
+                .orderBy("healthPoints", Query.Direction.DESCENDING)
+                .addSnapshotListener((queryDocumentSnapshots, e) -> {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Player player = documentSnapshot.toObject(Player.class);
+                        LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
+                        leaderoardViewModel.insert(user);
+                    }
+                });
     }
 
     @Override
-    public void storeUser(Player player) {
-        FirebaseFirestore.getInstance().collection("Users").document(player.getEmail()).set(player);
+    public void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback) {
+        firebaseFirestore.collection(USER_COLLECTION_NAME)
+                .document(userForFirebase.getEmail())
+                .set(userForFirebase)
+                .addOnSuccessListener(aVoid -> onAddUserCallback.finish())
+                .addOnFailureListener(e -> onAddUserCallback.error(e));
     }
 
     @Override

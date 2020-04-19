@@ -5,15 +5,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.logic.GameInfoActivity;
 import ch.epfl.sdp.logic.RuleActivity;
-import ch.epfl.sdp.login.AuthenticationController;
-import ch.epfl.sdp.login.FirebaseAuthentication;
+import ch.epfl.sdp.login.AuthenticationAPI;
+import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
@@ -34,14 +33,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public AuthenticationController authenticationController;
+    public AuthenticationAPI authenticationAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authenticationController = new FirebaseAuthentication(new FirestoreUserData());
+        authenticationAPI = new FirebaseAuthenticationAPI();
 
         findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 
@@ -61,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     public void logout() {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
-        authenticationController.signOut();
+        authenticationAPI.signOut();
         new DatabaseHelper(this).deleteAllUsers();
         LoginFormActivity.loggedUser = null;
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));

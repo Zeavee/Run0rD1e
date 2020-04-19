@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,15 +10,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.item.ItemsViewAdapter;
-import ch.epfl.sdp.login.AuthenticationController;
-import ch.epfl.sdp.login.FirebaseAuthentication;
 import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {

@@ -13,12 +13,12 @@ import java.util.List;
 import ch.epfl.sdp.db.LeaderboardEntity;
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private LeaderoardViewModel leaderoardViewModel;
-    public UserDataController userDataController;
+    public CommonDatabaseAPI commonDatabaseAPI;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +41,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         });
         leaderoardViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
 
-        userDataController = new FirestoreUserData();
-        userDataController.syncCloudFirebaseToRoom(leaderoardViewModel);
+        commonDatabaseAPI = new CommonFirestoreDatabaseAPI();
+        commonDatabaseAPI.syncCloudFirebaseToRoom(leaderoardViewModel);
     }
 
     private void setupChampions(List<LeaderboardEntity> users) {

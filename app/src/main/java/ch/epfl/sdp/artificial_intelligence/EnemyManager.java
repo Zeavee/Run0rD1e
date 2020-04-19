@@ -3,7 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.database.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.ServerDatabaseAPI;
 
 /**
  * Manages all enemies of a game.
