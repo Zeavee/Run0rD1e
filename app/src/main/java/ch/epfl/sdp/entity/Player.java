@@ -19,11 +19,13 @@ public class Player extends MovingEntity implements Localizable {
     public String email;
     @Exclude
     public final static double MAX_HEALTH = 100;
-    public int score;
+    public int generalScore;
+    public int currentGameScore;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
+    public double distanceTraveledAtLastCheck;
     @Exclude
     public CartesianPoint position;
     @Exclude
@@ -52,7 +54,7 @@ public class Player extends MovingEntity implements Localizable {
         this.setLocation(g);
         this.username = username;
         this.email = email;
-        this.score = 0;
+        this.generalScore = 0;
         this.healthPoints = 100;
         this.distanceTraveled = 0;
         this.timeTraveled = 0;
@@ -91,8 +93,8 @@ public class Player extends MovingEntity implements Localizable {
         return timeTraveled;
     }
 
-    public int getScore() {
-        return score;
+    public int getGeneralScore() {
+        return generalScore;
     }
 
     public double getDistanceTraveled() {
@@ -137,7 +139,7 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public void setPosition(GenPoint genPoint){
+    public void setPosition(GenPoint genPoint) {
         this.position = genPoint.toCartesian();
     }
 

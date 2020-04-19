@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
@@ -17,6 +19,8 @@ public class Game implements Updatable, Drawable {
     private static ArrayList<Updatable> updatables;
     private static Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private static ArrayList<Displayable> displayables;
+
+    private int numberOfUpdates = 0;
 
     /**
      * Instantiates a new game (uses mapApi by default. So for tests you need to
@@ -91,6 +95,11 @@ public class Game implements Updatable, Drawable {
      * Kill the game
      */
     public void destroyGame() {
+        for (Player player : PlayerManager.getPlayers()) {
+            if (player.isAlive()) {
+                player.generalScore += player.currentGameScore;
+            }
+        }
         while (gameThread.getState() != Thread.State.TERMINATED) {
             try {
                 gameThread.setRunning(false);
@@ -107,6 +116,20 @@ public class Game implements Updatable, Drawable {
     @Override
     public void update() {
         itUpdatable = updatables.iterator();
+
+        if (numberOfUpdates > 9 * gameThread.getFPS()) {
+            numberOfUpdates = 0;
+            for (Player player : PlayerManager.getPlayers()) {
+                int bonusPoints = 10;
+                if (player.distanceTraveled > player.distanceTraveledAtLastCheck + 10) {
+                    bonusPoints += 10;
+                }
+                player.distanceTraveledAtLastCheck = player.distanceTraveled;
+                player.currentGameScore += bonusPoints;
+            }
+        } else {
+            numberOfUpdates++;
+        }
 
         while (itUpdatable.hasNext()) {
             itUpdatable.next().update();
