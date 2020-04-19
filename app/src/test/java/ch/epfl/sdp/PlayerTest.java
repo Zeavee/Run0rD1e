@@ -94,6 +94,7 @@ public class PlayerTest {
         Thread.sleep(13000);
         assertEquals(30, player1.currentGameScore);
         game.destroyGame();
-        assertEquals(30, player1.generalScore);
+        assertEquals(80, player1.generalScore);
+        assertEquals(0, player1.currentGameScore);
     }
 }

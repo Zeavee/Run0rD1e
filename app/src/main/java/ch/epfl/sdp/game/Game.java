@@ -97,8 +97,10 @@ public class Game implements Updatable, Drawable {
     public void destroyGame() {
         for (Player player : PlayerManager.getPlayers()) {
             if (player.isAlive()) {
-                player.generalScore += player.currentGameScore;
+                 player.currentGameScore += 50;
             }
+            player.generalScore += player.currentGameScore;
+            player.currentGameScore = 0;
         }
         while (gameThread.getState() != Thread.State.TERMINATED) {
             try {
@@ -120,12 +122,14 @@ public class Game implements Updatable, Drawable {
         if (numberOfUpdates > 9 * gameThread.getFPS()) {
             numberOfUpdates = 0;
             for (Player player : PlayerManager.getPlayers()) {
-                int bonusPoints = 10;
-                if (player.distanceTraveled > player.distanceTraveledAtLastCheck + 10) {
-                    bonusPoints += 10;
+                if (player.isAlive()) {
+                    int bonusPoints = 10;
+                    if (player.distanceTraveled > player.distanceTraveledAtLastCheck + 10) {
+                        bonusPoints += 10;
+                    }
+                    player.distanceTraveledAtLastCheck = player.distanceTraveled;
+                    player.currentGameScore += bonusPoints;
                 }
-                player.distanceTraveledAtLastCheck = player.distanceTraveled;
-                player.currentGameScore += bonusPoints;
             }
         } else {
             numberOfUpdates++;
