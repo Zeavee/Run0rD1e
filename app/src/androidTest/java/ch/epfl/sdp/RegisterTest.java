@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.epfl.sdp.database.firebase.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.dependency.injection.DependencyVisitor;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
@@ -46,14 +46,14 @@ public class RegisterTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
-    private UserDataController store;
+    private CommonDatabaseAPI store;
     private List<ViewAction> testCases;
     private List<Integer> testCasesInt;
     private List<Integer> emptyFields;
     private List<String> errorTexts;
     private DependencyVisitor dv = new DependencyVisitor() {
         @Override
-        public void setDependency(UserDataController dependency) {
+        public void setDependency(CommonDatabaseAPI dependency) {
 
         }
 
@@ -80,7 +80,7 @@ public class RegisterTest {
 
         @Override
         public void inject() {
-            setDependency(new MockAuthentication(new MockUserDataController()));
+            setDependency(new MockAuthentication(new MockCommonDatabaseAPI()));
         }
 
     };
@@ -127,7 +127,7 @@ public class RegisterTest {
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-        store = new MockUserDataController();
+        store = new MockCommonDatabaseAPI();
         mActivityRule.getActivity().authenticationAPI = new MockAuthentication(store);
     }
 

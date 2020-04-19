@@ -3,11 +3,13 @@ package ch.epfl.sdp;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.database.firebase.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.OnAddUserCallback;
+import ch.epfl.sdp.database.firebase.UserForFirebase;
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 
-public class MockUserDataController implements UserDataController {
+public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
     private List<Player> userData = new ArrayList<>();
 
     @Override
@@ -16,8 +18,8 @@ public class MockUserDataController implements UserDataController {
     }
 
     @Override
-    public void storeUser(Player player) {
-        userData.add(player);
+    public void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback) {
+        userData.add(userForFirebase);
     }
 
     @Override

@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.firebase.FirestoreUserData;
 import ch.epfl.sdp.game.CacheableUserInfo;
 import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -31,7 +30,7 @@ public class LoginFormActivity extends AppCompatActivity {
 
         // Important to check if dv (dependency visitor) is null, otherwise dependencies could be set by a dependency visitor and thus we wouldn't want to overwrite
 
-        authenticationAPI = (authenticationAPI == null) ? new FirebaseAuthenticationAPI(new FirestoreUserData()) : authenticationAPI;
+        authenticationAPI = (authenticationAPI == null) ? new FirebaseAuthenticationAPI() : authenticationAPI;
         loggedUser = (loggedUser == null) ? new DatabaseHelper(this).getLoggedUser() : loggedUser;
 
         if (loggedUser != null) {

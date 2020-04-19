@@ -1,6 +1,6 @@
 package ch.epfl.sdp.dependency.injection;
 
-import ch.epfl.sdp.database.firebase.UserDataController;
+import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
@@ -13,7 +13,7 @@ import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
  */
 public interface DependencyVisitor {
 
-    void setDependency(UserDataController dependency);
+    void setDependency(CommonDatabaseAPI dependency);
 
     void setDependency(AuthenticationAPI dependency);
 

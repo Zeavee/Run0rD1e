@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.database.firebase.FirestoreUserData;
 import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authenticationAPI = new FirebaseAuthenticationAPI(new FirestoreUserData());
+        authenticationAPI = new FirebaseAuthenticationAPI();
 
         findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 

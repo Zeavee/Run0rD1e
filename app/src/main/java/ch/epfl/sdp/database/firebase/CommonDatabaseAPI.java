@@ -3,11 +3,11 @@ package ch.epfl.sdp.database.firebase;
 import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 
-public interface UserDataController {
+public interface CommonDatabaseAPI {
 
     void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel);
 
-    void storeUser(Player player);
+    void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback);
 
     void joinLobby(Player player);
 

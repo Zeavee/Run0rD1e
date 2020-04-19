@@ -1,56 +1,30 @@
 package ch.epfl.sdp.login;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import ch.epfl.sdp.game.DatabaseHelper;
-
-import ch.epfl.sdp.MainActivity;
-import ch.epfl.sdp.database.firebase.UserDataController;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.social.FriendsListActivity;
 
 /*
  * This class is designed to use Firebase's email and password feature
  */
 public class FirebaseAuthenticationAPI implements AuthenticationAPI {
 
-    /* This regular expression pattern allows for matching emails of
-     * the form [alphanumeric characters or dot]@[any characters]
-     * where the part before the @ sign can have length ranging from
-     *  1 to 20 and the part after can have length ranging from 1 to 20
-     * useful for sanitizing input
-     */
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
-    private UserDataController userDataStore;
-
-    public FirebaseAuthenticationAPI(UserDataController store) {
-        this.userDataStore = store;
-    }
 
     @Override
     public void signIn(String email, String password, OnAuthCallback callback) {
-        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult ->
-            callback.finish()
-        ).addOnFailureListener(e -> callback.error(e));
+        auth.signInWithEmailAndPassword(email, password)
+                .addOnSuccessListener(authResult -> callback.finish())
+                .addOnFailureListener(e -> callback.error(e));
     }
 
     @Override
-    public void register(Activity registerFormActivity, Player player, String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            FriendsListActivity.setChatEmailID(email);
-            userDataStore.storeUser(player);
-            registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
-            registerFormActivity.finish();
-        }).addOnFailureListener(e -> Toast.makeText(registerFormActivity, e.getMessage(), Toast.LENGTH_LONG).show());
+    public void register(String email, String password, OnAuthCallback callback) {
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnSuccessListener(authResult -> callback.finish())
+                .addOnFailureListener(e -> callback.error(e));
     }
 
-    public static FirebaseUser getCurrentUser()
-    {
+    public static FirebaseUser getCurrentUser() {
         return auth.getCurrentUser();
     }
 
