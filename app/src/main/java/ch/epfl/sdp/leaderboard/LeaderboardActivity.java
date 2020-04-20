@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.epfl.sdp.db.LeaderboardEntity;
-import ch.epfl.sdp.db.LeaderoardViewModel;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
+import ch.epfl.sdp.database.room.LeaderoardViewModel;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private LeaderoardViewModel leaderoardViewModel;

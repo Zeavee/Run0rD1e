@@ -12,8 +12,8 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sdp.db.LeaderboardEntity;
-import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
+import ch.epfl.sdp.database.room.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 

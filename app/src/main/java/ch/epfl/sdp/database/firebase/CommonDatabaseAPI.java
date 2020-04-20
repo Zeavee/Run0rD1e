@@ -1,6 +1,6 @@
 package ch.epfl.sdp.database.firebase;
 
-import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.database.room.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 
 public interface CommonDatabaseAPI {

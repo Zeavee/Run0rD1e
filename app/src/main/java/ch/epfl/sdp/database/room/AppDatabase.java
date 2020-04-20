@@ -1,4 +1,4 @@
-package ch.epfl.sdp.db;
+package ch.epfl.sdp.database.room;
 
 import android.content.Context;
 
@@ -20,7 +20,7 @@ abstract class AppDatabase extends RoomDatabase {
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile AppDatabase INSTANCE;
 
-    public abstract LeaderboardDAO LeaderboardDAO();
+    public abstract AppDAO LeaderboardDAO();
 
     @VisibleForTesting
     public static final String DATABASE_NAME = "app-local-db";

@@ -80,7 +80,7 @@ public class RegisterTest {
 
         @Override
         public void inject() {
-            setDependency(new MockAuthentication(new MockCommonDatabaseAPI()));
+            setDependency(new MockAuthenticationAPI(new MockCommonDatabaseAPI()));
         }
 
     };
@@ -128,7 +128,7 @@ public class RegisterTest {
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
         store = new MockCommonDatabaseAPI();
-        mActivityRule.getActivity().authenticationAPI = new MockAuthentication(store);
+        mActivityRule.getActivity().authenticationAPI = new MockAuthenticationAPI(store);
     }
 
     @After

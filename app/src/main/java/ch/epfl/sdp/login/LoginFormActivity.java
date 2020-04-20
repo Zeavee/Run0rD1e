@@ -10,15 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.game.CacheableUserInfo;
-import ch.epfl.sdp.game.DatabaseHelper;
-import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 public class LoginFormActivity extends AppCompatActivity {
-    public static AuthenticationAPI authenticationAPI = null;
     private EditText lemail, lpassword;
-    public static CacheableUserInfo loggedUser;
+    private AuthenticationAPI authenticationAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +25,12 @@ public class LoginFormActivity extends AppCompatActivity {
         lemail = findViewById(R.id.emaillog);
         lpassword = findViewById(R.id.passwordlog);
 
-        // Important to check if dv (dependency visitor) is null, otherwise dependencies could be set by a dependency visitor and thus we wouldn't want to overwrite
+        authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
-        authenticationAPI = (authenticationAPI == null) ? new FirebaseAuthenticationAPI() : authenticationAPI;
-        loggedUser = (loggedUser == null) ? new DatabaseHelper(this).getLoggedUser() : loggedUser;
-
-        if (loggedUser != null) {
-            signIn(loggedUser.email, loggedUser.password);
+        // If the user has already logged in, go to MainActivity directly
+        if(authenticationAPI.getCurrentUserEmail() != null) {
+            startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
         }
-
-        findViewById(R.id.button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, LeaderboardActivity.class)));
-
     }
 
     public void createAccountBtn_OnClick(View view) {
@@ -69,7 +61,6 @@ public class LoginFormActivity extends AppCompatActivity {
                 FriendsListActivity.setChatEmailID(email);
                 LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
                 LoginFormActivity.this.finish();
-                new DatabaseHelper(LoginFormActivity.this).saveLoggedUser(email, password);
             }
 
             @Override

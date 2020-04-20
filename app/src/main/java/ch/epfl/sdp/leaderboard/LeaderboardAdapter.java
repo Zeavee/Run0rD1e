@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.epfl.sdp.db.LeaderboardEntity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>{
     private List<LeaderboardEntity> mUsers;

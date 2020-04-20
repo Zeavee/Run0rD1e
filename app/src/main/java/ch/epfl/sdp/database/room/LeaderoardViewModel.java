@@ -1,4 +1,4 @@
-package ch.epfl.sdp.db;
+package ch.epfl.sdp.database.room;
 
 import android.app.Application;
 

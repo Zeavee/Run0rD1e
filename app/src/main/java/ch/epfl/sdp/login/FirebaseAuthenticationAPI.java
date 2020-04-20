@@ -24,8 +24,13 @@ public class FirebaseAuthenticationAPI implements AuthenticationAPI {
                 .addOnFailureListener(e -> callback.error(e));
     }
 
-    public static FirebaseUser getCurrentUser() {
-        return auth.getCurrentUser();
+    @Override
+    public String getCurrentUserEmail() {
+        if(auth.getCurrentUser() == null) {
+            return null;
+        } else {
+            return auth.getCurrentUser().getEmail();
+        }
     }
 
     @Override

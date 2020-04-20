@@ -5,17 +5,16 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.game.DatabaseHelper;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.logic.GameInfoActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.AuthenticationAPI;
-import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MainActivity extends AppCompatActivity {
     private static Game game;
@@ -33,14 +32,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public AuthenticationAPI authenticationAPI;
+    private AuthenticationAPI authenticationAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        authenticationAPI = new FirebaseAuthenticationAPI();
+        authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
         findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
 
@@ -61,8 +60,6 @@ public class MainActivity extends AppCompatActivity {
         // Stops the game loop and kills the thread
         MainActivity.killGame();
         authenticationAPI.signOut();
-        new DatabaseHelper(this).deleteAllUsers();
-        LoginFormActivity.loggedUser = null;
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }

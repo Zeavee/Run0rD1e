@@ -1,4 +1,4 @@
-package ch.epfl.sdp.db;
+package ch.epfl.sdp.database.room;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -9,7 +9,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface LeaderboardDAO {
+public interface AppDAO {
     // LiveData is a data holder class that can be observed within a given lifecycle.
     // Always holds/caches latest version of data. Notifies its active observers when the
     // data has changed. Since we are getting all the contents of the database,
@@ -22,4 +22,6 @@ public interface LeaderboardDAO {
 
     @Query("DELETE FROM leaderboard_table")
     void deleteAll();
+
+
 }
