@@ -3,7 +3,6 @@ package ch.epfl.sdp.game;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.EnemyManager;
-import ch.epfl.sdp.artificial_intelligence.Updatable;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).

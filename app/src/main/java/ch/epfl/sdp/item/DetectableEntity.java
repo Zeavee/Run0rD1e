@@ -1,6 +1,6 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;

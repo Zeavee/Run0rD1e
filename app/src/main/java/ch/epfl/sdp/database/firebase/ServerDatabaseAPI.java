@@ -8,7 +8,6 @@ import ch.epfl.sdp.item.ItemBox;
 
 
 public interface ServerDatabaseAPI extends CommonDatabaseAPI {
-
     void sendEnemies(List<Enemy> enemies);
     void sendDamage(List<Player> players);
     void sendItemBox(ItemBox itemBox);

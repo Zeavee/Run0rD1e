@@ -3,7 +3,6 @@ package ch.epfl.sdp.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
@@ -89,7 +88,7 @@ public class Game implements Updatable {
      * @return True if the updatable is in the list.
      */
     public static boolean displayablesContains(Displayable displayable){
-        return updatables.contains(displayable);
+        return displayables.contains(displayable);
     }
 
     /**
