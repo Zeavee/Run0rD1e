@@ -6,14 +6,14 @@ import java.util.List;
 import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.OnAddUserCallback;
 import ch.epfl.sdp.database.firebase.UserForFirebase;
-import ch.epfl.sdp.database.room.LeaderoardViewModel;
+import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 import ch.epfl.sdp.entity.Player;
 
 public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
     private List<UserForFirebase> userData = new ArrayList<>();
 
     @Override
-    public void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel) {
+    public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
 
     }
 

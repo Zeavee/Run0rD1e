@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
 
@@ -19,11 +18,12 @@ import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
 import static ch.epfl.sdp.R.id.useitem;
 
-public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
-    private Context mContext;
+/**
+ * Recycler view adapter for displaying items.
+ */
+public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
 
     public ItemsViewAdapter(Context mContext) {
-        this.mContext = mContext;
     }
 
     @NonNull

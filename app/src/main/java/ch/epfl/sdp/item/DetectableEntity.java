@@ -69,8 +69,8 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
      * Remove the entity from the game.
      */
     private void destroy(){
-        Game.removeCurrentFromUpdateList();
-        Game.removeFromDisplayList(this);
+        Game.getInstance().removeCurrentFromUpdateList();
+        Game.getInstance().removeFromDisplayList(this);
         detroyed = true;
     }
 

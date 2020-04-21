@@ -2,7 +2,8 @@ package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.geometry.GeoPoint;
 
-public class EnemyOutDated extends MovingEntity {
+@Deprecated
+public class EnemyOutDated extends AoeRadiusMovingEntity {
 
     GeoPoint location;
     double aoeRadius;

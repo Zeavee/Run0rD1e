@@ -14,8 +14,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-import java.util.concurrent.CompletableFuture;
-
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
@@ -64,9 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void initEnvironment() {
-        // Game example
-        Game game = new Game();
-        game.initGame();
+        Game.getInstance().initGame();
 
         // Enemy -------------------------------------------
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
@@ -79,8 +75,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
-        Game.addToDisplayList(enemy);
-        Game.addToUpdateList(enemy);
+        Game.getInstance().addToDisplayList(enemy);
+        Game.getInstance().addToUpdateList(enemy);
         //  -------------------------------------------
 
         // ItemBox -------------------------------------------
@@ -88,8 +84,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ItemBox itemBox = new ItemBox();
         itemBox.putItems(healthpack, 1);
         itemBox.setLocation(new GeoPoint(6.14, 46.22));
-        Game.addToDisplayList(itemBox);
-        Game.addToUpdateList(itemBox);
+        Game.getInstance().addToDisplayList(itemBox);
+        Game.getInstance().addToUpdateList(itemBox);
         //  -------------------------------------------
     }
 
@@ -118,18 +114,5 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-//        Player user = new Player(6.3419, 46.2301, 22, "startGame2", "startGame2@gmail.com");
-//        user.setAoeRadius(10); // detection radius would be a better name, aoe (Area of effect)
-//        // means affecting (like attacking) all entity inside the area, in this case the circle.
-//        PlayerManager.setCurrentUser(user);
-//
-//        mapApi.setMap(googleMap);
-//        mapApi.updatePosition();
-//
-//        initEnvironment();
-
-        // Join
-//        commonDatabaseAPI.joinLobby(PlayerManager.getCurrentUser());
     }
 }

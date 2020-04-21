@@ -11,16 +11,15 @@ import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
 
 public class GameInfoActivity extends AppCompatActivity {
-
-    Player player = new Player(6.149290,
+    private Player player = new Player(6.149290,
             46.212470,
             50,
             "admin",
             "admin@epfl.ch");
-    EnemyOutDated enemyOutDated = new EnemyOutDated(6.149596,46.212437, 50); //enemy's position is close to player
-    ArrayList<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<>(Arrays.asList(enemyOutDated));
+    private EnemyOutDated enemyOutDated = new EnemyOutDated(6.149596,46.212437, 50); //enemy's position is close to player
+    private List<EnemyOutDated> enemyOutDatedArrayList = new ArrayList<>(Arrays.asList(enemyOutDated));
 
-    TextView username, healthPoint;
+    private TextView username, healthPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

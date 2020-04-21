@@ -26,7 +26,7 @@ public abstract class TimedItem extends Item implements Updatable {
      * Add the timed item to the game, the count will begin.
      */
     public void use(){
-        Game.addToUpdateList(this);
+        Game.getInstance().addToUpdateList(this);
     }
 
     /**
@@ -48,7 +48,7 @@ public abstract class TimedItem extends Item implements Updatable {
             --counter;
         }else{
             stopUsing();
-            Game.removeFromUpdateList(this);
+            Game.getInstance().removeFromUpdateList(this);
         }
     }
 }

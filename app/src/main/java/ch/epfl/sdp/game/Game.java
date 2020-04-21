@@ -12,16 +12,28 @@ import ch.epfl.sdp.map.MapsActivity;
  */
 public class Game implements Updatable {
     public GameThread gameThread;
-    private static MapApi map; // is it a good idea?
-    private static ArrayList<Updatable> updatables;
-    private static Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
-    private static ArrayList<Displayable> displayables;
+    private MapApi map; // is it a good idea?
+    private ArrayList<Updatable> updatables;
+    private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
+    private ArrayList<Displayable> displayables;
+    private static Game instance;
+
+    /**
+     * Gets one and only instance of the game.
+     */
+    public static Game getInstance() {
+        if(instance == null) {
+            instance = new Game();
+        }
+
+        return instance;
+    }
 
     /**
      * Instantiates a new game (uses mapApi by default. So for tests you need to
      * change the map before launching)
      */
-    public Game() {
+    private Game() {
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
@@ -32,7 +44,7 @@ public class Game implements Updatable {
      *
      * @param updatable The updatable to be added.
      */
-    public static void addToUpdateList(Updatable updatable) {
+    public void addToUpdateList(Updatable updatable) {
         updatables.add(updatable);
     }
 
@@ -40,14 +52,14 @@ public class Game implements Updatable {
      * Remove the given updatable entity from the game.
      * @param updatable The updatable to be removed.
      */
-    public static void removeFromUpdateList(Updatable updatable) {
+    public void removeFromUpdateList(Updatable updatable) {
         updatables.remove(updatable);
     }
 
     /**
      * Remove the current iterated element from the update list.
      */
-    public static void removeCurrentFromUpdateList() {
+    public void removeCurrentFromUpdateList() {
         itUpdatable.remove();
     }
 
@@ -56,7 +68,7 @@ public class Game implements Updatable {
      * display the entity one time and don't add to the list.
      * @param displayable The displayable to be added.
      */
-    public static void addToDisplayList(Displayable displayable) {
+    public void addToDisplayList(Displayable displayable) {
         MapsActivity.mapApi.displayEntity(displayable);
 
         if (!displayable.isOnce()) {
@@ -68,7 +80,7 @@ public class Game implements Updatable {
      * Remove the given displayable entity from the game.
      * @param displayable The displayable to be removed.
      */
-    public static void removeFromDisplayList(Displayable displayable) {
+    public void removeFromDisplayList(Displayable displayable) {
         MapsActivity.mapApi.unDisplayEntity(displayable);
         displayables.remove(displayable);
     }
@@ -78,7 +90,7 @@ public class Game implements Updatable {
      * @param updatable The updatable to check.
      * @return True if the updatable is in the list.
      */
-    public static boolean updatablesContains(Updatable updatable){
+    public boolean updatablesContains(Updatable updatable){
         return updatables.contains(updatable);
     }
 
@@ -87,7 +99,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to check.
      * @return True if the updatable is in the list.
      */
-    public static boolean displayablesContains(Displayable displayable){
+    public boolean displayablesContains(Displayable displayable){
         return displayables.contains(displayable);
     }
 

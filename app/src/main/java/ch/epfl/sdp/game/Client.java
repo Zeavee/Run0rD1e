@@ -3,7 +3,6 @@ package ch.epfl.sdp.game;
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.ClientDatabaseAPI;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBox;
 
@@ -24,7 +23,7 @@ public class Client implements Updatable{
     public  Client(){
         oldDamage = 0;
         counter = GameThread.FPS;
-        Game.addToUpdateList(this);
+        Game.getInstance().addToUpdateList(this);
     }
 
 
