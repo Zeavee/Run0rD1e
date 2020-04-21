@@ -1,13 +1,13 @@
 package ch.epfl.sdp.entity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
 
-public class Player extends MovingEntity implements Positionable {
+public class Player extends AoeRadiusMovingEntity implements Positionable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
@@ -26,7 +26,7 @@ public class Player extends MovingEntity implements Positionable {
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         super();
-        this.setLocation(new GeoPoint(longitude, latitude););
+        this.setLocation(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
         this.setScore(0);
@@ -43,7 +43,7 @@ public class Player extends MovingEntity implements Positionable {
         return MAX_HEALTH;
     }
 
-    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
+    public void updateHealth(List<EnemyOutDated> enemies) {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded()) {
