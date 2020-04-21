@@ -3,7 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.database.firebase.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.game.Updatable;
 
 /**

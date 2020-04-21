@@ -2,12 +2,11 @@ package ch.epfl.sdp.map;
 
 import android.content.Context;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -17,10 +16,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.OnFetchedCallback;
-import ch.epfl.sdp.database.firebase.PlayerConverter;
-import ch.epfl.sdp.database.firebase.UserForFirebase;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.callback.OnValueReadyCallback;
+import ch.epfl.sdp.database.firebase.entity.PlayerConverter;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -40,7 +39,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
 
-    public static void setMapApi(MapApi map){
+    public static void setMapApi(MapApi map) {
         mapApi = map;
     }
 
@@ -89,23 +88,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //  -------------------------------------------
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mapApi.setMap(googleMap);
 
         //Get username and email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
         //Fetch current User
-        commonDatabaseAPI.fetchUser(email, new OnFetchedCallback<UserForFirebase>() {
+        commonDatabaseAPI.fetchUser(email, new OnValueReadyCallback<UserForFirebase>() {
             @Override
             public void finish(UserForFirebase userForFirebase) {
                 Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
                 PlayerManager.setCurrentUser(currentUser);
                 mapApi.updatePosition();
-                //        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
+
+                commonDatabaseAPI.joinLobby(PlayerConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), new OnValueReadyCallback<Boolean>() {
+                    @Override
+                    public void finish(Boolean isServer) {
+                        //true means this player is the first to enter the Lobby and be the server
+                        //false means this player is not the first to enter the Lobby and be the client
+                        if (isServer) {
+                            Log.d(TAG, "finish: SERVER");
+                        } else {
+                            Log.d(TAG, "finish: CLIENT");
+                        }
+                    }
+
+                    @Override
+                    public void error(Exception ex) {
+                        Toast.makeText(MapsActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
                 initEnvironment();
             }
 

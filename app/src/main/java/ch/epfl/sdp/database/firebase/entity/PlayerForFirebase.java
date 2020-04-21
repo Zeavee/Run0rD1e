@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase;
+package ch.epfl.sdp.database.firebase.entity;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;

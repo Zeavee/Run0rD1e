@@ -14,7 +14,7 @@
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
 //
-//import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+//import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 //import ch.epfl.sdp.login.LoginFormActivity;
 //
 //import static androidx.test.espresso.Espresso.onView;

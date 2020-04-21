@@ -1,6 +1,6 @@
 package ch.epfl.sdp.dependency.injection;
 
-import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.social.RemoteToSQLiteAdapter;

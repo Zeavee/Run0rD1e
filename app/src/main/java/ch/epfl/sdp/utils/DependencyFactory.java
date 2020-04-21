@@ -2,8 +2,8 @@ package ch.epfl.sdp.utils;
 
 import androidx.annotation.VisibleForTesting;
 
-import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
 

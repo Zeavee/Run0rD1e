@@ -2,7 +2,7 @@ package ch.epfl.sdp.game;
 
 import java.util.List;
 
-import ch.epfl.sdp.database.firebase.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBox;
 

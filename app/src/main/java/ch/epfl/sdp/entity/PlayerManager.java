@@ -18,9 +18,6 @@ public class PlayerManager {
      * The player representing the user in the game.
      */
     private static Player currentUser;
-    public static final int NUMBER_OF_PLAYERS_IN_Lobby = 10;
-    public static final String LOBBY_PATH = "Lobbies";
-    public static final String PLAYERS_PATH = "Players";
 
     /**
      * Add the specified player to the player manager. The player will stay until it is removed by
@@ -34,6 +31,7 @@ public class PlayerManager {
 
     /**
      * Remove the specified player from the player manager if it exists.
+     *
      * @param player A player to be removed from the player manager.
      */
     public static void removePlayer(Player player) {
@@ -42,6 +40,7 @@ public class PlayerManager {
 
     /**
      * Gets a list of all players in the player manager.
+     *
      * @return A list of all players in the player manager
      */
     public static ArrayList<Player> getPlayers() {
@@ -51,7 +50,7 @@ public class PlayerManager {
     /**
      * Remove all the players in the player manager.
      */
-    public static void removeAll(){
+    public static void removeAll() {
         players.clear();
     }
 
@@ -66,9 +65,10 @@ public class PlayerManager {
 
     /**
      * Sets the player representing the user in the game.
+     *
      * @param player A player representing the user in the game.
      */
-    public static void setCurrentUser(Player player){
+    public static void setCurrentUser(Player player) {
         currentUser = player;
         addPlayer(currentUser);
     }

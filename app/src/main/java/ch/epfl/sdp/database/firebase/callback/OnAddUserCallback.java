@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase;
+package ch.epfl.sdp.database.firebase.callback;
 
 public interface OnAddUserCallback {
     void finish();
