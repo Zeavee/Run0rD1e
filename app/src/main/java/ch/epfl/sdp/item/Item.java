@@ -1,9 +1,11 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.entity.Entity;
+
 /**
  * Represent a game item, which can have an effect on the game.
  */
-public abstract class Item {
+public abstract class Item implements Entity {
     private final String name;
     private final String description;
 

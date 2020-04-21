@@ -29,6 +29,7 @@ public class Healthpack extends Item {
         return this.healthPackAmount;
     }
 
+    @Override
     public EntityType getEntityType() {
         return EntityType.HEALTHPACK;
     }

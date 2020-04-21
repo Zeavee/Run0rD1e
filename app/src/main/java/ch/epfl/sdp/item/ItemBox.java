@@ -47,7 +47,7 @@ public class ItemBox extends DetectableEntity {
     public void take(){
         if(!isTaken()){
             taken = true;
-            Inventory inventory = PlayerManager.getUser().getInventory();
+            Inventory inventory = PlayerManager.getCurrentUser().getInventory();
             int quantity = 0;
             for (Map.Entry<Item, Integer> itemQuant: items.entrySet()) {
                 quantity = itemQuant.getValue();
