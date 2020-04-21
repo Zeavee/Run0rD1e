@@ -53,14 +53,11 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 .addOnFailureListener(e -> onAddUserCallback.error(e));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
-    public CompletableFuture<UserForFirebase> fetchUser(String email) {
-        CompletableFuture<UserForFirebase> completableFuture = new CompletableFuture<>();
+    public void fetchUser(String email, OnFetchedCallback<UserForFirebase> onFetchedCallback) {
         firebaseFirestore.collection(USER_COLLECTION_NAME).document(email).get()
-                .addOnSuccessListener(documentSnapshot -> completableFuture.complete(documentSnapshot.toObject(UserForFirebase.class)))
-                .addOnFailureListener(e -> completableFuture.completeExceptionally(e));
-        return completableFuture;
+                .addOnSuccessListener(documentSnapshot -> onFetchedCallback.finish(documentSnapshot.toObject(UserForFirebase.class)))
+                .addOnFailureListener(e -> onFetchedCallback.error(e));
     }
 
     @Override
@@ -68,7 +65,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     }
 
-//    @Override
+    //    @Override
     public void joinLobby(Player player) {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(PlayerManager.LOBBY_PATH);
         collectionReference

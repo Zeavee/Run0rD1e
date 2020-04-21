@@ -14,10 +14,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.concurrent.CompletableFuture;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.OnFetchedCallback;
 import ch.epfl.sdp.database.firebase.PlayerConverter;
 import ch.epfl.sdp.database.firebase.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
@@ -100,18 +103,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String email = authenticationAPI.getCurrentUserEmail();
 
         //Fetch current User
-        try {
-            // set the currentUser
-            UserForFirebase userForFirebase = commonDatabaseAPI.fetchUser(email).get();
-            Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
-            PlayerManager.setCurrentUser(currentUser);
-            mapApi.updatePosition();
+        commonDatabaseAPI.fetchUser(email, new OnFetchedCallback<UserForFirebase>() {
+            @Override
+            public void finish(UserForFirebase userForFirebase) {
+                Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
+                PlayerManager.setCurrentUser(currentUser);
+                mapApi.updatePosition();
+                //        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
+                initEnvironment();
+            }
 
-            //        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
-            initEnvironment();
+            @Override
+            public void error(Exception ex) {
+                Toast.makeText(MapsActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
-        } catch (Exception e) {
-            Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+//        Player user = new Player(6.3419, 46.2301, 22, "startGame2", "startGame2@gmail.com");
+//        user.setAoeRadius(10); // detection radius would be a better name, aoe (Area of effect)
+//        // means affecting (like attacking) all entity inside the area, in this case the circle.
+//        PlayerManager.setCurrentUser(user);
+//
+//        mapApi.setMap(googleMap);
+//        mapApi.updatePosition();
+//
+//        initEnvironment();
+
+        // Join
+//        commonDatabaseAPI.joinLobby(PlayerManager.getCurrentUser());
     }
 }

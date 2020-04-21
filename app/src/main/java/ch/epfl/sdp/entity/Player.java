@@ -26,7 +26,7 @@ public class Player extends MovingEntity implements Positionable {
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
         super();
-        this.setLocation(new GeoPoint(longitude, latitude););
+        this.setLocation(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
         this.setScore(0);

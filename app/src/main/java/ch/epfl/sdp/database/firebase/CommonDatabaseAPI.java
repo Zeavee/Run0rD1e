@@ -11,7 +11,7 @@ public interface CommonDatabaseAPI {
 
     void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback);
 
-    CompletableFuture<UserForFirebase> fetchUser(String email);
+    void fetchUser(String email, OnFetchedCallback<UserForFirebase> onFetchedCallback);
 
     void joinLobby(PlayerForFirebase playerForFirebase);
 
