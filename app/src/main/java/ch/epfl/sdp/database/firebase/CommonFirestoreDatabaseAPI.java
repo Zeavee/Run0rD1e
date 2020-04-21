@@ -1,9 +1,18 @@
 package ch.epfl.sdp.database.firebase;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -11,6 +20,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.database.room.LeaderoardViewModel;
@@ -43,7 +53,22 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 .addOnFailureListener(e -> onAddUserCallback.error(e));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
+    public CompletableFuture<UserForFirebase> fetchUser(String email) {
+        CompletableFuture<UserForFirebase> completableFuture = new CompletableFuture<>();
+        firebaseFirestore.collection(USER_COLLECTION_NAME).document(email).get()
+                .addOnSuccessListener(documentSnapshot -> completableFuture.complete(documentSnapshot.toObject(UserForFirebase.class)))
+                .addOnFailureListener(e -> completableFuture.completeExceptionally(e));
+        return completableFuture;
+    }
+
+    @Override
+    public void joinLobby(PlayerForFirebase playerForFirebase) {
+
+    }
+
+//    @Override
     public void joinLobby(Player player) {
         CollectionReference collectionReference = FirebaseFirestore.getInstance().collection(PlayerManager.LOBBY_PATH);
         collectionReference

@@ -33,7 +33,7 @@ public class PlayerTest {
         Game game = new Game();
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
-        PlayerManager.setUser(player1);
+        PlayerManager.setCurrentUser(player1);
         enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50);
         enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50);
         enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
@@ -70,10 +70,10 @@ public class PlayerTest {
     public void healthPackUseTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getUser().setHealthPoints(10);
+        PlayerManager.getCurrentUser().setHealthPoints(10);
         healthpack.use();
 
-        assertTrue(PlayerManager.getUser().getHealthPoints() == 11);
+        assertTrue(PlayerManager.getCurrentUser().getHealthPoints() == 11);
     }
 
     @Test

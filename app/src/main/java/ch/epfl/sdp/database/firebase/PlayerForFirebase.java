@@ -4,6 +4,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.ItemBox;
 
 public class PlayerForFirebase {
     private String username;

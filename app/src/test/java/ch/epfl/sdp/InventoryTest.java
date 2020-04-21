@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class InventoryTest {
     @Before
     public void setup() {
-        PlayerManager.setUser(new Player());
+        PlayerManager.setCurrentUser(new Player());
     }
 
     @Test

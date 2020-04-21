@@ -33,7 +33,7 @@ public class ItemsTest {
         playerManager = new PlayerManager();
         player = new Player();
         PlayerManager.addPlayer(player);
-        PlayerManager.setUser(player);
+        PlayerManager.setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
 
         healthpack = new Healthpack( 60);
@@ -46,10 +46,10 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getUser().setHealthPoints(10);
+        PlayerManager.getCurrentUser().setHealthPoints(10);
         healthpack.use();
 
-        assertTrue(PlayerManager.getUser().getHealthPoints() == 11);
+        assertTrue(PlayerManager.getCurrentUser().getHealthPoints() == 11);
     }
 
     @Test
@@ -76,12 +76,12 @@ public class ItemsTest {
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getUser().setHealthPoints(30);
-        PlayerManager.setUser(PlayerManager.getUser());
+        PlayerManager.getCurrentUser().setHealthPoints(30);
+        PlayerManager.setCurrentUser(PlayerManager.getCurrentUser());
         healthpack.use();
-        assertEquals(90, PlayerManager.getUser().getHealthPoints(), 0);
+        assertEquals(90, PlayerManager.getCurrentUser().getHealthPoints(), 0);
         healthpack.use();
-        assertEquals(100, PlayerManager.getUser().getHealthPoints(), 0);
+        assertEquals(100, PlayerManager.getCurrentUser().getHealthPoints(), 0);
     }
 
     @Test

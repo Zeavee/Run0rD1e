@@ -26,8 +26,8 @@ public class TimedItemTest {
     public void setup() {
         MapsActivity.setMapApi(new MockMapApi());
         Player player = new Player();
-        PlayerManager.setUser(player);
-        user = PlayerManager.getUser();
+        PlayerManager.setCurrentUser(player);
+        user = PlayerManager.getCurrentUser();
     }
 
     @After

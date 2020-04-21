@@ -23,7 +23,7 @@ public class DetectableEntityTest {
     public void setup() {
         mapApi = new MockMapApi();
         MapsActivity.setMapApi(mapApi);
-        PlayerManager.setUser(new Player());
+        PlayerManager.setCurrentUser(new Player());
         mapApi.setCurrentLocation(new GeoPoint(0, 0));
         game = new Game();
     }

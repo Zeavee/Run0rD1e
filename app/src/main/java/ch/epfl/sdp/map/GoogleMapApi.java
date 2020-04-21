@@ -100,10 +100,10 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        PlayerManager.getUser().setLocation(getCurrentLocation());
-        PlayerManager.getUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getUser().getLocation()));
-        removeMarkers(PlayerManager.getUser());
-        displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
+        PlayerManager.getCurrentUser().setLocation(getCurrentLocation());
+        PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
+        removeMarkers(PlayerManager.getCurrentUser());
+        displayMarkerCircle(PlayerManager.getCurrentUser(), Color.BLUE, "My position", 10);
     }
 
     @Override

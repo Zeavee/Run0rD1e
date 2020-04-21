@@ -30,12 +30,12 @@ public class MainActivityTest {
     @Before
     public void setup(){
         MapsActivity.setMapApi(new MockMapApi());
-        PlayerManager.setUser(new Player());
+        PlayerManager.setCurrentUser(new Player());
     }
 
     @After
     public void teardown(){
-        PlayerManager.setUser(null);
+        PlayerManager.setCurrentUser(null);
     }
 
     @Test

@@ -35,13 +35,13 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        Map items = PlayerManager.getUser().getInventory().getItems();
+        Map items = PlayerManager.getCurrentUser().getInventory().getItems();
         Item item = (Item) (items.keySet().toArray())[position];
         holder.name.setText(item.getName());
         holder.amountOfItem.setText(String.valueOf(items.get(item)));
         holder.button.setOnClickListener(v -> {
             item.use();
-            PlayerManager.getUser().getInventory().removeItem(item);
+            PlayerManager.getCurrentUser().getInventory().removeItem(item);
 
             // Update the quantity of that item
             holder.amountOfItem.setText(String.valueOf(items.get(item)));
@@ -50,7 +50,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public int getItemCount() {
-        return PlayerManager.getUser().getInventory().getItems().size();
+        return PlayerManager.getCurrentUser().getInventory().getItems().size();
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {

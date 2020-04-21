@@ -17,7 +17,7 @@ public class PlayerManager {
     /**
      * The player representing the user in the game.
      */
-    private static Player user;
+    private static Player currentUser;
     public static final int NUMBER_OF_PLAYERS_IN_Lobby = 10;
     public static final String LOBBY_PATH = "Lobbies";
     public static final String PLAYERS_PATH = "Players";
@@ -60,17 +60,17 @@ public class PlayerManager {
      *
      * @return A player representing the user in the game.
      */
-    public static Player getUser() {
-        return user;
+    public static Player getCurrentUser() {
+        return currentUser;
     }
 
     /**
      * Sets the player representing the user in the game.
      * @param player A player representing the user in the game.
      */
-    public static void setUser(Player player){
-        user = player;
-        addPlayer(user);
+    public static void setCurrentUser(Player player){
+        currentUser = player;
+        addPlayer(currentUser);
     }
 
     /**

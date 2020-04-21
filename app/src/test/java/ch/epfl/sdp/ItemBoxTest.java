@@ -27,7 +27,7 @@ public class ItemBoxTest {
         location = new GeoPoint(0,0);
         player = new Player();
         player.setLocation(location);
-        PlayerManager.setUser(player);
+        PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
         mockMapApi.setCurrentLocation(location);
@@ -67,7 +67,7 @@ public class ItemBoxTest {
         };
 
 
-        assertFalse(PlayerManager.getUser().getInventory().getItems().containsKey(item));
+        assertFalse(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
 
         for (int i = 0; i < 2; ++i) {
             ItemBox itemBox = new ItemBox();
@@ -80,9 +80,9 @@ public class ItemBoxTest {
 
             game.update();
 
-            assertTrue(PlayerManager.getUser().getInventory().getItems().containsKey(item));
+            assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
         }
 
-        assertTrue(PlayerManager.getUser().getInventory().getItems().get(item) == 2);
+        assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().get(item) == 2);
     }
 }

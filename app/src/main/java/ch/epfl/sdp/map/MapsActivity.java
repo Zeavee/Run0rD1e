@@ -2,9 +2,12 @@ package ch.epfl.sdp.map;
 
 import android.content.Context;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -14,8 +17,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.firebase.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.PlayerConverter;
+import ch.epfl.sdp.database.firebase.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -26,11 +30,14 @@ import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.login.AuthenticationAPI;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static final String TAG = "Test Firebase";
     public static MapApi mapApi = new GoogleMapApi();
-    public static CommonDatabaseAPI commonDatabaseAPI = new CommonFirestoreDatabaseAPI();
+    private CommonDatabaseAPI commonDatabaseAPI;
+    private AuthenticationAPI authenticationAPI;
 
     public static void setMapApi(MapApi map){
         mapApi = map;
@@ -40,6 +47,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
+        authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
@@ -80,20 +90,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //  -------------------------------------------
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        // Setting the user
-        Player user = new Player(6.3419, 46.2301, 22, "startGame2", "startGame2@gmail.com");
-        user.setAoeRadius(10); // detection radius would be a better name, aoe (Area of effect)
-        // means affecting (like attacking) all entity inside the area, in this case the circle.
-        PlayerManager.setUser(user);
 
         mapApi.setMap(googleMap);
-        mapApi.updatePosition();
 
-        initEnvironment();
+        //Get username and email of CurrentUser;
+        String email = authenticationAPI.getCurrentUserEmail();
 
-        // Join
-        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
+        //Fetch current User
+        try {
+            // set the currentUser
+            UserForFirebase userForFirebase = commonDatabaseAPI.fetchUser(email).get();
+            Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
+            PlayerManager.setCurrentUser(currentUser);
+            mapApi.updatePosition();
+
+            //        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
+            initEnvironment();
+
+        } catch (Exception e) {
+            Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 }
