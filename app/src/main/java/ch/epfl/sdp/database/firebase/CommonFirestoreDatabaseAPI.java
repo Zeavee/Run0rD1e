@@ -3,16 +3,8 @@ package ch.epfl.sdp.database.firebase;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -22,24 +14,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import androidx.annotation.RequiresApi;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
-import ch.epfl.sdp.database.room.LeaderoardViewModel;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     private static final String USER_COLLECTION_NAME = "AllUsers";
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
-    public void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel) {
+    public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
         FirebaseFirestore.getInstance().collection("Users")
                 .orderBy("healthPoints", Query.Direction.DESCENDING)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         Player player = documentSnapshot.toObject(Player.class);
                         LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
-                        leaderoardViewModel.insert(user);
+                        leaderboardViewModel.insert(user);
                     }
                 });
     }

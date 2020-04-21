@@ -2,12 +2,11 @@ package ch.epfl.sdp.database.firebase;
 
 import java.util.concurrent.CompletableFuture;
 
-import ch.epfl.sdp.database.room.LeaderoardViewModel;
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public interface CommonDatabaseAPI {
 
-    void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel);
+    void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel);
 
     void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback);
 

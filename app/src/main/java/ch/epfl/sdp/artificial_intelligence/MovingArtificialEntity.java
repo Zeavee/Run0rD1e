@@ -2,7 +2,7 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.Random;
 
-import ch.epfl.sdp.entity.MovingEntity;
+import ch.epfl.sdp.entity.AoeRadiusMovingEntity;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -16,7 +16,7 @@ import ch.epfl.sdp.map.MapsActivity;
  * Represents an entity of the game that can move automatically by setting a movement. The movement
  * can be limited by setting an area where the entity can reside.
  */
-public abstract class MovingArtificialEntity extends MovingEntity implements Movable, Positionable, Updatable {
+public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity implements Movable, Positionable, Updatable {
     private Movement movement;
     private Area area;
     private boolean moving;
