@@ -134,6 +134,13 @@ public class GoogleMapApi implements MapApi {
         activity.runOnUiThread(() -> {
             //if (displayable == null) return;
             removeMarkers(displayable);
+            /*
+            if(displayable instanceof DisplayableWithIcon) {
+                DisplayableWithIcon displayableWithIcon = (DisplayableWithIcon)displayable;
+                displaySmallIcon(displayableWithIcon, displayableWithIcon.getName(), displayableWithIcon.getDrawableIconId());
+            }
+            */
+
             switch (displayable.getEntityType()) {
                 // only display User when position is updated
                 case ENEMY:

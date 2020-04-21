@@ -7,21 +7,16 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.PlayerConverter;
-import ch.epfl.sdp.database.firebase.UserForFirebase;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -61,9 +56,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void initEnvironment() {
-        // Game example
-        Game game = new Game();
-        game.initGame();
+        Game.getInstance().initGame();
 
         // Enemy -------------------------------------------
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
@@ -76,8 +69,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
-        Game.addToDisplayList(enemy);
-        Game.addToUpdateList(enemy);
+        Game.getInstance().addToDisplayList(enemy);
+        Game.getInstance().addToUpdateList(enemy);
         //  -------------------------------------------
 
         // ItemBox -------------------------------------------
@@ -85,8 +78,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         ItemBox itemBox = new ItemBox();
         itemBox.putItems(healthpack, 1);
         itemBox.setLocation(new GeoPoint(6.14, 46.22));
-        Game.addToDisplayList(itemBox);
-        Game.addToUpdateList(itemBox);
+        Game.getInstance().addToDisplayList(itemBox);
+        Game.getInstance().addToUpdateList(itemBox);
         //  -------------------------------------------
     }
 
@@ -102,13 +95,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Fetch current User
         try {
             // set the currentUser
-            UserForFirebase userForFirebase = commonDatabaseAPI.fetchUser(email).get();
-            Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
-            PlayerManager.setCurrentUser(currentUser);
-            mapApi.updatePosition();
+            //UserForFirebase userForFirebase = commonDatabaseAPI.fetchUser(email).get();
+            //Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
+            //PlayerManager.setCurrentUser(currentUser);
+           // mapApi.updatePosition();
 
             //        commonDatabaseAPI.joinLobby(PlayerManager.getUser());
-            initEnvironment();
+            //initEnvironment();
 
         } catch (Exception e) {
             Toast.makeText(MapsActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
