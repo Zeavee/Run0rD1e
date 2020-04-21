@@ -1,30 +1,23 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.callback.OnAddUserCallback;
-import ch.epfl.sdp.database.firebase.callback.OnValueReadyCallback;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
-    private static final String USER_COLLECTION_NAME = "AllUsers";
-    private static final int NUMBER_OF_PLAYERS_IN_LOBBY = 10;
-    private static final String LOBBY_COLLECTION_NAME = "Lobbies";
-    private static final String PLAYERS_COLLECTION_NAME = "Players";
-
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
@@ -40,63 +33,40 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     }
 
     @Override
-    public void addUser(UserForFirebase userForFirebase, OnAddUserCallback onAddUserCallback) {
-        firebaseFirestore.collection(USER_COLLECTION_NAME)
+    public void addUser(UserForFirebase userForFirebase, OnValueReadyCallback<Task<Void>> onValueReadyCallback) {
+        PlayerManager.USER_COLLECTION_REF
                 .document(userForFirebase.getEmail())
                 .set(userForFirebase)
-                .addOnSuccessListener(aVoid -> onAddUserCallback.finish())
-                .addOnFailureListener(e -> onAddUserCallback.error(e));
+                .addOnCompleteListener(task -> onValueReadyCallback.finish(task));
     }
 
     @Override
-    public void fetchUser(String email, OnValueReadyCallback<UserForFirebase> onValueReadyCallback) {
-        firebaseFirestore.collection(USER_COLLECTION_NAME).document(email).get()
-                .addOnSuccessListener(documentSnapshot -> onValueReadyCallback.finish(documentSnapshot.toObject(UserForFirebase.class)))
-                .addOnFailureListener(e -> onValueReadyCallback.error(e));
+    public void fetchUser(String email, OnValueReadyCallback<Task<DocumentSnapshot>> onValueReadyCallback) {
+        PlayerManager.USER_COLLECTION_REF.document(email).get()
+                .addOnCompleteListener(task -> onValueReadyCallback.finish(task));
     }
 
     @Override
-    public void joinLobby(PlayerForFirebase playerForFirebase, OnValueReadyCallback<Boolean> onValueReadyCallback) {
-        CollectionReference collectionReference = firebaseFirestore.collection(LOBBY_COLLECTION_NAME);
-        collectionReference.whereLessThan("count", NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
+    public void selectLobby(OnValueReadyCallback<Task<QuerySnapshot>> onValueReadyCallback) {
+        PlayerManager.LOBBY_COLLECTION_REF.whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
+                .addOnCompleteListener(task -> onValueReadyCallback.finish(task));
+    }
+
+    @Override
+    public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<Task<Void>> onValueReadyCallback) {
+        PlayerManager.getLobby_doc_ref().collection(PlayerManager.PLAYERS_COLLECTION_NAME).document(playerForFirebase.getEmail())
+                .set(playerForFirebase)
                 .addOnCompleteListener(task -> {
-                    if (!task.isSuccessful()) {
-                        onValueReadyCallback.error(task.getException());
-                    } else {
-                        if (task.getResult().isEmpty())
-                            createNewLobbyAndRegister(collectionReference.document(), playerForFirebase, onValueReadyCallback);
-                        else
-                            registerToLobby(task.getResult().iterator().next(), playerForFirebase, onValueReadyCallback);
+                    if (task.isSuccessful()) {
+                        PlayerManager.getLobby_doc_ref().set(data, SetOptions.merge()).addOnCompleteListener(task1 -> onValueReadyCallback.finish(task1));
                     }
                 });
     }
 
-    private void createNewLobbyAndRegister(DocumentReference docRefLobby, PlayerForFirebase playerForFirebase, OnValueReadyCallback<Boolean> onValueReadyCallback) {
-        DocumentReference docRefPlayer = docRefLobby.collection(PLAYERS_COLLECTION_NAME).document(playerForFirebase.getEmail());
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("count", 1);
-        data.put("startGame", false);
-
-        docRefPlayer.set(playerForFirebase);
-        docRefLobby.set(data, SetOptions.merge());
-
-        onValueReadyCallback.finish(true);
-    }
-
-    private void registerToLobby(QueryDocumentSnapshot document, PlayerForFirebase playerForFirebase, OnValueReadyCallback<Boolean> onValueReadyCallback) {
-        DocumentReference docRefLobby = document.getReference();
-        DocumentReference docRefPlayer = docRefLobby.collection(PLAYERS_COLLECTION_NAME).document(playerForFirebase.getEmail());
-
-        long newCount = document.getLong("count") + 1;
-        docRefPlayer.set(playerForFirebase);
-        docRefLobby.update("count", newCount);
-
-        onValueReadyCallback.finish(false);
-    }
-
     @Override
-    public void fetchPlayers() {
-
+    public void fetchPlayers(OnValueReadyCallback<Task<QuerySnapshot>> onValueReadyCallback) {
+        PlayerManager.getLobby_doc_ref().collection(PlayerManager.PLAYERS_COLLECTION_NAME).get()
+                .addOnCompleteListener(task -> onValueReadyCallback.finish(task));
     }
+
 }

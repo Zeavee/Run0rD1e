@@ -22,16 +22,20 @@ public abstract class Item implements Entity {
 
     /**
      * Gets the name of the item.
+     *
      * @return A String representing the name of the item.
      */
-    public String getName() {return this.name;
+    public String getName() {
+        return this.name;
     }
 
     /**
      * Gets the description of the item.
+     *
      * @return A string representing the description of the item.
      */
-    public String getDescription() {return this.description;
+    public String getDescription() {
+        return this.description;
     }
 
     /**

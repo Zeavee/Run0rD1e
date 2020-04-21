@@ -15,7 +15,6 @@ import java.util.regex.Pattern;
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.callback.OnAddUserCallback;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
@@ -68,17 +67,13 @@ public class RegisterFormActivity extends AppCompatActivity {
             @Override
             public void finish() {
                 UserForFirebase userForFirebase = new UserForFirebase(email, username, 0.0);
-                commonDatabaseAPI.addUser(userForFirebase, new OnAddUserCallback() {
-                    @Override
-                    public void finish() {
+                commonDatabaseAPI.addUser(userForFirebase, task -> {
+                    if(!task.isSuccessful()) {
+                        Toast.makeText(RegisterFormActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
                         FriendsListActivity.setChatEmailID(email);
                         RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainActivity.class));
                         RegisterFormActivity.this.finish();
-                    }
-
-                    @Override
-                    public void error(Exception ex) {
-                        Toast.makeText(RegisterFormActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
             }

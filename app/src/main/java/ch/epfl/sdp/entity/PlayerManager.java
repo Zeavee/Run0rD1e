@@ -1,5 +1,9 @@
 package ch.epfl.sdp.entity;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -10,6 +14,13 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
+    public static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 10;
+    public static final CollectionReference USER_COLLECTION_REF = firebaseFirestore.collection("AllUsers");
+    public static final CollectionReference LOBBY_COLLECTION_REF = firebaseFirestore.collection("Lobbies");
+    public static final String PLAYERS_COLLECTION_NAME = "Players";
+
+    private static DocumentReference lobby_doc_ref;
     /**
      * The list of all players in the current game.
      */
@@ -18,6 +29,24 @@ public class PlayerManager {
      * The player representing the user in the game.
      */
     private static Player currentUser;
+
+    /**
+     * Get the DocumentReference of currentUser's lobby
+     *
+     * @return The DocumentReference of the currentUser's lobby on Cloud firebase.
+     */
+    public static DocumentReference getLobby_doc_ref() {
+        return lobby_doc_ref;
+    }
+
+    /**
+     * Set the DocumentReference of the currentUser's lobby
+     *
+     * @param lobby_doc_ref the DocumentReference of the currentUser's lobby
+     */
+    public static void setLobby_doc_ref(DocumentReference lobby_doc_ref) {
+        PlayerManager.lobby_doc_ref = lobby_doc_ref;
+    }
 
     /**
      * Add the specified player to the player manager. The player will stay until it is removed by

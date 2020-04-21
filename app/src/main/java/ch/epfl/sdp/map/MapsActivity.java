@@ -3,7 +3,6 @@ package ch.epfl.sdp.map;
 import android.content.Context;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -12,13 +11,17 @@ import androidx.fragment.app.FragmentActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.callback.OnValueReadyCallback;
 import ch.epfl.sdp.database.firebase.entity.PlayerConverter;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -95,39 +98,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get username and email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
-        //Fetch current User
-        commonDatabaseAPI.fetchUser(email, new OnValueReadyCallback<UserForFirebase>() {
-            @Override
-            public void finish(UserForFirebase userForFirebase) {
-                Player currentUser = PlayerConverter.UserForFirebaseToPlayer(userForFirebase);
+        commonDatabaseAPI.fetchUser(email, fetchUserTask -> {
+            if (!fetchUserTask.isSuccessful()) {
+                Toast.makeText(MapsActivity.this, fetchUserTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                Player currentUser = PlayerConverter.UserForFirebaseToPlayer(fetchUserTask.getResult().toObject(UserForFirebase.class));
                 PlayerManager.setCurrentUser(currentUser);
                 mapApi.updatePosition();
 
-                commonDatabaseAPI.joinLobby(PlayerConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), new OnValueReadyCallback<Boolean>() {
-                    @Override
-                    public void finish(Boolean isServer) {
-                        //true means this player is the first to enter the Lobby and be the server
-                        //false means this player is not the first to enter the Lobby and be the client
-                        if (isServer) {
-                            Log.d(TAG, "finish: SERVER");
-                        } else {
-                            Log.d(TAG, "finish: CLIENT");
-                        }
-                    }
+                commonDatabaseAPI.selectLobby(selectLobbyTask -> {
+                    if (!selectLobbyTask.isSuccessful()) {
+                        Toast.makeText(MapsActivity.this, selectLobbyTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Map<String, Object> data = new HashMap<>();
+                        PlayerForFirebase playerForFirebase = PlayerConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
 
-                    @Override
-                    public void error(Exception ex) {
-                        Toast.makeText(MapsActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
+                        if (selectLobbyTask.getResult().isEmpty()) {
+                            PlayerManager.setLobby_doc_ref(PlayerManager.LOBBY_COLLECTION_REF.document());
+                            data.put("count", 1);
+                            data.put("startGame", false);
+                        } else {
+                            QueryDocumentSnapshot document = selectLobbyTask.getResult().iterator().next();
+                            PlayerManager.setLobby_doc_ref(document.getReference());
+                            data.put("count", document.getLong("count") + 1);
+                        }
+                        commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyTask -> {
+                            if (!registerToLobbyTask.isSuccessful()) {
+                                Toast.makeText(MapsActivity.this, selectLobbyTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                initEnvironment();
+                            }
+                        });
                     }
                 });
-
-                initEnvironment();
             }
 
-            @Override
-            public void error(Exception ex) {
-                Toast.makeText(MapsActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
-            }
         });
     }
 }
