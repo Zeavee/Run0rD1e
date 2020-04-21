@@ -1,4 +1,4 @@
-package ch.epfl.sdp.artificial_intelligence;
+package ch.epfl.sdp.game;
 
 /**
  * Interface for updating the state of the game.

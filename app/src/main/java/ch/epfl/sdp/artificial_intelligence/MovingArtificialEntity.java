@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.Random;
 
 import ch.epfl.sdp.entity.MovingEntity;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;

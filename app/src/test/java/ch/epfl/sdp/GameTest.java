@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapsActivity;
