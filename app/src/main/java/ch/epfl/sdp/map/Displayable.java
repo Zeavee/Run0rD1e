@@ -8,7 +8,7 @@ public interface Displayable extends Entity {
      * Method for getting the location for displaying on the map
      * @return a GeoPoint which is a location
      */
-    public GeoPoint getLocation();
+    GeoPoint getLocation();
 
     /**
      * Method to decide if the entity must be displayed only once.
