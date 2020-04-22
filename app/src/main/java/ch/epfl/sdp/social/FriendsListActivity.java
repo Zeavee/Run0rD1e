@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.social.Conversation.*;
@@ -32,9 +34,9 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
     protected void onResume() {
 
         super.onResume();
-        chatRepo.setContextActivity(this);
+        ChatRepository.setContextActivity(this);
+        chatRepo = ChatRepository.getInstance();
         chatRepo.fetchFriends(new User(current_email_id));
-        //chatRepo.
     }
 
     @Override
@@ -62,9 +64,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerView = findViewById(R.id.friends_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        MyFriendsRecyclerViewAdapter adapter = new MyFriendsRecyclerViewAdapter(friends, friend -> {
-
-        });
+        MyFriendsRecyclerViewAdapter adapter = new MyFriendsRecyclerViewAdapter(friends);
         adapter.setOnItemClickListener((position, v) -> {
             Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
             intent.putExtra("chattingWith",friends.get(position).getEmail());
@@ -84,7 +84,4 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         startActivity(new Intent(FriendsListActivity.this, AddFriendsActivity.class));
     }
 
-    public interface OnListFragmentInteractionListener {
-        void onListFragmentInteraction(User friend);
-    }
 }

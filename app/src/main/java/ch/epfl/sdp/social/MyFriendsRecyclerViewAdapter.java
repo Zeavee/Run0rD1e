@@ -16,12 +16,10 @@ import ch.epfl.sdp.R;
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 
     private final List<User> mValues;
-    private final FriendsListActivity.OnListFragmentInteractionListener mListener;
     private static MyClickListener myClickListener;
 
-    public MyFriendsRecyclerViewAdapter(List<User> items, FriendsListActivity.OnListFragmentInteractionListener listener) {
+    public MyFriendsRecyclerViewAdapter(List<User> items) {
         mValues = items;
-        mListener = listener;
     }
 
     public void setOnItemClickListener(MyClickListener myClickListener) {
@@ -45,11 +43,6 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         holder.mIdView.setText(mValues.get(position).getEmail());
 
         holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
         });
     }
 

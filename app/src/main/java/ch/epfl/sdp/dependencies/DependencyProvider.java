@@ -1,5 +1,6 @@
 package ch.epfl.sdp.dependencies;
 
+import ch.epfl.sdp.social.Conversation.FireStoreToSQLiteAdapter;
 import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
 
 /**
@@ -11,7 +12,7 @@ public class DependencyProvider {
     /**
      * Handles fetching data regarding user conversations from the remote server (FireStore) to the local SQLite database
      */
-    public static RemoteToSQLiteAdapter remoteToSQLiteAdapter;
+    public static RemoteToSQLiteAdapter remoteToSQLiteAdapter = FireStoreToSQLiteAdapter.getInstance();
 
     /**
      * @brief sets the adapter that interfaces between the SQLite db and the remote server
