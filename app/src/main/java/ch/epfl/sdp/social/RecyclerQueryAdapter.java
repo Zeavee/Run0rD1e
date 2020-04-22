@@ -89,7 +89,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
             ChatRepository chatRepo = ChatRepository.getInstance();
-            
+
             chatRepo.addUser(cur_usr);
             chatRepo.addUser(befriended_usr);
             chatRepo.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));

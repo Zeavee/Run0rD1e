@@ -64,7 +64,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     {
         Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
         messageAdapter.add(new MessageDecorator(m, false));
-        chatRepo.sendMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
+        chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
 
         // TODO: clean way to get email of user
         remoteToSQLiteAdapter.getInstance().sendLocalDataToRemoteServer("stupid1@gmail.com",chattingWith,m);

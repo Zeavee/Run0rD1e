@@ -14,6 +14,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 @SuppressLint("StaticFieldLeak")
+
+/**
+ * @brief Provides higher level abstraction of the database of the chat and models the database memory management of that database
+ * Any modification to (or request from) the database storing the chat should be routed to the singleton instance of this class
+ */
 public final class ChatRepository {
 
     private ChatDatabase chatDB;
@@ -27,11 +32,18 @@ public final class ChatRepository {
         this.contextActivity = contextActivity;
     }
 
+    /**
+     * @brief returns the chat repository instance which abstracts all direct SQL calls relating to the local chat database
+     */
     public static ChatRepository getInstance()
     {
         return singleton;
     }
 
+    /**
+     * @brief sets the UI context of the chat repository
+     * @param contextActivity the UI context (typically an instance of the Activity class)
+     */
     public static void setContextActivity(Context contextActivity) {
         if (!singletonCreated) {
             singleton = new ChatRepository(contextActivity);
@@ -40,13 +52,18 @@ public final class ChatRepository {
         singleton.contextActivity = contextActivity;
     }
 
-    public void sendMessage(String content, int chat_id) {
+    /**
+     * Stores a message in the local database of the chat with the current time
+     * @param chat_id the id of the chat, uniquely identified by the tuple (from (sender), to (receiver))
+     * @param content the string content of the message
+     */
+    public void storeMessage(String content, int chat_id) {
 
         Message m = new Message(new Date(), content, chat_id);
-        singleton.sendMessage(m);
+        singleton.storeMessage(m);
     }
 
-    private void sendMessage(final Message message) {
+    private void storeMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -59,6 +76,10 @@ public final class ChatRepository {
         }.execute();
     }
 
+    /**
+     * @Brief adds a chat instance to the local database (typically because the user has initiated a chat with a new friend)
+     * @param c the chat to be added to the database
+     */
     public void addChat(final Chat c) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -75,6 +96,10 @@ public final class ChatRepository {
         }.execute();
     }
 
+    /**
+     * @Brief adds a user to the chat database
+     * @param usr the user to be added to the database (this user can be the current user or the friend of the current user)
+     */
     public void addUser(final User usr) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -91,7 +116,10 @@ public final class ChatRepository {
         }.execute();
     }
 
-    // This method must be
+    /**
+     * @brief fetches the friend of User user from the local database
+     * @param user the current user to get the friends of
+     */
     public void fetchFriends(final User user)
     {
         new AsyncTask<Void, Void, List<User>>() {
@@ -110,6 +138,11 @@ public final class ChatRepository {
         }.execute();
     }
 
+    /**
+     * @brief  marks user1 and user2 friends in the chat (local) database
+     * @param user1 the first user in the friends relation
+     * @param user2 the second user
+     */
     public void addFriends(final User user1, final User user2)
     {
         new AsyncTask<Void, Void, Void>() {
@@ -126,6 +159,11 @@ public final class ChatRepository {
         }.execute();
     }
 
+    /**
+     * @brief gets the messages received
+     * @param id_owner the Id of the owner of the messages (i.e the one who sent it)
+     * @param id_rec the Id of the receiver of the messages
+     */
     public void getMessagesReceived(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<Message>>() {
@@ -146,7 +184,11 @@ public final class ChatRepository {
 
     }
 
-
+    /**
+     * @brief gets the messages sent
+     * @param id_owner the Id of the owner of the messages (i.e the one who sent it)
+     * @param id_rec the Id of the receiver of the messages
+     */
     public void getMessagesSent(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<Message>>() {
@@ -168,7 +210,12 @@ public final class ChatRepository {
     }
 
 
-
+    /**
+     * @brief gets the messages from the server and puts them in the local database (specifics of the server and how to fetch from it are handled from the activity)
+     * @param tm the time at which the message was sent (obtained from the server)
+     * @param content the content of the chat message
+     * @param chat_id the id of the chat uniquely identified by sender and a receiver ids (respectively)
+     */
     public void insertMessageFromRemote(Timestamp tm, String content, int chat_id) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -183,6 +230,12 @@ public final class ChatRepository {
 
     }
 
+    /**
+     * @brief gets the chat from local database (note that messages are aware of their parent chat but the chat is not aware of its child messages)
+     * @param current the id of the current user
+     * @param other the id of the friend of the current user
+     * @return the chat instance
+     */
     public Chat getChat(String current, String other)
     {
         Chat output = null;
