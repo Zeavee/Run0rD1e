@@ -25,7 +25,7 @@ public class TimedItemTest {
     @Before
     public void setup() {
         MapsActivity.setMapApi(new MockMapApi());
-        Player player = new Player();
+        Player player = new Player("","");
         PlayerManager.setCurrentUser(player);
         user = PlayerManager.getCurrentUser();
     }
@@ -49,15 +49,14 @@ public class TimedItemTest {
     @Test
     public void timedItemIsDeletedFromTheListWhenTimeIsFinished(){
         TimedItem timedItem = new Shield(countTime) {};
-        Game game = new Game();
-        Game.addToUpdateList(timedItem);
+        Game.getInstance().addToUpdateList(timedItem);
 
         for(int i = countTime*FPS; i > 0; --i) {
             timedItem.update();
         }
 
         timedItem.update();
-        assertFalse(Game.updatablesContains(timedItem));
+        assertFalse(Game.getInstance().updatablesContains(timedItem));
     }
 
     @Test

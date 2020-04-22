@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.item.Item;
 
 import static org.junit.Assert.assertEquals;
@@ -13,6 +14,11 @@ public class ItemTest {
     @Before
     public void setup() {
         item = new Item("ItemName", "ItemDescription") {
+
+            @Override
+            public EntityType getEntityType() {
+                return EntityType.NONE;
+            }
 
             @Override
             public void use() {

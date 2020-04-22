@@ -11,21 +11,16 @@ import ch.epfl.sdp.map.MapsActivity;
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable {
-    public GameThread gameThread;
-    private MapApi map; // is it a good idea?
+    private GameThread gameThread;
     private ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
-    private static Game instance;
+    private static final Game instance = new Game();
 
     /**
      * Gets one and only instance of the game.
      */
     public static Game getInstance() {
-        if(instance == null) {
-            instance = new Game();
-        }
-
         return instance;
     }
 
@@ -37,6 +32,22 @@ public class Game implements Updatable {
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
+    }
+
+    /**
+     * Returns true if the game is running.
+     * @return true if the game is running.
+     */
+    public boolean isRunning(){
+        return gameThread.isRunning();
+    }
+
+    /**
+     * Clears the game (ie. update and displayable list)
+     */
+    public void clearGame(){
+        updatables.clear();
+        displayables.clear();
     }
 
     /**

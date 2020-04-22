@@ -2,7 +2,10 @@ package ch.epfl.sdp.game;
 
 import java.util.List;
 
+import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.utils.CustumResult;
 import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
@@ -16,9 +19,9 @@ import ch.epfl.sdp.item.ItemBox;
 public class Client implements Updatable{
     private int counter;
     private double oldDamage;
-    private double damage;
     private List<ItemBox> itemBoxes;
     private ClientDatabaseAPI clientDatabaseAPI;
+    private List<Enemy> enemies;
 
     /**
      * Creates a new client
@@ -38,8 +41,22 @@ public class Client implements Updatable{
         return null;
     }
 
-    private double receiveDamage(){
-        return 0;
+    private void receiveDamage(double damage){
+        if (damage != oldDamage) {
+            // shielding is done on server?
+            PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
+            clientDatabaseAPI.sendHealthPoints(EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
+                if(value.isSuccessful()){
+                    oldDamage = damage;
+                }
+            });
+        }
+    }
+
+    private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
+        for (EnemyForFirebase enemy: firebase_enemies) {
+            //enemy.
+        }
     }
 
     /**
@@ -60,17 +77,7 @@ public class Client implements Updatable{
      * Update on client for synchronisation with items.
      */
     private void updateHealth(){
-        damage = receiveDamage();
-
-        if (damage != oldDamage) {
-            // shielding is done on server?
-            PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
-            clientDatabaseAPI.sendHealthPoints(EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
-                if(value.isSuccessful()){
-                    oldDamage = damage;
-                }
-            });
-        }
+        clientDatabaseAPI.fetchDamage(damage -> {receiveDamage(damage.getResult());});
     }
 
     /**
@@ -84,14 +91,15 @@ public class Client implements Updatable{
      * Update the enemies positions.
      */
     private void updateEnemiesPosition(){
-
+        clientDatabaseAPI.fetchEnemies(enemies -> {receiveEnemies(enemies.getResult());});
     }
 
     @Override
     public void update() {
         if(counter <= 0){
-            updateItems();
             updateHealth();
+
+            updateItems();
             updatePlayersPosition();
             updateEnemiesPosition();
             counter = GameThread.FPS + 1;

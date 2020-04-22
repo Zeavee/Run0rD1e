@@ -29,9 +29,8 @@ public class ItemsTest {
     @Before
     public void setup(){
         MapsActivity.setMapApi(new MockMapApi());
-        Game game = new Game();
         playerManager = new PlayerManager();
-        player = new Player();
+        player = new Player("","");
         PlayerManager.addPlayer(player);
         PlayerManager.setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);

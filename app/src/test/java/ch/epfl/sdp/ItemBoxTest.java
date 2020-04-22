@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -19,19 +20,18 @@ public class ItemBoxTest {
     Player player;
     GeoPoint location;
     MockMapApi mockMapApi;
-    Game game;
 
     @Before
     public void setup() {
         PlayerManager.removeAll(); // Just to be sure that there are no players
         location = new GeoPoint(0,0);
-        player = new Player();
+        player = new Player("","");
         player.setLocation(location);
         PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
         mockMapApi.setCurrentLocation(location);
-        game = new Game();
+        Game.getInstance().clearGame();
     }
 
     @After
@@ -44,23 +44,28 @@ public class ItemBoxTest {
         ItemBox itemBox = new ItemBox();
         itemBox.setLocation(location);
 
-        Game.addToUpdateList(itemBox);
-        Game.addToDisplayList(itemBox);
+        Game.getInstance().addToUpdateList(itemBox);
+        Game.getInstance().addToDisplayList(itemBox);
 
-        assertTrue(Game.updatablesContains(itemBox));
-        assertTrue(Game.displayablesContains(itemBox));
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
+        assertFalse(Game.getInstance().displayablesContains(itemBox));
         assertFalse(itemBox.isTaken());
 
-        game.update();
+        Game.getInstance().update();
 
-        assertFalse(Game.updatablesContains(itemBox));
-        assertFalse(Game.displayablesContains(itemBox));
+        assertFalse(Game.getInstance().updatablesContains(itemBox));
+        assertFalse(Game.getInstance().displayablesContains(itemBox));
         assertTrue(itemBox.isTaken());
     }
 
     @Test
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("", "") {
+            @Override
+            public EntityType getEntityType() {
+                return EntityType.NONE;
+            }
+
             @Override
             public void use() {
             }
@@ -75,10 +80,10 @@ public class ItemBoxTest {
             itemBox.setLocation(location);
             itemBox.putItems(item, 1);
 
-            Game.addToUpdateList(itemBox);
-            Game.addToDisplayList(itemBox);
+            Game.getInstance().addToUpdateList(itemBox);
+            Game.getInstance().addToDisplayList(itemBox);
 
-            game.update();
+            Game.getInstance().update();
 
             assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
         }

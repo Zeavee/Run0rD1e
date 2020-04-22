@@ -16,16 +16,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class DetectableEntityTest {
-    Game game;
     MockMapApi mapApi;
 
     @Before
     public void setup() {
         mapApi = new MockMapApi();
         MapsActivity.setMapApi(mapApi);
-        PlayerManager.setCurrentUser(new Player());
+        PlayerManager.setCurrentUser(new Player("",""));
         mapApi.setCurrentLocation(new GeoPoint(0, 0));
-        game = new Game();
     }
 
     @After
@@ -42,10 +40,10 @@ public class DetectableEntityTest {
             }
         };
 
-        Game.addToUpdateList(detectableEntity);
-        Game.addToDisplayList(detectableEntity);
-        assertTrue(Game.updatablesContains(detectableEntity));
-        game.update();
-        assertFalse(Game.updatablesContains(detectableEntity));
+        Game.getInstance().addToUpdateList(detectableEntity);
+        Game.getInstance().addToDisplayList(detectableEntity);
+        assertTrue(Game.getInstance().updatablesContains(detectableEntity));
+        Game.getInstance().update();
+        assertFalse(Game.getInstance().updatablesContains(detectableEntity));
     }
 }

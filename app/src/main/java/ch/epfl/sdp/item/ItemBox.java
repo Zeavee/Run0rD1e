@@ -63,9 +63,7 @@ public class ItemBox extends DetectableEntity {
 
     @Override
     public void react(Player player) {
-
-        //server send to buffer
-
+        take();
     }
 
     @Override

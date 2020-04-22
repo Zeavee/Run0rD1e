@@ -30,7 +30,6 @@ public class PlayerTest {
 
     @Before
     public void setup(){
-        Game game = new Game();
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         PlayerManager.setCurrentUser(player1);
@@ -59,10 +58,7 @@ public class PlayerTest {
     public void otherMethodTest() {
         assertTrue(player1.isAlive());
         assertEquals("Skyris", player1.getUsername());
-        assertEquals(0, player1.getSpeed(), 0.001);
-        assertEquals(0, player1.getTimeTraveled(), 0.001);
-        assertEquals(0, player1.getScore());
-        assertEquals(0, player1.getDistanceTraveled(), 0.001);
+        assertEquals(0, player1.getScore(), 0);
         assertEquals("test@email.com", player1.getEmail());
     }
 
