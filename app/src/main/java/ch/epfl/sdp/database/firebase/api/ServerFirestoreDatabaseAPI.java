@@ -7,14 +7,14 @@ import java.util.List;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.utils.CustumResult;
+import ch.epfl.sdp.database.firebase.utils.CustomResult;
 import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBox;
 
 public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
-    public void sendEnemies(List<EnemyForFirebase> enemies, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+    public void sendEnemies(List<EnemyForFirebase> enemies, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
@@ -24,12 +24,12 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
             batch.set(docRef, enemyForFirebase);
         }
 
-        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustumResult<>(null, false, e)));
+        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
+                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
     @Override
-    public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+    public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
@@ -39,8 +39,8 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
             batch.update(docRef, "damage", playerForFirebase.getDamage());
         }
 
-        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustumResult<>(null, false, e)));
+        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
+                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
 
     }
 

@@ -1,13 +1,12 @@
 package ch.epfl.sdp;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.firebase.utils.CustumResult;
+import ch.epfl.sdp.database.firebase.utils.CustomResult;
 import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
@@ -24,27 +23,27 @@ public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
     }
 
     @Override
-    public void addUser(UserForFirebase userForFirebase, OnValueReadyCallback<CustumResult<Void>> OnValueReadyCallback) {
+    public void addUser(UserForFirebase userForFirebase, OnValueReadyCallback<CustomResult<Void>> OnValueReadyCallback) {
 
     }
 
     @Override
-    public void fetchUser(String email, OnValueReadyCallback<CustumResult<UserForFirebase>> onValueReadyCallback) {
+    public void fetchUser(String email, OnValueReadyCallback<CustomResult<UserForFirebase>> onValueReadyCallback) {
 
     }
 
     @Override
-    public void selectLobby(OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+    public void selectLobby(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
 
     @Override
-    public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+    public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
 
     @Override
-    public void fetchPlayers(OnValueReadyCallback<CustumResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
 
     }
 }

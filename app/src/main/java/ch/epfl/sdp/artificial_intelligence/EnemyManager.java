@@ -5,8 +5,6 @@ import java.util.List;
 
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.utils.CustumResult;
-import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.game.Updatable;
 
 /**
