@@ -8,12 +8,20 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 
+/**
+ * A trap is an item a player can drop at his current localization and if another player walks by the trap, he will take damage
+ */
 public class Trap extends Item implements Updatable, Displayable {
     private GeoPoint trapPosition;
     private int damage;
     private int radius;
     private Player owner;
 
+    /**
+     * This is a constructor for traps
+     * @param damage The damage the trap will inflict on the other player that walks by
+     * @param radius The radius of the circle in which the other player needs to be in order for the trap to activate
+     */
     public Trap(int damage, int radius) {
         super(String.format("Trap (%d)", damage), String.format("Deal %d health points damages to the player that walks on it", damage));
         this.damage = damage;
