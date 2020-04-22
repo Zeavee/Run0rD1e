@@ -20,7 +20,7 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.PlayerConverter;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
@@ -37,7 +37,6 @@ import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static final String TAG = "Test Firebase";
     public static MapApi mapApi = new GoogleMapApi();
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
@@ -95,36 +94,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mapApi.setMap(googleMap);
 
-        //Get username and email of CurrentUser;
+
+        //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
-        commonDatabaseAPI.fetchUser(email, fetchUserTask -> {
-            if (!fetchUserTask.isSuccessful()) {
-                Toast.makeText(MapsActivity.this, fetchUserTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+        commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
+            if (!fetchUserRes.isSuccessful()) {
+                Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             } else {
-                Player currentUser = PlayerConverter.UserForFirebaseToPlayer(fetchUserTask.getResult().toObject(UserForFirebase.class));
+                Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
                 PlayerManager.setCurrentUser(currentUser);
                 mapApi.updatePosition();
 
-                commonDatabaseAPI.selectLobby(selectLobbyTask -> {
-                    if (!selectLobbyTask.isSuccessful()) {
-                        Toast.makeText(MapsActivity.this, selectLobbyTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+                    if (!selectLobbyRes.isSuccessful()) {
+                        Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
+                        PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
                         Map<String, Object> data = new HashMap<>();
-                        PlayerForFirebase playerForFirebase = PlayerConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                        data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
+                        if (PlayerManager.isServer()) data.put("startGame", false);
 
-                        if (selectLobbyTask.getResult().isEmpty()) {
-                            PlayerManager.setLobby_doc_ref(PlayerManager.LOBBY_COLLECTION_REF.document());
-                            data.put("count", 1);
-                            data.put("startGame", false);
-                        } else {
-                            QueryDocumentSnapshot document = selectLobbyTask.getResult().iterator().next();
-                            PlayerManager.setLobby_doc_ref(document.getReference());
-                            data.put("count", document.getLong("count") + 1);
-                        }
-                        commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyTask -> {
-                            if (!registerToLobbyTask.isSuccessful()) {
-                                Toast.makeText(MapsActivity.this, selectLobbyTask.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
+                            if (!registerToLobbyRes.isSuccessful()) {
+                                Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                             } else {
                                 initEnvironment();
                             }

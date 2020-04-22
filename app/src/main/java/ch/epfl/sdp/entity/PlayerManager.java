@@ -1,9 +1,5 @@
 package ch.epfl.sdp.entity;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.util.ArrayList;
 
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -14,13 +10,15 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 10;
-    public static final CollectionReference USER_COLLECTION_REF = firebaseFirestore.collection("AllUsers");
-    public static final CollectionReference LOBBY_COLLECTION_REF = firebaseFirestore.collection("Lobbies");
-    public static final String PLAYERS_COLLECTION_NAME = "Players";
+    public static final String USER_COLLECTION_NAME = "AllUsers";
+    public static final String LOBBY_COLLECTION_NAME = "Lobbies";
+    public static final String PLAYER_COLLECTION_NAME = "Players";
+    public static final String ENEMY_COLLECTION_NAME = "Enemies";
 
-    private static DocumentReference lobby_doc_ref;
+    private static String lobbyDocumentName;
+    private static long numPlayersBeforeJoin;
+    private static boolean isServer;
     /**
      * The list of all players in the current game.
      */
@@ -35,17 +33,33 @@ public class PlayerManager {
      *
      * @return The DocumentReference of the currentUser's lobby on Cloud firebase.
      */
-    public static DocumentReference getLobby_doc_ref() {
-        return lobby_doc_ref;
+    public static String getLobbyDocumentName() {
+        return lobbyDocumentName;
     }
 
     /**
      * Set the DocumentReference of the currentUser's lobby
      *
-     * @param lobby_doc_ref the DocumentReference of the currentUser's lobby
+     * @param lobby_document_ref the DocumentReference of the currentUser's lobby
      */
-    public static void setLobby_doc_ref(DocumentReference lobby_doc_ref) {
-        PlayerManager.lobby_doc_ref = lobby_doc_ref;
+    public static void setLobbyDocumentName(String lobby_document_ref) {
+        PlayerManager.lobbyDocumentName = lobby_document_ref;
+    }
+
+    public static long getNumPlayersBeforeJoin() {
+        return numPlayersBeforeJoin;
+    }
+
+    public static void setNumPlayersBeforeJoin(long numPlayersBeforeJoin) {
+        PlayerManager.numPlayersBeforeJoin = numPlayersBeforeJoin;
+    }
+
+    public static boolean isServer() {
+        return isServer;
+    }
+
+    public static void setIsServer(boolean isServer) {
+        PlayerManager.isServer = isServer;
     }
 
     /**
