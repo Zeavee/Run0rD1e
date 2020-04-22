@@ -1,5 +1,9 @@
 package ch.epfl.sdp.database.firebase.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.entity.Player;
 
 public class EntityConverter {
@@ -24,5 +28,14 @@ public class EntityConverter {
         playerForFirebase.setHealthPoints(player.getHealthPoints());
 
         return playerForFirebase;
+    }
+
+    public static List<EnemyForFirebase> EnemyToEnemyForFirebase(List<Enemy> enemies) {
+        List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
+        for(Enemy enemy: enemies) {
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getLocation()));
+        }
+
+        return enemyForFirebases;
     }
 }

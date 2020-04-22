@@ -62,7 +62,7 @@ public class Client implements Updatable{
         if (damage != oldDamage) {
             // shielding is done on server?
             PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
-            clientDatabaseAPI.sendHealthPoints(PlayerManager.getCurrentUser().getHealthPoints());
+            clientDatabaseAPI.sendField(PlayerManager.getCurrentUser().getHealthPoints(), , , );
 
             oldDamage = damage;
         }

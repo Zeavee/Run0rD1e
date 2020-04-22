@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.firebase.utils.CustumResult;
+import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.game.Updatable;
 
 /**
@@ -32,8 +35,9 @@ public class EnemyManager implements Updatable {
     public void update() {
         long currentTimeMillis = System.currentTimeMillis();
         if(lastUpdateTimeMillis - currentTimeMillis >= UPDATE_EVERY_MS) {
-            serverDatabaseAPI.sendEnemies(enemies);
-            lastUpdateTimeMillis = currentTimeMillis;
+            serverDatabaseAPI.sendEnemies(EntityConverter.EnemyToEnemyForFirebase(enemies), value -> {
+                if(value.isSuccessful()) { lastUpdateTimeMillis = currentTimeMillis; }
+            });
         }
     }
 }

@@ -22,7 +22,7 @@ import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
-    private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    protected static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
 
     @Override
     public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {

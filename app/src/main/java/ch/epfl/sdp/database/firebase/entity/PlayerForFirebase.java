@@ -12,6 +12,7 @@ public class PlayerForFirebase {
     private GeoPoint location;
     private double aoeRadius;
     private double healthPoints;
+    private double damage;
     @ServerTimestamp
     private Timestamp timestamp;
 
@@ -25,6 +26,7 @@ public class PlayerForFirebase {
         this.location = location;
         this.aoeRadius = aoeRadius;
         this.healthPoints = 100;
+        this.damage = 0;
     }
 
     public String getUsername() {
@@ -65,6 +67,14 @@ public class PlayerForFirebase {
 
     public void setHealthPoints(double healthPoints) {
         this.healthPoints = healthPoints;
+    }
+
+    public double getDamage() {
+        return damage;
+    }
+
+    public void setDamage(double damage) {
+        this.damage = damage;
     }
 
     public Timestamp getTimestamp() {
