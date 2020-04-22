@@ -14,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.HashMap;
+
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
 
@@ -37,7 +39,7 @@ public class LoginTest {
                 @Override
                 protected void beforeActivityLaunched() {
                     DependencyFactory.setTestMode(true);
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI());
+                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), null));
                 }
             };
 

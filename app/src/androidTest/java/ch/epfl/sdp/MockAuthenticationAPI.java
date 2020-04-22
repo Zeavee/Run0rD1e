@@ -9,6 +9,11 @@ public class MockAuthenticationAPI implements AuthenticationAPI {
     private HashMap<String, String> registeredUsers;
     private String currentUserEmail;
 
+    public MockAuthenticationAPI(HashMap<String, String> registeredUsers, String currentUserEmail) {
+        this.registeredUsers = registeredUsers;
+        this.currentUserEmail = currentUserEmail;
+    }
+
     @Override
     public void signIn(String email, String password, OnAuthCallback callback) {
         if (!registeredUsers.containsKey(email)) {

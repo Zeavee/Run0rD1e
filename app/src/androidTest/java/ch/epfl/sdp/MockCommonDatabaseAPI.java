@@ -12,7 +12,11 @@ import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
-    private List<UserForFirebase> userData = new ArrayList<>();
+    private List<UserForFirebase> userData;
+
+    public MockCommonDatabaseAPI(List<UserForFirebase> userData) {
+        this.userData = userData;
+    }
 
     @Override
     public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
