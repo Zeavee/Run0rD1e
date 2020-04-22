@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
+import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
 

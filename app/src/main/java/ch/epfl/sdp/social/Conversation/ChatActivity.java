@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.Conversation;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +13,7 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 import java.util.List;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.*;
 import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.Chat;

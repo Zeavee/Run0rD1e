@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.Conversation;
 
 import android.content.Context;
 
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import ch.epfl.sdp.social.socialDatabase.*;
+import ch.epfl.sdp.social.*;
 import java.util.List;
 import java.util.Map;
 

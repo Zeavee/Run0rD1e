@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social.friends_firestore;
+package ch.epfl.sdp.social.RemoteUsers;
 
 import androidx.annotation.NonNull;
 

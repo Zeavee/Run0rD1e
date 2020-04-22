@@ -8,7 +8,7 @@ import java.util.List;
 
 import ch.epfl.sdp.social.User;
 import ch.epfl.sdp.social.WaitsOn;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
+import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class MockFriendsFetcher implements RemoteFriendFetcher {
     @Override

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.Conversation;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,7 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import ch.epfl.sdp.social.*;
 import ch.epfl.sdp.social.socialDatabase.*;
 import java.util.concurrent.ExecutionException;
 @SuppressLint("StaticFieldLeak")

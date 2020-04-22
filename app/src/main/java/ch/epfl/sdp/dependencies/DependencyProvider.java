@@ -1,6 +1,6 @@
 package ch.epfl.sdp.dependencies;
 
-import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
+import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
 
 /**
  * The goal is to provide dependencies that activities need without making these dependencies static fields inside the activity classes

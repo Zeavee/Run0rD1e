@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import ch.epfl.sdp.social.Conversation.ChatRepository;
 import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 
