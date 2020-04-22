@@ -7,9 +7,9 @@ import ch.epfl.sdp.database.firebase.utils.CustumResult;
 import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 
 public interface ClientDatabaseAPI extends CommonDatabaseAPI {
-    void sendHealthPoints(List<PlayerForFirebase> players, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback);
+    void sendHealthPoints(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback);
 
     void clearItemBoxes();
 
-    void sendAoeRadius(List<PlayerForFirebase> players, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback);
+    void sendAoeRadius(PlayerForFirebase playerForFirebase,  OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback);
 }

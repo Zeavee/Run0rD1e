@@ -3,6 +3,9 @@ package ch.epfl.sdp.game;
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.firebase.utils.CustumResult;
+import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBox;
 
@@ -62,9 +65,11 @@ public class Client implements Updatable{
         if (damage != oldDamage) {
             // shielding is done on server?
             PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
-            clientDatabaseAPI.sendField(PlayerManager.getCurrentUser().getHealthPoints(), , , );
-
-            oldDamage = damage;
+            clientDatabaseAPI.sendHealthPoints(EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
+                if(value.isSuccessful()){
+                    oldDamage = damage;
+                }
+            });
         }
     }
 

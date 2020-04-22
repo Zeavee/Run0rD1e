@@ -12,17 +12,10 @@ import ch.epfl.sdp.entity.PlayerManager;
 
 public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI implements ClientDatabaseAPI {
     @Override
-    public void sendHealthPoints(List<PlayerForFirebase> players, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
-        // Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for (PlayerForFirebase playerForFirebase : players) {
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
-        }
-
-        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
+    public void sendHealthPoints(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
+                .update("healthPoints", playerForFirebase.getHealthPoints())
+                .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustumResult<>(null, false, e)));
     }
 
@@ -32,17 +25,10 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void sendAoeRadius(List<PlayerForFirebase> players, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
-        // Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for (PlayerForFirebase playerForFirebase : players) {
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "aoeRadius", playerForFirebase.getAoeRadius());
-        }
-
-        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
+    public void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustumResult<Void>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
+                .update("aoeRadius", playerForFirebase.getAoeRadius())
+                .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustumResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustumResult<>(null, false, e)));
     }
 }
