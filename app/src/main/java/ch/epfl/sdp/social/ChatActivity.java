@@ -21,7 +21,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private ImageButton sendButton;
     private EditText message;
     private ListView lv;
-    private static String chattingWith;
+    private String chattingWith;
     private Chat chat;
     private List<Message> messages;
     private MessageAdapter messageAdapter;
@@ -35,6 +35,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         sendButton = findViewById(R.id.sendMessageButton);
         message = findViewById(R.id.messageField);
         lv = findViewById(R.id.messages_view);
+
+        chattingWith = getIntent().getStringExtra("chattingWith");
 
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
@@ -65,10 +67,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
         // TODO: clean way to get email of user
         DependencyProvider.remoteToSQLiteAdapter.sendLocalDataToRemoteServer("stupid1@gmail.com",chattingWith,m);
-    }
-
-    public static void setChattingWith(String chattingWith) {
-        ChatActivity.chattingWith = chattingWith;
     }
 
 

@@ -65,8 +65,8 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
 
         });
         adapter.setOnItemClickListener((position, v) -> {
-            ChatActivity.setChattingWith(friends.get(position).getEmail());
             Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
+            intent.putExtra("chattingWith",friends.get(position).getEmail());
             startActivity(intent);
         });
 
