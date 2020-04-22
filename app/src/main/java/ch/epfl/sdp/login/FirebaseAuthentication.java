@@ -25,7 +25,7 @@ public class FirebaseAuthentication implements AuthenticationController {
      *  1 to 20 and the part after can have length ranging from 1 to 20
      * useful for sanitizing input
      */
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
+    //private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private UserDataController userDataStore;
 
     public FirebaseAuthentication(UserDataController store) {
@@ -34,7 +34,7 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public void signIn(Activity loginFormActivity, String email, String password) {
-        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             FriendsListActivity.setChatEmailID(email);
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
@@ -44,8 +44,8 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public String getEmailOfCurrentUser() {
-        if(auth.getCurrentUser() == null) return null;
-        else return auth.getCurrentUser().getEmail();
+        if(FirebaseAuth.getInstance().getCurrentUser() == null) return null;
+        else return FirebaseAuth.getInstance().getCurrentUser().getEmail();
     }
 
 //    @Override
@@ -55,7 +55,7 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
             FriendsListActivity.setChatEmailID(email);
             userDataStore.storeUser(RegisterFormActivity.registerCollectionName, player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
@@ -65,11 +65,11 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     public static FirebaseUser getCurrentUser()
     {
-        return auth.getCurrentUser();
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
     public void signOut() {
-        auth.signOut();
+        FirebaseAuth.getInstance().signOut();
     }
 }

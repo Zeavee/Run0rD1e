@@ -59,6 +59,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     boolean flag = false;
 
+    public static void setMapApi(MapApi map){
+        mapApi = map;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,15 +88,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
         //PlayerManager.setUser(currentUser);
         showGameInfoThread().start();
-
-        //game = new Game(mapApi, new InitializeGameFirestore());
-        //startGame();
-
     }
 
     private void initEnvironment() {
         // Game example
-        game = new Game(mapApi, new InitializeGameFirestore());
+        game = new Game();
         game.initGame();
 
         // Enemy -------------------------------------------
@@ -128,7 +128,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        ((GoogleMapApi) mapApi).setMap(googleMap);
+        mapApi.setMap(googleMap);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_UPDATES_REQUEST_CODE);
@@ -139,12 +139,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         p1.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.144188, 46.206738)).toCartesian());
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(p1);
-
         PlayerManager.setUser(new Player(6.1466, 46.1576, 20, "test", "test"));
         mapApi.updatePosition();
         initEnvironment();
         startGame();
-
         // Join
         firestoreUserData.joinLobby(PlayerManager.getUser());
     }
@@ -205,7 +203,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    public static void setMapApi(MapApi map){
-        mapApi = map;
-    }
 }

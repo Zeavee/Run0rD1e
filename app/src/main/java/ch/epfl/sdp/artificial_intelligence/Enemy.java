@@ -217,8 +217,8 @@ public class Enemy extends MovingArtificialEntity {
     public void update() {
         super.update();
         behave();
-        System.out.println(this.behaviour);
-        System.out.println("Player Health: " + players.get(0).getHealthPoints());
+        //System.out.println(this.behaviour);
+        //System.out.println("Player Health: " + players.get(0).getHealthPoints());
     }
 
     @Override

@@ -41,8 +41,6 @@ public class GameThread extends Thread{
      */
     @Override
     public void run(){
-        game.setEnvironment();
-
         // Main loop of the game
         while(running){
             startTime = System.nanoTime();

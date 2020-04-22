@@ -33,8 +33,6 @@ public class Game implements Updatable, Drawable {
         // Need to test if it is null
         this.map = mapApi;
         this.initializeGame = initializeGame;
-        this.map = mapApi;
-        this.initializeGame = initializeGame;
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         gameThread = new GameThread(this);

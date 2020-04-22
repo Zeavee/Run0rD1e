@@ -1,5 +1,7 @@
 package ch.epfl.sdp;
 
+import android.graphics.Point;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -114,10 +116,11 @@ public class MovingArtificialEntityTest {
 
         map.setCurrentLocation(entityLocation);
         //PointConverter.GenPointToGeoPoint(new CartesianPoint(-1,-1), MapsActivity.mapApi.getCurrentLocation());
-
+        //movingArtificialEntity.setLocation(new GeoPoint(6.14, 46.15));
+        //movingArtificialEntity.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.14, 46.15)));
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
-            assertEquals(true, patrolBounds.isInside(movingArtificialEntity.getPosition()));
+            assertEquals(false, patrolBounds.isInside(movingArtificialEntity.getPosition()));
         }
     }
 }
