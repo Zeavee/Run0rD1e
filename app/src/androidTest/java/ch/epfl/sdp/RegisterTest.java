@@ -29,6 +29,7 @@ import ch.epfl.sdp.login.RegisterFormActivity;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -46,44 +47,43 @@ public class RegisterTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
-    private CommonDatabaseAPI store;
     private List<ViewAction> testCases;
     private List<Integer> testCasesInt;
     private List<Integer> emptyFields;
     private List<String> errorTexts;
-    private DependencyVisitor dv = new DependencyVisitor() {
-        @Override
-        public void setDependency(CommonDatabaseAPI dependency) {
-
-        }
-
-        @Override
-        public void setDependency(AuthenticationAPI dependency) {
-            LoginFormActivity.authenticationAPI = dependency;
-            RegisterFormActivity.authenticationAPI = dependency;
-        }
-
-        @Override
-        public void setDependency(MapApi dependency) {
-
-        }
-
-        @Override
-        public void setDependency(RemoteToSQLiteAdapter dependency) {
-
-        }
-
-        @Override
-        public void setDependency(RemoteFriendFetcher dataController) {
-
-        }
-
-        @Override
-        public void inject() {
-            setDependency(new MockAuthenticationAPI(new MockCommonDatabaseAPI()));
-        }
-
-    };
+//    private DependencyVisitor dv = new DependencyVisitor() {
+//        @Override
+//        public void setDependency(CommonDatabaseAPI dependency) {
+//
+//        }
+//
+//        @Override
+//        public void setDependency(AuthenticationAPI dependency) {
+//            LoginFormActivity.authenticationAPI = dependency;
+//            RegisterFormActivity.authenticationAPI = dependency;
+//        }
+//
+//        @Override
+//        public void setDependency(MapApi dependency) {
+//
+//        }
+//
+//        @Override
+//        public void setDependency(RemoteToSQLiteAdapter dependency) {
+//
+//        }
+//
+//        @Override
+//        public void setDependency(RemoteFriendFetcher dataController) {
+//
+//        }
+//
+//        @Override
+//        public void inject() {
+//            setDependency(new MockAuthenticationAPI(new MockCommonDatabaseAPI()));
+//        }
+//
+//    };
 
 
     @Rule
@@ -91,7 +91,9 @@ public class RegisterTest {
             new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    dv.inject();
+                    DependencyFactory.setTestMode(true);
+                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI());
+                    DependencyFactory.setCommonDatabaseAPI(new MockCommonDatabaseAPI());
                 }
             };
 
@@ -126,13 +128,13 @@ public class RegisterTest {
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-
-        store = new MockCommonDatabaseAPI();
-        mActivityRule.getActivity().authenticationAPI = new MockAuthenticationAPI(store);
     }
 
     @After
     public void tearDown(){
+        DependencyFactory.setTestMode(false);
+        DependencyFactory.setAuthenticationAPI(null);
+        DependencyFactory.setCommonDatabaseAPI(null);
         Intents.release();
     }
 
