@@ -1,7 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import com.google.firebase.auth.PlayGamesAuthCredential;
-
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
