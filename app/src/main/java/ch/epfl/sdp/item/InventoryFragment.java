@@ -11,10 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class InventoryFragment extends Fragment {
-    private Player player;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inventory, container, false);
@@ -24,17 +23,6 @@ public class InventoryFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        initPlayer();
-    }
-
-    private void initPlayer() {
-        //TODO Later this player should come from the local storage
-        player = new Player(22, 22, 50, "admin", "admin@gmail.com");
-        player.getInventory().setItemQuantity(new Healthpack(25), 2);
-        player.getInventory().setItemQuantity(new Shield(20), 5);
-        player.getInventory().setItemQuantity(new Shrinker(20, 10), 6);
-        player.getInventory().setItemQuantity(new Scan(20), 5);
         initRecyclerView();
     }
 
@@ -42,7 +30,7 @@ public class InventoryFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = getView().findViewById(R.id.items_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        ItemsViewAdapter adpater = new ItemsViewAdapter(getActivity(), player);
+        ItemsViewAdapter adpater = new ItemsViewAdapter(getActivity());
         recyclerView.setAdapter(adpater);
     }
 }

@@ -26,23 +26,9 @@ import static ch.epfl.sdp.R.id.useitem;
 
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
     private Context mContext;
-    private Player player;
-    private Map<String, Integer> inventory;
-    private List<String> mNames = new ArrayList<>();
-    private List<Integer> mAmounts = new ArrayList<>();
 
     public ItemsViewAdapter(Context mContext) {
         this.mContext = mContext;
-    }
-
-    public ItemsViewAdapter(Context mContext, Player player) {
-        this.mContext = mContext;
-        this.player = player;
-        //this.inventory = player.getInventory().getItems();
-        for(String key: inventory.keySet()) {
-            mNames.add(key);
-            mAmounts.add(inventory.get(key));
-        }
     }
 
     @NonNull

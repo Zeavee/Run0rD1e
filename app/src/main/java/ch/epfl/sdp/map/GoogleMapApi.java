@@ -194,8 +194,6 @@ public class GoogleMapApi implements MapApi {
 
     private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
         LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        System.out.println(displayable.getLocation().getLongitude());
-        System.out.println(displayable.getLocation().getLatitude());
         entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
                 .position(position)
                 .title(title)

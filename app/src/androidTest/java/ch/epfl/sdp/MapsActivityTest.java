@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,10 @@ import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
+
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -30,6 +35,12 @@ public class MapsActivityTest {
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;
+
+    @Before
+    public void setup() {
+        PlayerManager.setUser(new Player("", ""));
+        PlayerManager.getUser().getInventory().addItem(new Healthpack(10));
+    }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         try {

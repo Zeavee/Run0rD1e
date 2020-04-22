@@ -86,7 +86,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
-        //PlayerManager.setUser(currentUser);
         showGameInfoThread().start();
     }
 
@@ -135,10 +134,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         mapApi.onLocationUpdatesGranted();
-        Player p1 = new Player(6.144188, 46.206738, 100, "player1", "player1@email.com");
-        p1.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.144188, 46.206738)).toCartesian());
-        ArrayList<Player> players = new ArrayList<Player>();
-        players.add(p1);
         PlayerManager.setUser(new Player(6.1466, 46.1576, 20, "test", "test"));
         mapApi.updatePosition();
         initEnvironment();
