@@ -16,7 +16,6 @@ import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.firebase.utils.CustumResult;
 import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
