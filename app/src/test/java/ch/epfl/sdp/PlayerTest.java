@@ -23,11 +23,6 @@ public class PlayerTest {
     private EnemyOutDated enemyOutDated2; //enemy2's position is close to player1
     private ArrayList<EnemyOutDated> enemyOutDatedArrayList;
     private Game game;
-   /* private GeoPoint A;
-    private Healthpack healthpack;
-    private Shield shield;
-    private Shrinker shrinker;
-    private Scan scan;*/
 
     @Before
     public void setup(){
@@ -37,12 +32,7 @@ public class PlayerTest {
         PlayerManager.setUser(player1);
         enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50);
         enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50);
-        enemyOutDatedArrayList = new ArrayList<EnemyOutDated>();
-        /*A = new GeoPoint(6.14308, 46.21023);
-        healthpack = new Healthpack(A, false, 25);
-        shield = new Shield(A, true, 4, player1);
-        shrinker = new Shrinker(A, false, 4, 10,player1);
-        scan = new Scan(A, false, 50, new MockMapApi());*/
+        enemyOutDatedArrayList = new ArrayList<>();
     }
 
     @Test
@@ -84,7 +74,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void scoreUpdateWorks() throws InterruptedException {
+    public void scoreIncreasesOnDisplacementWithTime() throws InterruptedException {
         assertEquals(0, player1.generalScore);
         assertEquals(0, player1.currentGameScore);
         game.initGame();

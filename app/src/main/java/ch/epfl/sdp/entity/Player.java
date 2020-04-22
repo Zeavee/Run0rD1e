@@ -40,7 +40,7 @@ public class Player extends MovingEntity implements Localizable {
     private boolean isActive;
 
     public Player() {
-        this("","");
+        this("", "");
     }
 
     public Player(String username, String email) {
@@ -71,7 +71,7 @@ public class Player extends MovingEntity implements Localizable {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
-                this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
+                this.healthPoints = this.healthPoints + 1 / distance * 10; //distance is negative
             }
         }
     }
@@ -114,7 +114,9 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public boolean isShielded() {return this.isShielded; }
+    public boolean isShielded() {
+        return this.isShielded;
+    }
 
     public void setShielded(boolean shielded) {
         isShielded = shielded;
@@ -151,6 +153,11 @@ public class Player extends MovingEntity implements Localizable {
         return timestamp;
     }
 
+    /**
+     * This methods update the local score of the Player,
+     * this is called each 10 seconds, so if the Player is alive, he gets 10 points
+     * and if he traveled enough distance (10 meters) he gets 10 bonus points
+     */
     public void updateLocalScore() {
         if (isAlive()) {
             int bonusPoints = 10;
