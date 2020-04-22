@@ -44,7 +44,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
 
-        chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
 
         chat = chatRepo.getChat("stupid1@gmail.com", chattingWith);

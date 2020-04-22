@@ -3,6 +3,7 @@ package ch.epfl.sdp.social;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
                 entity = Chat.class,
                 parentColumns = "chat_id",
                 childColumns = "chat_id"
-        )})
+        )}, indices = @Index(value = "chat_id"))
 public class Message {
 
     private Date date;

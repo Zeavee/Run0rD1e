@@ -3,6 +3,7 @@ package ch.epfl.sdp.social;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 @Entity(primaryKeys = {"friendID1", "friendID2"}, foreignKeys = {@ForeignKey(
         entity = User.class,
@@ -13,7 +14,7 @@ import androidx.room.ForeignKey;
                 entity = User.class,
                 parentColumns = "userID",
                 childColumns = "friendID2"
-        )})
+        )}, indices = { @Index(value="friendID2")} )
 public class IsFriendsWith {
     @NonNull
     private String friendID1;

@@ -44,7 +44,6 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         setSupportActionBar(toolbar);
 
         current_email_id = "stupid1@gmail.com";
-        chatRepo = ChatRepository.createRepo(this);
         chatRepo.setContextActivity(this);
 
         // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created

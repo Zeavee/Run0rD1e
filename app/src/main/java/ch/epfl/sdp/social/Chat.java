@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 
 
 @Entity(indices = {@Index(value = {"from", "to"},
-        unique = true)},
+        unique = true), @Index(value = "to")},
         foreignKeys = {
         @ForeignKey(
                 entity = User.class,

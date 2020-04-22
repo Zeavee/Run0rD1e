@@ -75,8 +75,6 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         /// Here is where you add that the user become friends in both FireStore and SQLite
         @Override
         public void onClick(View v) {
-            // If it is not created already
-            ChatRepository.createRepo(v.getContext());
 
             // Let it know which UI context thread to run on
             ChatRepository.setContextActivity(v.getContext());

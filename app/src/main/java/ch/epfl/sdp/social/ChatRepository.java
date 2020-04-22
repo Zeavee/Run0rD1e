@@ -14,23 +14,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-@SuppressLint("StaticFieldLeak")
 public final class ChatRepository {
 
     private ChatDatabase chatDB;
     private Context contextActivity;
-    private List<String> messages;
     private static boolean singletonCreated = false;
     private static ChatRepository singleton;
-    public static ChatRepository createRepo(Context contextActivity)
+
+    /*public static ChatRepository createRepo(Context contextActivity)
     {
         if (!singletonCreated) {
             singleton = new ChatRepository(contextActivity);
-            singletonCreated =true;
+            singletonCreated = true;
             return singleton;
         }
         else return singleton;
-    }
+    }*/
 
     private ChatRepository(Context contextActivity) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
@@ -39,6 +38,10 @@ public final class ChatRepository {
     }
 
     public static void setContextActivity(Context contextActivity) {
+        if (!singletonCreated) {
+            singleton = new ChatRepository(contextActivity);
+            singletonCreated = true;
+        }
         singleton.contextActivity = contextActivity;
     }
 
@@ -122,7 +125,6 @@ public final class ChatRepository {
                     singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email)); // friendship is symmetric
                 }catch (SQLiteConstraintException e) {
                      // foreign key was not found so add both users to user db (done in caller)
-                  //  Log.d("ChatRepo Exception", "Caller must ensure users added to DB");
                 }
                 return null;
             }
@@ -136,8 +138,6 @@ public final class ChatRepository {
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                //msgList.addAll(singleton.chatDB.daoAccess().getMessagesFromOwnerToReceiver(id_owner, id_rec));
-                //msgList.add(new Message(new Date(), "8*^&=*%^&*()90")); // canary value (temporary solution for now)
                 msgList.addAll(singleton.chatDB.daoAccess().getMessages(id_rec, id_owner));
                 return msgList;
             }
@@ -199,10 +199,6 @@ public final class ChatRepository {
                     return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
                 }
 
-                /*@Override
-                protected void onPostExecute(List<Chat> exists) {
-                    ((WaitOnChatRetrieval)(singleton.contextActivity)).chatFetched(exists);
-                }*/
             }.execute().get().get(0);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();

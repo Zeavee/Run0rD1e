@@ -8,7 +8,7 @@ import androidx.room.Transaction;
 import java.util.List;
 
 @Dao
-public interface ChatAccessor {
+public interface ChatDAO {
     //final static Date today = new Date();
 
     @Transaction
