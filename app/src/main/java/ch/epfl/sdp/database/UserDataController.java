@@ -14,4 +14,7 @@ public interface UserDataController {
      * @param collectionName the name of the Collection
      */
     void getLobby(String collectionName);
+    //void storeUser(Player player);
+
+    void joinLobby(Player player);
 }

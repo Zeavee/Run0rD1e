@@ -20,7 +20,9 @@ public class MockUserDataController implements UserDataController {
         userData.add(player);
     }
 
-    @Override
     public void getLobby(String collectionName) {
+
+    }
+    public void joinLobby(Player player) {
     }
 }

@@ -1,21 +1,25 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.EntityType;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.PlayerManager;
 
-public class Shield extends Item {
-    private double shieldTime;
+public class Shield extends TimedItem  {
 
-    public Shield(GeoPoint location, boolean isTaken, double shieldTime) {
-        super(location, "Shield", isTaken, "Protects you from taking damage from the enemy");
-        this.shieldTime = shieldTime;
-    }
-
-    public double getShieldTime() {
-        return shieldTime;
+    public Shield(int shieldTime) {
+        super(String.format("Shield (%d)", shieldTime), String.format("Protects you from taking damage from the enemy for %d seconds", shieldTime), shieldTime);
     }
 
     @Override
+    public void use() {
+        super.use();
+        PlayerManager.getUser().setShielded(true);
+    }
+
+    @Override
+    public void stopUsing(){
+        PlayerManager.getUser().setShielded(false);
+    }
+
     public EntityType getEntityType() {
         return EntityType.SHIELD;
     }

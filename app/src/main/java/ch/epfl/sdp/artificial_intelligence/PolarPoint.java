@@ -14,4 +14,8 @@ public class PolarPoint extends GenPoint{
     public PolarPoint toPolar() {
         return this;
     }
+
+    public PolarPoint changeRadius(double r) {
+        return new PolarPoint(r, super.arg2);
+    }
 }

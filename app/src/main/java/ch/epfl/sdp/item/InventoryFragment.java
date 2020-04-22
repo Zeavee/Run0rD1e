@@ -31,10 +31,10 @@ public class InventoryFragment extends Fragment {
     private void initPlayer() {
         //TODO Later this player should come from the local storage
         player = new Player(22, 22, 50, "admin", "admin@gmail.com");
-        player.getInventory().setItemQuantity("Healthpack", 2);
-        player.getInventory().setItemQuantity("Shield", 5);
-        player.getInventory().setItemQuantity("Shrinker", 6);
-        player.getInventory().setItemQuantity("Scan", 5);
+        player.getInventory().setItemQuantity(new Healthpack(25), 2);
+        player.getInventory().setItemQuantity(new Shield(20), 5);
+        player.getInventory().setItemQuantity(new Shrinker(20, 10), 6);
+        player.getInventory().setItemQuantity(new Scan(20), 5);
         initRecyclerView();
     }
 
@@ -46,5 +46,3 @@ public class InventoryFragment extends Fragment {
         recyclerView.setAdapter(adpater);
     }
 }
-
-

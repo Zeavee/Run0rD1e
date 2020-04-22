@@ -40,7 +40,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -60,8 +59,8 @@ public class RegisterTest {
 
         @Override
         public void setDependency(AuthenticationController dependency) {
-                LoginFormActivity.authenticationController = dependency;
-                RegisterFormActivity.authenticationController = dependency;
+            LoginFormActivity.authenticationController = dependency;
+            RegisterFormActivity.authenticationController = dependency;
         }
 
         @Override
@@ -88,14 +87,13 @@ public class RegisterTest {
 
 
     @Rule
-    public ActivityTestRule <RegisterFormActivity> mActivityRule =
-            new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class){
-             @Override
-             protected void beforeActivityLaunched()
-            {
-                dv.inject();
-            }
-    };
+    public ActivityTestRule<RegisterFormActivity> mActivityRule =
+            new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class) {
+                @Override
+                protected void beforeActivityLaunched() {
+                    dv.inject();
+                }
+            };
 
 
     @Before
@@ -123,7 +121,7 @@ public class RegisterTest {
 
         email = "amro.abdrabo@gmail.com";
         password = "password";
-        
+
         Intents.init();
         Intent resultData = new Intent();
         resultData.putExtra("resultData", "fancyData");
@@ -174,14 +172,13 @@ public class RegisterTest {
             if (i>0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
-            Log.d("COUNTER", " "+i);
+            Log.d("COUNTER", " " + i);
             onView(withId(R.id.backBtn)).perform(click());
             onView(withId(R.id.createAccountBtn)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
     }*/
 
-<<<<<<< HEAD
     /*@Test
 =======
     // for now

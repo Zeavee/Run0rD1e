@@ -2,11 +2,13 @@ package ch.epfl.sdp;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -15,8 +17,13 @@ import ch.epfl.sdp.logic.RandomGenerator;
 import ch.epfl.sdp.map.GeoPoint;
 
 public class RandomGeneratorTest {
-    private static RandomGenerator randGen = new RandomGenerator();
+    private RandomGenerator randGen;
 
+    @Before
+    public void setup(){
+        PlayerManager playerManager = new PlayerManager();
+        randGen = new RandomGenerator();
+    }
 
     @Test
     public void randomString_test(){
@@ -64,16 +71,16 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomShieldTest() {
-        Shield s = randGen.randomShield();
-        assertTrue(s.getShieldTime() >= 20);
-        assertTrue(s.getShieldTime() <= 30);
+        Shield s = randGen.randomShield(new Player());
+        assertTrue(s.getRemainingTime() >= 20);
+        assertTrue(s.getRemainingTime() <= 30);
     }
 
     @Test
     public void randomShrinker() {
-        Shrinker s = randGen.randomShrinker();
-        assertTrue(s.getShrinkTime() >= 0);
-        assertTrue(s.getShrinkTime() <= 1);
+        Shrinker s = randGen.randomShrinker(new Player());
+        assertTrue(s.getRemainingTime() >= 0);
+        assertTrue(s.getRemainingTime() <= 1);
         assertTrue(s.getShrinkingRadius() >= 0);
         assertTrue(s.getShrinkingRadius() <= 1);
     }
@@ -81,8 +88,8 @@ public class RandomGeneratorTest {
     @Test
     public void randomScan() {
         Scan s = randGen.randomScan();
-        assertTrue(s.getScanTime() <= 1);
-        assertTrue(s.getScanTime() >= 0);
+        assertTrue(s.getRemainingTime() <= 1);
+        assertTrue(s.getRemainingTime() >= 0);
     }
 
     @Test

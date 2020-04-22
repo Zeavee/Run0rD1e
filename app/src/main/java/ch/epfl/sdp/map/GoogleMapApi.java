@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class GoogleMapApi implements MapApi {
@@ -40,17 +40,11 @@ public class GoogleMapApi implements MapApi {
     private GoogleMap mMap;
     private Activity activity;
     private Map<Displayable, MapDrawing> entityCircles;
-    private Player currentUser;
 
     private boolean hasMovedToPlayerPositionOnStart = false;
 
     public GoogleMapApi() {
         entityCircles = new HashMap<>();
-
-        currentUser = new Player(0, 0, 100, "current", "test");
-        PlayerManager.addPlayer(currentUser);
-
-
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
@@ -105,14 +99,12 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        currentUser.setLocation(getCurrentLocation());
-        displayEntity(currentUser);
-
-        if(!hasMovedToPlayerPositionOnStart) {
-            navigateCameraToPlayerPosition();
-            hasMovedToPlayerPositionOnStart = true;
-        }
+        PlayerManager.getUser().setLocation(getCurrentLocation());
+        PlayerManager.getUser().setPosition(PointConverter.GeoPointToGenPoint(PlayerManager.getUser().getLocation()));
+        removeMarkers(PlayerManager.getUser());
+        displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
     }
+
 
     @Override
     public void onLocationUpdatesGranted() {
@@ -146,35 +138,41 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     synchronized public void displayEntity(Displayable displayable) {
-        if (displayable == null) return;
-        removeMarkers(displayable);
-        switch (displayable.getEntityType()) {
-            case USER:
-                if (currentLocation == null) return;
-                currentUser.setLocation(displayable.getLocation());
-                displayMarkerCircle(displayable, Color.BLUE, "My position", 50); break;
-            case ENEMY:
-                displayMarkerCircle(displayable, Color.RED, "Enemy", 200); break;
-            case PLAYER:
-                displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
-            case HEALTHPACK:
-                displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack); break;
-            case SCAN:
-                displaySmallIcon(displayable, "Scan", R.drawable.radar); break;
-            case SHIELD:
-                displaySmallIcon(displayable, "Shield", R.drawable.shield);
-            case SHRINKER: break;
-            case SHELTER:
-                displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
-                break;
-        }
+        activity.runOnUiThread(() -> {
+            removeMarkers(displayable);
+            switch (displayable.getEntityType()) {
+                // only display User when position is updated
+                case ENEMY:
+                    //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+                    displaySmallIcon(displayable, "Enemy", R.drawable.enemy); break;
+                case PLAYER:
+                    displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
+                case ITEMBOX:
+                    displaySmallIcon(displayable, "ItemBox", R.drawable.itembox);
+                    break;
+                case HEALTHPACK:
+                    displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack);
+                    break;
+                case SCAN:
+                    displaySmallIcon(displayable, "Scan", R.drawable.radar);
+                    break;
+                case SHIELD:
+                    displaySmallIcon(displayable, "Shield", R.drawable.shield);
+                case SHRINKER:
+                    break;
+                case SHELTER:
+                    displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
+                    break;
+            }
+        });
     }
-
 
     @Override
     synchronized public void unDisplayEntity(Displayable displayable) {
-        removeMarkers(displayable);
-        entityCircles.remove(displayable);
+        activity.runOnUiThread(() -> {
+            removeMarkers(displayable);
+            entityCircles.remove(displayable);
+        });
     }
 
     private void removeMarkers(Displayable displayable) {

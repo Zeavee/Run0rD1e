@@ -17,10 +17,9 @@ public class InitializeGameFirestore implements InitializeGame {
         MapsActivity.firestoreUserData.getLobby(MapsActivity.lobbyCollectionName);
 
         // wait until all data fetched
-        while(PlayerManager.getInstance().getMapPlayers().size() != 7) {}
+        while(PlayerManager.getPlayers().size() != 7) {}
 
         //initialize the currentUser
-        MapsActivity.currentUser = PlayerManager.getInstance().getPlayer(MapsActivity.currentUserEmail);
         Game.addToUpdateList(PlayerManager.getInstance());
     }
 }

@@ -1,13 +1,15 @@
 package ch.epfl.sdp.entity;
 
+
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
-
-import java.util.ArrayList;
+import com.google.firebase.firestore.ServerTimestamp;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.Localizable;
+import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.GeoPoint;
 
 @IgnoreExtraProperties
@@ -21,22 +23,21 @@ public class Player extends MovingEntity implements Localizable {
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
-
     @Exclude
     public boolean alive;
-
     @Exclude
     public final static double MAX_HEALTH = 100;
-
     @Exclude
     private boolean isShielded;
-
+    @ServerTimestamp
+    public Timestamp timestamp;
     @Exclude
     private Inventory inventory;
+    @Exclude
     private boolean isActive;
 
     public Player() {
-        super();
+        this("","");
     }
 
     public Player(String username, String email) {
@@ -45,6 +46,7 @@ public class Player extends MovingEntity implements Localizable {
 
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+        super();
         GeoPoint g = new GeoPoint(longitude, latitude);
         this.setLocation(g);
         this.username = username;
@@ -58,7 +60,7 @@ public class Player extends MovingEntity implements Localizable {
         this.isShielded = false;
         this.position = new CartesianPoint((float) longitude, (float) latitude);
         this.setAoeRadius(aoeRadius);
-        this.inventory = new Inventory(this);
+        this.inventory = new Inventory();
         this.isActive = true;
     }
 
@@ -80,7 +82,7 @@ public class Player extends MovingEntity implements Localizable {
         return alive;
     }
 
-   public double getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
@@ -111,6 +113,7 @@ public class Player extends MovingEntity implements Localizable {
     @Exclude
     public boolean isShielded() {return this.isShielded; }
 
+
     @Exclude
     @Override
     public EntityType getEntityType() {
@@ -119,14 +122,16 @@ public class Player extends MovingEntity implements Localizable {
 
     @Exclude
     @Override
-    public Boolean isActive() {
-        return isActive;
+    public boolean once() {
+        return false;
     }
 
+    @Exclude
     @Override
     public GenPoint getPosition() {
         return position;
     }
+
 
     public void setUsername(String username) {
         this.username = username;
@@ -165,6 +170,11 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
+    public void setPosition(GenPoint genPoint){
+        this.position = genPoint.toCartesian();
+    }
+
+    @Exclude
     public Inventory getInventory() {
         return inventory;
     }
@@ -173,5 +183,8 @@ public class Player extends MovingEntity implements Localizable {
         this.inventory = inventory;
     }
 
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
 
 }

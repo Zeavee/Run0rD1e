@@ -24,15 +24,21 @@ import java.util.ArrayList;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.artificial_intelligence.LocalBounds;
 import ch.epfl.sdp.artificial_intelligence.PointConverter;
+import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
+import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.InitializeGameFirestore;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.FirebaseAuthentication;
@@ -40,13 +46,13 @@ import ch.epfl.sdp.login.FirebaseAuthentication;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
     public static final int LOCATION_UPDATES_REQUEST_CODE = 101;
     public static final String lobbyCollectionName = "Lobby";
-    public static final MapApi mapApi = new GoogleMapApi();
+    public static MapApi mapApi = new GoogleMapApi();
     public static final FirestoreUserData firestoreUserData = new FirestoreUserData();
     public static final AuthenticationController authenticationController = new FirebaseAuthentication(firestoreUserData);
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static Game game;
     public static String currentUserEmail;
-    public static Player currentUser;
+    //public static Player currentUser;
     public static Enemy currentEnnemy;
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
@@ -63,13 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mapApi.moveCameraOnCurrentLocation();
         });
 
-
-
-        Button scanButton = findViewById(R.id.scanButton);
-        ShelterArea shelterArea = new ShelterArea(new GeoPoint(6.147467, 46.210428), 100, null);
-        scanButton.setOnClickListener(v -> {
-            mapApi.displayEntity(currentEnnemy);
-        });
+        //ShelterArea shelterArea = new ShelterArea(new GeoPoint(6.147467, 46.210428), 100, null);
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -82,16 +82,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
-
+        //PlayerManager.setUser(currentUser);
         showGameInfoThread().start();
 
+        //game = new Game(mapApi, new InitializeGameFirestore());
+        //startGame();
+
+    }
+
+    private void initEnvironment() {
+        // Game example
         game = new Game(mapApi, new InitializeGameFirestore());
-        startGame();
+        game.initGame();
+
+        // Enemy -------------------------------------------
+      /*  GeoPoint local = new GeoPoint(6.2419, 46.2201);
+        GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
+        LocalBounds localBounds = new LocalBounds(new RectangleBounds(3500,3500, enemyPos), PointConverter.GeoPointToGenPoint(local));
+        Enemy enemy = new Enemy(localBounds, new UnboundedArea());
+        enemy.setLocation(enemyPos);
+        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));
+        movement.setVelocity(5);
+        movement.setAngleStep(0.1);
+        movement.setAmplitude(10);
+        enemy.setMovement(movement);
+        Game.addToDisplayList(enemy);
+        Game.addToUpdateList(enemy);*/
+        //  -------------------------------------------
+
         currentEnnemy = new Enemy();
         currentEnnemy.setLocation(new GeoPoint(6.145606,46.209633));
         currentEnnemy.setPosition(PointConverter.GeoPointToGenPoint(currentEnnemy.getLocation()));
         game.addToDisplayList(currentEnnemy);
         game.addToUpdateList(currentEnnemy);
+
+        // ItemBox -------------------------------------------
+        Healthpack healthpack = new Healthpack(10);
+        ItemBox itemBox = new ItemBox();
+        itemBox.putItems(healthpack, 1);
+        itemBox.setLocation(new GeoPoint(6.14, 46.22));
+        Game.addToDisplayList(itemBox);
+        Game.addToUpdateList(itemBox);
+        //  -------------------------------------------
     }
 
     @Override
@@ -107,14 +139,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         p1.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.144188, 46.206738)).toCartesian());
         ArrayList<Player> players = new ArrayList<Player>();
         players.add(p1);
-        ShelterArea a1 = new ShelterArea(new GeoPoint(6.144136, 46.206738), 200, players);
-        ShelterArea a2 = new ShelterArea(new GeoPoint(6.149699, 46.215788), 200, players);
-        mapApi.displayEntity(a1);
-        mapApi.displayEntity(a2);
+
+        PlayerManager.setUser(new Player(6.1466, 46.1576, 20, "test", "test"));
         mapApi.updatePosition();
-        Item hp = new Healthpack(new GeoPoint(7.9592, 47.0407), false, 10);
-        Game.addToDisplayList(hp);
-        Game.addToUpdateList(hp);
+        initEnvironment();
+        startGame();
+
+        // Join
+        firestoreUserData.joinLobby(PlayerManager.getUser());
     }
 
     @Override
@@ -146,10 +178,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     while (!isInterrupted()) {
                         Thread.sleep(2000);
                         runOnUiThread(() -> {
-                            if (currentUser != null && currentUser.getHealthPoints() > 0) {
-                                healthPointProgressBar.setProgress((int) Math.round(currentUser.getHealthPoints()));
-                                healthPointText.setText(currentUser.getHealthPoints()+"/"+healthPointProgressBar.getMax());
-                                username.setText(currentUser.getUsername());
+                            if (PlayerManager.getUser() != null && PlayerManager.getUser().getHealthPoints() > 0) {
+                                healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getUser().getHealthPoints()));
+                                healthPointText.setText(PlayerManager.getUser().getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                                username.setText(PlayerManager.getUser().getUsername());
                             }
                         });
                     }
@@ -173,5 +205,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-
+    public static void setMapApi(MapApi map){
+        mapApi = map;
+    }
 }

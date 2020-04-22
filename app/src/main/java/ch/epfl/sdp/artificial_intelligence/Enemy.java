@@ -10,7 +10,7 @@ import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
-public class Enemy extends MovingArtificialEntity implements Displayable {
+public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
 
     private int damage;
@@ -24,7 +24,8 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
     private boolean waiting;
 
     public Enemy() {
-        super(new RectangleBounds(5000, 5000, new GeoPoint(6.145606,46.209633)));
+        //super(new RectangleBounds(5000, 5000, new GeoPoint(6.145606,46.209633)));
+        super();
         super.setAoeRadius(1);
         super.getMovement().setVelocity(1);
         super.setMoving(true);
@@ -42,14 +43,22 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
         this.waiting = false;
     }
 
+    public Enemy(LocalBounds patrolBounds, Boundable maxBounds){
+        this(0,0,1000,50, patrolBounds, maxBounds);
+    }
+
     public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
+        super();
+        super.getMovement().setVelocity(25);
+        super.setMoving(true);
+        super.setBounds(maxBounds);
         this.damage = damage;
         this.dps = dps;
         this.detectionDistance = detectionDistance;
-        this.players = PlayerManager.getInstance().getPlayers();
+        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
-        timeAttack = 100; // Needs calibration
-        timeWandering = 100;
+        timeAttack = 30; // Needs calibration
+        timeWandering = 30;
         this.patrolBounds = patrolBounds;
         this.waiting = false;
         if (aoeRadius < detectionDistance) {
@@ -107,7 +116,7 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
                 behaviour = Behaviour.CHASE;
             }
 
-            timeAttack = 100;
+            timeAttack = 30;
         } else {
             timeAttack -= 1;
         }
@@ -177,7 +186,7 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
     }
 
     private void orientToTarget(Localizable localizable) {
-        getMovement().setOrientation(getPosition().toCartesian().vector(localizable.getPosition()).toPolar().arg2);
+        getMovement().setOrientation(getPosition().toCartesian().subtract(localizable.getPosition()).toPolar().arg2);
     }
 
     private Player playerDetected(double distance) {
@@ -194,13 +203,13 @@ public class Enemy extends MovingArtificialEntity implements Displayable {
             super.setBounds(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
-            timeWandering = 100;
+            timeWandering = 30;
         } else {
             timeWandering -= 1;
         }
 
         if (checkWaiting()) {
-            timeWandering = 100;
+            timeWandering = 30;
         }
     }
 

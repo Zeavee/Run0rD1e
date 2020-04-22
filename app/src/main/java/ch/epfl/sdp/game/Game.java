@@ -3,6 +3,7 @@ package ch.epfl.sdp.game;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.database.InitializeGame;
@@ -21,6 +22,7 @@ public class Game implements Updatable, Drawable {
     private static MapApi map;
     private InitializeGame initializeGame;
     private static ArrayList<Updatable> updatables;
+    private static Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private static ArrayList<Displayable> displayables;
 
     /**
@@ -31,33 +33,53 @@ public class Game implements Updatable, Drawable {
         // Need to test if it is null
         this.map = mapApi;
         this.initializeGame = initializeGame;
+        this.map = mapApi;
+        this.initializeGame = initializeGame;
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         gameThread = new GameThread(this);
     }
 
+    public Game() {
+        gameThread = new GameThread(this);
+        updatables = new ArrayList<>();
+        displayables = new ArrayList<>();
+    }
+
+
     public static void addToUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.add(updatable);
-        }
+        updatables.add(updatable);
     }
 
     public static void removeFromUpdateList(Updatable updatable) {
-        if (updatable != null) {
-            updatables.remove(updatable);
-        }
+        updatables.remove(updatable);
+    }
+
+    /**
+     * Remove the current iterated element from the update list
+     */
+    public static void removeCurrentFromUpdateList() {
+        itUpdatable.remove();
     }
 
     public static void addToDisplayList(Displayable displayable) {
-        if (displayable != null) {
+        MapsActivity.mapApi.displayEntity(displayable);
+        if (!displayable.once()) {
             displayables.add(displayable);
         }
     }
 
     public static void removeFromDisplayList(Displayable displayable) {
-        if (displayable != null) {
-            displayables.remove(displayable);
-        }
+        MapsActivity.mapApi.unDisplayEntity(displayable);
+        displayables.remove(displayable);
+    }
+
+    public static boolean updatablesContains(Updatable updatable){
+        return updatables.contains(updatable);
+    }
+
+    public static boolean displayablesContains(Displayable displayable){
+        return updatables.contains(displayable);
     }
 
     public ArrayList<Updatable> getUpdatables() {
@@ -69,9 +91,14 @@ public class Game implements Updatable, Drawable {
     }
 
     /**
-     * Launches the game
+     * Launches the game loop
      */
     public void initGame() {
+        // It is not legal to start a terminated thread, we have create a new one
+        if(gameThread.getState() == Thread.State.TERMINATED){
+            gameThread = new GameThread(this);
+        }
+
         if (gameThread.getState() == Thread.State.NEW) {
             gameThread.setRunning(true);
             gameThread.start();
@@ -103,8 +130,10 @@ public class Game implements Updatable, Drawable {
      */
     @Override
     public void update() {
-        for (Updatable updatable : updatables) {
-            updatable.update();
+        itUpdatable = updatables.iterator();
+
+        while (itUpdatable.hasNext()) {
+            itUpdatable.next().update();
         }
     }
 
@@ -114,16 +143,20 @@ public class Game implements Updatable, Drawable {
     @Override
     public void draw() {
         for (Displayable displayable : displayables) {
-            if (displayable instanceof Item) {
-                if (displayable.isActive()) {
-                    map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
-                } else {
-                    map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
-                    removeFromDisplayList(displayable);
-                }
-            } else {
-                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
-            }
+//<<<<<<< HEAD
+//            if (displayable instanceof Item) {
+//                if (displayable.isActive()) {
+//                    map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+//                } else {
+//                    map.getActivity().runOnUiThread(() -> map.unDisplayEntity(displayable));
+//                    removeFromDisplayList(displayable);
+//                }
+//            } else {
+//                map.getActivity().runOnUiThread(() -> map.displayEntity(displayable));
+//            }
+//=======
+            MapsActivity.mapApi.displayEntity(displayable);
+//>>>>>>> master
         }
     }
 }

@@ -3,6 +3,7 @@ package ch.epfl.sdp.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.GeoPoint;
 
@@ -10,17 +11,15 @@ import ch.epfl.sdp.map.GeoPoint;
  * Class representing a Shelter Area
  * In a Shelter Area, players have the ability to rest without taking any damage from the enemies
  */
-public class ShelterArea implements Displayable {
+public class ShelterArea implements Displayable, Updatable {
     private GeoPoint locaiton;
     private double aoeRadius;
-    private List<Player> players; //all the players in the game (all players of the lobby)
-    private List<Player> playersInShelterArea; //Players inside the zone
+    private ArrayList<Player> playersInShelterArea; //Players inside the zone
 
-    public ShelterArea(GeoPoint location, double aoeRadius, ArrayList<Player> players) {
+    public ShelterArea(GeoPoint location, double aoeRadius) {
         this.locaiton = location;
         this.aoeRadius = aoeRadius;
-        this.players = players;
-        this.playersInShelterArea = new ArrayList<>();
+        this.playersInShelterArea = new ArrayList<Player>();
     }
 
 
@@ -35,8 +34,8 @@ public class ShelterArea implements Displayable {
     }
 
     @Override
-    public Boolean isActive() {
-        return true;
+    public boolean once() {
+        return false;
     }
 
     public double getAoeRadius() {
@@ -58,7 +57,7 @@ public class ShelterArea implements Displayable {
      * This method must be called at every iteration of the game loop
      */
     public void shelter() {
-        for (Player p : players) {
+        for (Player p : PlayerManager.getPlayers()) {
             if(!playersInShelterArea.contains(p) && isInRange(p)) {
                 p.setShielded(true);
                 playersInShelterArea.add(p);
@@ -79,4 +78,8 @@ public class ShelterArea implements Displayable {
         return this.playersInShelterArea.contains(p);
     }
 
+    @Override
+    public void update() {
+        shelter();
+    }
 }

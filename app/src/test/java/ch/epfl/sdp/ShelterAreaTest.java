@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.map.GeoPoint;
 
@@ -33,7 +34,8 @@ public class ShelterAreaTest {
         players.add(player3);
         players.add(player4);
         double shelterAoeRadius = 100;
-       return new ShelterArea(shelterLocation, shelterAoeRadius, players);
+        PlayerManager.setPlayers(players);
+        return new ShelterArea(shelterLocation, shelterAoeRadius);
     }
 
     /**

@@ -24,12 +24,11 @@ public class RectangleBounds implements Boundable {
         this.upperBound = this.midPoint.toCartesian().arg2 + width / 2;
     }
 
-    public float getHeight()
-    {
+    public float getHeight() {
         return 2 * halfHeight;
     }
-    public float getWidth()
-    {
+
+    public float getWidth() {
         return 2 * halfWidth;
     }
 
@@ -37,11 +36,9 @@ public class RectangleBounds implements Boundable {
         return PointConverter.GenPointToGeoPoint(this.midPoint, MapsActivity.mapApi.getCurrentLocation());
     }
 
+
     @Override
     public boolean isInside(GenPoint genPoint) {
-        if (genPoint == null) {
-            return false;
-        }
         CartesianPoint cp = genPoint.toCartesian();
         return cp.arg1 < rightBound && cp.arg1 > leftBound && cp.arg2 < upperBound && cp.arg2 > lowerBound;
     }

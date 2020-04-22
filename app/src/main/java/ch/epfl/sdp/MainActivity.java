@@ -6,9 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.database.FirestoreUserData;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.DatabaseHelper;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.AuthenticationController;
@@ -59,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 //        MainActivity.killGame();
         authenticationController.signOut();
         new DatabaseHelper(this).deleteAllUsers();
+        LoginFormActivity.loggedUser = null;
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
     }

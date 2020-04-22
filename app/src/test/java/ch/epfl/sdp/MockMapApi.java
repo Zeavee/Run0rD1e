@@ -6,7 +6,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.location.LocationManager;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.map.Displayable;
@@ -14,11 +18,24 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {
+    // Used for tests
+    private ArrayList<Displayable> displayables = new ArrayList<>();
+    private GeoPoint currentLocation = new GeoPoint(40, 50);
+
+
+    public ArrayList<Displayable> getDisplayables(){
+        return displayables;
+    }
+
     private Activity activity;
 
     @Override
     public GeoPoint getCurrentLocation() {
-        return new GeoPoint(40, 50);
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(GeoPoint currentLocation){
+        this.currentLocation = currentLocation;
     }
 
     @Override
@@ -46,12 +63,12 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void displayEntity(Displayable displayable) {
-
+        displayables.add(displayable);
     }
 
     @Override
     public void unDisplayEntity(Displayable displayable) {
-        
+        displayables.remove(displayable);
     }
 
     @Override
@@ -62,6 +79,11 @@ public class MockMapApi implements MapApi {
     @Override
     public Activity getActivity() {
         return activity;
+    }
+
+    @Override
+    public void setMap(GoogleMap googleMap) {
+
     }
 
     @Test

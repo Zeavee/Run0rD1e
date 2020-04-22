@@ -1,28 +1,25 @@
 package ch.epfl.sdp;
 
-import android.app.Activity;
-
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class GameTest {
+
+    @Before
+    public void setup() {
+        MockMapApi mockMapApi = new MockMapApi();
+        MapsActivity.setMapApi(mockMapApi);
+    }
 
     @Test
     public void update_ShouldUpdateAllUpdatables() {
@@ -31,7 +28,7 @@ public class GameTest {
         Updatable upd2 = mock(Updatable.class);
 
         // act
-        Game game = new Game(null, null);
+        Game game = new Game();
         game.addToUpdateList(upd1);
         game.addToUpdateList(upd2);
         game.update();
@@ -42,21 +39,10 @@ public class GameTest {
     }
 
     @Test
-    public void addToUpdateList_ShouldIgnoreNull()
-    {
-        // act
-        Game game = new Game(null, null);
-        game.addToUpdateList(null);
-
-        // assert
-        assertEquals(0, game.getUpdatables().size());
-    }
-
-    @Test
     public void addToUpdateList_ShouldAddUpdatable()
     {
         // act
-        Game game = new Game(null, null);
+        Game game = new Game();
         game.addToUpdateList(mock(Updatable.class));
 
         // assert
@@ -72,7 +58,7 @@ public class GameTest {
         Updatable mockNonExistingUpdatable = mock(Updatable.class);
 
         // act
-        Game game = new Game(null, null);
+        Game game = new Game();
         game.addToUpdateList(mockUpdatable1);
         game.addToUpdateList(mockUpdatable2);
         game.removeFromUpdateList(mockUpdatable1);
@@ -83,46 +69,10 @@ public class GameTest {
     }
 
     @Test
-    public void itemShouldNotBeInListAfterTaken() throws InterruptedException {
-        // arrange
-        Item healthpack = new Healthpack(new GeoPoint(45, 45), false, 10);
-        MapApi mockMapApi = new MockMapApi();
-        Activity activity = mock(Activity.class);
-        new PlayerManager();
-        doAnswer((i) -> null).when(activity).runOnUiThread(any(Runnable.class));
-        mockMapApi.initializeApi(null, activity);
-
-        // act
-
-        Game game = new Game(mockMapApi, null);
-        game.addToDisplayList(healthpack);
-        game.addToUpdateList(healthpack);
-        game.initGame();
-
-        // assert
-        assertEquals(true, healthpack.isActive());
-        Player player = new Player(45, 45, 50, "TestPlayer", "Test@Test.com");
-        PlayerManager.addPlayer(player);
-        Thread.sleep(1000);
-        assertEquals(false, healthpack.isActive());
-    }
-
-    @Test
-    public void addToDisplayList_ShouldIgnoreNull()
-    {
-        // act
-        Game game = new Game(null, null);
-        game.addToDisplayList(null);
-
-        // assert
-        assertEquals(0, game.getDisplayables().size());
-    }
-
-    @Test
     public void addToDisplayList_ShouldAddDisplayable()
     {
         // act
-        Game game = new Game(null, null);
+        Game game = new Game();
         game.addToDisplayList(mock(Displayable.class));
 
         // assert
@@ -138,7 +88,7 @@ public class GameTest {
         Displayable mockNonExistingDisplayable = mock(Displayable.class);
 
         // act
-        Game game = new Game(null, null);
+        Game game = new Game();
         game.addToDisplayList(mockDisplayable1);
         game.addToDisplayList(mockDisplayable2);
         game.removeFromDisplayList(mockDisplayable1);
@@ -149,9 +99,9 @@ public class GameTest {
     }
 
     @Test
-    public void gameThread_starts()
+    public void gameThread_runs()
     {
-        Game game = new Game(null, new MockInitializeGame());
+        Game game = new Game();
         game.initGame();
         try {
             Thread.sleep(100);
@@ -163,5 +113,4 @@ public class GameTest {
         // assert
         Assert.assertFalse(game.gameThread.isRunning());
     }
-
 }

@@ -7,6 +7,8 @@ import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.artificial_intelligence.LocalBounds;
+import ch.epfl.sdp.artificial_intelligence.PointConverter;
+import ch.epfl.sdp.artificial_intelligence.PolarPoint;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
@@ -19,12 +21,10 @@ import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class RandomGenerator {
-   private Random rand;
+   private static Random rand = new Random();
    private ArrayList alpha_numerics;
 
    public RandomGenerator(){
-       rand = new Random();
-
        alpha_numerics = new ArrayList();
 
        for (char i = 'a'; i < 'z'; ++i){
@@ -85,27 +85,30 @@ public class RandomGenerator {
        return point;
      }
 
+     // Chooses a random location on a circle of chosen radius
+     public static GeoPoint randomLocationOnCircle(GeoPoint reference, int radius){
+         PolarPoint pp = (new PolarPoint(radius,rand.nextDouble()*Math.PI));
+         GenPoint ref = PointConverter.GeoPointToGenPoint(reference);
+         return PointConverter.GenPointToGeoPoint(ref.toCartesian().add(pp), reference);
+     }
+
      public Healthpack randomHealthPack() {
-       GeoPoint A = randomGeoPoint();
-       Healthpack h = new Healthpack(A, false, rand.nextInt(25)+25);
+       Healthpack h = new Healthpack(rand.nextInt(25)+25);
        return h;
      }
 
-     public Shield randomShield() {
-       GeoPoint A = randomGeoPoint();
-       Shield s = new Shield(A, false, rand.nextDouble()*10+20);
+     public Shield randomShield(Player player) {
+       Shield s = new Shield(rand.nextInt(1)*10+20);
        return s;
      }
 
-     public Shrinker randomShrinker() {
-       GeoPoint A =  randomGeoPoint();
-       Shrinker s = new Shrinker(A, false, rand.nextDouble(), rand.nextDouble());
+     public Shrinker randomShrinker(Player player) {
+       Shrinker s = new Shrinker( rand.nextInt(1), rand.nextDouble());
        return s;
      }
 
      public Scan randomScan() {
-       MapApi map = null;
-       Scan s = new Scan(randomGeoPoint(), false, rand.nextDouble(), map);
+       Scan s = new Scan( rand.nextInt(1));
        return s;
      }
 
@@ -138,7 +141,7 @@ public class RandomGenerator {
          int randomDmg = rand.nextInt(randBound+1);
          float randomdps = rand.nextFloat();
          float randomDetectionDistance = rand.nextFloat()*10 + 50;
-         RectangleBounds r = new RectangleBounds(10, 10, randomGeoPoint());
+         RectangleBounds r = new RectangleBounds(10, 10 , new RandomGenerator().randomGeoPoint());
 
          LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
          UnboundedArea randomArea = new UnboundedArea();
