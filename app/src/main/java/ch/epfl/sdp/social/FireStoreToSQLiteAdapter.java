@@ -14,6 +14,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import ch.epfl.sdp.social.socialDatabase.*;
 import java.util.List;
 import java.util.Map;
 

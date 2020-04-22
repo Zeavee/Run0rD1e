@@ -12,6 +12,7 @@ import com.google.firebase.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import ch.epfl.sdp.social.socialDatabase.*;
 import java.util.concurrent.ExecutionException;
 @SuppressLint("StaticFieldLeak")
 

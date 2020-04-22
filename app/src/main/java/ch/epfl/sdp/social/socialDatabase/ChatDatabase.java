@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.room.Database;
 import androidx.room.RoomDatabase;

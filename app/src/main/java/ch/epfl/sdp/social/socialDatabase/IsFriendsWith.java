@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

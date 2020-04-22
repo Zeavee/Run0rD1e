@@ -1,7 +1,7 @@
 package ch.epfl.sdp.social.friends_firestore;
 
 
-import ch.epfl.sdp.social.User;
+import ch.epfl.sdp.social.socialDatabase.*;
 import ch.epfl.sdp.social.WaitsOn;
 
 /*

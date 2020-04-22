@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.R;
 
 // MessageAdapter.java

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
+import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.social.friends_firestore.FriendsRepositery;
 
