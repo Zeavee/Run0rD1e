@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+@SuppressLint("StaticFieldLeak")
 public final class ChatRepository {
 
     private ChatDatabase chatDB;
@@ -21,20 +21,15 @@ public final class ChatRepository {
     private static boolean singletonCreated = false;
     private static ChatRepository singleton;
 
-    /*public static ChatRepository createRepo(Context contextActivity)
-    {
-        if (!singletonCreated) {
-            singleton = new ChatRepository(contextActivity);
-            singletonCreated = true;
-            return singleton;
-        }
-        else return singleton;
-    }*/
-
     private ChatRepository(Context contextActivity) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
+    }
+
+    public static ChatRepository getInstance()
+    {
+        return singleton;
     }
 
     public static void setContextActivity(Context contextActivity) {
@@ -45,13 +40,13 @@ public final class ChatRepository {
         singleton.contextActivity = contextActivity;
     }
 
-    public static void sendMessage(String content, int chat_id) {
+    public void sendMessage(String content, int chat_id) {
 
         Message m = new Message(new Date(), content, chat_id);
         singleton.sendMessage(m);
     }
 
-    private static void sendMessage(final Message message) {
+    private void sendMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -64,7 +59,7 @@ public final class ChatRepository {
         }.execute();
     }
 
-    public static void addChat(final Chat c) {
+    public void addChat(final Chat c) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -80,7 +75,7 @@ public final class ChatRepository {
         }.execute();
     }
 
-    public static void addUser(final User usr) {
+    public void addUser(final User usr) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -97,7 +92,7 @@ public final class ChatRepository {
     }
 
     // This method must be
-    public static void fetchFriends(final User user)
+    public void fetchFriends(final User user)
     {
         new AsyncTask<Void, Void, List<User>>() {
             private Context context;
@@ -115,7 +110,7 @@ public final class ChatRepository {
         }.execute();
     }
 
-    public static void addFriends(final User user1, final User user2)
+    public void addFriends(final User user1, final User user2)
     {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -131,7 +126,7 @@ public final class ChatRepository {
         }.execute();
     }
 
-    public static void getMessagesReceived(final String id_owner, final String id_rec) {
+    public void getMessagesReceived(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
@@ -152,7 +147,7 @@ public final class ChatRepository {
     }
 
 
-    public static void getMessagesSent(final String id_owner, final String id_rec) {
+    public void getMessagesSent(final String id_owner, final String id_rec) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
@@ -174,7 +169,7 @@ public final class ChatRepository {
 
 
 
-    public static void insertMessageFromRemote(Timestamp tm, String content, int chat_id) {
+    public void insertMessageFromRemote(Timestamp tm, String content, int chat_id) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -188,7 +183,7 @@ public final class ChatRepository {
 
     }
 
-    public static Chat getChat(String current, String other)
+    public Chat getChat(String current, String other)
     {
         Chat output = null;
         try {

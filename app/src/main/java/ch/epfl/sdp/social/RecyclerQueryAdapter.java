@@ -18,7 +18,6 @@ import ch.epfl.sdp.R;
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
-
     public RecyclerQueryAdapter() {
         this.friendsList = new ArrayList<>();
     }
@@ -88,11 +87,14 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
             // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
             User cur_usr = new User("stupid1@gmail.com");
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
-            ChatRepository.addUser(cur_usr);
-            ChatRepository.addUser(befriended_usr);
-            ChatRepository.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));
-            ChatRepository.addChat(new Chat(befriended_usr.getEmail(), cur_usr.getEmail()));
-            ChatRepository.addFriends(befriended_usr, cur_usr); // symmetry handled in called function
+
+            ChatRepository chatRepo = ChatRepository.getInstance();
+            
+            chatRepo.addUser(cur_usr);
+            chatRepo.addUser(befriended_usr);
+            chatRepo.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));
+            chatRepo.addChat(new Chat(befriended_usr.getEmail(), cur_usr.getEmail()));
+            chatRepo.addFriends(befriended_usr, cur_usr); // symmetry handled in called function
         }
     }
 }
