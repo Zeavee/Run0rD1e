@@ -3,8 +3,8 @@ package ch.epfl.sdp.login;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/*
- * This class is designed to use Firebase's email and password feature
+/**
+ * This class is designed to use Firebase's authentication feature
  */
 public class FirebaseAuthenticationAPI implements AuthenticationAPI {
 
