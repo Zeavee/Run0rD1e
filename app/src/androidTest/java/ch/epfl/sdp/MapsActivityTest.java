@@ -106,6 +106,7 @@ public class MapsActivityTest {
 
     @Test
     public void myPositionButtonWorks() {
+        PlayerManager.removeAll(); // To remove
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
         sleep();
