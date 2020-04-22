@@ -26,11 +26,11 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
-        FirebaseFirestore.getInstance().collection("Users")
-                .orderBy("healthPoints", Query.Direction.DESCENDING)
+        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME)
+                .orderBy("score", Query.Direction.DESCENDING)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Player player = documentSnapshot.toObject(Player.class);
+                        UserForFirebase player = documentSnapshot.toObject(UserForFirebase.class);
                         LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
                         leaderboardViewModel.insert(user);
                     }
