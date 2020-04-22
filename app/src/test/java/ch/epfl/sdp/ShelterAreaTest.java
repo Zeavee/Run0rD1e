@@ -46,19 +46,22 @@ public class ShelterAreaTest {
         ShelterArea shelterArea = createShelterArea();
         assertNotNull(shelterArea);
         assertEquals(EntityType.SHELTER ,shelterArea.getEntityType());
-        assertEquals(shelterLocation ,shelterArea.getLocation());
+        assertEquals(shelterLocation, shelterArea.getLocation());
         assertEquals(100, shelterArea.getAoeRadius(), 0);
         //Currently, none of the player should be in the shelter area as the shelter method was not called
         assertFalse(shelterArea.isInShelterArea(player1));
         assertFalse(shelterArea.isInShelterArea(player2));
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));
+
+        assertFalse(shelterArea.once());
+
     }
 
     @Test
     public void ShelterTest() {
         ShelterArea shelterArea = createShelterArea();
-        shelterArea.shelter();
+        shelterArea.update();
         assertFalse(shelterArea.isInShelterArea(player2));
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));

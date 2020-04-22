@@ -14,7 +14,7 @@ import ch.epfl.sdp.map.GeoPoint;
 public class ShelterArea implements Displayable, Updatable {
     private GeoPoint locaiton;
     private double aoeRadius;
-    private ArrayList<Player> playersInShelterArea; //Players inside the zone
+    private ArrayList<Player> playersInShelterArea; //Players inside the ShelterArea
 
     public ShelterArea(GeoPoint location, double aoeRadius) {
         this.locaiton = location;
