@@ -47,7 +47,6 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         chatRepo.setContextActivity(this);
 
         // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created
-        ChatActivity.setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); // placed here for mock testing purposes
         AddFriendsActivity.setAdapter(new RecyclerQueryAdapter()); // placed here for mock testing purposes
         AddFriendsActivity.setServer(new FriendsRepositery());
 

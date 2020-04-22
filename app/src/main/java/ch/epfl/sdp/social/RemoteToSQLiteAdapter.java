@@ -4,8 +4,6 @@ import android.content.Context;
 
 public interface RemoteToSQLiteAdapter {
 
-    RemoteToSQLiteAdapter getInstance();
-
     void setListener(Context listener);
 
     void sendRemoteServerDataToLocal(String owner, String sender, int chat_id);

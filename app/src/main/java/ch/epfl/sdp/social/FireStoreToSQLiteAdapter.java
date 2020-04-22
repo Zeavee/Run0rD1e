@@ -27,7 +27,7 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
     private static Context listener;
     private static FireStoreToSQLiteAdapter singleton = new FireStoreToSQLiteAdapter();
 
-    public FireStoreToSQLiteAdapter getInstance() { return singleton; }
+    public static FireStoreToSQLiteAdapter getInstance() { return singleton; }
 
     public void setListener(Context listener) {
         singleton.listener = listener;
