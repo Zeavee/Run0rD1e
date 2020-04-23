@@ -13,18 +13,29 @@ import java.util.List;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.R;
 
-// MessageAdapter.java
+/**
+ * This class adapts the messages, so we can add them in a list and give this to the recycler view
+ */
 public class MessageAdapter extends BaseAdapter {
 
     private List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
     private String remote_user_id;
     private Context context;
 
+    /**
+     *
+     * @param context The context in which we want to display the messages (the activity)
+     * @param remote_user_id The name of the user
+     */
     public MessageAdapter(Context context, String remote_user_id) {
         this.remote_user_id = remote_user_id;
         this.context = context;
     }
 
+    /**
+     * This methods adds a message in the list that we display
+     * @param message The message we want to add
+     */
     public void add(ChatActivity.MessageDecorator message) {
         int i = 0;
         while (messages.size() > i && messages.get(i).getM().getDate().compareTo(message.getM().getDate()) <= 0) {

@@ -1,7 +1,5 @@
 package ch.epfl.sdp.social.RemoteUsers;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -13,10 +11,13 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.social.WaitsOn;
+import ch.epfl.sdp.social.socialDatabase.User;
 
-public class FriendsRepositery implements RemoteFriendFetcher {
+/**
+ * This class permits to get the friends list of the user
+ */
+public class FriendsRepository implements RemoteFriendFetcher {
     private static final String USERS_PATH = "Users";
 
     @Override

@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -10,11 +9,8 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.RemoteUsers.FriendsRepositery;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {

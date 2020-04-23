@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social.Conversation;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,11 +13,12 @@ import com.google.firebase.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.*;
 import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.socialDatabase.Message;
+import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.social.socialDatabase.Message;
 /**
  * @brief this activity shows the conversation of the current user and another user
  */
