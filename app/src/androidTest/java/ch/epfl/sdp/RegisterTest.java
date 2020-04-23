@@ -22,14 +22,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.dependency.injection.DependencyVisitor;
-import ch.epfl.sdp.login.AuthenticationAPI;
+import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
-import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -94,7 +89,7 @@ public class RegisterTest {
                 protected void beforeActivityLaunched() {
                     DependencyFactory.setTestMode(true);
                     DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), null));
-                    DependencyFactory.setCommonDatabaseAPI(new MockCommonDatabaseAPI(new ArrayList<>()));
+                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(new HashMap<>()));
                 }
             };
 
@@ -191,7 +186,7 @@ public class RegisterTest {
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
     }
 
-    /*@Test
+    @Test
     public void registering_ShouldWorkOnNewCorrectInformation(){
         String newUsername = "Username";
         String newEmail = "Email@a";
@@ -200,7 +195,7 @@ public class RegisterTest {
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
-    }*/
+    }
 
     // for now
 

@@ -6,6 +6,7 @@ import java.util.List;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * Manages all enemies of a game.
@@ -17,8 +18,8 @@ public class EnemyManager implements Updatable {
     private List<Enemy> enemies = new ArrayList<>();
     private long lastUpdateTimeMillis = System.currentTimeMillis();
 
-    public EnemyManager(ServerDatabaseAPI serverDatabaseAPI) {
-        this.serverDatabaseAPI = serverDatabaseAPI;
+    public EnemyManager() {
+        this.serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
     }
 
     public void addEnemy(Enemy enemy) {
@@ -27,6 +28,10 @@ public class EnemyManager implements Updatable {
 
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy);
+    }
+
+    public List<Enemy> getEnemies() {
+        return enemies;
     }
 
     @Override

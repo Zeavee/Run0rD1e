@@ -2,14 +2,20 @@ package ch.epfl.sdp.utils;
 
 import androidx.annotation.VisibleForTesting;
 
+import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ClientFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
 
 public class DependencyFactory {
     private static AuthenticationAPI authenticationAPI;
     private static CommonDatabaseAPI commonDatabaseAPI;
+    private static ServerDatabaseAPI serverDatabaseAPI;
+    private static ClientDatabaseAPI clientDatabaseAPI;
     private static boolean testMode = false;
 
     public static void setTestMode(boolean testMode) {
@@ -43,5 +49,29 @@ public class DependencyFactory {
             return commonDatabaseAPI;
         }
         return new CommonFirestoreDatabaseAPI();
+    }
+
+    @VisibleForTesting
+    public static void setServerDatabaseAPI(ServerDatabaseAPI serverDatabaseAPI) {
+        DependencyFactory.serverDatabaseAPI = serverDatabaseAPI;
+    }
+
+    public static ServerDatabaseAPI getServerDatabaseAPI() {
+        if(testMode && serverDatabaseAPI != null) {
+            return serverDatabaseAPI;
+        }
+        return new ServerFirestoreDatabaseAPI();
+    }
+
+    @VisibleForTesting
+    public static void setClientDatabaseAPI(ClientDatabaseAPI clientDatabaseAPI) {
+        DependencyFactory.clientDatabaseAPI = clientDatabaseAPI;
+    }
+
+    public static ClientDatabaseAPI getClientDatabaseAPI() {
+        if(testMode && clientDatabaseAPI != null) {
+            return clientDatabaseAPI;
+        }
+        return new ClientFirestoreDatabaseAPI();
     }
 }
