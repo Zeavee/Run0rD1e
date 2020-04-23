@@ -18,7 +18,7 @@ public class MockAuthenticationAPI implements AuthenticationAPI {
     public void signIn(String email, String password, OnAuthCallback callback) {
         if (!registeredUsers.containsKey(email)) {
             callback.error(new IllegalArgumentException("User not exist!"));
-        } else if (registeredUsers.get(email) != password) {
+        } else if (!registeredUsers.get(email).equals(password)) {
             callback.error(new IllegalArgumentException("Password not correct"));
         } else {
             currentUserEmail = email;

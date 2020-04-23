@@ -41,7 +41,9 @@ public class LoginTest {
                 @Override
                 protected void beforeActivityLaunched() {
                     DependencyFactory.setTestMode(true);
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), null));
+                    HashMap<String, String> registeredUsers = new HashMap<>();
+                    registeredUsers.put("amro.abdrabo@gmail.com", "password");
+                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(registeredUsers, null));
                 }
             };
 
@@ -74,12 +76,12 @@ public class LoginTest {
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
     }
 
-    /*@Test
+    @Test
     public void login_shouldWorkWithRegisteredUser() {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.logoutBt)).perform(click());
-    }*/
+    }
 
    /* @Test
     public void loginUnregisteredUserGivesAnError(){
