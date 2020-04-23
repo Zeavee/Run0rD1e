@@ -1,5 +1,6 @@
 package ch.epfl.sdp;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.EntityType;
@@ -16,27 +17,36 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 
 public class TrapTest {
-    @Test
-    public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
-        Player owner = new Player(45, 45, 100, "username1", "email1@email.com");
-        Player opponent = new Player(39, 39, 100, "username2", "email2@email.com");
+    private Player owner;
+    private Player opponent;
+    private Game game;
+    private Trap trap;
+
+    @Before
+    public void setup() {
+        owner = new Player(45, 45, 100, "username1", "email1@email.com");
+        opponent = new Player(39, 39, 100, "username2", "email2@email.com");
 
         MockMapApi mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
         mockMapApi.setCurrentLocation(owner.getLocation());
 
-        Game game = new Game();
+        game = new Game();
         game.initGame();
 
-        ItemBox itemBox = new ItemBox();
-        Game.addToUpdateList(itemBox);
-        Game.addToDisplayList(itemBox);
-        Trap trap = new Trap(10, 100);
-        itemBox.putItems(trap, 1);
-        itemBox.setLocation(new GeoPoint(41, 41));
+        trap = new Trap(10, 100);
 
         PlayerManager.setUser(owner);
         PlayerManager.addPlayer(opponent);
+    }
+
+    @Test
+    public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
+        ItemBox itemBox = new ItemBox();
+        Game.addToUpdateList(itemBox);
+        Game.addToDisplayList(itemBox);
+        itemBox.putItems(trap, 1);
+        itemBox.setLocation(new GeoPoint(41, 41));
 
         owner.setLocation(new GeoPoint(41, 41));
         Thread.sleep(1000);
@@ -53,10 +63,7 @@ public class TrapTest {
     }
 
     @Test
-    public void trapCorrectlyImplementsTest() {
-        Player player = new Player(45, 45, 100, "username1", "email1@email.com");
-        PlayerManager.setUser(player);
-        Trap trap = new Trap(10, 100);
+    public void trapCorrectlyImplementsDisplayable() {
         assertTrue(trap.once());
         assertEquals(EntityType.TRAP, trap.getEntityType());
         trap.use();
