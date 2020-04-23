@@ -12,7 +12,7 @@ public class Shield extends TimedItem  {
     }
 
     @Override
-    public Item createCopy() {
+    public Item clone() {
         return new Shield(shieldTime);
     }
 

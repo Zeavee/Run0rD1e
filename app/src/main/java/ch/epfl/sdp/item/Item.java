@@ -1,6 +1,6 @@
 package ch.epfl.sdp.item;
 
-public abstract class Item {
+public abstract class Item implements Cloneable {
     private String name;
     private String description;
     
@@ -8,12 +8,6 @@ public abstract class Item {
         this.name = name;
         this.description = description;
     }
-
-    public Item(Item item) {
-
-    }
-
-    public abstract Item createCopy();
 
     public String getName() {return this.name;}
 

@@ -93,11 +93,11 @@ public class ItemsTest {
 
     @Test
     public void coinTest() {
-        PlayerManager.getUser().money = 0;
+        PlayerManager.getUser().removeMoney(PlayerManager.getUser().getMoney());
         Coin c = new Coin(5);
         assertTrue(5 == c.getValue());
         c.use();
-        assertTrue(PlayerManager.getUser().money == 5);
+        assertTrue(PlayerManager.getUser().getMoney() == 5);
         assertEquals(c.getEntityType(), EntityType.COIN);
 
     }

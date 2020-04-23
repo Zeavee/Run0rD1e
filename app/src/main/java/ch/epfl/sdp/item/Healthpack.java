@@ -17,7 +17,7 @@ public class Healthpack extends Item {
     }
 
     @Override
-    public Item createCopy() {
+    public Item clone() {
         return new Healthpack(healthPackAmount);
     }
 

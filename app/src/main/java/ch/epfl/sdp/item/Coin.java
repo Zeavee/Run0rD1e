@@ -12,7 +12,7 @@ public class Coin extends Item {
     }
 
     @Override
-    public Item createCopy() {
+    public Item clone() {
         return new Coin(value);
     }
 

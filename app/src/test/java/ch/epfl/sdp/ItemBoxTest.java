@@ -62,7 +62,7 @@ public class ItemBoxTest {
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("", "") {
             @Override
-            public Item createCopy() {
+            public Item clone() {
                 return null;
             }
 

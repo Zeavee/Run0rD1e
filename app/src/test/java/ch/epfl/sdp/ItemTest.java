@@ -15,7 +15,7 @@ public class ItemTest {
         item = new Item("ItemName", "ItemDescription") {
 
             @Override
-            public Item createCopy() {
+            public Item clone() {
                 return null;
             }
 

@@ -14,7 +14,7 @@ public class Shrinker extends TimedItem {
     }
 
     @Override
-    public Item createCopy() {
+    public Item clone() {
         return new Shrinker(shrinkTime, shrinkingRadius);
     }
 

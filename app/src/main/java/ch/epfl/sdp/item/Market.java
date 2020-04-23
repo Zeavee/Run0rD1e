@@ -59,7 +59,7 @@ public class Market extends InteractiveEntity implements Displayable {
             return false;
         } else {
             stock.put(item, new Pair<>(currentStock-1, price));
-            player.getInventory().addItem(item.createCopy());
+            player.getInventory().addItem(item.clone());
         }
         return true;
     }

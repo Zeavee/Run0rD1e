@@ -15,7 +15,7 @@ public class Scan extends TimedItem {
     }
 
     @Override
-    public Item createCopy() {
+    public Item clone() {
         return new Scan(scanTime);
     }
 
