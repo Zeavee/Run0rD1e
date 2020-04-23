@@ -31,7 +31,7 @@ public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchUser(String email, OnValueReadyCallback<CustomResult<UserForFirebase>> onValueReadyCallback) {
-        Log.d("TAG test+++++++++++++++++", "fetchUser:");
+
     }
 
     @Override
