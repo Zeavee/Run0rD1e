@@ -47,6 +47,7 @@ public class PlayerManagerTest {
         assertTrue(pmPlayers.get(1).equals(player2));
     }
 
+    @Test
     public void shouldSetUser() {
         PlayerManager.setUser(player);
         assertEquals(player, PlayerManager.getUser());
@@ -58,6 +59,7 @@ public class PlayerManagerTest {
         assertEquals("gamer@gmail.com", "gamer@gmail.com");
     }
 
+    @Test
     public void emptyPlayersCheck() {
         PlayerManager.emptyPlayers();
         assertTrue(PlayerManager.getPlayers().isEmpty());
@@ -81,6 +83,12 @@ public class PlayerManagerTest {
         for(int i = 0; i < PlayerManager.getPlayers().size(); i++ ) {
             assertTrue(PlayerManager.getPlayers().get(i).equals(toSet.get(i)));
         }
+    }
+
+    @Test
+    public void getInstanceTest() {
+        PlayerManager pmTest = PlayerManager.getInstance();
+        assertTrue(pmTest instanceof PlayerManager);
     }
 
 }
