@@ -1,5 +1,6 @@
 package ch.epfl.sdp;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,6 +41,11 @@ public class TrapTest {
         PlayerManager.addPlayer(opponent);
     }
 
+    @After
+    public void destroy() {
+        game.destroyGame();
+    }
+
     @Test
     public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
         ItemBox itemBox = new ItemBox();
@@ -58,8 +64,7 @@ public class TrapTest {
         opponent.setLocation(new GeoPoint(42, 42));
         Thread.sleep(1000);
         assertEquals(90.0, opponent.getHealthPoints(), 0.01);
-
-        game.destroyGame();
+        assertEquals(100.0, owner.getHealthPoints(), 0.01);
     }
 
     @Test
