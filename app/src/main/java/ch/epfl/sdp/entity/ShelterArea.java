@@ -78,8 +78,14 @@ public class ShelterArea implements Displayable, Updatable {
         return this.playersInShelterArea.contains(p);
     }
 
+    public ArrayList<Player> getPlayersInShelterArea() {
+        return this.playersInShelterArea;
+    }
+
     @Override
     public void update() {
         shelter();
     }
+
+
 }
