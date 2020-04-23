@@ -88,4 +88,12 @@ public class GameThread extends Thread{
             System.out.println("Average FPS: " + avgFPS);
         }
     }
+
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public int getFPS() {
+        return FPS;
+    }
 }
