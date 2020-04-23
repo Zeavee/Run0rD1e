@@ -12,9 +12,13 @@ public class Coin extends Item {
     }
 
     @Override
+    public Item createCopy() {
+        return new Coin(value);
+    }
+
+    @Override
     public void use() {
-        int currentMoney = PlayerManager.getUser().money;
-        PlayerManager.getUser().money = currentMoney + value;
+        PlayerManager.getUser().addMoney(value);
     }
 
     public int getValue() {

@@ -196,6 +196,19 @@ public class Player extends MovingEntity implements Localizable {
 
     @Exclude
     public boolean removeMoney(int amount) {
+        if (money < amount || amount < 0) {
+            return false;
+        }
+        money -= amount;
+        return true;
+    }
+
+    @Exclude
+    public boolean addMoney(int amount) {
+        if (amount < 0) {
+            return false;
+        }
+        money += amount;
         return true;
     }
 }
