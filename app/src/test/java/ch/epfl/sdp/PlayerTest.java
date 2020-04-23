@@ -3,9 +3,6 @@ package ch.epfl.sdp;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
-import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -19,14 +16,11 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     private Player player1; //player position is in Geneva
-    private Enemy enemyOutDated1; //enemy1's position is at EPFL
-    private Enemy enemyOutDated2; //enemy2's position is close to player1
-    private ArrayList<Enemy> enemyArrayList;
     private Game game;
 
     @Before
     public void setup(){
-        Game game = new Game();
+        game = new Game();
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         PlayerManager.setUser(player1);
