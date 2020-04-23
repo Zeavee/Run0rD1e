@@ -14,6 +14,7 @@ import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -165,5 +166,10 @@ public class RandomGenerator {
        PlayerManager.addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
        s.shelter();
        return s;
+     }
+
+     public Coin randomCoin() {
+       int i = rand.nextInt(30);
+       return new Coin(i);
      }
 }

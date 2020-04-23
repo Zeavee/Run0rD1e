@@ -116,6 +116,12 @@ public class RandomGeneratorTest {
         assertEquals(1,s.getPlayersInShelterArea().size());
     }
 
+    @Test
+    public void randomCoinTest() {
+        for (int i = 0; i<4; i++) {
+            assertTrue(randGen.randomCoin().getValue() < 30);
+        }
+    }
 
 
 }

@@ -35,6 +35,8 @@ public class Player extends MovingEntity implements Localizable {
     private Inventory inventory;
     @Exclude
     private boolean isActive;
+    @Exclude
+    public int money;
 
     public Player() {
         this("","");
@@ -62,6 +64,7 @@ public class Player extends MovingEntity implements Localizable {
         this.setAoeRadius(aoeRadius);
         this.inventory = new Inventory();
         this.isActive = true;
+        this.money = 0;
     }
 
 /*    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
