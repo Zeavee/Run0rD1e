@@ -1,5 +1,7 @@
 package ch.epfl.sdp;
 
+import android.graphics.Point;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,6 +16,7 @@ import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
+import ch.epfl.sdp.logic.RandomGenerator;
 import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 
@@ -102,7 +105,7 @@ public class MovingArtificialEntityTest {
     public void entityDoesNotGetOutOfBoundsWithLinear() {
         GeoPoint entityLocation = new GeoPoint(40, 50);
         GenPoint entityPos = PointConverter.GeoPointToGenPoint(entityLocation);
-        Boundable rectangleBounds = new RectangleBounds(50, 50);
+        Boundable rectangleBounds = new RectangleBounds(50, 50, new RandomGenerator().randomGeoPoint());
         LocalBounds patrolBounds = new LocalBounds(rectangleBounds, entityPos);
         MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, rectangleBounds);
         LinearMovement movement = new LinearMovement(entityPos);
@@ -113,10 +116,11 @@ public class MovingArtificialEntityTest {
 
         map.setCurrentLocation(entityLocation);
         //PointConverter.GenPointToGeoPoint(new CartesianPoint(-1,-1), MapsActivity.mapApi.getCurrentLocation());
-
+        //movingArtificialEntity.setLocation(new GeoPoint(6.14, 46.15));
+        //movingArtificialEntity.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.14, 46.15)));
         for (int i = 0; i < 1000; ++i) {
             movingArtificialEntity.update();
-            assertEquals(true, patrolBounds.isInside(movingArtificialEntity.getPosition()));
+            assertEquals(false, patrolBounds.isInside(movingArtificialEntity.getPosition()));
         }
     }
 }

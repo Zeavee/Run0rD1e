@@ -34,3 +34,4 @@ public abstract class MovingEntity implements Displayable {
         this.aoeRadius = aoeRadius;
     }
 }
+

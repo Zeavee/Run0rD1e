@@ -33,12 +33,17 @@ public class MockAuthentication implements AuthenticationController {
     }
 
     @Override
+    public String getEmailOfCurrentUser() {
+        return null;
+    }
+
+    @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {
         if (registeredUsers.containsKey(email)) {
             Toast.makeText(registerFormActivity, "User already exist!", Toast.LENGTH_LONG).show();
         } else {
             registeredUsers.put(email, password);
-            store.storeUser(new Player(22,22,22,email, password));
+            store.storeUser("Users", new Player(22,22,22,email, password));
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
         }

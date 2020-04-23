@@ -22,8 +22,10 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sdp.MapsActivityTest.allowPermissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginTest {
@@ -90,6 +92,11 @@ public class LoginTest {
         MissingFieldTestFactory.testFieldTwoActions(typeText("amro.abdrabo@gmail.com"), click(), R.id.emaillog, R.id.loginButton);
         String text = "Password can't be empty";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
+    }
+
+    @Test
+    public void registerOpens() {
+        onView(withId(R.id.createAccountBtn)).perform(click());
     }
 
   /*  @Test
