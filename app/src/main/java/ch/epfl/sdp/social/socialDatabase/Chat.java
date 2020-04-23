@@ -25,9 +25,8 @@ public class Chat {
     @PrimaryKey(autoGenerate = true)
     public int chat_id;
 
-    // TODO make more restrictive access modifiers later
-    public String to;
-    public String from;
+    private String to;
+    private String from;
 
     public Chat(String from, String to)
     {
@@ -49,7 +48,6 @@ public class Chat {
     {
         return to;
     }
-
 
     public void setTo(String to) {
         this.to = to;

@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
  */
 public class TimestampConverter {
 
-    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @TypeConverter
     public static Date fromTimestamp(Long value) {

@@ -72,7 +72,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
         messageAdapter.add(new MessageDecorator(m, false));
         SocialRepository chatRepo = SocialRepository.getInstance();
-        chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
+        chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.getTo(), chat.getFrom()).getChat_id());
         sqliteFirestoreInterface.sendLocalDataToRemoteServer(DependencyProvider.email,chattingWith,m);
     }
 
