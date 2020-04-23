@@ -67,8 +67,7 @@ public class AddFriendsActivityTest {
                                         1),
                                 0),
                         isDisplayed()));
-        //MenuItem menuItem = menu.findItem(R.id.action_search);
-        //SearchView searchView = (SearchView) menuItem.getActionView();
+        
         actionMenuItemView.perform(click());
 
         ViewInteraction constraintLayout = onView(
