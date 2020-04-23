@@ -152,15 +152,8 @@ public class GoogleMapApi implements MapApi {
                 case ITEMBOX:
                     displaySmallIcon(displayable, "ItemBox", R.drawable.itembox);
                     break;
-                case HEALTHPACK:
-                    displaySmallIcon(displayable, "Healthpack", R.drawable.healthpack);
-                    break;
-                case SCAN:
-                    displaySmallIcon(displayable, "Scan", R.drawable.radar);
-                    break;
-                case SHIELD:
-                    displaySmallIcon(displayable, "Shield", R.drawable.shield);
-                case SHRINKER:
+                case TRAP:
+                    displaySmallIcon(displayable, "My trap", R.drawable.trap);
                     break;
                 case SHELTER:
                     displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
