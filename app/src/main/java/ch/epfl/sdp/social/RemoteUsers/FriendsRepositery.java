@@ -17,12 +17,13 @@ import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.social.WaitsOn;
 
 public class FriendsRepositery implements RemoteFriendFetcher {
+    private static final String USERS_PATH = "Users";
 
     @Override
     public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
         if (constraint == null) return;
         List<User> filtered = new ArrayList<>();
-        FirebaseFirestore.getInstance().collection("Users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        FirebaseFirestore.getInstance().collection(USERS_PATH).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

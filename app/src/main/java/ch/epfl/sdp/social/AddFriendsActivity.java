@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.social.RemoteUsers.FriendsRepositery;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
@@ -21,15 +23,12 @@ public class AddFriendsActivity extends AppCompatActivity {
     private RecyclerQueryAdapter cached_adapter;
     private static RemoteFriendFetcher server;
 
-    public static void setServer(RemoteFriendFetcher server) {
-        AddFriendsActivity.server = server;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-        
+        server = DependencyProvider.remoteUserFetch;
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         
         cached_adapter = new RecyclerQueryAdapter();

@@ -25,7 +25,7 @@ public interface ChatDAO {
     @Insert
     public void addChat(Chat c);
 
-    // Get all friends of owner
+    // Get all friends of user "friend"
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
             "IsFriendsWith.friendID2<>:friend AND " +
             "IsFriendsWith.friendID1=:friend)" +

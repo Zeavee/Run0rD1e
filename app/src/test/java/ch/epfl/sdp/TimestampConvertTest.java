@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import ch.epfl.sdp.social.TimestampConverter;
+import ch.epfl.sdp.social.socialDatabase.TimestampConverter;
 
 import static org.junit.Assert.assertEquals;
 

@@ -36,7 +36,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     @Override
     public void signIn(Activity loginFormActivity, String email, String password) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            DependencyProvider.setEmail(email);
+            DependencyProvider.email = email;
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
             new DatabaseHelper(loginFormActivity).saveLoggedUser(email, password);
@@ -46,7 +46,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            DependencyProvider.setEmail(email);
+            DependencyProvider.email = email;
             userDataStore.storeUser(player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();

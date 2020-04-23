@@ -27,7 +27,6 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
 
     @Override
     protected void onResume() {
-
         super.onResume();
         SocialRepository.setContextActivity(this);
         chatRepo = SocialRepository.getInstance();
@@ -41,8 +40,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        chatRepo.setContextActivity(this);
-        AddFriendsActivity.setServer(new FriendsRepositery());
+        SocialRepository.setContextActivity(this);
 
         SocialRepository.getInstance().fetchFriends(new User(current_email_id));
     }
