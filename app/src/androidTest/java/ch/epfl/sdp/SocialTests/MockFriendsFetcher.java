@@ -24,11 +24,9 @@ public class MockFriendsFetcher implements RemoteFriendFetcher {
                 new User("stupid5@gmail.com", "stupid5"),
                 new User("stupid6@gmail.com", "stupid6")));
 
-        for (User el: all)
-        {
+        for (User el: all) {
 
-            if (el.getEmail().contains(constraint))
-            {
+            if (el.getEmail().contains(constraint)) {
                 filtered.add(el);
             }
         }

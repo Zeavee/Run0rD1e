@@ -76,25 +76,24 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
             });
         }
 
-        /// Here is where you add that the user become friends in both FireStore and SQLite
+        /// Here is where you add that the user become friends in SQLite
         @Override
         public void onClick(View v) {
 
             // Let it know which UI context thread to run on
             SocialRepository.setContextActivity(v.getContext());
 
+            // completeDBSetup will add the user and his friend to the local database to register them as friends
             completeDBSetup();
             Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
         }
 
         private void completeDBSetup()
         {
-            // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
             User cur_usr = new User(DependencyProvider.email);
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
             SocialRepository chatRepo = SocialRepository.getInstance();
-
             chatRepo.addUser(cur_usr);
             chatRepo.addUser(befriended_usr);
             chatRepo.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));

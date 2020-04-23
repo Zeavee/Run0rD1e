@@ -21,7 +21,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerQueryAdapter cached_adapter;
-    private static RemoteFriendFetcher server;
+    private RemoteFriendFetcher server;
 
 
     @Override
@@ -45,12 +45,13 @@ public class AddFriendsActivity extends AppCompatActivity {
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
-            // perform firestore search here
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
 
+            // perform FireStore search for users here
             @Override
             public boolean onQueryTextChange(String newText) {
                 server.getFriendsFromServer(newText, cached_adapter);
