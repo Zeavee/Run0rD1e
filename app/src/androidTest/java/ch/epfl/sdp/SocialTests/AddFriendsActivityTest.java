@@ -1,5 +1,6 @@
 package ch.epfl.sdp.SocialTests;
 
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -20,6 +21,7 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.AddFriendsActivity;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -38,11 +40,12 @@ public class AddFriendsActivityTest {
         @Override
         protected void beforeActivityLaunched() {
             DependencyProvider.remoteUserFetch = new MockFriendsFetcher();
+            Log.d("addFriendTest", " beforeActivityLaunched");
         }
     };
 
     @Test
-    public void addFriendsActivityTest() {
+    public void addFriendsActivityTest() throws InterruptedException {
 
         // *********************************** Clicks on the search icon ******************************************* //
         ViewInteraction actionMenuItemView = onView(
@@ -61,7 +64,8 @@ public class AddFriendsActivityTest {
                         isDisplayed()));
 
         actionMenuItemView.perform(click());
-
+        closeSoftKeyboard();
+        Thread.sleep(1000); // for travis
         // *********************** Clicks on the third search result to add stupid3 as friend *************************** //
         ViewInteraction constraintLayout = onView(
                 allOf(childAtPosition(

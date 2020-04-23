@@ -65,23 +65,23 @@ public class SocialRepositoryTest {
     };
     private SocialRepository testRepo;
 
-    public void prepopulateDatabase()
-    {
+    public void prepopulateDatabase() {
         // Pre-populate the database with sample users
         testRepo = SocialRepository.getInstance();
-        fantasticSix.forEach(x -> testRepo.addUser(x));
-
+        for (User user : fantasticSix) {
+            testRepo.addUser(user);
+        }
         // Create the chat for each pair of users and mark each pair as friends
-        fantasticSix.forEach(x ->{
-            fantasticSix.forEach(y -> {
-                if (!x.getEmail().equals(y.getEmail())){
+        for (User x : fantasticSix) {
+            for (User y : fantasticSix) {
+                if (!x.getEmail().equals(y.getEmail())) {
                     testRepo.addChat(new Chat(x.getEmail(), y.getEmail()));
                 }
-                if (x.getEmail().compareTo(y.getEmail())<0) {
+                if (x.getEmail().compareTo(y.getEmail()) < 0) {
                     testRepo.addFriends(x, y);
                 }
-            });
-        });
+            }
+        }
 
     }
 

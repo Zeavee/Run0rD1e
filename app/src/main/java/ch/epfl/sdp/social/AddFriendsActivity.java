@@ -1,6 +1,7 @@
 package ch.epfl.sdp.social;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,7 +25,9 @@ public class AddFriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
+        Log.d("addFriendsActivity ", "execute here onCreate");
         server = DependencyProvider.remoteUserFetch;
+
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         
         cached_adapter = new RecyclerQueryAdapter();

@@ -31,9 +31,6 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
 }
 
 dependencies {
