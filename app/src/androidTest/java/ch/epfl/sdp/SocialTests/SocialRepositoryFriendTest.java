@@ -51,6 +51,12 @@ public class SocialRepositoryFriendTest {
 
     };
 
+    private void addUniqueFriendship(User x, User y) {
+        if (x.getEmail().compareTo(y.getEmail()) < 0) {
+            testRepo.addFriends(x, y);
+        }
+    }
+
     // Pre-populate the database with sample users
     public void prepopulateDatabase() {
         prepopulateDatabaseWithUserRecords();
@@ -58,9 +64,7 @@ public class SocialRepositoryFriendTest {
         // Create the chat for each pair of users and mark each pair as friends
         for (User x : sampleUsers) {
             for (User y : sampleUsers) {
-                if (x.getEmail().compareTo(y.getEmail()) < 0) {
-                    testRepo.addFriends(x, y);
-                }
+                addUniqueFriendship(x, y);
             }
         }
     }
@@ -78,7 +82,7 @@ public class SocialRepositoryFriendTest {
         testRepo.fetchFriends(sampleUsers.get(0));
         // Pretend fetching friends takes 1 s
         Thread.sleep(1000);
-        Log.d("real friend is ", mActivityTestRule.getActivity().getFriends().get(0).getEmail());
+
         assertTrue(mActivityTestRule.getActivity().getFriends().get(0).getEmail().equals(sampleUsers.get(1).getEmail()));
     }
 }

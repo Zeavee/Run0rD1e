@@ -130,7 +130,7 @@ public final class SocialRepository {
             protected List<User> doInBackground(Void... voids) {
                 context = singleton.contextActivity;
                 try {
-                    List<User> friends = singleton.chatDB.daoAccess().areFriends(user.email);
+                    List<User> friends = singleton.chatDB.daoAccess().areFriends(user.getEmail());
                     return friends;
                 }catch (Exception e){
                     return new ArrayList<>();
@@ -157,8 +157,8 @@ public final class SocialRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
-                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.email, user2.email));
-                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.email, user1.email)); // friendship is symmetric
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user1.getEmail(), user2.getEmail()));
+                    singleton.chatDB.daoAccess().addFriendship(new IsFriendsWith(user2.getEmail(), user1.getEmail())); // friendship is symmetric
                 }catch (SQLiteConstraintException e) {
                      // foreign key was not found so add both users to user db (done in caller)
                 }

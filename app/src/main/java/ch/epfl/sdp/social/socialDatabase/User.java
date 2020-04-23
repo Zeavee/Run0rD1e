@@ -11,7 +11,7 @@ public class User {
     @PrimaryKey
     @ColumnInfo(name = "userID")
     @NonNull
-    public String email;
+    private String email;
 
     @Ignore
     private String username;
@@ -35,5 +35,7 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public void setEmail(String email){ this.email = email; }
 
 }
