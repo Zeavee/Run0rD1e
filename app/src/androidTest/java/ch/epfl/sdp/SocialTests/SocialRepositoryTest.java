@@ -97,7 +97,7 @@ public class SocialRepositoryTest {
         Thread.sleep(1000);
 
         // wait asynchronously until messages are fetched (these two calls should return the same thing)
-        testRepo.getMessagesReceived(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
+        testRepo.getMessagesReceived(fantasticSix.get(2).getEmail(), fantasticSix.get(0).getEmail());
 
         // Pretend fetching twice the message from the db will take 2 second
         Thread.sleep(2000);

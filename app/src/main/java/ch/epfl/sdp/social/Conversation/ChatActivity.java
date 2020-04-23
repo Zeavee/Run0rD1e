@@ -44,6 +44,9 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         lv = findViewById(R.id.messages_view);
 
         chattingWith = getIntent().getStringExtra("chattingWith");
+        if(chattingWith == null) { // instrumentation test running so initialize to sentinel value "null_0"
+            chattingWith = "null_0";
+        }
 
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
