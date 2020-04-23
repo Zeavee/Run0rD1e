@@ -1,16 +1,21 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
+
+    private int damage;
     private List<Player> players; // For now I use a list of players, but it could be nice to have
     // a static manager of players.
-    private int damage;
     private float dps; // damage per second
     private double detectionDistance;
     private int timeAttack;
@@ -19,18 +24,21 @@ public class Enemy extends MovingArtificialEntity {
     private boolean waiting;
 
     public Enemy() {
+        //super(new RectangleBounds(5000, 5000, new GeoPoint(6.145606,46.209633)));
         super();
         super.setAoeRadius(1);
-        super.getMovement().setVelocity(50);
+        super.getMovement().setVelocity(1);
         super.setMoving(true);
-        super.setBounds(new RectangleBounds(20000, 10000));
         this.damage = 1;
         this.dps = 1;
-        this.detectionDistance = 1;
-        this.players = PlayerManager.getPlayers();
+        this.detectionDistance = 300;
+        Player user = new Player(6.149290, 46.212470, 100, "user", "user");
+        user.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.149290, 46.212470)).toCartesian());
+        this.players = new ArrayList<Player>();
+        players.add(user);
         behaviour = Behaviour.PATROL;
-        timeAttack = 30; // Needs calibration
-        timeWandering = 30;
+        timeAttack = 100; // Needs calibration
+        timeWandering = 100;
         this.patrolBounds = new LocalBounds(new UnboundedArea(), getPosition());
         this.waiting = false;
     }

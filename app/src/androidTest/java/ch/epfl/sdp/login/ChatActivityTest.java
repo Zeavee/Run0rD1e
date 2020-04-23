@@ -222,5 +222,6 @@ public class ChatActivityTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+
     }
 }

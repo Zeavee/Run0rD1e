@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.epfl.sdp.db.LeaderboardEntity;
-import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.db.PlayerEntity;
+import ch.epfl.sdp.db.AppViewModel;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.FirestoreUserData;
 import ch.epfl.sdp.database.UserDataController;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class LeaderboardActivity extends AppCompatActivity {
-    private LeaderoardViewModel leaderoardViewModel;
+    private AppViewModel appViewModel;
     public UserDataController userDataController;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,39 +31,39 @@ public class LeaderboardActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Get a new or existing ViewModel from the ViewModelProvider.
-        leaderoardViewModel = new ViewModelProvider(this).get(LeaderoardViewModel.class);
+        appViewModel = new ViewModelProvider(this).get(AppViewModel.class);
 
         // Add an observer on the LiveData.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        leaderoardViewModel.getLeaderboard().observe(this, users -> {
+        appViewModel.getLeaderboard().observe(this, users -> {
             // Update the cached copy of the words in the adapter.
             adapter.setLeaderboard(users);
         });
-        leaderoardViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
+        appViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
 
         userDataController = new FirestoreUserData();
-        userDataController.syncCloudFirebaseToRoom(leaderoardViewModel);
+        userDataController.syncCloudFirebaseToRoom(appViewModel, MapsActivity.lobbyCollectionName);
     }
 
-    private void setupChampions(List<LeaderboardEntity> users) {
-        if (users == null || users.size() < 3) {
+    private void setupChampions(List<PlayerEntity> players) {
+        if (players == null || players.size() < 3) {
             return;
         }
         TextView tv_username1 = findViewById(R.id.tv_username1);
-        tv_username1.setText(users.get(0).getUsername());
+        tv_username1.setText(players.get(0).getUsername());
         TextView tv_healthpoint1 = findViewById(R.id.tv_healthpoint1);
-        tv_healthpoint1.setText(String.valueOf(users.get(0).getScore()));
+        tv_healthpoint1.setText(String.valueOf(players.get(0).getHealthpoint()));
 
         TextView tv_username2 = findViewById(R.id.tv_username2);
-        tv_username2.setText(users.get(1).getUsername());
+        tv_username2.setText(players.get(1).getUsername());
         TextView tv_healthpoint2 = findViewById(R.id.tv_healthpoint2);
-        tv_healthpoint2.setText(String.valueOf(users.get(1).getScore()));
+        tv_healthpoint2.setText(String.valueOf(players.get(1).getHealthpoint()));
 
         TextView tv_username3 = findViewById(R.id.tv_username3);
-        tv_username3.setText(users.get(2).getUsername());
+        tv_username3.setText(players.get(2).getUsername());
         TextView tv_healthpoint3 = findViewById(R.id.tv_healthpoint3);
-        tv_healthpoint3.setText(String.valueOf(users.get(2).getScore()));
+        tv_healthpoint3.setText(String.valueOf(players.get(2).getHealthpoint()));
     }
 
 }

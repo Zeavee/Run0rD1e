@@ -43,6 +43,11 @@ public class MockMapApi implements MapApi {
     }
 
     @Override
+    public void onLocationUpdatesGranted() {
+
+    }
+
+    @Override
     public void moveCameraOnCurrentLocation() {
 
     }
