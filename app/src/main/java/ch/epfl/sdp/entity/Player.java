@@ -16,9 +16,7 @@ import ch.epfl.sdp.map.GeoPoint;
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
-  
-    @Exclude
-    public final static double MAX_HEALTH = 100;
+
     public int generalScore;
     public int currentGameScore;
 
