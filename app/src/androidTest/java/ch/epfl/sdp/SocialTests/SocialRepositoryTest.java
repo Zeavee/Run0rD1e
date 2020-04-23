@@ -1,7 +1,7 @@
 package ch.epfl.sdp.SocialTests;
 
 import android.util.Log;
-
+import com.google.firebase.Timestamp;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import ch.epfl.sdp.dependencies.DependencyProvider;
@@ -104,6 +105,18 @@ public class SocialRepositoryTest {
 
         String result = mActivityTestRule.getActivity().getMessages().get(0).getText();
         assertTrue(result.equals("This code kills me, kills me"));
+    }
+
+    @Test
+    public void SachaCanReceiveRemoteMessage() throws InterruptedException {
+        User sacha = fantasticSix.get(2);
+        Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
+        testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed",c.getChat_id());
+        testRepo.getMessagesReceived(fantasticSix.get(2).getEmail(), fantasticSix.get(0).getEmail());
+        // Pretend fetching takes 2 seconds
+        Thread.sleep(2000);
+        String result = mActivityTestRule.getActivity().getMessages().get(1).getText();
+        assertTrue(result.equals("Blessed"));
     }
 
 }
