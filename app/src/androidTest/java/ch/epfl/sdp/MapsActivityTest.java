@@ -124,4 +124,12 @@ public class MapsActivityTest {
         onView(withId(R.id.button_leaderboard)).perform(click());
         Thread.sleep(2000);
     }
+
+    @Test
+    public void moveCameraWorks() {
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        onView(withId(R.id.recenter)).perform(click());
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
+    }
 }
