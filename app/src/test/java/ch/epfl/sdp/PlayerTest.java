@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -18,31 +19,17 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     private Player player1; //player position is in Geneva
-    private EnemyOutDated enemyOutDated1; //enemy1's position is at EPFL
-    private EnemyOutDated enemyOutDated2; //enemy2's position is close to player1
-    private ArrayList<EnemyOutDated> enemyOutDatedArrayList;
+    private Enemy enemyOutDated1; //enemy1's position is at EPFL
+    private Enemy enemyOutDated2; //enemy2's position is close to player1
+    private ArrayList<Enemy> enemyArrayList;
     private Game game;
 
     @Before
     public void setup(){
-        game = new Game();
+        Game game = new Game();
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         PlayerManager.setUser(player1);
-        enemyOutDated1 = new EnemyOutDated(6.568390, 46.520730, 50);
-        enemyOutDated2 = new EnemyOutDated(6.149596,46.212437, 50);
-        enemyOutDatedArrayList = new ArrayList<>();
-    }
-
-    @Test
-    public void updateHealthTest() {
-        // Deprecated
-        enemyOutDatedArrayList.add(enemyOutDated1);
-        player1.updateHealth(enemyOutDatedArrayList);
-        assertEquals(100, player1.getHealthPoints(), 0);
-        enemyOutDatedArrayList.add(enemyOutDated2);
-        player1.updateHealth(enemyOutDatedArrayList);
-        /*assertFalse(player1.getHealthPoints() >= 100);*/
     }
 
     @Test
