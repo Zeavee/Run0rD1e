@@ -45,8 +45,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
 
-        ChatRepository.setContextActivity(this);
-        chat = ChatRepository.getInstance().getChat(DependencyProvider.email, chattingWith);
+        SocialRepository.setContextActivity(this);
+        chat = SocialRepository.getInstance().getChat(DependencyProvider.email, chattingWith);
 
         sendButton.setOnClickListener(this::onSendClicked);
         loadExistingMessages();
@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     private void loadExistingMessages()
     {
-        ChatRepository chatRepo = ChatRepository.getInstance();
+        SocialRepository chatRepo = SocialRepository.getInstance();
         chatRepo.getMessagesReceived(DependencyProvider.email, chattingWith);
         chatRepo.getMessagesSent(DependencyProvider.email, chattingWith);
         FireStoreToSQLiteAdapter.getInstance().setListener(this);
@@ -65,7 +65,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     {
         Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
         messageAdapter.add(new MessageDecorator(m, false));
-        ChatRepository chatRepo = ChatRepository.getInstance();
+        SocialRepository chatRepo = SocialRepository.getInstance();
         chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
         DependencyProvider.remoteToSQLiteAdapter.sendLocalDataToRemoteServer(DependencyProvider.email,chattingWith,m);
     }
@@ -98,7 +98,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         {
             // TODO: Add the messages to SQLite and delete them from FireStore
             if (isFromServer) {
-                ChatRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
+                SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
             }
             messageAdapter.add(new MessageDecorator(el, true));
         }

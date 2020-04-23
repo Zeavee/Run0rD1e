@@ -1,5 +1,7 @@
 package ch.epfl.sdp.social.RemoteUsers;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;

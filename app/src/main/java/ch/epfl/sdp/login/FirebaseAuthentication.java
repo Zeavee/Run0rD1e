@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.MainActivity;
@@ -35,7 +36,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     @Override
     public void signIn(Activity loginFormActivity, String email, String password) {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            FriendsListActivity.setChatEmailID(email);
+            DependencyProvider.setEmail(email);
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
             new DatabaseHelper(loginFormActivity).saveLoggedUser(email, password);
@@ -45,7 +46,7 @@ public class FirebaseAuthentication implements AuthenticationController {
     @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            FriendsListActivity.setChatEmailID(email);
+            DependencyProvider.setEmail(email);
             userDataStore.storeUser(player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();

@@ -1,6 +1,7 @@
 package ch.epfl.sdp.social;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,17 +17,9 @@ import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
-    private static RecyclerView recyclerView;
-    public static ArrayList<RecyclerQueryAdapter> container = new ArrayList<>(); // for mock testing also
-    private static RecyclerQueryAdapter cached_adapter = null;
+    private RecyclerView recyclerView;
+    private RecyclerQueryAdapter cached_adapter;
     private static RemoteFriendFetcher server;
-
-    // Used for mocking (to be called before being created inside)
-    public static void setAdapter(RecyclerQueryAdapter newAdapter) {
-        cached_adapter = newAdapter;
-        container.clear();
-        container.add(newAdapter);
-    }
 
     public static void setServer(RemoteFriendFetcher server) {
         AddFriendsActivity.server = server;
@@ -36,22 +29,14 @@ public class AddFriendsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
-
-
+        
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         
-        // when it comes alive, it will use this adapter
-        useCachedAdapter();
-        container.clear();
-        container.add(cached_adapter);
+        cached_adapter = new RecyclerQueryAdapter();
+        recyclerView.setAdapter(cached_adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
         
-    }
-    
-    private void useCachedAdapter()
-    {
-        recyclerView.setAdapter(cached_adapter);
     }
 
     @Override
@@ -69,7 +54,7 @@ public class AddFriendsActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                server.getFriendsFromServer(newText, container.get(0));
+                server.getFriendsFromServer(newText, cached_adapter);
                 return false;
             }
         });

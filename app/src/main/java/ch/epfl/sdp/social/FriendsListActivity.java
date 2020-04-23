@@ -12,30 +12,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.social.Conversation.*;
 import ch.epfl.sdp.social.RemoteUsers.FriendsRepositery;
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {
-    private ChatRepository chatRepo;
+    private SocialRepository chatRepo;
 
     // To get the user info
-    private static String current_email_id;
-
-    // This should be called from the Authentication class's signIn/signUp success callback
-    public static void setChatEmailID(String email_id) {
-        current_email_id = email_id;
-    }
+    private String current_email_id = DependencyProvider.email;
 
 
     @Override
     protected void onResume() {
 
         super.onResume();
-        ChatRepository.setContextActivity(this);
-        chatRepo = ChatRepository.getInstance();
+        SocialRepository.setContextActivity(this);
+        chatRepo = SocialRepository.getInstance();
         chatRepo.fetchFriends(new User(current_email_id));
     }
 
@@ -46,18 +41,10 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        current_email_id = "stupid1@gmail.com";
         chatRepo.setContextActivity(this);
-
-        // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created
-        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter()); // placed here for mock testing purposes
         AddFriendsActivity.setServer(new FriendsRepositery());
 
-        try {
-            chatRepo.fetchFriends(new User(current_email_id));
-        } catch (Exception e) {
-            System.out.println("NOOOO" + e.getMessage());
-        }
+        SocialRepository.getInstance().fetchFriends(new User(current_email_id));
     }
 
     private void initRecyclerView(List<User> friends) {

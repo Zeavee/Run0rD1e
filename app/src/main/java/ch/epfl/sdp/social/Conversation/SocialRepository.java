@@ -9,6 +9,7 @@ import androidx.room.Room;
 
 import com.google.firebase.Timestamp;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,14 +22,14 @@ import java.util.concurrent.ExecutionException;
  * @brief Provides higher level abstraction of the database of the chat and models the database memory management of that database
  * Any modification to (or request from) the database storing the chat should be routed to the singleton instance of this class
  */
-public final class ChatRepository {
+public final class SocialRepository {
 
     private ChatDatabase chatDB;
     private Context contextActivity;
     private static boolean singletonCreated = false;
-    private static ChatRepository singleton;
+    private static SocialRepository singleton;
 
-    private ChatRepository(Context contextActivity) {
+    private SocialRepository(Context contextActivity) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
@@ -37,7 +38,7 @@ public final class ChatRepository {
     /**
      * @brief returns the chat repository instance which abstracts all direct SQL calls relating to the local chat database
      */
-    public static ChatRepository getInstance()
+    public static SocialRepository getInstance()
     {
         return singleton;
     }
@@ -48,7 +49,7 @@ public final class ChatRepository {
      */
     public static void setContextActivity(Context contextActivity) {
         if (!singletonCreated) {
-            singleton = new ChatRepository(contextActivity);
+            singleton = new SocialRepository(contextActivity);
             singletonCreated = true;
         }
         singleton.contextActivity = contextActivity;
@@ -129,7 +130,13 @@ public final class ChatRepository {
             @Override
             protected List<User> doInBackground(Void... voids) {
                 context = singleton.contextActivity;
-                return singleton.chatDB.daoAccess().areFriends(user.email);
+                try {
+                    List<User> friends = singleton.chatDB.daoAccess().areFriends(user.email);
+                    return friends;
+                }catch (Exception e){
+                    return new ArrayList<>();
+                }
+
             }
 
             @Override

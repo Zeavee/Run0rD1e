@@ -12,7 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import ch.epfl.sdp.social.Conversation.ChatRepository;
+
+import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 
@@ -79,7 +81,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         public void onClick(View v) {
 
             // Let it know which UI context thread to run on
-            ChatRepository.setContextActivity(v.getContext());
+            SocialRepository.setContextActivity(v.getContext());
 
             completeDBSetup();
             Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
@@ -88,10 +90,10 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         private void completeDBSetup()
         {
             // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
-            User cur_usr = new User("stupid1@gmail.com");
+            User cur_usr = new User(DependencyProvider.email);
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
-            ChatRepository chatRepo = ChatRepository.getInstance();
+            SocialRepository chatRepo = SocialRepository.getInstance();
 
             chatRepo.addUser(cur_usr);
             chatRepo.addUser(befriended_usr);

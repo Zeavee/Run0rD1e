@@ -25,10 +25,14 @@ public interface ChatDAO {
     @Insert
     public void addChat(Chat c);
 
-    // Get all friends of owner, friendID1 must be lexicographically before friendID2
+    // Get all friends of owner
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
             "IsFriendsWith.friendID2<>:friend AND " +
-            "IsFriendsWith.friendID1=:friend)")
+            "IsFriendsWith.friendID1=:friend)" +
+            " UNION " +
+            "SELECT * FROM User WHERE user.userID IN (SELECT friendID1 FROM IsFriendsWith WHERE " +
+            "IsFriendsWith.friendID2=:friend AND " +
+            "IsFriendsWith.friendID1<>:friend)")
     public List<User> areFriends(String friend);
 
     @Insert
