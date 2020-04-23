@@ -59,7 +59,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private void loadExistingMessages() {
         SocialRepository chatRepo = SocialRepository.getInstance();
         chatRepo.getMessagesReceived(DependencyProvider.email, chattingWith);
-        chatRepo.getMessagesSent(DependencyProvider.email, chattingWith);
+        chatRepo.getMessagesReceived(chattingWith, DependencyProvider.email);
         sqliteFirestoreInterface.setListener(this);
         sqliteFirestoreInterface.sendRemoteServerDataToLocal(DependencyProvider.email, chattingWith, chat.chat_id);
     }
@@ -71,7 +71,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
         sqliteFirestoreInterface.sendLocalDataToRemoteServer(DependencyProvider.email,chattingWith,m);
     }
-
 
     /**
      * @brief decorates a message with a flag that indicates whether the message was incoming or outgoing
@@ -94,25 +93,25 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         }
     }
     @Override
-    public void contentFetchedWithServer(List<Message> output, boolean isFromServer) {
+    public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
         messages = output;
         for (Message el: messages)
         {
             if (isFromServer) {
                 SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
             }
-            messageAdapter.add(new MessageDecorator(el, true));
+            messageAdapter.add(new MessageDecorator(el, incoming));
         }
     }
 
-    @Override
+   /* @Override
     public void contentFetched(List<Message> output) {
         messages = output;
         for (Message el: messages)
         {
             messageAdapter.add(new MessageDecorator(el, false));
         }
-    }
+    }*/
 
     public List<Message> getMessages()
     {

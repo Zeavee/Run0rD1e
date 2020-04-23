@@ -62,7 +62,7 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
                                 .document(sender).collection(PATH_SEGMENTS.get(2))
                                 .document(doc.getId()).update(PATH_SEGMENTS.get(3), true);
                     }
-                    ((WaitsOnWithServer<Message>)listener).contentFetchedWithServer(remoteMessages, true);
+                    ((WaitsOnWithServer<Message>)listener).contentFetchedWithServer(remoteMessages, true, true);
                 }
             }
         });

@@ -174,54 +174,28 @@ public final class SocialRepository {
 
     /**
      * @brief gets the messages received
-     * @param id_owner the Id of the owner of the messages (i.e the one who sent it)
-     * @param id_rec the Id of the receiver of the messages
+     * @param sender the Id of the owner of the messages (i.e the one who sent it)
+     * @param receiver the Id of the receiver of the messages
      */
-    public void getMessagesReceived(final String id_owner, final String id_rec) {
+    public void getMessagesReceived(final String sender, final String receiver) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessages(id_rec, id_owner));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessages(receiver, sender));
                 return msgList;
             }
 
             @Override
             protected void onPostExecute(List<Message> ls) {
 
-                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false);
+                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false, true);
             }
         }.execute();
 
     }
-
-    /**
-     * @brief gets the messages sent
-     * @param id_owner the Id of the owner of the messages (i.e the one who sent it)
-     * @param id_rec the Id of the receiver of the messages
-     */
-    public void getMessagesSent(final String id_owner, final String id_rec) {
-
-        new AsyncTask<Void, Void, List<Message>>() {
-
-            @Override
-            protected List<Message> doInBackground(Void... voids) {
-                List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessages(id_owner, id_rec));
-                return msgList;
-            }
-
-            @Override
-            protected void onPostExecute(List<Message> ls)
-            {
-                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetched(ls);
-            }
-        }.execute();
-
-    }
-
 
     /**
      * @brief gets the messages from the server and puts them in the local database (specifics of the server and how to fetch from it are handled from the activity)
