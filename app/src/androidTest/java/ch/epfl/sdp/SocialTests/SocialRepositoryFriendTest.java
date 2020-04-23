@@ -53,10 +53,8 @@ public class SocialRepositoryFriendTest {
 
     // Pre-populate the database with sample users
     public void prepopulateDatabase() {
-        testRepo = SocialRepository.getInstance();
-        for (User user : sampleUsers) {
-            testRepo.addUser(user);
-        }
+        prepopulateDatabaseWithUserRecords();
+
         // Create the chat for each pair of users and mark each pair as friends
         for (User x : sampleUsers) {
             for (User y : sampleUsers) {
@@ -64,6 +62,14 @@ public class SocialRepositoryFriendTest {
                     testRepo.addFriends(x, y);
                 }
             }
+        }
+    }
+
+    public void prepopulateDatabaseWithUserRecords() {
+
+        testRepo = SocialRepository.getInstance();
+        for (User user : sampleUsers) {
+            testRepo.addUser(user);
         }
     }
 

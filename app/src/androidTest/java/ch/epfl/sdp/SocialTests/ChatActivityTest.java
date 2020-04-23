@@ -36,6 +36,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
+import static ch.epfl.sdp.SocialTests.ChildParentMatcher.matchesChildWithTextAtDepth4;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -55,7 +57,7 @@ public class ChatActivityTest {
             // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid2 will not show up as a friend in FriendsListActivity
             DependencyProvider.email = "amro.abdrabo@gmail.com";
             User cur_user = new User(DependencyProvider.email);
-            User friend_user = new User("stupid2@gmail.com");
+            User friend_user = new User("stupid3@gmail.com");
 
             // testRepo is the social database controller (router)
             SocialRepository testRepo = SocialRepository.getInstance();
@@ -68,9 +70,8 @@ public class ChatActivityTest {
         }
     };
 
-    @Test
-    public void chatActivityTest() {
-
+    // click on the chat button
+    public void step1(){
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.chat_button), withText("chat"),
                         childAtPosition(
@@ -82,28 +83,22 @@ public class ChatActivityTest {
                                                                         withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
                                                                         1)),
                                                         0)),
-                                        0),
+                                        1),
                                 2),
                         isDisplayed()));
         appCompatButton4.perform(click());
+    }
 
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.messageField),
-                        childAtPosition(
-                                childAtPosition(
-                                        childAtPosition(
-                                                allOf(withId(android.R.id.content),
-                                                        childAtPosition(
-                                                                withId(R.id.decor_content_parent),
-                                                                0)),
-                                                0),
-                                        1),
-                                0),
-                        isDisplayed()));
+    // type text "thanks"
+    public void step2(){
+        ViewInteraction appCompatEditText3 = matchesChildAtDepthFour(R.id.messageField, 0);
         appCompatEditText3.perform(replaceText("thanks"), closeSoftKeyboard());
+    }
 
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.sendMessageButton),
+    private ViewInteraction matchesChildAtDepthFour(int childId, int position)
+    {
+        return onView(
+                allOf(withId(childId),
                         childAtPosition(
                                 childAtPosition(
                                         childAtPosition(
@@ -113,42 +108,25 @@ public class ChatActivityTest {
                                                                 0)),
                                                 0),
                                         1),
-                                1),
+                                position),
                         isDisplayed()));
+    }
+    // click on the send button to send "thanks" message
+    public void step3(){
+        ViewInteraction appCompatImageButton =  matchesChildAtDepthFour(R.id.sendMessageButton, 1);
         appCompatImageButton.perform(click());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.message_body), withText("thanks"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.messages_view),
-                                                childAtPosition(
-                                                        childAtPosition(
-                                                                withId(android.R.id.content),
-                                                                0),
-                                                        0)),
-                                        0),
-                                0),
-                        isDisplayed()));
+    }
+    // check that the message "thanks" is actually displayed on the screen
+    public void step4(){
+        ViewInteraction textView = matchesChildWithTextAtDepth4("thanks", R.id.message_body, R.id.messages_view, 0);
         textView.check(matches(withText("thanks")));
     }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+    @Test
+    public void chatActivityTest() {
+        step1();
+        step2();
+        step3();
+        step4();
     }
+
 }

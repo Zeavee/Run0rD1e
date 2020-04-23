@@ -59,17 +59,10 @@ public final class SocialRepository {
     }
 
     /**
-     * Stores a message in the local database of the chat with the current time
-     * @param chat_id the id of the chat, uniquely identified by the tuple (from (sender), to (receiver))
-     * @param content the string content of the message
+     * Stores a message in the local database of the chat
+     * @param message the message of the chat, the chat being uniquely identified by the tuple (from (sender), to (receiver))
      */
-    public void storeMessage(String content, int chat_id) {
-
-        Message m = new Message(new Date(), content, chat_id);
-        singleton.storeMessage(m);
-    }
-
-    private void storeMessage(final Message message) {
+    public void storeMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -179,14 +172,14 @@ public final class SocialRepository {
      * @param sender the Id of the owner of the messages (i.e the one who sent it)
      * @param receiver the Id of the receiver of the messages
      */
-    public void getMessagesReceived(final String sender, final String receiver) {
+    public void getMessagesExchanged(final String sender, final String receiver) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessages(sender, receiver));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessages(receiver, sender));
                 return msgList;
             }
 

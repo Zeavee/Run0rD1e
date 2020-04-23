@@ -28,7 +28,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private EditText message;
     private ListView lv;
     private String chattingWith;
-    private Chat chat;
+    private Chat chatFromCurrent;
+    private Chat chatFromFriend;
     private List<Message> messages;
     private MessageAdapter messageAdapter;
     private RemoteToSQLiteAdapter sqliteFirestoreInterface;
@@ -53,7 +54,12 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         lv.setAdapter(messageAdapter);
 
         SocialRepository.setContextActivity(this);
-        chat = SocialRepository.getInstance().getChat(DependencyProvider.email, chattingWith);
+
+        // The current user is the sender
+        chatFromCurrent = SocialRepository.getInstance().getChat(DependencyProvider.email, chattingWith);
+
+        // The current user is the receiver
+        chatFromFriend = SocialRepository.getInstance().getChat(chattingWith, DependencyProvider.email);
 
         sendButton.setOnClickListener(v -> onSendClicked(v));
         sqliteFirestoreInterface = DependencyProvider.remoteToSQLiteAdapter;
@@ -62,17 +68,17 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     private void loadExistingMessages() {
         SocialRepository chatRepo = SocialRepository.getInstance();
-        chatRepo.getMessagesReceived(DependencyProvider.email, chattingWith);
-        chatRepo.getMessagesReceived(chattingWith, DependencyProvider.email);
+        chatRepo.getMessagesExchanged(DependencyProvider.email, chattingWith);
+        chatRepo.getMessagesExchanged(chattingWith, DependencyProvider.email);
         sqliteFirestoreInterface.setListener(this);
-        sqliteFirestoreInterface.sendRemoteServerDataToLocal(DependencyProvider.email, chattingWith, chat.chat_id);
+        sqliteFirestoreInterface.sendRemoteServerDataToLocal(DependencyProvider.email, chattingWith, chatFromFriend.getChat_id());
     }
 
     public void  onSendClicked(View v) {
-        Message m = new Message(new Date(), message.getText().toString(), chat.chat_id);
+        Message m = new Message(new Date(), message.getText().toString(), chatFromCurrent.getChat_id());
         messageAdapter.add(new MessageDecorator(m, false));
         SocialRepository chatRepo = SocialRepository.getInstance();
-        chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.getTo(), chat.getFrom()).getChat_id());
+        chatRepo.storeMessage(m);
         sqliteFirestoreInterface.sendLocalDataToRemoteServer(DependencyProvider.email,chattingWith,m);
     }
 
@@ -100,7 +106,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messages = output;
         for (Message el: messages) {
             if (isFromServer) {
-                SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
+                SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chatFromFriend.getChat_id());
             }
             messageAdapter.add(new MessageDecorator(el, incoming));
         }

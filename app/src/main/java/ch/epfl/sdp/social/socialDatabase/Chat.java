@@ -23,7 +23,7 @@ import androidx.room.PrimaryKey;
 public class Chat {
 
     @PrimaryKey(autoGenerate = true)
-    public int chat_id;
+    private int chat_id;
 
     private String to;
     private String from;
@@ -38,6 +38,10 @@ public class Chat {
     public int getChat_id()
     {
         return chat_id;
+    }
+    public void setChat_id(int id)
+    {
+        chat_id = id;
     }
 
     public String getFrom() {

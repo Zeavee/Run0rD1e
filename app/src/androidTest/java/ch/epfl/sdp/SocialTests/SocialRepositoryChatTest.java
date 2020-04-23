@@ -1,17 +1,14 @@
 package ch.epfl.sdp.SocialTests;
 
-import android.util.Log;
 import com.google.firebase.Timestamp;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,22 +63,23 @@ public class SocialRepositoryChatTest {
 
     public void prepopulateDatabase() {
         // Pre-populate the database with sample users
+        prepopulateDatabaseWithUserRecords();
+
+        // Create the chat for each pair of users and mark each pair as friends
+        for (User x : fantasticSix) {
+            for (User y : fantasticSix) {
+                    testRepo.addChat(new Chat(x.getEmail(), y.getEmail()));
+                    testRepo.addFriends(x, y);
+            }
+        }
+    }
+
+    public void prepopulateDatabaseWithUserRecords()
+    {
         testRepo = SocialRepository.getInstance();
         for (User user : fantasticSix) {
             testRepo.addUser(user);
         }
-        // Create the chat for each pair of users and mark each pair as friends
-        for (User x : fantasticSix) {
-            for (User y : fantasticSix) {
-                if (!x.getEmail().equals(y.getEmail())) {
-                    testRepo.addChat(new Chat(x.getEmail(), y.getEmail()));
-                }
-                if (x.getEmail().compareTo(y.getEmail()) < 0) {
-                    testRepo.addFriends(x, y);
-                }
-            }
-        }
-
     }
 
     @Test
@@ -90,13 +88,13 @@ public class SocialRepositoryChatTest {
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
 
         // send a joke message (should be taken lightly of course)
-        testRepo.storeMessage("This code kills me, kills me", c.getChat_id());
+        testRepo.storeMessage(new Message(new Date(), "This code kills me, kills me", c.getChat_id()));
 
         // Pretend storing the message from the db will take 1 second
         Thread.sleep(1000);
 
         // wait asynchronously until messages are fetched (these two calls should return the same thing)
-        testRepo.getMessagesReceived(fantasticSix.get(2).getEmail(), fantasticSix.get(0).getEmail());
+        testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
 
         // Pretend fetching twice the message from the db will take 2 second
         Thread.sleep(2000);
@@ -110,7 +108,7 @@ public class SocialRepositoryChatTest {
         User sacha = fantasticSix.get(2);
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
         testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed",c.getChat_id());
-        testRepo.getMessagesReceived(fantasticSix.get(2).getEmail(), fantasticSix.get(0).getEmail());
+        testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 2 seconds
         Thread.sleep(2000);
         String result = mActivityTestRule.getActivity().getMessages().get(1).getText();
