@@ -14,7 +14,7 @@
         android:layout_height="64dp"
         android:id="@+id/ranking_backgroud">
         <TextView
-            android:id="@+id/ranking"
+            android:id="@+id/leaderboard_ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -32,7 +32,7 @@
         android:layout_marginStart="8dp"/>
 
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/leaderboard_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/image"
@@ -43,7 +43,7 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/leaderboard_healthpoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

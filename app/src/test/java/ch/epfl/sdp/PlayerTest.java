@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
