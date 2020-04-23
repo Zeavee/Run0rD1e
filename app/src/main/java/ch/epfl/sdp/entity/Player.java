@@ -1,7 +1,5 @@
 package ch.epfl.sdp.entity;
 
-import java.util.List;
-
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
@@ -18,6 +16,12 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     private boolean isShielded;
     private Inventory inventory;
     private boolean isActive;
+    public int generalScore;
+    public int currentGameScore;
+    public double distanceTraveled;
+    public double timeTraveled;
+    public double distanceTraveledAtLastCheck;
+    public double speed;
     public int money;
 
     public Player(String username, String email) {
@@ -38,20 +42,14 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setActive(true);
+        this.distanceTraveled = 0;
+        this.generalScore = 0;
+        this.speed = 0;
         this.money = 0;
     }
 
     public static double getMaxHealth() {
         return MAX_HEALTH;
-    }
-
-    public void updateHealth(List<EnemyOutDated> enemies) {
-        for (EnemyOutDated e : enemies) {
-            double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
-            if (distance < 0 && !isShielded()) {
-                this.setHealthPoints(this.getHealthPoints() + 1 / distance * 10); //distance is negative
-            }
-        }
     }
 
     public double getHealthPoints() {
@@ -84,6 +82,22 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     public void setShielded(boolean shielded) {
         isShielded = shielded;
+    }
+
+    public double getSpeed() {
+        return speed;
+    }
+
+    public double getTimeTraveled() {
+        return timeTraveled;
+    }
+
+    public int getGeneralScore() {
+        return generalScore;
+    }
+
+    public double getDistanceTraveled() {
+        return this.distanceTraveled;
     }
 
     @Override
@@ -135,5 +149,25 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public void setDistanceTraveled(double distanceTraveled) {
+        this.distanceTraveled = distanceTraveled;
+    }
+  
+    /**
+     * This methods update the local score of the Player,
+     * this is called each 10 seconds, so if the Player is alive, he gets 10 points
+     * and if he traveled enough distance (10 meters) he gets 10 bonus points
+     */
+    public void updateLocalScore() {
+        if (isAlive()) {
+            int bonusPoints = 10;
+            if (distanceTraveled > distanceTraveledAtLastCheck + 10) {
+                bonusPoints += 10;
+            }
+            distanceTraveledAtLastCheck = distanceTraveled;
+            currentGameScore += bonusPoints;
+        }
     }
 }
