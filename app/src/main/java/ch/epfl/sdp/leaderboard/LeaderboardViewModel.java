@@ -5,18 +5,19 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import ch.epfl.sdp.database.room.DataRepository;
+
+import ch.epfl.sdp.database.room.AppRepository;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 
 import java.util.List;
 
 public class LeaderboardViewModel extends AndroidViewModel {
-    private DataRepository sRepository;
+    private AppRepository sRepository;
     private final LiveData<List<LeaderboardEntity>> mObservableUsers;
 
     public LeaderboardViewModel(@NonNull Application application) {
         super(application);
-        sRepository = DataRepository.getInstance(application);
+        sRepository = AppRepository.getInstance(application);
         mObservableUsers = sRepository.getLeaderboard();
     }
 
@@ -27,5 +28,5 @@ public class LeaderboardViewModel extends AndroidViewModel {
         return mObservableUsers;
     }
 
-    public void insert(LeaderboardEntity user) {sRepository.insert(user); }
+    public void insertToLeaderboard(LeaderboardEntity user) {sRepository.insertToLeaderboard(user); }
 }

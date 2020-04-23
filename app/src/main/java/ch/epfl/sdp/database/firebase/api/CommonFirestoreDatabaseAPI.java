@@ -31,7 +31,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         UserForFirebase player = documentSnapshot.toObject(UserForFirebase.class);
                         LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
-                        leaderboardViewModel.insert(user);
+                        leaderboardViewModel.insertToLeaderboard(user);
                     }
                 });
     }

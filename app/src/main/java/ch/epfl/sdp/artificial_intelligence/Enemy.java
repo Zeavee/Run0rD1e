@@ -1,7 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import java.util.List;
-
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -26,8 +24,6 @@ import ch.epfl.sdp.geometry.Vector;
  */
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
-    private List<Player> players; // For now I use a list of players, but it could be nice to have
-    // a static manager of players.
     /**
      * The enemy's attack strength
      */
@@ -63,7 +59,6 @@ public class Enemy extends MovingArtificialEntity {
         this.damage = 1;
         this.damageRate = 1;
         this.detectionDistance = 1;
-        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.PATROL;
         attackTimeDelay = 30; // Needs calibration
         wanderingTimeDelay = GameThread.FPS;
@@ -97,7 +92,6 @@ public class Enemy extends MovingArtificialEntity {
         this.damage = damage;
         this.damageRate = damageRate;
         this.detectionDistance = detectionDistance;
-        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
         attackTimeDelay = GameThread.FPS; // Needs calibration
         wanderingTimeDelay = GameThread.FPS;

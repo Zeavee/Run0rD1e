@@ -1,5 +1,7 @@
 package ch.epfl.sdp;
 
+import android.util.Log;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class MockCommonDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchUser(String email, OnValueReadyCallback<CustomResult<UserForFirebase>> onValueReadyCallback) {
-
+        Log.d("TAG test+++++++++++++++++", "fetchUser:");
     }
 
     @Override

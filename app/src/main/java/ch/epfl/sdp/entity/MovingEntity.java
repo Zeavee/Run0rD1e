@@ -24,3 +24,4 @@ public abstract class MovingEntity implements Displayable {
         this.location = location;
     }
 }
+

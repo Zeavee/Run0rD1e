@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 
 /**

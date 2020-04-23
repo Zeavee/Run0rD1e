@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.RectangleArea;
@@ -14,29 +13,30 @@ public abstract class EnemyGenerator {
     protected int maxEnemiesPerUnitArea;
     protected float timeToCreate;
     protected double minDistanceFromPlayer;
-    protected List<EnemyOutDated> enemies;
     protected RectangleArea enclosure;
+    protected List<Enemy> enemies;
     protected Player player;
     protected Timer timer;
     protected float timeRemaining;
 
-    public EnemyGenerator(RectangleArea enclosure, Player player)
-    {
+    public EnemyGenerator(RectangleArea enclosure, Player player) {
         this.enclosure = enclosure;
         this.player = player;
     }
 
     public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
+
     public abstract void setEnemyCreationTime(float time);
+
     public abstract void generateEnemy(double radius);
+
     public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
-    //public abstract void getEnemyIntersectionWithPlayer(Player user);
+
     abstract GeoPoint rule();
 
-    public List<EnemyOutDated> getEnemies()
-    {
-        List<EnemyOutDated> clone = new ArrayList<>(enemies.size());
-        for (EnemyOutDated item : enemies) clone.add(item);
+    public List<Enemy> getEnemies() {
+        List<Enemy> clone = new ArrayList<>(enemies.size());
+        for (Enemy item : enemies) clone.add(item);
         return clone;
     }
 

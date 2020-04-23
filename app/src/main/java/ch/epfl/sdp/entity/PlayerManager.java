@@ -1,6 +1,7 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sdp.geometry.CartesianPoint;
 
@@ -19,10 +20,11 @@ public class PlayerManager {
     private static String lobbyDocumentName;
     private static long numPlayersBeforeJoin;
     private static boolean isServer;
+
     /**
      * The list of all players in the current game.
      */
-    private static ArrayList<Player> players = new ArrayList<>();
+    private static List<Player> players = new ArrayList<>();
     /**
      * The player representing the user in the game.
      */
@@ -86,8 +88,17 @@ public class PlayerManager {
      *
      * @return A list of all players in the player manager
      */
-    public static ArrayList<Player> getPlayers() {
+    public static List<Player> getPlayers() {
         return players;
+    }
+
+    /**
+     * Set a list of all players in the player manager
+     *
+     * @param players A list of players to be added
+     */
+    public static void setPlayers(List<Player> players) {
+        PlayerManager.players = players;
     }
 
     /**

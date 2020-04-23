@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 
@@ -31,12 +30,12 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         if (mUsers != null) {
             holder.ranking.setText(String.valueOf(position+1));
             holder.username.setText(mUsers.get(position).getUsername());
-            holder.score.setText(String.valueOf(mUsers.get(position).getScore()));
+            holder.healthpoint.setText(String.valueOf(mUsers.get(position).getScore()));
         } else {
             // Covers the case of data not being ready yet.
             holder.ranking.setText("");
             holder.username.setText("");
-            holder.score.setText("");
+            holder.healthpoint.setText("");
         }
 
     }
@@ -56,13 +55,13 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
         TextView ranking;
         TextView username;
-        TextView score;
+        TextView healthpoint;
 
         public LeaderboardViewHolder(@NonNull View itemView) {
             super(itemView);
-            ranking = itemView.findViewById(R.id.ranking);
-            username = itemView.findViewById(R.id.username);
-            score = itemView.findViewById(R.id.score);
+            ranking = itemView.findViewById(R.id.leaderboard_ranking);
+            username = itemView.findViewById(R.id.leaderboard_username);
+            healthpoint = itemView.findViewById(R.id.leaderboard_healthpoint);
         }
     }
 }

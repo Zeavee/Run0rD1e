@@ -14,27 +14,27 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {LeaderboardEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {LeaderboardEntity.class}, version = 1)
 abstract class AppDatabase extends RoomDatabase {
 
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile AppDatabase INSTANCE;
+    public abstract AppDAO AppDAO();
 
-    public abstract AppDAO LeaderboardDAO();
 
     @VisibleForTesting
     public static final String DATABASE_NAME = "app-local-db";
-    private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
-    static final ExecutorService databaseWriteExecutor = Executors.newSingleThreadExecutor();
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static AppDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
+                            .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();
-                    INSTANCE.updateDatabaseCreated(context.getApplicationContext());
                 }
             }
         }
@@ -52,53 +52,11 @@ abstract class AppDatabase extends RoomDatabase {
 
             // If you want to keep data through app restarts,
             // comment out the following block
-            databaseWriteExecutor.execute(() -> {
-                // Add a delay to simulate a long-running operation
-                addDelay();
+            databaseExecutor.execute(() -> {
 
-                // Populate the database in the background.
-//                List<LeaderboardEntity> users = generateUsers();
-                INSTANCE.LeaderboardDAO().deleteAll();
-//                INSTANCE.LeaderboardDAO().insertAll(users);
-
-                // notify that the database was created and it's ready to be used
-                INSTANCE.setDatabaseCreated();
+                // Delete the leaderboard everytime open the database
+                INSTANCE.AppDAO().deleteAllFromLeaderboard();
             });
         }
     };
-
-    private static void addDelay() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ignored) {
-        }
-    }
-
-    /**
-     * Check whether the database already exists and expose it via {@link #getDatabaseCreated()}
-     */
-    private void updateDatabaseCreated(final Context context) {
-        if (context.getDatabasePath(DATABASE_NAME).exists()) {
-            setDatabaseCreated();
-        }
-    }
-
-    private void setDatabaseCreated(){
-        mIsDatabaseCreated.postValue(true);
-    }
-
-//    private static List<LeaderboardEntity> generateUsers(){
-//        String[] usernames = new String[]{"aaa", "bbb", "ccc", "ddd", "eee"};
-//        Double[] healthPoints = new Double[]{100D, 90D, 80D, 70D, 60D};
-//        List<LeaderboardEntity> users = new ArrayList<>();
-//        for(int i = 0; i < usernames.length; i++){
-//            LeaderboardEntity user = new LeaderboardEntity(usernames[i]+"@gmail.com", usernames[i], healthPoints[i]);
-//            users.add(user);
-//        }
-//        return users;
-//    }
-
-    public LiveData<Boolean> getDatabaseCreated() {
-        return mIsDatabaseCreated;
-    }
 }

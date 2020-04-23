@@ -13,6 +13,8 @@ import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
+import ch.epfl.sdp.entity.ShelterArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -146,5 +148,26 @@ public class RandomGenerator {
 
          Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
+     }
+
+     public ShelterArea randomShelterArea() {
+       GeoPoint l = this.randomGeoPoint();
+       double aoe = rand.nextDouble();
+       ShelterArea s = new ShelterArea(l,  aoe);
+       PlayerManager.removeAll();
+       Player p = this.randomPlayer();
+       for (int i = 0; i < 3; i++) {
+           while (p.getLocation().distanceTo(l) < aoe) {
+               PlayerManager.addPlayer(p);
+           }
+       }
+       PlayerManager.addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
+       s.shelter();
+       return s;
+     }
+
+     public Coin randomCoin() {
+       int i = rand.nextInt(30);
+       return new Coin(i);
      }
 }

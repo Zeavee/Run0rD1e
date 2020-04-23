@@ -4,11 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.item.InventoryActivity;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
-import ch.epfl.sdp.logic.GameInfoActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
@@ -16,21 +12,22 @@ import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
 
+
 public class MainActivity extends AppCompatActivity {
-    private static Game game;
+//    private static Game game;
 
     // Launches the game loop in another thread, must be destroyed at the end
-    public static void startGame() {
-        if (game != null) {
-            game.initGame();
-        }
-    }
-
-    public static void killGame() {
-        if (game != null) {
-            game.destroyGame();
-        }
-    }
+//    public static void startGame() {
+//        if (game != null) {
+//            game.initGame();
+//        }
+//    }
+//
+//    public static void killGame() {
+//        if (game != null) {
+//            game.destroyGame();
+//        }
+//    }
 
     private AuthenticationAPI authenticationAPI;
 
@@ -41,15 +38,11 @@ public class MainActivity extends AppCompatActivity {
 
         authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
-        findViewById(R.id.mainGoButton).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GameInfoActivity.class)));
-
         findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
         findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
 
         findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
-
-        findViewById(R.id.inventory).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, InventoryActivity.class)));
 
         findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 
@@ -58,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void logout() {
         // Stops the game loop and kills the thread
-        MainActivity.killGame();
+//        MainActivity.killGame();
         authenticationAPI.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();

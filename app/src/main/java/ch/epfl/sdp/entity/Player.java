@@ -18,6 +18,7 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     private boolean isShielded;
     private Inventory inventory;
     private boolean isActive;
+    public int money;
 
     public Player(String username, String email) {
         this(0, 0, 10, username, email);
@@ -37,6 +38,7 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setActive(true);
+        this.money = 0;
     }
 
     public static double getMaxHealth() {

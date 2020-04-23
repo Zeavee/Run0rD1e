@@ -18,10 +18,8 @@ public interface AppDAO {
     LiveData<List<LeaderboardEntity>> getLeaderboard();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(LeaderboardEntity user);
+    void insertToLeaderboard(LeaderboardEntity player);
 
     @Query("DELETE FROM leaderboard_table")
-    void deleteAll();
-
-
+    void deleteAllFromLeaderboard();
 }
