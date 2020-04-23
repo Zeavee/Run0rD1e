@@ -2,7 +2,7 @@ package ch.epfl.sdp.dependencies;
 
 import ch.epfl.sdp.social.Conversation.FireStoreToSQLiteAdapter;
 import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.social.RemoteUsers.FriendsRepositery;
+import ch.epfl.sdp.social.RemoteUsers.FriendsRepository;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 /**
@@ -25,7 +25,7 @@ public class DependencyProvider {
     /**
      * The server that fetches users from cloud service
      */
-    public static RemoteFriendFetcher remoteUserFetch = new FriendsRepositery();
+    public static RemoteFriendFetcher remoteUserFetch = new FriendsRepository();
 
 
 }

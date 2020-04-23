@@ -23,6 +23,10 @@ import ch.epfl.sdp.R;
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
+
+    /**
+     * This create a recycler query adapter
+     */
     public RecyclerQueryAdapter() {
         this.friendsList = new ArrayList<>();
     }
@@ -53,8 +57,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imageView;
         private TextView emailTextView, usernameTextView;
@@ -65,7 +68,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
             emailTextView = itemView.findViewById(R.id.textViewEmail);
             usernameTextView = itemView.findViewById(R.id.textViewUsername);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
                 public boolean onLongClick(View v) {
@@ -85,11 +88,10 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
 
             // completeDBSetup will add the user and his friend to the local database to register them as friends
             completeDBSetup();
-            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend", Toast.LENGTH_SHORT).show();
         }
 
-        private void completeDBSetup()
-        {
+        private void completeDBSetup() {
             User cur_usr = new User(DependencyProvider.email);
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 

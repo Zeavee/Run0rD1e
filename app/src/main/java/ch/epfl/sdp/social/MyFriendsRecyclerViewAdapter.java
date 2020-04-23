@@ -18,14 +18,25 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
     private final List<User> mValues;
     private static MyClickListener myClickListener;
 
+    /**
+     * This methods create a recycler view adapter
+     * @param items the list of users we will see in our friends list
+     */
     public MyFriendsRecyclerViewAdapter(List<User> items) {
         mValues = items;
     }
 
+    /**
+     * This methods sets our click listener
+     * @param myClickListener The click listener that we want to use
+     */
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
     }
 
+    /**
+     * This interface is a click listener that will lock for clicks on user in the friends list
+     */
     public interface MyClickListener {
         public void onItemClick(int position, View v);
     }
@@ -51,7 +62,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         return mValues.size();
     }
 
-    public class FriendsViewHolder extends RecyclerView.ViewHolder {
+    class FriendsViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final Button button;
         public final TextView mIdView;
