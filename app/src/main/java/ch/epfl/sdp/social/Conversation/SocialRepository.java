@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.*;
 import ch.epfl.sdp.social.socialDatabase.*;
 import java.util.concurrent.ExecutionException;
@@ -184,14 +186,15 @@ public final class SocialRepository {
             @Override
             protected List<Message> doInBackground(Void... voids) {
                 List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessages(receiver, sender));
+                msgList.addAll(singleton.chatDB.daoAccess().getMessages(sender, receiver));
                 return msgList;
             }
 
             @Override
             protected void onPostExecute(List<Message> ls) {
-
-                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false, true);
+                boolean incoming = true;
+                if (sender.equals(DependencyProvider.email)) { incoming = false; }
+                ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false, incoming);
             }
         }.execute();
 

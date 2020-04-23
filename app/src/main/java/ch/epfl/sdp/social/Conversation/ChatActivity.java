@@ -104,14 +104,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         }
     }
 
-   /* @Override
-    public void contentFetched(List<Message> output) {
-        messages = output;
-        for (Message el: messages)
-        {
-            messageAdapter.add(new MessageDecorator(el, false));
-        }
-    }*/
 
     public List<Message> getMessages()
     {
