@@ -96,11 +96,11 @@ public class SocialRepositoryTest {
         // Pretend storing the message from the db will take 1 second
         Thread.sleep(1000);
 
-        // wait asynchronously until messages are fetched
-        testRepo.getMessagesReceived(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
+        // wait asynchronously until messages are fetched (these two calls should return the same thing)
+        testRepo.getMessagesReceived(fantasticSix.get(2).getEmail(), fantasticSix.get(0).getEmail());
 
-        // Pretend fetching the message from the db will take 1 second
-        Thread.sleep(1000);
+        // Pretend fetching twice the message from the db will take 2 second
+        Thread.sleep(2000);
 
         String result = mActivityTestRule.getActivity().getMessages().get(0).getText();
         assertTrue(result.equals("This code kills me, kills me"));

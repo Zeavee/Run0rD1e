@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social.Conversation;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,11 +13,12 @@ import com.google.firebase.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.*;
 import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.socialDatabase.Message;
+import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.social.socialDatabase.Message;
 /**
  * @brief this activity shows the conversation of the current user and another user
  */
@@ -44,6 +44,9 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         lv = findViewById(R.id.messages_view);
 
         chattingWith = getIntent().getStringExtra("chattingWith");
+        if(chattingWith == null) { // instrumentation test running so initialize to sentinel value "null_0"
+            chattingWith = "null_0";
+        }
 
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
@@ -59,7 +62,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private void loadExistingMessages() {
         SocialRepository chatRepo = SocialRepository.getInstance();
         chatRepo.getMessagesReceived(DependencyProvider.email, chattingWith);
-        chatRepo.getMessagesSent(DependencyProvider.email, chattingWith);
+        chatRepo.getMessagesReceived(chattingWith, DependencyProvider.email);
         sqliteFirestoreInterface.setListener(this);
         sqliteFirestoreInterface.sendRemoteServerDataToLocal(DependencyProvider.email, chattingWith, chat.chat_id);
     }
@@ -71,7 +74,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         chatRepo.storeMessage(message.getText().toString(), chatRepo.getChat(chat.to, chat.from).getChat_id());
         sqliteFirestoreInterface.sendLocalDataToRemoteServer(DependencyProvider.email,chattingWith,m);
     }
-
 
     /**
      * @brief decorates a message with a flag that indicates whether the message was incoming or outgoing
@@ -94,25 +96,17 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         }
     }
     @Override
-    public void contentFetchedWithServer(List<Message> output, boolean isFromServer) {
+    public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
         messages = output;
         for (Message el: messages)
         {
             if (isFromServer) {
                 SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
             }
-            messageAdapter.add(new MessageDecorator(el, true));
+            messageAdapter.add(new MessageDecorator(el, incoming));
         }
     }
 
-    @Override
-    public void contentFetched(List<Message> output) {
-        messages = output;
-        for (Message el: messages)
-        {
-            messageAdapter.add(new MessageDecorator(el, false));
-        }
-    }
 
     public List<Message> getMessages()
     {
