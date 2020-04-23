@@ -108,7 +108,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Game.addToDisplayList(enemy);
         Game.addToUpdateList(enemy);*/
         //  -------------------------------------------
-
+        //Creates an enemy which moves linearly
         currentEnnemy = new Enemy();
         currentEnnemy.setLocation(new GeoPoint(6.145606,46.209633));
         currentEnnemy.setPosition(PointConverter.GeoPointToGenPoint(currentEnnemy.getLocation()));
