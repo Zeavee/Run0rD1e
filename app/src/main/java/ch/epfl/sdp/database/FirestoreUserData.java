@@ -27,6 +27,7 @@ public class FirestoreUserData implements UserDataController {
             .addSnapshotListener((queryDocumentSnapshots, e) -> {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     Player player = documentSnapshot.toObject(Player.class);
+
                     PlayerEntity playerEntity = new PlayerEntity(player.getEmail(), player.getUsername(), player.getHealthPoints());
                     appViewModel.insertToLeaderboard(playerEntity);
                 }

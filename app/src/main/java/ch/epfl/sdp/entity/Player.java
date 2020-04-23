@@ -16,13 +16,16 @@ import ch.epfl.sdp.map.GeoPoint;
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
-    @Exclude
+
+    public int generalScore;
+    public int currentGameScore;
+
     public CartesianPoint position;
-    public int score;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
+    public double distanceTraveledAtLastCheck;
     @Exclude
     public boolean alive;
     @Exclude
@@ -39,7 +42,7 @@ public class Player extends MovingEntity implements Localizable {
     public int money;
 
     public Player() {
-        this("","");
+        this("", "");
     }
 
     public Player(String username, String email) {
@@ -53,7 +56,7 @@ public class Player extends MovingEntity implements Localizable {
         this.setLocation(g);
         this.username = username;
         this.email = email;
-        this.score = 0;
+        this.generalScore = 0;
         this.healthPoints = 100;
         this.distanceTraveled = 0;
         this.timeTraveled = 0;
@@ -71,7 +74,7 @@ public class Player extends MovingEntity implements Localizable {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
-                this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
+                this.healthPoints = this.healthPoints + 1 / distance * 10; //distance is negative
             }
         }
     }*/
@@ -93,8 +96,8 @@ public class Player extends MovingEntity implements Localizable {
         return timeTraveled;
     }
 
-    public int getScore() {
-        return score;
+    public int getGeneralScore() {
+        return generalScore;
     }
 
     public double getDistanceTraveled() {
@@ -114,7 +117,9 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public boolean isShielded() {return this.isShielded; }
+    public boolean isShielded() {
+        return this.isShielded;
+    }
 
 
     @Exclude
@@ -148,10 +153,6 @@ public class Player extends MovingEntity implements Localizable {
         this.position = position;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public void setTimeTraveled(double timeTraveled) {
         this.timeTraveled = timeTraveled;
     }
@@ -173,7 +174,7 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public void setPosition(GenPoint genPoint){
+    public void setPosition(GenPoint genPoint) {
         this.position = genPoint.toCartesian();
     }
 
@@ -188,6 +189,22 @@ public class Player extends MovingEntity implements Localizable {
 
     public Timestamp getTimestamp() {
         return timestamp;
+    }
+  
+    /**
+     * This methods update the local score of the Player,
+     * this is called each 10 seconds, so if the Player is alive, he gets 10 points
+     * and if he traveled enough distance (10 meters) he gets 10 bonus points
+     */
+    public void updateLocalScore() {
+        if (isAlive()) {
+            int bonusPoints = 10;
+            if (distanceTraveled > distanceTraveledAtLastCheck + 10) {
+                bonusPoints += 10;
+            }
+            distanceTraveledAtLastCheck = distanceTraveled;
+            currentGameScore += bonusPoints;
+        }
     }
 
 }
