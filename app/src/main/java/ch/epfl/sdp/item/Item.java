@@ -9,6 +9,9 @@ public abstract class Item implements Cloneable {
         this.description = description;
     }
 
+    @Override
+    public abstract Item clone();
+
     public String getName() {return this.name;}
 
     public String getDescription() {return this.description; }
