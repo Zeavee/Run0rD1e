@@ -44,7 +44,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         lv = findViewById(R.id.messages_view);
 
         chattingWith = getIntent().getStringExtra("chattingWith");
-        if(chattingWith == null) { // instrumentation test running so initialize to sentinel value "null_0"
+        if(chattingWith == null) {
+            // instrumentation test running so initialize to sentinel value "null_0"
             chattingWith = "null_0";
         }
 
@@ -81,8 +82,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     static final class MessageDecorator{
         private Message m;
         private boolean incoming;
-        public MessageDecorator(Message m, boolean incoming)
-        {
+        public MessageDecorator(Message m, boolean incoming) {
             this.m = m;
             this.incoming = incoming;
         }
@@ -98,8 +98,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     @Override
     public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
         messages = output;
-        for (Message el: messages)
-        {
+        for (Message el: messages) {
             if (isFromServer) {
                 SocialRepository.getInstance().insertMessageFromRemote(new Timestamp(el.getDate()), el.getText(), chat.chat_id);
             }
@@ -108,8 +107,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     }
 
 
-    public List<Message> getMessages()
-    {
+    // needed for testing
+    public List<Message> getMessages() {
         // return defensive copy
         return new ArrayList<>(messages);
     }

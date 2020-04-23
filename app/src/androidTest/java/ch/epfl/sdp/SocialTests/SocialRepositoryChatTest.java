@@ -26,12 +26,12 @@ import ch.epfl.sdp.social.socialDatabase.User;
 import static java.util.Arrays.asList;
 
 /**
- * @brief tests every functionality provided by SocialRepository.java.
+ * @brief tests conversation-relevant functionality provided by SocialRepository.java.
  * Note that the activity is itself not tested but is used to provide context needed by the database builder used inside SocialRepository
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SocialRepositoryTest {
+public class SocialRepositoryChatTest {
 
     // The users to add to the database
     private List<User> fantasticSix = asList(
@@ -42,8 +42,6 @@ public class SocialRepositoryTest {
             new User("peilin@gmail.com"),
             new User("rafael@gmail.com") );
 
-    // container for the messages that are fetched
-    private List<Message> messages = new ArrayList<>();
 
     @Rule
     public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class){
