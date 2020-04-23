@@ -7,14 +7,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 
 public class InventoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
+        //setContentView(R.layout.activity_inventory);
         initRecyclerView();
     }
 
@@ -30,5 +28,3 @@ public class InventoryActivity extends AppCompatActivity {
         recyclerView.setAdapter(adpater);
     }
 }
-
-

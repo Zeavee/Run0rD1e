@@ -7,6 +7,7 @@ import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -112,7 +113,18 @@ public class RandomGeneratorTest {
         assertFalse(1 == 2);
     }
 
+    @Test
+    public void randomShelterPointTest() {
+        ShelterArea s = randGen.randomShelterArea();
+        assertEquals(1,s.getPlayersInShelterArea().size());
+    }
 
+    @Test
+    public void randomCoinTest() {
+        for (int i = 0; i<4; i++) {
+            assertTrue(randGen.randomCoin().getValue() < 30);
+        }
+    }
 
 
 }

@@ -14,6 +14,8 @@ import ch.epfl.sdp.artificial_intelligence.RectangleBounds;
 import ch.epfl.sdp.artificial_intelligence.UnboundedArea;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
@@ -142,7 +144,7 @@ public class RandomGenerator {
          int randomDmg = rand.nextInt(randBound+1);
          float randomdps = rand.nextFloat();
          float randomDetectionDistance = rand.nextFloat()*10 + 50;
-         RectangleBounds r = new RectangleBounds(10, 10);
+         RectangleBounds r = new RectangleBounds(10, 10 , new RandomGenerator().randomGeoPoint());
 
          LocalBounds l = new LocalBounds(r, randomGenPoint(1,5));
          UnboundedArea randomArea = new UnboundedArea();
@@ -151,7 +153,6 @@ public class RandomGenerator {
          return e;
      }
 
-
      public List<Item> randomItemsList() {
          ArrayList<Item> result = new ArrayList<>();
          result.add(randomHealthPack());
@@ -159,5 +160,26 @@ public class RandomGenerator {
          result.add(randomShield());
          result.add(randomShrinker());
          return result;
+    }
+  
+     public ShelterArea randomShelterArea() {
+       GeoPoint l = this.randomGeoPoint();
+       double aoe = rand.nextDouble();
+       ShelterArea s = new ShelterArea(l,  aoe);
+       PlayerManager.emptyPlayers();
+       Player p = this.randomPlayer();
+       for (int i = 0; i < 3; i++) {
+           while (p.getLocation().distanceTo(l) < aoe) {
+               PlayerManager.addPlayer(p);
+           }
+       }
+       PlayerManager.addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
+       s.shelter();
+       return s;
+     }
+
+     public Coin randomCoin() {
+       int i = rand.nextInt(30);
+       return new Coin(i);
      }
 }

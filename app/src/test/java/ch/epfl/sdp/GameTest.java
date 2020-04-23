@@ -5,11 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.database.InitializeGameFirestore;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,6 +23,12 @@ public class GameTest {
     public void setup() {
         MockMapApi mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
+    }
+
+    @Test
+    public void firstConstructorTest() {
+        Game g = new Game(new MockMapApi(), new InitializeGameFirestore());
+        assertNotNull(g);
     }
 
     @Test
@@ -90,6 +100,7 @@ public class GameTest {
         // act
         Game game = new Game();
         game.addToDisplayList(mockDisplayable1);
+        assertFalse(Game.displayablesContains(mockDisplayable1));
         game.addToDisplayList(mockDisplayable2);
         game.removeFromDisplayList(mockDisplayable1);
         game.removeFromDisplayList(mockNonExistingDisplayable);

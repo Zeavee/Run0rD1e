@@ -5,17 +5,17 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "leaderboard_table")
-public class LeaderboardEntity {
+public class PlayerEntity {
     @PrimaryKey
     @NonNull
     private String email;
     private String username;
-    private double score;
+    private double healthpoint;
 
-    public LeaderboardEntity(String email, String username, double score) {
+    public PlayerEntity(String email, String username, double healthpoint) {
         this.email = email;
         this.username = username;
-        this.score = score;
+        this.healthpoint = healthpoint;
     }
 
     public String getEmail() {
@@ -34,11 +34,11 @@ public class LeaderboardEntity {
         this.username = username;
     }
 
-    public double getScore() {
-        return score;
+    public double getHealthpoint() {
+        return healthpoint;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setHealthpoint(double healthpoint) {
+        this.healthpoint = healthpoint;
     }
 }

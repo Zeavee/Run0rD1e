@@ -1,5 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import com.google.firebase.firestore.util.Assert;
+
 import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
@@ -46,6 +48,7 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         GenPoint position = movement.nextPosition();
         if (bounds.isInside(position) || forceMove) {
             movement.setPosition(position);
+            //this.setLocation(PointConverter.GenPointToGeoPoint(position, new GeoPoint(6.149699, 46.215788)));
             super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
         } else {
             switchOnMouvement();

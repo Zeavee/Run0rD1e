@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.EntityType;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.MapsActivity;
@@ -17,6 +18,7 @@ public class Scan extends TimedItem {
     public Item createCopy() {
         return new Scan(scanTime);
     }
+
 
     @Override
     public void use() {

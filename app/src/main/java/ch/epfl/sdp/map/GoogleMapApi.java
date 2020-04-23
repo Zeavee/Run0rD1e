@@ -1,6 +1,7 @@
 package ch.epfl.sdp.map;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,7 +13,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,7 +32,6 @@ import ch.epfl.sdp.entity.PlayerManager;
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
     private static double listenDistance = 5; // meters
-
     private Location currentLocation;
     private LocationManager locationManager;
     private Criteria criteria;
@@ -41,6 +40,8 @@ public class GoogleMapApi implements MapApi {
     private GoogleMap mMap;
     private Activity activity;
     private Map<Displayable, MapDrawing> entityCircles;
+
+    private boolean hasMovedToPlayerPositionOnStart = false;
 
     public GoogleMapApi() {
         entityCircles = new HashMap<>();
@@ -76,7 +77,6 @@ public class GoogleMapApi implements MapApi {
         return activity;
     }
 
-
     @Override
     public GeoPoint getCurrentLocation() {
         if (currentLocation != null)
@@ -105,16 +105,24 @@ public class GoogleMapApi implements MapApi {
         displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
     }
 
+
+    @Override
+    public void onLocationUpdatesGranted() {
+        requestLocationUpdatesUnsafe();
+    }
+
     @Override
     public void moveCameraOnCurrentLocation() {
         if (currentLocation == null) {
             return;
         }
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
+        navigateCameraToPlayerPosition();
+        //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
     }
 
     public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
+        hasMovedToPlayerPositionOnStart = false;
     }
 
     public Bitmap createSmallCircle(int color) {
@@ -131,17 +139,14 @@ public class GoogleMapApi implements MapApi {
     @Override
     synchronized public void displayEntity(Displayable displayable) {
         activity.runOnUiThread(() -> {
-            //if (displayable == null) return;
             removeMarkers(displayable);
             switch (displayable.getEntityType()) {
                 // only display User when position is updated
                 case ENEMY:
-                    //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000); break;
-                    displaySmallIcon(displayable, "Enemy", R.drawable.enemy);
-                    break;
+                    //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
+                    displaySmallIcon(displayable, "Enemy", R.drawable.enemy); break;
                 case PLAYER:
-                    displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100);
-                    break;
+                    displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
                 case ITEMBOX:
                     displaySmallIcon(displayable, "ItemBox", R.drawable.itembox);
                     break;
@@ -154,6 +159,9 @@ public class GoogleMapApi implements MapApi {
                 case SHIELD:
                     displaySmallIcon(displayable, "Shield", R.drawable.shield);
                 case SHRINKER:
+                    break;
+                case SHELTER:
+                    displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
                     break;
             }
         });
@@ -198,4 +206,15 @@ public class GoogleMapApi implements MapApi {
                         .strokeWidth(1f))));
     }
 
+    private void navigateCameraToPlayerPosition() {
+        LatLng currentLocationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 14));
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestLocationUpdatesUnsafe() {
+        for (String locManager : locationManager.getAllProviders()) {
+            locationManager.requestLocationUpdates(locManager, (long) listenTime, (float) listenDistance, locationListener);
+        }
+    }
 }

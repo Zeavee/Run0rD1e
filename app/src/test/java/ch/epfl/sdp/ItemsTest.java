@@ -7,6 +7,7 @@ import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
@@ -88,5 +89,16 @@ public class ItemsTest {
     public void scanTest() {
         scan.use();
         assertEquals(EntityType.SCAN, scan.getEntityType());
+    }
+
+    @Test
+    public void coinTest() {
+        PlayerManager.getUser().money = 0;
+        Coin c = new Coin(5);
+        assertTrue(5 == c.getValue());
+        c.use();
+        assertTrue(PlayerManager.getUser().money == 5);
+        assertEquals(c.getEntityType(), EntityType.COIN);
+
     }
 }

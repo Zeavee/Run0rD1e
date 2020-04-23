@@ -1,9 +1,15 @@
 package ch.epfl.sdp.game;
 
+import com.google.common.collect.Maps;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.database.InitializeGame;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
@@ -13,7 +19,8 @@ import ch.epfl.sdp.map.MapsActivity;
  */
 public class Game implements Updatable, Drawable {
     public GameThread gameThread;
-    private static MapApi map; // is it a good idea?
+    private static MapApi map;
+    private InitializeGame initializeGame;
     private static ArrayList<Updatable> updatables;
     private static Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private static ArrayList<Displayable> displayables;
@@ -22,11 +29,21 @@ public class Game implements Updatable, Drawable {
      * Instantiates a new game (uses mapApi by default. So for tests you need to
      * change the map before launching)
      */
+    public Game(MapApi mapApi, InitializeGame initializeGame) {
+        // Need to test if it is null
+        this.map = mapApi;
+        this.initializeGame = initializeGame;
+        updatables = new ArrayList<>();
+        displayables = new ArrayList<>();
+        gameThread = new GameThread(this);
+    }
+
     public Game() {
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
     }
+
 
     public static void addToUpdateList(Updatable updatable) {
         updatables.add(updatable);
@@ -45,7 +62,6 @@ public class Game implements Updatable, Drawable {
 
     public static void addToDisplayList(Displayable displayable) {
         MapsActivity.mapApi.displayEntity(displayable);
-
         if (!displayable.once()) {
             displayables.add(displayable);
         }
@@ -85,6 +101,12 @@ public class Game implements Updatable, Drawable {
             gameThread.setRunning(true);
             gameThread.start();
         }
+    }
+
+    public void setEnvironment() {
+        initializeGame.setGameEnvironment();
+
+//        this.updatables.add(PlayerManager.getInstance());
     }
 
     /**

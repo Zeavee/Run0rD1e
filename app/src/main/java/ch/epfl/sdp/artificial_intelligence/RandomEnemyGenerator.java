@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
-
-import ch.epfl.sdp.entity.EnemyOutDated;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.logic.RandomGenerator;
 import ch.epfl.sdp.map.GeoPoint;
@@ -20,7 +18,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     public RandomEnemyGenerator(RectangleBounds enclosure, Player player) {
         super(enclosure, player);
         mapEnemiesToTiles = new HashMap<>();
-        enemies = new ArrayList<>();
+        enemies = new ArrayList<Enemy>();
         timer = new Timer();
     }
 
@@ -39,7 +37,10 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         if (enemyLocation == null) {
             return;
         }
-        enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
+        //enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
+        Enemy e = new Enemy();
+        e.setLocation(enemyLocation);
+        enemies.add(e);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
-            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2), PointConverter.GeoPointToGenPoint(local));
+            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2, local), PointConverter.GeoPointToGenPoint(local));
             Boundable boundable = new UnboundedArea();
             Enemy enemy = new Enemy(localBounds, boundable);
             enemy.setLocation(enemyPos);
@@ -83,7 +84,6 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
             --maxIter;
         }
-
         return enemyPos;
     }
 }
