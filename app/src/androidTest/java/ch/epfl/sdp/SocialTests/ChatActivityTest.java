@@ -83,7 +83,7 @@ public class ChatActivityTest {
                                                                         withClassName(is("androidx.coordinatorlayout.widget.CoordinatorLayout")),
                                                                         1)),
                                                         0)),
-                                        1),
+                                        0),
                                 2),
                         isDisplayed()));
         appCompatButton4.perform(click());
