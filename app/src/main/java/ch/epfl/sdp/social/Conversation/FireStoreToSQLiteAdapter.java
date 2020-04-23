@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import ch.epfl.sdp.social.socialDatabase.*;
@@ -27,45 +28,55 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
 
     private static final FirebaseFirestore remoteHost = FirebaseFirestore.getInstance();
     private static Context listener;
+    private final static List<String> PATH_SEGMENTS = Arrays.asList("Users", "Texts", "Texts", "read");
     private static FireStoreToSQLiteAdapter singleton = new FireStoreToSQLiteAdapter();
 
-    public static FireStoreToSQLiteAdapter getInstance() { return singleton; }
 
+    public static FireStoreToSQLiteAdapter getInstance() { return singleton; }
     public void setListener(Context listener) {
         singleton.listener = listener;
     }
 
-    // Gets the incoming messages from FireStore. Owner is "stupid1@gmail.com" i.e the currently signed in user
-    public void sendRemoteServerDataToLocal(String owner, String sender, int chat_id)
-    {
+    public void sendRemoteServerDataToLocal(String owner, String sender, int chat_id) {
+
         List<Message> remoteMessages = new ArrayList<>();
 
         // Get all unread messages
-        remoteHost.collection("Users").document(owner).collection("Texts").document(sender).collection("Texts").
-                whereEqualTo("read", false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        remoteHost.collection(
+                PATH_SEGMENTS.get(0)).
+                document(owner).collection(PATH_SEGMENTS.get(1)).
+                document(sender).collection(PATH_SEGMENTS.get(2)).
+                whereEqualTo(PATH_SEGMENTS.get(3), false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful())
                 {
                     QuerySnapshot result = task.getResult();
                     for (QueryDocumentSnapshot doc: result) {
-                        remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(), (String)doc.getData().get("content"), chat_id));
-                        remoteHost.collection("Users").document(owner).collection("Texts").document(sender).collection("Texts")
-                                .document(doc.getId()).update("read", true);
+                        remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(),
+                                                        (String)doc.getData().get("content"),
+                                                        chat_id));
+                        remoteHost.collection(
+                                 PATH_SEGMENTS.get(0))
+                                .document(owner).collection(PATH_SEGMENTS.get(1))
+                                .document(sender).collection(PATH_SEGMENTS.get(2))
+                                .document(doc.getId()).update(PATH_SEGMENTS.get(3), true);
                     }
                     ((WaitsOnWithServer<Message>)listener).contentFetchedWithServer(remoteMessages, true);
                 }
             }
         });
-        // TODO: deletion for a later week (doesn't affect demo since app starts a new)
     }
 
     // Sends outgoing messages to User "to"'s message inbox
-    public void sendLocalDataToRemoteServer(String current_usr, String to, Message m)
-    {
+    public void sendLocalDataToRemoteServer(String current_usr, String to, Message m) {
+
         Map<String, Object> data = new HashMap<>();
         data.put("content", m.getText());
         data.put("date", new Timestamp(new Date()));
-        remoteHost.collection("Users").document(to).collection("Texts").document(current_usr).collection("Texts").document().set(data);
+        remoteHost.collection(PATH_SEGMENTS.get(0)).
+                document(to).collection(PATH_SEGMENTS.get(1)).
+                document(current_usr).collection(PATH_SEGMENTS.get(2)).
+                document().set(data);
     }
 }

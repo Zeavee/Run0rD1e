@@ -7,6 +7,12 @@ public interface RemoteToSQLiteAdapter {
 
     void setListener(Context listener);
 
+    /**
+     * @brief Gets the incoming messages from remote server. "Owner" is the currently signed in user, and "sender" is the user who sent messages to "owner"
+     * @param owner the currently signed in user
+     * @param sender the user who sent the messages we are fetching
+     * @param chat_id id of the conversation between owner and sender (used to index local database that stores all conversations by user "owner")
+     * */
     void sendRemoteServerDataToLocal(String owner, String sender, int chat_id);
 
     void sendLocalDataToRemoteServer(String current_usr, String to, Message m);

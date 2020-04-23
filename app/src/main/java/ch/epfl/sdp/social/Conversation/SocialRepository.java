@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -71,11 +72,13 @@ public final class SocialRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
+
                     singleton.chatDB.daoAccess().sendMessage(message);
                 }
                 catch (SQLiteConstraintException e){}
                 return null;
             }
+
         }.execute();
     }
 
@@ -96,6 +99,7 @@ public final class SocialRepository {
                 }
                 return null;
             }
+
         }.execute();
     }
 
@@ -185,8 +189,8 @@ public final class SocialRepository {
             }
 
             @Override
-            protected void onPostExecute(List<Message> ls)
-            {
+            protected void onPostExecute(List<Message> ls) {
+
                 ((WaitsOnWithServer<Message>)singleton.contextActivity).contentFetchedWithServer(ls, false);
             }
         }.execute();
@@ -240,14 +244,14 @@ public final class SocialRepository {
     }
 
     /**
-     * @brief gets the chat from local database (note that messages are aware of their parent chat but the chat is not aware of its child messages)
+     * @brief gets the conversation from "current" to "other" from local database (note that messages are aware of their parent chat but the chat is not aware of its child messages)
      * @param current the id of the current user
      * @param other the id of the friend of the current user
      * @return the chat instance
      */
     public Chat getChat(String current, String other)
     {
-        Chat output = null;
+        List<Chat> output = null;
         try {
             output = new AsyncTask<Void, Void, List<Chat>>() {
 
@@ -256,10 +260,11 @@ public final class SocialRepository {
                     return singleton.chatDB.daoAccess().getChatFromCurrentToOther(current, other);
                 }
 
-            }.execute().get().get(0);
+            }.execute().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return output;
+        // return sentinel value new Chat("null_0", "null_1") in case nothing found (useful for testing to avoid exceptions)
+        return output.isEmpty()? new Chat("null_0", "null_1") : output.get(0);
     }
 }
