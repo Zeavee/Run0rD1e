@@ -212,8 +212,7 @@ public final class SocialRepository {
             protected Void doInBackground(Void... voids) {
                 try {
                     singleton.chatDB.daoAccess().sendMessage(new Message(tm.toDate(), content, chat_id));
-                }catch (SQLiteConstraintException e)
-                { }
+                }catch (SQLiteConstraintException e) { }
                 return null;
             }
         }.execute();

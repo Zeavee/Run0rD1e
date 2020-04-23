@@ -54,7 +54,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         SocialRepository.setContextActivity(this);
         chat = SocialRepository.getInstance().getChat(DependencyProvider.email, chattingWith);
 
-        sendButton.setOnClickListener(this::onSendClicked);
+        sendButton.setOnClickListener(v -> onSendClicked(v));
         sqliteFirestoreInterface = DependencyProvider.remoteToSQLiteAdapter;
         loadExistingMessages();
     }
