@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,10 +18,15 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import java.util.HashMap;
+
+import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -38,8 +44,8 @@ public class MapsActivityTest {
 
     @Before
     public void setup() {
-        PlayerManager.setUser(new Player("", ""));
-        PlayerManager.getUser().getInventory().addItem(new Healthpack(10));
+        PlayerManager.setCurrentUser(new Player("testMap", "testMap@gmail.com"));
+        PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
     }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
@@ -94,7 +100,22 @@ public class MapsActivityTest {
 
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
-            new ActivityTestRule<>(MapsActivity.class);
+            new ActivityTestRule<MapsActivity>(MapsActivity.class){
+                @Override
+                protected void beforeActivityLaunched() {
+                    DependencyFactory.setTestMode(true);
+                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
+                    HashMap<String, UserForFirebase> map = new HashMap<>();
+                    map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
+                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));                }
+            };
+
+    @After
+    public void tearDown(){
+        DependencyFactory.setTestMode(false);
+        DependencyFactory.setAuthenticationAPI(null);
+        DependencyFactory.setCommonDatabaseAPI(null);
+    }
 
     @Test
     public void denyRequestPermissionWorks() {

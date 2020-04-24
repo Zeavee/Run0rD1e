@@ -1,11 +1,10 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 
 /**
  * Class representing a Shelter Area
@@ -19,9 +18,8 @@ public class ShelterArea implements Displayable, Updatable {
     public ShelterArea(GeoPoint location, double aoeRadius) {
         this.locaiton = location;
         this.aoeRadius = aoeRadius;
-        this.playersInShelterArea = new ArrayList<Player>();
+        this.playersInShelterArea = new ArrayList<>();
     }
-
 
     @Override
     public GeoPoint getLocation() {
@@ -34,7 +32,7 @@ public class ShelterArea implements Displayable, Updatable {
     }
 
     @Override
-    public boolean once() {
+    public boolean isOnce() {
         return false;
     }
 
@@ -44,6 +42,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     /**
      * isInRange() which tells if a player is within the Shelter Area or not
+     *
      * @param p Player which we may or may not be in the Shelter Area
      * @return Boolean which tells if a player is in the Shelter Area or not.
      */
@@ -58,11 +57,10 @@ public class ShelterArea implements Displayable, Updatable {
      */
     public void shelter() {
         for (Player p : PlayerManager.getPlayers()) {
-            if(!playersInShelterArea.contains(p) && isInRange(p)) {
+            if (!playersInShelterArea.contains(p) && isInRange(p)) {
                 p.setShielded(true);
                 playersInShelterArea.add(p);
-            }
-            else if(playersInShelterArea.contains(p) && !isInRange(p)) {
+            } else if (playersInShelterArea.contains(p) && !isInRange(p)) {
                 p.setShielded(false);
                 playersInShelterArea.remove(p);
             }
@@ -71,6 +69,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     /**
      * isInShelterArea checks if a player is protected by the shelter point or not
+     *
      * @param p Player that we want to check
      * @return boolean variable to see if the player is protected by this shelter area
      */
@@ -86,6 +85,4 @@ public class ShelterArea implements Displayable, Updatable {
     public void update() {
         shelter();
     }
-
-
 }

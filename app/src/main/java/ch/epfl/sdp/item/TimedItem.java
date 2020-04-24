@@ -1,26 +1,45 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.game.GameThread;
 
+/**
+ * Represents an item with timed lasting effect.
+ */
 public abstract class TimedItem extends Item implements Updatable {
     protected int counter;
-    private final int FPS = 30;
 
+    /**
+     * Creates a timed item.
+     *
+     * @param name        The name of the timed item.
+     * @param description The description of the timed item.
+     * @param countTime   The time duration of the effect.
+     */
     public TimedItem(String name, String description, int countTime) {
         super(name, description);
-        counter = countTime*FPS;
+        counter = countTime*GameThread.FPS;
     }
 
+    /**
+     * Add the timed item to the game, the count will begin.
+     */
     public void use(){
-        Game.addToUpdateList(this);
+        Game.getInstance().addToUpdateList(this);
     }
 
+    /**
+     * Remove the non lasting effects of the item after the time is over.
+     */
     public abstract void stopUsing();
 
-    public int getRemainingTime(){
-        return counter/FPS;
+    /**
+     * Gets the remaining time.
+     * @return A value representing the remaining time in seconds.
+     */
+    public int getRemainingTime() {
+        return counter / GameThread.FPS;
     }
 
     @Override
@@ -29,7 +48,7 @@ public abstract class TimedItem extends Item implements Updatable {
             --counter;
         }else{
             stopUsing();
-            Game.removeFromUpdateList(this);
+            Game.getInstance().removeFromUpdateList(this);
         }
     }
 }

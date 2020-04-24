@@ -1,64 +1,100 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.Positionable;
+import ch.epfl.sdp.geometry.RectangleArea;
+import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.geometry.Vector;
 
+/**
+ * Represents a hostile entity.
+ * The finite state machine is as follows:
+ * CHASE<------->PATROL+-----------+
+ * ^ +            ^              |
+ * | |            |              v
+ * | +------------------------>WAIT
+ * | |            |              ^
+ * v +            +              |
+ * ATTACK         WANDER<-----------+
+ */
 public class Enemy extends MovingArtificialEntity {
     private Behaviour behaviour;
-
+    /**
+     * The enemy's attack strength
+     */
     private int damage;
-    private List<Player> players; // For now I use a list of players, but it could be nice to have
-    // a static manager of players.
-    private float dps; // damage per second
+    /**
+     * The rate of damage per second
+     */
+    private float damageRate;
     private double detectionDistance;
-    private int timeAttack;
-    private int timeWandering;
-    private LocalBounds patrolBounds;
+    /**
+     * The number of frames before the next attack.
+     */
+    private int attackTimeDelay;
+    /**
+     * The number of frames before enemy is in the patrol state.
+     */
+    private int wanderingTimeDelay;
+    private LocalArea patrolBounds;
+    /**
+     * The flag to decide to go in wait state.
+     */
     private boolean waiting;
 
+    /**
+     * Creates a default enemy
+     */
     public Enemy() {
-        //super(new RectangleBounds(5000, 5000, new GeoPoint(6.145606,46.209633)));
         super();
         super.setAoeRadius(1);
-        super.getMovement().setVelocity(1);
+        super.getMovement().setVelocity(50);
         super.setMoving(true);
+        super.setArea(new RectangleArea(20000, 10000));
         this.damage = 1;
-        this.dps = 1;
-        this.detectionDistance = 300;
-        Player user = new Player(6.149290, 46.212470, 100, "user", "user");
-        user.setPosition(PointConverter.GeoPointToGenPoint(new GeoPoint(6.149290, 46.212470)).toCartesian());
-        this.players = new ArrayList<Player>();
-        players.add(user);
+        this.damageRate = 1;
+        this.detectionDistance = 1;
         behaviour = Behaviour.PATROL;
-        timeAttack = 100; // Needs calibration
-        timeWandering = 100;
-        this.patrolBounds = new LocalBounds(new UnboundedArea(), getPosition());
+        attackTimeDelay = 30; // Needs calibration
+        wanderingTimeDelay = GameThread.FPS;
+        this.patrolBounds = new LocalArea(new UnboundedArea(), getPosition());
         this.waiting = false;
     }
 
-    public Enemy(LocalBounds patrolBounds, Boundable maxBounds){
+    /**
+     * Creates an enemy that is bounded in an area.
+     * @param patrolBounds The enemy's patrol area.
+     * @param maxBounds The enemy's maximum visitable area.
+     */
+    public Enemy(LocalArea patrolBounds, Area maxBounds) {
         this(0,0,1000,50, patrolBounds, maxBounds);
     }
 
-    public Enemy(int damage, float dps, float detectionDistance, double aoeRadius, LocalBounds patrolBounds, Boundable maxBounds) {
+    /**
+     * Creates an enemy.
+     * @param damage The enemy's attack's strength.
+     * @param damageRate The enemy's damage rate per second.
+     * @param detectionDistance The enemy's detection range for chasing player when in patrol state.
+     * @param aoeRadius The enemy's attack range when in chase state or attack state.
+     * @param patrolBounds The enemy's patrol area.
+     * @param maxBounds The enemy's maximum visitable area.
+     */
+    public Enemy(int damage, float damageRate, float detectionDistance, double aoeRadius, LocalArea patrolBounds, Area maxBounds) {
         super();
         super.getMovement().setVelocity(25);
         super.setMoving(true);
-        super.setBounds(maxBounds);
+        super.setArea(maxBounds);
         this.damage = damage;
-        this.dps = dps;
+        this.damageRate = damageRate;
         this.detectionDistance = detectionDistance;
-        this.players = PlayerManager.getPlayers();
         behaviour = Behaviour.WAIT;
-        timeAttack = 30; // Needs calibration
-        timeWandering = 30;
+        attackTimeDelay = GameThread.FPS; // Needs calibration
+        wanderingTimeDelay = GameThread.FPS;
         this.patrolBounds = patrolBounds;
         this.waiting = false;
         if (aoeRadius < detectionDistance) {
@@ -66,14 +102,26 @@ public class Enemy extends MovingArtificialEntity {
         }
     }
 
+    /**
+     * Gets the enemy's behavior.
+     * @return A behaviour representing the state in the finite state machine.
+     */
     public Behaviour getBehaviour() {
         return behaviour;
     }
 
-    public int getTimeAttack() {
-        return timeAttack;
+    /**
+     * Gets the remaining time delay before the next attack.
+     * @return The remaining time delay before the next attack.
+     */
+    public int getAttackTimeDelay() {
+        return attackTimeDelay;
     }
 
+    /**
+     * The finite state machine's controller.
+     * The enemy changes it's behaviour based on the position of the players.
+     */
     private void behave() {
         switch (behaviour) {
             case ATTACK:
@@ -94,6 +142,9 @@ public class Enemy extends MovingArtificialEntity {
         }
     }
 
+    /**
+     * The enemy does nothing until waiting is false.
+     */
     private void _wait() {
         if (!waiting) {
             super.setMoving(true);
@@ -101,29 +152,42 @@ public class Enemy extends MovingArtificialEntity {
         }
     }
 
+    /**
+     * Sets the waiting flag.
+     * @param waiting The enemy's waiting flag to go to the wait state.
+     */
     public void setWaiting(boolean waiting) {
         this.waiting = waiting;
     }
 
+    /**
+     * The enemy inflicts damage to a player after the attack time delay if the player is in
+     * the attack range, otherwise it will chase the player.
+     * Can also go to the wait state if the flag is enabled.
+     */
     private void attack() {
-        if (timeAttack <= 0) {
+        if (attackTimeDelay <= 0) {
             double attackRange = this.getAoeRadius();
             Player target = playerDetected(attackRange);
-            if (target != null) {
-                target.setHealthPoints(target.getHealthPoints() - damage * dps);
+            if (target != null && !target.isShielded()) {
+                target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
             } else {
                 setMoving(true);
                 behaviour = Behaviour.CHASE;
             }
 
-            timeAttack = 30;
+            attackTimeDelay = GameThread.FPS;
         } else {
-            timeAttack -= 1;
+            attackTimeDelay -= 1;
         }
 
         checkWaiting();
     }
 
+    /**
+     * Verify if the wait flag is enabled, if it's the case change the state to the wait state.
+     * @return True if the flag is enabled, false otherwise.
+     */
     public boolean checkWaiting() {
         if (waiting) {
             super.setMoving(false);
@@ -134,22 +198,12 @@ public class Enemy extends MovingArtificialEntity {
         return false;
     }
 
-    private Player selectClosestPlayer() {
-        Player target = null;
-        double minDistance = Double.MAX_VALUE;
-        double currDistance;
-
-        for (Player player : players) {
-            currDistance = player.getPosition().toCartesian().distanceFrom(getPosition()) - player.getAoeRadius();
-            if (currDistance < minDistance && player.isAlive() && !player.isShielded()) {
-                minDistance = currDistance;
-                target = player;
-            }
-        }
-
-        return target;
-    }
-
+    /**
+     * Chase the closest player based on the enemy's detection distance.
+     * If a player is detected based on the enemy's attack range, the state changes to attack.
+     * If no player is detected the state is changed to the patrol state.
+     * Can also go to the wait state if the flag is enabled.
+     */
     private void chase() {
         Player target = playerDetected(detectionDistance);
 
@@ -160,7 +214,7 @@ public class Enemy extends MovingArtificialEntity {
                 behaviour = Behaviour.ATTACK;
             }
         } else {
-            super.setBounds(patrolBounds);
+            super.setArea(patrolBounds);
             setForceMove(true);
             super.getMovement().setVelocity(super.getMovement().getVelocity() / 2);
             behaviour = Behaviour.PATROL;
@@ -169,6 +223,11 @@ public class Enemy extends MovingArtificialEntity {
         checkWaiting();
     }
 
+    /**
+     * Move around the patrol area until a player is detected based on the enemy's detection distance.
+     * If a player is detected the state changes to chase.
+     * Can also go to the wait state if the flag is enabled.
+     */
     private void patrol() {
         if (!patrolBounds.isInside(super.getPosition())) {
             orientToTarget(patrolBounds);
@@ -185,31 +244,48 @@ public class Enemy extends MovingArtificialEntity {
         checkWaiting();
     }
 
-    private void orientToTarget(Localizable localizable) {
-        getMovement().setOrientation(getPosition().toCartesian().subtract(localizable.getPosition()).toPolar().arg2);
+    /**
+     * Changes the angle of the direction of the enemy's movement to follow a positionable target.
+     * The object can be a player or a location on the map.
+     * @param positionable A Positionable representing a target position.
+     */
+    private void orientToTarget(Positionable positionable) {
+        Vector vectPos = getPosition().toVector();
+        Vector targetPos = positionable.getPosition().toVector();
+        getMovement().setOrientation(vectPos.subtract(targetPos).direction());
     }
 
+    /**
+     * Checks if a player was detected based on the given distance.
+     * @param distance The range to check for a player.
+     * @return The Player if one was detected, otherwise returns null.
+     */
     private Player playerDetected(double distance) {
-        Player target = selectClosestPlayer();
-        if (target != null && target.getPosition().toCartesian().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
+        Player target = PlayerManager.selectClosestPlayer(getPosition());
+        if (target != null && target.getPosition().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
             return target;
         } else {
             return null;
         }
     }
 
+    /**
+     * The enemy moves without hostile behaviour until wandering time delay is over, after this
+     * the state is changed to the patrol state.
+     * Can also go to the wait state if the flag is enabled.
+     */
     private void wander() {
-        if (timeWandering <= 0) {
-            super.setBounds(patrolBounds);
+        if (wanderingTimeDelay <= 0) {
+            super.setArea(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
-            timeWandering = 30;
+            wanderingTimeDelay = GameThread.FPS;
         } else {
-            timeWandering -= 1;
+            wanderingTimeDelay -= 1;
         }
 
         if (checkWaiting()) {
-            timeWandering = 30;
+            wanderingTimeDelay = GameThread.FPS;
         }
     }
 
@@ -223,5 +299,5 @@ public class Enemy extends MovingArtificialEntity {
     public EntityType getEntityType() {
         return EntityType.ENEMY;
     }
-
 }
+

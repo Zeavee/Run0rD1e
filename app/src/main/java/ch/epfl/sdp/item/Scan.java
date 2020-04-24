@@ -19,7 +19,6 @@ public class Scan extends TimedItem {
         return new Scan(scanTime);
     }
 
-
     @Override
     public void use() {
         super.use();
@@ -30,8 +29,8 @@ public class Scan extends TimedItem {
     }
 
     @Override
-    public void stopUsing(){
-        for(Player p: PlayerManager.getPlayers()) {
+    public void stopUsing() {
+        for (Player p : PlayerManager.getPlayers()) {
             MapsActivity.mapApi.unDisplayEntity(p);
         }
     }

@@ -1,58 +1,129 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import com.google.firebase.firestore.util.Assert;
-
 import java.util.Random;
 
-import ch.epfl.sdp.entity.EntityType;
-import ch.epfl.sdp.entity.MovingEntity;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.entity.AoeRadiusMovingEntity;
+import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.PointConverter;
+import ch.epfl.sdp.geometry.Positionable;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapsActivity;
 
-public class MovingArtificialEntity extends MovingEntity implements Movable, Localizable, Updatable {
+/**
+ * Represents an entity of the game that can move automatically by setting a movement. The movement
+ * can be limited by setting an area where the entity can reside.
+ */
+public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity implements Movable, Positionable, Updatable {
     private Movement movement;
-    private Boundable bounds;
+    private Area area;
     private boolean moving;
+    /**
+     * When the forceMove is true the entity is allowed to go move outside the area.
+     */
     private boolean forceMove = false;
     private Random rand = new Random();
-    ;
 
+    /**
+     * Creates a default moving artificial entity, without a bounded area and with a linear
+     * movement.
+     */
     public MovingArtificialEntity() {
         super();
-        movement = new LinearMovement(PointConverter.GeoPointToGenPoint(getLocation()));
-        bounds = new UnboundedArea();
+        movement = new LinearMovement(PointConverter.geoPointToCartesianPoint(getLocation()));
+        area = new UnboundedArea();
         moving = true;
     }
 
-    public MovingArtificialEntity(Movement movement, Boundable bounds, boolean moving) {
+    /**
+     * Creates a default moving artificial entity, by specifying a movement, an area and if it's
+     * already moving.
+     *
+     * @param movement A m
+     * @param area
+     * @param moving
+     */
+    public MovingArtificialEntity(Movement movement, Area area, boolean moving) {
         super();
         this.movement = movement;
-        this.bounds = bounds;
+        this.area = area;
         this.moving = moving;
     }
 
-    public Boundable getBounds() {
-        return bounds;
+    /**
+     * Gets the area of the moving artificial entity.
+     *
+     * @return An area where the moving artificial entity can reside.
+     */
+    public Area getArea() {
+        return area;
     }
 
-    public void setBounds(Boundable bounds) {
-        this.bounds = bounds;
+    /**
+     * Gets the area of the moving artificial entity.
+     *
+     * @param area An area where the moving artificial entity can reside.
+     */
+    public void setArea(Area area) {
+        this.area = area;
     }
 
+    /**
+     * Sets the forceMove flag.
+     * @param forceMove A flag allowing the moving artificial entity to go outside the area.
+     */
     public void setForceMove(boolean forceMove) {
         this.forceMove = forceMove;
     }
 
+    /**
+     * Sets the moving flag.
+     * @param moving A flag allowing the moving artificial entity to move.
+     */
+    public void setMoving(boolean moving) {
+        this.moving = moving;
+    }
+
+    /**
+     * Change the orientation and bounces against the bounds of the area.
+     */
+    private void bounce() {
+        movement.setOrientation(rand.nextFloat() * 2 * (float) (Math.PI));
+    }
+
+    /**
+     * Gets the movement of the moving artificial entity.
+     * @return A movement which defines the next position in the 2D plane.
+     */
+    public Movement getMovement() {
+        return movement;
+    }
+
+    /**
+     * Gets the movement of the moving artificial entity.
+     * @param movement A movement which defines the next position in the 2D plane.
+     */
+    public void setMovement(Movement movement){
+        this.movement = movement;
+    }
+
     @Override
     public void move() {
-        GenPoint position = movement.nextPosition();
-        if (bounds.isInside(position) || forceMove) {
+        CartesianPoint position = movement.nextPosition();
+        if (area.isInside(position) || forceMove) {
             movement.setPosition(position);
-            //this.setLocation(PointConverter.GenPointToGeoPoint(position, new GeoPoint(6.149699, 46.215788)));
-            super.setLocation(PointConverter.GenPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
+            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
         } else {
-            switchOnMouvement();
+            bounce();
         }
+    }
+
+    @Override
+    public void setLocation(GeoPoint geoPoint) {
+        super.setLocation(geoPoint);
+        movement.setPosition(PointConverter.geoPointToCartesianPoint(geoPoint));
     }
 
     @Override
@@ -60,26 +131,9 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
         return moving;
     }
 
-    public void setMoving(boolean moving) {
-        this.moving = moving;
-    }
-
-    private void switchOnMouvement() {
-        movement.setOrientation(rand.nextFloat() * 2 * (float) (Math.PI));
-    }
-
-    public Movement getMovement() {
-        return movement;
-    }
-
-    public void setMovement(Movement movement){
-        this.movement = movement;
-    }
-
     @Override
-    public void setLocation(GeoPoint geoPoint) {
-        super.setLocation(geoPoint);
-        movement.setPosition(PointConverter.GeoPointToGenPoint(geoPoint));
+    public boolean isOnce() {
+        return false;
     }
 
     @Override
@@ -90,21 +144,16 @@ public class MovingArtificialEntity extends MovingEntity implements Movable, Loc
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.NONE;
-    }
-
-    @Override
-    public boolean once() {
-        return false;
-    }
-
-    @Override
-    public GenPoint getPosition() {
+    public CartesianPoint getPosition() {
         return movement.getPosition();
     }
 
-    public void setPosition(GenPoint position) {
+    /**
+     * Sets the current position (of the moving artificial entity) in the 2D plan.
+     *
+     * @param position A position in the 2D plane.
+     */
+    public void setPosition(CartesianPoint position) {
         movement.setPosition(position);
     }
 }

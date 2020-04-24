@@ -1,12 +1,12 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.artificial_intelligence.Updatable;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 
 /**
  * A trap is an item a player can drop at his current localization and if another player walks by the trap, he will take damage
@@ -33,11 +33,11 @@ public class Trap extends Item implements Updatable, Displayable {
         //This is called by the player that has the item, so getUser should return the correct player
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,
         //getUser would return the wrong player (the server)
-        owner = PlayerManager.getUser();
+        owner = PlayerManager.getCurrentUser();
         trapPosition = owner.getLocation();
-        Game.addToUpdateList(this);
-        if (owner == PlayerManager.getUser()) {
-            Game.addToDisplayList(this);
+        Game.getInstance().addToUpdateList(this);
+        if (owner == PlayerManager.getCurrentUser()) {
+            Game.getInstance().addToDisplayList(this);
         }
     }
 
@@ -51,7 +51,7 @@ public class Trap extends Item implements Updatable, Displayable {
             }
         }
         if (hasSomeoneTakenDamage) {
-            Game.removeFromUpdateList(this);
+            Game.getInstance().removeFromUpdateList(this);
         }
     }
 
@@ -66,7 +66,7 @@ public class Trap extends Item implements Updatable, Displayable {
     }
 
     @Override
-    public boolean once() {
+    public boolean isOnce() {
         return true;
     }
 }

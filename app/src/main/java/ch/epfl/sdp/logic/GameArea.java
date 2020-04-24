@@ -2,7 +2,7 @@ package ch.epfl.sdp.logic;
 
 import java.util.Random;
 
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;

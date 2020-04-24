@@ -2,8 +2,6 @@ package ch.epfl.sdp;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.location.LocationManager;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -13,8 +11,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapApi;
 
 public class MockMapApi implements MapApi {
@@ -40,11 +38,6 @@ public class MockMapApi implements MapApi {
 
     @Override
     public void updatePosition() {
-    }
-
-    @Override
-    public void onLocationUpdatesGranted() {
-
     }
 
     @Override

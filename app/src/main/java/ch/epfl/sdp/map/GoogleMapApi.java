@@ -1,7 +1,6 @@
 package ch.epfl.sdp.map;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -13,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -26,8 +26,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.artificial_intelligence.PointConverter;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.PointConverter;
 
 public class GoogleMapApi implements MapApi {
     private static double listenTime = 1000; // milliseconds
@@ -99,16 +100,10 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        PlayerManager.getUser().setLocation(getCurrentLocation());
-        PlayerManager.getUser().setPosition(PointConverter.GeoPointToGenPoint(PlayerManager.getUser().getLocation()));
-        removeMarkers(PlayerManager.getUser());
-        displayMarkerCircle(PlayerManager.getUser(), Color.BLUE, "My position", 10);
-    }
-
-
-    @Override
-    public void onLocationUpdatesGranted() {
-        requestLocationUpdatesUnsafe();
+        PlayerManager.getCurrentUser().setLocation(getCurrentLocation());
+        PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
+        removeMarkers(PlayerManager.getCurrentUser());
+        displayMarkerCircle(PlayerManager.getCurrentUser(), Color.BLUE, "My position", 10);
     }
 
     @Override
@@ -140,6 +135,13 @@ public class GoogleMapApi implements MapApi {
     synchronized public void displayEntity(Displayable displayable) {
         activity.runOnUiThread(() -> {
             removeMarkers(displayable);
+            /*
+            if(displayable instanceof DisplayableWithIcon) {
+                DisplayableWithIcon displayableWithIcon = (DisplayableWithIcon)displayable;
+                displaySmallIcon(displayableWithIcon, displayableWithIcon.getName(), displayableWithIcon.getDrawableIconId());
+            }
+            */
+
             switch (displayable.getEntityType()) {
                 // only display User when position is updated
                 case ENEMY:
@@ -202,12 +204,5 @@ public class GoogleMapApi implements MapApi {
     private void navigateCameraToPlayerPosition() {
         LatLng currentLocationLatLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 14));
-    }
-
-    @SuppressLint("MissingPermission")
-    private void requestLocationUpdatesUnsafe() {
-        for (String locManager : locationManager.getAllProviders()) {
-            locationManager.requestLocationUpdates(locManager, (long) listenTime, (float) listenDistance, locationListener);
-        }
     }
 }
