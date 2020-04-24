@@ -37,7 +37,6 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
-
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;

@@ -56,27 +56,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
         authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
-        Button mapButton = findViewById(R.id.recenter);
-        mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnCurrentLocation());
-
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
         username.setText("");
+
+        Button mapButton = findViewById(R.id.recenter);
+        mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnCurrentLocation());
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(MapsActivity.this);
+        showGameInfoThread().start();
     }
-
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().getMapApi().initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(MapsActivity.this);
-        showGameInfoThread().start();
 
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
