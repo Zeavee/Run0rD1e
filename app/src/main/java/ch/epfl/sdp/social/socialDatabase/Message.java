@@ -1,8 +1,9 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 import java.util.Date;
 
@@ -11,7 +12,7 @@ import java.util.Date;
                 entity = Chat.class,
                 parentColumns = "chat_id",
                 childColumns = "chat_id"
-        )})
+        )}, indices = @Index(value = "chat_id"))
 public class Message {
 
     private Date date;
@@ -20,10 +21,11 @@ public class Message {
 
     private int chat_id;
 
-    public Message(Date date, String text)
+    public Message(Date date, String text, int chat_id)
     {
         this.date = date;
         this.text = text;
+        this.chat_id = chat_id;
     }
 
     public void setDate(Date date) {

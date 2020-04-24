@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -8,13 +8,13 @@ import androidx.room.Transaction;
 import java.util.List;
 
 @Dao
-public interface ChatAccessor {
+public interface ChatDAO {
     //final static Date today = new Date();
 
     @Transaction
     @Query("SELECT * FROM message WHERE message.chat_id IN " +
             "(SELECT chat.chat_id FROM chat WHERE chat.`from` = :sender AND chat.`to` = :owner)")
-    public List<Message> getMessagesToOwnerFromSender(String owner, String sender);
+    public List<Message> getMessages(String owner, String sender);
 
     @Insert
     public void sendMessage(Message m);
@@ -25,10 +25,14 @@ public interface ChatAccessor {
     @Insert
     public void addChat(Chat c);
 
-    // Get all friends of owner, friendID1 must be lexicographically before friendID2
+    // Get all friends of user "friend"
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
             "IsFriendsWith.friendID2<>:friend AND " +
-            "IsFriendsWith.friendID1=:friend)")
+            "IsFriendsWith.friendID1=:friend)" +
+            " UNION " +
+            "SELECT * FROM User WHERE user.userID IN (SELECT friendID1 FROM IsFriendsWith WHERE " +
+            "IsFriendsWith.friendID2=:friend AND " +
+            "IsFriendsWith.friendID1<>:friend)")
     public List<User> areFriends(String friend);
 
     @Insert

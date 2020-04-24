@@ -2,9 +2,6 @@ package ch.epfl.sdp.map;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.map.GoogleMapApi;
-import ch.epfl.sdp.map.MapsActivity;
-
 import static org.junit.Assert.assertNull;
 
 public class GoogleMapApiTest {
@@ -13,6 +10,4 @@ public class GoogleMapApiTest {
         MapsActivity.setMapApi(new GoogleMapApi());
         assertNull(MapsActivity.mapApi.getCurrentLocation());
     }
-
-
 }

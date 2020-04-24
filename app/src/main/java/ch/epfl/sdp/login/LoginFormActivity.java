@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
 
@@ -58,7 +59,7 @@ public class LoginFormActivity extends AppCompatActivity {
         authenticationAPI.signIn(email, password, new OnAuthCallback() {
             @Override
             public void finish() {
-                FriendsListActivity.setChatEmailID(email);
+                DependencyProvider.email = email;
                 LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
                 LoginFormActivity.this.finish();
             }

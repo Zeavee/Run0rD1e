@@ -16,6 +16,7 @@ import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
 
@@ -71,7 +72,7 @@ public class RegisterFormActivity extends AppCompatActivity {
                     if(!task.isSuccessful()) {
                         Toast.makeText(RegisterFormActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        FriendsListActivity.setChatEmailID(email);
+                        DependencyProvider.email = email;
                         RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainActivity.class));
                         RegisterFormActivity.this.finish();
                     }

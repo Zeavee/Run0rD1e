@@ -47,40 +47,6 @@ public class RegisterTest {
     private List<Integer> testCasesInt;
     private List<Integer> emptyFields;
     private List<String> errorTexts;
-//    private DependencyVisitor dv = new DependencyVisitor() {
-//        @Override
-//        public void setDependency(CommonDatabaseAPI dependency) {
-//
-//        }
-//
-//        @Override
-//        public void setDependency(AuthenticationAPI dependency) {
-//            LoginFormActivity.authenticationAPI = dependency;
-//            RegisterFormActivity.authenticationAPI = dependency;
-//        }
-//
-//        @Override
-//        public void setDependency(MapApi dependency) {
-//
-//        }
-//
-//        @Override
-//        public void setDependency(RemoteToSQLiteAdapter dependency) {
-//
-//        }
-//
-//        @Override
-//        public void setDependency(RemoteFriendFetcher dataController) {
-//
-//        }
-//
-//        @Override
-//        public void inject() {
-//            setDependency(new MockAuthenticationAPI(new MockCommonDatabaseAPI()));
-//        }
-//
-//    };
-
 
     @Rule
     public ActivityTestRule<RegisterFormActivity> mActivityRule =

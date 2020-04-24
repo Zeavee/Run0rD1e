@@ -1,12 +1,14 @@
-package ch.epfl.sdp.social;
+package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(foreignKeys = {
+@Entity(indices = {@Index(value = {"from", "to"},
+        unique = true), @Index(value = "to")},
+        foreignKeys = {
         @ForeignKey(
                 entity = User.class,
                 parentColumns = "userID",
@@ -21,11 +23,10 @@ import androidx.room.PrimaryKey;
 public class Chat {
 
     @PrimaryKey(autoGenerate = true)
-    public int chat_id;
+    private int chat_id;
 
-    // TODO make more restrictive access modifiers later
-    public String to;
-    public String from;
+    private String to;
+    private String from;
 
     public Chat(String from, String to)
     {
@@ -38,6 +39,10 @@ public class Chat {
     {
         return chat_id;
     }
+    public void setChat_id(int id)
+    {
+        chat_id = id;
+    }
 
     public String getFrom() {
         return from;
@@ -47,7 +52,6 @@ public class Chat {
     {
         return to;
     }
-
 
     public void setTo(String to) {
         this.to = to;

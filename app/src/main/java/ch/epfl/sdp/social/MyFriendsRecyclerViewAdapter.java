@@ -9,24 +9,34 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import ch.epfl.sdp.social.socialDatabase.User;
 
 import ch.epfl.sdp.R;
 
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 
     private final List<User> mValues;
-    private final FriendsListActivity.OnListFragmentInteractionListener mListener;
     private static MyClickListener myClickListener;
 
-    public MyFriendsRecyclerViewAdapter(List<User> items, FriendsListActivity.OnListFragmentInteractionListener listener) {
+    /**
+     * This methods create a recycler view adapter
+     * @param items the list of users we will see in our friends list
+     */
+    public MyFriendsRecyclerViewAdapter(List<User> items) {
         mValues = items;
-        mListener = listener;
     }
 
+    /**
+     * This methods sets our click listener
+     * @param myClickListener The click listener that we want to use
+     */
     public void setOnItemClickListener(MyClickListener myClickListener) {
         this.myClickListener = myClickListener;
     }
 
+    /**
+     * This interface is a click listener that will lock for clicks on user in the friends list
+     */
     public interface MyClickListener {
         public void onItemClick(int position, View v);
     }
@@ -44,11 +54,6 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         holder.mIdView.setText(mValues.get(position).getEmail());
 
         holder.mView.setOnClickListener(v -> {
-            if (null != mListener) {
-                // Notify the active callbacks interface (the activity, if the
-                // fragment is attached to one) that an item has been selected.
-                mListener.onListFragmentInteraction(holder.mItem);
-            }
         });
     }
 
@@ -57,7 +62,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         return mValues.size();
     }
 
-    public class FriendsViewHolder extends RecyclerView.ViewHolder {
+    class FriendsViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final Button button;
         public final TextView mIdView;
