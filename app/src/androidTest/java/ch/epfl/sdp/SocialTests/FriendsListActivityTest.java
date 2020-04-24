@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.FriendsListActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -43,17 +44,6 @@ public class FriendsListActivityTest {
         //************************************ Click on "Friends" to go the social/chat feature *******************************//
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.friendsButton), withText("Friends"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(android.R.id.content),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.decor_content_parent),
-                                                                childAtPosition(
-                                                                        withClassName(is("android.widget.FrameLayout")),
-                                                                        0)),
-                                                        0)),
-                                        0),
-                                11),
                         isDisplayed()));
         appCompatButton2.perform(click());
     }

@@ -109,4 +109,5 @@ public class AddFriendsActivityTest {
         step4();
     }
 
+
 }
