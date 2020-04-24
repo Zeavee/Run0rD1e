@@ -6,6 +6,7 @@ import android.location.LocationManager;
 
 import com.google.android.gms.maps.GoogleMap;
 
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public interface MapApi {
@@ -48,4 +49,8 @@ public interface MapApi {
     void displaySmallIcon(Displayable displayable, String title, int id);
 
      Activity getActivity();
+
+    void displayMarkerCircle(Displayable displayable, int yellow, String other_player, int i);
+
+    void removeMarkers(Displayable displayable);
 }

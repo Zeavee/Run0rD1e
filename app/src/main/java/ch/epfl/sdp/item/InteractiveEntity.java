@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
@@ -21,7 +22,7 @@ public abstract class InteractiveEntity implements Displayable {
      * @param entityType The type of the entity.
      */
     public InteractiveEntity(EntityType entityType) {
-        this(entityType,  RandomGenerator.randomLocationOnCircle(Game.getInstance().getMapApi().getCurrentLocation(), 1000) , false);
+        this(entityType,  RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000) , false);
     }
 
     /**

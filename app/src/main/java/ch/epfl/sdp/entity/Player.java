@@ -1,9 +1,12 @@
 package ch.epfl.sdp.entity;
 
+import android.graphics.Color;
+
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
+import ch.epfl.sdp.map.MapApi;
 
 public class Player extends AoeRadiusMovingEntity implements Positionable {
     private String username;
@@ -103,6 +106,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     @Override
     public EntityType getEntityType() {
         return EntityType.USER;
+    }
+
+    @Override
+    public void displayOn(MapApi mapApi) {
+        mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
     }
 
     @Override

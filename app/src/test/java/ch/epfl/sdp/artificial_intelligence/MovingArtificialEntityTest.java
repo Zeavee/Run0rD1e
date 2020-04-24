@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MockMapApi;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -21,7 +22,7 @@ public class MovingArtificialEntityTest {
     @Before
     public void setup(){
         map = new MockMapApi();
-        MapsActivity.setMapApi(map);
+        Game.getInstance().setMapApi(map);
         map.setCurrentLocation(new GeoPoint(40, 50));
     }
 

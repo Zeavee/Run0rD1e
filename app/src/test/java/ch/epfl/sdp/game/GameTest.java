@@ -18,7 +18,7 @@ public class GameTest {
     @Before
     public void setup() {
         MockMapApi mockMapApi = new MockMapApi();
-        MapsActivity.setMapApi(mockMapApi);
+        Game.getInstance().setMapApi(mockMapApi);
         Game.getInstance().clearGame();
     }
 

@@ -136,33 +136,7 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     synchronized public void displayEntity(Displayable displayable) {
-        activity.runOnUiThread(() -> {
-            removeMarkers(displayable);
-            /*
-            if(displayable instanceof DisplayableWithIcon) {
-                DisplayableWithIcon displayableWithIcon = (DisplayableWithIcon)displayable;
-                displaySmallIcon(displayableWithIcon, displayableWithIcon.getName(), displayableWithIcon.getDrawableIconId());
-            }
-            */
 
-            switch (displayable.getEntityType()) {
-                // only display User when position is updated
-                case ENEMY:
-                    //displayMarkerCircle(displayable, Color.RED, "Enemy", 1000);
-                    displaySmallIcon(displayable, "Enemy", R.drawable.enemy); break;
-                case PLAYER:
-                    displayMarkerCircle(displayable, Color.YELLOW, "Other player", 100); break;
-                case ITEMBOX:
-                    displaySmallIcon(displayable, "ItemBox", R.drawable.itembox);
-                    break;
-                case TRAP:
-                    displaySmallIcon(displayable, "My trap", R.drawable.trap);
-                    break;
-                case SHELTER:
-                    displayMarkerCircle(displayable, 0x7fffbf, "Shelter Area", 100);
-                    break;
-            }
-        });
     }
 
     @Override
@@ -173,35 +147,41 @@ public class GoogleMapApi implements MapApi {
         });
     }
 
-    private void removeMarkers(Displayable displayable) {
-        if (entityCircles.containsKey(displayable)) {
-            if (entityCircles.get(displayable).hasMarker())
-                entityCircles.get(displayable).getMarker().remove();
-            if (entityCircles.get(displayable).hasCircle())
-                entityCircles.get(displayable).getAoe().remove();
-        }
+    public void removeMarkers(Displayable displayable) {
+            if (entityCircles.containsKey(displayable)) {
+                if (entityCircles.get(displayable).hasMarker())
+                    entityCircles.get(displayable).getMarker().remove();
+                if (entityCircles.get(displayable).hasCircle())
+                    entityCircles.get(displayable).getAoe().remove();
+            }
     }
 
     public void displaySmallIcon(Displayable displayable, String title, int id) {
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromResource(id)))));
+        activity.runOnUiThread(() -> {
+            removeMarkers(displayable);
+            LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+            entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromResource(id)))));
+        });
     }
 
-    private void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
-                mMap.addCircle(new CircleOptions()
-                        .center(position)
-                        .strokeColor(color)
-                        .fillColor(color-0x80000000)
-                        .radius(aoeRadius)
-                        .strokeWidth(1f))));
+    public void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
+        activity.runOnUiThread(() -> {
+            removeMarkers(displayable);
+            LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+            entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
+                    mMap.addCircle(new CircleOptions()
+                            .center(position)
+                            .strokeColor(color)
+                            .fillColor(color-0x80000000)
+                            .radius(aoeRadius)
+                            .strokeWidth(1f))));
+        });
     }
 
     private void navigateCameraToPlayerPosition() {

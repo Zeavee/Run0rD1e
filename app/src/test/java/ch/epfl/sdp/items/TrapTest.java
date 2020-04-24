@@ -30,7 +30,7 @@ public class TrapTest {
         opponent = new Player(39, 39, 100, "username2", "email2@email.com");
 
         MockMapApi mockMapApi = new MockMapApi();
-        MapsActivity.setMapApi(mockMapApi);
+        Game.getInstance().setMapApi(mockMapApi);
         mockMapApi.setCurrentLocation(owner.getLocation());
 
         game = Game.getInstance();

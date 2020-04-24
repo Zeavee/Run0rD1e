@@ -95,7 +95,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
-        mapApi.displayEntity(displayable);
+        displayable.displayOn(mapApi);
 
         if (!displayable.isOnce()) {
             displayables.add(displayable);

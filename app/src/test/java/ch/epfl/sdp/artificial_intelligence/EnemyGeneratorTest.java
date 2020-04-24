@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.map.MockMapApi;
@@ -15,7 +16,7 @@ public class EnemyGeneratorTest {
 
     @Before
     public void setup() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
     }
 
     @Test

@@ -3,6 +3,7 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MockMapApi;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
@@ -29,7 +30,7 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         playerManager = new PlayerManager();
         player = new Player("","");
         PlayerManager.addPlayer(player);

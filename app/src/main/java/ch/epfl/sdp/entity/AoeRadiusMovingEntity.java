@@ -5,7 +5,7 @@ import ch.epfl.sdp.map.MapApi;
 /**
  * Represents a moving entity that has AOE radius.
  */
-public class AoeRadiusMovingEntity extends MovingEntity {
+public abstract class AoeRadiusMovingEntity extends MovingEntity {
     private double aoeRadius;
 
     public double getAoeRadius() {
@@ -18,12 +18,7 @@ public class AoeRadiusMovingEntity extends MovingEntity {
 
     @Override
     public EntityType getEntityType() {
-        return null;
-    }
-
-    @Override
-    public void displayOn(MapApi mapApi) {
-
+        return EntityType.NONE;
     }
 
     @Override

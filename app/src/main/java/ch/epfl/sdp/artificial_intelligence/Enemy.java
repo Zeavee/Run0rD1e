@@ -1,5 +1,8 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import android.graphics.Color;
+
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -10,6 +13,7 @@ import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a hostile entity.
@@ -298,6 +302,12 @@ public class Enemy extends MovingArtificialEntity {
     @Override
     public EntityType getEntityType() {
         return EntityType.ENEMY;
+    }
+
+    @Override
+    public void displayOn(MapApi mapApi) {
+       // mapApi.displayMarkerCircle(this, Color.RED, "Enemy", 1000);
+        mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
     }
 }
 

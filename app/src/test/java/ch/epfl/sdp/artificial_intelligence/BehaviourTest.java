@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MockMapApi;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -20,7 +21,7 @@ public class BehaviourTest {
 
     @Before
     public void setup() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         PlayerManager.removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");

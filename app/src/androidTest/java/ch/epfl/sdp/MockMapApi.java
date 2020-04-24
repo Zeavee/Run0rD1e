@@ -72,12 +72,22 @@ public class MockMapApi implements MapApi {
     }
 
     @Override
+    public void displaySmallIcon(Displayable displayable, String title, int id) {
+
+    }
+
+    @Override
     public Activity getActivity() {
         return activity;
     }
 
     @Override
-    public void setMap(GoogleMap googleMap) {
+    public void displayMarkerCircle(Displayable displayable, int yellow, String other_player, int i) {
+
+    }
+
+    @Override
+    public void removeMarkers(Displayable displayable) {
 
     }
 

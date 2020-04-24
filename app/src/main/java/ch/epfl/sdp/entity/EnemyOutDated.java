@@ -1,6 +1,7 @@
 package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.MapApi;
 
 @Deprecated
 public class EnemyOutDated extends AoeRadiusMovingEntity {
@@ -18,6 +19,11 @@ public class EnemyOutDated extends AoeRadiusMovingEntity {
     @Override
     public EntityType getEntityType() {
         return EntityType.ENEMY;
+    }
+
+    @Override
+    public void displayOn(MapApi mapApi) {
+
     }
 
     @Override
