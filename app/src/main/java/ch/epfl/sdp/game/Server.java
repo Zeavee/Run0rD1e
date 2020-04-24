@@ -26,10 +26,17 @@ public class Server implements Updatable {
     private EnemyGenerator enemyGenerator;
     private double damage;
     private List<ItemBox> itemBoxes;
+    private int generateEnemyEveryMs;
 
     public Server(EnemyManager manager, EnemyGenerator enemyGenerator) {
         this.manager = manager;
         this.enemyGenerator = enemyGenerator;
+        this.generateEnemyEveryMs = GENERATE_ENEMY_EVERY_MS;
+    }
+
+    public Server(EnemyManager manager, EnemyGenerator enemyGenerator, int generateEnemyEveryMs) {
+        this(manager, enemyGenerator);
+        this.generateEnemyEveryMs = generateEnemyEveryMs;
     }
 
     public static void initEnvironment() {
@@ -63,8 +70,7 @@ public class Server implements Updatable {
     @Override
     public void update() {
         long currentTimeMillis = System.currentTimeMillis();
-        if(currentTimeMillis - lastEnemyGenerateTimeMillis >= GENERATE_ENEMY_EVERY_MS) {
-            //Enemy enemy = enemyGenerator.generateEnemy(100);
+        if(currentTimeMillis - lastEnemyGenerateTimeMillis >= generateEnemyEveryMs) {
             Enemy enemy = new Enemy();
             lastEnemyGenerateTimeMillis = currentTimeMillis;
             manager.addEnemy(enemy);
@@ -72,6 +78,4 @@ public class Server implements Updatable {
 
         manager.update();
     }
-
-
 }
