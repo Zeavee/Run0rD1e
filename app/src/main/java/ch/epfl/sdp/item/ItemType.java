@@ -4,5 +4,6 @@ public enum ItemType {
     HEALTHPACK,
     SCAN,
     SHIELD,
-    SHRINKER
+    SHRINKER,
+    TRAP
 }

@@ -9,5 +9,8 @@ public enum EntityType {
     SHIELD,
     SHRINKER,
     USER,
+    TRAP,
+    SHELTER,
+    COIN,
     NONE
 }

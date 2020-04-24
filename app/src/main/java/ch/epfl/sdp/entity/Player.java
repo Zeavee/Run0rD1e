@@ -1,11 +1,10 @@
 package ch.epfl.sdp.entity;
 
+
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
-
-import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.CartesianPoint;
 import ch.epfl.sdp.artificial_intelligence.GenPoint;
@@ -17,28 +16,33 @@ import ch.epfl.sdp.map.GeoPoint;
 public class Player extends MovingEntity implements Localizable {
     public String username;
     public String email;
-    @Exclude
-    public final static double MAX_HEALTH = 100;
-    public int score;
+
+    public int generalScore;
+    public int currentGameScore;
+
+    public CartesianPoint position;
     public double healthPoints;
     public double timeTraveled;
     public double distanceTraveled;
     public double speed;
-    @Exclude
-    public CartesianPoint position;
+    public double distanceTraveledAtLastCheck;
     @Exclude
     public boolean alive;
-    @ServerTimestamp
-    public Timestamp timestamp;
+    @Exclude
+    public final static double MAX_HEALTH = 100;
     @Exclude
     private boolean isShielded;
+    @ServerTimestamp
+    public Timestamp timestamp;
     @Exclude
     private Inventory inventory;
     @Exclude
     private boolean isActive;
+    @Exclude
+    public int money;
 
     public Player() {
-        this("","");
+        this("", "");
     }
 
     public Player(String username, String email) {
@@ -52,7 +56,7 @@ public class Player extends MovingEntity implements Localizable {
         this.setLocation(g);
         this.username = username;
         this.email = email;
-        this.score = 0;
+        this.generalScore = 0;
         this.healthPoints = 100;
         this.distanceTraveled = 0;
         this.timeTraveled = 0;
@@ -63,16 +67,17 @@ public class Player extends MovingEntity implements Localizable {
         this.setAoeRadius(aoeRadius);
         this.inventory = new Inventory();
         this.isActive = true;
+        this.money = 0;
     }
 
-    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
+/*    public void updateHealth(ArrayList<EnemyOutDated> enemies) {
         for (EnemyOutDated e : enemies) {
             double distance = this.getLocation().distanceTo(e.getLocation()) - this.getAoeRadius() - e.getAoeRadius();
             if (distance < 0 && !isShielded) {
-                this.healthPoints = this.healthPoints + 1/distance * 10; //distance is negative
+                this.healthPoints = this.healthPoints + 1 / distance * 10; //distance is negative
             }
         }
-    }
+    }*/
 
     public double getHealthPoints() {
         return healthPoints;
@@ -91,8 +96,8 @@ public class Player extends MovingEntity implements Localizable {
         return timeTraveled;
     }
 
-    public int getScore() {
-        return score;
+    public int getGeneralScore() {
+        return generalScore;
     }
 
     public double getDistanceTraveled() {
@@ -112,11 +117,10 @@ public class Player extends MovingEntity implements Localizable {
     }
 
     @Exclude
-    public boolean isShielded() {return this.isShielded; }
-
-    public void setShielded(boolean shielded) {
-        isShielded = shielded;
+    public boolean isShielded() {
+        return this.isShielded;
     }
+
 
     @Exclude
     @Override
@@ -136,16 +140,71 @@ public class Player extends MovingEntity implements Localizable {
         return position;
     }
 
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPosition(CartesianPoint position) {
+        this.position = position;
+    }
+
+    public void setTimeTraveled(double timeTraveled) {
+        this.timeTraveled = timeTraveled;
+    }
+
+    public void setDistanceTraveled(double distanceTraveled) {
+        this.distanceTraveled = distanceTraveled;
+    }
+
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    public void setAlive(boolean alive) {
+        this.alive = alive;
+    }
+
+    public void setShielded(boolean shielded) {
+        isShielded = shielded;
+    }
+
     @Exclude
-    public void setPosition(GenPoint genPoint){
+    public void setPosition(GenPoint genPoint) {
         this.position = genPoint.toCartesian();
     }
 
+    @Exclude
     public Inventory getInventory() {
         return inventory;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public Timestamp getTimestamp() {
         return timestamp;
     }
+  
+    /**
+     * This methods update the local score of the Player,
+     * this is called each 10 seconds, so if the Player is alive, he gets 10 points
+     * and if he traveled enough distance (10 meters) he gets 10 bonus points
+     */
+    public void updateLocalScore() {
+        if (isAlive()) {
+            int bonusPoints = 10;
+            if (distanceTraveled > distanceTraveledAtLastCheck + 10) {
+                bonusPoints += 10;
+            }
+            distanceTraveledAtLastCheck = distanceTraveled;
+            currentGameScore += bonusPoints;
+        }
+    }
+
 }

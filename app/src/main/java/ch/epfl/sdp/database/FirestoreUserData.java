@@ -12,28 +12,47 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sdp.db.LeaderboardEntity;
-import ch.epfl.sdp.db.LeaderoardViewModel;
+import ch.epfl.sdp.db.AppViewModel;
+import ch.epfl.sdp.db.PlayerEntity;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class FirestoreUserData implements UserDataController {
     @Override
-    public void syncCloudFirebaseToRoom(LeaderoardViewModel leaderoardViewModel) {
-        FirebaseFirestore.getInstance().collection("Users")
+    public void syncCloudFirebaseToRoom(AppViewModel appViewModel, String collectionName) {
+        FirebaseFirestore.getInstance().collection(collectionName)
             .orderBy("healthPoints", Query.Direction.DESCENDING)
             .addSnapshotListener((queryDocumentSnapshots, e) -> {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     Player player = documentSnapshot.toObject(Player.class);
-                    LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
-                    leaderoardViewModel.insert(user);
+
+                    PlayerEntity playerEntity = new PlayerEntity(player.getEmail(), player.getUsername(), player.getHealthPoints());
+                    appViewModel.insertToLeaderboard(playerEntity);
                 }
             });
     }
 
     @Override
-    public void storeUser(Player player) {
-        FirebaseFirestore.getInstance().collection("Users").document(player.getEmail()).set(player);
+    public void storeUser(String collectionName, Player player) {
+        FirebaseFirestore.getInstance().collection(collectionName).document(player.getEmail()).set(player);
+    }
+
+    @Override
+    public void getLobby(String collectionName) {
+        FirebaseFirestore.getInstance().collection(collectionName)
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Player player = document.toObject(Player.class);
+                        PlayerManager.getPlayers().add(player);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            });
     }
 
     @Override
