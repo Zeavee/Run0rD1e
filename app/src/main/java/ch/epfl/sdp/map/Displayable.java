@@ -10,6 +10,8 @@ public interface Displayable extends Entity {
      */
     GeoPoint getLocation();
 
+    void displayOn(MapApi mapApi);
+
     /**
      * Method to decide if the entity must be displayed only once.
      *

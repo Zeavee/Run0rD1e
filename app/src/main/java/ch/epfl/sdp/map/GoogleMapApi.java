@@ -44,7 +44,10 @@ public class GoogleMapApi implements MapApi {
 
     private boolean hasMovedToPlayerPositionOnStart = false;
 
-    public GoogleMapApi() {
+    public GoogleMapApi(GoogleMap googleMap) {
+        mMap = googleMap;
+        hasMovedToPlayerPositionOnStart = false;
+
         entityCircles = new HashMap<>();
         locationListener = new LocationListener() {
             @Override
@@ -115,10 +118,10 @@ public class GoogleMapApi implements MapApi {
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())));
     }
 
-    public void setMap(GoogleMap googleMap) {
+    /*public void setMap(GoogleMap googleMap) {
         mMap = googleMap;
         hasMovedToPlayerPositionOnStart = false;
-    }
+    }*/
 
     public Bitmap createSmallCircle(int color) {
         Bitmap output = Bitmap.createBitmap(25,

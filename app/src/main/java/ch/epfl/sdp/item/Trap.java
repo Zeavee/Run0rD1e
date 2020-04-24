@@ -7,6 +7,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * A trap is an item a player can drop at his current localization and if another player walks by the trap, he will take damage
@@ -58,6 +59,11 @@ public class Trap extends Item implements Updatable, Displayable {
     @Override
     public GeoPoint getLocation() {
         return trapPosition;
+    }
+
+    @Override
+    public void displayOn(MapApi mapApi) {
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import ch.epfl.sdp.entity.EntityType;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MapsActivity;
 
 public class Scan extends TimedItem {
@@ -16,14 +17,14 @@ public class Scan extends TimedItem {
         super.use();
 
         for (Player p : PlayerManager.getPlayers()) {
-            MapsActivity.mapApi.displayEntity(p);
+            Game.getInstance().getMapApi().displayEntity(p);
         }
     }
 
     @Override
     public void stopUsing() {
         for (Player p : PlayerManager.getPlayers()) {
-            MapsActivity.mapApi.unDisplayEntity(p);
+            Game.getInstance().getMapApi().unDisplayEntity(p);
         }
     }
 

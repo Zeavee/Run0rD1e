@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -67,12 +68,12 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     @Override
     GeoPoint rule() {
         Random rd = new Random();
-        GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
+        GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle( Game.getInstance().getMapApi().getCurrentLocation(), 100 + rd.nextInt(50000));
         int maxIter = 500;
         while(maxIter > 0) {
             // TODO better randomization
-            GeoPoint local = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
-            enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
+            GeoPoint local = RandomGenerator.randomLocationOnCircle( Game.getInstance().getMapApi().getCurrentLocation(), 100 + rd.nextInt(50000));
+            enemyPos = RandomGenerator.randomLocationOnCircle( Game.getInstance().getMapApi().getCurrentLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
             LocalArea localArea = new LocalArea(new RectangleArea(f1, f2), PointConverter.geoPointToCartesianPoint(local));

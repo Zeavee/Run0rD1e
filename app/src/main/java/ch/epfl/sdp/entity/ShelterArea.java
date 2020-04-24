@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * Class representing a Shelter Area
@@ -24,6 +25,11 @@ public class ShelterArea implements Displayable, Updatable {
     @Override
     public GeoPoint getLocation() {
         return this.locaiton;
+    }
+
+    @Override
+    public void displayOn(MapApi mapApi) {
+
     }
 
     @Override

@@ -6,12 +6,15 @@ import java.util.Iterator;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GoogleMapApi;
+import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 
 /**
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable {
+    private MapApi mapApi;
     private GameThread gameThread;
     private ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
@@ -32,9 +35,18 @@ public class Game implements Updatable {
      * change the map before launching)
      */
     private Game() {
+        mapApi = null; // is it okay?
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
+    }
+
+    public void setMapApi(MapApi mapApi){
+        this.mapApi = mapApi;
+    }
+
+    public MapApi getMapApi(){
+        return mapApi;
     }
 
     /**
@@ -83,7 +95,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
-        MapsActivity.mapApi.displayEntity(displayable);
+        mapApi.displayEntity(displayable);
 
         if (!displayable.isOnce()) {
             displayables.add(displayable);
@@ -95,7 +107,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
-        MapsActivity.mapApi.unDisplayEntity(displayable);
+        mapApi.unDisplayEntity(displayable);
         displayables.remove(displayable);
     }
 
@@ -212,7 +224,7 @@ public class Game implements Updatable {
      */
     public void draw() {
         for (Displayable displayable : displayables) {
-            MapsActivity.mapApi.displayEntity(displayable);
+            displayable.displayOn(mapApi);
         }
     }
 }

@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.Random;
 
 import ch.epfl.sdp.entity.AoeRadiusMovingEntity;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -114,7 +115,7 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
         CartesianPoint position = movement.nextPosition();
         if (area.isInside(position) || forceMove) {
             movement.setPosition(position);
-            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
+            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, Game.getInstance().getMapApi().getCurrentLocation()));
         } else {
             bounce();
         }

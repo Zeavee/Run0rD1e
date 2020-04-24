@@ -45,8 +45,7 @@ public interface MapApi {
 
      void initializeApi(LocationManager locationManager, Activity activity);
 
+    void displaySmallIcon(Displayable displayable, String title, int id);
 
      Activity getActivity();
-
-     void setMap(GoogleMap googleMap);
 }

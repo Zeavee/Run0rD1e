@@ -26,6 +26,7 @@ import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -33,7 +34,7 @@ import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static MapApi mapApi = new GoogleMapApi();
+    //private MapApi mapApi = new GoogleMapApi();
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
@@ -43,9 +44,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     boolean flag = false;
 
-    public static void setMapApi(MapApi map) {
+   /* public static void setMapApi(MapApi map) {
         mapApi = map;
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         authenticationAPI = DependencyFactory.getAuthenticationAPI();
 
         Button mapButton = findViewById(R.id.recenter);
-        mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
+        mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnCurrentLocation());
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -64,19 +65,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
         username.setText("");
-
-        mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(MapsActivity.this);
-        showGameInfoThread().start();
     }
 
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapApi.setMap(googleMap);
+        Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
+        Game.getInstance().getMapApi().initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(MapsActivity.this);
+        showGameInfoThread().start();
 
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
@@ -87,7 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
                 PlayerManager.setCurrentUser(currentUser);
-                mapApi.updatePosition();
+                Game.getInstance().getMapApi().updatePosition();
 
                 commonDatabaseAPI.selectLobby(selectLobbyRes -> {
                     if (!selectLobbyRes.isSuccessful()) {

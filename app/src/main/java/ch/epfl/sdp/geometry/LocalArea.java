@@ -1,5 +1,6 @@
 package ch.epfl.sdp.geometry;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MapsActivity;
 
 /**
@@ -44,7 +45,7 @@ public class LocalArea implements Area, Positionable {
      * @return The location of the localArea on the geodesic surface.
      */
     public GeoPoint getLocation() {
-        return PointConverter.cartesianPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation());
+        return PointConverter.cartesianPointToGeoPoint(position, Game.getInstance().getMapApi().getCurrentLocation());
     }
 
     @Override
