@@ -29,6 +29,11 @@ public class Trap extends Item implements Updatable, Displayable {
     }
 
     @Override
+    public Item clone() {
+        return new Trap(damage, radius);
+    }
+
+    @Override
     public void use() {
         //This is called by the player that has the item, so getUser should return the correct player
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,

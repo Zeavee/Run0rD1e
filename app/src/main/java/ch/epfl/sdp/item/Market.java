@@ -9,10 +9,9 @@ import java.util.Random;
 
 import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.logic.RandomGenerator;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * A Market is a place where the players can go and buy items using their money
@@ -65,17 +64,12 @@ public class Market extends InteractiveEntity implements Displayable {
     }
 
     @Override
-    public GeoPoint getLocation() {
-        return super.getLocation();
+    public boolean isOnce() {
+        return true;
     }
 
     @Override
     public EntityType getEntityType() {
         return super.getEntityType();
-    }
-
-    @Override
-    public boolean once() {
-        return super.once();
     }
 }
