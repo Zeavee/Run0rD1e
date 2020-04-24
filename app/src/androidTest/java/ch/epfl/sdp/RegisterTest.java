@@ -27,8 +27,8 @@ import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
+import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
+import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;

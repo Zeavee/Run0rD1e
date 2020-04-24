@@ -22,7 +22,7 @@
             android:name=".social.AddFriendsActivity"
             android:label="Search Friends"
             />
-        <activity android:name=".social.ChatActivity" />
+        <activity android:name=".social.Conversation.ChatActivity" />
         <activity
             android:name=".social.FriendsListActivity"
             android:label="@string/title_activity_friends_list"

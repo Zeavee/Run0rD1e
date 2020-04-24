@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,84 +10,50 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
+import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.item.ItemsViewAdapter;
-import ch.epfl.sdp.login.AuthenticationController;
-import ch.epfl.sdp.login.FirebaseAuthentication;
-import ch.epfl.sdp.social.friends_firestore.FirestoreFriendsFetcher;
+import ch.epfl.sdp.social.Conversation.*;
 
-public class FriendsListActivity extends AppCompatActivity implements WaitsOnFriendFetch {
-    private ChatRepository chatRepo;
+public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {
+    private SocialRepository chatRepo;
 
     // To get the user info
-    private static String current_email_id= "stupid1@gmail.com";
-
-    // This should be called from the Authentication class's signIn/signUp success callback
-    public static void setChatEmailID(String email_id)
-    {
-        current_email_id = email_id;
-    }
+    private String current_email_id = DependencyProvider.email;
+    private List<User> friends;
 
 
     @Override
     protected void onResume() {
-
         super.onResume();
-        chatRepo.setContextActivity(this);
+        SocialRepository.setContextActivity(this);
+        chatRepo = SocialRepository.getInstance();
         chatRepo.fetchFriends(new User(current_email_id));
-        //chatRepo.
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        current_email_id= "stupid1@gmail.com";
-        chatRepo = ChatRepository.createRepo(this);
-        chatRepo.setContextActivity(this);
-
-        // TODO (ACTUALLY NOT BUT SINCE HIGHLIGHTING IS HARD I USED TODO) these two statements can be changed once FriendsListActivity is created
-        ChatActivity.setRemoteToSQLiteAdapter(new FireStoreToSQLiteAdapter().getInstance()); // placed here for mock testing purposes
-        AddFriendsActivity.setAdapter(new RecyclerQueryAdapter(new FirestoreFriendsFetcher())); // placed here for mock testing purposes
-        
-        try {
-            Log.d("The current enmail ISSS", current_email_id);
-            //chatRepo.addUser(usr_amr);
-            //chatRepo.addUser(usr_shaima);
-            //chatRepo.addFriends(usr_amr, usr_shaima);
-            chatRepo.fetchFriends(new User(current_email_id));
-        }
-        catch(Exception e){
-            System.out.println("NOOOO" +e.getMessage());
-        }
-        //friends = new Friend(new UserForFirebase("tempUsername", "tempEmail@email.com"));
-        //friends.addFriend(new Friend(new UserForFirebase("tempUsername2", "tempEmail2@email.com")));
-        //friends.addFriend(new Friend(new UserForFirebase("tempUsername3", "tempEmail3@email.com")));
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());*/
-        //friendsFetched(friends.getFriends());
-        //initRecyclerView();
+        SocialRepository.setContextActivity(this);
+        SocialRepository.getInstance().fetchFriends(new User(current_email_id));
     }
 
     private void initRecyclerView(List<User> friends) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         RecyclerView recyclerView = findViewById(R.id.friends_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        MyFriendsRecyclerViewAdapter adapter = new MyFriendsRecyclerViewAdapter(friends, friend -> {
-
-        });
+        MyFriendsRecyclerViewAdapter adapter = new MyFriendsRecyclerViewAdapter(friends);
         adapter.setOnItemClickListener((position, v) -> {
-            ChatActivity.setChattingWith(friends.get(position).getEmail());
-            Intent intent = new Intent(FriendsListActivity.this , ChatActivity.class);
+            Intent intent = new Intent(FriendsListActivity.this, ChatActivity.class);
+            intent.putExtra("chattingWith",friends.get(position).getEmail());
             startActivity(intent);
         });
 
@@ -96,17 +61,19 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOnFri
     }
 
     @Override
-    public void friendsFetched(List<User> friends) {
+    public void contentFetched(List<User> friends) {
         initRecyclerView(friends);
+        this.friends = friends;
         Log.d("RESUMED ", "size   " + friends.size());
     }
 
-    public void onAddFriendClicked(View v)
-    {
+    public void onAddFriendClicked(View v) {
         startActivity(new Intent(FriendsListActivity.this, AddFriendsActivity.class));
     }
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(User friend);
+
+    // for testing
+    public List<User> getFriends() {
+        return new ArrayList<>(friends);
     }
+
 }

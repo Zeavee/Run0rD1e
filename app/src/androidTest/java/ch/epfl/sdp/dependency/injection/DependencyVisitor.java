@@ -3,8 +3,8 @@ package ch.epfl.sdp.dependency.injection;
 import ch.epfl.sdp.database.UserDataController;
 import ch.epfl.sdp.login.AuthenticationController;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.social.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
+import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
+import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 /* There is a visitor for each interface that can be mocked
  Example, UserDataController is the interface which is implemented by MockUserDataController and FireStoreUserData thus UserDataController

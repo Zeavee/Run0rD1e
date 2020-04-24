@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import ch.epfl.sdp.dependencies.DependencyProvider;
 import ch.epfl.sdp.game.DatabaseHelper;
 
 import ch.epfl.sdp.MainActivity;
@@ -25,7 +26,7 @@ public class FirebaseAuthentication implements AuthenticationController {
      *  1 to 20 and the part after can have length ranging from 1 to 20
      * useful for sanitizing input
      */
-    //private static FirebaseAuth auth = FirebaseAuth.getInstance();
+    private static FirebaseAuth auth = FirebaseAuth.getInstance();
     private UserDataController userDataStore;
 
     public FirebaseAuthentication(UserDataController store) {
@@ -34,8 +35,8 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     @Override
     public void signIn(Activity loginFormActivity, String email, String password) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            FriendsListActivity.setChatEmailID(email);
+        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+            DependencyProvider.email = email;
             loginFormActivity.startActivity(new Intent(loginFormActivity, MainActivity.class));
             loginFormActivity.finish();
             new DatabaseHelper(loginFormActivity).saveLoggedUser(email, password);
@@ -43,20 +44,9 @@ public class FirebaseAuthentication implements AuthenticationController {
     }
 
     @Override
-    public String getEmailOfCurrentUser() {
-        if(FirebaseAuth.getInstance().getCurrentUser() == null) return null;
-        else return FirebaseAuth.getInstance().getCurrentUser().getEmail();
-    }
-
-//    @Override
-//    public boolean isSignedIn(String email) {
-//        return auth.getCurrentUser() != null;
-//    }
-
-    @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
-            FriendsListActivity.setChatEmailID(email);
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(authResult -> {
+            DependencyProvider.email = email;
             userDataStore.storeUser(RegisterFormActivity.registerCollectionName, player);
             registerFormActivity.startActivity(new Intent(registerFormActivity, MainActivity.class));
             registerFormActivity.finish();
@@ -65,11 +55,11 @@ public class FirebaseAuthentication implements AuthenticationController {
 
     public static FirebaseUser getCurrentUser()
     {
-        return FirebaseAuth.getInstance().getCurrentUser();
+        return auth.getCurrentUser();
     }
 
     @Override
     public void signOut() {
-        FirebaseAuth.getInstance().signOut();
+        auth.signOut();
     }
 }

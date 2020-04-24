@@ -32,10 +32,6 @@ public class MockAuthentication implements AuthenticationController {
         }
     }
 
-    @Override
-    public String getEmailOfCurrentUser() {
-        return null;
-    }
 
     @Override
     public void register(Activity registerFormActivity, Player player, String email, String password) {

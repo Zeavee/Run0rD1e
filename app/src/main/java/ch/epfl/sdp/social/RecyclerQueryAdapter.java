@@ -13,19 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.friends_firestore.RemoteFriendFetcher;
-import ch.epfl.sdp.social.friends_firestore.WaitsOnUserFetch;
+import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.social.socialDatabase.Chat;
 
-public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOnUserFetch {
+import ch.epfl.sdp.R;
+
+public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
-    private RemoteFriendFetcher server;
 
-    public RecyclerQueryAdapter(RemoteFriendFetcher server) {
+    /**
+     * This create a recycler query adapter
+     */
+    public RecyclerQueryAdapter() {
         this.friendsList = new ArrayList<>();
-        this.server = server;
-        this.server.setListener(this);
     }
 
     @NonNull
@@ -48,20 +51,13 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
         return friendsList.size();
     }
 
-
     @Override
-    public void signalFriendsFetched(List<User> fetched_friends) {
+    public void contentFetched(List<User> fetched_friends) {
         friendsList = fetched_friends;
         notifyDataSetChanged();
     }
 
-    @Override
-    public void updateSearch(String friendQuery) {
-        server.getFriendsFromServer(friendQuery);
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView imageView;
         private TextView emailTextView, usernameTextView;
@@ -72,7 +68,7 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             emailTextView = itemView.findViewById(R.id.textViewEmail);
             usernameTextView = itemView.findViewById(R.id.textViewUsername);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
 
                 @Override
                 public boolean onLongClick(View v) {
@@ -83,29 +79,28 @@ public class RecyclerQueryAdapter  extends RecyclerView.Adapter<RecyclerQueryAda
             });
         }
 
-        /// Here is where you add that the user become friends in both FireStore and SQLite
+        /// Here is where you add that the user become friends in SQLite
         @Override
         public void onClick(View v) {
-            // If it is not created already
-            ChatRepository singleton = ChatRepository.createRepo(v.getContext());
 
             // Let it know which UI context thread to run on
-            ChatRepository.setContextActivity(v.getContext());
+            SocialRepository.setContextActivity(v.getContext());
 
+            // completeDBSetup will add the user and his friend to the local database to register them as friends
             completeDBSetup();
-            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend" , Toast.LENGTH_SHORT).show();
+            Toast.makeText(v.getContext(), friendsList.get(getAdapterPosition()).getUsername() + " added as friend", Toast.LENGTH_SHORT).show();
         }
 
-        private void completeDBSetup()
-        {
-            // Add friends TODO: Figure out a clean way to get current user instead of relying on hard coded value amro.abdrabo@gmail.com
-            User cur_usr = new User("stupid1@gmail.com");
+        private void completeDBSetup() {
+            User cur_usr = new User(DependencyProvider.email);
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
-            ChatRepository.addUser(cur_usr);
-            ChatRepository.addUser(befriended_usr);
-            ChatRepository.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));
-            ChatRepository.addChat(new Chat(befriended_usr.getEmail(), cur_usr.getEmail()));
-            ChatRepository.addFriends(befriended_usr, cur_usr); // symmetry handled in called function
+
+            SocialRepository chatRepo = SocialRepository.getInstance();
+            chatRepo.addUser(cur_usr);
+            chatRepo.addUser(befriended_usr);
+            chatRepo.addChat(new Chat(cur_usr.getEmail(), befriended_usr.getEmail()));
+            chatRepo.addChat(new Chat(befriended_usr.getEmail(), cur_usr.getEmail()));
+            chatRepo.addFriends(befriended_usr, cur_usr); // symmetry handled in called function
         }
     }
 }
