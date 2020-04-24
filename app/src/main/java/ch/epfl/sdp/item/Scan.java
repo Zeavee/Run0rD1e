@@ -11,7 +11,6 @@ public class Scan extends TimedItem {
         super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
     }
 
-
     @Override
     public void use() {
         super.use();
@@ -22,8 +21,8 @@ public class Scan extends TimedItem {
     }
 
     @Override
-    public void stopUsing(){
-        for(Player p: PlayerManager.getPlayers()) {
+    public void stopUsing() {
+        for (Player p : PlayerManager.getPlayers()) {
             MapsActivity.mapApi.unDisplayEntity(p);
         }
     }

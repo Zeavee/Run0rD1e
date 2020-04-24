@@ -5,20 +5,24 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.logic.RandomGenerator;
-import ch.epfl.sdp.map.GeoPoint;
+import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.PointConverter;
+import ch.epfl.sdp.geometry.RectangleArea;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
 
     // This area will be split into tiles of size 1x1 in order to fill them according to the density of enemies rule
     private HashMap<Long, Integer> mapEnemiesToTiles;
-    //private HashMap<Long, Integer> mapEnemiesToTiles;
 
-    public RandomEnemyGenerator(RectangleBounds enclosure, Player player) {
+    public RandomEnemyGenerator(RectangleArea enclosure, Player player) {
         super(enclosure, player);
         mapEnemiesToTiles = new HashMap<>();
-        enemies = new ArrayList<Enemy>();
+        enemies = new ArrayList<>();
         timer = new Timer();
     }
 
@@ -37,7 +41,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         if (enemyLocation == null) {
             return;
         }
-        //enemies.add(new EnemyOutDated(enemyLocation.getLongitude(), enemyLocation.getLatitude(), radius));
+
         Enemy e = new Enemy();
         e.setLocation(enemyLocation);
         enemies.add(e);
@@ -71,11 +75,11 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             enemyPos = RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
-            LocalBounds localBounds = new LocalBounds(new RectangleBounds(f1, f2, local), PointConverter.GeoPointToGenPoint(local));
-            Boundable boundable = new UnboundedArea();
-            Enemy enemy = new Enemy(localBounds, boundable);
+            LocalArea localArea = new LocalArea(new RectangleArea(f1, f2), PointConverter.geoPointToCartesianPoint(local));
+            Area area = new UnboundedArea();
+            Enemy enemy = new Enemy(localArea, area);
             enemy.setLocation(enemyPos);
-            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.GeoPointToGenPoint(enemyPos));
+            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
             movement.setVelocity(5);
             movement.setAngleStep(0.1);
             movement.setAmplitude(10);

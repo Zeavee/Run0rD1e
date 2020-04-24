@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.socialDatabase.User;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.Conversation.*;
+import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.social.Conversation.ChatActivity;
+import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.socialDatabase.User;
+
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {
     private SocialRepository chatRepo;

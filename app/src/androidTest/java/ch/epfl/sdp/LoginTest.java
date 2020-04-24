@@ -14,8 +14,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sdp.database.UserDataController;
+import java.util.HashMap;
+
 import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -32,11 +34,18 @@ public class LoginTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
-    private UserDataController store;
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
-            new ActivityTestRule<>(LoginFormActivity.class);
+            new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class){
+                @Override
+                protected void beforeActivityLaunched() {
+                    DependencyFactory.setTestMode(true);
+                    HashMap<String, String> registeredUsers = new HashMap<>();
+                    registeredUsers.put("amro.abdrabo@gmail.com", "password");
+                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(registeredUsers, null));
+                }
+            };
 
     @Before
     public void setUp() {
@@ -48,12 +57,12 @@ public class LoginTest {
         resultData.putExtra("resultData", "fancyData");
 
         result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
-        store = new MockUserDataController();
-        mActivityRule.getActivity().authenticationController = new MockAuthentication(store);
     }
 
     @After
     public void tearDown() {
+        DependencyFactory.setTestMode(false);
+        DependencyFactory.setAuthenticationAPI(null);
         Intents.release();
     }
 
@@ -71,7 +80,7 @@ public class LoginTest {
     public void login_shouldWorkWithRegisteredUser() {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.logoutBt));
+        onView(withId(R.id.logoutBt)).perform(click());
     }
 
    /* @Test

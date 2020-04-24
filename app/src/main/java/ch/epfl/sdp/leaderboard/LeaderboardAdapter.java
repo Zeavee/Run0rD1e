@@ -9,12 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-
-import ch.epfl.sdp.db.PlayerEntity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>{
-    private List<PlayerEntity> mUsers;
+    private List<LeaderboardEntity> mUsers;
 
     public LeaderboardAdapter() {
     }
@@ -31,7 +30,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         if (mUsers != null) {
             holder.ranking.setText(String.valueOf(position+1));
             holder.username.setText(mUsers.get(position).getUsername());
-            holder.healthpoint.setText(String.valueOf(mUsers.get(position).getHealthpoint()));
+            holder.healthpoint.setText(String.valueOf(mUsers.get(position).getScore()));
         } else {
             // Covers the case of data not being ready yet.
             holder.ranking.setText("");
@@ -48,7 +47,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         else return 0;
     }
 
-    void setLeaderboard(List<PlayerEntity> mUsers) {
+    void setLeaderboard(List<LeaderboardEntity> mUsers) {
         this.mUsers = mUsers;
         notifyDataSetChanged();
     }

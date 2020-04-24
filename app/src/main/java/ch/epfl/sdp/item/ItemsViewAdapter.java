@@ -7,28 +7,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Map;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;
 import static ch.epfl.sdp.R.id.useitem;
 
-public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder>{
-    private Context mContext;
+/**
+ * Recycler view adapter for displaying items.
+ */
+public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
 
     public ItemsViewAdapter(Context mContext) {
-        this.mContext = mContext;
     }
 
     @NonNull
@@ -40,13 +35,13 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
-        LinkedHashMap items = PlayerManager.getUser().getInventory().getItems();
+        Map items = PlayerManager.getCurrentUser().getInventory().getItems();
         Item item = (Item) (items.keySet().toArray())[position];
         holder.name.setText(item.getName());
         holder.amountOfItem.setText(String.valueOf(items.get(item)));
         holder.button.setOnClickListener(v -> {
             item.use();
-            PlayerManager.getUser().getInventory().removeItem(item);
+            PlayerManager.getCurrentUser().getInventory().removeItem(item);
 
             // Update the quantity of that item
             holder.amountOfItem.setText(String.valueOf(items.get(item)));
@@ -55,7 +50,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
 
     @Override
     public int getItemCount() {
-        return PlayerManager.getUser().getInventory().getItems().size();
+        return PlayerManager.getCurrentUser().getInventory().getItems().size();
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
