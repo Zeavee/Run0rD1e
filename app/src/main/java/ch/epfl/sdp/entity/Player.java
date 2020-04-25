@@ -104,11 +104,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.USER;
-    }
-
-    @Override
     public void displayOn(MapApi mapApi) {
         mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
     }

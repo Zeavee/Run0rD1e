@@ -1,12 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import android.graphics.Color;
-
-import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.Positionable;
@@ -72,21 +67,23 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Creates an enemy that is bounded in an area.
+     *
      * @param patrolBounds The enemy's patrol area.
-     * @param maxBounds The enemy's maximum visitable area.
+     * @param maxBounds    The enemy's maximum visitable area.
      */
     public Enemy(LocalArea patrolBounds, Area maxBounds) {
-        this(0,0,1000,50, patrolBounds, maxBounds);
+        this(0, 0, 1000, 50, patrolBounds, maxBounds);
     }
 
     /**
      * Creates an enemy.
-     * @param damage The enemy's attack's strength.
-     * @param damageRate The enemy's damage rate per second.
+     *
+     * @param damage            The enemy's attack's strength.
+     * @param damageRate        The enemy's damage rate per second.
      * @param detectionDistance The enemy's detection range for chasing player when in patrol state.
-     * @param aoeRadius The enemy's attack range when in chase state or attack state.
-     * @param patrolBounds The enemy's patrol area.
-     * @param maxBounds The enemy's maximum visitable area.
+     * @param aoeRadius         The enemy's attack range when in chase state or attack state.
+     * @param patrolBounds      The enemy's patrol area.
+     * @param maxBounds         The enemy's maximum visitable area.
      */
     public Enemy(int damage, float damageRate, float detectionDistance, double aoeRadius, LocalArea patrolBounds, Area maxBounds) {
         super();
@@ -108,6 +105,7 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Gets the enemy's behavior.
+     *
      * @return A behaviour representing the state in the finite state machine.
      */
     public Behaviour getBehaviour() {
@@ -116,6 +114,7 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Gets the remaining time delay before the next attack.
+     *
      * @return The remaining time delay before the next attack.
      */
     public int getAttackTimeDelay() {
@@ -158,6 +157,7 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Sets the waiting flag.
+     *
      * @param waiting The enemy's waiting flag to go to the wait state.
      */
     public void setWaiting(boolean waiting) {
@@ -190,6 +190,7 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Verify if the wait flag is enabled, if it's the case change the state to the wait state.
+     *
      * @return True if the flag is enabled, false otherwise.
      */
     public boolean checkWaiting() {
@@ -213,7 +214,7 @@ public class Enemy extends MovingArtificialEntity {
 
         if (target != null) {
             orientToTarget(target);
-            if (playerDetected(this.getAoeRadius())!= null) {
+            if (playerDetected(this.getAoeRadius()) != null) {
                 super.setMoving(false);
                 behaviour = Behaviour.ATTACK;
             }
@@ -251,6 +252,7 @@ public class Enemy extends MovingArtificialEntity {
     /**
      * Changes the angle of the direction of the enemy's movement to follow a positionable target.
      * The object can be a player or a location on the map.
+     *
      * @param positionable A Positionable representing a target position.
      */
     private void orientToTarget(Positionable positionable) {
@@ -261,6 +263,7 @@ public class Enemy extends MovingArtificialEntity {
 
     /**
      * Checks if a player was detected based on the given distance.
+     *
      * @param distance The range to check for a player.
      * @return The Player if one was detected, otherwise returns null.
      */
@@ -300,13 +303,8 @@ public class Enemy extends MovingArtificialEntity {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.ENEMY;
-    }
-
-    @Override
     public void displayOn(MapApi mapApi) {
-       // mapApi.displayMarkerCircle(this, Color.RED, "Enemy", 1000);
+        // mapApi.displayMarkerCircle(this, Color.RED, "Enemy", 1000);
         mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
     }
 }

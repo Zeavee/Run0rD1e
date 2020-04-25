@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.Displayable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -43,12 +42,6 @@ public class PlayerTest {
         healthpack.use();
 
         assertTrue(PlayerManager.getCurrentUser().getHealthPoints() == 11);
-    }
-
-    @Test
-    public void getEntityTypeReturnsUser() {
-        Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
-        assertEquals(EntityType.USER, currentPlayer.getEntityType());
     }
 
     @Test

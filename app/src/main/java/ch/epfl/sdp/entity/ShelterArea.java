@@ -33,11 +33,6 @@ public class ShelterArea implements Displayable, Updatable {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.SHELTER;
-    }
-
-    @Override
     public boolean isOnce() {
         return false;
     }

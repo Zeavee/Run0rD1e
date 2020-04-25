@@ -1,9 +1,8 @@
 package ch.epfl.sdp.map;
 
-import ch.epfl.sdp.entity.Entity;
 import ch.epfl.sdp.geometry.GeoPoint;
 
-public interface Displayable extends Entity {
+public interface Displayable {
     /**
      * Method for getting the location for displaying on the map
      * @return a GeoPoint which is a location

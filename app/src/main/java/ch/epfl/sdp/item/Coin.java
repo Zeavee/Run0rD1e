@@ -1,6 +1,5 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Coin extends Item {
@@ -19,9 +18,5 @@ public class Coin extends Item {
 
     public int getValue() {
         return value;
-    }
-
-    public EntityType getEntityType() {
-        return EntityType.COIN;
     }
 }
