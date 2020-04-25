@@ -1,7 +1,9 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.Positionable;
