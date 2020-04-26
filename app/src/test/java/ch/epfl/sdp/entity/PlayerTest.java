@@ -27,12 +27,11 @@ public class PlayerTest {
     public void otherMethodTest() {
         assertTrue(player1.isAlive());
         assertEquals("Skyris", player1.getUsername());
-        assertEquals(0, player1.getScore(), 0);
+        assertEquals("test@email.com", player1.getEmail());
         assertEquals(0, player1.getSpeed(), 0.001);
         assertEquals(0, player1.getTimeTraveled(), 0.001);
         assertEquals(0, player1.getGeneralScore());
         assertEquals(0, player1.getDistanceTraveled(), 0.001);
-        assertEquals("test@email.com", player1.getEmail());
     }
 
     @Test

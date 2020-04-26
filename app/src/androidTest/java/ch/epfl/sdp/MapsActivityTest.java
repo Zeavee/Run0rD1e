@@ -20,6 +20,7 @@ import androidx.test.uiautomator.UiSelector;
 
 import java.util.HashMap;
 
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
@@ -106,7 +107,7 @@ public class MapsActivityTest {
                     DependencyFactory.setTestMode(true);
                     DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
                     HashMap<String, UserForFirebase> map = new HashMap<>();
-                    map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
+                    map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));                }
             };
 

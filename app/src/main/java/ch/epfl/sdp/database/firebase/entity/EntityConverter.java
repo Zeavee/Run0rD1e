@@ -19,16 +19,17 @@ public class EntityConverter {
     public static Player UserForFirebaseToPlayer(UserForFirebase userForFirebase) {
         String username = userForFirebase.getUsername();
         String email = userForFirebase.getEmail();
-        double score = userForFirebase.getScore();
+        int generalScore = userForFirebase.getGeneralScore();
 
         Player player = new Player(username, email);
-        player.setScore(score);
+        player.setGeneralScore(generalScore);
 
         return player;
     }
 
     /**
      * Convert from local in-game Player to Firebase stored in-game Player
+     *
      * @param player The local in-game Player
      * @return The firebase stored in-game Player
      */
@@ -40,6 +41,7 @@ public class EntityConverter {
         playerForFirebase.setLocation(player.getLocation());
         playerForFirebase.setAoeRadius(player.getAoeRadius());
         playerForFirebase.setHealthPoints(player.getHealthPoints());
+        playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
 
         return playerForFirebase;
     }

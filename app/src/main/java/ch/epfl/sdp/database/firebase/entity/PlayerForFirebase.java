@@ -16,6 +16,7 @@ public class PlayerForFirebase {
     private double aoeRadius;
     private double healthPoints;
     private double damage;
+    private int currentGameScore;
     @ServerTimestamp
     private Timestamp timestamp;
 
@@ -23,23 +24,6 @@ public class PlayerForFirebase {
      * For Firebase each custom class must have a public constructor that takes no arguments.
      */
     public PlayerForFirebase() {
-    }
-
-    /**
-     * Construct a PlayerForFirebase instance
-     *
-     * @param username The username of the playerForFirebase
-     * @param email The email of the playerForFirebase
-     * @param location The GeoPoint location of the playerForFirebase
-     * @param aoeRadius The aoeRadius of the playerForFirebase
-     */
-    public PlayerForFirebase(String username, String email, GeoPoint location, double aoeRadius) {
-        this.username = username;
-        this.email = email;
-        this.location = location;
-        this.aoeRadius = aoeRadius;
-        this.healthPoints = 100;
-        this.damage = 0;
     }
 
     /**
@@ -147,6 +131,24 @@ public class PlayerForFirebase {
      */
     public void setDamage(double damage) {
         this.damage = damage;
+    }
+
+    /**
+     * Get the currentGameScore of the playerForFirebase
+     *
+     * @return The currentGameScore of the playerForFirebase
+     */
+    public int getCurrentGameScore() {
+        return currentGameScore;
+    }
+
+    /**
+     * Set the currentGameScore of the playerForFirebase
+     *
+     * @param currentGameScore The currentGameScore of the playerForFirebase
+     */
+    public void setCurrentGameScore(int currentGameScore) {
+        this.currentGameScore = currentGameScore;
     }
 
     /**

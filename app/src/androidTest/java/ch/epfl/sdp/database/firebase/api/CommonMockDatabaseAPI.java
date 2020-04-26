@@ -6,8 +6,8 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.firebase.utils.CustomResult;
-import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 

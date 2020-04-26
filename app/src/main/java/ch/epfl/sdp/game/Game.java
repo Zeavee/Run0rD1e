@@ -183,7 +183,7 @@ public class Game implements Updatable {
      * and if he walked more than 10 meters, he also gets 10 points
      */
     private void updateLocalScoreOfPlayers() {
-        if (numberOfUpdates > 9 * gameThread.getFPS()) {
+        if (numberOfUpdates > 10 * gameThread.getFPS()) {
             numberOfUpdates = 0;
             for (Player player : PlayerManager.getPlayers()) {
                 player.updateLocalScore();

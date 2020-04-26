@@ -10,7 +10,6 @@ public class PlayerForFirebaseTest {
     @Test
     public void playerForFirebaseTest() {
         PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
-        PlayerForFirebase playerForFirebase2 = new PlayerForFirebase("test@gmail.com", "test", new GeoPoint(22,22), 22);
 
         playerForFirebase1.setEmail("user1@gmail.com");
         assertEquals("user1@gmail.com", playerForFirebase1.getEmail());

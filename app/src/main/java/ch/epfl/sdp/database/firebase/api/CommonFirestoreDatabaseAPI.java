@@ -1,5 +1,9 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,8 +17,8 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.firebase.utils.CustomResult;
-import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
@@ -30,7 +34,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         UserForFirebase player = documentSnapshot.toObject(UserForFirebase.class);
-                        LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getScore());
+                        LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getGeneralScore());
                         leaderboardViewModel.insertToLeaderboard(user);
                     }
                 });
@@ -49,8 +53,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 .addOnSuccessListener(documentSnapshot -> {
                     UserForFirebase userForFirebase = documentSnapshot.toObject(UserForFirebase.class);
                     onValueReadyCallback.finish(new CustomResult<>(userForFirebase, true, null));
-                })
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
     @Override
@@ -69,7 +72,6 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         PlayerManager.setNumPlayersBeforeJoin(doc.getLong("count"));
                     }
                     onValueReadyCallback.finish(new CustomResult<>(null, true, null));
-
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
@@ -77,11 +79,10 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback){
         DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName());
         docRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).set(playerForFirebase)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        docRef.set(data, SetOptions.merge()).addOnCompleteListener(task1 -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)));
-                    }
-                });
+                .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
+                        .addOnSuccessListener(aVoid1 -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
+                        .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e))))
+                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
     @Override

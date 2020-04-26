@@ -6,7 +6,7 @@ package ch.epfl.sdp.database.firebase.entity;
 public class UserForFirebase {
     private String email;
     private String username;
-    private double score;
+    private int generalScore;
 
     /**
      * For Firebase each custom class must have a public constructor that takes no arguments.
@@ -16,15 +16,14 @@ public class UserForFirebase {
 
     /**
      * Construct a UserForFirebase instance
-     *
      * @param email The email of the userForFirebase
      * @param username The username of the userForFirebase
-     * @param score The socre of the userForFirebase
+     * @param generalScore The generalScore of the userForFirebase
      */
-    public UserForFirebase(String email, String username, double score) {
+    public UserForFirebase(String email, String username, int generalScore) {
         this.email = email;
         this.username = username;
-        this.score = score;
+        this.generalScore = generalScore;
     }
 
     /**
@@ -46,12 +45,12 @@ public class UserForFirebase {
     }
 
     /**
-     * Get the score of the userForFirebase
+     * Get the generalScore of the userForFirebase
      *
-     * @return The score of the userForFirebase
+     * @return The generalScore of the userForFirebase
      */
-    public double getScore() {
-        return score;
+    public int getGeneralScore() {
+        return generalScore;
     }
 
     /**
@@ -73,11 +72,11 @@ public class UserForFirebase {
     }
 
     /**
-     * Set the score of the UserForfirebase
+     * Set the generalScore of the UserForfirebase
      *
-     * @param score The score of the userForFirebase
+     * @param generalScore The generalScore of the userForFirebase
      */
-    public void setScore(double score) {
-        this.score = score;
+    public void setGeneralScore(int generalScore) {
+        this.generalScore = generalScore;
     }
 }

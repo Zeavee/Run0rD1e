@@ -29,14 +29,14 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
-import ch.epfl.sdp.login.AuthenticationAPI;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public static MapApi mapApi = new GoogleMapApi();
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
-    private static InventoryFragment inventoryFragment = new InventoryFragment();
+    private InventoryFragment inventoryFragment = new InventoryFragment();
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
@@ -73,7 +73,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapApi.setMap(googleMap);
@@ -108,14 +107,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
             }
-
         });
     }
 
     public void showInventory(View v) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
-        if(flag) {
+        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+        if (flag) {
             transaction.remove(inventoryFragment);
         } else {
             transaction.add(R.id.fragment_inventory_container, inventoryFragment);
@@ -134,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(() -> {
                             if (PlayerManager.getCurrentUser() != null && PlayerManager.getCurrentUser().getHealthPoints() > 0) {
                                 healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(PlayerManager.getCurrentUser().getUsername());
                             }
                         });
@@ -143,7 +141,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         };
-
         return thread;
     }
 }

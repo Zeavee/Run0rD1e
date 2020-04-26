@@ -1,4 +1,4 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.login;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -22,6 +22,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.MissingFieldTestFactory;
+import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;

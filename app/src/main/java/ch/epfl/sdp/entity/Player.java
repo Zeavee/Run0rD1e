@@ -9,7 +9,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
-    private double score;
     private double healthPoints;
     private CartesianPoint position;
     private boolean alive;
@@ -34,7 +33,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         this.setLocation(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
-        this.setScore(0);
         this.setHealthPoints(100);
         this.setAlive(true);
         this.setShielded(false);
@@ -42,8 +40,9 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setActive(true);
-        this.distanceTraveled = 0;
         this.generalScore = 0;
+        this.currentGameScore = 0;
+        this.distanceTraveled = 0;
         this.speed = 0;
         this.money = 0;
     }
@@ -58,10 +57,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     public boolean isAlive() {
         return alive;
-    }
-
-    public double getScore() {
-        return score;
     }
 
     public String getUsername() {
@@ -95,6 +90,8 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     public int getGeneralScore() {
         return generalScore;
     }
+
+    public int getCurrentGameScore() { return currentGameScore; }
 
     public double getDistanceTraveled() {
         return this.distanceTraveled;
@@ -131,10 +128,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         this.email = email;
     }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
@@ -154,7 +147,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     public void setDistanceTraveled(double distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
-  
+
+    public void setGeneralScore(int generalScore) {
+        this.generalScore = generalScore;
+    }
+
     /**
      * This methods update the local score of the Player,
      * this is called each 10 seconds, so if the Player is alive, he gets 10 points

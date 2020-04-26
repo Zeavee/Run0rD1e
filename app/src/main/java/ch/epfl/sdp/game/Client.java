@@ -23,7 +23,7 @@ public class Client implements Updatable{
     /**
      * Creates a new client
      */
-    public  Client(){
+    public Client(){
         oldDamage = 0;
         counter = GameThread.FPS;
         Game.getInstance().addToUpdateList(this);

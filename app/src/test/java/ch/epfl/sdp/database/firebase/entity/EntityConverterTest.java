@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class EntityConverterTest {
     @Test
     public void entityConverterTest() {
-        UserForFirebase userForFirebase = new UserForFirebase("test@gmail.com", "test", 0.0);
+        UserForFirebase userForFirebase = new UserForFirebase("test@gmail.com", "test", 0);
 
         Player player = EntityConverter.UserForFirebaseToPlayer(userForFirebase);
 

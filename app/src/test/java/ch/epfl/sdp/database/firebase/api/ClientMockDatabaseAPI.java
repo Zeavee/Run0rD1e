@@ -7,8 +7,8 @@ import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.firebase.utils.CustomResult;
-import ch.epfl.sdp.database.firebase.utils.OnValueReadyCallback;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 public class ClientMockDatabaseAPI extends CommonMockDatabaseAPI implements ClientDatabaseAPI {
     public ClientMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<Enemy> enemyList) {

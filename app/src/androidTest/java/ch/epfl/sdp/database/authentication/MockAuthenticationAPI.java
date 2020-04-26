@@ -1,9 +1,10 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.database.authentication;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.login.AuthenticationAPI;
-import ch.epfl.sdp.login.OnAuthCallback;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 public class MockAuthenticationAPI implements AuthenticationAPI {
     private HashMap<String, String> registeredUsers;
@@ -15,24 +16,24 @@ public class MockAuthenticationAPI implements AuthenticationAPI {
     }
 
     @Override
-    public void signIn(String email, String password, OnAuthCallback callback) {
+    public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> callback) {
         if (!registeredUsers.containsKey(email)) {
-            callback.error(new IllegalArgumentException("User not exist!"));
+            callback.finish(new CustomResult<>(null, false, new IllegalArgumentException("User not exist!")));
         } else if (!registeredUsers.get(email).equals(password)) {
-            callback.error(new IllegalArgumentException("Password not correct"));
+            callback.finish(new CustomResult<>(null, false, new IllegalArgumentException("Password not correct")));
         } else {
             currentUserEmail = email;
-            callback.finish();
+            callback.finish(new CustomResult<>(null, true, null));
         }
     }
 
     @Override
-    public void register(String email, String password, OnAuthCallback callback) {
+    public void register(String email, String password, OnValueReadyCallback<CustomResult<Void>> callback) {
         if (registeredUsers.containsKey(email)) {
-            callback.error(new IllegalArgumentException("User already exist!"));
+            callback.finish(new CustomResult<>(null, false, new IllegalArgumentException("User already exist!")));
         } else {
             registeredUsers.put(email, password);
-            callback.finish();
+            callback.finish(new CustomResult<>(null, true, null));
         }
     }
 

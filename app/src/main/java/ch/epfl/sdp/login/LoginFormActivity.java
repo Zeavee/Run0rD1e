@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 public class LoginFormActivity extends AppCompatActivity {
@@ -56,17 +56,13 @@ public class LoginFormActivity extends AppCompatActivity {
     }
 
     private void signIn(String email, String password) {
-        authenticationAPI.signIn(email, password, new OnAuthCallback() {
-            @Override
-            public void finish() {
+        authenticationAPI.signIn(email, password, signInRes -> {
+            if (!signInRes.isSuccessful()) {
+                Toast.makeText(LoginFormActivity.this, signInRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            } else {
                 DependencyProvider.email = email;
                 LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
                 LoginFormActivity.this.finish();
-            }
-
-            @Override
-            public void error(Exception ex) {
-                Toast.makeText(LoginFormActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
