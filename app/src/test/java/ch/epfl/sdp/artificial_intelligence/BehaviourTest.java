@@ -30,7 +30,7 @@ public class BehaviourTest {
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
         CartesianPoint patrolCenter = new CartesianPoint(10, 10);
         LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
-        enemy = new Enemy(10, 1, 50, 20, localArea, maxBounds);
+        enemy = new Enemy(0, 10, 1, 50, 20, localArea, maxBounds);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }

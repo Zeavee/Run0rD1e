@@ -1,11 +1,14 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
@@ -14,31 +17,35 @@ import ch.epfl.sdp.utils.DependencyFactory;
 public class EnemyManager implements Updatable {
     public final int UPDATE_EVERY_MS = 1000;
 
-    private ServerDatabaseAPI serverDatabaseAPI;
-    private List<Enemy> enemies = new ArrayList<>();
+    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();;
+    private Map<Integer, Enemy> enemies = new HashMap<>();
     private long lastUpdateTimeMillis = System.currentTimeMillis();
 
-    public EnemyManager() {
-        this.serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
-    }
-
     public void addEnemy(Enemy enemy) {
-        enemies.add(enemy);
+        enemies.put(enemy.getId(), enemy);
     }
 
     public void removeEnemy(Enemy enemy) {
-        enemies.remove(enemy);
+        enemies.remove(enemy.getId());
     }
 
     public List<Enemy> getEnemies() {
-        return enemies;
+        return new ArrayList<>(enemies.values());
+    }
+
+    public void updateEnemies(int id, GeoPoint location) {
+        if(enemies.containsKey(id)) {
+            Enemy enemy = enemies.get(id);
+            enemy.setLocation(location);
+            enemies.put(id, enemy);
+        }
     }
 
     @Override
     public void update() {
         long currentTimeMillis = System.currentTimeMillis();
         if(lastUpdateTimeMillis - currentTimeMillis >= UPDATE_EVERY_MS) {
-            serverDatabaseAPI.sendEnemies(EntityConverter.EnemyToEnemyForFirebase(enemies), value -> {
+            serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(this.getEnemies()), value -> {
                 if(value.isSuccessful()) { lastUpdateTimeMillis = currentTimeMillis; }
             });
         }

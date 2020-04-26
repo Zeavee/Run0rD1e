@@ -16,8 +16,9 @@ public class UserForFirebase {
 
     /**
      * Construct a UserForFirebase instance
-     * @param email The email of the userForFirebase
-     * @param username The username of the userForFirebase
+     *
+     * @param email        The email of the userForFirebase
+     * @param username     The username of the userForFirebase
      * @param generalScore The generalScore of the userForFirebase
      */
     public UserForFirebase(String email, String username, int generalScore) {

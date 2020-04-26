@@ -88,7 +88,7 @@ public class MovingArtificialEntityTest {
         CartesianPoint entityPos = PointConverter.geoPointToCartesianPoint(entityLocation);
         Area rectangleBounds = new RectangleArea(50, 50);
         LocalArea patrolBounds = new LocalArea(rectangleBounds, entityPos);
-        MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, rectangleBounds);
+        MovingArtificialEntity movingArtificialEntity = new Enemy(0, patrolBounds, rectangleBounds);
         LinearMovement movement = new LinearMovement(entityPos);
 
         movement.setVelocity(10);

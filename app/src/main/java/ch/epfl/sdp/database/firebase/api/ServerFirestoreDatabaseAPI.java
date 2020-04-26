@@ -19,8 +19,9 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
         WriteBatch batch = firebaseFirestore.batch();
 
         // Collection Ref
-        for(EnemyForFirebase enemyForFirebase: enemies){
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.ENEMY_COLLECTION_NAME).document();
+        for(EnemyForFirebase enemyForFirebase: enemies) {
+            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+                    .collection(PlayerManager.ENEMY_COLLECTION_NAME).document("enemy" + enemyForFirebase.getId());
             batch.set(docRef, enemyForFirebase);
         }
 

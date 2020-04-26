@@ -84,7 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (!fetchUserRes.isSuccessful()) {
                 Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             } else {
-                Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
+                Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
                 PlayerManager.setCurrentUser(currentUser);
                 mapApi.updatePosition();
 
@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (!selectLobbyRes.isSuccessful()) {
                         Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser());
                         Map<String, Object> data = new HashMap<>();
                         data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
                         if (PlayerManager.isServer()) data.put("startGame", false);

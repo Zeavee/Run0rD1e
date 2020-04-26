@@ -16,9 +16,9 @@ public class EntityConverterTest {
     public void entityConverterTest() {
         UserForFirebase userForFirebase = new UserForFirebase("test@gmail.com", "test", 0);
 
-        Player player = EntityConverter.UserForFirebaseToPlayer(userForFirebase);
+        Player player = EntityConverter.userForFirebaseToPlayer(userForFirebase);
 
-        PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(player);
+        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(player);
 
         assertEquals(userForFirebase.getEmail(), playerForFirebase.getEmail());
         assertEquals(userForFirebase.getUsername(), playerForFirebase.getUsername());
@@ -28,7 +28,7 @@ public class EntityConverterTest {
         enemy.setLocation(new GeoPoint(22,22));
         enemies.add(enemy);
 
-        List<EnemyForFirebase> enemyForFirebases = EntityConverter.EnemyToEnemyForFirebase(enemies);
+        List<EnemyForFirebase> enemyForFirebases = EntityConverter.enemyToEnemyForFirebase(enemies);
 
         assertEquals(enemyForFirebases.get(0).getLocation().getLatitude(), enemies.get(0).getLocation().getLatitude(), 0.01);
 

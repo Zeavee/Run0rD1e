@@ -15,9 +15,14 @@ public interface ClientDatabaseAPI extends CommonDatabaseAPI {
 
     void clearItemBoxes();
 
-    void sendAoeRadius(PlayerForFirebase playerForFirebase,  OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
+    void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback);
 
+    /**
+     * Fetch a list of enemies from the Firebase Firestore
+     *
+     * @param onValueReadyCallback Callback after fetching the list of enemies from the firebase
+     */
     void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback);
 }

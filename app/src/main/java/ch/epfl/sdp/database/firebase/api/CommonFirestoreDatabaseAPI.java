@@ -1,9 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -17,9 +13,9 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 

@@ -3,6 +3,7 @@ package ch.epfl.sdp.game;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
@@ -14,6 +15,8 @@ import ch.epfl.sdp.item.ItemBox;
  * the data is updated by the server.
  */
 public class Client implements Updatable{
+    // TODO need to decide whether to use enemyManager or not
+    private static EnemyManager enemyManager;
     private int counter;
     private double oldDamage;
     private List<ItemBox> itemBoxes;
@@ -27,6 +30,7 @@ public class Client implements Updatable{
         oldDamage = 0;
         counter = GameThread.FPS;
         Game.getInstance().addToUpdateList(this);
+        enemyManager = new EnemyManager();
     }
 
 
@@ -42,7 +46,7 @@ public class Client implements Updatable{
         if (damage != oldDamage) {
             // shielding is done on server?
             PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
-            clientDatabaseAPI.sendHealthPoints(EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
+            clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
                 if(value.isSuccessful()){
                     oldDamage = damage;
                 }
@@ -51,8 +55,8 @@ public class Client implements Updatable{
     }
 
     private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
-        for (EnemyForFirebase enemy: firebase_enemies) {
-            //enemy.
+        for (EnemyForFirebase enemyForFirebase: firebase_enemies) {
+            enemyManager.updateEnemies(enemyForFirebase.getId(), enemyForFirebase.getLocation());
         }
     }
 

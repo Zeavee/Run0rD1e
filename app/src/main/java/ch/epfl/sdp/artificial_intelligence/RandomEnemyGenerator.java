@@ -77,7 +77,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             Float f2 = rd.nextFloat() * 5000;
             LocalArea localArea = new LocalArea(new RectangleArea(f1, f2), PointConverter.geoPointToCartesianPoint(local));
             Area area = new UnboundedArea();
-            Enemy enemy = new Enemy(localArea, area);
+            Enemy enemy = new Enemy(maxIter, localArea, area);
             enemy.setLocation(enemyPos);
             SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
             movement.setVelocity(5);

@@ -12,7 +12,12 @@ import ch.epfl.sdp.item.ItemBox;
  * The interface with the method related to the firebase firestore
  */
 public interface ServerDatabaseAPI {
-
+    /**
+     * Send the enemies to the Firebase Firestore
+     *
+     * @param enemies              A list of enemies
+     * @param onValueReadyCallback Callback after sending the enemies to the firebase
+     */
     void sendEnemies(List<EnemyForFirebase> enemies, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);

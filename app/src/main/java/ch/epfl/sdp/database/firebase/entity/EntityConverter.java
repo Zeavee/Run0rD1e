@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 
 /**
@@ -16,7 +17,7 @@ public class EntityConverter {
      * @param userForFirebase The Firebase stored long-term User
      * @return The local in-game Player
      */
-    public static Player UserForFirebaseToPlayer(UserForFirebase userForFirebase) {
+    public static Player userForFirebaseToPlayer(UserForFirebase userForFirebase) {
         String username = userForFirebase.getUsername();
         String email = userForFirebase.getEmail();
         int generalScore = userForFirebase.getGeneralScore();
@@ -33,7 +34,7 @@ public class EntityConverter {
      * @param player The local in-game Player
      * @return The firebase stored in-game Player
      */
-    public static PlayerForFirebase PlayerToPlayerForFirebase(Player player) {
+    public static PlayerForFirebase playerToPlayerForFirebase(Player player) {
         PlayerForFirebase playerForFirebase = new PlayerForFirebase();
 
         playerForFirebase.setUsername(player.getUsername());
@@ -48,13 +49,14 @@ public class EntityConverter {
 
     /**
      * Convert from local in-game Enemy to Firebase stored in-game Enemy
+     *
      * @param enemies The list of local in-game Enemy
      * @return The list of Firebase stored in-game Enemy
      */
-    public static List<EnemyForFirebase> EnemyToEnemyForFirebase(List<Enemy> enemies) {
+    public static List<EnemyForFirebase> enemyToEnemyForFirebase(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
-        for(Enemy enemy: enemies) {
-            enemyForFirebases.add(new EnemyForFirebase(enemy.getLocation()));
+        for (Enemy enemy : enemies) {
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getLocation()));
         }
 
         return enemyForFirebases;

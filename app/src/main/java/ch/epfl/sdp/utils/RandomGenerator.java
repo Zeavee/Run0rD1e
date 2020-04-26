@@ -146,7 +146,7 @@ public class RandomGenerator {
          LocalArea l = new LocalArea(r, randomCartesianPoint(1, 5));
          UnboundedArea randomArea = new UnboundedArea();
 
-         Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
+         Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
      }
 

@@ -1,11 +1,17 @@
 package ch.epfl.sdp.game;
 
+import android.util.Log;
+
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
@@ -13,6 +19,7 @@ import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -22,7 +29,7 @@ public class Server implements Updatable {
 
     private long lastEnemyGenerateTimeMillis = System.currentTimeMillis();
 
-    private EnemyManager manager;
+    private static EnemyManager manager = new EnemyManager();
     private EnemyGenerator enemyGenerator;
     private double damage;
     private List<ItemBox> itemBoxes;
@@ -43,10 +50,11 @@ public class Server implements Updatable {
         Game.getInstance().initGame();
 
         // Enemy -------------------------------------------
+        // TODO USE random enemy generator to generate enemy
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
         LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
-        Enemy enemy = new Enemy(localArea, new UnboundedArea());
+        Enemy enemy = new Enemy(0, localArea, new UnboundedArea());
         enemy.setLocation(enemyPos);
         SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
         movement.setVelocity(5);
@@ -55,6 +63,7 @@ public class Server implements Updatable {
         enemy.setMovement(movement);
         Game.getInstance().addToDisplayList(enemy);
         Game.getInstance().addToUpdateList(enemy);
+        manager.addEnemy(enemy);
         //  -------------------------------------------
 
         // ItemBox -------------------------------------------
@@ -65,6 +74,15 @@ public class Server implements Updatable {
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
         //  -------------------------------------------
+
+        /**
+         * Following code is just used to test the functionality of firebase functions
+         */
+//        DependencyFactory.getServerDatabaseAPI().sendEnemies(EntityConverter.enemyToEnemyForFirebase(manager.getEnemies()), value -> {
+//            if(value.isSuccessful()) {
+//                Log.d(">>>>>>>>>>TAG>>>>>>>>", "finish: SENDING ENEMIES");
+//            }
+//        });
     }
 
     @Override
