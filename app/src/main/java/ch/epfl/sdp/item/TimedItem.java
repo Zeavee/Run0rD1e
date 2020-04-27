@@ -19,7 +19,7 @@ public abstract class TimedItem extends Item implements Updatable {
      */
     public TimedItem(String name, String description, int countTime) {
         super(name, description);
-        counter = countTime*GameThread.FPS;
+        this.counter = countTime*GameThread.FPS;
     }
 
     /**

@@ -1,7 +1,5 @@
 package ch.epfl.sdp.database.firebase.entity;
 
-import com.google.android.material.badge.BadgeDrawable;
-
 import org.junit.Test;
 
 import ch.epfl.sdp.geometry.GeoPoint;

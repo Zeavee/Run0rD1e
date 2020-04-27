@@ -6,7 +6,7 @@ import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBox;
 

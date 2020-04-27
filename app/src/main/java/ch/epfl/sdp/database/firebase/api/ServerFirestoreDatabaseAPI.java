@@ -10,7 +10,6 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.item.ItemBox;
 
 public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
@@ -42,11 +41,6 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
         batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-
-    }
-
-    @Override
-    public void sendItemBox(ItemBox itemBox) {
 
     }
 }

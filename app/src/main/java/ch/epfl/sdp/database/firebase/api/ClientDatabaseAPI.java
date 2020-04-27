@@ -13,8 +13,6 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 public interface ClientDatabaseAPI extends CommonDatabaseAPI {
     void sendHealthPoints(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    void clearItemBoxes();
-
     void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback);

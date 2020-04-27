@@ -21,11 +21,6 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void clearItemBoxes() {
-
-    }
-
-    @Override
     public void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
                 .update("aoeRadius", playerForFirebase.getAoeRadius())

@@ -22,7 +22,7 @@ import java.util.Map;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;

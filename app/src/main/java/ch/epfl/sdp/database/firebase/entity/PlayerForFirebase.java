@@ -4,7 +4,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBox;
 
 /**
  * The in-game player entity to be stored in the cloud firebase

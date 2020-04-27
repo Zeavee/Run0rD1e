@@ -17,7 +17,7 @@ public class ItemBox extends DetectableEntity {
     /**
      * Creates an item box.
      */
-    public ItemBox(){
+    public ItemBox() {
         super(EntityType.ITEMBOX);
         this.items = new HashMap<>();
         taken = false;
@@ -29,12 +29,13 @@ public class ItemBox extends DetectableEntity {
      * @param item     The item to be stored in the item box.
      * @param quantity The quantity of the item to be stored.
      */
-    public void putItems(Item item, int quantity){
+    public void putItems(Item item, int quantity) {
         items.put(item, quantity);
     }
 
     /**
      * Return true if the item box has been taken.
+     *
      * @return True if the item box has been taken.
      */
     public boolean isTaken() {
@@ -44,15 +45,15 @@ public class ItemBox extends DetectableEntity {
     /**
      * Takes the items from the item box and put them in the user's inventory.
      */
-    public void take(){
-        if(!isTaken()){
+    public void take() {
+        if (!isTaken()) {
             taken = true;
             Inventory inventory = PlayerManager.getCurrentUser().getInventory();
             int quantity = 0;
-            for (Map.Entry<Item, Integer> itemQuant: items.entrySet()) {
+            for (Map.Entry<Item, Integer> itemQuant : items.entrySet()) {
                 quantity = itemQuant.getValue();
 
-                if(inventory.getItems().get(itemQuant.getKey()) != null){
+                if (inventory.getItems().get(itemQuant.getKey()) != null) {
                     quantity += inventory.getItems().get(itemQuant.getKey());
                 }
 

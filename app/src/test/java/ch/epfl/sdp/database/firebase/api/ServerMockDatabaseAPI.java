@@ -9,7 +9,6 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.item.ItemBox;
 
 public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements ServerDatabaseAPI {
     public ServerMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<Enemy> enemyList) {
@@ -23,11 +22,6 @@ public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements Serv
 
     @Override
     public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-
-    }
-
-    @Override
-    public void sendItemBox(ItemBox itemBox) {
 
     }
 }
