@@ -43,4 +43,21 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
 
     }
+
+    @Override
+    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if((Integer) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY) {
+                        onValueReadyCallback.finish(new CustomResult<>(true, true, null));
+                    }
+                });
+    }
+
+    @Override
+    public void startGame() {
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+                .document(PlayerManager.getLobbyDocumentName())
+                .update("startGame", true);
+    }
 }

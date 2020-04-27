@@ -1,5 +1,10 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import androidx.annotation.Nullable;
+
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -54,5 +59,15 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
                     }
                     onValueReadyCallback.finish(new CustomResult<>(enemyForFirebases, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+    }
+
+    @Override
+    public void listenToGameStart(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+                .addSnapshotListener((documentSnapshot, e) -> {
+                    if((Boolean) documentSnapshot.get("startGame")) {
+                        onValueReadyCallback.finish(new CustomResult<>(true, true, null));
+                    }
+                });
     }
 }
