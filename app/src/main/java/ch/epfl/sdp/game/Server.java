@@ -1,11 +1,16 @@
 package ch.epfl.sdp.game;
 
+import android.content.pm.PackageManager;
+
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
@@ -86,6 +91,14 @@ public class Server extends Client {
 //        });
 //        DependencyFactory.getServerDatabaseAPI().startGame();
     }
+
+    private void sendDamage(){
+
+        for(PlayerForFirebase playerForFirebase : EntityConverter.convertPlayerList(PlayerManager.getPlayers())){
+
+        }
+    }
+
 
     @Override
     public void update() {

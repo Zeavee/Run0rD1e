@@ -1,5 +1,7 @@
 package ch.epfl.sdp.database.utils;
 
+import android.content.pm.PackageManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 /**
  * A converter used to convert between Firebase stored entity and in-game entity
@@ -62,5 +65,16 @@ public class EntityConverter {
         }
 
         return enemyForFirebases;
+    }
+
+    public static List<PlayerForFirebase> convertPlayerList(List<Player>players) {
+        ArrayList<PlayerForFirebase> playersForFirebase = new ArrayList<>();
+        for(Player player : players){
+            playersForFirebase.add(playerToPlayerForFirebase(player).setDamage());
+            playerToPlayerForFirebase(player)
+
+        }
+
+        return playersForFirebase;
     }
 }
