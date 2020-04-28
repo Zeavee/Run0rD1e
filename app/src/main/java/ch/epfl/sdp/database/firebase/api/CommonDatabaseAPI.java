@@ -52,5 +52,7 @@ public interface CommonDatabaseAPI {
      */
     void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
+    void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
+
     void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel);
 }
