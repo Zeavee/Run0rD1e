@@ -82,6 +82,16 @@ public class PlayerManager {
         PlayerManager.isServer = isServer;
     }
 
+    public static double getDamages(String email) {
+        if(damages.containsKey(email)) {
+            return damages.get(email);
+        }
+    }
+
+    public static void setDamages(String email, double damage) {
+        damages.put(email, damage);
+    }
+
     /**
      * Add the specified player to the player manager. The player will stay until it is removed by
      * removePlayer() or removeAll().

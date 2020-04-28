@@ -68,13 +68,13 @@ public class EntityConverter {
     }
 
     public static List<PlayerForFirebase> convertPlayerList(List<Player>players) {
-        ArrayList<PlayerForFirebase> playersForFirebase = new ArrayList<>();
-        for(Player player : players){
-            playersForFirebase.add(playerToPlayerForFirebase(player).setDamage());
-            playerToPlayerForFirebase(player)
-
+        ArrayList<PlayerForFirebase> playerList= new ArrayList<>();
+        for(Player player : players) {
+            PlayerForFirebase playerForFirebase = playerToPlayerForFirebase(player);
+            playerForFirebase.setDamage(PlayerManager.getDamages(player.getEmail()));
+            playerList.add(playerForFirebase);
         }
 
-        return playersForFirebase;
+        return playerList;
     }
 }
