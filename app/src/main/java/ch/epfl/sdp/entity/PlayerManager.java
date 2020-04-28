@@ -1,8 +1,11 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.geometry.CartesianPoint;
 
 /**
@@ -20,6 +23,14 @@ public class PlayerManager {
     private static String lobbyDocumentName;
     private static long numPlayersBeforeJoin;
     private static boolean isServer;
+
+    private static Map<String, Player> playersMap = new HashMap();
+
+    public static void updatePlayersPosition(List<PlayerForFirebase> players){
+        for (PlayerForFirebase player: players) {
+            playersMap.get(player.getEmail()).setLocation(player.getLocation());
+        }
+    }
 
     /**
      * The list of all players in the current game.
