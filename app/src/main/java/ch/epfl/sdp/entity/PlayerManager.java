@@ -85,6 +85,8 @@ public class PlayerManager {
     public static double getDamages(String email) {
         if(damages.containsKey(email)) {
             return damages.get(email);
+        } else {
+            return 0.0;
         }
     }
 
