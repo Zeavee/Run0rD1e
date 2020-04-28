@@ -62,18 +62,8 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                 .document(PlayerManager.getLobbyDocumentName())
                 .update("startGame", true)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        onValueReadyCallback.finish(new CustomResult<>(null, true, null));
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        onValueReadyCallback.finish(new CustomResult<>(null,false,e));
-                    }
-                });
+                .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
+                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null,false,e)));
 
     }
 }

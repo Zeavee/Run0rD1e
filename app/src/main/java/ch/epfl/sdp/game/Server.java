@@ -1,10 +1,5 @@
 package ch.epfl.sdp.game;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.EnemyManager;
@@ -18,8 +13,6 @@ import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
@@ -72,20 +65,14 @@ public class Server extends Client {
                 manager.addEnemy(enemy);
                 //  -------------------------------------------
 
-                serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(manager.getEnemies()), new OnValueReadyCallback<CustomResult<Void>>() {
-                    @Override
-                    public void finish(CustomResult<Void> value) {
-                        if (value.isSuccessful()){
-                            serverDatabaseAPI.startGame(new OnValueReadyCallback<CustomResult<Void>>() {
-                                @Override
-                                public void finish(CustomResult<Void> value) {
-                                    if(value.isSuccessful()){
-                                        //maybe not working
-                                        Server.super.initEnvironment();
-                                    }
-                                }
-                            });
-                        }
+                serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(manager.getEnemies()), value -> {
+                    if (value.isSuccessful()){
+                        serverDatabaseAPI.startGame(value1 -> {
+                            if(value1.isSuccessful()){
+                                //maybe not working
+                                Server.super.initEnvironment();
+                            }
+                        });
                     }
                 });
             }
