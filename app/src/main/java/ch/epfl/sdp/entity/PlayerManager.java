@@ -40,10 +40,6 @@ public class PlayerManager {
     }
 
     /**
-     * The list of all players in the current game.
-     */
-    private static List<Player> players = new ArrayList<>();
-    /**
      * The player representing the user in the game.
      */
     private static Player currentUser;
@@ -101,7 +97,7 @@ public class PlayerManager {
      * @param player A player to be stored into the player manager.
      */
     public static void addPlayer(Player player) {
-        players.add(player);
+        playersMap.put(player.getEmail(),player);
     }
 
     /**
@@ -110,7 +106,7 @@ public class PlayerManager {
      * @param player A player to be removed from the player manager.
      */
     public static void removePlayer(Player player) {
-        players.remove(player);
+        playersMap.remove(player.getEmail());
     }
 
     /**
@@ -119,7 +115,7 @@ public class PlayerManager {
      * @return A list of all players in the player manager
      */
     public static List<Player> getPlayers() {
-        return players;
+        return new ArrayList<>(playersMap.values());
     }
 
     /**
@@ -128,14 +124,18 @@ public class PlayerManager {
      * @param players A list of players to be added
      */
     public static void setPlayers(List<Player> players) {
-        PlayerManager.players = players;
+
+        playersMap.clear();
+        for (Player player : players){
+            playersMap.put(player.getEmail(),player);
+        }
     }
 
     /**
      * Remove all the players in the player manager.
      */
     public static void removeAll() {
-        players.clear();
+        playersMap.clear();
     }
 
     /**
@@ -168,7 +168,7 @@ public class PlayerManager {
         double minDistance = Double.MAX_VALUE;
         double currDistance;
 
-        for (Player player : players) {
+        for (Player player : playersMap.values()) {
             currDistance = player.getPosition().distanceFrom(position) - player.getAoeRadius();
             if (currDistance < minDistance && player.isAlive()) {
                 minDistance = currDistance;

@@ -1,15 +1,11 @@
 package ch.epfl.sdp.game;
 
-import android.content.pm.PackageManager;
-
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -79,8 +75,6 @@ public class Server extends Client {
 
 
 
-
-
         /**
          * Following code is just used to test the functionality of firebase functions
          */
@@ -93,10 +87,7 @@ public class Server extends Client {
     }
 
     private void sendDamage(){
-
-        for(PlayerForFirebase playerForFirebase : EntityConverter.convertPlayerList(PlayerManager.getPlayers())){
-
-        }
+        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(PlayerManager.getPlayers()), value -> {});
     }
 
 
@@ -107,6 +98,7 @@ public class Server extends Client {
             Enemy enemy = new Enemy();
             lastEnemyGenerateTimeMillis = currentTimeMillis;
             EnemyManager.getInstance().addEnemy(enemy);
+            sendDamage();
         }
 
         EnemyManager.getInstance().update();
