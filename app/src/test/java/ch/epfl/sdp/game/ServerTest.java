@@ -3,7 +3,7 @@
 //import org.junit.Test;
 //
 //import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
-//import ch.epfl.sdp.artificial_intelligence.EnemyManager;
+//import ch.epfl.sdp.entity.EnemyManager;
 //
 //import static org.mockito.ArgumentMatchers.any;
 //import static org.mockito.Mockito.mock;

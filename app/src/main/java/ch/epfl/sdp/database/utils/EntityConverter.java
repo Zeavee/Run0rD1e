@@ -3,10 +3,10 @@ package ch.epfl.sdp.database.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 
 /**

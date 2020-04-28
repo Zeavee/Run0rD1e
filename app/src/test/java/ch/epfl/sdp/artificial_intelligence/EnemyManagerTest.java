@@ -3,14 +3,16 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
-
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ch.epfl.sdp.database.firebase.api.ServerMockDatabaseAPI;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.utils.DependencyFactory;
+
+import static org.junit.Assert.assertEquals;
 
 public class EnemyManagerTest {
     @Before

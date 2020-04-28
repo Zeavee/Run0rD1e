@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
-import ch.epfl.sdp.entity.Player;
+
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -19,8 +20,8 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     // This area will be split into tiles of size 1x1 in order to fill them according to the density of enemies rule
     private HashMap<Long, Integer> mapEnemiesToTiles;
 
-    public RandomEnemyGenerator(RectangleArea enclosure, Player player) {
-        super(enclosure, player);
+    public RandomEnemyGenerator(RectangleArea enclosure) {
+        super(enclosure);
         mapEnemiesToTiles = new HashMap<>();
         enemies = new ArrayList<>();
         timer = new Timer();

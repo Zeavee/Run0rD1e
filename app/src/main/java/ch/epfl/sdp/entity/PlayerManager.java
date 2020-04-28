@@ -7,7 +7,6 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.geometry.CartesianPoint;
-import ch.epfl.sdp.map.MapApi;
 
 /**
  * This class should contain all the players in the current game. It allows to to operations on all
@@ -25,7 +24,12 @@ public class PlayerManager {
     private static long numPlayersBeforeJoin;
     private static boolean isServer;
 
-    private static Map<String, >
+    private static final PlayerManager instance = new PlayerManager();
+    private static Map<String, Double> damages = new HashMap<>();
+
+    public static PlayerManager getInstance() {
+        return instance;
+    }
 
     private static Map<String, Player> playersMap = new HashMap();
 

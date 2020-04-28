@@ -1,13 +1,11 @@
 package ch.epfl.sdp.game;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.EntityConverter;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
@@ -20,10 +18,7 @@ import ch.epfl.sdp.utils.DependencyFactory;
  */
 public class Server extends Client {
     public final int GENERATE_ENEMY_EVERY_MS = 10000;
-
     private long lastEnemyGenerateTimeMillis = System.currentTimeMillis();
-
-    private static EnemyManager manager = new EnemyManager();
     private EnemyGenerator enemyGenerator;
     //private double damage;
     //private List<ItemBox> itemBoxes;
@@ -35,7 +30,6 @@ public class Server extends Client {
     }
 
     public Server(EnemyManager manager, EnemyGenerator enemyGenerator) {
-        this.manager = manager;
         this.enemyGenerator = enemyGenerator;
         this.generateEnemyEveryMs = GENERATE_ENEMY_EVERY_MS;
     }
@@ -62,10 +56,10 @@ public class Server extends Client {
                 enemy.setMovement(movement);
                 Game.getInstance().addToDisplayList(enemy);
                 Game.getInstance().addToUpdateList(enemy);
-                manager.addEnemy(enemy);
+                EnemyManager.getInstance().addEnemy(enemy);
                 //  -------------------------------------------
 
-                serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(manager.getEnemies()), value -> {
+                serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(EnemyManager.getInstance().getEnemies()), value -> {
                     if (value.isSuccessful()){
                         serverDatabaseAPI.startGame(value1 -> {
                             if(value1.isSuccessful()){
@@ -99,9 +93,9 @@ public class Server extends Client {
         if(currentTimeMillis - lastEnemyGenerateTimeMillis >= generateEnemyEveryMs) {
             Enemy enemy = new Enemy();
             lastEnemyGenerateTimeMillis = currentTimeMillis;
-            manager.addEnemy(enemy);
+            EnemyManager.getInstance().addEnemy(enemy);
         }
 
-        manager.update();
+        EnemyManager.getInstance().update();
     }
 }

@@ -3,12 +3,12 @@ package ch.epfl.sdp.database.firebase.api;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Enemy;
 
 public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements ServerDatabaseAPI {
     public ServerMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<Enemy> enemyList) {

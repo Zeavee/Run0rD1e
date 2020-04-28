@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MapsActivity;

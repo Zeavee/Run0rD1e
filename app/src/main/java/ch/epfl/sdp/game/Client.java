@@ -2,12 +2,10 @@ package ch.epfl.sdp.game;
 
 import java.util.List;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
-import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
@@ -19,13 +17,10 @@ import ch.epfl.sdp.utils.DependencyFactory;
  * the data is updated by the server.
  */
 public class Client implements Updatable{
-    // TODO need to decide whether to use enemyManager or not
-    private static EnemyManager enemyManager;
     private int counter;
     private double oldDamage;
     //private List<ItemBox> itemBoxes;
     private ClientDatabaseAPI clientDatabaseAPI;
-    //private List<Enemy> enemies;
 
     /**
      * Creates a new client
@@ -34,7 +29,6 @@ public class Client implements Updatable{
         oldDamage = 0;
         counter = GameThread.FPS;
         Game.getInstance().addToUpdateList(this);
-        enemyManager = new EnemyManager();
         clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
     }
 
@@ -55,18 +49,10 @@ public class Client implements Updatable{
         });
     }
 
-
-    private void receivePlayersPosition(){
-
-    };
-
-    private ItemBox receiveItemBox(){
-        return null;
-    }
-
     private void receiveDamage(double damage){
         if (damage != oldDamage) {
             // shielding is done on server?
+            
             PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
             clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
                 if(value.isSuccessful()){
@@ -78,7 +64,7 @@ public class Client implements Updatable{
 
     private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
         for (EnemyForFirebase enemyForFirebase: firebase_enemies) {
-            enemyManager.updateEnemies(enemyForFirebase.getId(), enemyForFirebase.getLocation());
+            EnemyManager.getInstance().updateEnemies(enemyForFirebase.getId(), enemyForFirebase.getLocation());
         }
     }
 

@@ -3,7 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -11,6 +11,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertSame;
 

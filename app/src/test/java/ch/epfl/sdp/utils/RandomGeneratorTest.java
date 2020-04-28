@@ -3,7 +3,7 @@ package ch.epfl.sdp.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
@@ -13,7 +13,6 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
