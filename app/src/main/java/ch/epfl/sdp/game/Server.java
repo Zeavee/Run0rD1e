@@ -8,6 +8,7 @@ import ch.epfl.sdp.artificial_intelligence.Enemy;
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -22,16 +23,21 @@ import ch.epfl.sdp.utils.DependencyFactory;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements Updatable {
+public class Server extends Client {
     public final int GENERATE_ENEMY_EVERY_MS = 10000;
 
     private long lastEnemyGenerateTimeMillis = System.currentTimeMillis();
 
     private static EnemyManager manager = new EnemyManager();
     private EnemyGenerator enemyGenerator;
-    private double damage;
-    private List<ItemBox> itemBoxes;
+    //private double damage;
+    //private List<ItemBox> itemBoxes;
     private int generateEnemyEveryMs;
+    ServerDatabaseAPI serverDatabaseAPI;
+
+    public Server(){
+        serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
+    }
 
     public Server(EnemyManager manager, EnemyGenerator enemyGenerator) {
         this.manager = manager;
@@ -44,34 +50,34 @@ public class Server implements Updatable {
         this.generateEnemyEveryMs = generateEnemyEveryMs;
     }
 
-    public static void initEnvironment() {
-        Game.getInstance().initGame();
+    public void initEnvironment() {
+        serverDatabaseAPI.listenToNumOfPlayers(res -> {
+            if(res.isSuccessful()) {
+                // Enemy -------------------------------------------
+                // TODO USE random enemy generator to generate enemy
+                GeoPoint local = new GeoPoint(6.2419, 46.2201);
+                GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
+                LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
+                Enemy enemy = new Enemy(0, localArea, new UnboundedArea());
+                enemy.setLocation(enemyPos);
+                SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
+                movement.setVelocity(5);
+                movement.setAngleStep(0.1);
+                movement.setAmplitude(10);
+                enemy.setMovement(movement);
+                Game.getInstance().addToDisplayList(enemy);
+                Game.getInstance().addToUpdateList(enemy);
+                manager.addEnemy(enemy);
+                //  -------------------------------------------
 
-        // Enemy -------------------------------------------
-        // TODO USE random enemy generator to generate enemy
-        GeoPoint local = new GeoPoint(6.2419, 46.2201);
-        GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
-        Enemy enemy = new Enemy(0, localArea, new UnboundedArea());
-        enemy.setLocation(enemyPos);
-        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
-        movement.setVelocity(5);
-        movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
-        enemy.setMovement(movement);
-        Game.getInstance().addToDisplayList(enemy);
-        Game.getInstance().addToUpdateList(enemy);
-        manager.addEnemy(enemy);
-        //  -------------------------------------------
+                serverDatabaseAPI.sendEnemies();
 
-        // ItemBox -------------------------------------------
-        Healthpack healthpack = new Healthpack(10);
-        ItemBox itemBox = new ItemBox();
-        itemBox.putItems(healthpack, 1);
-        itemBox.setLocation(new GeoPoint(6.14, 46.22));
-        Game.getInstance().addToDisplayList(itemBox);
-        Game.getInstance().addToUpdateList(itemBox);
-        //  -------------------------------------------
+                super.initEnvironment();
+            }
+        });
+
+
+
 
         /**
          * Following code is just used to test the functionality of firebase functions

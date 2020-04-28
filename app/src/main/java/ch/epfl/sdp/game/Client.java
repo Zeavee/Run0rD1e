@@ -9,7 +9,10 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * This class updates the game from the client point of view. It fetches the data from firebase and
@@ -20,9 +23,9 @@ public class Client implements Updatable{
     private static EnemyManager enemyManager;
     private int counter;
     private double oldDamage;
-    private List<ItemBox> itemBoxes;
+    //private List<ItemBox> itemBoxes;
     private ClientDatabaseAPI clientDatabaseAPI;
-    private List<Enemy> enemies;
+    //private List<Enemy> enemies;
 
     /**
      * Creates a new client
@@ -32,6 +35,24 @@ public class Client implements Updatable{
         counter = GameThread.FPS;
         Game.getInstance().addToUpdateList(this);
         enemyManager = new EnemyManager();
+        clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
+    }
+
+    public void initEnvironment() {
+        clientDatabaseAPI.listenToGameStart(start -> {
+            if(start.isSuccessful()){
+                // ItemBox -------------------------------------------
+                Healthpack healthpack = new Healthpack(10);
+                ItemBox itemBox = new ItemBox();
+                itemBox.putItems(healthpack, 1);
+                itemBox.setLocation(new GeoPoint(6.14, 46.22));
+                Game.getInstance().addToDisplayList(itemBox);
+                Game.getInstance().addToUpdateList(itemBox);
+                //  -------------------------------------------
+
+                Game.getInstance().initGame();
+            }
+        });
     }
 
 
@@ -64,7 +85,7 @@ public class Client implements Updatable{
     /**
      * Puts the items of the taken item boxes in the user's inventory.
      */
-    private void updateItems(){
+   /* private void updateItems(){
         if (!itemBoxes.isEmpty()) {
             for (ItemBox box : itemBoxes) {
                 box.take();
@@ -72,28 +93,29 @@ public class Client implements Updatable{
 
             itemBoxes.clear();
         }
-    }
+    }*/
 
     /**
      * Change the user's health based on the damage received.
      * Update on client for synchronisation with items.
      */
     private void updateHealth(){
-        clientDatabaseAPI.fetchDamage(damage -> {receiveDamage(damage.getResult());});
+        clientDatabaseAPI.fetchDamage(damage -> {if(damage.isSuccessful()) receiveDamage(damage.getResult());});
     }
 
     /**
      * Update the players position.
      */
     private void updatePlayersPosition(){
-        clientDatabaseAPI.fetchPlayers(listPlayer -> {PlayerManager.updatePlayersPosition(listPlayer.getResult());});
+        clientDatabaseAPI.fetchPlayers(listPlayer -> {if(listPlayer.isSuccessful()) PlayerManager.updatePlayersPosition(listPlayer.getResult());});
+        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {});
     }
 
     /**
      * Update the enemies positions.
      */
     private void updateEnemiesPosition(){
-        clientDatabaseAPI.fetchEnemies(enemies -> {receiveEnemies(enemies.getResult());});
+        clientDatabaseAPI.fetchEnemies(enemies -> {if(enemies.isSuccessful()) receiveEnemies(enemies.getResult());});
     }
 
     @Override
@@ -101,7 +123,7 @@ public class Client implements Updatable{
         if(counter <= 0){
             updateHealth();
 
-            updateItems();
+            //updateItems();
             updatePlayersPosition();
             updateEnemiesPosition();
             counter = GameThread.FPS + 1;
