@@ -52,8 +52,14 @@ public class Client implements Updatable{
     private void receiveDamage(double damage){
         if (damage != oldDamage) {
             // shielding is done on server?
-            
-            PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
+
+            double damageReceived = PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage);
+
+            if(PlayerManager.getCurrentUser().isShielded()){
+                damageReceived = 0;
+            }
+
+            PlayerManager.getCurrentUser().setHealthPoints(damageReceived);
             clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
                 if(value.isSuccessful()){
                     oldDamage = damage;

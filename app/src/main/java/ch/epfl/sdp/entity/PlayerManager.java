@@ -25,6 +25,7 @@ public class PlayerManager {
     private static boolean isServer;
 
     private static final PlayerManager instance = new PlayerManager();
+
     private static Map<String, Double> damages = new HashMap<>();
 
     public static PlayerManager getInstance() {
