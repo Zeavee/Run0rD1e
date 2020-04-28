@@ -29,6 +29,7 @@ public interface ServerDatabaseAPI {
 
     /**
      * Start the game when the lobby is full and the environment is populated.
+     * @param onValueReadyCallback Callback after the lobby is full
      */
-    void startGame();
+    void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 }

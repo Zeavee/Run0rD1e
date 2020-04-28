@@ -1,10 +1,13 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
@@ -55,9 +58,22 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void startGame() {
+    public void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                 .document(PlayerManager.getLobbyDocumentName())
-                .update("startGame", true);
+                .update("startGame", true)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        onValueReadyCallback.finish(new CustomResult<>(null,false,e));
+                    }
+                });
+
     }
 }

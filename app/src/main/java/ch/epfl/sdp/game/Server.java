@@ -2,6 +2,7 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
@@ -10,6 +11,7 @@ import ch.epfl.sdp.artificial_intelligence.EnemyManager;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -70,11 +72,25 @@ public class Server extends Client {
                 manager.addEnemy(enemy);
                 //  -------------------------------------------
 
-                serverDatabaseAPI.sendEnemies();
-
-                super.initEnvironment();
+                serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(manager.getEnemies()), new OnValueReadyCallback<CustomResult<Void>>() {
+                    @Override
+                    public void finish(CustomResult<Void> value) {
+                        if (value.isSuccessful()){
+                            serverDatabaseAPI.startGame(new OnValueReadyCallback<CustomResult<Void>>() {
+                                @Override
+                                public void finish(CustomResult<Void> value) {
+                                    if(value.isSuccessful()){
+                                        //maybe not working
+                                        Server.super.initEnvironment();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
+
 
 
 
