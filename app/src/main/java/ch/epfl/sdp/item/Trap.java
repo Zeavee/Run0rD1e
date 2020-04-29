@@ -33,10 +33,10 @@ public class Trap extends Item implements Updatable, Displayable {
         //This is called by the player that has the item, so getUser should return the correct player
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,
         //getUser would return the wrong player (the server)
-        owner = PlayerManager.getCurrentUser();
+        owner = PlayerManager.getInstance().getCurrentUser();
         trapPosition = owner.getLocation();
         Game.getInstance().addToUpdateList(this);
-        if (owner == PlayerManager.getCurrentUser()) {
+        if (owner == PlayerManager.getInstance().getCurrentUser()) {
             Game.getInstance().addToDisplayList(this);
         }
     }
@@ -44,7 +44,7 @@ public class Trap extends Item implements Updatable, Displayable {
     @Override
     public void update() {
         boolean hasSomeoneTakenDamage = false;
-        for (Player p : PlayerManager.getPlayers()) {
+        for (Player p : PlayerManager.getInstance().getPlayers()) {
             if (p.getLocation().distanceTo(trapPosition) < radius && p != owner) {
                 p.setHealthPoints(p.getHealthPoints() - damage);
                 hasSomeoneTakenDamage = true;

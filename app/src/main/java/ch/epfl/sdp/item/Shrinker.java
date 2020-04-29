@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
@@ -14,12 +15,16 @@ public class Shrinker extends TimedItem {
     @Override
     public void use() {
         super.use();
-        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() - getShrinkingRadius());
+        Player currentUser = PlayerManager.getInstance().getCurrentUser();
+        double aoeRadius = currentUser.getAoeRadius() - getShrinkingRadius();
+        currentUser.setAoeRadius(aoeRadius);
     }
 
     @Override
     public void stopUsing(){
-        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() + getShrinkingRadius());
+        Player currentUser = PlayerManager.getInstance().getCurrentUser();
+        double aoeRadius = currentUser.getAoeRadius() + getShrinkingRadius();
+        currentUser.setAoeRadius(aoeRadius);
     }
 
     public EntityType getEntityType() {

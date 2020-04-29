@@ -56,7 +56,7 @@ public class ShelterArea implements Displayable, Updatable {
      * This method must be called at every iteration of the game loop
      */
     public void shelter() {
-        for (Player p : PlayerManager.getPlayers()) {
+        for (Player p : PlayerManager.getInstance().getPlayers()) {
             if (!playersInShelterArea.contains(p) && isInRange(p)) {
                 p.setShielded(true);
                 playersInShelterArea.add(p);

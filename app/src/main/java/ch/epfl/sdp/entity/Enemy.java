@@ -290,7 +290,7 @@ public class Enemy extends MovingArtificialEntity {
      * @return The Player if one was detected, otherwise returns null.
      */
     private Player playerDetected(double distance) {
-        Player target = PlayerManager.selectClosestPlayer(getPosition());
+        Player target = PlayerManager.getInstance().selectClosestPlayer(getPosition());
         if (target != null && target.getPosition().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
             return target;
         } else {

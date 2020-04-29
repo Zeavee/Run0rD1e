@@ -15,14 +15,14 @@ public class Scan extends TimedItem {
     public void use() {
         super.use();
 
-        for (Player p : PlayerManager.getPlayers()) {
+        for (Player p : PlayerManager.getInstance().getPlayers()) {
             MapsActivity.mapApi.displayEntity(p);
         }
     }
 
     @Override
     public void stopUsing() {
-        for (Player p : PlayerManager.getPlayers()) {
+        for (Player p : PlayerManager.getInstance().getPlayers()) {
             MapsActivity.mapApi.unDisplayEntity(p);
         }
     }

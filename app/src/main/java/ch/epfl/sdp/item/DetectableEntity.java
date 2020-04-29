@@ -92,10 +92,11 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
 
     @Override
     public void update() {
+        PlayerManager playerManager = PlayerManager.getInstance();
         int i = 0;
-        while (i < PlayerManager.getPlayers().size() && !detroyed) {
-            if (detectedBy(PlayerManager.getPlayers().get(i))) {
-                afterDetected(PlayerManager.getPlayers().get(i));
+        while (i < playerManager.getPlayers().size() && !detroyed) {
+            if (detectedBy(playerManager.getPlayers().get(i))) {
+                afterDetected(playerManager.getPlayers().get(i));
             }
 
             ++i;

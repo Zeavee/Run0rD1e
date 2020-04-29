@@ -14,43 +14,44 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 10;
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
     public static final String ENEMY_COLLECTION_NAME = "Enemies";
 
-    private static String lobbyDocumentName;
-    private static long numPlayersBeforeJoin;
-    private static boolean isServer;
+    private String lobbyDocumentName;
+    private long numPlayersBeforeJoin;
+    private boolean isServer;
+
+    /**
+     * The player representing the user in the game.
+     */
+    private Player currentUser;
+
+    private Map<String, Player> playersMap = new HashMap();
+
+    private Map<String, Double> damages = new HashMap<>();
+
 
     private static final PlayerManager instance = new PlayerManager();
-
-    private static Map<String, Double> damages = new HashMap<>();
 
     public static PlayerManager getInstance() {
         return instance;
     }
 
-    private static Map<String, Player> playersMap = new HashMap();
-
-    public static void updatePlayersPosition(List<PlayerForFirebase> players){
+    public void updatePlayersPosition(List<PlayerForFirebase> players){
         for (PlayerForFirebase player: players) {
             playersMap.get(player.getEmail()).setLocation(player.getLocation());
         }
     }
 
     /**
-     * The player representing the user in the game.
-     */
-    private static Player currentUser;
-
-    /**
      * Get the DocumentReference of currentUser's lobby
      *
      * @return The DocumentReference of the currentUser's lobby on Cloud firebase.
      */
-    public static String getLobbyDocumentName() {
+    public String getLobbyDocumentName() {
         return lobbyDocumentName;
     }
 
@@ -59,27 +60,27 @@ public class PlayerManager {
      *
      * @param lobby_document_ref the DocumentReference of the currentUser's lobby
      */
-    public static void setLobbyDocumentName(String lobby_document_ref) {
-        PlayerManager.lobbyDocumentName = lobby_document_ref;
+    public void setLobbyDocumentName(String lobby_document_ref) {
+        this.lobbyDocumentName = lobby_document_ref;
     }
 
-    public static long getNumPlayersBeforeJoin() {
+    public long getNumPlayersBeforeJoin() {
         return numPlayersBeforeJoin;
     }
 
-    public static void setNumPlayersBeforeJoin(long numPlayersBeforeJoin) {
-        PlayerManager.numPlayersBeforeJoin = numPlayersBeforeJoin;
+    public void setNumPlayersBeforeJoin(long numPlayersBeforeJoin) {
+        this.numPlayersBeforeJoin = numPlayersBeforeJoin;
     }
 
-    public static boolean isServer() {
+    public boolean isServer() {
         return isServer;
     }
 
-    public static void setIsServer(boolean isServer) {
-        PlayerManager.isServer = isServer;
+    public void setIsServer(boolean isServer) {
+        this.isServer = isServer;
     }
 
-    public static double getDamages(String email) {
+    public double getDamages(String email) {
         if(damages.containsKey(email)) {
             return damages.get(email);
         } else {
@@ -87,7 +88,7 @@ public class PlayerManager {
         }
     }
 
-    public static void setDamages(String email, double damage) {
+    public void setDamages(String email, double damage) {
         damages.put(email, damage);
     }
 
@@ -97,7 +98,7 @@ public class PlayerManager {
      *
      * @param player A player to be stored into the player manager.
      */
-    public static void addPlayer(Player player) {
+    public void addPlayer(Player player) {
         playersMap.put(player.getEmail(),player);
     }
 
@@ -106,7 +107,7 @@ public class PlayerManager {
      *
      * @param player A player to be removed from the player manager.
      */
-    public static void removePlayer(Player player) {
+    public void removePlayer(Player player) {
         playersMap.remove(player.getEmail());
     }
 
@@ -115,7 +116,7 @@ public class PlayerManager {
      *
      * @return A list of all players in the player manager
      */
-    public static List<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return new ArrayList<>(playersMap.values());
     }
 
@@ -124,7 +125,7 @@ public class PlayerManager {
      *
      * @param players A list of players to be added
      */
-    public static void setPlayers(List<Player> players) {
+    public void setPlayers(List<Player> players) {
 
         playersMap.clear();
         for (Player player : players){
@@ -135,7 +136,7 @@ public class PlayerManager {
     /**
      * Remove all the players in the player manager.
      */
-    public static void removeAll() {
+    public void removeAll() {
         playersMap.clear();
     }
 
@@ -144,7 +145,7 @@ public class PlayerManager {
      *
      * @return A player representing the user in the game.
      */
-    public static Player getCurrentUser() {
+    public Player getCurrentUser() {
         return currentUser;
     }
 
@@ -153,7 +154,7 @@ public class PlayerManager {
      *
      * @param player A player representing the user in the game.
      */
-    public static void setCurrentUser(Player player) {
+    public void setCurrentUser(Player player) {
         currentUser = player;
         addPlayer(currentUser);
     }
@@ -164,7 +165,7 @@ public class PlayerManager {
      * @return A player representing the closest player alive from a given position. If there is no
      * player alive it returns null.
      */
-    public static Player selectClosestPlayer(CartesianPoint position) {
+    public Player selectClosestPlayer(CartesianPoint position) {
         Player target = null;
         double minDistance = Double.MAX_VALUE;
         double currDistance;

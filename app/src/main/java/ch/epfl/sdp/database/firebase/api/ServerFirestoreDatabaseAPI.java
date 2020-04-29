@@ -22,7 +22,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
         // Collection Ref
         for(EnemyForFirebase enemyForFirebase: enemies) {
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                     .collection(PlayerManager.ENEMY_COLLECTION_NAME).document("enemy" + enemyForFirebase.getId());
             batch.set(docRef, enemyForFirebase);
         }
@@ -49,9 +49,9 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if((Integer) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY) {
+                    if((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY) {
                         onValueReadyCallback.finish(new CustomResult<>(true, true, null));
                     }
                 });
@@ -60,7 +60,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     @Override
     public void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(PlayerManager.getLobbyDocumentName())
+                .document(playerManager.getLobbyDocumentName())
                 .update("startGame", true)
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null,false,e)));

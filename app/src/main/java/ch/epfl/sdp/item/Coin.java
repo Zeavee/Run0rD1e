@@ -13,8 +13,8 @@ public class Coin extends Item {
 
     @Override
     public void use() {
-        int currentMoney = PlayerManager.getCurrentUser().money;
-        PlayerManager.getCurrentUser().money = currentMoney + value;
+        int currentMoney = PlayerManager.getInstance().getCurrentUser().money;
+        PlayerManager.getInstance().getCurrentUser().money = currentMoney + value;
     }
 
     public int getValue() {

@@ -12,12 +12,12 @@ public class Shield extends TimedItem  {
     @Override
     public void use() {
         super.use();
-        PlayerManager.getCurrentUser().setShielded(true);
+        PlayerManager.getInstance().getCurrentUser().setShielded(true);
     }
 
     @Override
     public void stopUsing(){
-        PlayerManager.getCurrentUser().setShielded(false);
+        PlayerManager.getInstance().getCurrentUser().setShielded(false);
     }
 
     public EntityType getEntityType() {

@@ -21,6 +21,7 @@ public class Client implements Updatable{
     private double oldDamage;
     //private List<ItemBox> itemBoxes;
     private ClientDatabaseAPI clientDatabaseAPI;
+    protected PlayerManager playerManager = PlayerManager.getInstance();
 
     /**
      * Creates a new client
@@ -53,14 +54,14 @@ public class Client implements Updatable{
         if (damage != oldDamage) {
             // shielding is done on server?
 
-            double damageReceived = PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage);
+            double damageReceived = playerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage);
 
-            if(PlayerManager.getCurrentUser().isShielded()){
+            if(playerManager.getCurrentUser().isShielded()){
                 damageReceived = 0;
             }
 
-            PlayerManager.getCurrentUser().setHealthPoints(damageReceived);
-            clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
+            playerManager.getCurrentUser().setHealthPoints(damageReceived);
+            clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser()), value -> {
                 if(value.isSuccessful()){
                     oldDamage = damage;
                 }
@@ -99,8 +100,8 @@ public class Client implements Updatable{
      * Update the players position.
      */
     private void updatePlayersPosition(){
-        clientDatabaseAPI.fetchPlayers(listPlayer -> {if(listPlayer.isSuccessful()) PlayerManager.updatePlayersPosition(listPlayer.getResult());});
-        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {});
+        clientDatabaseAPI.fetchPlayers(listPlayer -> {if(listPlayer.isSuccessful()) playerManager.updatePlayersPosition(listPlayer.getResult());});
+        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser()), value -> {});
     }
 
     /**

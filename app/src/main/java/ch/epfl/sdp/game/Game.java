@@ -185,7 +185,7 @@ public class Game implements Updatable {
     private void updateLocalScoreOfPlayers() {
         if (numberOfUpdates > 10 * gameThread.getFPS()) {
             numberOfUpdates = 0;
-            for (Player player : PlayerManager.getPlayers()) {
+            for (Player player : PlayerManager.getInstance().getPlayers()) {
                 player.updateLocalScore();
             }
         } else {
@@ -198,7 +198,7 @@ public class Game implements Updatable {
      * All the players get their local score added to the general score and if they are alive, they get 50 bonus points
      */
     private void updateGeneralScoreOfPlayers() {
-        for (Player player : PlayerManager.getPlayers()) {
+        for (Player player : PlayerManager.getInstance().getPlayers()) {
             if (player.isAlive()) {
                 player.currentGameScore += 50;
             }

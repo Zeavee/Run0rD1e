@@ -41,6 +41,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private InventoryFragment inventoryFragment = new InventoryFragment();
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
+    private PlayerManager playerManager = PlayerManager.getInstance();
 
     public static void setMapApi(MapApi map) {
         mapApi = map;
@@ -82,19 +83,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
             if (fetchUserRes.isSuccessful()) {
                 Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
-                PlayerManager.setCurrentUser(currentUser);
+                playerManager.setCurrentUser(currentUser);
                 mapApi.updatePosition();
 
                 commonDatabaseAPI.selectLobby(selectLobbyRes -> {
                     if (selectLobbyRes.isSuccessful()) {
-                        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
                         Map<String, Object> data = new HashMap<>();
-                        data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
-                        if (PlayerManager.isServer()) data.put("startGame", false);
+                        data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                        if (playerManager.isServer()) data.put("startGame", false);
 
                         commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
                             if (registerToLobbyRes.isSuccessful()) {
-                                if(PlayerManager.isServer()){
+                                if(playerManager.isServer()){
                                     new Server().initEnvironment();
                                 }else{
                                     new Client().initEnvironment();
@@ -134,10 +135,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     while (!isInterrupted()) {
                         Thread.sleep(2000);
                         runOnUiThread(() -> {
-                            if (PlayerManager.getCurrentUser() != null && PlayerManager.getCurrentUser().getHealthPoints() > 0) {
-                                healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
-                                username.setText(PlayerManager.getCurrentUser().getUsername());
+                            if (playerManager.getCurrentUser() != null && playerManager.getCurrentUser().getHealthPoints() > 0) {
+                                healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
+                                healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
+                                username.setText(playerManager.getCurrentUser().getUsername());
                             }
                         });
                     }

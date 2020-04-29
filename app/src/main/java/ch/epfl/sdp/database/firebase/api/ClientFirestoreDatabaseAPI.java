@@ -36,9 +36,9 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     @Override
     public void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(PlayerManager.getLobbyDocumentName())
+                .document(playerManager.getLobbyDocumentName())
                 .collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                .document(PlayerManager.getCurrentUser().getEmail())
+                .document(playerManager.getCurrentUser().getEmail())
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     PlayerForFirebase playerForFirebase = documentSnapshot.toObject(PlayerForFirebase.class);
@@ -49,8 +49,8 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     @Override
     public void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(PlayerManager.getLobbyDocumentName())
-                .collection(PlayerManager.ENEMY_COLLECTION_NAME)
+                .document(playerManager.getLobbyDocumentName())
+                .collection(playerManager.ENEMY_COLLECTION_NAME)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void listenToGameStart(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getLobbyDocumentName())
+        firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
                     if((Boolean) documentSnapshot.get("startGame")) {
                         onValueReadyCallback.finish(new CustomResult<>(true, true, null));

@@ -41,6 +41,7 @@ public class GoogleMapApi implements MapApi {
     private GoogleMap mMap;
     private Activity activity;
     private Map<Displayable, MapDrawing> entityCircles;
+    private PlayerManager playerManager = PlayerManager.getInstance();
 
     private boolean hasMovedToPlayerPositionOnStart = false;
 
@@ -100,10 +101,10 @@ public class GoogleMapApi implements MapApi {
 
         bestProvider = locationManager.getBestProvider(criteria, true);
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        PlayerManager.getCurrentUser().setLocation(getCurrentLocation());
-        PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
-        removeMarkers(PlayerManager.getCurrentUser());
-        displayMarkerCircle(PlayerManager.getCurrentUser(), Color.BLUE, "My position", 10);
+        playerManager.getCurrentUser().setLocation(getCurrentLocation());
+        playerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(playerManager.getCurrentUser().getLocation()));
+        removeMarkers(playerManager.getCurrentUser());
+        displayMarkerCircle(playerManager.getCurrentUser(), Color.BLUE, "My position", 10);
     }
 
     @Override

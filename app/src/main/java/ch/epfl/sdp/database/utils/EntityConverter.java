@@ -71,7 +71,7 @@ public class EntityConverter {
         ArrayList<PlayerForFirebase> playerList= new ArrayList<>();
         for(Player player : players) {
             PlayerForFirebase playerForFirebase = playerToPlayerForFirebase(player);
-            playerForFirebase.setDamage(PlayerManager.getDamages(player.getEmail()));
+            playerForFirebase.setDamage(PlayerManager.getInstance().getDamages(player.getEmail()));
             playerList.add(playerForFirebase);
         }
 

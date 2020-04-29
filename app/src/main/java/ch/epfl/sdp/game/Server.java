@@ -87,7 +87,7 @@ public class Server extends Client {
     }
 
     private void sendDamage(){
-        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(PlayerManager.getPlayers()), value -> {});
+        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(playerManager.getPlayers()), value -> {});
     }
 
 
