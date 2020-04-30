@@ -3,8 +3,6 @@ package ch.epfl.sdp.game;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.Renderer;
@@ -20,6 +18,7 @@ public class Game implements Updatable {
     private ArrayList<Displayable> displayables;
     private static final Game instance = new Game();
     private Renderer renderer;
+    private ScoreUpdater scoreUpdater;
 
     /**
      * Gets one and only instance of the game.
@@ -27,8 +26,6 @@ public class Game implements Updatable {
     public static Game getInstance() {
         return instance;
     }
-
-    private int numberOfUpdates = 0;
 
     /**
      * Instantiates a new game (uses mapApi by default. So for tests you need to
@@ -39,6 +36,7 @@ public class Game implements Updatable {
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
+        scoreUpdater = new ScoreUpdater();
     }
 
     public void setMapApi(MapApi mapApi) {
@@ -176,7 +174,6 @@ public class Game implements Updatable {
      * Kill the game
      */
     public void destroyGame() {
-        updateGeneralScoreOfPlayers();
 
         while (gameThread.getState() != Thread.State.TERMINATED) {
             try {
@@ -186,6 +183,7 @@ public class Game implements Updatable {
                 e.printStackTrace();
             }
         }
+        scoreUpdater.destroy();
     }
 
     /**
@@ -195,39 +193,8 @@ public class Game implements Updatable {
     public void update() {
         itUpdatable = updatables.iterator();
 
-        updateLocalScoreOfPlayers();
-
         while (itUpdatable.hasNext()) {
             itUpdatable.next().update();
-        }
-    }
-
-    /**
-     * This method update the local score of all the player in the game (the rule is that every 10 seconds, a player gets 10 points
-     * and if he walked more than 10 meters, he also gets 10 points
-     */
-    private void updateLocalScoreOfPlayers() {
-        if (numberOfUpdates > 9 * gameThread.getFPS()) {
-            numberOfUpdates = 0;
-            for (Player player : PlayerManager.getPlayers()) {
-                player.updateLocalScore();
-            }
-        } else {
-            numberOfUpdates++;
-        }
-    }
-
-    /**
-     * This methods update the general score of all the players in the game at the end of the game.
-     * All the players get their local score added to the general score and if they are alive, they get 50 bonus points
-     */
-    private void updateGeneralScoreOfPlayers() {
-        for (Player player : PlayerManager.getPlayers()) {
-            if (player.isAlive()) {
-                player.currentGameScore += 50;
-            }
-            player.generalScore += player.currentGameScore;
-            player.currentGameScore = 0;
         }
     }
 
