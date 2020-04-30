@@ -1,11 +1,18 @@
 package ch.epfl.sdp.game;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.epfl.sdp.artificial_intelligence.EnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -66,6 +73,7 @@ public class Server extends Client {
                             if(value1.isSuccessful()){
                                 //maybe not working
                                 Server.super.initEnvironment();
+                                sendDamage();
                             }
                         });
                     }
@@ -87,7 +95,20 @@ public class Server extends Client {
     }
 
     private void sendDamage(){
-        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(playerManager.getPlayers()), value -> {});
+        Player currentUser = PlayerManager.getInstance().getCurrentUser();
+        PlayerForFirebase playerForFirebase = new PlayerForFirebase();
+        playerForFirebase.setEmail(currentUser.getEmail());
+        playerForFirebase.setDamage(4);
+        List<PlayerForFirebase> players = new ArrayList<>();
+        players.add(playerForFirebase);
+        serverDatabaseAPI.sendDamage(players, value -> {
+            if(value.isSuccessful()) {
+                Log.d(">>>>TAG>>>>", "sendDamage: succeed");
+            } else {
+                Log.d(">>>>TAG>>>>", "sendDamage: " + value.getException().getMessage());
+            }
+        });
+//        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(playerManager.getPlayers()), value -> {});
     }
 
 

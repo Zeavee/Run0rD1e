@@ -37,7 +37,10 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
         // Collection Ref
         for(PlayerForFirebase playerForFirebase: players){
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
+            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+                    .document(PlayerManager.getInstance().getLobbyDocumentName())
+                    .collection(PlayerManager.PLAYER_COLLECTION_NAME)
+                    .document(playerForFirebase.getEmail());
             batch.update(docRef, "damage", playerForFirebase.getDamage());
         }
 
