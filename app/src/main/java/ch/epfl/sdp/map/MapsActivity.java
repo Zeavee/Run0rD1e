@@ -49,6 +49,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     boolean flag = false;
 
+    /**
+     * A method to set a LocationFinder
+     *
+     * @param locationFinder the locationFinder we want to use
+     */
     public void setLocationFinder(LocationFinder locationFinder) {
         this.locationFinder = locationFinder;
     }
@@ -80,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        for (int res: grantResults) {
+        for (int res : grantResults) {
             if (res != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
@@ -92,13 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-        } else {
-            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
-        }
 
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
@@ -131,12 +129,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         });
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        } else {
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+        }
+
     }
 
+    /**
+     * A method that shows the inventory
+     *
+     * @param v the view of the inventory
+     */
     public void showInventory(View v) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
-        if(flag) {
+        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+        if (flag) {
             transaction.remove(inventoryFragment);
         } else {
             transaction.add(R.id.fragment_inventory_container, inventoryFragment);
@@ -155,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(() -> {
                             if (PlayerManager.getCurrentUser() != null && PlayerManager.getCurrentUser().getHealthPoints() > 0) {
                                 healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(PlayerManager.getCurrentUser().getUsername());
                             }
                         });
@@ -171,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
-            for (Displayable displayable: displayables) {
+            for (Displayable displayable : displayables) {
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
             Game.getInstance().getMapApi().displayMarkerCircle(PlayerManager.getCurrentUser(),

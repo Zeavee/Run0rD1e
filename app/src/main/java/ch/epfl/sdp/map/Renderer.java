@@ -8,6 +8,7 @@ import java.util.Collection;
 public interface Renderer {
     /**
      * A method that display a list of object on the map
+     *
      * @param displayables the list we want to display
      */
     void display(Collection<Displayable> displayables);

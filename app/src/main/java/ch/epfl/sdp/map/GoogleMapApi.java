@@ -48,23 +48,23 @@ public class GoogleMapApi implements MapApi {
     @UiThread
     @Override
     public void removeMarkers(Displayable displayable) {
-            if (entityCircles.containsKey(displayable)) {
-                if (entityCircles.get(displayable).hasMarker())
-                    entityCircles.get(displayable).getMarker().remove();
-                if (entityCircles.get(displayable).hasCircle())
-                    entityCircles.get(displayable).getAoe().remove();
-            }
+        if (entityCircles.containsKey(displayable)) {
+            if (entityCircles.get(displayable).hasMarker())
+                entityCircles.get(displayable).getMarker().remove();
+            if (entityCircles.get(displayable).hasCircle())
+                entityCircles.get(displayable).getAoe().remove();
+        }
     }
 
     @UiThread
     @Override
     public void displaySmallIcon(Displayable displayable, String title, int id) {
-            removeMarkers(displayable);
-            LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-            entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                    .position(position)
-                    .title(title)
-                    .icon(BitmapDescriptorFactory.fromResource(id)))));
+        removeMarkers(displayable);
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                .position(position)
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromResource(id)))));
     }
 
     @UiThread
@@ -79,7 +79,7 @@ public class GoogleMapApi implements MapApi {
                 mMap.addCircle(new CircleOptions()
                         .center(position)
                         .strokeColor(color)
-                        .fillColor(color-0x80000000)
+                        .fillColor(color - 0x80000000)
                         .radius(aoeRadius)
                         .strokeWidth(1f))));
     }

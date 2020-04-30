@@ -14,6 +14,7 @@ public class MapDrawing {
 
     /**
      * The constructor for our drawing composed of a marker (icon) and a circle (aoeRadius)
+     *
      * @param marker a Google Maps marker we can use to display various types of images
      * @param circle a Google Maps Circle
      */
@@ -26,6 +27,7 @@ public class MapDrawing {
 
     /**
      * The constructor for our drawing composed of a marker (icon)
+     *
      * @param marker a Google Maps marker we can use to display various types of images
      */
     public MapDrawing(Marker marker) {
@@ -36,6 +38,7 @@ public class MapDrawing {
 
     /**
      * A getter for the marker
+     *
      * @return the marker of the drawing
      */
     public Marker getMarker() {
@@ -44,6 +47,7 @@ public class MapDrawing {
 
     /**
      * A getter for the aoe
+     *
      * @return the circle of the drawing
      */
     public Circle getAoe() {
@@ -52,6 +56,7 @@ public class MapDrawing {
 
     /**
      * This method permits to determine if the drawing has a circle
+     *
      * @return a boolean that tells if the drawing has a circle
      */
     public boolean hasCircle() {
@@ -60,6 +65,7 @@ public class MapDrawing {
 
     /**
      * This method permits to determine if the drawing has a marker
+     *
      * @return a boolean that tells if the drawing has a marker
      */
     public boolean hasMarker() {
