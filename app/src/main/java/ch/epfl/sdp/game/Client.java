@@ -29,9 +29,8 @@ public class Client implements Updatable{
      */
     public Client(){
         oldDamage = 0;
-        counter = GameThread.FPS;
-        Game.getInstance().addToUpdateList(this);
         clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
+        Game.getInstance().addToUpdateList(this);
     }
 
     public void initEnvironment() {
@@ -53,7 +52,8 @@ public class Client implements Updatable{
 
     private void receiveDamage(double damage) {
         Player player = playerManager.getCurrentUser();
-        if(player.isShielded()) {
+
+       /* if(player.isShielded()) {
             return;
         }
 
@@ -63,8 +63,8 @@ public class Client implements Updatable{
             if(value.isSuccessful()){
                 oldDamage = damage;
             }
-        });
-/*
+        }); */
+
         if (damage != oldDamage) {
             // shielding is done on server?
 
@@ -81,7 +81,6 @@ public class Client implements Updatable{
                 }
             });
         }
-        */
     }
 
     private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
@@ -119,6 +118,10 @@ public class Client implements Updatable{
         clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser()), value -> {});
     }
 
+    private void updateUserPosition(){
+        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()), res -> {});
+    }
+
     /**
      * Update the enemies positions.
      */
@@ -132,6 +135,7 @@ public class Client implements Updatable{
             updateHealth();
 
             //updateItems();
+            updateUserPosition();
             updatePlayersPosition();
             updateEnemiesPosition();
             counter = GameThread.FPS + 1;

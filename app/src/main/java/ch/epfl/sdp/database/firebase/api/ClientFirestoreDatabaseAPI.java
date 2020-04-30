@@ -19,7 +19,9 @@ import ch.epfl.sdp.entity.PlayerManager;
 public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void sendHealthPoints(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+                .document(playerManager.getLobbyDocumentName())
+                .collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
                 .update("healthPoints", playerForFirebase.getHealthPoints())
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
@@ -27,7 +29,9 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+                .document(playerManager.getLobbyDocumentName())
+                .collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
                 .update("aoeRadius", playerForFirebase.getAoeRadius())
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));

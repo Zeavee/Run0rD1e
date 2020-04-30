@@ -80,17 +80,18 @@ public class PlayerManager {
         this.isServer = isServer;
     }
 
-    public double getDamages(String email) {
-        if(damages.containsKey(email)) {
+    public Map<String, Double> getDamages() {
+       /* if(damages.containsKey(email)) {
             return damages.get(email);
         } else {
             return 0.0;
-        }
+        }*/
+       return damages;
     }
 
-    public void setDamages(String email, double damage) {
+    /*public void setDamages(String email, double damage) {
         damages.put(email, damage);
-    }
+    }*/
 
     /**
      * Add the specified player to the player manager. The player will stay until it is removed by
@@ -100,6 +101,7 @@ public class PlayerManager {
      */
     public void addPlayer(Player player) {
         playersMap.put(player.getEmail(),player);
+        damages.put(player.getEmail(), (double) 0);
     }
 
     /**

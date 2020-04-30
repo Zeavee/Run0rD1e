@@ -74,7 +74,7 @@ public class Enemy extends MovingArtificialEntity {
      * @param maxBounds    The enemy's maximum visitable area.
      */
     public Enemy(int id, LocalArea patrolBounds, Area maxBounds) {
-        this(id, 0, 0, 1000, 50, patrolBounds, maxBounds);
+        this(id, 1, 1, 1000, 50, patrolBounds, maxBounds);
     }
 
     /**
@@ -196,6 +196,7 @@ public class Enemy extends MovingArtificialEntity {
             double attackRange = this.getAoeRadius();
             Player target = playerDetected(attackRange);
             if (target != null && !target.isShielded()) {
+                PlayerManager.getInstance().getDamages().put(target.getEmail(), PlayerManager.getInstance().getDamages().get(target.getEmail()) + damage*damageRate);
                 target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
             } else {
                 setMoving(true);

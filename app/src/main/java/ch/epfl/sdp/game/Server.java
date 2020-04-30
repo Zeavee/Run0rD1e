@@ -25,6 +25,7 @@ import ch.epfl.sdp.utils.DependencyFactory;
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
 public class Server extends Client {
+    private int counter;
     public final int GENERATE_ENEMY_EVERY_MS = 10000;
     private long lastEnemyGenerateTimeMillis = System.currentTimeMillis();
     private EnemyGenerator enemyGenerator;
@@ -58,8 +59,9 @@ public class Server extends Client {
                 LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
                 Enemy enemy = new Enemy(0, localArea, new UnboundedArea());
                 enemy.setLocation(enemyPos);
+                enemy.setAoeRadius(100);
                 SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
-                movement.setVelocity(5);
+                movement.setVelocity(15);
                 movement.setAngleStep(0.1);
                 movement.setAmplitude(10);
                 enemy.setMovement(movement);
@@ -81,8 +83,6 @@ public class Server extends Client {
             }
         });
 
-
-
         /**
          * Following code is just used to test the functionality of firebase functions
          */
@@ -95,33 +95,20 @@ public class Server extends Client {
     }
 
     private void sendDamage(){
-        Player currentUser = PlayerManager.getInstance().getCurrentUser();
-        PlayerForFirebase playerForFirebase = new PlayerForFirebase();
-        playerForFirebase.setEmail(currentUser.getEmail());
-        playerForFirebase.setDamage(4);
-        List<PlayerForFirebase> players = new ArrayList<>();
-        players.add(playerForFirebase);
-        serverDatabaseAPI.sendDamage(players, value -> {
-            if(value.isSuccessful()) {
-                Log.d(">>>>TAG>>>>", "sendDamage: succeed");
-            } else {
-                Log.d(">>>>TAG>>>>", "sendDamage: " + value.getException().getMessage());
-            }
-        });
-//        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(playerManager.getPlayers()), value -> {});
+        serverDatabaseAPI.sendDamage(EntityConverter.convertPlayerList(playerManager.getPlayers()), value -> {});
     }
 
 
     @Override
     public void update() {
-        long currentTimeMillis = System.currentTimeMillis();
-        if(currentTimeMillis - lastEnemyGenerateTimeMillis >= generateEnemyEveryMs) {
-            //Enemy enemy = new Enemy();
-            lastEnemyGenerateTimeMillis = currentTimeMillis;
-            //EnemyManager.getInstance().addEnemy(enemy);
-            //sendDamage();
+        super.update();
+
+        if(counter <= 0){
             EnemyManager.getInstance().update();
+            sendDamage();
+            counter = GameThread.FPS + 1;
         }
 
+        --counter;
     }
 }
