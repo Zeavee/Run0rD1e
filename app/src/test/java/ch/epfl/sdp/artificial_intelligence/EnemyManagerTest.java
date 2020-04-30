@@ -23,7 +23,7 @@ public class EnemyManagerTest {
 
     @Test
     public void testAddAndRemoveEnemy(){
-        EnemyManager enemyManager = new EnemyManager();
+        EnemyManager enemyManager = EnemyManager.getInstance();
         Enemy enemy = new Enemy();
         enemyManager.addEnemy(enemy);
         assertEquals(1, enemyManager.getEnemies().size());
@@ -33,7 +33,7 @@ public class EnemyManagerTest {
 
     @Test
     public void testUpdate(){
-        EnemyManager enemyManager = new EnemyManager();
+        EnemyManager enemyManager = EnemyManager.getInstance();
         Enemy enemy1 = new Enemy();
         enemyManager.addEnemy(enemy1);
         enemyManager.update();

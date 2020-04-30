@@ -44,8 +44,8 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void selectLobby(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        PlayerManager.setNumPlayersBeforeJoin(0);
-        PlayerManager.setIsServer(true);
+        PlayerManager.getInstance().setNumPlayersBeforeJoin(0);
+        PlayerManager.getInstance().setIsServer(true);
         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
     }
 
@@ -56,6 +56,11 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
 }

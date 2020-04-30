@@ -14,7 +14,7 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 10;
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";

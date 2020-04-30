@@ -45,8 +45,8 @@ public class MapsActivityTest {
 
     @Before
     public void setup() {
-        PlayerManager.setCurrentUser(new Player("testMap", "testMap@gmail.com"));
-        PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
+        PlayerManager.getInstance().setCurrentUser(new Player("testMap", "testMap@gmail.com"));
+        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10));
     }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
@@ -128,7 +128,7 @@ public class MapsActivityTest {
 
     @Test
     public void myPositionButtonWorks() {
-        PlayerManager.removeAll(); // To remove
+        PlayerManager.getInstance().removeAll(); // To remove
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
         sleep();
