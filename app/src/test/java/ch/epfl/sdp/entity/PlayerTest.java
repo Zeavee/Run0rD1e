@@ -53,12 +53,13 @@ public class PlayerTest {
         assertEquals(0, player1.generalScore);
         assertEquals(0, player1.currentGameScore);
         Game.getInstance().initGame();
-        Thread.sleep(13000);
+        Thread.sleep(11000);
         assertEquals(10, player1.currentGameScore);
         player1.distanceTraveled += 5000;
-        Thread.sleep(13000);
+        Thread.sleep(10000);
         assertEquals(30, player1.currentGameScore);
         Game.getInstance().destroyGame();
+        Thread.sleep(10000);
         assertEquals(80, player1.generalScore);
         assertEquals(0, player1.currentGameScore);
     }

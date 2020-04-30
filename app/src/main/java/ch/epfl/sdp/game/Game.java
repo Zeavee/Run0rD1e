@@ -32,21 +32,34 @@ public class Game implements Updatable {
      * change the map before launching)
      */
     private Game() {
-        mapApi = null; // is it okay?
+        mapApi = null;
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         scoreUpdater = new ScoreUpdater();
     }
 
+    /**
+     * This permits to set the MapApi the game will use
+     * @param mapApi the MapApi the game will use
+     */
     public void setMapApi(MapApi mapApi) {
         this.mapApi = mapApi;
     }
 
+    /**
+     * This permits to set the Renderer the game will use
+     * @param renderer the Renderer the game will use
+     */
     public void setRenderer(Renderer renderer) {
         this.renderer = renderer;
     }
 
+    /**
+     * Returns the MapApi the game is using.
+     *
+     * @return the MapApi the game is using.
+     */
     public MapApi getMapApi() {
         return mapApi;
     }

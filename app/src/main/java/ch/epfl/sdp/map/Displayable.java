@@ -2,6 +2,9 @@ package ch.epfl.sdp.map;
 
 import ch.epfl.sdp.geometry.GeoPoint;
 
+/**
+ * An interface that all objects that can be displayed on the map should implement
+ */
 public interface Displayable {
     /**
      * Method for getting the location for displaying on the map
