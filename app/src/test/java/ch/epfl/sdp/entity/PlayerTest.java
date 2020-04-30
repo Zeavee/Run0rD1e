@@ -20,6 +20,9 @@ public class PlayerTest {
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         game.getInstance().setMapApi(new MockMapApi());
+        game.getInstance().setRenderer(displayables -> {
+
+        });
         PlayerManager.setCurrentUser(player1);
     }
 
