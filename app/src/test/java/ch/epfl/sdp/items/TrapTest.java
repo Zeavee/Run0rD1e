@@ -4,14 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.Trap;
-import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
@@ -30,8 +28,7 @@ public class TrapTest {
         opponent = new Player(39, 39, 100, "username2", "email2@email.com");
 
         MockMapApi mockMapApi = new MockMapApi();
-        MapsActivity.setMapApi(mockMapApi);
-        mockMapApi.setCurrentLocation(owner.getLocation());
+        Game.getInstance().setMapApi(mockMapApi);
 
         game = Game.getInstance();
         game.initGame();
@@ -71,7 +68,6 @@ public class TrapTest {
     @Test
     public void trapCorrectlyImplementsDisplayable() {
         assertTrue(trap.isOnce());
-        assertEquals(EntityType.TRAP, trap.getEntityType());
         trap.use();
         assertNotNull(trap.getLocation());
     }

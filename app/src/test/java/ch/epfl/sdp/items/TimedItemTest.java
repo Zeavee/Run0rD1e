@@ -25,7 +25,7 @@ public class TimedItemTest {
 
     @Before
     public void setup() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         Player player = new Player("","");
         PlayerManager.setCurrentUser(player);
         user = PlayerManager.getCurrentUser();
@@ -63,7 +63,7 @@ public class TimedItemTest {
     @Test
     public void scanGetsUpdated(){
         MockMapApi map = new MockMapApi();
-        MapsActivity.setMapApi(map);
+        Game.getInstance().setMapApi(map);
         PlayerManager.addPlayer(user);
         Scan scan = new Scan(countTime);
         scan.use();

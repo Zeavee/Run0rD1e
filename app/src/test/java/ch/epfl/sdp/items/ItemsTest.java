@@ -3,17 +3,16 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +28,7 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         playerManager = new PlayerManager();
         player = new Player("","");
         PlayerManager.addPlayer(player);
@@ -63,14 +62,12 @@ public class ItemsTest {
     @Test
     public void shieldTest() {
         assertEquals(40, shield.getRemainingTime(), 0);
-        assertEquals(EntityType.SHIELD, shield.getEntityType());
     }
 
     @Test
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertEquals(EntityType.SHRINKER, shrinker.getEntityType());
     }
 
 
@@ -87,7 +84,6 @@ public class ItemsTest {
     @Test
     public void scanTest() {
         scan.use();
-        assertEquals(EntityType.SCAN, scan.getEntityType());
     }
 
     @Test
@@ -97,7 +93,6 @@ public class ItemsTest {
         assertTrue(5 == c.getValue());
         c.use();
         assertTrue(PlayerManager.getCurrentUser().money == 5);
-        assertEquals(c.getEntityType(), EntityType.COIN);
 
     }
 }

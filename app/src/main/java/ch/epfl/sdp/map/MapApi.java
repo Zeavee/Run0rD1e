@@ -1,52 +1,41 @@
 package ch.epfl.sdp.map;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.location.LocationManager;
-
-import com.google.android.gms.maps.GoogleMap;
-
 import ch.epfl.sdp.geometry.GeoPoint;
 
+/**
+ * This interface shows the API we can use to display objects on the map
+ */
 public interface MapApi {
-
     /**
-     * Method for the current location
-     * @return the current location of the phone
+     * A method that moves the camera on the given location
      */
-    GeoPoint getCurrentLocation();
+    void moveCameraOnLocation(GeoPoint location);
 
     /**
-     * Method that update position, will maybe be switched to private
-     */
-    void updatePosition();
-
-    /**
-     * A method that moves the camera on the current location of the phone
-     */
-    void moveCameraOnCurrentLocation();
-
-    /**
-     * A method that creates a small circle that has always the same size on screen,
-     * so we can see it even when the map is not zoomed
-     * @param color a color in RGB
-     * @return a bitmap, which is an image
-     */
-    Bitmap createSmallCircle(int color);
-
-    /**
-     * A method to display objects on the map
+     * A method that display a small icon on the map
+     * The size of the icon never changes on the screen
      *
-     * @param displayable an entity that is displayable on the map
+     * @param displayable the object we want to display
+     * @param title       the String we want to add with the object
+     * @param id          the icon we want to use
      */
-     void displayEntity(Displayable displayable);
+    void displaySmallIcon(Displayable displayable, String title, int id);
 
-     void unDisplayEntity(Displayable displayable);
+    /**
+     * A method that display a two circles
+     * One of them show the aoe radius and the other shows the more precise position
+     *
+     * @param displayable the object we want to display
+     * @param color       the color of the circles
+     * @param title       the String we want to add with the object
+     * @param aoeRadius   the aoeRadius of the displayable
+     */
+    void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius);
 
-     void initializeApi(LocationManager locationManager, Activity activity);
-
-
-     Activity getActivity();
-
-     void setMap(GoogleMap googleMap);
+    /**
+     * This methods remove a given object from the map
+     *
+     * @param displayable the object we want to remove from the map
+     */
+    void removeMarkers(Displayable displayable);
 }

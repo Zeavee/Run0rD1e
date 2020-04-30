@@ -14,21 +14,6 @@ import ch.epfl.sdp.utils.DependencyFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-//    private static Game game;
-
-    // Launches the game loop in another thread, must be destroyed at the end
-//    public static void startGame() {
-//        if (game != null) {
-//            game.initGame();
-//        }
-//    }
-//
-//    public static void killGame() {
-//        if (game != null) {
-//            game.destroyGame();
-//        }
-//    }
-
     private AuthenticationAPI authenticationAPI;
 
     @Override
@@ -50,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logout() {
-        // Stops the game loop and kills the thread
-//        MainActivity.killGame();
         authenticationAPI.signOut();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();

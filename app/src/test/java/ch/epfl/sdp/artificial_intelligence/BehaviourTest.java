@@ -3,14 +3,14 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -20,11 +20,11 @@ public class BehaviourTest {
 
     @Before
     public void setup() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         PlayerManager.removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
-        PlayerManager.addPlayer(player);
+        PlayerManager.setCurrentUser(player);
         RectangleArea patrolBounds = new RectangleArea(10, 10);
         RectangleArea maxBounds = new RectangleArea(100, 100);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);

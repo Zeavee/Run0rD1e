@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,7 +19,10 @@ public class PlayerTest {
     public void setup(){
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
+        game.getInstance().setMapApi(new MockMapApi());
+        game.getInstance().setRenderer(displayables -> {
 
+        });
         PlayerManager.setCurrentUser(player1);
     }
 
@@ -46,22 +49,17 @@ public class PlayerTest {
     }
 
     @Test
-    public void getEntityTypeReturnsUser() {
-        Displayable currentPlayer = new Player(0,0,0,"temp", "fake");
-        assertEquals(EntityType.USER, currentPlayer.getEntityType());
-    }
-
-    @Test
     public void scoreIncreasesOnDisplacementWithTime() throws InterruptedException {
         assertEquals(0, player1.generalScore);
         assertEquals(0, player1.currentGameScore);
         Game.getInstance().initGame();
-        Thread.sleep(13000);
+        Thread.sleep(11000);
         assertEquals(10, player1.currentGameScore);
         player1.distanceTraveled += 5000;
-        Thread.sleep(13000);
+        Thread.sleep(10000);
         assertEquals(30, player1.currentGameScore);
         Game.getInstance().destroyGame();
+        Thread.sleep(10000);
         assertEquals(80, player1.generalScore);
         assertEquals(0, player1.currentGameScore);
     }

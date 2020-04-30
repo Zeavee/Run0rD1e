@@ -1,7 +1,10 @@
 package ch.epfl.sdp.map;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -17,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,25 +31,31 @@ import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.utils.DependencyFactory;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static MapApi mapApi = new GoogleMapApi();
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
+    private LocationFinder locationFinder;
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
 
     boolean flag = false;
 
-    public static void setMapApi(MapApi map) {
-        mapApi = map;
+    /**
+     * A method to set a LocationFinder
+     *
+     * @param locationFinder the locationFinder we want to use
+     */
+    public void setLocationFinder(LocationFinder locationFinder) {
+        this.locationFinder = locationFinder;
     }
 
     @Override
@@ -52,11 +63,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Game.getInstance().setRenderer(this);
+
         commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
         authenticationAPI = DependencyFactory.getAuthenticationAPI();
-
-        Button mapButton = findViewById(R.id.recenter);
-        mapButton.setOnClickListener(v -> mapApi.moveCameraOnCurrentLocation());
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -65,18 +75,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
         username.setText("");
 
-        mapApi.initializeApi((LocationManager) getSystemService(Context.LOCATION_SERVICE), this);
+        Button mapButton = findViewById(R.id.recenter);
+        mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
         showGameInfoThread().start();
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        for (int res : grantResults) {
+            if (res != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+        }
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapApi.setMap(googleMap);
+        Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
+        Game.getInstance().setRenderer(this);
 
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
@@ -87,7 +107,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
                 PlayerManager.setCurrentUser(currentUser);
-                mapApi.updatePosition();
 
                 commonDatabaseAPI.selectLobby(selectLobbyRes -> {
                     if (!selectLobbyRes.isSuccessful()) {
@@ -110,12 +129,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
 
         });
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        } else {
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+        }
+
     }
 
+    /**
+     * A method that shows the inventory
+     *
+     * @param v the view of the inventory
+     */
     public void showInventory(View v) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.slide_up,R.animator.slide_down);
-        if(flag) {
+        transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
+        if (flag) {
             transaction.remove(inventoryFragment);
         } else {
             transaction.add(R.id.fragment_inventory_container, inventoryFragment);
@@ -134,7 +166,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(() -> {
                             if (PlayerManager.getCurrentUser() != null && PlayerManager.getCurrentUser().getHealthPoints() > 0) {
                                 healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints()+"/"+healthPointProgressBar.getMax());
+                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(PlayerManager.getCurrentUser().getUsername());
                             }
                         });
@@ -145,5 +177,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         };
 
         return thread;
+    }
+
+    @Override
+    public void display(Collection<Displayable> displayables) {
+        runOnUiThread(() -> {
+            for (Displayable displayable : displayables) {
+                displayable.displayOn(Game.getInstance().getMapApi());
+            }
+            Game.getInstance().getMapApi().displayMarkerCircle(PlayerManager.getCurrentUser(),
+                    Color.BLUE, PlayerManager.getCurrentUser().getUsername(), (int) PlayerManager.getCurrentUser().getAoeRadius());
+        });
     }
 }
