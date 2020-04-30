@@ -22,10 +22,10 @@ public class BehaviourTest {
     @Before
     public void setup() {
         MapsActivity.setMapApi(new MockMapApi());
-        PlayerManager.removeAll();
+        PlayerManager.getInstance().removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
-        PlayerManager.addPlayer(player);
+        PlayerManager.getInstance().addPlayer(player);
         RectangleArea patrolBounds = new RectangleArea(10, 10);
         RectangleArea maxBounds = new RectangleArea(100, 100);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);

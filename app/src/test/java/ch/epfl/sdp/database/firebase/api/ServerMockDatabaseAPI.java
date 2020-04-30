@@ -24,4 +24,14 @@ public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements Serv
     public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
+
+    @Override
+    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
+
+    }
 }

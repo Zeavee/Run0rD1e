@@ -21,11 +21,6 @@ public class ClientMockDatabaseAPI extends CommonMockDatabaseAPI implements Clie
     }
 
     @Override
-    public void clearItemBoxes() {
-
-    }
-
-    @Override
     public void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
@@ -37,6 +32,16 @@ public class ClientMockDatabaseAPI extends CommonMockDatabaseAPI implements Clie
 
     @Override
     public void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void listenToGameStart(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
 
     }
 }

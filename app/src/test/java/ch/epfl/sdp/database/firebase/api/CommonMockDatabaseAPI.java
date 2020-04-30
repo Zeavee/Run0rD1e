@@ -58,4 +58,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
 
     }
+
+    @Override
+    public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
+
+    }
 }
