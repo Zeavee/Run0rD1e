@@ -6,6 +6,7 @@ import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.entity.EnemyManager;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
@@ -50,7 +51,20 @@ public class Client implements Updatable{
         });
     }
 
-    private void receiveDamage(double damage){
+    private void receiveDamage(double damage) {
+        Player player = playerManager.getCurrentUser();
+        if(player.isShielded()) {
+            return;
+        }
+
+        double newHealthPoints = playerManager.getCurrentUser().getHealthPoints() - damage;
+        player.setHealthPoints(newHealthPoints);
+        clientDatabaseAPI.sendHealthPoints(EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser()), value -> {
+            if(value.isSuccessful()){
+                oldDamage = damage;
+            }
+        });
+/*
         if (damage != oldDamage) {
             // shielding is done on server?
 
@@ -67,6 +81,7 @@ public class Client implements Updatable{
                 }
             });
         }
+        */
     }
 
     private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
