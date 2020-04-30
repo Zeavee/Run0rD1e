@@ -28,6 +28,10 @@ public class ScoreUpdater {
         }, 10, 10, TimeUnit.SECONDS);
     }
 
+    /**
+     * This methods ends the updating of the score
+     * It also gives the bonus to the last players alive
+     */
     public void destroy() {
         isTerminated = true;
         updateGeneralScoreOfPlayers();

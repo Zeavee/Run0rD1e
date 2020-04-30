@@ -305,7 +305,6 @@ public class Enemy extends MovingArtificialEntity {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        // mapApi.displayMarkerCircle(this, Color.RED, "Enemy", 1000);
         mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
     }
 }
