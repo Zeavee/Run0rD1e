@@ -6,9 +6,8 @@ import java.util.Iterator;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GoogleMapApi;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.Renderer;
 
 /**
  * Main model of the game, it is used for state changes and animations.
@@ -20,6 +19,7 @@ public class Game implements Updatable {
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
     private static final Game instance = new Game();
+    private Renderer renderer;
 
     /**
      * Gets one and only instance of the game.
@@ -41,26 +41,31 @@ public class Game implements Updatable {
         displayables = new ArrayList<>();
     }
 
-    public void setMapApi(MapApi mapApi){
+    public void setMapApi(MapApi mapApi) {
         this.mapApi = mapApi;
     }
 
-    public MapApi getMapApi(){
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
+
+    public MapApi getMapApi() {
         return mapApi;
     }
 
     /**
      * Returns true if the game is running.
+     *
      * @return true if the game is running.
      */
-    public boolean isRunning(){
+    public boolean isRunning() {
         return gameThread.isRunning();
     }
 
     /**
      * Clears the game (ie. update and displayable list)
      */
-    public void clearGame(){
+    public void clearGame() {
         updatables.clear();
         displayables.clear();
     }
@@ -76,6 +81,7 @@ public class Game implements Updatable {
 
     /**
      * Remove the given updatable entity from the game.
+     *
      * @param updatable The updatable to be removed.
      */
     public void removeFromUpdateList(Updatable updatable) {
@@ -92,6 +98,7 @@ public class Game implements Updatable {
     /**
      * Add the given displayable entity to the game. If the once flag of the displayable is true
      * display the entity one time and don't add to the list.
+     *
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
@@ -104,33 +111,37 @@ public class Game implements Updatable {
 
     /**
      * Remove the given displayable entity from the game.
+     *
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
-        mapApi.unDisplayEntity(displayable);
+        displayable.unDisplayOn(mapApi);
         displayables.remove(displayable);
     }
 
     /**
      * Checks if the updatable is in the list of updatables.
+     *
      * @param updatable The updatable to check.
      * @return True if the updatable is in the list.
      */
-    public boolean updatablesContains(Updatable updatable){
+    public boolean updatablesContains(Updatable updatable) {
         return updatables.contains(updatable);
     }
 
     /**
      * Checks if the displayable is in the list of displayables.
+     *
      * @param displayable The displayable to check.
      * @return True if the updatable is in the list.
      */
-    public boolean displayablesContains(Displayable displayable){
+    public boolean displayablesContains(Displayable displayable) {
         return displayables.contains(displayable);
     }
 
     /**
      * Gets the list of updatables.
+     *
      * @return A list with all the updatables.
      */
     public ArrayList<Updatable> getUpdatables() {
@@ -139,6 +150,7 @@ public class Game implements Updatable {
 
     /**
      * Gets the list of displayables.
+     *
      * @return A list with all the displayables.
      */
     public ArrayList<Displayable> getDisplayables() {
@@ -150,7 +162,7 @@ public class Game implements Updatable {
      */
     public void initGame() {
         // It is not legal to start a terminated thread, we have create a new one
-        if(gameThread.getState() == Thread.State.TERMINATED){
+        if (gameThread.getState() == Thread.State.TERMINATED) {
             gameThread = new GameThread(this);
         }
 
@@ -223,8 +235,6 @@ public class Game implements Updatable {
      * Show the changes in the screen, will lead to animation
      */
     public void draw() {
-        for (Displayable displayable : displayables) {
-            displayable.displayOn(mapApi);
-        }
+        renderer.display(displayables);
     }
 }

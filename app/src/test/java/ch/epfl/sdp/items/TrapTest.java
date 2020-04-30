@@ -29,7 +29,6 @@ public class TrapTest {
 
         MockMapApi mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
-        mockMapApi.setCurrentLocation(owner.getLocation());
 
         game = Game.getInstance();
         game.initGame();

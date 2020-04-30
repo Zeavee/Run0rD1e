@@ -52,7 +52,6 @@ public class Enemy extends MovingArtificialEntity {
      * Creates a default enemy
      */
     public Enemy() {
-        super();
         super.setAoeRadius(1);
         super.getMovement().setVelocity(50);
         super.setMoving(true);

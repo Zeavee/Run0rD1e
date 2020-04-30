@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import androidx.core.content.ContextCompat;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -18,12 +12,19 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.HashMap;
 
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
@@ -43,8 +44,9 @@ public class MapsActivityTest {
 
     @Before
     public void setup() {
-        PlayerManager.setCurrentUser(new Player("testMap", "testMap@gmail.com"));
+        PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
         PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
+        mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
     }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {

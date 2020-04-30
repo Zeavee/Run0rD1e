@@ -109,6 +109,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     }
 
     @Override
+    public void unDisplayOn(MapApi mapApi) {
+        mapApi.removeMarkers(this);
+    }
+
+    @Override
     public boolean isOnce() {
         return false;
     }

@@ -29,7 +29,6 @@ public class ItemBoxTest {
         PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
-        mockMapApi.setCurrentLocation(location);
         Game.getInstance().clearGame();
     }
 

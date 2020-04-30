@@ -14,14 +14,14 @@ public class Scan extends TimedItem {
         super.use();
 
         for (Player p : PlayerManager.getPlayers()) {
-            Game.getInstance().getMapApi().displayEntity(p);
+            p.displayOn(Game.getInstance().getMapApi());
         }
     }
 
     @Override
     public void stopUsing() {
         for (Player p : PlayerManager.getPlayers()) {
-            Game.getInstance().getMapApi().unDisplayEntity(p);
+            p.unDisplayOn(Game.getInstance().getMapApi());
         }
     }
 }
