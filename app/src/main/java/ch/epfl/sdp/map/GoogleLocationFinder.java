@@ -15,7 +15,6 @@ public class GoogleLocationFinder implements LocationFinder {
     private LocationListener locationListener;
     private LocationManager locationManager;
     private Criteria criteria;
-    private String bestProvider;
     private Location currentLocation;
 
     private final double listenTime = 1000; // milliseconds
@@ -27,13 +26,14 @@ public class GoogleLocationFinder implements LocationFinder {
 
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        bestProvider = locationManager.getBestProvider(criteria, true);
 
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
-                // Called when a new location is found by the network location provider.
-                updatePosition();
+                PlayerManager.getCurrentUser().setLocation(getCurrentLocation());
+                PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
+                currentLocation = latestLocation;
+                requestUpdatePosition();
             }
 
             @Override
@@ -46,6 +46,7 @@ public class GoogleLocationFinder implements LocationFinder {
             public void onProviderDisabled(String provider) {}
         };
 
+        requestUpdatePosition();
     }
 
     @Override
@@ -57,14 +58,9 @@ public class GoogleLocationFinder implements LocationFinder {
     }
 
     @SuppressLint("MissingPermission")
-    private void updatePosition() {
+    private void requestUpdatePosition() {
         for (String locManager : locationManager.getAllProviders()) {
             locationManager.requestLocationUpdates(locManager, (long) listenTime, (float) listenDistance, locationListener);
         }
-
-        bestProvider = locationManager.getBestProvider(criteria, true);
-        currentLocation = locationManager.getLastKnownLocation(bestProvider);
-        PlayerManager.getCurrentUser().setLocation(getCurrentLocation());
-        PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
     }
 }
