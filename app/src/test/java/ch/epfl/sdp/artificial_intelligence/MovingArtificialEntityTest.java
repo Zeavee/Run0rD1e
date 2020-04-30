@@ -13,6 +13,7 @@ import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
@@ -101,5 +102,19 @@ public class MovingArtificialEntityTest {
             movingArtificialEntity.update();
             assertTrue(patrolBounds.isInside(movingArtificialEntity.getPosition()));
         }
+    }
+
+    @Test
+    public void setPositionWorks() {
+        CartesianPoint position = new CartesianPoint(10, 10);
+        Movement movement = new LinearMovement(position);
+        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(movement, new UnboundedArea(), true) {
+            @Override
+            public void displayOn(MapApi mapApi) {
+
+            }
+        };
+        movingArtificialEntity.setPosition(position);
+        assertEquals(position, movingArtificialEntity.getPosition());
     }
 }

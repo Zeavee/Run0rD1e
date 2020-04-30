@@ -11,7 +11,6 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.map.LocationFinder;
 
 /**
  * Represents an entity of the game that can move automatically by setting a movement. The movement
@@ -42,11 +41,11 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      * Creates a default moving artificial entity, by specifying a movement, an area and if it's
      * already moving.
      *
-     * @param movement A m
-     * @param area
-     * @param moving
+     * @param movement the type of movement the entity use
+     * @param area the area the entity can move in
+     * @param moving a boolean that tell if the entity is moving
      */
-    public MovingArtificialEntity(Movement movement, Area area, boolean moving, LocationFinder locationFinder) {
+    public MovingArtificialEntity(Movement movement, Area area, boolean moving) {
         super();
         this.movement = movement;
         this.area = area;

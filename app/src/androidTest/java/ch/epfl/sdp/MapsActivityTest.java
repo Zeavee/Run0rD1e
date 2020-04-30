@@ -42,13 +42,6 @@ public class MapsActivityTest {
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;
 
-    @Before
-    public void setup() {
-        PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
-        PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
-        mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
-    }
-
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
@@ -101,18 +94,26 @@ public class MapsActivityTest {
 
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
-            new ActivityTestRule<MapsActivity>(MapsActivity.class){
+            new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     DependencyFactory.setTestMode(true);
                     DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
                     HashMap<String, UserForFirebase> map = new HashMap<>();
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
-                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));                }
+                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));
+                }
             };
 
+    @Before
+    public void setup() {
+        PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
+        PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
+        mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
+    }
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         DependencyFactory.setTestMode(false);
         DependencyFactory.setAuthenticationAPI(null);
         DependencyFactory.setCommonDatabaseAPI(null);
@@ -131,27 +132,27 @@ public class MapsActivityTest {
         PlayerManager.removeAll(); // To remove
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
-        sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
     @Test
     public void inventoryOpens() {
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.button_inventory)).perform(click());
         onView(withId(R.id.fragment_inventory_container)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void leaderboardOpens() throws InterruptedException {
+    public void leaderboardOpens() {
+        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.button_leaderboard)).perform(click());
-        Thread.sleep(2000);
+        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
     }
 
     @Test
     public void moveCameraWorks() {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 }
