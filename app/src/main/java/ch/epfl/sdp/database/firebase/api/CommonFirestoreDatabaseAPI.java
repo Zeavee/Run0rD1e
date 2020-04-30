@@ -58,7 +58,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
         CollectionReference lobbyRef = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME);
         lobbyRef.whereLessThan("count", playerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(queryDocumentSnapshots.isEmpty()) {
+                    if (queryDocumentSnapshots.isEmpty()) {
                         playerManager.setLobbyDocumentName(lobbyRef.document().getId());
                         playerManager.setIsServer(true);
                         playerManager.setNumPlayersBeforeJoin(0);
@@ -73,7 +73,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     }
 
     @Override
-    public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback){
+    public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         DocumentReference docRef = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName());
         docRef.collection(playerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).set(playerForFirebase)
                 .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
@@ -94,6 +94,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                     onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
+
 
     @Override
     public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
