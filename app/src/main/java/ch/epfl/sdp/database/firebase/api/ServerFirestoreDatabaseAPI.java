@@ -1,13 +1,12 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-import androidx.annotation.NonNull;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
@@ -49,12 +48,16 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
+        AtomicBoolean flag = new AtomicBoolean(false);
+        ListenerRegistration ListenerRegistration = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY) {
+                    if((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
+                        flag.set(true);
                         onValueReadyCallback.finish(new CustomResult<>(true, true, null));
                     }
                 });
+        if(flag.get()) ListenerRegistration.remove();
+
     }
 
     @Override

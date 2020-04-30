@@ -152,8 +152,8 @@ public class Game implements Updatable {
      * Kill the game
      */
     public void destroyGame() {
-        updateGeneralScoreOfPlayers();
-
+        //updateGeneralScoreOfPlayers();
+        if(gameThread.getState() != Thread.State.NEW)
         while (gameThread.getState() != Thread.State.TERMINATED) {
             try {
                 gameThread.setRunning(false);

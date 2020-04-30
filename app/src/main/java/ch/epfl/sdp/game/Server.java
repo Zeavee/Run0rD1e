@@ -98,7 +98,7 @@ public class Server extends Client {
             Enemy enemy = new Enemy();
             lastEnemyGenerateTimeMillis = currentTimeMillis;
             EnemyManager.getInstance().addEnemy(enemy);
-            sendDamage();
+//            sendDamage();
         }
 
         EnemyManager.getInstance().update();
