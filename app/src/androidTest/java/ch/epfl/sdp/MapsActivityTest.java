@@ -137,22 +137,22 @@ public class MapsActivityTest {
 
     @Test
     public void inventoryOpens() {
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.button_inventory)).perform(click());
-        onView(withId(R.id.fragment_inventory_container)).check(matches(isDisplayed()));
+        testButtonWorks(R.id.button_inventory, R.id.fragment_inventory_container);
     }
 
     @Test
     public void leaderboardOpens() {
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.button_leaderboard)).perform(click());
-        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+        testButtonWorks(R.id.button_leaderboard, R.id.recycler_view);
     }
 
     @Test
     public void moveCameraWorks() {
+        testButtonWorks(R.id.recenter, R.id.map);
+    }
+
+    private void testButtonWorks(int button, int view) {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.recenter)).perform(click());
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+        onView(withId(button)).perform(click());
+        onView(withId(view)).check(matches(isDisplayed()));
     }
 }
