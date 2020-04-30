@@ -27,6 +27,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
@@ -79,40 +80,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
+        if (!Game.getInstance().isRunning()) {
+            commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
+                if (fetchUserRes.isSuccessful()) {
+                    Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
+                    playerManager.setCurrentUser(currentUser);
+                    mapApi.updatePosition();
 
-        commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
-            if (fetchUserRes.isSuccessful()) {
-                Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
-                playerManager.setCurrentUser(currentUser);
-                mapApi.updatePosition();
+                    commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+                        if (selectLobbyRes.isSuccessful()) {
+                            PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                            if (playerManager.isServer()) data.put("startGame", false);
 
-                commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                    if (selectLobbyRes.isSuccessful()) {
-                        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
-                        if (playerManager.isServer()) data.put("startGame", false);
+                            commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
+                                if (registerToLobbyRes.isSuccessful()) {
+                                    if (playerManager.isServer()) {
+                                        new Server().initEnvironment();
+                                    } else {
+                                        new Client().initEnvironment();
+                                    }
 
-                        commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
-                            if (registerToLobbyRes.isSuccessful()) {
-                                if(playerManager.isServer()){
-                                    new Server().initEnvironment();
-                                }else{
-                                    new Client().initEnvironment();
+                                } else {
+                                    Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                                 }
-
-                            } else {
-                                Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    } else {
-                        Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
-            } else {
-                Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+                            });
+                        } else {
+                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
     }
 
     public void showInventory(View v) {
