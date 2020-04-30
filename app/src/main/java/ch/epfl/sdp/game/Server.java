@@ -40,6 +40,7 @@ public class Server extends Client {
     public Server(EnemyManager manager, EnemyGenerator enemyGenerator) {
         this.enemyGenerator = enemyGenerator;
         this.generateEnemyEveryMs = GENERATE_ENEMY_EVERY_MS;
+        Game.getInstance().addToUpdateList(this);
     }
 
     public Server(EnemyManager manager, EnemyGenerator enemyGenerator, int generateEnemyEveryMs) {
@@ -62,9 +63,8 @@ public class Server extends Client {
                 movement.setAngleStep(0.1);
                 movement.setAmplitude(10);
                 enemy.setMovement(movement);
-                Game.getInstance().addToDisplayList(enemy);
-                Game.getInstance().addToUpdateList(enemy);
                 EnemyManager.getInstance().addEnemy(enemy);
+                EnemyManager.getInstance().addEnemiesToGame();
                 //  -------------------------------------------
 
                 serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(EnemyManager.getInstance().getEnemies()), value -> {
@@ -116,12 +116,12 @@ public class Server extends Client {
     public void update() {
         long currentTimeMillis = System.currentTimeMillis();
         if(currentTimeMillis - lastEnemyGenerateTimeMillis >= generateEnemyEveryMs) {
-            Enemy enemy = new Enemy();
+            //Enemy enemy = new Enemy();
             lastEnemyGenerateTimeMillis = currentTimeMillis;
-            EnemyManager.getInstance().addEnemy(enemy);
+            //EnemyManager.getInstance().addEnemy(enemy);
             //sendDamage();
+            EnemyManager.getInstance().update();
         }
 
-        EnemyManager.getInstance().update();
     }
 }

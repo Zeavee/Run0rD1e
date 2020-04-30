@@ -16,7 +16,7 @@ import ch.epfl.sdp.geometry.CartesianPoint;
 public class PlayerManager {
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
     public static final String USER_COLLECTION_NAME = "AllUsers";
-    public static final String LOBBY_COLLECTION_NAME = "Lobbies";
+    public static final String LOBBY_COLLECTION_NAME = "LobbyRaphael";
     public static final String PLAYER_COLLECTION_NAME = "Players";
     public static final String ENEMY_COLLECTION_NAME = "Enemies";
 
