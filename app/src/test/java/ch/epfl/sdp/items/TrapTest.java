@@ -38,8 +38,8 @@ public class TrapTest {
 
         trap = new Trap(10, 100);
 
-        PlayerManager.setCurrentUser(owner);
-        PlayerManager.addPlayer(opponent);
+        PlayerManager.getInstance().setCurrentUser(owner);
+        PlayerManager.getInstance().addPlayer(opponent);
     }
 
     @After

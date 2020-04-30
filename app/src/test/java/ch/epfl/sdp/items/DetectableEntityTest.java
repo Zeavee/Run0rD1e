@@ -23,13 +23,13 @@ public class DetectableEntityTest {
     public void setup() {
         mapApi = new MockMapApi();
         MapsActivity.setMapApi(mapApi);
-        PlayerManager.setCurrentUser(new Player("",""));
+        PlayerManager.getInstance().setCurrentUser(new Player("",""));
         mapApi.setCurrentLocation(new GeoPoint(0, 0));
     }
 
     @After
     public void teardown() {
-        PlayerManager.removeAll();
+        PlayerManager.getInstance().removeAll();
     }
 
     @Test

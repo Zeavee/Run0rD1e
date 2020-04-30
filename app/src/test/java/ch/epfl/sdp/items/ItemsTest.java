@@ -32,8 +32,8 @@ public class ItemsTest {
         MapsActivity.setMapApi(new MockMapApi());
         playerManager = new PlayerManager();
         player = new Player("","");
-        PlayerManager.addPlayer(player);
-        PlayerManager.setCurrentUser(player);
+        PlayerManager.getInstance().addPlayer(player);
+        PlayerManager.getInstance().setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
 
         healthpack = new Healthpack( 60);
@@ -46,10 +46,10 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getCurrentUser().setHealthPoints(10);
+        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
         healthpack.use();
 
-        assertTrue(PlayerManager.getCurrentUser().getHealthPoints() == 11);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
 
     @Test
@@ -76,12 +76,12 @@ public class ItemsTest {
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getCurrentUser().setHealthPoints(30);
-        PlayerManager.setCurrentUser(PlayerManager.getCurrentUser());
+        PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
+        PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
         healthpack.use();
-        assertEquals(90, PlayerManager.getCurrentUser().getHealthPoints(), 0);
+        assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
         healthpack.use();
-        assertEquals(100, PlayerManager.getCurrentUser().getHealthPoints(), 0);
+        assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
     }
 
     @Test
@@ -92,11 +92,11 @@ public class ItemsTest {
 
     @Test
     public void coinTest() {
-        PlayerManager.getCurrentUser().money = 0;
+        PlayerManager.getInstance().getCurrentUser().money = 0;
         Coin c = new Coin(5);
         assertTrue(5 == c.getValue());
         c.use();
-        assertTrue(PlayerManager.getCurrentUser().money == 5);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().money == 5);
         assertEquals(c.getEntityType(), EntityType.COIN);
 
     }

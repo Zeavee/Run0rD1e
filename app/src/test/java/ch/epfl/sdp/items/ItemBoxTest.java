@@ -24,11 +24,11 @@ public class ItemBoxTest {
 
     @Before
     public void setup() {
-        PlayerManager.removeAll(); // Just to be sure that there are no players
+        PlayerManager.getInstance().removeAll(); // Just to be sure that there are no players
         location = new GeoPoint(0,0);
         player = new Player("","");
         player.setLocation(location);
-        PlayerManager.setCurrentUser(player);
+        PlayerManager.getInstance().setCurrentUser(player);
         mockMapApi = new MockMapApi();
         MapsActivity.setMapApi(mockMapApi);
         mockMapApi.setCurrentLocation(location);
@@ -37,7 +37,7 @@ public class ItemBoxTest {
 
     @After
     public void teardown(){
-        PlayerManager.removeAll();
+        PlayerManager.getInstance().removeAll();
     }
 
     @Test
@@ -73,7 +73,7 @@ public class ItemBoxTest {
         };
 
 
-        assertFalse(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
+        assertFalse(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item));
 
         for (int i = 0; i < 2; ++i) {
             ItemBox itemBox = new ItemBox();
@@ -86,9 +86,9 @@ public class ItemBoxTest {
 
             Game.getInstance().update();
 
-            assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
+            assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item));
         }
 
-        assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().get(item) == 2);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item) == 2);
     }
 }

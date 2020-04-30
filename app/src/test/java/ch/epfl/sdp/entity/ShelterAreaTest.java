@@ -31,7 +31,7 @@ public class ShelterAreaTest {
         players.add(player3);
         players.add(player4);
         double shelterAoeRadius = 100;
-        PlayerManager.setPlayers(players);
+        PlayerManager.getInstance().setPlayers(players);
         return new ShelterArea(shelterLocation, shelterAoeRadius);
     }
 
