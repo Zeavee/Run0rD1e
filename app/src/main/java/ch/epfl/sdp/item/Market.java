@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
-import android.util.Pair;
+
+import androidx.core.util.Pair;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class Market extends InteractiveEntity implements Displayable {
      * @return an unmodifiable map that show the items we can buy, their quantity and their price
      */
     public Map<Item, Pair<Integer, Integer>> getStock() {
-        return Collections.unmodifiableMap(stock);
+        return new HashMap<>(stock);
     }
 
     /**
@@ -55,7 +56,7 @@ public class Market extends InteractiveEntity implements Displayable {
         if (!stock.containsKey(item)) {
             return false;
         }
-        int currentStock = stock.get(item).first;
+        int currentStock =stock.get(item).first;
         int price = stock.get(item).second;
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
             return false;
@@ -78,7 +79,7 @@ public class Market extends InteractiveEntity implements Displayable {
 
     @Override
     public boolean isOnce() {
-        return true;
+        return false;
     }
 
     @Override
