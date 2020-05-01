@@ -16,6 +16,7 @@ public class Game implements Updatable {
     private ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
+    private ArrayList<Displayable> displayablesOnce;
     private static final Game instance = new Game();
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
@@ -37,10 +38,12 @@ public class Game implements Updatable {
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         scoreUpdater = new ScoreUpdater();
+        displayablesOnce = new ArrayList<>();
     }
 
     /**
      * This permits to set the MapApi the game will use
+     *
      * @param mapApi the MapApi the game will use
      */
     public void setMapApi(MapApi mapApi) {
@@ -49,6 +52,7 @@ public class Game implements Updatable {
 
     /**
      * This permits to set the Renderer the game will use
+     *
      * @param renderer the Renderer the game will use
      */
     public void setRenderer(Renderer renderer) {
@@ -115,7 +119,9 @@ public class Game implements Updatable {
     public void addToDisplayList(Displayable displayable) {
         displayable.displayOn(mapApi);
 
-        if (!displayable.isOnce()) {
+        if (displayable.isOnce()) {
+            displayablesOnce.add(displayable);
+        } else {
             displayables.add(displayable);
         }
     }
@@ -127,7 +133,11 @@ public class Game implements Updatable {
      */
     public void removeFromDisplayList(Displayable displayable) {
         renderer.unDisplay(displayable);
-        displayables.remove(displayable);
+        if (displayable.isOnce()) {
+            displayablesOnce.remove(displayable);
+        } else {
+            displayables.remove(displayable);
+        }
     }
 
     /**
@@ -166,6 +176,15 @@ public class Game implements Updatable {
      */
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
+    }
+
+    /**
+     * Gets the list of displayables that are only displayed once.
+     *
+     * @return A list with all the displayables that are only displayed once.
+     */
+    public ArrayList<Displayable> getDisplayablesOnce() {
+        return displayablesOnce;
     }
 
     /**

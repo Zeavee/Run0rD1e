@@ -105,7 +105,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+        if (this == PlayerManager.getCurrentUser()) {
+            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+        } else {
+            mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+        }
     }
 
     @Override
