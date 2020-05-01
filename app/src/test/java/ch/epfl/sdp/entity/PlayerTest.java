@@ -3,8 +3,12 @@ package ch.epfl.sdp.entity;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
+
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.Renderer;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
@@ -20,8 +24,16 @@ public class PlayerTest {
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
         game.getInstance().setMapApi(new MockMapApi());
-        game.getInstance().setRenderer(displayables -> {
+        game.getInstance().setRenderer(new Renderer() {
+            @Override
+            public void display(Collection<Displayable> displayables) {
 
+            }
+
+            @Override
+            public void unDisplay(Displayable displayable) {
+
+            }
         });
         PlayerManager.setCurrentUser(player1);
     }

@@ -50,4 +50,14 @@ public class MockMapApi implements MapApi, Renderer {
     public void display(Collection<Displayable> displayables) {
         // "In a parallel universe, items can be displayed on a mock map"
     }
+
+    /**
+     * A method that undisplay an item from the map
+     *
+     * @param displayable
+     */
+    @Override
+    public void unDisplay(Displayable displayable) {
+
+    }
 }

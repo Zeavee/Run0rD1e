@@ -71,13 +71,13 @@ public class TimedItemTest {
         scan.use();
 
         while (scan.getRemainingTime() > 0){
-            assertTrue(map.getDisplayables().isEmpty());
+            assertFalse(map.getDisplayables().isEmpty());
             scan.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = FPS; i > 0; --i){
-            assertTrue(map.getDisplayables().isEmpty());
+            assertFalse(map.getDisplayables().isEmpty());
             scan.update();
         }
 
