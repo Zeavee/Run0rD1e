@@ -1,6 +1,5 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shield extends TimedItem  {
@@ -27,7 +26,4 @@ public class Shield extends TimedItem  {
         PlayerManager.getCurrentUser().setShielded(false);
     }
 
-    public EntityType getEntityType() {
-        return EntityType.SHIELD;
-    }
 }

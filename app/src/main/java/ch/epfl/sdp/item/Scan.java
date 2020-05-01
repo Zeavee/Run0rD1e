@@ -1,14 +1,8 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
-
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.map.Renderer;
 
 public class Scan extends TimedItem  {
@@ -40,11 +34,5 @@ public class Scan extends TimedItem  {
             p.unDisplayOn(Game.getInstance().getMapApi());
         }
     }
-
-    public EntityType getEntityType() {
-        return EntityType.SCAN;
-    }
-
-
 
 }

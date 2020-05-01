@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.MapApi;
@@ -20,7 +19,7 @@ public class ItemBox extends DetectableEntity {
      * Creates an item box.
      */
     public ItemBox(){
-        super(EntityType.ITEMBOX);
+        super(false);
         this.items = new HashMap<>();
         taken = false;
     }

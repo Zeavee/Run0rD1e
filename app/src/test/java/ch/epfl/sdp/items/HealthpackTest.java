@@ -1,12 +1,9 @@
 package ch.epfl.sdp.items;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.entity.PlayerManagerTest;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 
@@ -35,9 +32,5 @@ public class HealthpackTest {
         PlayerManager.setCurrentUser(originalPlayer);
     }
 
-    @Test
-    public void healthPackIsOfCorrectType(){
-        assertTrue(new Healthpack(20.0).getEntityType() == EntityType.HEALTHPACK);
-    }
 
 }

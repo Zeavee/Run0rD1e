@@ -3,18 +3,14 @@ package ch.epfl.sdp.item;
 
 import androidx.core.util.Pair;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
@@ -30,7 +26,7 @@ public class Market extends InteractiveEntity implements Displayable {
      * This is a constructor for Market which randomly initialize the items that will be available
      */
     public Market() {
-        super(EntityType.MARKET, RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000), true);
+        super(RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000), true);
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item: randomGenerator.randomItemsList()) {
@@ -82,9 +78,5 @@ public class Market extends InteractiveEntity implements Displayable {
         return false;
     }
 
-    @Override
-    public EntityType getEntityType() {
-        return super.getEntityType();
-    }
 }
 

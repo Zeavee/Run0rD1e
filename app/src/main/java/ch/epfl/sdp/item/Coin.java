@@ -1,7 +1,5 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.Entity;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Coin extends Item {
@@ -26,13 +24,4 @@ public class Coin extends Item {
         return value;
     }
 
-    /**
-     * Method to get the type of the object we want to display
-     *
-     * @return an EntityType which is an enum of types
-     */
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.COIN;
-    }
 }

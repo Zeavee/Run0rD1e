@@ -104,9 +104,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         return this.distanceTraveled;
     }
 
-    public EntityType getEntityType() {
-        return EntityType.USER;
-    }
     @Override
     public void displayOn(MapApi mapApi) {
         if (this == PlayerManager.getCurrentUser()) {

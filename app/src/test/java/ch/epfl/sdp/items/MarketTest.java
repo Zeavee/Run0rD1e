@@ -4,18 +4,13 @@ package ch.epfl.sdp.items;
 import androidx.core.util.Pair;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ch.epfl.sdp.entity.Entity;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
@@ -88,10 +83,6 @@ public class MarketTest {
         assertFalse(market.isOnce());
     }
 
-    @Test
-    public void entityTypeIsMarket(){
-        assertTrue(market.getEntityType() == EntityType.MARKET);
-    }
     @After
     public void tearDown(){
         PlayerManager.setCurrentUser(originalPlayer);

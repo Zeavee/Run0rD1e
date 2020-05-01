@@ -134,6 +134,7 @@ public class Game implements Updatable {
     public void removeFromDisplayList(Displayable displayable) {
         displayable.unDisplayOn(mapApi);
         displayables.remove(displayable);
+        displayablesOnce.remove(displayable);
     }
 
     /**

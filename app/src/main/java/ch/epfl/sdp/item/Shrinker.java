@@ -1,6 +1,5 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
@@ -29,9 +28,6 @@ public class Shrinker extends TimedItem {
         PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() + getShrinkingRadius());
     }
 
-    public EntityType getEntityType() {
-        return EntityType.SHRINKER;
-    }
 
     public double getShrinkingRadius() {return this.shrinkingRadius;}
 }
