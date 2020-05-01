@@ -16,8 +16,8 @@ public class Game implements Updatable {
     private ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
+    private static Game instance = new Game();
     private ArrayList<Displayable> displayablesOnce;
-    private static final Game instance = new Game();
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
 
@@ -132,12 +132,9 @@ public class Game implements Updatable {
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
-        renderer.unDisplay(displayable);
-        if (displayable.isOnce()) {
-            displayablesOnce.remove(displayable);
-        } else {
-            displayables.remove(displayable);
-        }
+        displayable.unDisplayOn(mapApi);
+        displayables.remove(displayable);
+        displayablesOnce.remove(displayable);
     }
 
     /**
@@ -192,6 +189,7 @@ public class Game implements Updatable {
      */
     public void initGame() {
         // It is not legal to start a terminated thread, we have create a new one
+        scoreUpdater.setIsTerminated(false);
         if (gameThread.getState() == Thread.State.TERMINATED) {
             gameThread = new GameThread(this);
         }

@@ -10,8 +10,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.map.MockRenderer;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -30,7 +29,7 @@ public class ItemBoxTest {
         PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
-        Game.getInstance().setRenderer(new MockRenderer());
+        Game.getInstance().setRenderer(mockMapApi);
         Game.getInstance().clearGame();
     }
 
@@ -53,7 +52,7 @@ public class ItemBoxTest {
 
         Game.getInstance().update();
 
-        assertFalse(Game.getInstance().updatablesContains(itemBox));
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
         assertFalse(Game.getInstance().displayablesContains(itemBox));
         assertTrue(itemBox.isTaken());
     }
@@ -61,6 +60,10 @@ public class ItemBoxTest {
     @Test
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("", "") {
+            @Override
+            public Item clone() {
+                return null;
+            }
 
             @Override
             public void use() {

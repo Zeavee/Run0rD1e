@@ -1,9 +1,9 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -19,13 +19,6 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
      */
     private boolean detroyed = false;
 
-    /**
-     * Creates a detectable entity.
-     *
-     */
-    public DetectableEntity() {
-        this(true);
-    }
 
     /**
      * Creates a detectable entity.

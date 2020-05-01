@@ -15,6 +15,11 @@ public class ItemTest {
         item = new Item("ItemName", "ItemDescription") {
 
             @Override
+            public Item clone() {
+                return null;
+            }
+
+            @Override
             public void use() {
             }
         };

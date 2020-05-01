@@ -14,6 +14,11 @@ public class ScoreUpdater {
     private ScheduledExecutorService exec;
     volatile private boolean isTerminated;
 
+    public void setIsTerminated(boolean isTerminated)
+    {
+        this.isTerminated = isTerminated;
+    }
+
     /**
      * This is the constructor of the class
      * It creates a new thread that will update the score every 10 seconds
@@ -42,9 +47,6 @@ public class ScoreUpdater {
      * and if he walked more than 10 meters, he also gets 10 points
      */
     private void updateLocalScoreOfPlayers() {
-        if (isTerminated) {
-
-        }
         for (Player player : PlayerManager.getPlayers()) {
             player.updateLocalScore();
         }

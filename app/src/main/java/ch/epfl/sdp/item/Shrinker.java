@@ -4,10 +4,17 @@ import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
     private double shrinkingRadius;
+    private int shrinkTime;
 
     public Shrinker(int shrinkTime, double shrinkingRadius) {
         super(String.format("Shrinker (%d sec) (%f radius)", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %f seconds", shrinkTime, shrinkingRadius), shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
+        this.shrinkTime = shrinkTime;
+    }
+
+    @Override
+    public Item clone() {
+        return new Shrinker(shrinkTime, shrinkingRadius);
     }
 
     @Override
@@ -20,6 +27,7 @@ public class Shrinker extends TimedItem {
     public void stopUsing(){
         PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() + getShrinkingRadius());
     }
+
 
     public double getShrinkingRadius() {return this.shrinkingRadius;}
 }

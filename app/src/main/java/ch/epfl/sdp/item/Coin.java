@@ -11,12 +11,17 @@ public class Coin extends Item {
     }
 
     @Override
+    public Item clone() {
+        return new Coin(value);
+    }
+
+    @Override
     public void use() {
-        int currentMoney = PlayerManager.getCurrentUser().money;
-        PlayerManager.getCurrentUser().money = currentMoney + value;
+        PlayerManager.getCurrentUser().addMoney(value);
     }
 
     public int getValue() {
         return value;
     }
+
 }

@@ -20,6 +20,7 @@ public class GameThread extends Thread{
         this.game = game;
     }
 
+
     /**
      * Get the actual state of the loop.
      * @return true if it is running, false otherwise.

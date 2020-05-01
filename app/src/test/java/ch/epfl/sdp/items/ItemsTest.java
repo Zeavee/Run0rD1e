@@ -12,7 +12,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -88,11 +88,11 @@ public class ItemsTest {
 
     @Test
     public void coinTest() {
-        PlayerManager.getCurrentUser().money = 0;
+        PlayerManager.getCurrentUser().removeMoney(PlayerManager.getCurrentUser().getMoney());
         Coin c = new Coin(5);
         assertTrue(5 == c.getValue());
         c.use();
-        assertTrue(PlayerManager.getCurrentUser().money == 5);
+        assertTrue(PlayerManager.getCurrentUser().getMoney() == 5);
 
     }
 }

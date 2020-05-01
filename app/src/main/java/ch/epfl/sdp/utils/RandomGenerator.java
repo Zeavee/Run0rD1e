@@ -1,6 +1,7 @@
 package ch.epfl.sdp.utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ch.epfl.sdp.artificial_intelligence.Enemy;
@@ -16,6 +17,7 @@ import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
@@ -97,12 +99,12 @@ public class RandomGenerator {
        return h;
      }
 
-     public Shield randomShield(Player player) {
+     public Shield randomShield() {
        Shield s = new Shield(rand.nextInt(1)*10+20);
        return s;
      }
 
-     public Shrinker randomShrinker(Player player) {
+     public Shrinker randomShrinker() {
        Shrinker s = new Shrinker( rand.nextInt(1), rand.nextDouble());
        return s;
      }
@@ -165,6 +167,14 @@ public class RandomGenerator {
        s.shelter();
        return s;
      }
+    public List<Item> randomItemsList() {
+        ArrayList<Item> result = new ArrayList<>();
+        result.add(randomHealthPack());
+        result.add(randomScan());
+        result.add(randomShield());
+        result.add(randomShrinker());
+        return result;
+    }
 
      public Coin randomCoin() {
        int i = rand.nextInt(30);

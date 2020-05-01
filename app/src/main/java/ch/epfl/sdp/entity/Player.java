@@ -6,9 +6,10 @@ import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
-public class Player extends AoeRadiusMovingEntity implements Positionable {
+public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
@@ -19,13 +20,13 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     private boolean isShielded;
     private Inventory inventory;
     private boolean isActive;
+    private int money;
     public int generalScore;
     public int currentGameScore;
     public double distanceTraveled;
     public double timeTraveled;
     public double distanceTraveledAtLastCheck;
     public double speed;
-    public int money;
 
     public Player(String username, String email) {
         this(0, 0, 10, username, email);
@@ -112,10 +113,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
         }
     }
 
-    @Override
-    public void unDisplayOn(MapApi mapApi) {
-        mapApi.removeMarkers(this);
-    }
 
     @Override
     public boolean isOnce() {
@@ -166,7 +163,37 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     public void setDistanceTraveled(double distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
-  
+
+    public int getMoney() {
+        return money;
+    }
+
+    /**
+     * A method to remove money from the player
+     * @param amount the amount of money we want to take from the player
+     * @return a boolean that tells if the transaction finished correctly
+     */
+    public boolean removeMoney(int amount) {
+        if (money < amount || amount < 0) {
+            return false;
+        }
+        money -= amount;
+        return true;
+    }
+
+    /**
+     * A method to add money to the player
+     * @param amount the amount of money we want to give to the player
+     * @return a boolean that tells if the transaction finished correctly
+     */
+    public boolean addMoney(int amount) {
+        if (amount < 0) {
+            return false;
+        }
+        money += amount;
+        return true;
+    }
+
     /**
      * This methods update the local score of the Player,
      * this is called each 10 seconds, so if the Player is alive, he gets 10 points

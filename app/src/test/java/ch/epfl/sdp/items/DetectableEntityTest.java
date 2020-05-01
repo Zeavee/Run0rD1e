@@ -10,8 +10,8 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.DetectableEntity;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.map.MockRenderer;
+import ch.epfl.sdp.utils.MockMapApi;
+
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -23,7 +23,7 @@ public class DetectableEntityTest {
     public void setup() {
         mapApi = new MockMapApi();
         Game.getInstance().setMapApi(mapApi);
-        Game.getInstance().setRenderer(new MockRenderer());
+        Game.getInstance().setRenderer(mapApi);
         PlayerManager.setCurrentUser(new Player("", ""));
         PlayerManager.getCurrentUser().setLocation(new GeoPoint(0, 0));
     }
@@ -55,3 +55,4 @@ public class DetectableEntityTest {
         assertFalse(Game.getInstance().updatablesContains(detectableEntity));
     }
 }
+

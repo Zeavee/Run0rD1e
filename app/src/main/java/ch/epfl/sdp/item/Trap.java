@@ -30,6 +30,11 @@ public class Trap extends Item implements Updatable, Displayable {
     }
 
     @Override
+    public Item clone() {
+        return new Trap(damage, radius);
+    }
+
+    @Override
     public void use() {
         //This is called by the player that has the item, so getUser should return the correct player
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,
@@ -61,6 +66,11 @@ public class Trap extends Item implements Updatable, Displayable {
         return trapPosition;
     }
 
+    /**
+     * Method for displaying the displayable on the map
+     *
+     * @param mapApi the API we can use to display the displayable on the map
+     */
     @Override
     public void displayOn(MapApi mapApi) {
         mapApi.displaySmallIcon(this, "My trap", R.drawable.trap);

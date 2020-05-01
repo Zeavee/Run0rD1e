@@ -16,6 +16,11 @@ public class Healthpack extends Item {
     }
 
     @Override
+    public Item clone() {
+        return new Healthpack(healthPackAmount);
+    }
+
+    @Override
     public void use() {
         double increasedHP = PlayerManager.getCurrentUser().getHealthPoints() + healthPackAmount;
         if (increasedHP > Player.getMaxHealth()) {
@@ -27,4 +32,5 @@ public class Healthpack extends Item {
     public double getHealthPackAmount() {
         return this.healthPackAmount;
     }
+
 }

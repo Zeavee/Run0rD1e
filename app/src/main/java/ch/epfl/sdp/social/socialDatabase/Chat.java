@@ -5,6 +5,11 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+/**
+@brief represents database table with schema Chat(String to, String from,  int chat_id, UNIQUE(to, from), FOREIGN KEY to REFERENCES User, FOREIGN KEY from REFERENCES User, PRIMARY KEY (chat_id)).
+ "to" is the user at which the chat the directed to, and "from" is the user from which the chat is directed (i.e. a message sent from A to B will reference different
+chat than a message sent from B to A)
+ */
 
 @Entity(indices = {@Index(value = {"from", "to"},
         unique = true), @Index(value = "to")},

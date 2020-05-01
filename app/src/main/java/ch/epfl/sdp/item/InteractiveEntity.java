@@ -14,7 +14,6 @@ public abstract class InteractiveEntity implements Displayable {
 
     /**
      * Creates an interactive entity.
-     *
      */
     public InteractiveEntity() {
         this(RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000) , false);
@@ -22,7 +21,7 @@ public abstract class InteractiveEntity implements Displayable {
 
     /**
      * Creates an interactive entity, by defining its location and if it is active.
-     *
+
      * @param location The location of the entity on the geodesic surface.
      */
     public InteractiveEntity(GeoPoint location) {
@@ -32,6 +31,7 @@ public abstract class InteractiveEntity implements Displayable {
     /**
      * Creates an interactive entity, by defining its location and if it is active.
      *
+     * @param entityType The type of the entity.
      * @param location   The location of the entity on the geodesic surface.
      * @param active     The flag that tells if the entity is active or not.
      */
@@ -70,4 +70,5 @@ public abstract class InteractiveEntity implements Displayable {
     public void setLocation(GeoPoint location){
         this.location = location;
     }
+
 }
