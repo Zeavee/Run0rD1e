@@ -29,9 +29,9 @@ import static org.junit.Assert.assertTrue;
 
 public class MarketTest {
     // IMPORTANT: state of PlayerManager must be restored after test teardown
-    Player originalPlayer = PlayerManager.getCurrentUser();
-    Player buyer;
-    Market market;
+    private Player originalPlayer = PlayerManager.getCurrentUser();
+    private Player buyer;
+    private Market market;
 
     @Before
     public void setUp() {

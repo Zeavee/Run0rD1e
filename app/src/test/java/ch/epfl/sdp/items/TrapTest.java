@@ -34,7 +34,7 @@ public class TrapTest {
         game.initGame();
 
         trap = new Trap(10, 100);
-
+        PlayerManager.removeAll();
         PlayerManager.setCurrentUser(owner);
         PlayerManager.addPlayer(opponent);
     }

@@ -14,7 +14,7 @@ public class Coin extends Item {
 
     @Override
     public Item clone() {
-        return null;
+        return new Coin(value);
     }
 
     @Override
