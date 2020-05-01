@@ -48,6 +48,6 @@ public class MockMapApi implements MapApi, Renderer {
      */
     @Override
     public void display(Collection<Displayable> displayables) {
-        Log.d("Message from MockMap", "In a parallel universe, items can be displayed on a mock map");
+        // "In a parallel universe, items can be displayed on a mock map"
     }
 }

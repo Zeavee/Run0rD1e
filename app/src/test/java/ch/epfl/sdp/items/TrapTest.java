@@ -31,6 +31,7 @@ public class TrapTest {
         Game.getInstance().setMapApi(mockMapApi);
 
         game = Game.getInstance();
+        game.setRenderer(new MockMapApi());
         game.initGame();
 
         trap = new Trap(10, 100);
