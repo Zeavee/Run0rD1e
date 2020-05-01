@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -101,42 +100,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
-        commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
-            if (!fetchUserRes.isSuccessful()) {
-                Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-            } else {
-                Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
-                PlayerManager.setCurrentUser(currentUser);
+        if (!Game.getInstance().isRunning()) {
+            commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
+                if (!fetchUserRes.isSuccessful()) {
+                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
+                    PlayerManager.setCurrentUser(currentUser);
+                    Game.getInstance().addToDisplayList(currentUser);
 
-                commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                    if (!selectLobbyRes.isSuccessful()) {
-                        Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
                     } else {
-                        PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
-                        if (PlayerManager.isServer()) data.put("startGame", false);
-
-                        commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
-                            if (!registerToLobbyRes.isSuccessful()) {
-                                Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                            } else {
-                                Server.initEnvironment();
-                            }
-                        });
+                        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
                     }
-                });
-            }
 
-        });
+                    commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+                        if (!selectLobbyRes.isSuccessful()) {
+                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        } else {
+                            PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
+                            if (PlayerManager.isServer()) data.put("startGame", false);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-        } else {
-            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+                            commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
+                                if (!registerToLobbyRes.isSuccessful()) {
+                                    Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                } else {
+                                    Server.initEnvironment();
+                                }
+                            });
+                        }
+                    });
+                }
+
+            });
         }
-
+        display(Game.getInstance().getDisplayablesOnce());
     }
 
     /**
@@ -185,8 +187,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             for (Displayable displayable : displayables) {
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
-            Game.getInstance().getMapApi().displayMarkerCircle(PlayerManager.getCurrentUser(),
-                    Color.BLUE, PlayerManager.getCurrentUser().getUsername(), (int) PlayerManager.getCurrentUser().getAoeRadius());
+        });
+    }
+
+    @Override
+    public void unDisplay(Displayable displayable) {
+        runOnUiThread(() -> {
+            displayable.unDisplayOn(Game.getInstance().getMapApi());
         });
     }
 }
