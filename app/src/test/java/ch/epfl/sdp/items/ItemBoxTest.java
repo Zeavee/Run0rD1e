@@ -4,13 +4,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -59,6 +60,21 @@ public class ItemBoxTest {
     @Test
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("", "") {
+
+            /**
+             * Method to get the type of the object we want to display
+             *
+             * @return an EntityType which is an enum of types
+             */
+            @Override
+            public EntityType getEntityType() {
+                return null;
+            }
+
+            @Override
+            public Item clone() {
+                return null;
+            }
 
             @Override
             public void use() {

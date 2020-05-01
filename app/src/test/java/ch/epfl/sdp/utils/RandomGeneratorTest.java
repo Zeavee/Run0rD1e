@@ -75,14 +75,14 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomShieldTest() {
-        Shield s = randGen.randomShield(new Player("",""));
+        Shield s = randGen.randomShield();
         assertTrue(s.getRemainingTime() >= 20);
         assertTrue(s.getRemainingTime() <= 30);
     }
 
     @Test
     public void randomShrinker() {
-        Shrinker s = randGen.randomShrinker(new Player("",""));
+        Shrinker s = randGen.randomShrinker();
         assertTrue(s.getRemainingTime() >= 0);
         assertTrue(s.getRemainingTime() <= 1);
         assertTrue(s.getShrinkingRadius() >= 0);

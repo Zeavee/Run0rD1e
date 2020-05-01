@@ -4,9 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

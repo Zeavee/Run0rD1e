@@ -3,8 +3,11 @@ package ch.epfl.sdp.items;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.GoogleMapApi;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -12,7 +15,6 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
-import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -69,13 +71,13 @@ public class TimedItemTest {
         scan.use();
 
         while (scan.getRemainingTime() > 0){
-            assertFalse(map.getDisplayables().isEmpty());
+            assertTrue(map.getDisplayables().isEmpty());
             scan.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = FPS; i > 0; --i){
-            assertFalse(map.getDisplayables().isEmpty());
+            assertTrue(map.getDisplayables().isEmpty());
             scan.update();
         }
 

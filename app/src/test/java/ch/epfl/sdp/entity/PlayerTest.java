@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

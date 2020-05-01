@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -27,6 +28,11 @@ public class Trap extends Item implements Updatable, Displayable {
         super(String.format("Trap (%d)", damage), String.format("Deal %d health points damages to the player that walks on it", damage));
         this.damage = damage;
         this.radius = radius;
+    }
+
+    @Override
+    public Item clone() {
+        return new Trap(damage, radius);
     }
 
     @Override
@@ -61,9 +67,19 @@ public class Trap extends Item implements Updatable, Displayable {
         return trapPosition;
     }
 
+    /**
+     * Method for displaying the displayable on the map
+     *
+     * @param mapApi the API we can use to display the displayable on the map
+     */
     @Override
     public void displayOn(MapApi mapApi) {
         mapApi.displaySmallIcon(this, "My trap", R.drawable.trap);
+    }
+
+    @Override
+    public EntityType getEntityType() {
+        return EntityType.TRAP;
     }
 
     @Override
