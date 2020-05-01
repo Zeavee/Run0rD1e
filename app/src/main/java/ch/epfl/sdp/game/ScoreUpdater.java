@@ -30,7 +30,7 @@ public class ScoreUpdater {
                 return;
             }
             updateLocalScoreOfPlayers();
-        }, 0, 10, TimeUnit.SECONDS);
+        }, 10, 10, TimeUnit.SECONDS);
     }
 
     /**
