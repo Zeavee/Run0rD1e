@@ -1,7 +1,5 @@
 package ch.epfl.sdp.game;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -19,6 +17,7 @@ public class Game implements Updatable {
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
     private static Game instance = new Game();
+    private ArrayList<Displayable> displayablesOnce;
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
 
@@ -39,10 +38,12 @@ public class Game implements Updatable {
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         scoreUpdater = new ScoreUpdater();
+        displayablesOnce = new ArrayList<>();
     }
 
     /**
      * This permits to set the MapApi the game will use
+     *
      * @param mapApi the MapApi the game will use
      */
     public void setMapApi(MapApi mapApi) {
@@ -51,6 +52,7 @@ public class Game implements Updatable {
 
     /**
      * This permits to set the Renderer the game will use
+     *
      * @param renderer the Renderer the game will use
      */
     public void setRenderer(Renderer renderer) {
@@ -117,7 +119,9 @@ public class Game implements Updatable {
     public void addToDisplayList(Displayable displayable) {
         displayable.displayOn(mapApi);
 
-        if (!displayable.isOnce()) {
+        if (displayable.isOnce()) {
+            displayablesOnce.add(displayable);
+        } else {
             displayables.add(displayable);
         }
     }
@@ -168,6 +172,15 @@ public class Game implements Updatable {
      */
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
+    }
+
+    /**
+     * Gets the list of displayables that are only displayed once.
+     *
+     * @return A list with all the displayables that are only displayed once.
+     */
+    public ArrayList<Displayable> getDisplayablesOnce() {
+        return displayablesOnce;
     }
 
     /**

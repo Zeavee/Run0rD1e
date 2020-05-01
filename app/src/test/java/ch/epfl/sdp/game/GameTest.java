@@ -1,5 +1,3 @@
-package ch.epfl.sdp.game;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +16,7 @@ public class GameTest {
     public void setup() {
         MockMapApi mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
+        Game.getInstance().setRenderer(mockMapApi);
         Game.getInstance().clearGame();
     }
 

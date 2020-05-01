@@ -1,12 +1,15 @@
 package ch.epfl.sdp.entity;
 
+import android.graphics.Color;
+
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
-public class Player extends AoeRadiusMovingEntity implements Positionable {
+public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
@@ -104,16 +107,15 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     public EntityType getEntityType() {
         return EntityType.USER;
     }
-
-    /**
-     * Method for displaying the displayable on the map
-     *
-     * @param mapApi the API we can use to display the displayable on the map
-     */
     @Override
     public void displayOn(MapApi mapApi) {
-
+        if (this == PlayerManager.getCurrentUser()) {
+            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+        } else {
+            mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+        }
     }
+
 
     @Override
     public boolean isOnce() {

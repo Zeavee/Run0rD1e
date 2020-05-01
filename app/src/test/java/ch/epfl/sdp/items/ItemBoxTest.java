@@ -30,6 +30,7 @@ public class ItemBoxTest {
         PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
+        Game.getInstance().setRenderer(mockMapApi);
         Game.getInstance().clearGame();
     }
 
