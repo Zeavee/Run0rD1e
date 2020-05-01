@@ -189,4 +189,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Color.BLUE, PlayerManager.getCurrentUser().getUsername(), (int) PlayerManager.getCurrentUser().getAoeRadius());
         });
     }
+
+    @Override
+    public void unDisplay(Displayable displayable) {
+        runOnUiThread(() -> {
+            displayable.unDisplayOn(Game.getInstance().getMapApi());
+        });
+    }
 }

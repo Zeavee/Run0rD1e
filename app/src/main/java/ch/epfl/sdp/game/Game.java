@@ -126,7 +126,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
-        displayable.unDisplayOn(mapApi);
+        renderer.unDisplay(displayable);
         displayables.remove(displayable);
     }
 
