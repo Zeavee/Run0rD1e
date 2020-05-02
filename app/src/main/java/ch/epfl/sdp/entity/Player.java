@@ -1,9 +1,15 @@
 package ch.epfl.sdp.entity;
 
+import android.util.Log;
+
+import java.util.Map;
+
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
+import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.item.ItemBox;
 
 public class Player extends AoeRadiusMovingEntity implements Positionable {
     private String username;
@@ -68,7 +74,14 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     }
 
     public void setHealthPoints(double amount) {
-        this.healthPoints = amount;
+        if(amount > 100){
+            healthPoints = 100;
+        }else if (amount > 0){
+            healthPoints = amount;;
+        }else{
+            healthPoints = 0;
+            alive = false;
+        }
     }
 
     public boolean isShielded() {

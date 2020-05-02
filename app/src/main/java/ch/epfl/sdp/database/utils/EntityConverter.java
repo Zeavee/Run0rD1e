@@ -71,10 +71,20 @@ public class EntityConverter {
         ArrayList<PlayerForFirebase> playerList= new ArrayList<>();
         for(Player player : players) {
             PlayerForFirebase playerForFirebase = playerToPlayerForFirebase(player);
-            playerForFirebase.setDamage(PlayerManager.getInstance().getDamages().get(player.getEmail()));
+            //playerForFirebase.setDamage(PlayerManager.getInstance().getDamages().get(player.getEmail()));
             playerList.add(playerForFirebase);
         }
 
         return playerList;
+    }
+
+    public static Player playerForFirebaseToPlayer(PlayerForFirebase playerForFirebase) {
+        double longitude = playerForFirebase.getLocation().getLongitude();
+        double latitude = playerForFirebase.getLocation().getLatitude();
+        double aoeRadius = playerForFirebase.getAoeRadius();
+        String username = playerForFirebase.getUsername();
+        String email = playerForFirebase.getEmail();
+
+        return new Player(longitude, latitude, aoeRadius, username, email);
     }
 }

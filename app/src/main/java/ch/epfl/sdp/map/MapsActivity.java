@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -81,12 +82,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
+        Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+
         if (!Game.getInstance().isRunning()) {
             commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
                 if (fetchUserRes.isSuccessful()) {
                     Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
                     playerManager.setCurrentUser(currentUser);
                     mapApi.updatePosition();
+                    Log.d("Database","User fetched");
 
                     commonDatabaseAPI.selectLobby(selectLobbyRes -> {
                         if (selectLobbyRes.isSuccessful()) {
@@ -94,14 +98,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Map<String, Object> data = new HashMap<>();
                             data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
                             if (playerManager.isServer()) data.put("startGame", false);
+                            Log.d("Database","Lobby selected:" + playerManager.getLobbyDocumentName());
 
                             commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
                                 if (registerToLobbyRes.isSuccessful()) {
                                     if (playerManager.isServer()) {
-                                        new Server().initEnvironment();
+                                        new Server();
                                     } else {
-                                        new Client().initEnvironment();
+                                        new Client();
                                     }
+
+                                    Log.d("Database","Lobby registered/joined");
 
                                 } else {
                                     Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -116,6 +123,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
+
+        Log.d("Database","Quit map ready");
     }
 
     public void showInventory(View v) {
@@ -138,7 +147,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     while (!isInterrupted()) {
                         Thread.sleep(2000);
                         runOnUiThread(() -> {
-                            if (playerManager.getCurrentUser() != null && playerManager.getCurrentUser().getHealthPoints() > 0) {
+                            if (playerManager.getCurrentUser() != null) {
                                 healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
                                 healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(playerManager.getCurrentUser().getUsername());

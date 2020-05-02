@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Coin extends Item {
@@ -12,7 +13,7 @@ public class Coin extends Item {
     }
 
     @Override
-    public void use() {
+    public void useOn(Player player) {
         int currentMoney = PlayerManager.getInstance().getCurrentUser().money;
         PlayerManager.getInstance().getCurrentUser().money = currentMoney + value;
     }

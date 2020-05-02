@@ -99,8 +99,12 @@ public class GoogleMapApi implements MapApi {
             locationManager.requestLocationUpdates(locManager, (long) listenTime, (float) listenDistance, locationListener);
         }
 
-        bestProvider = locationManager.getBestProvider(criteria, true);
+        while(bestProvider == null) {
+            bestProvider = locationManager.getBestProvider(criteria, true);
+        }
+
         currentLocation = locationManager.getLastKnownLocation(bestProvider);
+
         playerManager.getCurrentUser().setLocation(getCurrentLocation());
         playerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(playerManager.getCurrentUser().getLocation()));
         removeMarkers(playerManager.getCurrentUser());

@@ -3,6 +3,8 @@ package ch.epfl.sdp.database.firebase.entity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.Map;
+
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -14,8 +16,9 @@ public class PlayerForFirebase {
     private GeoPoint location;
     private double aoeRadius;
     private double healthPoints;
-    private double damage;
     private int currentGameScore;
+    private Map<String, Integer> usedItems;
+    private Map<String, Integer> items;
     @ServerTimestamp
     private Timestamp timestamp;
 
@@ -115,24 +118,6 @@ public class PlayerForFirebase {
     }
 
     /**
-     * Get the damage of the playerForFirebase
-     *
-     * @return The damage of the playerForFirebase
-     */
-    public double getDamage() {
-        return damage;
-    }
-
-    /**
-     * Set the damage of the playerForFirebase
-     *
-     * @param damage The damage of the playerForFirebase
-     */
-    public void setDamage(double damage) {
-        this.damage = damage;
-    }
-
-    /**
      * Get the currentGameScore of the playerForFirebase
      *
      * @return The currentGameScore of the playerForFirebase
@@ -148,6 +133,38 @@ public class PlayerForFirebase {
      */
     public void setCurrentGameScore(int currentGameScore) {
         this.currentGameScore = currentGameScore;
+    }
+
+    /**
+     * Get the items used by the user.
+     * @return The items used by the user.
+     */
+    public Map<String, Integer> getUsedItems() {
+        return usedItems;
+    }
+
+    /**
+     * Set the items used by the user.
+     * @param usedItems The items used by the user.
+     */
+    public void setUsedItems(Map<String, Integer> usedItems) {
+        this.usedItems = usedItems;
+    }
+
+    /**
+     * Get the items owned by the user.
+     * @return The items owned by the user.
+     */
+    public Map<String, Integer> getItems() {
+        return items;
+    }
+
+    /**
+     * Set the items owned by the user.
+     * @param items The items owned by the user.
+     */
+    public void setItems(Map<String, Integer> items) {
+        this.usedItems = items;
     }
 
     /**

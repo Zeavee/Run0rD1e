@@ -24,13 +24,13 @@ public class InventoryTest {
         Inventory inventory = new Inventory();
 
         assertEquals(0, inventory.size());
-        inventory.addItem(item1);
+        inventory.addItem(item1.getName());
         assertEquals(1, inventory.size());
-        inventory.addItem(item2);
+        inventory.addItem(item2.getName());
         assertEquals(2, inventory.size());
-        inventory.removeItem(item1);
+        inventory.removeItem(item1.getName());
         assertEquals(1, inventory.size());
-        inventory.removeItem(item2);
+        inventory.removeItem(item2.getName());
         assertEquals(0, inventory.size());
     }
 }

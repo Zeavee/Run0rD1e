@@ -46,7 +46,7 @@ public class MapsActivityTest {
     @Before
     public void setup() {
         PlayerManager.getInstance().setCurrentUser(new Player("testMap", "testMap@gmail.com"));
-        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10));
+        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
     }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {

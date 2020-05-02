@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Item;
 
 import static org.junit.Assert.assertEquals;
@@ -21,7 +22,7 @@ public class ItemTest {
             }
 
             @Override
-            public void use() {
+            public void useOn(Player player) {
             }
         };
     }

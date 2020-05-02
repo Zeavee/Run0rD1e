@@ -11,7 +11,7 @@ import ch.epfl.sdp.entity.PlayerManager;
  * Represents a box that can store items and can be taken by players.
  */
 public class ItemBox extends DetectableEntity {
-    private Map<Item, Integer> items;
+    private Map<String, Integer> items;
     private boolean taken;
 
     /**
@@ -30,7 +30,7 @@ public class ItemBox extends DetectableEntity {
      * @param quantity The quantity of the item to be stored.
      */
     public void putItems(Item item, int quantity) {
-        items.put(item, quantity);
+        items.put(item.getName(), quantity);
     }
 
     /**
@@ -45,26 +45,38 @@ public class ItemBox extends DetectableEntity {
     /**
      * Takes the items from the item box and put them in the user's inventory.
      */
-    public void take() {
-        if (!isTaken()) {
-            taken = true;
-            Inventory inventory = PlayerManager.getInstance().getCurrentUser().getInventory();
-            int quantity = 0;
-            for (Map.Entry<Item, Integer> itemQuant : items.entrySet()) {
-                quantity = itemQuant.getValue();
+   /* public void take(Player player) {
+        taken = true;
+        int quantity = 0;
+        for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
+            quantity = itemQuant.getValue();
 
-                if (inventory.getItems().get(itemQuant.getKey()) != null) {
-                    quantity += inventory.getItems().get(itemQuant.getKey());
-                }
-
-                inventory.setItemQuantity(itemQuant.getKey(), quantity);
+            if (player.getInventory().getItems().containsKey(itemQuant.getKey())) {
+                quantity += player.getInventory().getItems().get(itemQuant.getKey());
             }
+
+            player.getInventory().setItemQuantity(itemQuant.getKey(), quantity);
         }
-    }
+    }*/
+
 
     @Override
     public void react(Player player) {
-        take();
+        if(!taken) {
+            taken = true;
+            int quantity = 0;
+            for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
+                quantity = itemQuant.getValue();
+
+                if (player.getInventory().getItems().containsKey(itemQuant.getKey())) {
+                    quantity += player.getInventory().getItems().get(itemQuant.getKey());
+                }
+
+                player.getInventory().setItemQuantity(itemQuant.getKey(), quantity);
+            }
+
+            PlayerManager.getInstance().addPlayerWaitingItems(player);
+        }
     }
 
     @Override

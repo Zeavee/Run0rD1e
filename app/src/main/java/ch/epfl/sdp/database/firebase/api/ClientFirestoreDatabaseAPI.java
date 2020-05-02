@@ -39,7 +39,7 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+      /*  firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                 .document(playerManager.getLobbyDocumentName())
                 .collection(PlayerManager.PLAYER_COLLECTION_NAME)
                 .document(playerManager.getCurrentUser().getEmail())
@@ -47,7 +47,7 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
                 .addOnSuccessListener(documentSnapshot -> {
                     PlayerForFirebase playerForFirebase = documentSnapshot.toObject(PlayerForFirebase.class);
                     onValueReadyCallback.finish(new CustomResult<>(playerForFirebase.getDamage(), true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));*/
     }
 
     @Override

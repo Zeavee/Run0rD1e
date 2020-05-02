@@ -95,7 +95,6 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
-
     @Override
     public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName()).collection(playerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())

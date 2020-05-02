@@ -59,7 +59,7 @@ public class TrapTest {
         Thread.sleep(1000);
         assertTrue(owner.getInventory().getItems().containsKey(trap));
         owner.setLocation(new GeoPoint(42, 42));
-        trap.use();
+        trap.useOn();
         Thread.sleep(1000);
         assertEquals(100.0, opponent.getHealthPoints(), 0.01);
         opponent.setLocation(new GeoPoint(42, 42));
@@ -72,7 +72,7 @@ public class TrapTest {
     public void trapCorrectlyImplementsDisplayable() {
         assertTrue(trap.isOnce());
         assertEquals(EntityType.TRAP, trap.getEntityType());
-        trap.use();
+        trap.useOn();
         assertNotNull(trap.getLocation());
     }
 }

@@ -39,7 +39,7 @@ public class PlayerTest {
         Healthpack healthpack = new Healthpack(1);
 
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
-        healthpack.use();
+        healthpack.useOn();
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }

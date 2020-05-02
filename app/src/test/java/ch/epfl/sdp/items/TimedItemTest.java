@@ -66,7 +66,7 @@ public class TimedItemTest {
         MapsActivity.setMapApi(map);
         PlayerManager.getInstance().addPlayer(user);
         Scan scan = new Scan(countTime);
-        scan.use();
+        scan.useOn();
 
         while (scan.getRemainingTime() > 0){
             assertFalse(map.getDisplayables().isEmpty());
@@ -86,7 +86,7 @@ public class TimedItemTest {
     public void shieldSetsShieldedWhenUpdated(){
         assertFalse(user.isShielded());
         Shield shield = new Shield(countTime);
-        shield.use();
+        shield.useOn();
 
         while (shield.getRemainingTime() > 0){
             assertTrue(user.isShielded());
@@ -107,7 +107,7 @@ public class TimedItemTest {
         Double originalRadius = user.getAoeRadius();
         int removeAoeRadius = 10;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
-        shrinker.use();
+        shrinker.useOn();
 
         while (shrinker.getRemainingTime() > 0){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);

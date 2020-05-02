@@ -32,7 +32,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
     @Override
     public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        // Get a new write batch
+       /* // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
         // Collection Ref
@@ -46,7 +46,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
 
         batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-
+*/
     }
 
     @Override

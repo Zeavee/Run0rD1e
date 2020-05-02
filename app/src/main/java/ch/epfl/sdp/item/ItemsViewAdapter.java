@@ -22,8 +22,10 @@ import static ch.epfl.sdp.R.id.useitem;
  * Recycler view adapter for displaying items.
  */
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
+    private ItemFactory itemFactory;
 
     public ItemsViewAdapter(Context mContext) {
+        itemFactory = new ItemFactory();
     }
 
     @NonNull
@@ -36,15 +38,20 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
     @Override
     public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
         Map items = PlayerManager.getInstance().getCurrentUser().getInventory().getItems();
-        Item item = (Item) (items.keySet().toArray())[position];
-        holder.name.setText(item.getName());
-        holder.amountOfItem.setText(String.valueOf(items.get(item)));
+        String itemName = (String) items.keySet().toArray()[position];
+        holder.name.setText(itemName);
+        holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         holder.button.setOnClickListener(v -> {
-            item.use();
-            PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(item);
+           if(PlayerManager.getInstance().isServer()) {
+                itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
+            }else{
+               PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
+           }
+
+            PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
 
             // Update the quantity of that item
-            holder.amountOfItem.setText(String.valueOf(items.get(item)));
+            holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         });
     }
 

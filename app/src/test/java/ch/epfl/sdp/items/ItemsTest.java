@@ -47,7 +47,7 @@ public class ItemsTest {
         Healthpack healthpack = new Healthpack(1);
 
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
-        healthpack.use();
+        healthpack.useOn();
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
@@ -78,15 +78,15 @@ public class ItemsTest {
     public void increaseHealth() {
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
         PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
-        healthpack.use();
+        healthpack.useOn();
         assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
-        healthpack.use();
+        healthpack.useOn();
         assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
     }
 
     @Test
     public void scanTest() {
-        scan.use();
+        scan.useOn();
         assertEquals(EntityType.SCAN, scan.getEntityType());
     }
 
@@ -95,7 +95,7 @@ public class ItemsTest {
         PlayerManager.getInstance().getCurrentUser().money = 0;
         Coin c = new Coin(5);
         assertTrue(5 == c.getValue());
-        c.use();
+        c.useOn();
         assertTrue(PlayerManager.getInstance().getCurrentUser().money == 5);
         assertEquals(c.getEntityType(), EntityType.COIN);
 

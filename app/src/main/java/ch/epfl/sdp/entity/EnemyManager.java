@@ -20,7 +20,7 @@ public class EnemyManager implements Updatable {
     private int counter;
     public final int UPDATE_EVERY_MS = 1000;
 
-    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();;
+    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
     private Map<Integer, Enemy> enemies = new HashMap<>();
     private long lastUpdateTimeMillis = System.currentTimeMillis();
     private static final EnemyManager instance = new EnemyManager();

@@ -1,5 +1,6 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
@@ -9,10 +10,10 @@ import ch.epfl.sdp.game.GameThread;
  */
 public abstract class TimedItem extends Item implements Updatable {
     protected int counter;
+    private Player player;
 
     /**
      * Creates a timed item.
-     *
      * @param name        The name of the timed item.
      * @param description The description of the timed item.
      * @param countTime   The time duration of the effect.
@@ -24,15 +25,18 @@ public abstract class TimedItem extends Item implements Updatable {
 
     /**
      * Add the timed item to the game, the count will begin.
+     * @param player A player that will begin to use the item.
      */
-    public void use(){
+    public void useOn(Player player){
         Game.getInstance().addToUpdateList(this);
+        this.player = player;
     }
 
     /**
      * Remove the non lasting effects of the item after the time is over.
+     * @param player A player that will stop using the item.
      */
-    public abstract void stopUsing();
+    public abstract void stopUsingOn(Player player);
 
     /**
      * Gets the remaining time.
@@ -47,7 +51,7 @@ public abstract class TimedItem extends Item implements Updatable {
         if(counter > 0){
             --counter;
         }else{
-            stopUsing();
+            stopUsingOn(player);
             Game.getInstance().removeFromUpdateList(this);
         }
     }

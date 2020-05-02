@@ -14,11 +14,13 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "LobbyRaphael";
     public static final String PLAYER_COLLECTION_NAME = "Players";
     public static final String ENEMY_COLLECTION_NAME = "Enemies";
+    public static final String ITEM_COLLECTION_NAME = "Items";
+    public static final String USED_ITEM_COLLECTION_NAME = "UsedItems";
 
     private String lobbyDocumentName;
     private long numPlayersBeforeJoin;
@@ -29,10 +31,11 @@ public class PlayerManager {
      */
     private Player currentUser;
 
-    private Map<String, Player> playersMap = new HashMap();
+    private Map<String, Player> playersMap = new HashMap<String, Player>();
 
-    private Map<String, Double> damages = new HashMap<>();
+    private List<Player> playersWaitingItems = new ArrayList<Player>();
 
+    private List<Player> playersWaitingHealthPoint = new ArrayList<Player>();
 
     private static final PlayerManager instance = new PlayerManager();
 
@@ -80,19 +83,6 @@ public class PlayerManager {
         this.isServer = isServer;
     }
 
-    public Map<String, Double> getDamages() {
-       /* if(damages.containsKey(email)) {
-            return damages.get(email);
-        } else {
-            return 0.0;
-        }*/
-       return damages;
-    }
-
-    /*public void setDamages(String email, double damage) {
-        damages.put(email, damage);
-    }*/
-
     /**
      * Add the specified player to the player manager. The player will stay until it is removed by
      * removePlayer() or removeAll().
@@ -101,7 +91,6 @@ public class PlayerManager {
      */
     public void addPlayer(Player player) {
         playersMap.put(player.getEmail(),player);
-        damages.put(player.getEmail(), (double) 0);
     }
 
     /**
@@ -122,6 +111,10 @@ public class PlayerManager {
         return new ArrayList<>(playersMap.values());
     }
 
+    public Map<String, Player> getPlayersMap(){
+        return playersMap;
+    }
+
     /**
      * Set a list of all players in the player manager
      *
@@ -133,6 +126,34 @@ public class PlayerManager {
         for (Player player : players){
             playersMap.put(player.getEmail(),player);
         }
+    }
+
+    public List<Player> getPlayersWaitingItems() {
+        return playersWaitingItems;
+    }
+
+    public void addPlayerWaitingItems(Player player) {
+        if(!currentUser.getEmail().equals(player.getEmail())) {
+            playersWaitingItems.add(player);
+        }
+    }
+
+    public List<Player> getPlayersWaitingHealthPoint() {
+        return playersWaitingHealthPoint;
+    }
+
+    public void addPlayerWaitingHealth(Player player) {
+        if(!currentUser.getEmail().equals(player.getEmail())) {
+            playersWaitingHealthPoint.add(player);
+        }
+    }
+
+    public void clearPlayerWaitingItems(){
+        playersWaitingItems.clear();
+    }
+
+    public void clearPlayerWaitingHealthPoint(){
+        playersWaitingHealthPoint.clear();
     }
 
     /**

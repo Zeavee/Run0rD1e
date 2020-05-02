@@ -29,7 +29,7 @@ public class Trap extends Item implements Updatable, Displayable {
     }
 
     @Override
-    public void use() {
+    public void useOn(Player player) {
         //This is called by the player that has the item, so getUser should return the correct player
         //The trick is that we need to save the reference to the player, since the update method will be called by the server and thus,
         //getUser would return the wrong player (the server)

@@ -68,7 +68,7 @@ public class ItemBoxTest {
             }
 
             @Override
-            public void use() {
+            public void useOn(Player player) {
             }
         };
 

@@ -8,23 +8,21 @@ public class Shrinker extends TimedItem {
     private double shrinkingRadius;
 
     public Shrinker(int shrinkTime, double shrinkingRadius) {
-        super(String.format("Shrinker (%d sec) (%f radius)", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %f seconds", shrinkTime, shrinkingRadius), shrinkTime);
+        super(String.format("Shrinker %d %f", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %f seconds", shrinkTime, shrinkingRadius), shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
     }
 
     @Override
-    public void use() {
-        super.use();
-        Player currentUser = PlayerManager.getInstance().getCurrentUser();
-        double aoeRadius = currentUser.getAoeRadius() - getShrinkingRadius();
-        currentUser.setAoeRadius(aoeRadius);
+    public void useOn(Player player) {
+        super.useOn(player);
+        double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
+        player.setAoeRadius(aoeRadius);
     }
 
     @Override
-    public void stopUsing(){
-        Player currentUser = PlayerManager.getInstance().getCurrentUser();
-        double aoeRadius = currentUser.getAoeRadius() + getShrinkingRadius();
-        currentUser.setAoeRadius(aoeRadius);
+    public void stopUsingOn(Player player){
+        double aoeRadius = player.getAoeRadius() + getShrinkingRadius();
+        player.setAoeRadius(aoeRadius);
     }
 
     public EntityType getEntityType() {
