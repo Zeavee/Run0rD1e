@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.MockRenderer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -19,6 +19,7 @@ public class GameTest {
     public void setup() {
         MockMapApi mockMapApi = new MockMapApi();
         Game.getInstance().setMapApi(mockMapApi);
+        Game.getInstance().setRenderer(new MockRenderer());
         Game.getInstance().clearGame();
     }
 

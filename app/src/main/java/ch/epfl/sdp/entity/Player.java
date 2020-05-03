@@ -105,12 +105,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
-    }
-
-    @Override
-    public void unDisplayOn(MapApi mapApi) {
-        mapApi.removeMarkers(this);
+        if (this == PlayerManager.getCurrentUser()) {
+            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+        } else {
+            mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+        }
     }
 
     @Override
@@ -162,7 +161,7 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     public void setDistanceTraveled(double distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
-  
+
     /**
      * This methods update the local score of the Player,
      * this is called each 10 seconds, so if the Player is alive, he gets 10 points
