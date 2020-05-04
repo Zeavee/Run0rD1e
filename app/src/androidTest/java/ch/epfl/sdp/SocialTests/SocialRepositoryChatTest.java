@@ -50,6 +50,7 @@ public class SocialRepositoryChatTest {
 
         @Override
         protected void beforeActivityLaunched() {
+            DependencyFactory.setTestMode(true);
             DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro@gmail.com"));
         }
     };

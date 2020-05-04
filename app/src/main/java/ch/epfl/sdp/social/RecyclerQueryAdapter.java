@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
@@ -91,7 +91,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         }
 
         private void completeDBSetup() {
-            User cur_usr = new User(PlayerManager.getCurrentUser().getEmail());
+            User cur_usr = new User(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail());
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
             SocialRepository chatRepo = SocialRepository.getInstance();

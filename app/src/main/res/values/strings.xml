@@ -3,7 +3,7 @@
     <string name="username">Username: </string>
     <string name="healthpoint">Health point: </string>
     <string name="title_activity_maps">Map</string>
-    <string name="title_activity_friends_list">FriendsListActivity</string>
+    <string name="title_activity_friends_list">Friends List</string>
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

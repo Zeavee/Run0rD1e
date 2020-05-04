@@ -45,6 +45,7 @@ public class ChatActivityTest {
     public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class) {
         @Override
         protected void beforeActivityLaunched() {
+            DependencyFactory.setTestMode(true);
             DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com"));
         }
     };
