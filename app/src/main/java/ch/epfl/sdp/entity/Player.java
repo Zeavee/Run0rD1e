@@ -1,15 +1,9 @@
 package ch.epfl.sdp.entity;
 
-import android.util.Log;
-
-import java.util.Map;
-
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.ItemBox;
 
 public class Player extends AoeRadiusMovingEntity implements Positionable {
     private String username;

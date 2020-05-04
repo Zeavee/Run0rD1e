@@ -16,7 +16,7 @@ import ch.epfl.sdp.geometry.CartesianPoint;
 public class PlayerManager {
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
     public static final String USER_COLLECTION_NAME = "AllUsers";
-    public static final String LOBBY_COLLECTION_NAME = "LobbyRaphael";
+    public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
     public static final String ENEMY_COLLECTION_NAME = "Enemies";
     public static final String ITEM_COLLECTION_NAME = "Items";
@@ -31,22 +31,16 @@ public class PlayerManager {
      */
     private Player currentUser;
 
-    private Map<String, Player> playersMap = new HashMap<String, Player>();
+    private Map<String, Player> playersMap = new HashMap<>();
 
-    private List<Player> playersWaitingItems = new ArrayList<Player>();
+    private List<Player> playersWaitingItems = new ArrayList<>();
 
-    private List<Player> playersWaitingHealthPoint = new ArrayList<Player>();
+    private List<Player> playersWaitingHealthPoint = new ArrayList<>();
 
     private static final PlayerManager instance = new PlayerManager();
 
     public static PlayerManager getInstance() {
         return instance;
-    }
-
-    public void updatePlayersPosition(List<PlayerForFirebase> players){
-        for (PlayerForFirebase player: players) {
-            playersMap.get(player.getEmail()).setLocation(player.getLocation());
-        }
     }
 
     /**
@@ -90,7 +84,7 @@ public class PlayerManager {
      * @param player A player to be stored into the player manager.
      */
     public void addPlayer(Player player) {
-        playersMap.put(player.getEmail(),player);
+        playersMap.put(player.getEmail(), player);
     }
 
     /**
@@ -111,7 +105,7 @@ public class PlayerManager {
         return new ArrayList<>(playersMap.values());
     }
 
-    public Map<String, Player> getPlayersMap(){
+    public Map<String, Player> getPlayersMap() {
         return playersMap;
     }
 
@@ -123,8 +117,8 @@ public class PlayerManager {
     public void setPlayers(List<Player> players) {
 
         playersMap.clear();
-        for (Player player : players){
-            playersMap.put(player.getEmail(),player);
+        for (Player player : players) {
+            playersMap.put(player.getEmail(), player);
         }
     }
 
@@ -133,7 +127,7 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingItems(Player player) {
-        if(!currentUser.getEmail().equals(player.getEmail())) {
+        if (!currentUser.getEmail().equals(player.getEmail())) {
             playersWaitingItems.add(player);
         }
     }
@@ -143,16 +137,16 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingHealth(Player player) {
-        if(!currentUser.getEmail().equals(player.getEmail())) {
+        if (!currentUser.getEmail().equals(player.getEmail())) {
             playersWaitingHealthPoint.add(player);
         }
     }
 
-    public void clearPlayerWaitingItems(){
+    public void clearPlayerWaitingItems() {
         playersWaitingItems.clear();
     }
 
-    public void clearPlayerWaitingHealthPoint(){
+    public void clearPlayerWaitingHealthPoint() {
         playersWaitingHealthPoint.clear();
     }
 

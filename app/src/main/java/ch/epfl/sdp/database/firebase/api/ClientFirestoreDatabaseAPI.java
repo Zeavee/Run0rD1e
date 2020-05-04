@@ -1,14 +1,11 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import androidx.annotation.Nullable;
-
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
@@ -38,19 +35,6 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback) {
-      /*  firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(playerManager.getLobbyDocumentName())
-                .collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                .document(playerManager.getCurrentUser().getEmail())
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    PlayerForFirebase playerForFirebase = documentSnapshot.toObject(PlayerForFirebase.class);
-                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebase.getDamage(), true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));*/
-    }
-
-    @Override
     public void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
         firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                 .document(playerManager.getLobbyDocumentName())
@@ -66,12 +50,15 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void listenToGameStart(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
-        firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
+    public void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
+        AtomicBoolean flag = new AtomicBoolean(false);
+        ListenerRegistration ListenerRegistration = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if((Boolean) documentSnapshot.get("startGame")) {
-                        onValueReadyCallback.finish(new CustomResult<>(true, true, null));
+                    if((Boolean) documentSnapshot.get("startGame") && !flag.get()) {
+                        flag.set(true);
+                        onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                     }
                 });
+        if (flag.get()) ListenerRegistration.remove();
     }
 }

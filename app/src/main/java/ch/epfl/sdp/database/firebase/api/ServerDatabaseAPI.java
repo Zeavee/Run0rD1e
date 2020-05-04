@@ -19,16 +19,16 @@ public interface ServerDatabaseAPI {
      */
     void sendEnemies(List<EnemyForFirebase> enemies, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
-
     /**
      * Listen to the number of players in the lobby, if the lobby is full, populate the enemy and start the game
+     *
      * @param onValueReadyCallback Callback after the lobby is full
      */
-    void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback);
+    void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     /**
      * Start the game when the lobby is full and the environment is populated.
+     *
      * @param onValueReadyCallback Callback after the lobby is full
      */
     void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -20,7 +19,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
         WriteBatch batch = firebaseFirestore.batch();
 
         // Collection Ref
-        for(EnemyForFirebase enemyForFirebase: enemies) {
+        for (EnemyForFirebase enemyForFirebase : enemies) {
             DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                     .collection(PlayerManager.ENEMY_COLLECTION_NAME).document("enemy" + enemyForFirebase.getId());
             batch.set(docRef, enemyForFirebase);
@@ -31,36 +30,16 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
     }
 
     @Override
-    public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-       /* // Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for(PlayerForFirebase playerForFirebase: players){
-            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                    .document(PlayerManager.getInstance().getLobbyDocumentName())
-                    .collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                    .document(playerForFirebase.getEmail());
-            batch.update(docRef, "damage", playerForFirebase.getDamage());
-        }
-
-        batch.commit().addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-*/
-    }
-
-    @Override
-    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
+    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
         ListenerRegistration ListenerRegistration = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
+                    if ((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
                         flag.set(true);
-                        onValueReadyCallback.finish(new CustomResult<>(true, true, null));
+                        onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                     }
                 });
-        if(flag.get()) ListenerRegistration.remove();
-
+        if (flag.get()) ListenerRegistration.remove();
     }
 
     @Override
@@ -69,7 +48,7 @@ public class ServerFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
                 .document(playerManager.getLobbyDocumentName())
                 .update("startGame", true)
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null,false,e)));
+                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
 
     }
 }

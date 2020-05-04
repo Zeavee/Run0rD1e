@@ -15,8 +15,6 @@ public interface ClientDatabaseAPI extends CommonDatabaseAPI {
 
     void sendAoeRadius(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    void fetchDamage(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback);
-
     /**
      * Fetch a list of enemies from the Firebase Firestore
      *
@@ -27,5 +25,5 @@ public interface ClientDatabaseAPI extends CommonDatabaseAPI {
     /**
      * Listen to game start
      */
-    void listenToGameStart(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback);
+    void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 }

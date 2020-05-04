@@ -35,12 +35,10 @@ import ch.epfl.sdp.utils.DependencyFactory;
  * This class updates the game from the client point of view. It fetches the data from firebase and
  * the data is updated by the server.
  */
-public class Client implements Updatable{
+public class Client implements Updatable {
     private static final String TAG = "Database";
     private int counter;
-    private double oldDamage;
-    //private List<ItemBox> itemBoxes;
-    private ClientDatabaseAPI clientDatabaseAPI;
+    private ClientDatabaseAPI clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
     protected PlayerManager playerManager = PlayerManager.getInstance();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     DocumentReference lobbyRef = firebaseFirestore
@@ -50,12 +48,9 @@ public class Client implements Updatable{
     /**
      * Creates a new client
      */
-    public Client(){
-        oldDamage = 0;
-        clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
+    public Client() {
 
         // TODO Add Listener for Enemies and Players
-
         addUserHealthPointsListener();
         addUserItemListener();
         addItemBoxesListener();
@@ -63,16 +58,16 @@ public class Client implements Updatable{
 
     }
 
-    private void init(){
+    private void init() {
         clientDatabaseAPI.listenToGameStart(start -> {
-            if(start.isSuccessful()){
+            if (start.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
                 Game.getInstance().initGame();
             }
         });
     }
 
-    private void addUserHealthPointsListener(){
+    private void addUserHealthPointsListener() {
         // Listen for healthpoints
         lobbyRef.collection(playerManager.PLAYER_COLLECTION_NAME)
                 .document(playerManager.getCurrentUser().getEmail())
@@ -92,7 +87,7 @@ public class Client implements Updatable{
                 });
     }
 
-    private void addUserItemListener(){
+    private void addUserItemListener() {
         // Listen for Items
         lobbyRef.collection(PlayerManager.ITEM_COLLECTION_NAME)
                 .document(playerManager.getCurrentUser().getEmail())
@@ -106,7 +101,7 @@ public class Client implements Updatable{
                         Map<String, Long> uncasteditems = (Map<String, Long>) documentSnapshot.get("items");
                         Map<String, Integer> items = new HashMap<>();
 
-                        for (Map.Entry<String, Long> entry: uncasteditems.entrySet()) {
+                        for (Map.Entry<String, Long> entry : uncasteditems.entrySet()) {
                             items.put(entry.getKey(), entry.getValue().intValue());
                         }
 
@@ -119,49 +114,50 @@ public class Client implements Updatable{
                 });
     }
 
-    private void addItemBoxesListener(){
+    private void addItemBoxesListener() {
         // Listen for Items
         lobbyRef.collection(ItemBoxManager.ITEMBOX_COLLECTION_NAME)
                 .addSnapshotListener((querySnapshot, e) -> {
-                if (e != null) {
-                    Log.w(TAG, "Listen for itemBoxes failed.", e);
-                    return;
-                }
-
-                for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-                    String id = dc.getDocument().getId();
-                    boolean taken = (boolean) dc.getDocument().get("taken");
-                    HashMap<String, Double> hashMap = (HashMap<String, Double>) dc.getDocument().get("location");
-                    GeoPoint location = new GeoPoint(hashMap.get("longitude"), hashMap.get("latitude"));
-
-                    if(ItemBoxManager.getInstance().getItemBoxes().containsKey(id)){
-                        if(taken){
-                            ItemBox itemBox = ItemBoxManager.getInstance().getItemBoxes().get(id);
-                            Game.getInstance().removeFromDisplayList(itemBox);
-                            ItemBoxManager.getInstance().getItemBoxes().remove(id);
-                        }
-                    }else{
-                        if(!taken) {
-                            ItemBox itemBox = new ItemBox();
-                            itemBox.setLocation(location);
-                            Game.getInstance().addToDisplayList(itemBox);
-                            ItemBoxManager.getInstance().addItemBoxWithId(itemBox, id);
-                        }
+                    if (e != null) {
+                        Log.w(TAG, "Listen for itemBoxes failed.", e);
+                        return;
                     }
 
-                    Log.d(TAG, "Listen for itemboxes: " + querySnapshot.getDocumentChanges());
-                }
-            });
+                    for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
+                        String id = dc.getDocument().getId();
+                        boolean taken = (boolean) dc.getDocument().get("taken");
+                        HashMap<String, Double> hashMap = (HashMap<String, Double>) dc.getDocument().get("location");
+                        GeoPoint location = new GeoPoint(hashMap.get("longitude"), hashMap.get("latitude"));
+
+                        if (ItemBoxManager.getInstance().getItemBoxes().containsKey(id)) {
+                            if (taken) {
+                                ItemBox itemBox = ItemBoxManager.getInstance().getItemBoxes().get(id);
+                                Game.getInstance().removeFromDisplayList(itemBox);
+                                ItemBoxManager.getInstance().getItemBoxes().remove(id);
+                            }
+                        } else {
+                            if (!taken) {
+                                ItemBox itemBox = new ItemBox();
+                                itemBox.setLocation(location);
+                                Game.getInstance().addToDisplayList(itemBox);
+                                ItemBoxManager.getInstance().addItemBoxWithId(itemBox, id);
+                            }
+                        }
+
+                        Log.d(TAG, "Listen for itemboxes: " + querySnapshot.getDocumentChanges());
+                    }
+                });
     }
 
-    private void sendUserPosition(){
-        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()), res -> {});
+    private void sendUserPosition() {
+        clientDatabaseAPI.updateLocation(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()), res -> {
+        });
     }
 
-    public void sendUsedItems(){
+    public void sendUsedItems() {
         Map<String, Integer> usedItems = PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems();
 
-        if(!usedItems.isEmpty()){
+        if (!usedItems.isEmpty()) {
             HashMap hashMap = new HashMap();
             hashMap.put("usedItems", usedItems);
 
@@ -176,10 +172,10 @@ public class Client implements Updatable{
 
     @Override
     public void update() {
-        if(counter <= 0){
+        if (counter <= 0) {
             sendUserPosition();
             sendUsedItems();
-            counter = 2*GameThread.FPS + 1;
+            counter = 2 * GameThread.FPS + 1;
         }
 
         --counter;

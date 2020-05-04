@@ -64,7 +64,7 @@ public class ItemBox extends DetectableEntity {
     public void react(Player player) {
         if(!taken) {
             taken = true;
-            int quantity = 0;
+            int quantity;
             for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
                 quantity = itemQuant.getValue();
 
