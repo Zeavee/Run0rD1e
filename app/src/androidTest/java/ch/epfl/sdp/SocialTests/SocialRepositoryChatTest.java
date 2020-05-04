@@ -1,10 +1,12 @@
 package ch.epfl.sdp.SocialTests;
 
-import com.google.firebase.Timestamp;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.google.firebase.Timestamp;
+
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,15 +14,18 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.List;
 
-import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
-import static org.junit.Assert.*;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @brief tests conversation-relevant functionality provided by SocialRepository.java.
@@ -37,28 +42,29 @@ public class SocialRepositoryChatTest {
             new User("sacha@gmail.com"),
             new User("sen@gmail.com"),
             new User("peilin@gmail.com"),
-            new User("rafael@gmail.com") );
+            new User("rafael@gmail.com"));
 
 
     @Rule
-    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class){
+    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class) {
 
         @Override
-        protected void beforeActivityLaunched()
-        {
-            SocialRepository.setContextActivity(this.getActivity());
-            prepopulateDatabase();
-
-            // Mocking the server that loads remote messages
-            DependencyProvider.remoteToSQLiteAdapter = MockServerToSQLiteAdapter.getInstance();
-            DependencyProvider.remoteToSQLiteAdapter.setListener(this.getActivity());
+        protected void beforeActivityLaunched() {
+            PlayerManager.setCurrentUser(new Player("amro", "amro@gmail.com"));
         }
-        @Override
-        protected void afterActivityLaunched() {
-
-        }
-
     };
+
+    @Before
+    public void setup() {
+        // Mocking the server that loads remote messages
+        AppContainer appContainer = ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer;
+        appContainer.remoteToSQLiteAdapter = MockServerToSQLiteAdapter.getInstance();
+        appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
+
+        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        prepopulateDatabase();
+    }
+
     private SocialRepository testRepo;
 
     public void prepopulateDatabase() {
@@ -68,14 +74,13 @@ public class SocialRepositoryChatTest {
         // Create the chat for each pair of users and mark each pair as friends
         for (User x : fantasticSix) {
             for (User y : fantasticSix) {
-                    testRepo.addChat(new Chat(x.getEmail(), y.getEmail()));
-                    testRepo.addFriends(x, y);
+                testRepo.addChat(new Chat(x.getEmail(), y.getEmail()));
+                testRepo.addFriends(x, y);
             }
         }
     }
 
-    public void prepopulateDatabaseWithUserRecords()
-    {
+    public void prepopulateDatabaseWithUserRecords() {
         testRepo = SocialRepository.getInstance();
         for (User user : fantasticSix) {
             testRepo.addUser(user);
@@ -107,7 +112,7 @@ public class SocialRepositoryChatTest {
     public void SachaCanReceiveRemoteMessage() throws InterruptedException {
         User sacha = fantasticSix.get(2);
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
-        testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed",c.getChat_id());
+        testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed", c.getChat_id());
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 2 seconds
         Thread.sleep(2000);

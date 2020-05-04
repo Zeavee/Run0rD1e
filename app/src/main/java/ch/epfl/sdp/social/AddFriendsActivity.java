@@ -1,7 +1,6 @@
 package ch.epfl.sdp.social;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
@@ -26,7 +25,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
 
-        server = DependencyProvider.remoteUserFetch;
+        server = ((MyApplication) getApplication()).appContainer.remoteUserFetch;
 
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         

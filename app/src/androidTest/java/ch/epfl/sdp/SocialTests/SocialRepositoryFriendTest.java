@@ -1,22 +1,20 @@
 package ch.epfl.sdp.SocialTests;
 
-import android.util.Log;
-
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.Conversation.ChatActivity;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
-import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 import static java.util.Arrays.asList;
@@ -35,21 +33,25 @@ public class SocialRepositoryFriendTest {
             new User("bob@gmail.com"));
     private SocialRepository testRepo;
     @Rule
-    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class){
+    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class) {
 
         @Override
-        protected void beforeActivityLaunched()
-        {
-            SocialRepository.setContextActivity(this.getActivity());
-            prepopulateDatabase();
-            DependencyProvider.email = sampleUsers.get(0).getEmail();
+        protected void beforeActivityLaunched() {
+            PlayerManager.setCurrentUser(new Player("mock", "mock@mock.com"));
         }
+
         @Override
         protected void afterActivityLaunched() {
 
         }
 
     };
+
+    @Before
+    public void setup() {
+        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        prepopulateDatabase();
+    }
 
     private void addUniqueFriendship(User x, User y) {
         if (x.getEmail().compareTo(y.getEmail()) < 0) {

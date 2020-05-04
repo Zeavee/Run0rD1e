@@ -13,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.Conversation.SocialRepository;
-import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.social.socialDatabase.Chat;
-
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.social.socialDatabase.User;
 
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
@@ -92,7 +91,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         }
 
         private void completeDBSetup() {
-            User cur_usr = new User(DependencyProvider.email);
+            User cur_usr = new User(PlayerManager.getCurrentUser().getEmail());
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
             SocialRepository chatRepo = SocialRepository.getInstance();

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.User;
@@ -24,7 +24,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
     private SocialRepository chatRepo;
 
     // To get the user info
-    private String current_email_id = DependencyProvider.email;
+    private String current_email_id = PlayerManager.getCurrentUser().getEmail();
     private List<User> friends;
 
 
