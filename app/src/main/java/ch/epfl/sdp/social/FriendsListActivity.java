@@ -13,18 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {
     private SocialRepository chatRepo;
 
     // To get the user info
-    private String current_email_id = PlayerManager.getCurrentUser().getEmail();
+    private String current_email_id = DependencyFactory.getAuthenticationAPI().getCurrentUserEmail();
     private List<User> friends;
 
 
@@ -43,6 +44,8 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        findViewById(R.id.backFromFriendsList).setOnClickListener((v) -> startActivity(new Intent(FriendsListActivity.this, MainActivity.class)));
 
         SocialRepository.setContextActivity(this);
         SocialRepository.getInstance().fetchFriends(new User(current_email_id));

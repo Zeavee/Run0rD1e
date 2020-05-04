@@ -11,13 +11,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sdp.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -45,14 +45,14 @@ public class ChatActivityTest {
     public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class) {
         @Override
         protected void beforeActivityLaunched() {
-            PlayerManager.setCurrentUser(new Player("amro", "amro.abdrabo@gmail.com"));
+            DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com"));
         }
     };
 
     @Before
     public void setup() {
-        // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid2 will not show up as a friend in FriendsListActivity
-        User cur_user = new User("amro.abdrabo@gmail.com");
+        // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid3 will not show up as a friend in FriendsListActivity
+        User cur_user = new User(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail());
         User friend_user = new User("stupid3@gmail.com");
 
         // testRepo is the social database controller (router)
@@ -119,6 +119,8 @@ public class ChatActivityTest {
 
     @Test
     public void chatActivityTest() {
+        onView(withId(R.id.backFromFriendsList)).perform(click());
+        onView(withId(R.id.friendsButton)).perform(click());
         step1();
         step2();
         step3();

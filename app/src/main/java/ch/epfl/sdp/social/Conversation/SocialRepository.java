@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
@@ -21,6 +20,7 @@ import ch.epfl.sdp.social.socialDatabase.ChatDatabase;
 import ch.epfl.sdp.social.socialDatabase.IsFriendsWith;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * @brief Provides higher level abstraction of the database of the chat and models the database memory management of that database
@@ -187,7 +187,7 @@ public final class SocialRepository {
             @Override
             protected void onPostExecute(List<Message> ls) {
                 boolean incoming = true;
-                if (sender.equals(PlayerManager.getCurrentUser().getEmail())) {
+                if (sender.equals(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail())) {
                     incoming = false;
                 }
                 ((WaitsOnWithServer<Message>) singleton.contextActivity).contentFetchedWithServer(ls, false, incoming);
