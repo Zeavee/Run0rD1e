@@ -1,37 +1,23 @@
 package ch.epfl.sdp.SocialTests;
 
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.FriendsListActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -42,27 +28,12 @@ public class FriendsListActivityTest {
 
     public void step1(){
         //************************************ Click on "Friends" to go the social/chat feature *******************************//
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withId(R.id.friendsButton), withText("Friends"),
-                        isDisplayed()));
+        ViewInteraction appCompatButton2 = onView(withId(R.id.friendsButton));
         appCompatButton2.perform(click());
     }
     public void step2(){
         //********************************* Check that "Add Friends" (to search for users) is displayed ************************//
-        ViewInteraction button = onView(
-                allOf(withId(R.id.button_add_friends),
-                        childAtPosition(
-                                allOf(withId(R.id.toolbar_layout), withContentDescription("FriendsListActivity"),
-                                        childAtPosition(
-                                                allOf(withId(R.id.app_bar),
-                                                        childAtPosition(
-                                                                childAtPosition(
-                                                                        withId(android.R.id.content),
-                                                                        0),
-                                                                0)),
-                                                0)),
-                                1),
-                        isDisplayed()));
+        ViewInteraction button = onView(withId(R.id.button_add_friends));
         button.check(matches(isDisplayed()));
     }
     public void step3(){

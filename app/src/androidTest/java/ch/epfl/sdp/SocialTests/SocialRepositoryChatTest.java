@@ -14,15 +14,15 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.List;
 
+import ch.epfl.sdp.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.DependencyFactory;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertTrue;
@@ -50,7 +50,7 @@ public class SocialRepositoryChatTest {
 
         @Override
         protected void beforeActivityLaunched() {
-            PlayerManager.setCurrentUser(new Player("amro", "amro@gmail.com"));
+            DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro@gmail.com"));
         }
     };
 
