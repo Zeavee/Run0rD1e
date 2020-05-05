@@ -2,7 +2,7 @@ package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.Player;
 
-public class Shield extends TimedItem  {
+public class Shield extends TimedItem {
     private int shieldTime;
 
     public Shield(int shieldTime) {

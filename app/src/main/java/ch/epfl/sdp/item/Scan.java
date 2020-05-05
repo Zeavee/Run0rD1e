@@ -4,7 +4,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 
-public class Scan extends TimedItem  {
+public class Scan extends TimedItem {
     private int scanTime;
 
     public Scan(int scanTime) {

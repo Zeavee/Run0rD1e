@@ -3,13 +3,9 @@ package ch.epfl.sdp.entity;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collection;
-
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MockRenderer;
-import ch.epfl.sdp.map.Renderer;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
