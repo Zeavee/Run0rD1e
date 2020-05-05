@@ -1,7 +1,6 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -20,33 +19,23 @@ public abstract class DetectableEntity extends InteractiveEntity implements Upda
      */
     private boolean detroyed = false;
 
-    /**
-     * Creates a detectable entity.
-     *
-     * @param entityType The type of the entity.
-     */
-    public DetectableEntity(EntityType entityType) {
-        this(entityType, true);
-    }
 
     /**
      * Creates a detectable entity.
-     * @param entityType The type of the entity.
      * @param once If true the entity only reacts once, after that the entity disappear from the game.
      */
-    public DetectableEntity(EntityType entityType, boolean once) {
-        super(entityType);
+    public DetectableEntity(boolean once) {
+        super();
         this.once = once;
     }
 
     /**
      *
-     * @param entityType entityType The type of the entity.
      * @param location The location of the entity on the geodesic surface.
      * @param once If true the entity only reacts once, after that the entity disappear from the game.
      */
-    public DetectableEntity(EntityType entityType, GeoPoint location, boolean once) {
-        super(entityType, location);
+    public DetectableEntity(GeoPoint location, boolean once) {
+        super(location);
         this.once = once;
     }
 

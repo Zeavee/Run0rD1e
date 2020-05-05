@@ -4,15 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -30,8 +28,8 @@ public class ItemBoxTest {
         player.setLocation(location);
         PlayerManager.getInstance().setCurrentUser(player);
         mockMapApi = new MockMapApi();
-        MapsActivity.setMapApi(mockMapApi);
-        mockMapApi.setCurrentLocation(location);
+        Game.getInstance().setMapApi(mockMapApi);
+        Game.getInstance().setRenderer(mockMapApi);
         Game.getInstance().clearGame();
     }
 
@@ -54,7 +52,7 @@ public class ItemBoxTest {
 
         Game.getInstance().update();
 
-        assertFalse(Game.getInstance().updatablesContains(itemBox));
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
         assertFalse(Game.getInstance().displayablesContains(itemBox));
         assertTrue(itemBox.isTaken());
     }
@@ -63,8 +61,8 @@ public class ItemBoxTest {
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("", "") {
             @Override
-            public EntityType getEntityType() {
-                return EntityType.NONE;
+            public Item clone() {
+                return null;
             }
 
             @Override

@@ -4,6 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -11,10 +14,11 @@ import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 
 public class MovingArtificialEntityTest {
     MockMapApi map;
@@ -22,8 +26,8 @@ public class MovingArtificialEntityTest {
     @Before
     public void setup(){
         map = new MockMapApi();
-        MapsActivity.setMapApi(map);
-        map.setCurrentLocation(new GeoPoint(40, 50));
+        Game.getInstance().setMapApi(map);
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
     }
 
     @Test
@@ -49,7 +53,7 @@ public class MovingArtificialEntityTest {
 
     @Test
     public void SinusMovementWorks() {
-        CartesianPoint initialPosition = PointConverter.geoPointToCartesianPoint(map.getCurrentLocation());
+        CartesianPoint initialPosition = PointConverter.geoPointToCartesianPoint(new GeoPoint(40, 50));
         MovingArtificialEntity movingArtificialEntity = new Enemy();
         movingArtificialEntity.setArea(new UnboundedArea());
         SinusoidalMovement movement = new SinusoidalMovement(initialPosition, 2, 2 * Math.PI / 4);
@@ -95,11 +99,23 @@ public class MovingArtificialEntityTest {
         movement.setVelocity(10);
         movingArtificialEntity.setMovement(movement);
 
+        for (int i = 0; i < 1000; ++i) {
+            movingArtificialEntity.update();
+            assertTrue(patrolBounds.isInside(movingArtificialEntity.getPosition()));
+        }
+    }
 
-        map.setCurrentLocation(entityLocation);
-//        for (int i = 0; i < 1000; ++i) {
-//            movingArtificialEntity.update();
-//            assertEquals(false, patrolBounds.isInside(movingArtificialEntity.getPosition()));
-//        }
+    @Test
+    public void setPositionWorks() {
+        CartesianPoint position = new CartesianPoint(10, 10);
+        Movement movement = new LinearMovement(position);
+        MovingArtificialEntity movingArtificialEntity = new MovingArtificialEntity(movement, new UnboundedArea(), true) {
+            @Override
+            public void displayOn(MapApi mapApi) {
+
+            }
+        };
+        movingArtificialEntity.setPosition(position);
+        assertEquals(position, movingArtificialEntity.getPosition());
     }
 }

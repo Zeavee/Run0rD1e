@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
@@ -21,13 +20,8 @@ public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements Serv
     }
 
     @Override
-    public void sendDamage(List<PlayerForFirebase> players, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-
-    }
-
-    @Override
-    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Boolean>> onValueReadyCallback) {
-
+    public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
+        
     }
 
     @Override

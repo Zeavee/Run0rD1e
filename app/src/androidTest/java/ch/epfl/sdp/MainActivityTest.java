@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -28,7 +29,7 @@ public class MainActivityTest {
 
     @Before
     public void setup(){
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
     }
 

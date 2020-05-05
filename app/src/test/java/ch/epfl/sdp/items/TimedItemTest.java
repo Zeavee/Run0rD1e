@@ -3,8 +3,11 @@ package ch.epfl.sdp.items;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.GoogleMapApi;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -12,7 +15,6 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
-import ch.epfl.sdp.map.MapsActivity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -25,7 +27,7 @@ public class TimedItemTest {
 
     @Before
     public void setup() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         Player player = new Player("","");
         PlayerManager.getInstance().setCurrentUser(player);
         user = PlayerManager.getInstance().getCurrentUser();
@@ -63,10 +65,10 @@ public class TimedItemTest {
     @Test
     public void scanGetsUpdated(){
         MockMapApi map = new MockMapApi();
-        MapsActivity.setMapApi(map);
+        Game.getInstance().setMapApi(map);
         PlayerManager.getInstance().addPlayer(user);
         Scan scan = new Scan(countTime);
-        scan.useOn();
+        scan.useOn(user);
 
         while (scan.getRemainingTime() > 0){
             assertFalse(map.getDisplayables().isEmpty());
@@ -86,7 +88,7 @@ public class TimedItemTest {
     public void shieldSetsShieldedWhenUpdated(){
         assertFalse(user.isShielded());
         Shield shield = new Shield(countTime);
-        shield.useOn();
+        shield.useOn(user);
 
         while (shield.getRemainingTime() > 0){
             assertTrue(user.isShielded());
@@ -107,7 +109,7 @@ public class TimedItemTest {
         Double originalRadius = user.getAoeRadius();
         int removeAoeRadius = 10;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
-        shrinker.useOn();
+        shrinker.useOn(user);
 
         while (shrinker.getRemainingTime() > 0){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);

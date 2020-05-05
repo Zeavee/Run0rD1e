@@ -42,7 +42,6 @@ public class ShelterAreaTest {
     public void basicTests() {
         ShelterArea shelterArea = createShelterArea();
         assertNotNull(shelterArea);
-        assertEquals(EntityType.SHELTER ,shelterArea.getEntityType());
         assertEquals(shelterLocation, shelterArea.getLocation());
         assertEquals(100, shelterArea.getAoeRadius(), 0);
         //Currently, none of the player should be in the shelter area as the shelter method was not called

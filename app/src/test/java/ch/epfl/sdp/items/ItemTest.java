@@ -3,7 +3,6 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Item;
 
@@ -17,8 +16,8 @@ public class ItemTest {
         item = new Item("ItemName", "ItemDescription") {
 
             @Override
-            public EntityType getEntityType() {
-                return EntityType.NONE;
+            public Item clone() {
+                return null;
             }
 
             @Override

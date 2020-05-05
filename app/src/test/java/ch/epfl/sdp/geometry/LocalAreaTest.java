@@ -2,16 +2,19 @@ package ch.epfl.sdp.geometry;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 
 public class LocalAreaTest {
     @Test
     public void testSetters() {
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         GeoPoint geoPoint = new GeoPoint(40, 50);
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
         CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(geoPoint);
         LocalArea localArea = new LocalArea(new UnboundedArea(), new CartesianPoint(0, 0));
         localArea.setArea(new UnboundedArea());

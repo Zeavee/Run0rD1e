@@ -1,8 +1,6 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 
 public class Coin extends Item {
     private int value;
@@ -14,15 +12,14 @@ public class Coin extends Item {
 
     @Override
     public void useOn(Player player) {
-        int currentMoney = PlayerManager.getInstance().getCurrentUser().money;
-        PlayerManager.getInstance().getCurrentUser().money = currentMoney + value;
+        player.addMoney(value);
+    }
+    public Item clone() {
+        return new Coin(value);
     }
 
     public int getValue() {
         return value;
     }
 
-    public EntityType getEntityType() {
-        return EntityType.COIN;
-    }
 }

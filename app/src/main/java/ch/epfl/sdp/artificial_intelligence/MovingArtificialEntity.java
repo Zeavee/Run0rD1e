@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import java.util.Random;
 
 import ch.epfl.sdp.entity.AoeRadiusMovingEntity;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CartesianPoint;
@@ -10,7 +11,6 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.map.MapsActivity;
 
 /**
  * Represents an entity of the game that can move automatically by setting a movement. The movement
@@ -41,9 +41,9 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      * Creates a default moving artificial entity, by specifying a movement, an area and if it's
      * already moving.
      *
-     * @param movement A m
-     * @param area
-     * @param moving
+     * @param movement the type of movement the entity use
+     * @param area the area the entity can move in
+     * @param moving a boolean that tell if the entity is moving
      */
     public MovingArtificialEntity(Movement movement, Area area, boolean moving) {
         super();
@@ -72,6 +72,7 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
 
     /**
      * Sets the forceMove flag.
+     *
      * @param forceMove A flag allowing the moving artificial entity to go outside the area.
      */
     public void setForceMove(boolean forceMove) {
@@ -80,6 +81,7 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
 
     /**
      * Sets the moving flag.
+     *
      * @param moving A flag allowing the moving artificial entity to move.
      */
     public void setMoving(boolean moving) {
@@ -95,6 +97,7 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
 
     /**
      * Gets the movement of the moving artificial entity.
+     *
      * @return A movement which defines the next position in the 2D plane.
      */
     public Movement getMovement() {
@@ -103,9 +106,10 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
 
     /**
      * Gets the movement of the moving artificial entity.
+     *
      * @param movement A movement which defines the next position in the 2D plane.
      */
-    public void setMovement(Movement movement){
+    public void setMovement(Movement movement) {
         this.movement = movement;
     }
 
@@ -114,7 +118,8 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
         CartesianPoint position = movement.nextPosition();
         if (area.isInside(position) || forceMove) {
             movement.setPosition(position);
-            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation()));
+            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getInstance().getCurrentUser().getLocation()));
+            //TODO change this
         } else {
             bounce();
         }

@@ -4,15 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.Trap;
-import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -30,14 +28,14 @@ public class TrapTest {
         opponent = new Player(39, 39, 100, "username2", "email2@email.com");
 
         MockMapApi mockMapApi = new MockMapApi();
-        MapsActivity.setMapApi(mockMapApi);
-        mockMapApi.setCurrentLocation(owner.getLocation());
+        Game.getInstance().setMapApi(mockMapApi);
 
         game = Game.getInstance();
+        game.setRenderer(new MockMapApi());
         game.initGame();
 
         trap = new Trap(10, 100);
-
+        PlayerManager.getInstance().removeAll();
         PlayerManager.getInstance().setCurrentUser(owner);
         PlayerManager.getInstance().addPlayer(opponent);
     }
@@ -59,7 +57,7 @@ public class TrapTest {
         Thread.sleep(1000);
         assertTrue(owner.getInventory().getItems().containsKey(trap));
         owner.setLocation(new GeoPoint(42, 42));
-        trap.useOn();
+        trap.useOn(owner);
         Thread.sleep(1000);
         assertEquals(100.0, opponent.getHealthPoints(), 0.01);
         opponent.setLocation(new GeoPoint(42, 42));
@@ -71,8 +69,7 @@ public class TrapTest {
     @Test
     public void trapCorrectlyImplementsDisplayable() {
         assertTrue(trap.isOnce());
-        assertEquals(EntityType.TRAP, trap.getEntityType());
-        trap.useOn();
+        trap.useOn(PlayerManager.getInstance().getCurrentUser());
         assertNotNull(trap.getLocation());
     }
 }

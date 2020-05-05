@@ -1,6 +1,6 @@
 package ch.epfl.sdp.geometry;
 
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.entity.PlayerManager;
 
 /**
  * Represents an area on the 2D plane that has a position.
@@ -44,7 +44,7 @@ public class LocalArea implements Area, Positionable {
      * @return The location of the localArea on the geodesic surface.
      */
     public GeoPoint getLocation() {
-        return PointConverter.cartesianPointToGeoPoint(position, MapsActivity.mapApi.getCurrentLocation());
+        return PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getInstance().getCurrentUser().getLocation());
     }
 
     @Override

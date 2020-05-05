@@ -2,6 +2,9 @@ package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
+import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -9,6 +12,7 @@ import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a hostile entity.
@@ -51,7 +55,6 @@ public class Enemy extends MovingArtificialEntity {
      * Creates a default enemy
      */
     public Enemy() {
-        super();
         super.setAoeRadius(1);
         super.getMovement().setVelocity(50);
         super.setMoving(true);
@@ -75,6 +78,15 @@ public class Enemy extends MovingArtificialEntity {
      */
     public Enemy(int id, LocalArea patrolBounds, Area maxBounds) {
         this(id, 10, 1, 1000, 50, patrolBounds, maxBounds);
+    }
+
+    /**
+     * @param patrolBounds The enemy's patrol area.
+     * @param maxBounds    The enemy's maximum visitable area.
+     */
+    public Enemy(LocalArea patrolBounds, Area maxBounds) {
+
+        this(0, 10, 1, 1000, 50, patrolBounds, maxBounds);
     }
 
     /**
@@ -196,7 +208,7 @@ public class Enemy extends MovingArtificialEntity {
             double attackRange = this.getAoeRadius();
             Player target = playerDetected(attackRange);
             if (target != null && !target.isShielded()) {
-                target.setHealthPoints(target.getHealthPoints() - damage*damageRate);
+                target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
 //                PlayerManager.getInstance().addPlayerWaitingHealth(target);
             } else {
                 setMoving(true);
@@ -326,8 +338,8 @@ public class Enemy extends MovingArtificialEntity {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.ENEMY;
+    public void displayOn(MapApi mapApi) {
+        mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
     }
 }
 

@@ -16,7 +16,6 @@ import ch.epfl.sdp.utils.DependencyFactory;
 
 
 public class MainActivity extends AppCompatActivity {
-
     private AuthenticationAPI authenticationAPI;
 
     @Override

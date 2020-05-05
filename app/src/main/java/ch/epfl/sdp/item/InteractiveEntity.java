@@ -1,46 +1,40 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Represents an entity with an active state and that is displayed on the map.
  */
 public abstract class InteractiveEntity implements Displayable {
-    private EntityType entityType;
     private GeoPoint location;
     private boolean active;
 
     /**
      * Creates an interactive entity.
-     *
-     * @param entityType The type of the entity.
      */
-    public InteractiveEntity(EntityType entityType) {
-        this(entityType,  RandomGenerator.randomLocationOnCircle(MapsActivity.mapApi.getCurrentLocation(), 1000) , false);
+    public InteractiveEntity() {
+        this(RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 1000) , false);
     }
 
     /**
      * Creates an interactive entity, by defining its location and if it is active.
-     * @param entityType The type of the entity.
+
      * @param location The location of the entity on the geodesic surface.
      */
-    public InteractiveEntity(EntityType entityType, GeoPoint location) {
-        this(entityType, location, false);
+    public InteractiveEntity(GeoPoint location) {
+        this(location, false);
     }
 
     /**
      * Creates an interactive entity, by defining its location and if it is active.
      *
-     * @param entityType The type of the entity.
      * @param location   The location of the entity on the geodesic surface.
      * @param active     The flag that tells if the entity is active or not.
      */
-    public InteractiveEntity(EntityType entityType, GeoPoint location, boolean active) {
-        this.entityType = entityType;
+    public InteractiveEntity(GeoPoint location, boolean active) {
         this.location = location;
         this.active = active;
     }
@@ -76,8 +70,4 @@ public abstract class InteractiveEntity implements Displayable {
         this.location = location;
     }
 
-    @Override
-    public EntityType getEntityType() {
-        return entityType;
-    }
 }

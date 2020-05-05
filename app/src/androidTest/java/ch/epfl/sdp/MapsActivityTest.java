@@ -4,12 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import androidx.core.content.ContextCompat;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -18,6 +12,12 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.HashMap;
 
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
@@ -25,6 +25,7 @@ import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.DependencyFactory;
@@ -38,16 +39,9 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
-
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;
-
-    @Before
-    public void setup() {
-        PlayerManager.getInstance().setCurrentUser(new Player("testMap", "testMap@gmail.com"));
-        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
-    }
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         try {
@@ -101,18 +95,26 @@ public class MapsActivityTest {
 
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
-            new ActivityTestRule<MapsActivity>(MapsActivity.class){
+            new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     DependencyFactory.setTestMode(true);
                     DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
                     HashMap<String, UserForFirebase> map = new HashMap<>();
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
-                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));                }
+                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));
+                }
             };
 
+    @Before
+    public void setup() {
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
+        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
+        mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
+    }
+
     @After
-    public void tearDown(){
+    public void tearDown() {
         DependencyFactory.setTestMode(false);
         DependencyFactory.setAuthenticationAPI(null);
         DependencyFactory.setCommonDatabaseAPI(null);
@@ -131,27 +133,27 @@ public class MapsActivityTest {
         PlayerManager.getInstance().removeAll(); // To remove
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
-        sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
     @Test
     public void inventoryOpens() {
-        onView(withId(R.id.button_inventory)).perform(click());
-        onView(withId(R.id.fragment_inventory_container)).check(matches(isDisplayed()));
+        testButtonWorks(R.id.button_inventory, R.id.fragment_inventory_container);
     }
 
     @Test
-    public void leaderboardOpens() throws InterruptedException {
-        onView(withId(R.id.button_leaderboard)).perform(click());
-        Thread.sleep(2000);
+    public void leaderboardOpens() {
+        testButtonWorks(R.id.button_leaderboard, R.id.recycler_view);
     }
 
     @Test
     public void moveCameraWorks() {
+        testButtonWorks(R.id.recenter, R.id.map);
+    }
+
+    private void testButtonWorks(int button, int view) {
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.recenter)).perform(click());
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+        onView(withId(button)).perform(click());
+        onView(withId(view)).check(matches(isDisplayed()));
     }
 }

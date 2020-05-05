@@ -3,9 +3,10 @@ package ch.epfl.sdp.item;
 import java.util.HashMap;
 import java.util.Map;
 
-import ch.epfl.sdp.entity.EntityType;
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a box that can store items and can be taken by players.
@@ -17,8 +18,8 @@ public class ItemBox extends DetectableEntity {
     /**
      * Creates an item box.
      */
-    public ItemBox() {
-        super(EntityType.ITEMBOX);
+    public ItemBox(){
+        super(false);
         this.items = new HashMap<>();
         taken = false;
     }
@@ -77,6 +78,16 @@ public class ItemBox extends DetectableEntity {
 
             PlayerManager.getInstance().addPlayerWaitingItems(player);
         }
+    }
+
+    /**
+     * Method for displaying the displayable on the map
+     *
+     * @param mapApi the API we can use to display the displayable on the map
+     */
+    @Override
+    public void displayOn(MapApi mapApi) {
+        mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
     }
 
     @Override

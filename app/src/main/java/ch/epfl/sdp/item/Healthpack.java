@@ -2,9 +2,7 @@ package ch.epfl.sdp.item;
 
 import android.util.Log;
 
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 
 /**
  * Class representing a healthpack
@@ -18,10 +16,13 @@ public class Healthpack extends Item {
         this.healthPackAmount = healthPackAmount;
     }
 
+    public Item clone() {
+        return new Healthpack(healthPackAmount);
+    }
+
     @Override
     public void useOn(Player player) {
         double increasedHP = player.getHealthPoints() + healthPackAmount;
-
         if (increasedHP > Player.getMaxHealth()) {
             increasedHP = Player.getMaxHealth();
         }
@@ -34,8 +35,4 @@ public class Healthpack extends Item {
         return this.healthPackAmount;
     }
 
-    @Override
-    public EntityType getEntityType() {
-        return EntityType.HEALTHPACK;
-    }
 }

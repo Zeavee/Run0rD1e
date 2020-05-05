@@ -1,11 +1,15 @@
 package ch.epfl.sdp.entity;
 
+import android.graphics.Color;
+
 import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
+import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.MapApi;
 
-public class Player extends AoeRadiusMovingEntity implements Positionable {
+public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
@@ -15,13 +19,13 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     private boolean isShielded;
     private Inventory inventory;
     private boolean isActive;
+    private int money;
     public int generalScore;
     public int currentGameScore;
     public double distanceTraveled;
     public double timeTraveled;
     public double distanceTraveledAtLastCheck;
     public double speed;
-    public int money;
 
     public Player(String username, String email) {
         this(0, 0, 10, username, email);
@@ -106,9 +110,14 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
     }
 
     @Override
-    public EntityType getEntityType() {
-        return EntityType.USER;
+    public void displayOn(MapApi mapApi) {
+        if (this == PlayerManager.getInstance().getCurrentUser()) {
+            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+        } else {
+            mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+        }
     }
+
 
     @Override
     public boolean isOnce() {
@@ -158,6 +167,40 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
 
     public void setGeneralScore(int generalScore) {
         this.generalScore = generalScore;
+    }
+
+    /**
+     * A method to get the player's money
+     * @return an int which is equal to the player's money
+     */
+    public int getMoney() {
+        return money;
+    }
+
+    /**
+     * A method to remove money from the player
+     * @param amount the amount of money we want to take from the player
+     * @return a boolean that tells if the transaction finished correctly
+     */
+    public boolean removeMoney(int amount) {
+        if (money < amount || amount < 0) {
+            return false;
+        }
+        money -= amount;
+        return true;
+    }
+
+    /**
+     * A method to add money to the player
+     * @param amount the amount of money we want to give to the player
+     * @return a boolean that tells if the transaction finished correctly
+     */
+    public boolean addMoney(int amount) {
+        if (amount < 0) {
+            return false;
+        }
+        money += amount;
+        return true;
     }
 
     /**

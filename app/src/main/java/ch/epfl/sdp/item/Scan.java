@@ -1,14 +1,22 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.EntityType;
-
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.Renderer;
 
-public class Scan extends TimedItem {
+public class Scan extends TimedItem  {
+    private int scanTime;
+    private Renderer renderer;
+
     public Scan(int scanTime) {
         super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
+        this.scanTime = scanTime;
+    }
+
+    @Override
+    public Item clone() {
+        return new Scan(scanTime);
     }
 
     @Override
@@ -16,18 +24,14 @@ public class Scan extends TimedItem {
         super.useOn(player);
 
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-            MapsActivity.mapApi.displayEntity(p);
+             p.displayOn(Game.getInstance().getMapApi());
         }
     }
 
-    @Override
     public void stopUsingOn(Player player) {
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-            MapsActivity.mapApi.unDisplayEntity(p);
+            p.unDisplayOn(Game.getInstance().getMapApi());
         }
     }
 
-    public EntityType getEntityType() {
-        return EntityType.SCAN;
-    }
 }

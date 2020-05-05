@@ -20,6 +20,7 @@ public class GameThread extends Thread{
         this.game = game;
     }
 
+
     /**
      * Get the actual state of the loop.
      * @return true if it is running, false otherwise.
@@ -94,13 +95,5 @@ public class GameThread extends Thread{
             // Print avergage FPS
             System.out.println("Average FPS: " + avgFPS);
         }
-    }
-
-    public long getTotalTime() {
-        return totalTime;
-    }
-
-    public int getFPS() {
-        return FPS;
     }
 }

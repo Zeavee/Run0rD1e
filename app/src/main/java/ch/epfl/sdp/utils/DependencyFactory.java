@@ -10,12 +10,14 @@ import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.authentication.FirebaseAuthenticationAPI;
+import ch.epfl.sdp.map.Renderer;
 
 public class DependencyFactory {
     private static AuthenticationAPI authenticationAPI;
     private static CommonDatabaseAPI commonDatabaseAPI;
     private static ServerDatabaseAPI serverDatabaseAPI;
     private static ClientDatabaseAPI clientDatabaseAPI;
+    private static Renderer renderer;
     private static boolean testMode = false;
 
     public static void setTestMode(boolean testMode) {
@@ -73,5 +75,12 @@ public class DependencyFactory {
             return clientDatabaseAPI;
         }
         return new ClientFirestoreDatabaseAPI();
+    }
+
+    public static Renderer getRenderer() {
+        return renderer;
+    }
+    public static void setRenderer(Renderer newRender) {
+        renderer = newRender;
     }
 }

@@ -3,17 +3,16 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.entity.EntityType;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +28,7 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        MapsActivity.setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMapApi());
         playerManager = new PlayerManager();
         player = new Player("","");
         PlayerManager.getInstance().addPlayer(player);
@@ -47,7 +46,7 @@ public class ItemsTest {
         Healthpack healthpack = new Healthpack(1);
 
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
-        healthpack.useOn();
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
@@ -56,21 +55,19 @@ public class ItemsTest {
     public void ifItemNotInInventoryNothingHappens() {
         Player player = new Player(6.149290, 46.212470, 50,
                 "Skyris", "test@email.com"); //player position is in Geneva
-        player.getInventory().removeItem(new Healthpack(0));
+        player.getInventory().removeItem(new Healthpack(0).getName());
         assertEquals(0, player.getInventory().getItems().size());
     }
 
     @Test
     public void shieldTest() {
         assertEquals(40, shield.getRemainingTime(), 0);
-        assertEquals(EntityType.SHIELD, shield.getEntityType());
     }
 
     @Test
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertEquals(EntityType.SHRINKER, shrinker.getEntityType());
     }
 
 
@@ -78,26 +75,18 @@ public class ItemsTest {
     public void increaseHealth() {
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
         PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
-        healthpack.useOn();
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
         assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
-        healthpack.useOn();
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
         assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
     }
 
     @Test
-    public void scanTest() {
-        scan.useOn();
-        assertEquals(EntityType.SCAN, scan.getEntityType());
-    }
-
-    @Test
     public void coinTest() {
-        PlayerManager.getInstance().getCurrentUser().money = 0;
+        PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
         Coin c = new Coin(5);
         assertTrue(5 == c.getValue());
-        c.useOn();
-        assertTrue(PlayerManager.getInstance().getCurrentUser().money == 5);
-        assertEquals(c.getEntityType(), EntityType.COIN);
-
+        c.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getMoney() == 5);
     }
 }

@@ -1,12 +1,11 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.Entity;
 import ch.epfl.sdp.entity.Player;
 
 /**
  * Represent a game item, which can have an effect on the game.
  */
-public abstract class Item implements Entity {
+public abstract class Item implements Cloneable {
     private final String name;
     private final String description;
 
@@ -20,6 +19,9 @@ public abstract class Item implements Entity {
         this.name = name;
         this.description = description;
     }
+
+    @Override
+    public abstract Item clone();
 
     /**
      * Gets the name of the item.
