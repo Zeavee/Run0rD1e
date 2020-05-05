@@ -137,11 +137,6 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
     }
 
     @Override
-    public boolean isOnce() {
-        return false;
-    }
-
-    @Override
     public void update() {
         if (moving) {
             move();

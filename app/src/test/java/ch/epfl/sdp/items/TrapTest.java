@@ -47,11 +47,10 @@ public class TrapTest {
 
     @Test
     public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
-        ItemBox itemBox = new ItemBox();
+        ItemBox itemBox = new ItemBox(new GeoPoint(41, 41));
         Game.getInstance().addToUpdateList(itemBox);
         Game.getInstance().addToDisplayList(itemBox);
         itemBox.putItems(trap, 1);
-        itemBox.setLocation(new GeoPoint(41, 41));
 
         owner.setLocation(new GeoPoint(41, 41));
         Thread.sleep(1000);
@@ -68,7 +67,6 @@ public class TrapTest {
 
     @Test
     public void trapCorrectlyImplementsDisplayable() {
-        assertTrue(trap.isOnce());
         trap.useOn(PlayerManager.getInstance().getCurrentUser());
         assertNotNull(trap.getLocation());
     }

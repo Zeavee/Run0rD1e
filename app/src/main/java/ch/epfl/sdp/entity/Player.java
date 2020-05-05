@@ -118,12 +118,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         }
     }
 
-
-    @Override
-    public boolean isOnce() {
-        return false;
-    }
-
     @Override
     public CartesianPoint getPosition() {
         return position;

@@ -151,16 +151,14 @@ public class Server implements Updatable {
     public void initItemBoxes() {
         // ItemBox -------------------------------------------
         Healthpack healthpack = new Healthpack(10);
-        ItemBox itemBox = new ItemBox();
+        ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
         itemBox.putItems(healthpack, 2);
-        itemBox.setLocation(new GeoPoint(6.14, 46.22));
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
 
         Healthpack healthpack1 = new Healthpack(10);
-        ItemBox itemBox1 = new ItemBox();
+        ItemBox itemBox1 = new ItemBox(new GeoPoint(6.1488, 46.2125));
         itemBox1.putItems(healthpack1, 1);
-        itemBox1.setLocation(new GeoPoint(6.1488, 46.2125));
         Game.getInstance().addToDisplayList(itemBox1);
         Game.getInstance().addToUpdateList(itemBox1);
 

@@ -77,11 +77,6 @@ public class MarketTest {
         assertFalse(market.buy(b, buyer));
     }
 
-    @Test
-    public void marketDisplayedForever(){
-        assertFalse(market.isOnce());
-    }
-
     @After
     public void tearDown(){
         PlayerManager.getInstance().setCurrentUser(originalPlayer);

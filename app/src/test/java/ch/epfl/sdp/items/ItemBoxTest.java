@@ -40,7 +40,7 @@ public class ItemBoxTest {
 
     @Test
     public void takingItemBoxMakesItDisappear(){
-        ItemBox itemBox = new ItemBox();
+        ItemBox itemBox = new ItemBox(new GeoPoint(0,0));
         itemBox.setLocation(location);
 
         Game.getInstance().addToUpdateList(itemBox);
@@ -74,7 +74,7 @@ public class ItemBoxTest {
         assertFalse(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item));
 
         for (int i = 0; i < 2; ++i) {
-            ItemBox itemBox = new ItemBox();
+            ItemBox itemBox = new ItemBox(new GeoPoint(0,0));
 
             itemBox.setLocation(location);
             itemBox.putItems(item, 1);

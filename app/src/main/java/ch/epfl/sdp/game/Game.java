@@ -16,10 +16,10 @@ public class Game implements Updatable {
     private ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
-    private static Game instance = new Game();
-    private ArrayList<Displayable> displayablesOnce;
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
+
+    private static Game instance = new Game();
 
     /**
      * Gets one and only instance of the game.
@@ -38,7 +38,6 @@ public class Game implements Updatable {
         updatables = new ArrayList<>();
         displayables = new ArrayList<>();
         scoreUpdater = new ScoreUpdater();
-        displayablesOnce = new ArrayList<>();
     }
 
     /**
@@ -117,13 +116,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
-        displayable.displayOn(mapApi);
-
-        if (displayable.isOnce()) {
-            displayablesOnce.add(displayable);
-        } else {
             displayables.add(displayable);
-        }
     }
 
     /**
@@ -132,9 +125,8 @@ public class Game implements Updatable {
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
-        displayable.unDisplayOn(mapApi);
+        renderer.unDisplay(displayable);
         displayables.remove(displayable);
-        displayablesOnce.remove(displayable);
     }
 
     /**
@@ -173,15 +165,6 @@ public class Game implements Updatable {
      */
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
-    }
-
-    /**
-     * Gets the list of displayables that are only displayed once.
-     *
-     * @return A list with all the displayables that are only displayed once.
-     */
-    public ArrayList<Displayable> getDisplayablesOnce() {
-        return displayablesOnce;
     }
 
     /**

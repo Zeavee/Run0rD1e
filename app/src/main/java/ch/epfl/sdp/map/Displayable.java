@@ -28,11 +28,4 @@ public interface Displayable {
     default void unDisplayOn(MapApi mapApi) {
         mapApi.removeMarkers(this);
     }
-
-    /**
-     * Method to decide if the entity must be displayed only once.
-     *
-     * @return True if the entity should be displayed only once.
-     */
-    boolean isOnce();
 }

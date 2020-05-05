@@ -3,11 +3,9 @@ package ch.epfl.sdp.item;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.map.Renderer;
 
 public class Scan extends TimedItem  {
     private int scanTime;
-    private Renderer renderer;
 
     public Scan(int scanTime) {
         super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);

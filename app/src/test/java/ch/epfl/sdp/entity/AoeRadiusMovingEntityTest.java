@@ -11,8 +11,6 @@ public class AoeRadiusMovingEntityTest {
 
         aoeRadiusMovingEntity.setAoeRadius(22);
         assertEquals(22, aoeRadiusMovingEntity.getAoeRadius(), 0.01);
-
-        assertEquals(false, aoeRadiusMovingEntity.isOnce());
     }
 
 }

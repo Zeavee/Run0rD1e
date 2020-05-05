@@ -151,8 +151,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
         }
 
-        display(Game.getInstance().getDisplayablesOnce());
-
         Log.d("Database", "Quit map ready");
     }
 

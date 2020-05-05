@@ -49,9 +49,6 @@ public class ShelterAreaTest {
         assertFalse(shelterArea.isInShelterArea(player2));
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));
-
-        assertFalse(shelterArea.isOnce());
-
     }
 
     @Test

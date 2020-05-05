@@ -28,10 +28,14 @@ public class Inventory {
      * @param itemName The name of the item to be added.
      */
     public void addItem(String itemName) {
+        this.addItem(itemName, 1);
+    }
+
+    public void addItem(String itemName, int quantity) {
         if(items.containsKey(itemName)) {
-            items.put(itemName, 1 + items.get(itemName));
-        }else {
-            items.put(itemName, 1);
+            items.put(itemName, quantity + items.get(itemName));
+        } else {
+            items.put(itemName, quantity);
         }
     }
 
@@ -47,15 +51,6 @@ public class Inventory {
                 items.remove(itemName);
             }
         }
-    }
-
-    /**
-     * Sets a given quatity to the given item.
-     * @param itemName The  name of the item to be set.
-     * @param nb The quantity to be set.
-     */
-    public void setItemQuantity(String itemName, int nb) {
-        this.items.put(itemName, nb);
     }
 
     /**

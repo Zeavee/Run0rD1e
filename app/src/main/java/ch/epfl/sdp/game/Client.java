@@ -141,8 +141,7 @@ public class Client implements Updatable {
                             }
                         } else {
                             if (!taken) {
-                                ItemBox itemBox = new ItemBox();
-                                itemBox.setLocation(location);
+                                ItemBox itemBox = new ItemBox(location);
                                 Game.getInstance().addToDisplayList(itemBox);
                                 ItemBoxManager.getInstance().addItemBoxWithId(itemBox, id);
                             }

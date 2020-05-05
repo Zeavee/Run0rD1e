@@ -6,22 +6,29 @@ import java.util.Map;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a box that can store items and can be taken by players.
  */
-public class ItemBox extends DetectableEntity {
+public class ItemBox implements Displayable, Updatable {
     private Map<String, Integer> items;
+    private GeoPoint location;
     private boolean taken;
+    private boolean isDisplayed;
 
     /**
      * Creates an item box.
      */
-    public ItemBox(){
-        super(false);
+    public ItemBox(GeoPoint location) {
         this.items = new HashMap<>();
+        this.location = location;
         taken = false;
+        isDisplayed = false;
     }
 
     /**
@@ -44,40 +51,16 @@ public class ItemBox extends DetectableEntity {
     }
 
     /**
-     * Takes the items from the item box and put them in the user's inventory.
+     * Reacts to a detection.
+     *
+     * @param player The player that has detected the entity.
      */
-   /* public void take(Player player) {
-        taken = true;
-        int quantity = 0;
-        for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
-            quantity = itemQuant.getValue();
-
-            if (player.getInventory().getItems().containsKey(itemQuant.getKey())) {
-                quantity += player.getInventory().getItems().get(itemQuant.getKey());
-            }
-
-            player.getInventory().setItemQuantity(itemQuant.getKey(), quantity);
-        }
-    }*/
-
-
-    @Override
     public void react(Player player) {
-        if(!taken) {
-            taken = true;
-            int quantity;
-            for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
-                quantity = itemQuant.getValue();
-
-                if (player.getInventory().getItems().containsKey(itemQuant.getKey())) {
-                    quantity += player.getInventory().getItems().get(itemQuant.getKey());
-                }
-
-                player.getInventory().setItemQuantity(itemQuant.getKey(), quantity);
-            }
-
-            PlayerManager.getInstance().addPlayerWaitingItems(player);
+        for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
+            player.getInventory().addItem(itemQuant.getKey(), itemQuant.getValue());
         }
+        taken = true;
+        PlayerManager.getInstance().addPlayerWaitingItems(player);
     }
 
     /**
@@ -87,11 +70,39 @@ public class ItemBox extends DetectableEntity {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
+        // The locatioon of the itemBox will never change, we only need to display once
+        if(!isDisplayed) {
+            mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
+            isDisplayed = true;
+        }
     }
 
     @Override
-    public boolean isOnce() {
-        return true;
+    public void update() {
+        if (!taken) {
+            PlayerManager playerManager = PlayerManager.getInstance();
+            for (Player player : playerManager.getPlayers()) {
+                if (this.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 1) {
+                    react(player);
+                    Game.getInstance().removeCurrentFromUpdateList();
+                    Game.getInstance().removeFromDisplayList(this);
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public GeoPoint getLocation() {
+        return location;
+    }
+
+    /**
+     * Sets the location of the entity on the geodesic surface.
+     *
+     * @param location The location on the geodesic surface.
+     */
+    public void setLocation(GeoPoint location) {
+        this.location = location;
     }
 }

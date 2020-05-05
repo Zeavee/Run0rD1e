@@ -74,9 +74,4 @@ public class Trap extends Item implements Updatable, Displayable {
     public void displayOn(MapApi mapApi) {
         mapApi.displaySmallIcon(this, "My trap", R.drawable.trap);
     }
-
-    @Override
-    public boolean isOnce() {
-        return true;
-    }
 }
