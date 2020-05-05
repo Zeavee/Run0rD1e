@@ -197,7 +197,7 @@ public class Enemy extends MovingArtificialEntity {
             Player target = playerDetected(attackRange);
             if (target != null && !target.isShielded()) {
                 target.setHealthPoints(target.getHealthPoints() - damage*damageRate);
-                PlayerManager.getInstance().addPlayerWaitingHealth(target);
+//                PlayerManager.getInstance().addPlayerWaitingHealth(target);
             } else {
                 setMoving(true);
                 behaviour = Behaviour.CHASE;

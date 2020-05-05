@@ -137,7 +137,7 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingHealth(Player player) {
-        if (!currentUser.getEmail().equals(player.getEmail())) {
+        if (currentUser != null && !currentUser.getEmail().equals(player.getEmail())) {
             playersWaitingHealthPoint.add(player);
         }
     }

@@ -2,8 +2,11 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -12,6 +15,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -155,18 +159,22 @@ public class Client implements Updatable {
     }
 
     public void sendUsedItems() {
-        Map<String, Integer> usedItems = PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems();
+//        Map<String, Integer> usedItems = PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems();
 
-        if (!usedItems.isEmpty()) {
+        if (!PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems().isEmpty()) {
             HashMap hashMap = new HashMap();
-            hashMap.put("usedItems", usedItems);
+            hashMap.put("usedItems", PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems());
+            hashMap.put("timeStamp", new Date(System.currentTimeMillis()));
 
             firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                     .document(playerManager.getLobbyDocumentName())
                     .collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
-                    .set(hashMap);
-
-            PlayerManager.getInstance().getCurrentUser().getInventory().clearUsedItems();
+                    .set(hashMap)
+                    .addOnSuccessListener(aVoid -> {
+                        Log.d(TAG, "sendUsedItems: Succeed");
+                        PlayerManager.getInstance().getCurrentUser().getInventory().clearUsedItems();
+                    })
+                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: failed"));
         }
     }
 

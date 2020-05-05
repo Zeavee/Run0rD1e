@@ -54,7 +54,7 @@ public class ClientFirestoreDatabaseAPI extends CommonFirestoreDatabaseAPI imple
         AtomicBoolean flag = new AtomicBoolean(false);
         ListenerRegistration ListenerRegistration = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName())
                 .addSnapshotListener((documentSnapshot, e) -> {
-                    if((Boolean) documentSnapshot.get("startGame") && !flag.get()) {
+                    if (documentSnapshot != null && (Boolean) documentSnapshot.get("startGame") && !flag.get()) {
                         flag.set(true);
                         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                     }

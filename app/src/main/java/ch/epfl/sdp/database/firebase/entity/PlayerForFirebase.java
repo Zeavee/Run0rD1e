@@ -17,8 +17,6 @@ public class PlayerForFirebase {
     private double aoeRadius;
     private double healthPoints;
     private int currentGameScore;
-    private Map<String, Integer> usedItems;
-    private Map<String, Integer> items;
     @ServerTimestamp
     private Timestamp timestamp;
 
@@ -133,38 +131,6 @@ public class PlayerForFirebase {
      */
     public void setCurrentGameScore(int currentGameScore) {
         this.currentGameScore = currentGameScore;
-    }
-
-    /**
-     * Get the items used by the user.
-     * @return The items used by the user.
-     */
-    public Map<String, Integer> getUsedItems() {
-        return usedItems;
-    }
-
-    /**
-     * Set the items used by the user.
-     * @param usedItems The items used by the user.
-     */
-    public void setUsedItems(Map<String, Integer> usedItems) {
-        this.usedItems = usedItems;
-    }
-
-    /**
-     * Get the items owned by the user.
-     * @return The items owned by the user.
-     */
-    public Map<String, Integer> getItems() {
-        return items;
-    }
-
-    /**
-     * Set the items owned by the user.
-     * @param items The items owned by the user.
-     */
-    public void setItems(Map<String, Integer> items) {
-        this.usedItems = items;
     }
 
     /**

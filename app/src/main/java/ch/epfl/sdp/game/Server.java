@@ -152,11 +152,20 @@ public class Server implements Updatable {
         // ItemBox -------------------------------------------
         Healthpack healthpack = new Healthpack(10);
         ItemBox itemBox = new ItemBox();
-        itemBox.putItems(healthpack, 1);
+        itemBox.putItems(healthpack, 2);
         itemBox.setLocation(new GeoPoint(6.14, 46.22));
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
+
+        Healthpack healthpack1 = new Healthpack(10);
+        ItemBox itemBox1 = new ItemBox();
+        itemBox1.putItems(healthpack1, 1);
+        itemBox1.setLocation(new GeoPoint(6.1488, 46.2125));
+        Game.getInstance().addToDisplayList(itemBox1);
+        Game.getInstance().addToUpdateList(itemBox1);
+
         ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
+        ItemBoxManager.getInstance().addItemBox(itemBox1);
         //  -------------------------------------------
 
         sendItemBoxes(); // send them
@@ -180,6 +189,7 @@ public class Server implements Updatable {
                 for (Map.Entry<String, Long> item : usedItems.entrySet()) {
                     for (int i = 0; i < item.getValue().intValue(); ++i) {
                         itemFactory.getItem(item.getKey()).useOn(PlayerManager.getInstance().getPlayersMap().get(email));
+                        PlayerManager.getInstance().getPlayersMap().get(email).getInventory().removeItem(item.getKey());
                     }
                 }
 

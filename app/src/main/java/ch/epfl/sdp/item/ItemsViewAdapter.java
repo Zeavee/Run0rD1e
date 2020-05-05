@@ -11,6 +11,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
 
@@ -42,13 +43,13 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(itemName);
         holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         holder.button.setOnClickListener(v -> {
-           if(PlayerManager.getInstance().isServer()) {
+            if (PlayerManager.getInstance().isServer()) {
                 itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
-            }else{
-               PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
-           }
+            } else {
+                PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
+            }
 
-            PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
+//            PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
 
             // Update the quantity of that item
             holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
@@ -61,17 +62,15 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
     }
 
     public class ItemsViewHolder extends RecyclerView.ViewHolder {
-//        ImageView image;
         private TextView name;
         private TextView amountOfItem;
         private Button button;
 
-    public ItemsViewHolder(@NonNull View itemView) {
-        super(itemView);
-//      image = itemView.findViewById(R.id.image_view);
-        name = itemView.findViewById(title);
-        button = itemView.findViewById(useitem);
-        amountOfItem = itemView.findViewById(amount);
+        public ItemsViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = itemView.findViewById(title);
+            button = itemView.findViewById(useitem);
+            amountOfItem = itemView.findViewById(amount);
 
         }
     }

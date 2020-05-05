@@ -76,6 +76,7 @@ public class Player extends AoeRadiusMovingEntity implements Positionable {
             healthPoints = 0;
             alive = false;
         }
+        PlayerManager.getInstance().addPlayerWaitingHealth(this);
     }
 
     public boolean isShielded() {
