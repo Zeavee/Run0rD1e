@@ -124,6 +124,11 @@ public class MapsActivityTest {
     }
 
     @Test
+    public void weatherOpens() {
+        testButtonWorks(R.id.button_weather, R.id.temp);
+    }
+
+    @Test
     public void moveCameraWorks() {
         testButtonWorks(R.id.recenter, R.id.map);
     }

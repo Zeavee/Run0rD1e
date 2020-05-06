@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.WeatherActivity;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
@@ -78,6 +79,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Button mapButton = findViewById(R.id.recenter);
         mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
+
+        Button weather = findViewById(R.id.button_weather);
+        weather.setOnClickListener(v -> startActivity(new Intent(MapsActivity.this, WeatherActivity.class)));
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
