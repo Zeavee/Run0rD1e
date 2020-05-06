@@ -6,16 +6,12 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.EntityConverter;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -154,31 +150,47 @@ public class Client implements Updatable {
         });
     }
 
-    public void sendUsedItems() {
+    public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
 //        Map<String, Integer> usedItems = PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems();
+//
+//        if (!usedItems.isEmpty()) {
+//            HashMap hashMap = new HashMap();
+//            hashMap.put("usedItems", PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems());
+//            hashMap.put("timeStamp", new Date(System.currentTimeMillis()));
+//
+//            firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
+//                    .document(playerManager.getLobbyDocumentName())
+//                    .collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
+//                    .set(hashMap)
+//                    .addOnSuccessListener(aVoid -> {
+//                        Log.d(TAG, "sendUsedItems: Succeed");
+//                        PlayerManager.getInstance().getCurrentUser().getInventory().clearUsedItems();
+//
+//                    })
+//                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: failed"));
 
-        if (!PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems().isEmpty()) {
-            HashMap hashMap = new HashMap();
-            hashMap.put("usedItems", PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems());
-            hashMap.put("timeStamp", new Date(System.currentTimeMillis()));
 
             firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
                     .document(playerManager.getLobbyDocumentName())
                     .collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
-                    .set(hashMap)
+                    .set(itemsForFirebase)
                     .addOnSuccessListener(aVoid -> {
                         Log.d(TAG, "sendUsedItems: Succeed");
-                        PlayerManager.getInstance().getCurrentUser().getInventory().clearUsedItems();
                     })
                     .addOnFailureListener(e -> Log.d(TAG, "onFailure: failed"));
-        }
+
     }
 
     @Override
     public void update() {
         if (counter <= 0) {
             sendUserPosition();
-            sendUsedItems();
+            Map<String, Integer> usedItems = PlayerManager.getInstance().getCurrentUser().getInventory().getUsedItems();
+            if(!usedItems.isEmpty()) {
+                sendUsedItems(EntityConverter.convertItems(usedItems));
+                PlayerManager.getInstance().getCurrentUser().getInventory().clearUsedItems();
+            }
+//            sendUsedItems();
             counter = 2 * GameThread.FPS + 1;
         }
 
