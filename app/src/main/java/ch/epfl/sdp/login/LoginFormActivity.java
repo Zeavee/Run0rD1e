@@ -27,7 +27,7 @@ public class LoginFormActivity extends AppCompatActivity {
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
         // If the user has already logged in, go to MainActivity directly
-        if(authenticationAPI.getCurrentUserEmail() != null) {
+        if (authenticationAPI.getCurrentUserEmail() != null) {
             startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
         }
     }

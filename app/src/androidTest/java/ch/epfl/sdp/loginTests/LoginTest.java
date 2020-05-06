@@ -45,6 +45,12 @@ public class LoginTest {
         password = "password";
 
         ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);
+
+        try {
+            onView(withId(R.id.logoutBt)).perform(click());
+        } catch (Exception ignored) {
+            //We ignore the exceptions here because we just want to get back if a user was already logged in (can happen in the first test)
+        }
     }
 
     @Test
