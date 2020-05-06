@@ -34,16 +34,13 @@ public class LoginTest {
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
-            new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class) {
-                @Override
-                protected void beforeActivityLaunched() {
-                    registeredUsers = new HashMap<>();
-                    registeredUsers.put("amro.abdrabo@gmail.com", "password");
-                }
-            };
+            new ActivityTestRule<>(LoginFormActivity.class);
 
     @Before
     public void setUp() {
+        registeredUsers = new HashMap<>();
+        registeredUsers.put("amro.abdrabo@gmail.com", "password");
+
         email = "amro.abdrabo@gmail.com";
         password = "password";
 
