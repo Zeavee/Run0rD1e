@@ -1,5 +1,5 @@
 //package ch.epfl.sdp;
-
+/*
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -19,8 +19,8 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-//import static ch.epfl.sdp.MapsActivityTest.allowPermissionsIfNeeded;
-/*
+
+
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     @Rule
@@ -37,9 +37,7 @@ public class MainActivityTest {
     public void teardown(){
         PlayerManager.getInstance().setCurrentUser(null);
     }
-    */
 
-/*
     @Test
     public void rulesOpens() {
         onView(withId(R.id.rulesButton)).perform(click());
@@ -50,7 +48,7 @@ public class MainActivityTest {
     public void friendsListOpens() {
         onView(withId(R.id.friendsButton)).perform(click());
         onView(withId(R.id.app_bar)).check(matches(isDisplayed()));
-    }*/
+    }
 
     /*@Test
     public void mapsOpens() {
@@ -63,6 +61,4 @@ public class MainActivityTest {
     public void leaderboardOpens() {
         onView(withId(R.id.leaderboard)).perform(click());
     }
-
-
 }*/
