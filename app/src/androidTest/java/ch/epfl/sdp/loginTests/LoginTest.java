@@ -1,5 +1,6 @@
 package ch.epfl.sdp.loginTests;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import java.util.HashMap;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
@@ -34,23 +36,20 @@ public class LoginTest {
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
-            new ActivityTestRule<>(LoginFormActivity.class);
+            new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class) {
+                @Override
+                protected void beforeActivityLaunched() {
+                    registeredUsers = new HashMap<>();
+                    registeredUsers.put("amro.abdrabo@gmail.com", "password");
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);
+                }
+            };
 
     @Before
     public void setUp() {
-        registeredUsers = new HashMap<>();
-        registeredUsers.put("amro.abdrabo@gmail.com", "password");
-
         email = "amro.abdrabo@gmail.com";
         password = "password";
-
-        ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);
-
-        try {
-            onView(withId(R.id.logoutBt)).perform(click());
-        } catch (Exception ignored) {
-            //We ignore the exceptions here because we just want to get back if a user was already logged in (can happen in the first test)
-        }
     }
 
     @Test

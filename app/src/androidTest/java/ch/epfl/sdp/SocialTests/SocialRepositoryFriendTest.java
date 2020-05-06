@@ -39,12 +39,6 @@ public class SocialRepositoryFriendTest {
         protected void beforeActivityLaunched() {
             PlayerManager.setCurrentUser(new Player("mock", "mock@mock.com"));
         }
-
-        @Override
-        protected void afterActivityLaunched() {
-
-        }
-
     };
 
     @Before

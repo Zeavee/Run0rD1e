@@ -1,5 +1,6 @@
 package ch.epfl.sdp.SocialTests;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
@@ -42,20 +43,24 @@ public class SocialRepositoryChatTest {
             new User("sen@gmail.com"),
             new User("peilin@gmail.com"),
             new User("rafael@gmail.com"));
+    private String currentUserEmail;
 
 
     @Rule
-    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class);
+    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class) {
+        @Override
+        protected void beforeActivityLaunched() {
+            AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+            appContainer.remoteToSQLiteAdapter = MockServerToSQLiteAdapter.getInstance();
+            appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
+            appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro@gmail.com");
+            currentUserEmail = appContainer.authenticationAPI.getCurrentUserEmail();
+        }
+    };
 
     @Before
     public void setup() {
-        // Mocking the server that loads remote messages
-        AppContainer appContainer = ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer;
-        appContainer.remoteToSQLiteAdapter = MockServerToSQLiteAdapter.getInstance();
-        appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
-        appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro@gmail.com");
-
-        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), appContainer.authenticationAPI.getCurrentUserEmail());
+        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), currentUserEmail);
         prepopulateDatabase();
     }
 
