@@ -20,11 +20,14 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class WeatherActivity extends AppCompatActivity {
-    String API = "b840e4c524a759fd39f896b665f92de0";
+    private String API = "b840e4c524a759fd39f896b665f92de0";
 
-    TextView addressTxt, updated_atTxt, statusTxt, tempTxt, temp_minTxt, temp_maxTxt, sunriseTxt,
+    private TextView addressTxt, updated_atTxt, statusTxt, tempTxt, temp_minTxt, temp_maxTxt, sunriseTxt,
             sunsetTxt, windTxt, pressureTxt, humidityTxt;
 
+    long updatedAt, sunrise, sunset;
+    String updatedAtText, temp, tempMin,  tempMax, pressure, humidity, windSpeed, weatherDescription, address;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +66,6 @@ public class WeatherActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
-
             try {
                 JSONObject jsonObj = new JSONObject(result);
                 JSONObject main = jsonObj.getJSONObject("main");
@@ -72,45 +73,45 @@ public class WeatherActivity extends AppCompatActivity {
                 JSONObject wind = jsonObj.getJSONObject("wind");
                 JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
 
-                long updatedAt = jsonObj.getLong("dt");
-                String updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(new Date(updatedAt * 1000));
-                String temp = main.getString("temp") + "°C";
-                String tempMin = "Min Temp: " + main.getString("temp_min") + "°C";
-                String tempMax = "Max Temp: " + main.getString("temp_max") + "°C";
-                String pressure = main.getString("pressure");
-                String humidity = main.getString("humidity");
+                updatedAt = jsonObj.getLong("dt");
+                updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(new Date(updatedAt * 1000));
+                temp = main.getString("temp") + "°C";
+                tempMin = "Min Temp: " + main.getString("temp_min") + "°C";
+                tempMax = "Max Temp: " + main.getString("temp_max") + "°C";
+                pressure = main.getString("pressure");
+                humidity = main.getString("humidity");
 
-                long sunrise = sys.getLong("sunrise");
-                long sunset = sys.getLong("sunset");
-                String windSpeed = wind.getString("speed");
-                String weatherDescription = weather.getString("description");
+                sunrise = sys.getLong("sunrise");
+                sunset = sys.getLong("sunset");
+                windSpeed = wind.getString("speed");
+                weatherDescription = weather.getString("description");
 
-                String address = jsonObj.getString("name") + ", " + sys.getString("country");
+                address = jsonObj.getString("name") + ", " + sys.getString("country");
 
-
-                /* Populating extracted data into our views */
-                addressTxt.setText(address);
-                updated_atTxt.setText(updatedAtText);
-                statusTxt.setText(weatherDescription.toUpperCase());
-                tempTxt.setText(temp);
-                temp_minTxt.setText(tempMin);
-                temp_maxTxt.setText(tempMax);
-                sunriseTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunrise * 1000)));
-                sunsetTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunset * 1000)));
-                windTxt.setText(windSpeed);
-                pressureTxt.setText(pressure);
-                humidityTxt.setText(humidity);
+                putDataInLayout();
 
                 /* Views populated, Hiding the loader, Showing the main design */
                 findViewById(R.id.loader).setVisibility(View.GONE);
                 findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
 
-
             } catch (JSONException e) {
                 findViewById(R.id.loader).setVisibility(View.GONE);
                 findViewById(R.id.errorText).setVisibility(View.VISIBLE);
             }
+        }
 
+        private void putDataInLayout() {
+            addressTxt.setText(address);
+            updated_atTxt.setText(updatedAtText);
+            statusTxt.setText(weatherDescription.toUpperCase());
+            tempTxt.setText(temp);
+            temp_minTxt.setText(tempMin);
+            temp_maxTxt.setText(tempMax);
+            sunriseTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunrise * 1000)));
+            sunsetTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunset * 1000)));
+            windTxt.setText(windSpeed);
+            pressureTxt.setText(pressure);
+            humidityTxt.setText(humidity);
         }
     }
 }
