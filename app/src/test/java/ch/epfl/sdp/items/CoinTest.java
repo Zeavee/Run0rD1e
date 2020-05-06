@@ -28,7 +28,6 @@ public class CoinTest {
         Coin dime  = new Coin(10);
         dime.useOn(broke);
         assertTrue(broke.getMoney() == dime.getValue());
-       // PlayerManager.getInstance().setCurrentUser(originalPlayer);
     }
 
 }
