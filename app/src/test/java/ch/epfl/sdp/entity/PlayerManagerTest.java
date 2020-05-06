@@ -111,4 +111,16 @@ public class PlayerManagerTest {
             assertTrue(PlayerManager.getInstance().getPlayers().get(i).equals(toSet.get(i)));
         }
     }
+
+    @Test
+    public void lobbyDocumentNameGetterSetterWorks() {
+        PlayerManager.getInstance().setLobbyDocumentName("abc");
+        assertEquals("abc", PlayerManager.getInstance().getLobbyDocumentName());
+    }
+
+    @Test
+    public void setIsServerShouldWork() {
+        PlayerManager.getInstance().setIsServer(true);
+        assertTrue(PlayerManager.getInstance().isServer());
+    }
 }
