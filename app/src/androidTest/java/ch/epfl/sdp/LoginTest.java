@@ -16,34 +16,31 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.login.LoginFormActivity;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static ch.epfl.sdp.MapsActivityTest.allowPermissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
 public class LoginTest {
     private String email;
     private String password;
     private Instrumentation.ActivityResult result;
+    private HashMap<String, String> registeredUsers;
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
             new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class){
                 @Override
                 protected void beforeActivityLaunched() {
-                    DependencyFactory.setTestMode(true);
-                    HashMap<String, String> registeredUsers = new HashMap<>();
+                    registeredUsers = new HashMap<>();
                     registeredUsers.put("amro.abdrabo@gmail.com", "password");
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(registeredUsers, null));
                 }
             };
 
@@ -51,6 +48,8 @@ public class LoginTest {
     public void setUp() {
         email = "amro.abdrabo@gmail.com";
         password = "password";
+
+        ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);
 
         Intents.init();
         Intent resultData = new Intent();
@@ -61,8 +60,6 @@ public class LoginTest {
 
     @After
     public void tearDown() {
-        DependencyFactory.setTestMode(false);
-        DependencyFactory.setAuthenticationAPI(null);
         Intents.release();
     }
 
@@ -83,11 +80,11 @@ public class LoginTest {
         onView(withId(R.id.logoutBt)).perform(click());
     }
 
-   /* @Test
+    @Test
     public void loginUnregisteredUserGivesAnError(){
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText("NotAUser@mail.com"), typeText("12345678"), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-    }*/
+    }
 
     @Test
     public void loginWithAnEmptyEmailGivesAnError(){

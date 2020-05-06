@@ -13,11 +13,12 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -42,18 +43,15 @@ import static org.hamcrest.Matchers.is;
 public class ChatActivityTest {
 
     @Rule
-    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class) {
-        @Override
-        protected void beforeActivityLaunched() {
-            DependencyFactory.setTestMode(true);
-            DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com"));
-        }
-    };
+    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class);
 
     @Before
     public void setup() {
+        AppContainer appContainer = ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer;
+        appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com");
+
         // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid3 will not show up as a friend in FriendsListActivity
-        User cur_user = new User(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail());
+        User cur_user = new User(appContainer.authenticationAPI.getCurrentUserEmail());
         User friend_user = new User("stupid3@gmail.com");
 
         // testRepo is the social database controller (router)

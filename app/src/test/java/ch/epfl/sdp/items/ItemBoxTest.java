@@ -10,7 +10,8 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.MockRenderer;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -19,6 +20,7 @@ public class ItemBoxTest {
     Player player;
     GeoPoint location;
     MockMapApi mockMapApi;
+    MockRenderer mockRenderer;
 
     @Before
     public void setup() {
@@ -28,8 +30,9 @@ public class ItemBoxTest {
         player.setLocation(location);
         PlayerManager.setCurrentUser(player);
         mockMapApi = new MockMapApi();
+        mockRenderer = new MockRenderer();
         Game.getInstance().setMapApi(mockMapApi);
-        Game.getInstance().setRenderer(mockMapApi);
+        Game.getInstance().setRenderer(mockRenderer);
         Game.getInstance().clearGame();
     }
 

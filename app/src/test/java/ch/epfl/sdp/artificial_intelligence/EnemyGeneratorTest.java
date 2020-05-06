@@ -6,7 +6,7 @@ import org.junit.Test;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;

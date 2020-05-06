@@ -10,7 +10,8 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.Trap;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.MockRenderer;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -27,11 +28,14 @@ public class TrapTest {
         owner = new Player(45, 45, 100, "username1", "email1@email.com");
         opponent = new Player(39, 39, 100, "username2", "email2@email.com");
 
-        MockMapApi mockMapApi = new MockMapApi();
-        Game.getInstance().setMapApi(mockMapApi);
-
         game = Game.getInstance();
-        game.setRenderer(new MockMapApi());
+
+        MockMapApi mockMapApi = new MockMapApi();
+        game.setMapApi(mockMapApi);
+
+        MockRenderer mockRenderer = new MockRenderer();
+        game.setRenderer(mockRenderer);
+
         game.initGame();
 
         trap = new Trap(10, 100);

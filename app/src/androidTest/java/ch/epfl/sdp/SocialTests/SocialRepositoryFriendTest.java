@@ -49,7 +49,7 @@ public class SocialRepositoryFriendTest {
 
     @Before
     public void setup() {
-        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), "mock@mock.com");
         prepopulateDatabase();
     }
 

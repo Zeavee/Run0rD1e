@@ -22,7 +22,6 @@ import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertTrue;
@@ -46,14 +45,7 @@ public class SocialRepositoryChatTest {
 
 
     @Rule
-    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class) {
-
-        @Override
-        protected void beforeActivityLaunched() {
-            DependencyFactory.setTestMode(true);
-            DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(null, "amro@gmail.com"));
-        }
-    };
+    public ActivityTestRule<ChatActivity> mActivityTestRule = new ActivityTestRule<ChatActivity>(ChatActivity.class);
 
     @Before
     public void setup() {
@@ -61,8 +53,9 @@ public class SocialRepositoryChatTest {
         AppContainer appContainer = ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer;
         appContainer.remoteToSQLiteAdapter = MockServerToSQLiteAdapter.getInstance();
         appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
+        appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro@gmail.com");
 
-        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), appContainer.authenticationAPI.getCurrentUserEmail());
         prepopulateDatabase();
     }
 

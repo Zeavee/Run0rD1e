@@ -20,7 +20,6 @@ import ch.epfl.sdp.social.socialDatabase.ChatDatabase;
 import ch.epfl.sdp.social.socialDatabase.IsFriendsWith;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * @brief Provides higher level abstraction of the database of the chat and models the database memory management of that database
@@ -32,11 +31,13 @@ public final class SocialRepository {
     private Context contextActivity;
     private static boolean singletonCreated = false;
     private static SocialRepository singleton;
+    private String currentEmail;
 
-    private SocialRepository(Context contextActivity) {
+    private SocialRepository(Context contextActivity, String currentEmail) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
+        this.currentEmail = currentEmail;
     }
 
     /**
@@ -51,9 +52,9 @@ public final class SocialRepository {
      *
      * @param contextActivity the UI context (typically an instance of the Activity class)
      */
-    public static void setContextActivity(Context contextActivity) {
+    public static void setContextActivityAndCurrentEmail(Context contextActivity, String currentEmail) {
         if (!singletonCreated) {
-            singleton = new SocialRepository(contextActivity);
+            singleton = new SocialRepository(contextActivity, currentEmail);
             singletonCreated = true;
         }
         singleton.contextActivity = contextActivity;
@@ -187,7 +188,7 @@ public final class SocialRepository {
             @Override
             protected void onPostExecute(List<Message> ls) {
                 boolean incoming = true;
-                if (sender.equals(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail())) {
+                if (sender.equals(currentEmail)) {
                     incoming = false;
                 }
                 ((WaitsOnWithServer<Message>) singleton.contextActivity).contentFetchedWithServer(ls, false, incoming);

@@ -14,7 +14,7 @@ import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMapApi;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;

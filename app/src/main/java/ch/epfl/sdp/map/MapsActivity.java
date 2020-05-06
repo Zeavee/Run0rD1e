@@ -28,6 +28,8 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -35,7 +37,6 @@ import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.login.AuthenticationAPI;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -64,8 +65,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Game.getInstance().setRenderer(this);
 
-        commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
-        authenticationAPI = DependencyFactory.getAuthenticationAPI();
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        authenticationAPI = appContainer.authenticationAPI;
+        commonDatabaseAPI = appContainer.commonDatabaseAPI;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 

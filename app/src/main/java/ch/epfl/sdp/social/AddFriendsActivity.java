@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
@@ -25,11 +26,12 @@ public class AddFriendsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_friends);
 
-        server = ((MyApplication) getApplication()).appContainer.remoteUserFetch;
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        server = appContainer.remoteUserFetch;
 
         recyclerView = findViewById(R.id.recyclerQueryFriends);
         
-        cached_adapter = new RecyclerQueryAdapter();
+        cached_adapter = new RecyclerQueryAdapter(appContainer.authenticationAPI.getCurrentUserEmail());
         recyclerView.setAdapter(cached_adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);

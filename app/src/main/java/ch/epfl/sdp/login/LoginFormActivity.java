@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.utils.DependencyFactory;
+import ch.epfl.sdp.dependencies.MyApplication;
 
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lemail, lpassword;
@@ -24,7 +24,7 @@ public class LoginFormActivity extends AppCompatActivity {
         lemail = findViewById(R.id.emaillog);
         lpassword = findViewById(R.id.passwordlog);
 
-        authenticationAPI = DependencyFactory.getAuthenticationAPI();
+        authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
         // If the user has already logged in, go to MainActivity directly
         if(authenticationAPI.getCurrentUserEmail() != null) {

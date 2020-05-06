@@ -12,7 +12,6 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,12 +21,13 @@ import java.util.HashMap;
 
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -41,6 +41,8 @@ public class MapsActivityTest {
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;
+
+    HashMap<String, UserForFirebase> map = new HashMap<>();
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         try {
@@ -97,26 +99,18 @@ public class MapsActivityTest {
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    DependencyFactory.setTestMode(true);
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
-                    HashMap<String, UserForFirebase> map = new HashMap<>();
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
-                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));
                 }
             };
 
     @Before
     public void setup() {
+        AppContainer appContainer = ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer;
+        appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
+        appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
         PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
         PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
         mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
-    }
-
-    @After
-    public void tearDown() {
-        DependencyFactory.setTestMode(false);
-        DependencyFactory.setAuthenticationAPI(null);
-        DependencyFactory.setCommonDatabaseAPI(null);
     }
 
     @Test

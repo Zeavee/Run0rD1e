@@ -19,7 +19,6 @@ import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * @brief this activity shows the conversation of the current user and another user
@@ -35,6 +34,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private List<Message> messages;
     private MessageAdapter messageAdapter;
     private RemoteToSQLiteAdapter sqliteFirestoreInterface;
+    private String currentEmail;
 
 
     @Override
@@ -55,13 +55,15 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
 
-        SocialRepository.setContextActivity(this);
+        SocialRepository.setContextActivityAndCurrentEmail(this, currentEmail);
+
+        currentEmail = ((MyApplication) getApplication()).appContainer.authenticationAPI.getCurrentUserEmail();
 
         // The current user is the sender
-        chatFromCurrent = SocialRepository.getInstance().getChat(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail(), chattingWith);
+        chatFromCurrent = SocialRepository.getInstance().getChat(currentEmail, chattingWith);
 
         // The current user is the receiver
-        chatFromFriend = SocialRepository.getInstance().getChat(chattingWith, DependencyFactory.getAuthenticationAPI().getCurrentUserEmail());
+        chatFromFriend = SocialRepository.getInstance().getChat(chattingWith, currentEmail);
 
         sendButton.setOnClickListener(v -> onSendClicked(v));
         sqliteFirestoreInterface = ((MyApplication) getApplication()).appContainer.remoteToSQLiteAdapter;
@@ -70,10 +72,10 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     private void loadExistingMessages() {
         SocialRepository chatRepo = SocialRepository.getInstance();
-        chatRepo.getMessagesExchanged(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail(), chattingWith);
-        chatRepo.getMessagesExchanged(chattingWith, DependencyFactory.getAuthenticationAPI().getCurrentUserEmail());
+        chatRepo.getMessagesExchanged(currentEmail, chattingWith);
+        chatRepo.getMessagesExchanged(chattingWith, currentEmail);
         sqliteFirestoreInterface.setListener(this);
-        sqliteFirestoreInterface.sendRemoteServerDataToLocal(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail(), chattingWith, chatFromFriend.getChat_id());
+        sqliteFirestoreInterface.sendRemoteServerDataToLocal(currentEmail, chattingWith, chatFromFriend.getChat_id());
     }
 
     /**
@@ -86,7 +88,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messageAdapter.add(new MessageDecorator(m, false));
         SocialRepository chatRepo = SocialRepository.getInstance();
         chatRepo.storeMessage(m);
-        sqliteFirestoreInterface.sendLocalDataToRemoteServer(DependencyFactory.getAuthenticationAPI().getCurrentUserEmail(), chattingWith, m);
+        sqliteFirestoreInterface.sendLocalDataToRemoteServer(currentEmail, chattingWith, m);
     }
 
     /**
