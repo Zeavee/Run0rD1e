@@ -17,17 +17,16 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.utils.MissingFieldTestFactory;
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.login.LoginFormActivity;
+import ch.epfl.sdp.utils.MissingFieldTestFactory;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -90,14 +89,14 @@ public class LoginTest {
         onView(withId(R.id.loginButton)).perform(click());
     }
 
-    @Test
+    /*@Test
     public void loginWithAnEmptyEmailGivesAnError(){
         onView(withId(R.id.loginButton)).perform(click());
         String text = "Email can't be empty";
         onView(withId(R.id.emaillog)).check(matches(hasErrorText(text)));
     }
 
-    /*@Test
+    @Test
     public void loginWithAnEmptyPasswordGivesAnError(){
         MissingFieldTestFactory.testFieldTwoActions(typeText("amro.abdrabo@gmail.com"), click(), R.id.emaillog, R.id.loginButton);
         String text = "Password can't be empty";
