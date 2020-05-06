@@ -44,7 +44,7 @@ public class TrapTest {
     public void destroy() {
         game.destroyGame();
     }
-
+/*
     @Test
     public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
         ItemBox itemBox = new ItemBox(new GeoPoint(41, 41));
@@ -63,7 +63,7 @@ public class TrapTest {
         Thread.sleep(1000);
         assertEquals(90.0, opponent.getHealthPoints(), 0.01);
         assertEquals(100.0, owner.getHealthPoints(), 0.01);
-    }
+    }*/
 
     @Test
     public void trapCorrectlyImplementsDisplayable() {
