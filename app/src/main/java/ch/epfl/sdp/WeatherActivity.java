@@ -27,7 +27,7 @@ public class WeatherActivity extends AppCompatActivity {
 
     long updatedAt, sunrise, sunset;
     String updatedAtText, temp, tempMin,  tempMax, pressure, humidity, windSpeed, weatherDescription, address;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
