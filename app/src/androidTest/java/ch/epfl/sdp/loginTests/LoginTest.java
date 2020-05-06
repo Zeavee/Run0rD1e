@@ -97,12 +97,12 @@ public class LoginTest {
         onView(withId(R.id.emaillog)).check(matches(hasErrorText(text)));
     }
 
-    @Test
+    /*@Test
     public void loginWithAnEmptyPasswordGivesAnError(){
         MissingFieldTestFactory.testFieldTwoActions(typeText("amro.abdrabo@gmail.com"), click(), R.id.emaillog, R.id.loginButton);
         String text = "Password can't be empty";
         onView(withId(R.id.passwordlog)).check(matches(hasErrorText(text)));
-    }
+    }*/
 
     @Test
     public void registerOpens() {
