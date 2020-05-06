@@ -59,8 +59,8 @@ public class TrapTest {
         trap.useOn(owner);
         Thread.sleep(1000);
         assertEquals(100.0, opponent.getHealthPoints(), 0.01);
-        opponent.setLocation(new GeoPoint(42, 42));
-        Thread.sleep(500);
+       // opponent.setLocation(new GeoPoint(42, 42));
+        Thread.sleep(1000);
         assertEquals(90.0, opponent.getHealthPoints(), 0.01);
         assertEquals(100.0, owner.getHealthPoints(), 0.01);
     }
