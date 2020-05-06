@@ -46,7 +46,7 @@ public class MapsActivityTest {
 
     HashMap<String, UserForFirebase> map = new HashMap<>();
 
-    public static void allowPermissionsIfNeeded(String permissionNeeded) {
+    public static void permissionsIfNeeded(String permissionNeeded, int button) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
                 sleep();
@@ -54,25 +54,7 @@ public class MapsActivityTest {
                 UiObject allowPermissions = device.findObject(new UiSelector()
                         .clickable(true)
                         .checkable(false)
-                        .index(GRANT_BUTTON_INDEX));
-                if (allowPermissions.exists()) {
-                    allowPermissions.click();
-                }
-            }
-        } catch (UiObjectNotFoundException e) {
-            System.out.println("There is no permissions dialog to interact with");
-        }
-    }
-
-    public static void denyPermissionsIfNeeded(String permissionNeeded) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
-                sleep();
-                UiDevice device = UiDevice.getInstance(getInstrumentation());
-                UiObject allowPermissions = device.findObject(new UiSelector()
-                        .clickable(true)
-                        .checkable(false)
-                        .index(DENY_BUTTON_INDEX));
+                        .index(button));
                 if (allowPermissions.exists()) {
                     allowPermissions.click();
                 }
@@ -117,7 +99,7 @@ public class MapsActivityTest {
 
     @Test
     public void denyRequestPermissionWorks() {
-        denyPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", DENY_BUTTON_INDEX);
         onView(ViewMatchers.withId(R.id.recenter)).perform(click());
         sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
@@ -126,7 +108,7 @@ public class MapsActivityTest {
     @Test
     public void myPositionButtonWorks() {
         PlayerManager.removeAll(); // To remove
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(R.id.recenter)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
@@ -147,7 +129,7 @@ public class MapsActivityTest {
     }
 
     private void testButtonWorks(int button, int view) {
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
         onView(withId(view)).check(matches(isDisplayed()));
     }
