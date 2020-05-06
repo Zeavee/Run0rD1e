@@ -1,4 +1,4 @@
-package ch.epfl.sdp.artificial_intelligence;
+/*package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.After;
 import org.junit.Before;
@@ -47,3 +47,5 @@ public class EnemyManagerTest {
         DependencyFactory.setServerDatabaseAPI(null);
     }
 }
+
+ */

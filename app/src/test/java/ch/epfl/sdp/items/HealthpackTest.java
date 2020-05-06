@@ -18,7 +18,7 @@ public class HealthpackTest {
         Item cloned = original.clone();
         assertTrue(((Healthpack)cloned).getHealthPackAmount() == original.getHealthPackAmount());
     }
-
+/*
     @Test
     public void healthPackIncreasesHealthToThreshold(){
         Player sick = new Player(20.0, 20.0, 100, "amroa", "amro.abdrabo@gmail.com");
@@ -31,7 +31,7 @@ public class HealthpackTest {
     //  pack2.useOn(sick);
     //  assertTrue(sick.getHealthPoints() == 100.0);
     //    PlayerManager.getInstance().setCurrentUser(originalPlayer);
-    }
+    }*/
 
 
 }
