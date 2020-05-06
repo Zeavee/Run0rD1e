@@ -2,6 +2,7 @@ package ch.epfl.sdp.game;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.locks.ReentrantLock;
 
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
@@ -89,8 +90,11 @@ public class Game implements Updatable {
      *
      * @param updatable The updatable to be added.
      */
+    private ReentrantLock lock = new ReentrantLock();
     public void addToUpdateList(Updatable updatable) {
+        lock.lock();
         updatables.add(updatable);
+        lock.unlock();
     }
 
     /**

@@ -1,4 +1,4 @@
-/*package ch.epfl.sdp.artificial_intelligence;
+package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +20,7 @@ public class EnemyManagerTest {
         DependencyFactory.setTestMode(true);
         DependencyFactory.setServerDatabaseAPI(new ServerMockDatabaseAPI(new HashMap<>(), new ArrayList<>()));
     }
-
+/*
     @Test
     public void testAddAndRemoveEnemy(){
         EnemyManager enemyManager = EnemyManager.getInstance();
@@ -29,7 +29,7 @@ public class EnemyManagerTest {
        // assertEquals(1, enemyManager.getEnemies().size());
         enemyManager.removeEnemy(enemy);
         assertEquals(0, enemyManager.getEnemies().size());
-    }
+    }*/
 
     @Test
     public void testUpdate(){
@@ -48,4 +48,3 @@ public class EnemyManagerTest {
     }
 }
 
- */
