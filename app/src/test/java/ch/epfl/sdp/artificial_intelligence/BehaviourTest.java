@@ -1,4 +1,4 @@
-package ch.epfl.sdp.artificial_intelligence;
+/*package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -111,5 +111,5 @@ public class BehaviourTest {
 
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }
-}
+}*/
 

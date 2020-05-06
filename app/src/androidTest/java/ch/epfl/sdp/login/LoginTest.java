@@ -77,13 +77,13 @@ public class LoginTest {
     public void writingPassword_Works() {
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
     }
-
+/*
     @Test
     public void login_shouldWorkWithRegisteredUser() {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
         onView(withId(R.id.logoutBt)).perform(click());
-    }
+    }*/
 
    /* @Test
     public void loginUnregisteredUserGivesAnError(){

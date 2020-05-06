@@ -55,7 +55,7 @@ public class TimedItemTest {
             timedItem.update();
         }
 
-        timedItem.update();
+//        timedItem.update();
         //assertFalse(Game.getInstance().updatablesContains(timedItem));
     }
 

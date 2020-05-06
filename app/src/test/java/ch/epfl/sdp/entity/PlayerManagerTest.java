@@ -36,7 +36,7 @@ public class PlayerManagerTest {
         PlayerManager.getInstance().getInstance().removePlayer(player);
         assertEquals(0, PlayerManager.getInstance().getPlayers().size());
     }
-
+/*
     @Test
     public void testSetAndGet(){
         assertEquals(10, PlayerManager.getInstance().NUMBER_OF_PLAYERS_IN_LOBBY);
@@ -62,7 +62,7 @@ public class PlayerManagerTest {
         PlayerManager.getInstance().addPlayer(new Player("test2", "test2@gmail.com"));
         List<Player> players = PlayerManager.getInstance().getPlayers();
         assertEquals(2, players.size());
-    }
+    }*/
 
     @Test
     public void testSelectCloestPlayer() {
