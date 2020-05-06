@@ -1,5 +1,5 @@
-//package ch.epfl.sdp;
-/*
+package ch.epfl.sdp;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -32,11 +32,11 @@ public class MainActivityTest {
         Game.getInstance().setMapApi(new MockMapApi());
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
     }
-
+/*
     @After
     public void teardown(){
         PlayerManager.getInstance().setCurrentUser(null);
-    }
+    }*/
 
     @Test
     public void rulesOpens() {
@@ -49,16 +49,16 @@ public class MainActivityTest {
         onView(withId(R.id.friendsButton)).perform(click());
         onView(withId(R.id.app_bar)).check(matches(isDisplayed()));
     }
-
-    /*@Test
+/*
+    @Test
     public void mapsOpens() {
         onView(withId(R.id.mapButton)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }*/
-/*
-    @Test
+
+   @Test
     public void leaderboardOpens() {
         onView(withId(R.id.leaderboard)).perform(click());
     }
-}*/
+}

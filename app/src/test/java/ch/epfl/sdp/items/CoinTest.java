@@ -19,7 +19,7 @@ public class CoinTest {
         Item clonedDime = dime.clone();
         assertTrue(dime.getValue() == ((Coin)clonedDime).getValue());
     }
-/*
+
     @Test
     public void userBankIncreasesWhenCoinUsed(){
         Player broke = new Player(20.0, 20.0, 100, "amroa", "amro.abdrabo@gmail.com");
@@ -28,7 +28,6 @@ public class CoinTest {
         Coin dime  = new Coin(10);
         dime.useOn(broke);
         assertTrue(broke.getMoney() == dime.getValue());
-        PlayerManager.getInstance().setCurrentUser(originalPlayer);
-    }*/
+    }
 
 }

@@ -1,6 +1,6 @@
-/*
-package ch.epfl.sdp;
 
+//package ch.epfl.sdp;
+/*
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -120,28 +120,28 @@ public class MapsActivityTest {
         DependencyFactory.setAuthenticationAPI(null);
         DependencyFactory.setCommonDatabaseAPI(null);
     }
-/*
+
     @Test
     public void denyRequestPermissionWorks() {
         denyPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
         sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
-    }*/
-/*
+    }
+
     @Test
     public void myPositionButtonWorks() {
         PlayerManager.getInstance().removeAll(); // To remove
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.recenter)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
-    }*/
-/*
+    }
+
     @Test
     public void inventoryOpens() {
         testButtonWorks(R.id.button_inventory, R.id.fragment_inventory_container);
-    }*/
-/*
+    }
+
     @Test
     public void leaderboardOpens() {
         testButtonWorks(R.id.button_leaderboard, R.id.recycler_view);
