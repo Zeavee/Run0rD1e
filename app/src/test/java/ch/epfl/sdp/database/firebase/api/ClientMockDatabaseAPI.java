@@ -26,9 +26,14 @@ public class ClientMockDatabaseAPI extends CommonMockDatabaseAPI implements Clie
     }
 
     @Override
-    public void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
+    public void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
 
     }
+/*
+    @Override
+    public void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
+
+    }*/
 
     @Override
     public void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {

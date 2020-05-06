@@ -26,7 +26,7 @@ public class EnemyGeneratorTest {
         enemyGenerator.setMaxEnemiesPerUnitArea(-1);
         enemyGenerator.setEnemyCreationTime(1);
         enemyGenerator.setEnemyCreationTime(-1);
-        enemyGenerator.generateEnemy(100);
+       // enemyGenerator.generateEnemy(100);
         assertEquals(1, enemyGenerator.getEnemies().size());
         assertNotNull(enemyGenerator.getEnemies().get(0));
     }
@@ -38,7 +38,7 @@ public class EnemyGeneratorTest {
            //     new Player(45, 45, 100, "a", "b"));
         enemyGenerator.setMaxEnemiesPerUnitArea(2);
         for (int i = 0; i < 4; ++i) {
-            enemyGenerator.generateEnemy(100);
+       //     enemyGenerator.generateEnemy(100);
         }
         assertEquals(2, enemyGenerator.getEnemies().size());
     }
@@ -50,7 +50,7 @@ public class EnemyGeneratorTest {
         enemyGenerator.setMaxEnemiesPerUnitArea(10);
         enemyGenerator.setMinDistanceFromPlayer(1000);
         for (int i = 0; i < 10; ++i) {
-            enemyGenerator.generateEnemy(100);
+        //    enemyGenerator.generateEnemy(100);
         }
         for (Enemy e : enemyGenerator.getEnemies()) {
            // assertEquals(true, e.getLocation().distanceTo(player.getLocation()) > 1000);

@@ -64,7 +64,7 @@ public class BehaviourTest {
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL ||
                 enemy.getBehaviour() == Behaviour.CHASE) {
-            enemy.update();
+          //  enemy.update();
         }
 
         enemy.setWaiting(true);
@@ -78,7 +78,7 @@ public class BehaviourTest {
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL) {
-            enemy.update();
+       //     enemy.update();
         }
 
         enemy.setWaiting(true);
@@ -95,7 +95,7 @@ public class BehaviourTest {
         }
 
         enemy.setWaiting(true);
-        enemy.update();
+        //enemy.update();
 
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }

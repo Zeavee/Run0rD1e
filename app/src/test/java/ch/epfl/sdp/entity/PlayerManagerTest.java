@@ -39,11 +39,11 @@ public class PlayerManagerTest {
 
     @Test
     public void testSetAndGet(){
-        assertEquals(10, PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY);
-        assertEquals("AllUsers", PlayerManager.USER_COLLECTION_NAME);
-        assertEquals("Lobbies", PlayerManager.LOBBY_COLLECTION_NAME);
-        assertEquals("Players", PlayerManager.PLAYER_COLLECTION_NAME);
-        assertEquals("Enemies", PlayerManager.ENEMY_COLLECTION_NAME);
+        assertEquals(10, PlayerManager.getInstance().NUMBER_OF_PLAYERS_IN_LOBBY);
+        assertEquals("AllUsers", PlayerManager.getInstance().USER_COLLECTION_NAME);
+        assertEquals("Lobbies", PlayerManager.getInstance().LOBBY_COLLECTION_NAME);
+        assertEquals("Players", PlayerManager.getInstance().PLAYER_COLLECTION_NAME);
+        assertEquals("Enemies", PlayerManager.getInstance().ENEMY_COLLECTION_NAME);
 
         PlayerManager.getInstance().setNumPlayersBeforeJoin(3);
         assertEquals(3, PlayerManager.getInstance().getNumPlayersBeforeJoin());
