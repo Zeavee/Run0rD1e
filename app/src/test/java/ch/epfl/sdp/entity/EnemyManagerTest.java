@@ -1,4 +1,4 @@
-/*package ch.epfl.sdp.entity;
+package ch.epfl.sdp.entity;
 
 import org.junit.Test;
 
@@ -31,4 +31,4 @@ public class EnemyManagerTest {
         manager.removeEnemy(enemy);
         assertEquals(0, manager.getEnemies().size());
     }
-}*/
+}
