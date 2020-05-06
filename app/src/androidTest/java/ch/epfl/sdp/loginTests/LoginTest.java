@@ -1,10 +1,11 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.loginTests;
 
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
 
 import androidx.test.espresso.intent.Intents;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -16,6 +17,9 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
+import ch.epfl.sdp.utils.MissingFieldTestFactory;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.login.LoginFormActivity;
 
@@ -65,7 +69,7 @@ public class LoginTest {
 
     @Test
     public void writingEmail_Works() {
-        onView(withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
+        onView(ViewMatchers.withId(R.id.emaillog)).perform(typeText(email)).check(matches(withText(email)));
     }
 
     @Test

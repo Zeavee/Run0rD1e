@@ -1,10 +1,11 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.map;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.core.content.ContextCompat;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
@@ -19,7 +20,9 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
+import ch.epfl.sdp.R;
+import ch.epfl.sdp.utils.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
@@ -27,7 +30,6 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.MapsActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -116,7 +118,7 @@ public class MapsActivityTest {
     @Test
     public void denyRequestPermissionWorks() {
         denyPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.recenter)).perform(click());
+        onView(ViewMatchers.withId(R.id.recenter)).perform(click());
         sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }

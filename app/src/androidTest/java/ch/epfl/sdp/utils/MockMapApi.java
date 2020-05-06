@@ -1,4 +1,4 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.utils;
 
 import org.junit.Test;
 

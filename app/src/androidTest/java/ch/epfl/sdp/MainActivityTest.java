@@ -12,14 +12,13 @@ import org.junit.runner.RunWith;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static ch.epfl.sdp.MapsActivityTest.allowPermissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {

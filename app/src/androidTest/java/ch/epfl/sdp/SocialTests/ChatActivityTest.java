@@ -11,7 +11,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sdp.MockAuthenticationAPI;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
