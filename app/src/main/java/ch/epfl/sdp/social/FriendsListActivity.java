@@ -15,6 +15,7 @@ import java.util.List;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
@@ -25,7 +26,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
     private SocialRepository chatRepo;
 
     // To get the user info
-    private String current_email_id = ((MyApplication) getApplication()).appContainer.authenticationAPI.getCurrentUserEmail();
+    private String current_email_id;
     private List<User> friends;
 
 
@@ -44,6 +45,9 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        current_email_id = appContainer.authenticationAPI.getCurrentUserEmail();
 
         findViewById(R.id.backFromFriendsList).setOnClickListener((v) -> startActivity(new Intent(FriendsListActivity.this, MainActivity.class)));
 
