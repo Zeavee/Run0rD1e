@@ -14,9 +14,7 @@ public class FirebaseAuthenticationAPI implements AuthenticationAPI {
 
     @Override
     public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> callback) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(authResult -> callback.finish(new CustomResult<>(null, true, null)))
-                .addOnFailureListener(e -> callback.finish(new CustomResult<>(null, false, e)));
+        register(email, password, callback);
     }
 
     @Override

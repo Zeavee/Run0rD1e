@@ -202,22 +202,23 @@ public class Enemy extends MovingArtificialEntity {
      * Can also go to the wait state if the flag is enabled.
      */
     private void attack() {
-        if (attackTimeDelay <= 0) {
-            double attackRange = this.getAoeRadius();
-            Player target = playerDetected(attackRange);
-            if (target != null && !target.isShielded()) {
-                target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
-//                PlayerManager.getInstance().addPlayerWaitingHealth(target);
-            } else {
-                setMoving(true);
-                behaviour = Behaviour.CHASE;
-            }
-
-            attackTimeDelay = GameThread.FPS;
-        } else {
+        if(attackTimeDelay > 0) {
             attackTimeDelay -= 1;
+            checkWaiting();
+            return;
         }
 
+        double attackRange = this.getAoeRadius();
+        Player target = playerDetected(attackRange);
+        if (target != null && !target.isShielded()) {
+            target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
+            // PlayerManager.getInstance().addPlayerWaitingHealth(target);
+        } else {
+            setMoving(true);
+            behaviour = Behaviour.CHASE;
+        }
+
+        attackTimeDelay = GameThread.FPS;
         checkWaiting();
     }
 

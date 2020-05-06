@@ -141,15 +141,7 @@ public class PlayerManager {
             playersWaitingHealthPoint.add(player);
         }
     }
-
-    public void clearPlayerWaitingItems() {
-        playersWaitingItems.clear();
-    }
-
-    public void clearPlayerWaitingHealthPoint() {
-        playersWaitingHealthPoint.clear();
-    }
-
+    
     /**
      * Remove all the players in the player manager.
      */

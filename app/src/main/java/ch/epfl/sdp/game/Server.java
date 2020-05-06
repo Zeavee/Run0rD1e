@@ -227,7 +227,7 @@ public class Server implements Updatable {
             batch.commit().addOnCompleteListener(res -> Log.d("Database", "Complete health"))
                     .addOnSuccessListener(res -> Log.d("Database", "Success health"));
 
-            PlayerManager.getInstance().clearPlayerWaitingHealthPoint();
+            PlayerManager.getInstance().getPlayersWaitingHealthPoint().clear();
         }
     }
 
@@ -249,7 +249,7 @@ public class Server implements Updatable {
 
             batch.commit().addOnSuccessListener(aVoid -> {
                 Log.d("Database", "Items sent, clearing waiting list");
-                PlayerManager.getInstance().clearPlayerWaitingItems();
+                PlayerManager.getInstance().getPlayersWaitingItems().clear();
             });
         }
     }

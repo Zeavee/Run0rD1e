@@ -7,7 +7,7 @@ import java.util.UUID;
 public class ItemBoxManager {
     public static final String ITEMBOX_COLLECTION_NAME = "ItemBoxes";
 
-    public static final ItemBoxManager instance = new ItemBoxManager();
+    private static final ItemBoxManager instance = new ItemBoxManager();
     private Map<String, ItemBox> itemBoxes;
     private Map<String, ItemBox> waitingItemBoxes;
 
@@ -15,7 +15,7 @@ public class ItemBoxManager {
         return instance;
     }
 
-    public ItemBoxManager() {
+    private ItemBoxManager() {
         itemBoxes = new HashMap<>();
         waitingItemBoxes = new HashMap<>();
     }
