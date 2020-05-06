@@ -45,14 +45,6 @@ public class TrapTest {
         game.destroyGame();
     }
 
-
-    @Test
-    public void trapCorrectlyImplementsDisplayable() {
-        trap.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertNotNull(trap.getLocation());
-    }
-
-    /*
     @Test
     public void trapCanBeSetUpAndDoesDamage() throws InterruptedException {
         ItemBox itemBox = new ItemBox(new GeoPoint(41, 41));
@@ -67,9 +59,11 @@ public class TrapTest {
         trap.useOn(owner);
         Thread.sleep(1000);
         assertEquals(100.0, opponent.getHealthPoints(), 0.01);
-       // opponent.setLocation(new GeoPoint(42, 42));
-        Thread.sleep(1000);
-        assertEquals(90.0, opponent.getHealthPoints(), 0.01);
-        assertEquals(100.0, owner.getHealthPoints(), 0.01);
-    }*/
+    }
+
+    @Test
+    public void trapCorrectlyImplementsDisplayable() {
+        trap.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertNotNull(trap.getLocation());
+    }
 }

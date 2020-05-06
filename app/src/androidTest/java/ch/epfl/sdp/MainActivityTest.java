@@ -49,15 +49,15 @@ public class MainActivityTest {
         onView(withId(R.id.friendsButton)).perform(click());
         onView(withId(R.id.app_bar)).check(matches(isDisplayed()));
     }
-
-    /*@Test
+/*
+    @Test
     public void mapsOpens() {
         onView(withId(R.id.mapButton)).perform(click());
         allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }*/
-/*
-    @Test
+
+   /* @Test
     public void leaderboardOpens() {
         onView(withId(R.id.leaderboard)).perform(click());
     }
