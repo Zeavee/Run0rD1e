@@ -5,13 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.utils.EntityConverter;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * Manages all enemies of a game.

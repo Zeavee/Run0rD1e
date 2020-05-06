@@ -15,8 +15,9 @@ import java.util.Map;
 
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.utils.EntityConverter;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -170,9 +171,10 @@ public class Server implements Updatable {
             for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
                 String email = dc.getDocument().getId();
                 Map<String, Long> usedItems = (Map<String, Long>) dc.getDocument().get("usedItems");
+                ItemsForFirebase itemsForFirebase = dc.getDocument().toObject(ItemsForFirebase.class);
 
-                for (Map.Entry<String, Long> item : usedItems.entrySet()) {
-                    for (int i = 0; i < item.getValue().intValue(); ++i) {
+                for (Map.Entry<String, Integer> item : itemsForFirebase.getItemsMap().entrySet()) {
+                    for (int i = 0; i < item.getValue(); ++i) {
                         itemFactory.getItem(item.getKey()).useOn(PlayerManager.getInstance().getPlayersMap().get(email));
                         PlayerManager.getInstance().getPlayersMap().get(email).getInventory().removeItem(item.getKey());
                     }

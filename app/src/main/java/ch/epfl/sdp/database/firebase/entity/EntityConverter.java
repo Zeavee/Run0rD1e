@@ -1,7 +1,9 @@
-package ch.epfl.sdp.database.utils;
+package ch.epfl.sdp.database.firebase.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
@@ -94,5 +96,13 @@ public class EntityConverter {
         String email = playerForFirebase.getEmail();
 
         return new Player(longitude, latitude, aoeRadius, username, email);
+    }
+
+    public static ItemsForFirebase convertItems(Map<String, Integer> items) {
+        ItemsForFirebase itemsForFirebase  = new ItemsForFirebase();
+        itemsForFirebase.setItemsMap(items);
+        itemsForFirebase.setDate(new Date(System.currentTimeMillis()));
+
+        return itemsForFirebase;
     }
 }
