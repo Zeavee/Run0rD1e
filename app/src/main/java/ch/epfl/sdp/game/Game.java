@@ -116,7 +116,7 @@ public class Game implements Updatable {
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
-            displayables.add(displayable);
+        displayables.add(displayable);
     }
 
     /**

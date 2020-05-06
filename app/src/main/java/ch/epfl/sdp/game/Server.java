@@ -40,6 +40,7 @@ public class Server implements Updatable {
     private int counter;
     private ServerDatabaseAPI serverDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
+    private EnemyManager enemyManager = EnemyManager.getInstance();
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private ItemFactory itemFactory;
 
@@ -117,18 +118,18 @@ public class Server implements Updatable {
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
-        EnemyManager.getInstance().addEnemy(enemy);
-        EnemyManager.getInstance().addEnemiesToGame();
+        enemyManager.updateEnemies(enemy);
         //  -------------------------------------------
 
         // Send Enemies
-        serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(EnemyManager.getInstance().getEnemies()), value -> {
+        serverDatabaseAPI.sendEnemies(EntityConverter.convertEnemyList(EnemyManager.getInstance().getEnemies()), value -> {
             if (value.isSuccessful()) {
                 serverDatabaseAPI.startGame(value1 -> {
                     if (value1.isSuccessful()) {
                         Game.getInstance().addToUpdateList(this);
                         Game.getInstance().initGame();
                     }
+                    else Log.d(TAG, "startGame: failed");
                 });
             }
         });
@@ -283,6 +284,10 @@ public class Server implements Updatable {
     public void update() {
         if (counter <= 0) {
             //EnemyManager.getInstance().update();
+            serverDatabaseAPI.sendEnemies(EntityConverter.convertEnemyList(enemyManager.getEnemies()), value -> {
+                if(value.isSuccessful()) Log.d(TAG, "update: send enemy succeed");
+                else Log.d(TAG, "update: send enemy failed");
+            });
             sendPlayersItems();
             sendItemBoxes();
             sendPlayersHealth();

@@ -8,10 +8,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.EntityConverter;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
@@ -26,7 +32,8 @@ public class Client implements Updatable {
     private static final String TAG = "Database";
     private int counter;
     private ClientDatabaseAPI clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
-    protected PlayerManager playerManager = PlayerManager.getInstance();
+    private PlayerManager playerManager = PlayerManager.getInstance();
+    private EnemyManager enemyManager = EnemyManager.getInstance();
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     DocumentReference lobbyRef = firebaseFirestore
             .collection(playerManager.LOBBY_COLLECTION_NAME)
@@ -41,6 +48,13 @@ public class Client implements Updatable {
         addUserHealthPointsListener();
         addUserItemListener();
         addItemBoxesListener();
+        clientDatabaseAPI.addEnemyListener(value -> {
+            if(value.isSuccessful()) {
+                for(Enemy enemy: EntityConverter.convertEnemyForFirebaseList(value.getResult())) {
+                    enemyManager.updateEnemies(enemy);
+                }
+            }
+        });
         init();
 
     }

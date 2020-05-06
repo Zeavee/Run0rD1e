@@ -1,10 +1,8 @@
 package ch.epfl.sdp.entity;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
-import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.LocalArea;

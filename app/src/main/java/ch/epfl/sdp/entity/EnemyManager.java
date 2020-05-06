@@ -16,30 +16,31 @@ import ch.epfl.sdp.utils.DependencyFactory;
 /**
  * Manages all enemies of a game.
  */
-public class EnemyManager implements Updatable {
-    private int counter;
-    public final int UPDATE_EVERY_MS = 1000;
-
-    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
-    private Map<Integer, Enemy> enemies = new HashMap<>();
-    private long lastUpdateTimeMillis = System.currentTimeMillis();
+public class EnemyManager {
+    private Map<Integer, Enemy> enemies;
     private static final EnemyManager instance = new EnemyManager();
 
     private EnemyManager() {
+        this.enemies = new HashMap<>();
     }
 
     public static EnemyManager getInstance() {
         return instance;
     }
 
-    public void addEnemy(Enemy enemy) {
-        enemies.put(enemy.getId(), enemy);
-    }
+    public void updateEnemies(Enemy enemy) {
+        int enemyId = enemy.getId();
+        if(enemies.containsKey(enemyId)) {
+            // update the location
+            Enemy enemyToBeUpdate = enemies.get(enemyId);
+            enemyToBeUpdate.setLocation(enemy.getLocation());
+            enemies.put(enemyId, enemyToBeUpdate);
+        } else {
+            // add a new enemy instance
+            enemies.put(enemyId, enemy);
+            Game.getInstance().addToDisplayList(enemy);
+            Game.getInstance().addToUpdateList(enemy);
 
-    public void addEnemiesToGame(){
-        for (Map.Entry<Integer, Enemy> entry : enemies.entrySet()) {
-            Game.getInstance().addToDisplayList(entry.getValue());
-            Game.getInstance().addToUpdateList(entry.getValue());
         }
     }
 
@@ -49,23 +50,5 @@ public class EnemyManager implements Updatable {
 
     public List<Enemy> getEnemies() {
         return new ArrayList<>(enemies.values());
-    }
-
-    public void updateEnemies(int id, GeoPoint location) {
-       /* if(enemies.containsKey(id)) {
-            Enemy enemy = enemies.get(id);
-            enemy.setLocation(location);
-            enemies.put(id, enemy);
-        }*/
-    }
-
-    @Override
-    public void update() {
-        if(counter <= 0){
-            serverDatabaseAPI.sendEnemies(EntityConverter.enemyToEnemyForFirebase(getEnemies()), value -> {});
-            counter = GameThread.FPS + 1;
-        }
-
-        --counter;
     }
 }

@@ -20,7 +20,7 @@ public interface ClientDatabaseAPI extends CommonDatabaseAPI {
      *
      * @param onValueReadyCallback Callback after fetching the list of enemies from the firebase
      */
-    void fetchEnemies(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback);
+    void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback);
 
     /**
      * Listen to game start

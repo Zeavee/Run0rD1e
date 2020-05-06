@@ -1,7 +1,5 @@
 package ch.epfl.sdp.database.utils;
 
-import android.content.pm.PackageManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +8,6 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 
 /**
  * A converter used to convert between Firebase stored entity and in-game entity
@@ -58,13 +55,24 @@ public class EntityConverter {
      * @param enemies The list of local in-game Enemy
      * @return The list of Firebase stored in-game Enemy
      */
-    public static List<EnemyForFirebase> enemyToEnemyForFirebase(List<Enemy> enemies) {
+    public static List<EnemyForFirebase> convertEnemyList(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
         for (Enemy enemy : enemies) {
             enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getLocation()));
         }
 
         return enemyForFirebases;
+    }
+
+    public static List<Enemy> convertEnemyForFirebaseList(List<EnemyForFirebase> enemyForFirebaseList) {
+        List<Enemy> enemyList = new ArrayList<>();
+        for(EnemyForFirebase enemyForFirebase: enemyForFirebaseList) {
+            Enemy enemy = new Enemy();
+            enemy.setId(enemyForFirebase.getId());
+            enemy.setLocation(enemyForFirebase.getLocation());
+            enemyList.add(enemy);
+        }
+        return enemyList;
     }
 
     public static List<PlayerForFirebase> convertPlayerList(List<Player>players) {
