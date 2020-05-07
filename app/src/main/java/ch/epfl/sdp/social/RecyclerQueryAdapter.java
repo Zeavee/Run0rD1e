@@ -13,22 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.Conversation.SocialRepository;
-import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.social.socialDatabase.Chat;
-
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.social.socialDatabase.User;
 
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
+    private String currentEmail;
 
     /**
      * This create a recycler query adapter
      */
-    public RecyclerQueryAdapter() {
+    public RecyclerQueryAdapter(String currentEmail) {
         this.friendsList = new ArrayList<>();
+        this.currentEmail = currentEmail;
     }
 
     @NonNull
@@ -84,7 +84,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         public void onClick(View v) {
 
             // Let it know which UI context thread to run on
-            SocialRepository.setContextActivity(v.getContext());
+            SocialRepository.setContextActivityAndCurrentEmail(v.getContext(), currentEmail);
 
             // completeDBSetup will add the user and his friend to the local database to register them as friends
             completeDBSetup();
@@ -92,7 +92,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         }
 
         private void completeDBSetup() {
-            User cur_usr = new User(DependencyProvider.email);
+            User cur_usr = new User(currentEmail);
             User befriended_usr = new User(friendsList.get(getAdapterPosition()).getEmail());
 
             SocialRepository chatRepo = SocialRepository.getInstance();

@@ -15,6 +15,8 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
  */
 public interface ClientDatabaseAPI {
 
+    void setLobbyRef(String lobbyName);
+
     /**
      * Listen to game start
      */

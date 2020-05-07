@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -23,13 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sdp.MainActivity;
-import ch.epfl.sdp.MissingFieldTestFactory;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
-import ch.epfl.sdp.login.LoginFormActivity;
-import ch.epfl.sdp.login.RegisterFormActivity;
-import ch.epfl.sdp.utils.DependencyFactory;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
+import ch.epfl.sdp.utils.MissingFieldTestFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -57,28 +57,26 @@ public class RegisterTest {
             new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    DependencyFactory.setTestMode(true);
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), null));
-                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(new HashMap<>()));
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), null);
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
                 }
             };
 
 
     @Before
-    public void setUp(){
-
-
+    public void setUp() {
         testCases = new ArrayList<>();
-        testCases.addAll(Arrays.asList(typeText("test"),typeText("password"), typeText("password"), click(),
+        testCases.addAll(Arrays.asList(typeText("test"), typeText("password"), typeText("password"), click(),
                 typeText("Username"), typeText("password"), typeText("password"), click(),
-                typeText("a"), typeText("a@a"), typeText("password"),click(),
-                typeText("a"), typeText("a@a"), typeText("password"),click()));
+                typeText("a"), typeText("a@a"), typeText("password"), click(),
+                typeText("a"), typeText("a@a"), typeText("password"), click()));
 
         testCasesInt = new ArrayList<>();
         testCasesInt.addAll(Arrays.asList(R.id.email, R.id.password, R.id.passwordconf, R.id.registerbutton,
                 R.id.username, R.id.password, R.id.passwordconf, R.id.registerbutton,
-                R.id.username, R.id.email, R.id.passwordconf,R.id.registerbutton,
-                R.id.username, R.id.email, R.id.password,R.id.registerbutton));
+                R.id.username, R.id.email, R.id.passwordconf, R.id.registerbutton,
+                R.id.username, R.id.email, R.id.password, R.id.registerbutton));
 
         emptyFields = new ArrayList<>();
         emptyFields.addAll(Arrays.asList(R.id.username, R.id.email, R.id.password, R.id.password));
@@ -97,47 +95,43 @@ public class RegisterTest {
     }
 
     @After
-    public void tearDown(){
-        DependencyFactory.setTestMode(false);
-        DependencyFactory.setAuthenticationAPI(null);
-        DependencyFactory.setCommonDatabaseAPI(null);
+    public void tearDown() {
         Intents.release();
     }
 
     @Test
-    public void writingUsername_ShouldBeDisplayed(){
+    public void writingUsername_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.username)).perform(typeText("Username"));
     }
 
     @Test
-    public void writingEmail_ShouldBeDisplayed(){
+    public void writingEmail_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.email)).perform(typeText("Email"));
     }
 
     @Test
-    public void writingPassword_ShouldBeDisplayed(){
+    public void writingPassword_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.password)).perform(typeText("password"));
     }
 
     @Test
-    public void writingPasswordConfiguration_ShouldBeDisplayed(){
+    public void writingPasswordConfiguration_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
     }
 
     @Test
-    public void registering_ShouldFailOnEmptyTextFields(){
+    public void registering_ShouldFailOnEmptyTextFields() {
         List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
-        for (int i = 0 ; i < 4; ++i)
-        {
-            MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i*4), testCasesInt.get(i*4)),
+        for (int i = 0; i < 4; ++i) {
+            MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i * 4), testCasesInt.get(i * 4)),
                     new Pair(testCases.get(i * 4 + 1), testCasesInt.get(i * 4 + 1)),
                     new Pair(testCases.get(i * 4 + 2), testCasesInt.get(i * 4 + 2)),
                     new Pair(testCases.get(i * 4 + 3), testCasesInt.get(i * 4 + 3)));
-            if (i>0) {
+            if (i > 0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
             Log.d("COUNTER", " " + i);
@@ -149,15 +143,15 @@ public class RegisterTest {
 
     // for now
     @Test
-    public void registering_ShouldFailOnPasswordSmallerThan8(){
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username),new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
+    public void registering_ShouldFailOnPasswordSmallerThan8() {
+        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username), new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
     }
 
     @Test
-    public void registering_ShouldWorkOnNewCorrectInformation(){
+    public void registering_ShouldWorkOnNewCorrectInformation() {
         String newUsername = "Username";
         String newEmail = "Email@a";
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText(newUsername), R.id.username), new Pair(typeText(newEmail), R.id.email), new Pair(typeText(password), R.id.password), new Pair(typeText(password), R.id.passwordconf));
@@ -170,7 +164,7 @@ public class RegisterTest {
     // for now
 
     @Test
-    public void backButton_ShouldGoToLoginForm(){
+    public void backButton_ShouldGoToLoginForm() {
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.backBtn)).perform(click());
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));

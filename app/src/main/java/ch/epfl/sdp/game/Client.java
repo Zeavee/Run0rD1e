@@ -14,7 +14,6 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * This class updates the game from the client point of view. It fetches the data from firebase and
@@ -23,7 +22,7 @@ import ch.epfl.sdp.utils.DependencyFactory;
 public class Client implements Updatable {
     private static final String TAG = "Database";
     private int counter;
-    private ClientDatabaseAPI clientDatabaseAPI = DependencyFactory.getClientDatabaseAPI();
+    private ClientDatabaseAPI clientDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
@@ -31,7 +30,8 @@ public class Client implements Updatable {
     /**
      * Creates a new client
      */
-    public Client() {
+    public Client(ClientDatabaseAPI clientDatabaseAPI) {
+        this.clientDatabaseAPI = clientDatabaseAPI;
 
         // TODO Add Listener for and Players
         init();

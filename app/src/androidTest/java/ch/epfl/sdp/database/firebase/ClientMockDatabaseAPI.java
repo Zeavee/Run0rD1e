@@ -1,8 +1,9 @@
-package ch.epfl.sdp.database.firebase.api;
+package ch.epfl.sdp.database.firebase;
 
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;

@@ -1,11 +1,12 @@
+package ch.epfl.sdp.map;
 
-//package ch.epfl.sdp;
-/*
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.core.content.ContextCompat;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.uiautomator.UiDevice;
@@ -13,7 +14,6 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,15 +21,20 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ClientFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.utils.DependencyFactory;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -44,25 +49,9 @@ public class MapsActivityTest {
     private static final int GRANT_BUTTON_INDEX = 0;
     private static final int DENY_BUTTON_INDEX = 1;
 
-    public static void allowPermissionsIfNeeded(String permissionNeeded) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
-                sleep();
-                UiDevice device = UiDevice.getInstance(getInstrumentation());
-                UiObject allowPermissions = device.findObject(new UiSelector()
-                        .clickable(true)
-                        .checkable(false)
-                        .index(GRANT_BUTTON_INDEX));
-                if (allowPermissions.exists()) {
-                    allowPermissions.click();
-                }
-            }
-        } catch (UiObjectNotFoundException e) {
-            System.out.println("There is no permissions dialog to interact with");
-        }
-    }
+    HashMap<String, UserForFirebase> map = new HashMap<>();
 
-    public static void denyPermissionsIfNeeded(String permissionNeeded) {
+    public static void permissionsIfNeeded(String permissionNeeded, int button) {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
                 sleep();
@@ -70,7 +59,7 @@ public class MapsActivityTest {
                 UiObject allowPermissions = device.findObject(new UiSelector()
                         .clickable(true)
                         .checkable(false)
-                        .index(DENY_BUTTON_INDEX));
+                        .index(button));
                 if (allowPermissions.exists()) {
                     allowPermissions.click();
                 }
@@ -99,11 +88,12 @@ public class MapsActivityTest {
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    DependencyFactory.setTestMode(true);
-                    DependencyFactory.setAuthenticationAPI(new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com"));
-                    HashMap<String, UserForFirebase> map = new HashMap<>();
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
-                    DependencyFactory.setCommonDatabaseAPI(new CommonMockDatabaseAPI(map));
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
+                    appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+                    appContainer.clientDatabaseAPI = new ClientMockDatabaseAPI();
                 }
             };
 
@@ -114,17 +104,10 @@ public class MapsActivityTest {
         mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
     }
 
-    @After
-    public void tearDown() {
-        DependencyFactory.setTestMode(false);
-        DependencyFactory.setAuthenticationAPI(null);
-        DependencyFactory.setCommonDatabaseAPI(null);
-    }
-
     @Test
     public void denyRequestPermissionWorks() {
-        denyPermissionsIfNeeded("ACCESS_FINE_LOCATION");
-        onView(withId(R.id.recenter)).perform(click());
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", DENY_BUTTON_INDEX);
+        onView(ViewMatchers.withId(R.id.recenter)).perform(click());
         sleep();
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
@@ -132,7 +115,7 @@ public class MapsActivityTest {
     @Test
     public void myPositionButtonWorks() {
         PlayerManager.getInstance().removeAll(); // To remove
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(R.id.recenter)).perform(click());
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
@@ -144,7 +127,7 @@ public class MapsActivityTest {
 
     @Test
     public void leaderboardOpens() {
-        testButtonWorks(R.id.button_leaderboard, R.id.recycler_view);
+        testButtonWorks(R.id.button_leaderboard, R.id.iv_champion1);
     }
 
     @Test
@@ -153,8 +136,8 @@ public class MapsActivityTest {
     }
 
     private void testButtonWorks(int button, int view) {
-        allowPermissionsIfNeeded("ACCESS_FINE_LOCATION");
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
         onView(withId(view)).check(matches(isDisplayed()));
     }
-}*/
+}

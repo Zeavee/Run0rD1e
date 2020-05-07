@@ -21,7 +21,11 @@ import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    private DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
+    private DocumentReference lobbyRef;
+
+    public void setLobbyRef(String lobbyName) {
+        lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
+    }
 
     @Override
     public void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {

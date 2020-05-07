@@ -15,17 +15,17 @@ import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class MovingArtificialEntityTest {
-    MockMapApi map;
+    MockMap map;
 
     @Before
     public void setup(){
-        map = new MockMapApi();
+        map = new MockMap();
         Game.getInstance().setMapApi(map);
         PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
     }

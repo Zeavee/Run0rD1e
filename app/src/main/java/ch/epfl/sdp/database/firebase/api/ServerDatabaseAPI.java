@@ -14,6 +14,7 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
  * The interface with the method related to the firebase firestore
  */
 public interface ServerDatabaseAPI {
+    void setLobbyRef(String lobbyName);
     /**
      * Listen to the number of players in the lobby, if the lobby is full, populate the enemy and start the game
      *

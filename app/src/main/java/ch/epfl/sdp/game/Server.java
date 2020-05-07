@@ -24,7 +24,6 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -32,13 +31,14 @@ import ch.epfl.sdp.utils.DependencyFactory;
 public class Server implements Updatable {
     private static final String TAG = "Database";
     private int counter;
-    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
+    private ServerDatabaseAPI serverDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
 
-    public Server() {
+    public Server(ServerDatabaseAPI serverDatabaseAPI) {
+        this.serverDatabaseAPI = serverDatabaseAPI;
         itemFactory = new ItemFactory();
         initEnvironment();
     }

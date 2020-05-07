@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.MockRenderer;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,14 +13,13 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     private Player player1; //player position is in Geneva
-    private Game game;
 
     @Before
     public void setup(){
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
-        game.getInstance().setMapApi(new MockMapApi());
-        game.getInstance().setRenderer(new MockRenderer());
-
+        MockMap mockMap = new MockMap();
+        Game.getInstance().setMapApi(mockMap);
+        Game.getInstance().setRenderer(mockMap);
         PlayerManager.getInstance().setCurrentUser(player1);
     }
 
@@ -41,9 +39,9 @@ public class PlayerTest {
         Healthpack healthpack = new Healthpack(1);
 
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
-       // healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
 
-      //  assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
 
     @Test

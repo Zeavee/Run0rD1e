@@ -2,9 +2,9 @@ package ch.epfl.sdp.database.authentication;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+
 
 public class MockAuthenticationAPI implements AuthenticationAPI {
     private HashMap<String, String> registeredUsers;

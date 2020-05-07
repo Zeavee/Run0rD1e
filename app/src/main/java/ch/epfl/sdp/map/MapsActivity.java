@@ -26,9 +26,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
+import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
@@ -36,12 +41,12 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
-import ch.epfl.sdp.database.authentication.AuthenticationAPI;
-import ch.epfl.sdp.utils.DependencyFactory;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
+    private ServerDatabaseAPI serverDatabaseAPI;
+    private ClientDatabaseAPI clientDatabaseAPI;
     private InventoryFragment inventoryFragment = new InventoryFragment();
     private LocationFinder locationFinder;
     boolean flag = false;
@@ -66,8 +71,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Game.getInstance().setRenderer(this);
 
-        commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
-        authenticationAPI = DependencyFactory.getAuthenticationAPI();
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        authenticationAPI = appContainer.authenticationAPI;
+        commonDatabaseAPI = appContainer.commonDatabaseAPI;
+        serverDatabaseAPI = appContainer.serverDatabaseAPI;
+        clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -130,9 +138,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
                                 if (registerToLobbyRes.isSuccessful()) {
                                     if (playerManager.isServer()) {
-                                        new Server();
+                                        serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                                        new Server(serverDatabaseAPI);
                                     } else {
-                                        new Client();
+                                        clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                                        new Client(clientDatabaseAPI);
                                     }
 
                                     Log.d("Database", "Lobby registered/joined");

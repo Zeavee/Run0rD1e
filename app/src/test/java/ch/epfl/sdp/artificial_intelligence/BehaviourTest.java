@@ -1,4 +1,4 @@
-/*package ch.epfl.sdp.artificial_intelligence;
+package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,7 +11,8 @@ import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
+import static org.junit.Assert.*;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -21,7 +22,7 @@ public class BehaviourTest {
 
     @Before
     public void setup() {
-        Game.getInstance().setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMap());
         PlayerManager.getInstance().removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
@@ -54,7 +55,7 @@ public class BehaviourTest {
 
             enemy.update();
 
-           //assertTrue(health != player.getHealthPoints());
+           assertTrue(health != player.getHealthPoints());
         }
     }
 
@@ -64,7 +65,7 @@ public class BehaviourTest {
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL ||
                 enemy.getBehaviour() == Behaviour.CHASE) {
-          //  enemy.update();
+            enemy.update();
         }
 
         enemy.setWaiting(true);
@@ -78,7 +79,7 @@ public class BehaviourTest {
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL) {
-       //     enemy.update();
+            enemy.update();
         }
 
         enemy.setWaiting(true);
@@ -95,7 +96,7 @@ public class BehaviourTest {
         }
 
         enemy.setWaiting(true);
-        //enemy.update();
+        enemy.update();
 
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }
@@ -111,5 +112,4 @@ public class BehaviourTest {
 
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }
-}*/
-
+}

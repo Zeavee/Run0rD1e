@@ -7,7 +7,7 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -16,9 +16,9 @@ public class EnemyGeneratorTest {
 
     @Before
     public void setup() {
-        Game.getInstance().setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMap());
     }
-/*
+
     @Test
     public void generateEnemyWorks() {
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(10000, 10000));
@@ -29,7 +29,7 @@ public class EnemyGeneratorTest {
         enemyGenerator.generateEnemy(100);
         assertEquals(1, enemyGenerator.getEnemies().size());
         assertNotNull(enemyGenerator.getEnemies().get(0));
-    }*/
+    }
 
     @Test
     public void setMaxEnemiesWorks() {
