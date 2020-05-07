@@ -38,19 +38,13 @@ public class SocialRepositoryFriendTest {
         @Override
         protected void beforeActivityLaunched() {
             PlayerManager.setCurrentUser(new Player("mock", "mock@mock.com"));
+            prepopulateDatabase();
         }
-
-        @Override
-        protected void afterActivityLaunched() {
-
-        }
-
     };
 
     @Before
     public void setup() {
         SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), "mock@mock.com");
-        prepopulateDatabase();
     }
 
     private void addUniqueFriendship(User x, User y) {

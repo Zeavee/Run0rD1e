@@ -1,5 +1,6 @@
 package ch.epfl.sdp;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
@@ -27,19 +28,23 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class MainActivityTest {
     @Rule
     public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<>(MainActivity.class);
+            new ActivityTestRule<MainActivity>(MainActivity.class) {
+                @Override
+                protected void beforeActivityLaunched() {
+                    String currentEmail = "test@gmail.com";
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(null, currentEmail);
+                }
+            };
 
     @Before
-    public void setup(){
+    public void setup() {
         Game.getInstance().setMapApi(new MockMapApi());
-        String currentEmail = "test@gmail.com";
         PlayerManager.setCurrentUser(new Player("test", "test@gmail.com"));
-        AppContainer appContainer = ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer;
-        appContainer.authenticationAPI = new MockAuthenticationAPI(null, currentEmail);
     }
 
     @After
-    public void teardown(){
+    public void teardown() {
         PlayerManager.setCurrentUser(null);
     }
 

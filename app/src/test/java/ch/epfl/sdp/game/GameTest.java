@@ -5,8 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.map.MockRenderer;
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,10 +16,9 @@ public class GameTest {
 
     @Before
     public void setup() {
-        MockMapApi mockMapApi = new MockMapApi();
-        MockRenderer mockRenderer = new MockRenderer();
-        Game.getInstance().setMapApi(mockMapApi);
-        Game.getInstance().setRenderer(mockRenderer);
+        MockMap mockMap = new MockMap();
+        Game.getInstance().setMapApi(mockMap);
+        Game.getInstance().setRenderer(mockMap);
         Game.getInstance().clearGame();
     }
 

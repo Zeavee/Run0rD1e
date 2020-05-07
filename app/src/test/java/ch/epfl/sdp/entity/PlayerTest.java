@@ -5,8 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.map.MockMapApi;
-import ch.epfl.sdp.map.MockRenderer;
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,8 +19,9 @@ public class PlayerTest {
     public void setup(){
         PlayerManager playerManager = new PlayerManager();
         player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
-        game.getInstance().setMapApi(new MockMapApi());
-        game.getInstance().setRenderer(new MockRenderer());
+        MockMap mockMap = new MockMap();
+        game.getInstance().setMapApi(mockMap);
+        game.getInstance().setRenderer(mockMap);
         PlayerManager.setCurrentUser(player1);
     }
 

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
@@ -48,8 +47,6 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         current_email_id = appContainer.authenticationAPI.getCurrentUserEmail();
-
-        findViewById(R.id.backFromFriendsList).setOnClickListener((v) -> startActivity(new Intent(FriendsListActivity.this, MainActivity.class)));
 
         SocialRepository.setContextActivityAndCurrentEmail(this, current_email_id);
         SocialRepository.getInstance().fetchFriends(new User(current_email_id));

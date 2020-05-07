@@ -1,15 +1,15 @@
 package ch.epfl.sdp.map;
 
-import org.junit.Test;
-
 import java.util.ArrayList;
+import java.util.Collection;
 
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
 
-public class MockMapApi implements MapApi {
+public class MockMap implements MapApi, Renderer, LocationFinder {
     // Used for tests
     private ArrayList<Displayable> displayables = new ArrayList<>();
+    private ArrayList<Displayable> currentlyDisplayed = new ArrayList<>();
+    private GeoPoint location;
 
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
@@ -35,10 +35,22 @@ public class MockMapApi implements MapApi {
         displayables.remove(displayable);
     }
 
-    @Test
-    public void unDisplayEntity() {
-        Player player1 = new Player(6.149290, 46.212470, 50,
-                "Skyris", "test@email.com"); //player position is in Geneva
-        this.removeMarkers(player1);
+    @Override
+    public GeoPoint getCurrentLocation() {
+        return location;
+    }
+
+    public void setLocation(GeoPoint location) {
+        this.location = location;
+    }
+
+    @Override
+    public void display(Collection<Displayable> displayables) {
+        currentlyDisplayed.addAll(displayables);
+    }
+
+    @Override
+    public void unDisplay(Displayable displayable) {
+        currentlyDisplayed.remove(displayable);
     }
 }

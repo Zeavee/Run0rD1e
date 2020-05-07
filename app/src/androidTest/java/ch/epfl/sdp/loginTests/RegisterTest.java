@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.util.Pair;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -23,14 +24,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sdp.MainActivity;
-import ch.epfl.sdp.utils.MissingFieldTestFactory;
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.utils.CommonMockDatabaseAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.login.RegisterFormActivity;
+import ch.epfl.sdp.utils.CommonMockDatabaseAPI;
+import ch.epfl.sdp.utils.MissingFieldTestFactory;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
@@ -55,15 +56,18 @@ public class RegisterTest {
 
     @Rule
     public ActivityTestRule<RegisterFormActivity> mActivityRule =
-            new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class);
+            new ActivityTestRule<RegisterFormActivity>(RegisterFormActivity.class) {
+                @Override
+                protected void beforeActivityLaunched() {
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), null);
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
+                }
+            };
 
 
     @Before
     public void setUp() {
-        AppContainer appContainer = ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer;
-        appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), null);
-        appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
-
         testCases = new ArrayList<>();
         testCases.addAll(Arrays.asList(typeText("test"), typeText("password"), typeText("password"), click(),
                 typeText("Username"), typeText("password"), typeText("password"), click(),
