@@ -94,4 +94,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="sunrise_image">sunrise image</string>
+    <string name="sunset_image">sunset image</string>
+    <string name="wind_image">wind image</string>
+    <string name="wind_image">wind image</string>
 </resources>

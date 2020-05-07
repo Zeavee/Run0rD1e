@@ -6,13 +6,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.WeatherActivity;
+import ch.epfl.sdp.WeatherFragment;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
@@ -43,12 +43,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
+    private static WeatherFragment weatherFragment = new WeatherFragment();
     private LocationFinder locationFinder;
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
 
-    boolean flag = false;
+    private boolean flagInventory = false;
+    private boolean flagWeather = false;
 
     /**
      * A method to set a LocationFinder
@@ -81,7 +83,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
         Button weather = findViewById(R.id.button_weather);
-        weather.setOnClickListener(v -> startActivity(new Intent(MapsActivity.this, WeatherActivity.class)));
+        weather.setOnClickListener(v ->  {
+            showFragment(weatherFragment, R.id.fragment_weather_container, flagWeather);
+            flagWeather = ! flagWeather;
+        });
+
+        Button inventory = findViewById(R.id.button_inventory);
+        inventory.setOnClickListener(v ->  {
+            showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
+            flagInventory = ! flagInventory;
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
@@ -146,20 +157,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         display(Game.getInstance().getDisplayablesOnce());
     }
 
-    /**
-     * A method that shows the inventory
-     *
-     * @param v the view of the inventory
-     */
-    public void showInventory(View v) {
+    private void showFragment(Fragment fragment, int containerId, boolean flag) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.animator.slide_up, R.animator.slide_down);
         if (flag) {
-            transaction.remove(inventoryFragment);
+            transaction.remove(fragment);
         } else {
-            transaction.add(R.id.fragment_inventory_container, inventoryFragment);
+            transaction.add(containerId, fragment);
         }
-        flag = !flag;
         transaction.commit();
     }
 

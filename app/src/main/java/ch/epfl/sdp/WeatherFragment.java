@@ -2,10 +2,13 @@ package ch.epfl.sdp;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.androdocs.httprequest.HttpRequest;
 
@@ -19,31 +22,32 @@ import java.util.Locale;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 
-public class WeatherActivity extends AppCompatActivity {
-    private String API = "b840e4c524a759fd39f896b665f92de0";
-
+public class WeatherFragment extends Fragment {
     private TextView addressTxt, updated_atTxt, statusTxt, tempTxt, temp_minTxt, temp_maxTxt, sunriseTxt,
-            sunsetTxt, windTxt, pressureTxt, humidityTxt;
+            sunsetTxt, windTxt, humidityTxt;
 
-    long updatedAt, sunrise, sunset;
-    String updatedAtText, temp, tempMin,  tempMax, pressure, humidity, windSpeed, weatherDescription, address;
+    private long sunrise, sunset;
+    private String updatedAtText, temp, tempMin,  tempMax, humidity, windSpeed, weatherDescription, address;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_weather);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_weather, container, false);
+    }
 
-        addressTxt = findViewById(R.id.address);
-        updated_atTxt = findViewById(R.id.updated_at);
-        statusTxt = findViewById(R.id.status);
-        tempTxt = findViewById(R.id.temp);
-        temp_minTxt = findViewById(R.id.temp_min);
-        temp_maxTxt = findViewById(R.id.temp_max);
-        sunriseTxt = findViewById(R.id.sunrise);
-        sunsetTxt = findViewById(R.id.sunset);
-        windTxt = findViewById(R.id.wind);
-        pressureTxt = findViewById(R.id.pressure);
-        humidityTxt = findViewById(R.id.humidity);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        addressTxt = getView().findViewById(R.id.address);
+        updated_atTxt = getView().findViewById(R.id.updated_at);
+        statusTxt = getView().findViewById(R.id.status);
+        tempTxt = getView().findViewById(R.id.temp);
+        temp_minTxt = getView().findViewById(R.id.temp_min);
+        temp_maxTxt = getView().findViewById(R.id.temp_max);
+        sunriseTxt = getView().findViewById(R.id.sunrise);
+        sunsetTxt = getView().findViewById(R.id.sunset);
+        windTxt = getView().findViewById(R.id.wind);
+        humidityTxt = getView().findViewById(R.id.humidity);
 
         new WeatherTask().execute();
     }
@@ -54,14 +58,15 @@ public class WeatherActivity extends AppCompatActivity {
             super.onPreExecute();
 
             /* Showing the ProgressBar, Making the main design GONE */
-            findViewById(R.id.loader).setVisibility(View.VISIBLE);
-            findViewById(R.id.mainContainer).setVisibility(View.GONE);
-            findViewById(R.id.errorText).setVisibility(View.GONE);
+            getView().findViewById(R.id.loader).setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.mainContainer).setVisibility(View.GONE);
+            getView().findViewById(R.id.errorText).setVisibility(View.GONE);
         }
 
         protected String doInBackground(String... args) {
             GeoPoint location = PlayerManager.getCurrentUser().getLocation();
-            return HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLatitude() + "&units=metric&appid=" + API);
+            String API = "b840e4c524a759fd39f896b665f92de0";
+            return HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units=metric&appid=" + API);
         }
 
         @Override
@@ -73,12 +78,11 @@ public class WeatherActivity extends AppCompatActivity {
                 JSONObject wind = jsonObj.getJSONObject("wind");
                 JSONObject weather = jsonObj.getJSONArray("weather").getJSONObject(0);
 
-                updatedAt = jsonObj.getLong("dt");
+                long updatedAt = jsonObj.getLong("dt");
                 updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(new Date(updatedAt * 1000));
                 temp = main.getString("temp") + "°C";
                 tempMin = "Min Temp: " + main.getString("temp_min") + "°C";
                 tempMax = "Max Temp: " + main.getString("temp_max") + "°C";
-                pressure = main.getString("pressure");
                 humidity = main.getString("humidity");
 
                 sunrise = sys.getLong("sunrise");
@@ -91,12 +95,12 @@ public class WeatherActivity extends AppCompatActivity {
                 putDataInLayout();
 
                 /* Views populated, Hiding the loader, Showing the main design */
-                findViewById(R.id.loader).setVisibility(View.GONE);
-                findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.loader).setVisibility(View.GONE);
+                getView().findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
 
             } catch (JSONException e) {
-                findViewById(R.id.loader).setVisibility(View.GONE);
-                findViewById(R.id.errorText).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.loader).setVisibility(View.GONE);
+                getView().findViewById(R.id.errorText).setVisibility(View.VISIBLE);
             }
         }
 
@@ -110,7 +114,6 @@ public class WeatherActivity extends AppCompatActivity {
             sunriseTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunrise * 1000)));
             sunsetTxt.setText(new SimpleDateFormat("hh:mm a", Locale.ENGLISH).format(new Date(sunset * 1000)));
             windTxt.setText(windSpeed);
-            pressureTxt.setText(pressure);
             humidityTxt.setText(humidity);
         }
     }

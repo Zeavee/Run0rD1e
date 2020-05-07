@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WeatherActivity"></activity>
+        <activity android:name=".WeatherFragment"></activity>
         <activity
             android:name=".social.AddFriendsActivity"
             android:label="Search Friends" />

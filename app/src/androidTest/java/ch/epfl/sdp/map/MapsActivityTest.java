@@ -33,6 +33,7 @@ import ch.epfl.sdp.item.Healthpack;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -105,17 +106,15 @@ public class MapsActivityTest {
         onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
+
     @Test
-    public void myPositionButtonWorks() {
-        PlayerManager.removeAll(); // To remove
-        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
-        onView(withId(R.id.recenter)).perform(click());
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+    public void inventoryOpensAndCloses() {
+        testFragmentOpendsAndCloses(R.id.button_inventory, R.id.items_recyclerview);
     }
 
     @Test
-    public void inventoryOpens() {
-        testButtonWorks(R.id.button_inventory, R.id.fragment_inventory_container);
+    public void weatherOpensAndCloses() {
+        testFragmentOpendsAndCloses(R.id.button_weather, R.id.temp);
     }
 
     @Test
@@ -124,13 +123,15 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void weatherOpens() {
-        testButtonWorks(R.id.button_weather, R.id.temp);
-    }
-
-    @Test
     public void moveCameraWorks() {
         testButtonWorks(R.id.recenter, R.id.map);
+    }
+
+    private void testFragmentOpendsAndCloses(int button, int view) {
+        onView(withId(view)).check(doesNotExist());
+        testButtonWorks(button, view);
+        onView(withId(button)).perform(click());
+        onView(withId(view)).check(doesNotExist());
     }
 
     private void testButtonWorks(int button, int view) {
