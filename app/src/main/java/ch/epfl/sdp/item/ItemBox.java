@@ -88,6 +88,7 @@ public class ItemBox implements Displayable, Updatable {
                 continue;
             }
 
+            taken = true;
             react(player);
             Game.getInstance().removeCurrentFromUpdateList();
             Game.getInstance().removeFromDisplayList(this);

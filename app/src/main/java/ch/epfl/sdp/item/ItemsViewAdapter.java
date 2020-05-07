@@ -45,6 +45,7 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.button.setOnClickListener(v -> {
             if (PlayerManager.getInstance().isServer()) {
                 itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
+                PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
             } else {
                 PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
             }
