@@ -1,24 +1,22 @@
 package ch.epfl.sdp.SocialTests;
 
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.dependencies.DependencyProvider;
+import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.AddFriendsActivity;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -38,15 +36,20 @@ import static org.hamcrest.Matchers.allOf;
 public class AddFriendsActivityTest {
 
     @Rule
-    public ActivityTestRule<AddFriendsActivity> mActivityTestRule =  new ActivityTestRule<AddFriendsActivity>(AddFriendsActivity.class) {
+    public ActivityTestRule<AddFriendsActivity> mActivityTestRule = new ActivityTestRule<AddFriendsActivity>(AddFriendsActivity.class) {
         @Override
         protected void beforeActivityLaunched() {
-            DependencyProvider.remoteUserFetch = new MockFriendsFetcher();
             Log.d("addFriendTest", " beforeActivityLaunched");
+            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.remoteUserFetch = new MockFriendsFetcher();
         }
     };
 
-    public void step1(){
+    @Before
+    public void setup() {
+        PlayerManager.setCurrentUser(new Player("stupid0", "stupid0@gmail.com"));
+    }
+
+    public void step1() {
         // *********************************** Clicks on the search icon ******************************************* //
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.action_search), withContentDescription("Search"),
@@ -65,7 +68,7 @@ public class AddFriendsActivityTest {
         actionMenuItemView.perform(click());
     }
 
-    public void step2(){
+    public void step2() {
         // *********************** Clicks on the third search result to add stupid3 as friend *************************** //
         ViewInteraction constraintLayout = onView(
                 allOf(childAtPosition(
@@ -83,7 +86,7 @@ public class AddFriendsActivityTest {
         constraintLayout.perform(click());
     }
 
-    public void step3(){
+    public void step3() {
         // ***************** Check that first search result, stupid0@gmail, appears on the search result list *************** //
         ViewInteraction viewGroup = onView(
                 allOf(childAtPosition(
@@ -93,11 +96,12 @@ public class AddFriendsActivityTest {
 
     }
 
-    public void step4(){
+    public void step4() {
         // *********************** Check that the first search result has text stupid0@gmail.com *************************** //
         ViewInteraction textView = matchesChildWithTextAtDepth4("stupid0@gmail.com", R.id.textViewEmail, R.id.recyclerQueryFriends, 2);
         textView.check(matches(withText("stupid0@gmail.com")));
     }
+
     @Test
     public void addFriendsActivityTest() throws InterruptedException {
 

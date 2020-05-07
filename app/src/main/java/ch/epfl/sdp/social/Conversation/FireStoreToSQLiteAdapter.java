@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import ch.epfl.sdp.social.socialDatabase.*;
-import ch.epfl.sdp.social.*;
 import java.util.List;
 import java.util.Map;
+
+import ch.epfl.sdp.social.WaitsOnWithServer;
+import ch.epfl.sdp.social.socialDatabase.Message;
 
 /*
  This class fetches messages from FireStore and places them in the local SQLite database.
@@ -26,15 +27,12 @@ import java.util.Map;
  */
 public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
 
-    private static final FirebaseFirestore remoteHost = FirebaseFirestore.getInstance();
-    private static Context listener;
-    private final static List<String> PATH_SEGMENTS = Arrays.asList("Users", "Texts", "Texts", "read");
-    private static FireStoreToSQLiteAdapter singleton = new FireStoreToSQLiteAdapter();
+    private final FirebaseFirestore remoteHost = FirebaseFirestore.getInstance();
+    private Context listener;
+    private final List<String> PATH_SEGMENTS = Arrays.asList("Users", "Texts", "Texts", "read");
 
-
-    public static FireStoreToSQLiteAdapter getInstance() { return singleton; }
     public void setListener(Context listener) {
-        singleton.listener = listener;
+        this.listener = listener;
     }
 
     public void sendRemoteServerDataToLocal(String owner, String sender, int chat_id) {

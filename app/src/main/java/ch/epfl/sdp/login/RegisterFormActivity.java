@@ -16,9 +16,8 @@ import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.dependencies.DependencyProvider;
-import ch.epfl.sdp.social.FriendsListActivity;
-import ch.epfl.sdp.utils.DependencyFactory;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 
 public class RegisterFormActivity extends AppCompatActivity {
     private static final String REGEX = "^[A-Za-z0-9.]{1,20}@.{1,20}$";
@@ -41,8 +40,9 @@ public class RegisterFormActivity extends AppCompatActivity {
         txtPasswordConf = findViewById(R.id.passwordconf);
         registerButton = findViewById(R.id.registerbutton);
 
-        authenticationAPI = DependencyFactory.getAuthenticationAPI();
-        commonDatabaseAPI = DependencyFactory.getCommonDatabaseAPI();
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        authenticationAPI = appContainer.authenticationAPI;
+        commonDatabaseAPI = appContainer.commonDatabaseAPI;
     }
 
     public void registerBtn_OnClick(View view) {
@@ -72,7 +72,6 @@ public class RegisterFormActivity extends AppCompatActivity {
                     if(!task.isSuccessful()) {
                         Toast.makeText(RegisterFormActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        DependencyProvider.email = email;
                         RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainActivity.class));
                         RegisterFormActivity.this.finish();
                     }

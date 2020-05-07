@@ -1,12 +1,12 @@
 package ch.epfl.sdp.game;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.utils.MockMapApi;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.map.MockMap;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -16,9 +16,9 @@ public class GameTest {
 
     @Before
     public void setup() {
-        MockMapApi mockMapApi = new MockMapApi();
-        Game.getInstance().setMapApi(mockMapApi);
-        Game.getInstance().setRenderer(mockMapApi);
+        MockMap mockMap = new MockMap();
+        Game.getInstance().setMapApi(mockMap);
+        Game.getInstance().setRenderer(mockMap);
         Game.getInstance().clearGame();
     }
 

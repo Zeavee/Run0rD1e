@@ -12,7 +12,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -28,7 +28,7 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        Game.getInstance().setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMap());
         playerManager = new PlayerManager();
         player = new Player("","");
         PlayerManager.addPlayer(player);
