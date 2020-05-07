@@ -35,8 +35,10 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
+import ch.epfl.sdp.item.Market;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
 import ch.epfl.sdp.login.AuthenticationAPI;
+import ch.epfl.sdp.market.MarketActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -186,6 +188,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
+                if (displayable instanceof Market) {
+                    ((Market) displayable).setCallingActivity(this);
+                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -196,5 +201,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         runOnUiThread(() -> {
             displayable.unDisplayOn(Game.getInstance().getMapApi());
         });
+    }
+
+    /**
+     * switches to a market activity, where user can buy health or shield
+     */
+    public void startMarket() {
+        startActivity(new Intent(MapsActivity.this, MarketActivity.class));
     }
 }

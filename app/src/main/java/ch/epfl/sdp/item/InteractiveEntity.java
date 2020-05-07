@@ -31,7 +31,6 @@ public abstract class InteractiveEntity implements Displayable {
     /**
      * Creates an interactive entity, by defining its location and if it is active.
      *
-     * @param entityType The type of the entity.
      * @param location   The location of the entity on the geodesic surface.
      * @param active     The flag that tells if the entity is active or not.
      */

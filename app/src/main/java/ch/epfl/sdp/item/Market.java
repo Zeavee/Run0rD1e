@@ -1,8 +1,7 @@
 package ch.epfl.sdp.item;
 
-
+import android.content.Intent;
 import androidx.core.util.Pair;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -11,7 +10,9 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
+import android.app.Activity;
 
 /**
  * A Market is a place where the players can go and buy items using their money
@@ -21,6 +22,11 @@ public class Market extends InteractiveEntity implements Displayable {
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
     private final RandomGenerator randomGenerator = new RandomGenerator();
+    private MapsActivity mapActivity;
+
+    public void setCallingActivity(MapsActivity mapActivity) {
+        this.mapActivity = mapActivity;
+    }
 
     /**
      * This is a constructor for Market which randomly initialize the items that will be available
@@ -70,7 +76,9 @@ public class Market extends InteractiveEntity implements Displayable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        // TODO: when the user moves onto the displayed icon of this market then switch to the market activity
+        if (PlayerManager.getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50) {
+            mapActivity.startMarket();
+        }
     }
 
     @Override
