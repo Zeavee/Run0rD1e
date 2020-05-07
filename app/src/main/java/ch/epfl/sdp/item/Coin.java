@@ -66,7 +66,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
             String title = String.format("Coin of value %d", value);
-            mapApi.displayMarkerCircle(this, 0xFFDg700, title, 100);
+            mapApi.displayMarkerCircle(this, 0xFFD700, title, 100);
             this.isDisplayed = true;
         }
     }
