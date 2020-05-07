@@ -44,13 +44,14 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     public void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
         lobbyRef.collection(PlayerManager.ENEMY_COLLECTION_NAME)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    else {
+                    if (e == null) {
                         List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
                         for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
                             enemyForFirebaseList.add(documentChange.getDocument().toObject(EnemyForFirebase.class));
                         }
                         onValueReadyCallback.finish(new CustomResult<>(enemyForFirebaseList, true, null));
+                    } else {
+                        onValueReadyCallback.finish(new CustomResult<>(null, false, e));
                     }
                 });
     }

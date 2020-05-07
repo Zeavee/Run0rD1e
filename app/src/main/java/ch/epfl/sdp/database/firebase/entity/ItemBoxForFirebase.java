@@ -7,21 +7,21 @@ public class ItemBoxForFirebase {
     private GeoPoint location;
     private boolean taken;
 
-    public ItemBoxForFirebase() {
-    }
-
     public ItemBoxForFirebase(String id, GeoPoint location, boolean taken) {
         this.id = id;
         this.location = location;
         this.taken = taken;
     }
 
-    public String getId() {
-        return id;
+    public ItemBoxForFirebase() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
     }
 
     public GeoPoint getLocation() {
@@ -32,11 +32,11 @@ public class ItemBoxForFirebase {
         this.location = location;
     }
 
-    public boolean isTaken() {
-        return taken;
+    public String getId() {
+        return id;
     }
 
-    public void setTaken(boolean taken) {
-        this.taken = taken;
+    public void setId(String id) {
+        this.id = id;
     }
 }

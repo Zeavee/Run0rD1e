@@ -13,10 +13,10 @@ public class FirebaseAuthenticationAPI implements AuthenticationAPI {
     private static FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
-    public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> callback) {
+    public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> signInCallback) {
         auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(authResult -> callback.finish(new CustomResult<>(null, true, null)))
-                .addOnFailureListener(e -> callback.finish(new CustomResult<>(null, false, e)));
+                .addOnFailureListener(e -> signInCallback.finish(new CustomResult<>(null, false, e)))
+                .addOnSuccessListener(authResult -> signInCallback.finish(new CustomResult<>(null, true, null)));
     }
 
     @Override
