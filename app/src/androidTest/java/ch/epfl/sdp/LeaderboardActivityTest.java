@@ -38,6 +38,7 @@ public class LeaderboardActivityTest {
 
     @Test
     public void onCreateTest() {
+        onView(withId(R.id.recycler_view)).perform();
         onView(withId(R.id.iv_champion1)).check(matches(isDisplayed()));
     }
 }
