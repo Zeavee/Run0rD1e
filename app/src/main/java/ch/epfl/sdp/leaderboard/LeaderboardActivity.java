@@ -13,6 +13,8 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 
 public class LeaderboardActivity extends AppCompatActivity {
     private LeaderboardViewModel leaderboardViewModel;
@@ -27,6 +29,9 @@ public class LeaderboardActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        commonDatabaseAPI = appContainer.commonDatabaseAPI;
+
         // Get a new or existing ViewModel from the ViewModelProvider.
         leaderboardViewModel = new ViewModelProvider(this).get(LeaderboardViewModel.class);
 
@@ -39,11 +44,10 @@ public class LeaderboardActivity extends AppCompatActivity {
         });
         leaderboardViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
 
-        commonDatabaseAPI = new CommonFirestoreDatabaseAPI();
         commonDatabaseAPI.syncCloudFirebaseToRoom(leaderboardViewModel);
     }
 
-    private void setupChampions(List<LeaderboardEntity> players) {
+    public void setupChampions(List<LeaderboardEntity> players) {
         if (players == null || players.size() < 3) {
             return;
         }
