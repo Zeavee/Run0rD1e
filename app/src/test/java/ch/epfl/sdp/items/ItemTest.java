@@ -31,4 +31,5 @@ public class ItemTest {
         assertEquals(item.getName(), "ItemName");
         assertEquals(item.getDescription(), "ItemDescription");
     }
+    
 }
