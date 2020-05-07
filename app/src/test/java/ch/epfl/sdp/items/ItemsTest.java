@@ -84,7 +84,7 @@ public class ItemsTest {
     @Test
     public void coinTest() {
         PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
-        Coin c = new Coin(5);
+        Coin c = new Coin(5, new GeoPoint(10,10));
         assertTrue(5 == c.getValue());
         c.useOn(PlayerManager.getInstance().getCurrentUser());
         assertTrue(PlayerManager.getInstance().getCurrentUser().getMoney() == 5);

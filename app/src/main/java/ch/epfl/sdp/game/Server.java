@@ -2,6 +2,7 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -71,6 +73,7 @@ public class Server implements Updatable {
                         }
                         initItemBoxes();
                         initEnemies();
+                        initCoins();
                         serverDatabaseAPI.startGame(value2 -> {
                             if (value2.isSuccessful()) {
                                 Game.getInstance().addToUpdateList(this);
@@ -98,6 +101,15 @@ public class Server implements Updatable {
         enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
         //  -------------------------------------------
+    }
+
+    private void initCoins() {
+        int amount  = 10;
+        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
+        for(Coin c: coins) {
+            Game.getInstance().addToDisplayList(c);
+            Game.getInstance().addToUpdateList(c);
+        }
     }
 
     private void initItemBoxes() {

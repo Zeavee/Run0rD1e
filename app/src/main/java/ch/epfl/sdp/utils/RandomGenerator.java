@@ -176,8 +176,20 @@ public class RandomGenerator {
         return result;
     }
 
-     public Coin randomCoin() {
+     public Coin randomCoin(GeoPoint location) {
        int i = rand.nextInt(30);
-       return new Coin(i);
+       return new Coin(i, location);
+     }
+
+     public GeoPoint randomGeoPointAroundLocation(GeoPoint location) {
+       double latitude = location.getLatitude();
+       double longitude = location.getLongitude();
+       double leftLimit = -0.1;
+       double rightLimit = 0.12;
+       double randomExt = leftLimit + rand.nextDouble()*(rightLimit - leftLimit);
+       double newLat = latitude + randomExt;
+       double anotherRandomExt = leftLimit + rand.nextDouble()*(rightLimit - leftLimit);
+       double newLong = longitude + anotherRandomExt;
+       return new GeoPoint(newLong, newLat);
      }
 }
