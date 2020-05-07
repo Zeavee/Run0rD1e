@@ -77,14 +77,9 @@ public class Server implements Updatable {
                                 Game.getInstance().initGame();
                                 addPlayersPositionListener();
                                 addUsedItemsListener();
-                            } else
-                                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
-                        });
-                    } else
-                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
-                });
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
-        });
+                            } else Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage()); });
+                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
     }
 
     private void initEnemies() {
