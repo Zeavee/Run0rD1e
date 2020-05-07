@@ -121,8 +121,24 @@ public class RandomGeneratorTest {
     @Test
     public void randomCoinTest() {
         for (int i = 0; i<4; i++) {
-            assertTrue(randGen.randomCoin().getValue() < 30);
+            assertTrue(randGen.randomCoin(randGen.randomGeoPoint()).getValue() < 30);
         }
+    }
+
+    @Test
+    public void randomGeoPointAroundLocationTest() {
+        GeoPoint g = new GeoPoint();
+        GeoPoint f = randGen.randomGeoPointAroundLocation(g);
+        double dlong = g.getLongitude() - f.getLongitude();
+        if(dlong < 0) {
+            dlong = (-1)*dlong;
+        }
+        double dlat = g.getLatitude() - f.getLatitude();
+        if(dlat < 0) {
+            dlat = (-1)*dlat;
+        }
+        assertTrue(dlat < 0.5);
+        assertTrue(dlong < 0.5);
     }
 
 
