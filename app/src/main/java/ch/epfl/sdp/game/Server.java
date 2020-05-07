@@ -2,22 +2,15 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.WriteBatch;
-
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -39,69 +32,58 @@ import ch.epfl.sdp.utils.DependencyFactory;
 public class Server implements Updatable {
     private static final String TAG = "Database";
     private int counter;
-    private ServerDatabaseAPI serverDatabaseAPI;
+    private ServerDatabaseAPI serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
 
-    //private EnemyGenerator enemyGenerator;
-    //public final int GENERATE_ENEMY_EVERY_MS = 10000;
-    //private double damage;
-    //private List<ItemBox> itemBoxes;
-    //private int generateEnemyEveryMs;
-
     public Server() {
-        serverDatabaseAPI = DependencyFactory.getServerDatabaseAPI();
         itemFactory = new ItemFactory();
-
         initEnvironment();
     }
 
- /*   public Server(EnemyManager manager, EnemyGenerator enemyGenerator) {
-        this.enemyGenerator = enemyGenerator;
-        this.generateEnemyEveryMs = GENERATE_ENEMY_EVERY_MS;
-        Game.getInstance().addToUpdateList(this);
-    }
+    @Override
+    public void update() {
+        if (counter <= 0) {
+            sendEnemies();
+            sendItemBoxes();
+            sendPlayersHealth();
+            sendPlayersItems();
+            counter = 2 * GameThread.FPS + 1;
+        }
 
-    public Server(EnemyManager manager, EnemyGenerator enemyGenerator, int generateEnemyEveryMs) {
-        this(manager, enemyGenerator);
-        this.generateEnemyEveryMs = generateEnemyEveryMs;
-    }*/
+        --counter;
+    }
 
     private void initEnvironment() {
-        serverDatabaseAPI.listenToNumOfPlayers(res -> {
-            if (res.isSuccessful()) {
-                fetchAllPlayersAndListen();
-                initItemBoxes();
-                initEnemies();
-            }
-        });
-    }
-
-    private void fetchAllPlayersAndListen() {
-        // Get Players
-        CollectionReference playersCollection = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME)
-                .document(playerManager.getLobbyDocumentName())
-                .collection(PlayerManager.PLAYER_COLLECTION_NAME);
-
-        playersCollection.get().addOnSuccessListener(playersDoc -> {
-
-            Iterator<DocumentSnapshot> it = playersDoc.getDocuments().iterator();
-
-            while (it.hasNext()) {
-                DocumentSnapshot documentSnapshot = it.next();
-                PlayerForFirebase playerForFirebase = documentSnapshot.toObject(PlayerForFirebase.class);
-                Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                if (!PlayerManager.getInstance().getCurrentUser().getEmail().equals(player.getEmail())) {
-                    PlayerManager.getInstance().addPlayer(player);
-                }
-                Log.d(TAG, "(Server) Getting Player: " + documentSnapshot);
-            }
-
-        }).addOnSuccessListener(querySnapshot -> {
-            addPlayersPositionListener();
-            addUsedItemsListener();
+        serverDatabaseAPI.listenToNumOfPlayers(value -> {
+            if (value.isSuccessful()) {
+                Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
+                serverDatabaseAPI.fetchPlayers(value1 -> {
+                    if (value1.isSuccessful()) {
+                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                                playerManager.addPlayer(player);
+                            }
+                            Log.d(TAG, "(Server) Getting Player: " + player);
+                        }
+                        initItemBoxes();
+                        initEnemies();
+                        serverDatabaseAPI.startGame(value2 -> {
+                            if (value2.isSuccessful()) {
+                                Game.getInstance().addToUpdateList(this);
+                                Game.getInstance().initGame();
+                                addPlayersPositionListener();
+                                addUsedItemsListener();
+                            } else
+                                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
+                        });
+                    } else
+                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                });
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
 
@@ -121,22 +103,9 @@ public class Server implements Updatable {
         enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
         //  -------------------------------------------
-
-        // Send Enemies
-        serverDatabaseAPI.sendEnemies(EntityConverter.convertEnemyList(EnemyManager.getInstance().getEnemies()), value -> {
-            if (value.isSuccessful()) {
-                serverDatabaseAPI.startGame(value1 -> {
-                    if (value1.isSuccessful()) {
-                        Game.getInstance().addToUpdateList(this);
-                        Game.getInstance().initGame();
-                    }
-                    else Log.d(TAG, "startGame: failed");
-                });
-            }
-        });
     }
 
-    public void initItemBoxes() {
+    private void initItemBoxes() {
         // ItemBox -------------------------------------------
         Healthpack healthpack = new Healthpack(10);
         ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
@@ -153,149 +122,71 @@ public class Server implements Updatable {
         ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         ItemBoxManager.getInstance().addItemBox(itemBox1);
         //  -------------------------------------------
-
-        sendItemBoxes(); // send them
     }
 
     private void addUsedItemsListener() {
-        CollectionReference itemCollection = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(playerManager.getLobbyDocumentName())
-                .collection(PlayerManager.USED_ITEM_COLLECTION_NAME);
+        serverDatabaseAPI.addUsedItemsListener(value -> {
+            if (value.isSuccessful()) {
+                for (Map.Entry<String, ItemsForFirebase> entry : value.getResult().entrySet()) {
+                    String email = entry.getKey();
+                    ItemsForFirebase itemsForFirebase = entry.getValue();
 
-        itemCollection.addSnapshotListener((querySnapshot, e) -> {
-            if (e != null) {
-                Log.w(TAG, "Listen for used items failed.", e);
-                return;
-            }
-
-            for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-                String email = dc.getDocument().getId();
-                Map<String, Long> usedItems = (Map<String, Long>) dc.getDocument().get("usedItems");
-                ItemsForFirebase itemsForFirebase = dc.getDocument().toObject(ItemsForFirebase.class);
-
-                for (Map.Entry<String, Integer> item : itemsForFirebase.getItemsMap().entrySet()) {
-                    for (int i = 0; i < item.getValue(); ++i) {
-                        itemFactory.getItem(item.getKey()).useOn(PlayerManager.getInstance().getPlayersMap().get(email));
-                        PlayerManager.getInstance().getPlayersMap().get(email).getInventory().removeItem(item.getKey());
+                    for (Map.Entry<String, Integer> items : itemsForFirebase.getItemsMap().entrySet()) {
+                        for (int i = 0; i < items.getValue(); ++i) {
+                            itemFactory.getItem(items.getKey()).useOn(playerManager.getPlayersMap().get(email));
+                            playerManager.getPlayersMap().get(email).getInventory().removeItem(items.getKey());
+                        }
                     }
                 }
-
-                Log.d(TAG, "Listen for used items: " + usedItems);
             }
         });
-
     }
 
     private void addPlayersPositionListener() {
-        CollectionReference playersCollection = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                .document(playerManager.getLobbyDocumentName())
-                .collection(PlayerManager.PLAYER_COLLECTION_NAME);
-
-        playersCollection.addSnapshotListener((querySnapshot, e) -> {
-            if (e != null) {
-                System.err.println("Listen failed: " + e);
-                return;
-            }
-
-            for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-
-                String email = dc.getDocument().getId();
-                Map<String, Double> location = (Map<String, Double>) dc.getDocument().get("location");
-
-                GeoPoint geoPoint = new GeoPoint(location.get("longitude"), location.get("latitude"));
-
-                Log.d(TAG, "Get changes for " + email + "'s location: " + location);
-
-                PlayerManager.getInstance().getPlayersMap().get(email).setLocation(geoPoint);
-                PlayerManager.getInstance().getPlayersMap().get(email).setPosition(PointConverter.geoPointToCartesianPoint(geoPoint));
+        serverDatabaseAPI.addPlayersPositionListener(value -> {
+            if (value.isSuccessful()) {
+                for (PlayerForFirebase playerForFirebase : value.getResult()) {
+                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(playerForFirebase.getLocation());
+                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setPosition(PointConverter.geoPointToCartesianPoint(playerForFirebase.getLocation()));
+                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getLocation());
+                }
+            } else {
+                Log.w(TAG, "addPlayersPositionListener: failed", value.getException());
             }
         });
     }
 
+    private void sendEnemies() {
+        serverDatabaseAPI.sendEnemies(EntityConverter.convertEnemyList(enemyManager.getEnemies()));
+    }
+
+    private void sendItemBoxes() {
+        itemBoxManager.moveTakenItemBoxesToWaitingList();
+        Map<String, ItemBox> itemBoxMap = itemBoxManager.getWaitingItemBoxes();
+
+        if (!itemBoxMap.isEmpty()) {
+            serverDatabaseAPI.sendItemBoxes(EntityConverter.convertItemBoxMap(itemBoxMap));
+            itemBoxManager.clearWaitingItemBoxes();
+        }
+    }
+
     private void sendPlayersHealth() {
-        if (!PlayerManager.getInstance().getPlayersWaitingHealthPoint().isEmpty()) {
-            // Get a new write batch
-            WriteBatch batch = firebaseFirestore.batch();
-
-            // Collection Ref
-            for (Player player : playerManager.getPlayers()) {
-                DocumentReference playerRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                        .document(playerManager.getLobbyDocumentName())
-                        .collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                        .document(player.getEmail());
-                batch.update(playerRef, "healthPoints", player.getHealthPoints());
-            }
-
-            batch.commit().addOnCompleteListener(res -> Log.d("Database", "Complete health"))
-                    .addOnSuccessListener(res -> Log.d("Database", "Success health"));
-
-            PlayerManager.getInstance().getPlayersWaitingHealthPoint().clear();
+        List<Player> players = playerManager.getPlayersWaitingHealthPoint();
+        if (!players.isEmpty()) {
+            serverDatabaseAPI.sendPlayersHealth(EntityConverter.convertPlayerList(players));
+            playerManager.getPlayersWaitingHealthPoint().clear();
         }
     }
 
     private void sendPlayersItems() {
-        if (!playerManager.getPlayersWaitingItems().isEmpty()) {
-            WriteBatch batch = firebaseFirestore.batch();
-
-            CollectionReference itemsRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                    .document(playerManager.getLobbyDocumentName())
-                    .collection(PlayerManager.ITEM_COLLECTION_NAME);
-
-            for (Player player : playerManager.getPlayersWaitingItems()) {
-                Log.d("Database", "Sending: to " + player + " player.getInventory().getItems()");
-                DocumentReference item_playerRef = itemsRef.document(player.getEmail());
-                HashMap hashMap = new HashMap();
-                hashMap.put("items", player.getInventory().getItems());
-                batch.set(item_playerRef, hashMap);
+        List<Player> players = playerManager.getPlayersWaitingItems();
+        if (!players.isEmpty()) {
+            Map<String, ItemsForFirebase> playersItemsMap = new HashMap<>();
+            for (Player player : players) {
+                playersItemsMap.put(player.getEmail(), EntityConverter.convertItems(player.getInventory().getItems()));
             }
-
-            batch.commit().addOnSuccessListener(aVoid -> {
-                Log.d("Database", "Items sent, clearing waiting list");
-                PlayerManager.getInstance().getPlayersWaitingItems().clear();
-            });
+            serverDatabaseAPI.sendPlayersItems(playersItemsMap);
+            playerManager.getPlayersWaitingItems().clear();
         }
-    }
-
-    private void sendItemBoxes() {
-        ItemBoxManager.getInstance().moveTakenItemBoxesToWaitingList();
-
-        if (!ItemBoxManager.getInstance().getWaitingItemBoxes().isEmpty()) {
-            WriteBatch batch = firebaseFirestore.batch();
-
-            CollectionReference itemsRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME)
-                    .document(playerManager.getLobbyDocumentName())
-                    .collection(ItemBoxManager.ITEMBOX_COLLECTION_NAME);
-
-            for (Map.Entry<String, ItemBox> entry : ItemBoxManager.getInstance().getWaitingItemBoxes().entrySet()) {
-                Log.d("Database", "Sending: " + entry.getKey() + entry.getValue());
-                DocumentReference itemBoxRef = itemsRef.document(entry.getKey());
-                HashMap hashMap = new HashMap();
-                hashMap.put("taken", entry.getValue().isTaken());
-                hashMap.put("location", entry.getValue().getLocation());
-                batch.set(itemBoxRef, hashMap);
-            }
-
-            batch.commit().addOnSuccessListener(aVoid -> {
-                Log.d("Database", "ItemBoxes sent, clearing waiting list");
-                ItemBoxManager.getInstance().clearWaitingItemBoxes();
-            });
-        }
-    }
-
-    @Override
-    public void update() {
-        if (counter <= 0) {
-            //EnemyManager.getInstance().update();
-            serverDatabaseAPI.sendEnemies(EntityConverter.convertEnemyList(enemyManager.getEnemies()), value -> {
-                if(value.isSuccessful()) Log.d(TAG, "update: send enemy succeed");
-                else Log.d(TAG, "update: send enemy failed");
-            });
-            sendPlayersItems();
-            sendItemBoxes();
-            sendPlayersHealth();
-            counter = 2 * GameThread.FPS + 1;
-        }
-
-        --counter;
     }
 }

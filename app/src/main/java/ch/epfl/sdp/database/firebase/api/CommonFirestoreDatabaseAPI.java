@@ -21,8 +21,8 @@ import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
-    protected static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
-    protected static final PlayerManager playerManager = PlayerManager.getInstance();
+    private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private static final PlayerManager playerManager = PlayerManager.getInstance();
 
     @Override
     public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
@@ -79,27 +79,6 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
                         .addOnSuccessListener(aVoid1 -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                         .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e))))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-    }
-
-    @Override
-    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        DocumentReference docRef = firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName());
-        docRef.collection(playerManager.PLAYER_COLLECTION_NAME).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        playerForFirebases.add(document.toObject(PlayerForFirebase.class));
-                    }
-                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-    }
-
-    @Override
-    public void updateLocation(PlayerForFirebase playerForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        firebaseFirestore.collection(playerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName()).collection(playerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail())
-                .update("location", playerForFirebase.getLocation())
-                .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 }

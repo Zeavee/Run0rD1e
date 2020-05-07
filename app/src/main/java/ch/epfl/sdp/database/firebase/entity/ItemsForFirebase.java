@@ -1,6 +1,5 @@
 package ch.epfl.sdp.database.firebase.entity;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Map;
 

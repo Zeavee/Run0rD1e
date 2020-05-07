@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.item.ItemBox;
 
 /**
  * A converter used to convert between Firebase stored entity and in-game entity
@@ -68,7 +66,7 @@ public class EntityConverter {
 
     public static List<Enemy> convertEnemyForFirebaseList(List<EnemyForFirebase> enemyForFirebaseList) {
         List<Enemy> enemyList = new ArrayList<>();
-        for(EnemyForFirebase enemyForFirebase: enemyForFirebaseList) {
+        for (EnemyForFirebase enemyForFirebase : enemyForFirebaseList) {
             Enemy enemy = new Enemy();
             enemy.setId(enemyForFirebase.getId());
             enemy.setLocation(enemyForFirebase.getLocation());
@@ -77,9 +75,9 @@ public class EntityConverter {
         return enemyList;
     }
 
-    public static List<PlayerForFirebase> convertPlayerList(List<Player>players) {
-        ArrayList<PlayerForFirebase> playerList= new ArrayList<>();
-        for(Player player : players) {
+    public static List<PlayerForFirebase> convertPlayerList(List<Player> players) {
+        ArrayList<PlayerForFirebase> playerList = new ArrayList<>();
+        for (Player player : players) {
             PlayerForFirebase playerForFirebase = playerToPlayerForFirebase(player);
             //playerForFirebase.setDamage(PlayerManager.getInstance().getDamages().get(player.getEmail()));
             playerList.add(playerForFirebase);
@@ -99,10 +97,18 @@ public class EntityConverter {
     }
 
     public static ItemsForFirebase convertItems(Map<String, Integer> items) {
-        ItemsForFirebase itemsForFirebase  = new ItemsForFirebase();
+        ItemsForFirebase itemsForFirebase = new ItemsForFirebase();
         itemsForFirebase.setItemsMap(items);
         itemsForFirebase.setDate(new Date(System.currentTimeMillis()));
 
         return itemsForFirebase;
+    }
+
+    public static List<ItemBoxForFirebase> convertItemBoxMap(Map<String, ItemBox> itemBoxMap) {
+        List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
+        for (Map.Entry<String, ItemBox> entry : itemBoxMap.entrySet()) {
+            itemBoxForFirebaseList.add(new ItemBoxForFirebase(entry.getKey(), entry.getValue().getLocation(), entry.getValue().isTaken()));
+        }
+        return itemBoxForFirebaseList;
     }
 }
