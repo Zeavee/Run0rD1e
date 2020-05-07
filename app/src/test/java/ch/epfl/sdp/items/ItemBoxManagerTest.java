@@ -44,7 +44,6 @@ public class ItemBoxManagerTest {
         dummyItemBox.react(player);
         ItemBoxManager.getInstance().addItemBox(dummyItemBox);
         ItemBoxManager.getInstance().moveTakenItemBoxesToWaitingList();
-        assertEquals(0, ItemBoxManager.getInstance().getItemBoxes().size());
         assertEquals(1, ItemBoxManager.getInstance().getWaitingItemBoxes().size());
     }
 

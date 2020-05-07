@@ -18,7 +18,7 @@ public class EnemyManagerTest {
     @Before
     public void setUp(){
         DependencyFactory.setTestMode(true);
-        DependencyFactory.setServerDatabaseAPI(new ServerMockDatabaseAPI(new HashMap<>(), new ArrayList<>()));
+        DependencyFactory.setServerDatabaseAPI(new ServerMockDatabaseAPI());
     }
 /*
     @Test

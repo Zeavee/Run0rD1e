@@ -1,23 +1,16 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Enemy;
 
-public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements ServerDatabaseAPI {
-    public ServerMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<Enemy> enemyList) {
-        super(userData, enemyList);
-    }
-
-    @Override
-    public void sendEnemies(List<EnemyForFirebase> enemies, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-
-    }
+public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
@@ -26,6 +19,41 @@ public class ServerMockDatabaseAPI extends CommonMockDatabaseAPI implements Serv
 
     @Override
     public void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void sendEnemies(List<EnemyForFirebase> enemies) {
+
+    }
+
+    @Override
+    public void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList) {
+
+    }
+
+    @Override
+    public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases) {
+
+    }
+
+    @Override
+    public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
+
+    }
+
+    @Override
+    public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
 
     }
 }

@@ -16,7 +16,7 @@ public class DependencyFactoryTest {
         DependencyFactory.setTestMode(true);
         assertEquals(true, DependencyFactory.isTestMode());
 
-        ClientMockDatabaseAPI clientMockDatabaseAPI = new ClientMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
+        ClientMockDatabaseAPI clientMockDatabaseAPI = new ClientMockDatabaseAPI();
         DependencyFactory.setClientDatabaseAPI(clientMockDatabaseAPI);
         assertEquals(clientMockDatabaseAPI, DependencyFactory.getClientDatabaseAPI());
     }
