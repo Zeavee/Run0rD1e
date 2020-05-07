@@ -84,4 +84,6 @@ public class ItemBoxTest {
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()) == 2);
     }
+
+
 }
