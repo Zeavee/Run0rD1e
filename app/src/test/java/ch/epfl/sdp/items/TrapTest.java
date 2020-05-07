@@ -14,7 +14,6 @@ import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 
 public class TrapTest {
     private Player owner;

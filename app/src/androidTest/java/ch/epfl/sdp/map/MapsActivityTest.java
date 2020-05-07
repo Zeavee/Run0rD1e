@@ -126,11 +126,6 @@ public class MapsActivityTest {
     }
 
     @Test
-    public void leaderboardOpens() {
-        testButtonWorks(R.id.button_leaderboard, R.id.iv_champion1);
-    }
-
-    @Test
     public void moveCameraWorks() {
         testButtonWorks(R.id.recenter, R.id.map);
     }

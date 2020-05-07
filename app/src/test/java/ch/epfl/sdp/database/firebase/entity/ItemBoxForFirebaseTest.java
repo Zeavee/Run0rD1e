@@ -9,16 +9,17 @@ import static org.junit.Assert.*;
 public class ItemBoxForFirebaseTest {
     @Test
     public void itemBoxForFirebaseTest() {
-        ItemBoxForFirebase itemBoxForFirebase = new ItemBoxForFirebase();
+        ItemBoxForFirebase itemBoxForFirebase = new ItemBoxForFirebase("id", new GeoPoint(0,0), false);
+        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase();
 
-        itemBoxForFirebase.setId("itembox0");
-        assertEquals("itembox0", itemBoxForFirebase.getId());
+        itemBoxForFirebase1.setId("itembox0");
+        assertEquals("itembox0", itemBoxForFirebase1.getId());
 
-        itemBoxForFirebase.setTaken(false);
-        assertFalse(itemBoxForFirebase.isTaken());
+        itemBoxForFirebase1.setTaken(false);
+        assertFalse(itemBoxForFirebase1.isTaken());
 
-        itemBoxForFirebase.setLocation(new GeoPoint(33,33));
-        assertEquals(33, itemBoxForFirebase.getLocation().getLatitude(), 0.01);
-        assertEquals(33, itemBoxForFirebase.getLocation().getLongitude(), 0.01);
+        itemBoxForFirebase1.setLocation(new GeoPoint(33,33));
+        assertEquals(33, itemBoxForFirebase1.getLocation().getLatitude(), 0.01);
+        assertEquals(33, itemBoxForFirebase1.getLocation().getLongitude(), 0.01);
     }
 }

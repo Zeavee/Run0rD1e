@@ -25,5 +25,8 @@ public class ItemsForFirebaseTest {
         itemsForFirebase.setItemsMap(itemsMap);
         assertEquals(1, (int) itemsForFirebase.getItemsMap().get("healthPack"));
         assertEquals(2, (int) itemsForFirebase.getItemsMap().get("scan"));
+
+        ItemsForFirebase itemsForFirebase1 = new ItemsForFirebase(itemsMap, new Date(System.currentTimeMillis()));
+        assertEquals(2, itemsForFirebase1.getItemsMap().size());
     }
 }

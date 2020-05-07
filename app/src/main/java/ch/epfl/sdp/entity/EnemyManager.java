@@ -45,4 +45,8 @@ public class EnemyManager {
     public List<Enemy> getEnemies() {
         return new ArrayList<>(enemies.values());
     }
+
+    public void removeAll() {
+        enemies.clear();
+    }
 }

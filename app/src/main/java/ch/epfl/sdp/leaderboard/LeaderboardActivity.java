@@ -47,7 +47,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         commonDatabaseAPI.syncCloudFirebaseToRoom(leaderboardViewModel);
     }
 
-    private void setupChampions(List<LeaderboardEntity> players) {
+    public void setupChampions(List<LeaderboardEntity> players) {
         if (players == null || players.size() < 3) {
             return;
         }
