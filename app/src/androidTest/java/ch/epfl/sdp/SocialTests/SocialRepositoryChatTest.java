@@ -55,13 +55,13 @@ public class SocialRepositoryChatTest {
             appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
             appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro@gmail.com");
             currentUserEmail = appContainer.authenticationAPI.getCurrentUserEmail();
+            prepopulateDatabase();
         }
     };
 
     @Before
     public void setup() {
         SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), currentUserEmail);
-        prepopulateDatabase();
     }
 
     private SocialRepository testRepo;

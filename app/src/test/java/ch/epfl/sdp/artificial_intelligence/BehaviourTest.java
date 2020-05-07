@@ -10,7 +10,7 @@ import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.map.MockMapApi;
+import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -20,7 +20,7 @@ public class BehaviourTest {
 
     @Before
     public void setup() {
-        Game.getInstance().setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMap());
         PlayerManager.removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
