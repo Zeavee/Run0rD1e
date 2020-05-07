@@ -78,16 +78,20 @@ public class ItemBox implements Displayable, Updatable {
 
     @Override
     public void update() {
-        if (!taken) {
-            for (Player player : PlayerManager.getInstance().getPlayers()) {
-                if (this.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() < 1) {
-                    react(player);
-                    Game.getInstance().removeCurrentFromUpdateList();
-                    Game.getInstance().removeFromDisplayList(this);
-                    taken = true;
-                    break;
-                }
+        if(taken) {
+            return;
+        }
+
+        PlayerManager playerManager = PlayerManager.getInstance();
+        for (Player player : playerManager.getPlayers()) {
+            if (this.getLocation().distanceTo(player.getLocation()) - player.getAoeRadius() >= 1) {
+                continue;
             }
+
+            react(player);
+            Game.getInstance().removeCurrentFromUpdateList();
+            Game.getInstance().removeFromDisplayList(this);
+            break;
         }
     }
 

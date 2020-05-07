@@ -2,6 +2,7 @@ package ch.epfl.sdp.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -58,7 +59,7 @@ public class LoginFormActivity extends AppCompatActivity {
     private void signIn(String email, String password) {
         authenticationAPI.signIn(email, password, signInRes -> {
             if (!signInRes.isSuccessful()) {
-                Toast.makeText(LoginFormActivity.this, signInRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("TAG", "signIn: " + signInRes.getException().getMessage());
             } else {
                 LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
                 LoginFormActivity.this.finish();

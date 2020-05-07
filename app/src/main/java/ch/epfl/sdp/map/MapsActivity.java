@@ -134,23 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
                             if (playerManager.isServer()) data.put("startGame", false);
                             Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-
-                            commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
-                                if (registerToLobbyRes.isSuccessful()) {
-                                    if (playerManager.isServer()) {
-                                        serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                                        new Server(serverDatabaseAPI);
-                                    } else {
-                                        clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                                        new Client(clientDatabaseAPI);
-                                    }
-
-                                    Log.d("Database", "Lobby registered/joined");
-
-                                } else {
-                                    Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                }
-                            });
+                            joinLobby(playerForFirebase, data);
                         } else {
                             Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -162,6 +146,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         Log.d("Database", "Quit map ready");
+    }
+
+    private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
+        commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
+            if (registerToLobbyRes.isSuccessful()) {
+                if (playerManager.isServer()) {
+                    serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                    new Server(serverDatabaseAPI);
+                } else {
+                    clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                    new Client(clientDatabaseAPI);
+                }
+
+                Log.d("Database", "Lobby registered/joined");
+
+            } else {
+                Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
