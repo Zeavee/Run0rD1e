@@ -1,17 +1,16 @@
 package ch.epfl.sdp.SocialTests;
 
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
@@ -19,6 +18,7 @@ import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.MockAuthenticationAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -41,27 +41,29 @@ import static org.hamcrest.Matchers.is;
  * for this test to work, we must first register them as friends inside the SQLite database
  */
 public class ChatActivityTest {
+    private String currentEmail;
 
     @Rule
-    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class);
+    public ActivityTestRule<FriendsListActivity> mActivityTestRule = new ActivityTestRule<FriendsListActivity>(FriendsListActivity.class) {
+        @Override
+        protected void beforeActivityLaunched() {
+            AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+            appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com");
+            currentEmail = appContainer.authenticationAPI.getCurrentUserEmail();
 
-    @Before
-    public void setup() {
-        AppContainer appContainer = ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer;
-        appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro.abdrabo@gmail.com");
+            // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid3 will not show up as a friend in FriendsListActivity
+            User cur_user = new User(currentEmail);
+            User friend_user = new User("stupid3@gmail.com");
 
-        // IMPORTANT: social database must be pre-populated for this test to work, otherwise stupid3 will not show up as a friend in FriendsListActivity
-        User cur_user = new User(appContainer.authenticationAPI.getCurrentUserEmail());
-        User friend_user = new User("stupid3@gmail.com");
-
-        // testRepo is the social database controller (router)
-        SocialRepository testRepo = SocialRepository.getInstance();
-        testRepo.addUser(cur_user);
-        testRepo.addUser(friend_user);
-        testRepo.addChat(new Chat(cur_user.getEmail(), friend_user.getEmail()));
-        testRepo.addChat(new Chat(friend_user.getEmail(), cur_user.getEmail()));
-        testRepo.addFriends(friend_user, cur_user);
-    }
+            // testRepo is the social database controller (router)
+            SocialRepository testRepo = SocialRepository.getInstance();
+            testRepo.addUser(cur_user);
+            testRepo.addUser(friend_user);
+            testRepo.addChat(new Chat(cur_user.getEmail(), friend_user.getEmail()));
+            testRepo.addChat(new Chat(friend_user.getEmail(), cur_user.getEmail()));
+            testRepo.addFriends(friend_user, cur_user);
+        }
+    };
 
     // click on the chat button
     public void step1() {
@@ -118,8 +120,6 @@ public class ChatActivityTest {
 
     @Test
     public void chatActivityTest() {
-        onView(withId(R.id.backFromFriendsList)).perform(click());
-        onView(withId(R.id.friendsButton)).perform(click());
         step1();
         step2();
         step3();

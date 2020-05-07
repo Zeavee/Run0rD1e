@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 
 import androidx.core.content.ContextCompat;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -84,14 +85,14 @@ public class MapsActivityTest {
                 @Override
                 protected void beforeActivityLaunched() {
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
+                    AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+                    appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
                 }
             };
 
     @Before
     public void setup() {
-        AppContainer appContainer = ((MyApplication) mActivityRule.getActivity().getApplication()).appContainer;
-        appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
-        appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
         PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
         PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
         mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));

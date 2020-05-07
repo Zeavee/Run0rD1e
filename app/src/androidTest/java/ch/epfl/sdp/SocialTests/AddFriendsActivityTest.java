@@ -2,6 +2,7 @@ package ch.epfl.sdp.SocialTests;
 
 import android.util.Log;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -39,12 +40,12 @@ public class AddFriendsActivityTest {
         @Override
         protected void beforeActivityLaunched() {
             Log.d("addFriendTest", " beforeActivityLaunched");
+            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.remoteUserFetch = new MockFriendsFetcher();
         }
     };
 
     @Before
     public void setup() {
-        ((MyApplication) mActivityTestRule.getActivity().getApplication()).appContainer.remoteUserFetch = new MockFriendsFetcher();
         PlayerManager.setCurrentUser(new Player("stupid0", "stupid0@gmail.com"));
     }
 
