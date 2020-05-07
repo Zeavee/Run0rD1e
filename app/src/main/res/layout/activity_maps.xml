@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
         android:layout_marginEnd="16dp"
         android:background="#359c5e"
         android:padding="8dp"
-        android:text="My position"
+        android:text="@string/my_position"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:text="scan"
+        android:text="@string/scan"
         android:background="#359c5e"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
@@ -44,8 +44,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
         android:background="#359c5e"
-        android:onClick="showInventory"
-        android:text="Inventory"
+        android:text="@string/inventory"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/scanButton" />
@@ -56,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:text="Leaderboard"
         android:background="#359c5e"
+        android:text="@string/leaderboard"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/button_inventory" />
@@ -69,7 +68,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="#359c5e"
-        android:text="Weather"
+        android:text="@string/weather"
         android:textColor="#ffffff"
         map:layout_constraintBottom_toBottomOf="@+id/map"
         map:layout_constraintEnd_toEndOf="parent" />
