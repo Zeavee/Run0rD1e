@@ -14,9 +14,8 @@ import java.util.Set;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Market;
+import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.item.Trap;
 
 import static org.junit.Assert.assertFalse;

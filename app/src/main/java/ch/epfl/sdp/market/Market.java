@@ -1,6 +1,5 @@
-package ch.epfl.sdp.item;
+package ch.epfl.sdp.market;
 
-import android.content.Intent;
 import androidx.core.util.Pair;
 import java.util.HashMap;
 import java.util.Map;
@@ -9,12 +8,12 @@ import java.util.Random;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.InteractiveEntity;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 /**
@@ -60,14 +59,9 @@ public class Market extends InteractiveEntity implements Displayable {
      * @return a boolean that shows if the transaction occurred correctly
      */
     public boolean buy(Class<? extends Item> itemType, Player player) {
-        Item item = null;
-        for (Item i: stock.keySet()) {
-            if (i.getClass().equals(itemType)) {
-                item = i;
-                break;
-            }
-        }
+        Item item = getItemOfType(itemType);
         if (item == null) return false;
+
         int currentStock =stock.get(item).first;
         int price = stock.get(item).second;
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
@@ -77,6 +71,16 @@ public class Market extends InteractiveEntity implements Displayable {
             player.getInventory().addItem(item.clone());
         }
         return true;
+    }
+
+    private Item getItemOfType(Class<? extends Item> itemType){
+        Item item = null;
+        for (Item i: stock.keySet()) {
+            if (i.getClass().equals(itemType)) {
+                item = i;
+            }
+        }
+        return item;
     }
 
     /**
