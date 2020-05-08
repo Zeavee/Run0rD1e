@@ -115,7 +115,7 @@ public class MarketActivityTest {
         appCompatImageView2.perform(click());
     }
 
-    // click on the shrinker (checking it is displayed)
+    // click on the shrinker image (checking it is displayed)
     public void step3(){
         ViewInteraction appCompatImageView3 = onView(
                 allOf(withId(R.id.aeoImg),
@@ -192,7 +192,7 @@ public class MarketActivityTest {
 
     }
 
-    // check the shrinker has label "shrinker" displayed underneath it
+    // check the shrinker image has label "shrinker" displayed underneath it
     public void step7(){
         ViewInteraction textView4 = onView(
                 allOf(withText("Shrinker"),
@@ -211,7 +211,7 @@ public class MarketActivityTest {
         textView4.check(matches(withText("Shrinker")));
     }
 
-    // click on buy making sure it is displayed
+    // click on button "buy" making sure it is displayed
     public void step8(){
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.buyButton), withText("BUY"),
