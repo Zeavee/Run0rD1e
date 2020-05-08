@@ -75,5 +75,14 @@ public class CoinTest {
         assertTrue(c.getLocation().equals(g));
     }
 
+    @Test
+    public void setLocationTest() {
+        mockMap = new MockMap();
+        Coin c = new Coin(10 , new GeoPoint(10, 10));
+        GeoPoint g = new GeoPoint(60,60);
+        c.displayOn(mockMap);
+        c.setLocation(g);
+        assertTrue(g.equals(c.getLocation()));
+    }
 
 }

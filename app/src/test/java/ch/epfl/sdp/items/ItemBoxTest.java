@@ -8,6 +8,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.MockMap;
@@ -83,6 +84,18 @@ public class ItemBoxTest {
         }
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()) == 2);
+
+    }
+    @Test
+    public void isTakenShouldWork() {
+        ItemBox itemBox = new ItemBox(location);
+
+        Game.getInstance().addToUpdateList(itemBox);
+        Game.getInstance().addToDisplayList(itemBox);
+
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
+        assertTrue(Game.getInstance().displayablesContains(itemBox));
+        assertFalse(itemBox.isTaken());
     }
 
 

@@ -39,7 +39,7 @@ public class PlayerManagerTest {
 
     @Test
     public void testSetAndGet(){
-        assertEquals(2, PlayerManager.getInstance().NUMBER_OF_PLAYERS_IN_LOBBY);
+        assertEquals(1, PlayerManager.getInstance().NUMBER_OF_PLAYERS_IN_LOBBY);
         assertEquals("AllUsers", PlayerManager.getInstance().USER_COLLECTION_NAME);
         assertEquals("Lobbies", PlayerManager.getInstance().LOBBY_COLLECTION_NAME);
         assertEquals("Players", PlayerManager.getInstance().PLAYER_COLLECTION_NAME);
