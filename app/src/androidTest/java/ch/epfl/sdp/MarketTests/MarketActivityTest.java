@@ -76,9 +76,7 @@ public class MarketActivityTest {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-    @Test
-    public void marketActivityTest() {
-
+    public void step1(){
         ViewInteraction appCompatImageView = onView(
                 allOf(withId(R.id.shieldImg),
                         childAtPosition(
@@ -94,7 +92,9 @@ public class MarketActivityTest {
                                 0),
                         isDisplayed()));
         appCompatImageView.perform(click());
+    }
 
+    public void step2(){
         ViewInteraction appCompatImageView2 = onView(
                 allOf(withId(R.id.scanImg),
                         childAtPosition(
@@ -110,7 +110,9 @@ public class MarketActivityTest {
                                 0),
                         isDisplayed()));
         appCompatImageView2.perform(click());
+    }
 
+    public void step3(){
         ViewInteraction appCompatImageView3 = onView(
                 allOf(withId(R.id.aeoImg),
                         childAtPosition(
@@ -126,7 +128,9 @@ public class MarketActivityTest {
                                 0),
                         isDisplayed()));
         appCompatImageView3.perform(click());
+    }
 
+    public void step4(){
         ViewInteraction textView = onView(
                 allOf(withText("Health"),
                         childAtPosition(
@@ -142,7 +146,9 @@ public class MarketActivityTest {
                                 1),
                         isDisplayed()));
         textView.check(matches(withText("Health")));
+    }
 
+    public void step5(){
         ViewInteraction textView2 = onView(
                 allOf(withText("Shield"),
                         childAtPosition(
@@ -158,6 +164,26 @@ public class MarketActivityTest {
                                 1),
                         isDisplayed()));
         textView2.check(matches(withText("Shield")));
+    }
+    @Test
+    public void marketActivityTest() {
+
+        // click on the shield (checking it is displayed)
+        step1();
+
+        // click on the scanner (checking it is displayed)
+        step2();
+
+        // click on the shrinker (checking it is displayed)
+        step3();
+
+        // check the health pack has label health displayed underneath it
+        step4();
+
+        // check the shield has label shield displayed underneath it
+        step5();
+
+
 
         ViewInteraction textView3 = onView(
                 allOf(withText("Scan"),
