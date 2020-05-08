@@ -17,7 +17,7 @@ import ch.epfl.sdp.utils.RandomGenerator;
  * Class representing a coin in the game
  */
 public class Coin extends Item implements Displayable, Updatable {
-    
+
     private int value;
     private GeoPoint location;
     private boolean isDisplayed;
@@ -72,16 +72,10 @@ public class Coin extends Item implements Displayable, Updatable {
         }
     }
 
-    public void setLocation(GeoPoint location) {
-        this.location = location;
-    }
+    public void setLocation(GeoPoint location) { this.location = location; }
 
-
-
-    public boolean isTaken() {
-        return this.taken;
-    }
-
+    public boolean isTaken() { return this.taken; }
+    
     public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
         ArrayList<Coin> generatedCoins = new ArrayList<Coin>();
         RandomGenerator randGen = new RandomGenerator();
