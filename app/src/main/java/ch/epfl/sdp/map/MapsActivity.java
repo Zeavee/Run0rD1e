@@ -132,7 +132,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Get email of CurrentUser;
             String email = authenticationAPI.getCurrentUserEmail();
 
-            Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+            Log.d("Inside MapsActivity", "Game running is " + Game.getInstance().isRunning());
 
             if (!Game.getInstance().isRunning()) {
                 commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
