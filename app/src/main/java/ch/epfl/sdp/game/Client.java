@@ -21,7 +21,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
  */
 public class Client implements Updatable {
     private static final String TAG = "Database";
-    private int counter;
+    private int counter = 0;
     private ClientDatabaseAPI clientDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
@@ -92,7 +92,6 @@ public class Client implements Updatable {
                             itemBoxManager.addItemBoxWithId(itemBox, id);
                         }
                     }
-
                     Log.d(TAG, "Listen for itemboxes: " + value.getResult());
                 }
             } else {

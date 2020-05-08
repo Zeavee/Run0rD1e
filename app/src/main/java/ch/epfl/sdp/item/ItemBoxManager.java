@@ -50,4 +50,8 @@ public class ItemBoxManager {
     public void clearWaitingItemBoxes() {
         waitingItemBoxes.clear();
     }
+
+    public void clearItemBoxes() {
+        itemBoxes.clear();
+    }
 }
