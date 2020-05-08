@@ -172,7 +172,7 @@ public class MarketActivityTest {
         textView2.check(matches(withText("Shield")));
     }
 
-    // check the scan has label "scan" displayed below it
+    // check the scan image has label "scan" displayed below it
     public void step6(){
         ViewInteraction textView3 = onView(
                 allOf(withText("Scan"),
