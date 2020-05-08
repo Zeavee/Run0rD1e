@@ -21,7 +21,7 @@ public class MarketActivity extends AppCompatActivity {
     private TextView priceHealth;
     private TextView priceShield;
     private final static int SHIELD_COST_PER_MINUTE = 2;
-    private final static int HEALTH_COST_PER_MINUTE = 1;
+    private final static int HEALTH_COST_PER_UNIT = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class MarketActivity extends AppCompatActivity {
         priceShield = findViewById(R.id.priceShield);
         buy.setOnClickListener(v->buyItems());
 
-        health.setOnSeekBarChangeListener(new SeekBarCustomListener(priceHealth, HEALTH_COST_PER_MINUTE));
+        health.setOnSeekBarChangeListener(new SeekBarCustomListener(priceHealth, HEALTH_COST_PER_UNIT));
         shield.setOnSeekBarChangeListener(new SeekBarCustomListener(priceShield, SHIELD_COST_PER_MINUTE));
     }
 
