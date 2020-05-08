@@ -23,8 +23,9 @@ public class PlayerForFirebaseTest {
         playerForFirebase1.setHealthPoints(100);
         assertEquals(100.0, playerForFirebase1.getHealthPoints(), 0.01);
 
-        playerForFirebase1.setLocation(new GeoPoint(33,33));
-        assertEquals(33, playerForFirebase1.getLocation().getLatitude(), 0.01);
-        assertEquals(33, playerForFirebase1.getLocation().getLongitude(), 0.01);
+        playerForFirebase1.setLatitude(33);
+        playerForFirebase1.setLongitude(33);
+        assertEquals(33, playerForFirebase1.getLatitude(), 0.01);
+        assertEquals(33, playerForFirebase1.getLongitude(), 0.01);
     }
 }

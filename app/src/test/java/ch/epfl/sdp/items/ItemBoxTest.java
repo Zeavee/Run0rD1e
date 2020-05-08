@@ -8,7 +8,6 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.MockMap;
@@ -23,7 +22,7 @@ public class ItemBoxTest {
 
     @Before
     public void setup() {
-        PlayerManager.getInstance().removeAll(); // Just to be sure that there are no players
+        PlayerManager.getInstance().clear(); // Just to be sure that there are no players
         location = new GeoPoint(0,0);
         player = new Player("test","test@gmail.com");
         player.setLocation(location);
@@ -36,7 +35,7 @@ public class ItemBoxTest {
 
     @After
     public void teardown(){
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         Game.getInstance().destroyGame();
     }
 

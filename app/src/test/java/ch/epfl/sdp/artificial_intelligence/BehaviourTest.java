@@ -22,7 +22,7 @@ public class BehaviourTest {
     @Before
     public void setup() {
         Game.getInstance().setMapApi(new MockMap());
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
         PlayerManager.getInstance().addPlayer(player);
@@ -31,7 +31,8 @@ public class BehaviourTest {
         GeoPoint enemyPos = new GeoPoint(20, 20);
         GeoPoint patrolCenter = new GeoPoint(10, 10);
         LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
-        enemy = new Enemy(0, 10, 1, 50, 20, localArea, maxBounds);
+        LocalArea localAreaMax = new LocalArea(maxBounds, enemyPos);
+        enemy = new Enemy(0, 10, 1, 50, 20, localArea, localAreaMax);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }

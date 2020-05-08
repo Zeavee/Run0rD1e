@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MockMap;
@@ -21,6 +22,7 @@ public class EnemyGeneratorTest {
 
     @Test
     public void generateEnemyWorks() {
+        PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(10000, 10000));
         enemyGenerator.setMaxEnemiesPerUnitArea(1);
         enemyGenerator.setMaxEnemiesPerUnitArea(-1);

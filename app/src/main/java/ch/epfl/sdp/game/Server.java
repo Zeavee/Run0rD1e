@@ -94,8 +94,8 @@ public class Server implements Updatable {
         Enemy enemy = new Enemy(0, localArea, localAreaMax);
         enemy.setLocation(enemyPos);
         enemy.setAoeRadius(100);
-        SinusoidalMovement movement = new SinusoidalMovement(enemyPos);
-        movement.setVelocity(300);
+        SinusoidalMovement movement = new SinusoidalMovement();
+        movement.setVelocity(600);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);

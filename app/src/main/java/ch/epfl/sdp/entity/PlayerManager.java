@@ -42,6 +42,8 @@ public class PlayerManager {
         return instance;
     }
 
+    private PlayerManager(){}
+
     /**
      * Get the DocumentReference of currentUser's lobby
      *
@@ -144,8 +146,11 @@ public class PlayerManager {
     /**
      * Remove all the players in the player manager.
      */
-    public void removeAll() {
+    public void clear() {
         playersMap.clear();
+        playersWaitingHealthPoint.clear();
+        playersWaitingItems.clear();
+        currentUser = null;
     }
 
     /**

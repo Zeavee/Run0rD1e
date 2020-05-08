@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class SinusoidalMovementTest {
     @Test
     public void testDefaultConstructor() {
-        SinusoidalMovement sinusoidalMovement = new SinusoidalMovement(new GeoPoint(0, 0));
+        SinusoidalMovement sinusoidalMovement = new SinusoidalMovement();
         sinusoidalMovement.setAmplitude(10);
         assertTrue(sinusoidalMovement.getAmplitude() == 10);
         sinusoidalMovement.setAngle(1);

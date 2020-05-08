@@ -22,6 +22,13 @@ public class GameTest {
         Game.getInstance().clearGame();
     }
 
+    @Before
+    public void teardown(){
+        Game.getInstance().destroyGame();
+        Game.getInstance().clearGame();
+    }
+
+
     @Test
     public void firstConstructorTest() {
         Game g = Game.getInstance();

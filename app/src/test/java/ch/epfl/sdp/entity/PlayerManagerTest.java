@@ -18,7 +18,7 @@ public class PlayerManagerTest {
     @Before
     public void setup() {
         player = new Player("Username", "Email");
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
     }
 
     @Test
@@ -30,7 +30,7 @@ public class PlayerManagerTest {
 
     @Test
     public void removingPlayerShouldDecreasePlayerNumber() {
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         PlayerManager.getInstance().addPlayer(player);
         assertEquals(1, PlayerManager.getInstance().getPlayers().size());
         PlayerManager.getInstance().getInstance().removePlayer(player);
@@ -57,7 +57,7 @@ public class PlayerManagerTest {
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
         assertEquals("test", PlayerManager.getInstance().getCurrentUser().getUsername());
 
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         PlayerManager.getInstance().addPlayer(new Player("test1", "test1@gmail.com"));
         PlayerManager.getInstance().addPlayer(new Player("test2", "test2@gmail.com"));
         List<Player> players = PlayerManager.getInstance().getPlayers();
@@ -66,7 +66,7 @@ public class PlayerManagerTest {
 
     @Test
     public void testSelectClosestPlayer() {
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         Player player1 = new Player("test", "test@gmail.com");
         player1.setLocation(new GeoPoint(1,1));
         PlayerManager.getInstance().addPlayer(player1);
@@ -77,7 +77,7 @@ public class PlayerManagerTest {
 
     @Test
     public void getPlayersTest() {
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         PlayerManager.getInstance().addPlayer(player);
         Player player2 = new Player("Username2", "Email2");
         PlayerManager.getInstance().addPlayer(player2);
@@ -88,7 +88,7 @@ public class PlayerManagerTest {
 
     @Test
     public void emptyPlayersCheck() {
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
         assertTrue(PlayerManager.getInstance().getPlayers().isEmpty());
     }
 

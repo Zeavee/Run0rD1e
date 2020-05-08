@@ -19,7 +19,7 @@ public class ClientTest {
         Game.getInstance().setMapApi(new MockMap());
 
         PlayerManager playerManager = PlayerManager.getInstance();
-        playerManager.removeAll();
+        playerManager.clear();
         playerManager.setCurrentUser(new Player("test", "test@gmail.com"));
 
 
@@ -36,7 +36,7 @@ public class ClientTest {
         Game.getInstance().clearGame();
         Game.getInstance().destroyGame();
 
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
 
         EnemyManager.getInstance().removeAll();
 

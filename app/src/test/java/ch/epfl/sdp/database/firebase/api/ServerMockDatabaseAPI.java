@@ -23,7 +23,8 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
         playerForFirebase0.setUsername("server");
         playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setLocation(new GeoPoint(22,22));
+        playerForFirebase0.setLatitude(22);
+        playerForFirebase0.setLongitude(22);
         playerForFirebase0.setAoeRadius(22.0);
         playerForFirebase0.setHealthPoints(20.0);
         playerForFirebase0.setCurrentGameScore(0);
@@ -32,7 +33,8 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
         playerForFirebase1.setUsername("client");
         playerForFirebase1.setEmail("client@gmail.com");
-        playerForFirebase1.setLocation(new GeoPoint(22,22));
+        playerForFirebase1.setLatitude(22);
+        playerForFirebase1.setLongitude(22);
         playerForFirebase1.setAoeRadius(22.0);
         playerForFirebase1.setHealthPoints(20.0);
         playerForFirebase1.setCurrentGameScore(0);

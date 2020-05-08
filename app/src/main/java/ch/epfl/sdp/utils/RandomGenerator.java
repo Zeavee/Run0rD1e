@@ -153,7 +153,7 @@ public class RandomGenerator {
        GeoPoint l = this.randomGeoPoint();
        double aoe = rand.nextDouble();
        ShelterArea s = new ShelterArea(l,  aoe);
-       PlayerManager.getInstance().removeAll();
+       PlayerManager.getInstance().clear();
        Player p = this.randomPlayer();
        for (int i = 0; i < 3; i++) {
            while (p.getLocation().distanceTo(l) < aoe) {

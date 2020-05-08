@@ -55,7 +55,7 @@ public class Enemy extends ArtificialMovingEntity {
         super.setAoeRadius(1);
         super.getMovement().setVelocity(50);
         super.setMoving(true);
-        super.setLocalArea(new LocalArea(new RectangleArea(20000, 10000), getLocation()));
+        super.setLocalArea(new LocalArea(new UnboundedArea(), getLocation()));
         this.damage = 1;
         this.damageRate = 1;
         this.detectionDistance = 1;
@@ -251,7 +251,7 @@ public class Enemy extends ArtificialMovingEntity {
         } else {
             super.setLocalArea(patrolBounds);
             setForceMove(true);
-            super.getMovement().setVelocity(super.getMovement().getVelocity() / 2);
+            //super.getMovement().setVelocity(super.getMovement().getVelocity() / 2);
             behaviour = Behaviour.PATROL;
         }
 
@@ -271,7 +271,7 @@ public class Enemy extends ArtificialMovingEntity {
         }
 
         if (playerDetected(detectionDistance) != null) {
-            super.getMovement().setVelocity(super.getMovement().getVelocity() * 2);
+            //super.getMovement().setVelocity(super.getMovement().getVelocity() * 2);
             super.setMoving(true);
             behaviour = Behaviour.CHASE;
         }

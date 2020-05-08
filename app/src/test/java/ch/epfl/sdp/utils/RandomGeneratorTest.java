@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
@@ -23,7 +22,6 @@ public class RandomGeneratorTest {
 
     @Before
     public void setup(){
-        PlayerManager playerManager = new PlayerManager();
         randGen = new RandomGenerator();
     }
 
@@ -52,17 +50,6 @@ public class RandomGeneratorTest {
         GeoPoint f = new GeoPoint(0,0);
         assertFalse(g.getLongitude() == f.getLongitude());
         assertFalse(g.getLatitude() == f.getLatitude());
-    }
-
-    @Test
-    public void randomCartesianPointTest() {
-        for (int i = 1; i <= 5; i++) {
-            for (int j = 1; j <= 5; j++) {
-                GeoPoint q = randGen.randomCartesianPoint(i, j);
-                assertTrue(q.getX() <= i);
-                assertTrue(q.getY() <= j);
-            }
-        }
     }
 
     @Test
