@@ -75,7 +75,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void setLocation(GeoPoint location) { this.location = location; }
 
     public boolean isTaken() { return this.taken; }
-    
+
     public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
         ArrayList<Coin> generatedCoins = new ArrayList<Coin>();
         RandomGenerator randGen = new RandomGenerator();

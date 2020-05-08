@@ -125,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        if (!((MyApplication)getApplication()).appContainer.testing) {
+        if (((MyApplication)getApplication()).appContainer.testing) { return; }
             Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
             Game.getInstance().setRenderer(this);
 
@@ -166,7 +166,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
             }
-        }
 
         Log.d("Database", "Quit map ready");
     }
