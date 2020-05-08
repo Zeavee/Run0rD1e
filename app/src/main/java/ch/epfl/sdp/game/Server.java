@@ -67,7 +67,7 @@ public class Server implements Updatable {
         Game.getInstance().addToUpdateList(itemBox);
         //  -------------------------------------------
 
-        // Market --------------------------------------------
+        // Market -------------------------------------------- LOCATION IMPORTANT FOR MARKET ACTIVITY TEST
         Market market = new Market(new GeoPoint(6.14, 46.22));
         Game.getInstance().addToDisplayList(market);
 

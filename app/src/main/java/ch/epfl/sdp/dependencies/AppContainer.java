@@ -9,6 +9,9 @@ import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.item.Market;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
+import ch.epfl.sdp.map.GoogleMapApi;
+import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.social.Conversation.FireStoreToSQLiteAdapter;
 import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
@@ -37,4 +40,8 @@ public class AppContainer {
     public MarketActivity marketActivity = null;
 
     public Market marketBackend = null;
+
+    public MapsActivity mapsActivity = null;
+
+    public boolean testing  = false;
 }

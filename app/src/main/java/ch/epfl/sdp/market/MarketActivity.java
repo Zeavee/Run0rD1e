@@ -24,6 +24,12 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
+/**
+ * Models the market of the game.
+ * If the user is within 50 meters of the map, this activity is intended.
+ * The backend of this activity is Market, which delegates all calls such as buying items and reducing stocks when a user buys
+ */
+
 public class MarketActivity extends AppCompatActivity {
 
     private Market backend;
@@ -36,7 +42,8 @@ public class MarketActivity extends AppCompatActivity {
     private HashMap<Integer, Pair<Integer, Integer>> itemToViewMap = new HashMap<>();
 
     /**
-     * Does whatever the f**k you think it does
+     * Initializes the viewSelected map, which maps view to an integer indicating if it's selected as well as
+     * a class variable representing the class of the item. Also, synchronizes backend to match frontend
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {

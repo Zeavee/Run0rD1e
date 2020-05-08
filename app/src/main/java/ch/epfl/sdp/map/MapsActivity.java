@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -70,6 +71,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
+        appContainer.mapsActivity = this;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -98,48 +100,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
-        Game.getInstance().setRenderer(this);
+        if (!((MyApplication)getApplication()).appContainer.testing) {
+            Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
+            Game.getInstance().setRenderer(this);
 
-        //Get email of CurrentUser;
-        String email = authenticationAPI.getCurrentUserEmail();
+            //Get email of CurrentUser;
+            String email = authenticationAPI.getCurrentUserEmail();
 
-        if (!Game.getInstance().isRunning()) {
-            commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
-                if (!fetchUserRes.isSuccessful()) {
-                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                } else {
-                    Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
-                    PlayerManager.setCurrentUser(currentUser);
-                    Game.getInstance().addToDisplayList(currentUser);
-
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+            if (!Game.getInstance().isRunning()) {
+                commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
+                    if (!fetchUserRes.isSuccessful()) {
+                        Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
-                    }
+                        Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
+                        PlayerManager.setCurrentUser(currentUser);
+                        Game.getInstance().addToDisplayList(currentUser);
 
-                    commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                        if (!selectLobbyRes.isSuccessful()) {
-                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
                         } else {
-                            PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
-                            if (PlayerManager.isServer()) data.put("startGame", false);
-
-                            commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
-                                if (!registerToLobbyRes.isSuccessful()) {
-                                    Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Server.initEnvironment();
-                                }
-                            });
+                            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
                         }
-                    });
-                }
-            });
+
+                        commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+                            if (!selectLobbyRes.isSuccessful()) {
+                                Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            } else {
+                                PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
+                                if (PlayerManager.isServer()) data.put("startGame", false);
+
+                                commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
+                                    if (!registerToLobbyRes.isSuccessful()) {
+                                        Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        Server.initEnvironment();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         }
         display(Game.getInstance().getDisplayablesOnce());
     }

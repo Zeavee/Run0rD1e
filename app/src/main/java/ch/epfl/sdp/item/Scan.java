@@ -5,6 +5,9 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.Renderer;
 
+/**
+ * Scans the maps for players and renders them visible to the player
+ */
 public class Scan extends TimedItem  {
     private int scanTime;
 
