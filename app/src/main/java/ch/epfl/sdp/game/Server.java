@@ -62,7 +62,6 @@ public class Server implements Updatable {
     }
 
     private void initEnvironment() {
-        Log.d("Server.java", "initEnvironment");
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
@@ -73,9 +72,7 @@ public class Server implements Updatable {
                             if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
                                 playerManager.addPlayer(player);
                             }
-                            Log.d(TAG, "(Server) Getting Player: " + player);
                         }
-                        Log.d("Server.java", "initMarket2");
                         initMarket();
                         initItemBoxes();
                         initEnemies();
