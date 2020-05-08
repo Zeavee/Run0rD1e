@@ -20,6 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".WeatherFragment" />
+        <activity android:name=".market.MarketActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".social.AddFriendsActivity"
             android:label="Search Friends" />

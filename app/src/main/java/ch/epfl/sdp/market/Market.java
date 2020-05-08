@@ -90,7 +90,7 @@ public class Market implements Displayable {
      */
     @Override
     public GeoPoint getLocation() {
-        return null;
+        return loc;
     }
 
     /**

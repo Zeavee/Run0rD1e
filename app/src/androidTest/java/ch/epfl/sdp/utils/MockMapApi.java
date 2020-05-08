@@ -1,15 +1,22 @@
 package ch.epfl.sdp.utils;
 
+import android.util.Log;
+
+import androidx.test.core.app.ApplicationProvider;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.Renderer;
+import ch.epfl.sdp.market.Market;
 
 public class MockMapApi implements MapApi, Renderer {
     // Used for tests
@@ -53,7 +60,14 @@ public class MockMapApi implements MapApi, Renderer {
      */
     @Override
     public void display(Collection<Displayable> displayables) {
-
+        Log.d("mockMapApi", "display");
+        for (Displayable displayable : displayables) {
+            if (displayable instanceof Market) {
+                Log.d("mock map", "being displayed");
+                ((Market) displayable).setCallingActivity(((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.mapsActivity);
+            }
+            displayable.displayOn(Game.getInstance().getMapApi());
+        }
     }
 
     /**

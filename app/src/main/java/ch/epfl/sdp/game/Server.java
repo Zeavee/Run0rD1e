@@ -45,6 +45,7 @@ public class Server implements Updatable {
         this.serverDatabaseAPI = serverDatabaseAPI;
         itemFactory = new ItemFactory();
         initEnvironment();
+        Log.d("Server.java", "constructor");
     }
 
     @Override
@@ -61,6 +62,7 @@ public class Server implements Updatable {
     }
 
     private void initEnvironment() {
+        Log.d("Server.java", "initEnvironment");
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
@@ -73,6 +75,7 @@ public class Server implements Updatable {
                             }
                             Log.d(TAG, "(Server) Getting Player: " + player);
                         }
+                        Log.d("Server.java", "initMarket2");
                         initMarket();
                         initItemBoxes();
                         initEnemies();

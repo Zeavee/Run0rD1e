@@ -5,6 +5,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ public class MarketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
         ((MyApplication)getApplication()).appContainer.marketActivity = this;
+        Log.d("Market activity", "in GUI");
 
         aoeImg = findViewById(R.id.aeoImg);
         scanImg = findViewById(R.id.scanImg);

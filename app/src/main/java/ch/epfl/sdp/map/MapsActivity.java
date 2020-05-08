@@ -174,12 +174,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Log.d("Database", "Quit map ready");
     }
 
+    // for manually starting the remote game engine (server) for tests
+    public void createAndRunServer(){
+        new Server(serverDatabaseAPI);
+    }
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
         commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
             if (registerToLobbyRes.isSuccessful()) {
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Server(serverDatabaseAPI);
+                    createAndRunServer();
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     new Client(clientDatabaseAPI);
@@ -248,6 +252,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * switches to a market activity, where user can buy health, shield, scan, or shrinker items
      */
     public void startMarket(Market backend) {
+        Log.d("MapsActivity", "start market");
         Intent intendingMarket = new Intent(MapsActivity.this, MarketActivity.class);
         ((MyApplication)getApplication()).appContainer.marketBackend = backend;
         startActivity(intendingMarket);
