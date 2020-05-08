@@ -143,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="0dp"
                     android:layout_marginBottom="0dp"
-                    android:text="Shield"
+                    android:text="Health"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="18sp"
