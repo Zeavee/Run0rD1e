@@ -1,4 +1,7 @@
-package ch.epfl.sdp.login;
+package ch.epfl.sdp.database.authentication;
+
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 /**
  * The interface with the method related to the firebase authentication
@@ -9,18 +12,18 @@ public interface AuthenticationAPI {
      *
      * @param email The email of the CurrentUser
      * @param password The password of the CurrentUser
-     * @param callback Callback after complete signIn to the firebase
+     * @param onValueReadyCallback Callback after signing in to the firebase
      */
-    void signIn(String email, String password, OnAuthCallback callback);
+    void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     /**
-     * Register to the firebase using email and password
+     * Register to the firebase with email and password
      *
      * @param email The unique email of the new User
      * @param password The password of the new User
-     * @param callback CallBack after complete registering to the firebase
+     * @param onValueReadyCallback CallBack after registering to the firebase
      */
-    void register(String email, String password, OnAuthCallback callback);
+    void register(String email, String password, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
     /**
      * Get the email of the CurrentUser

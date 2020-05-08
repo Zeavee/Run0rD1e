@@ -1,107 +1,143 @@
 package ch.epfl.sdp.game;
 
-import java.util.List;
+import android.util.Log;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
+import java.util.HashMap;
+import java.util.Map;
+
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
+import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.item.ItemBoxManager;
 
 /**
  * This class updates the game from the client point of view. It fetches the data from firebase and
  * the data is updated by the server.
  */
-public class Client implements Updatable{
-    private int counter;
-    private double oldDamage;
-    private List<ItemBox> itemBoxes;
+public class Client implements Updatable {
+    private static final String TAG = "Database";
+    private int counter = 0;
     private ClientDatabaseAPI clientDatabaseAPI;
-    private List<Enemy> enemies;
+    private PlayerManager playerManager = PlayerManager.getInstance();
+    private EnemyManager enemyManager = EnemyManager.getInstance();
+    private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
 
     /**
      * Creates a new client
      */
-    public  Client(){
-        oldDamage = 0;
-        counter = GameThread.FPS;
-        Game.getInstance().addToUpdateList(this);
-    }
+    public Client(ClientDatabaseAPI clientDatabaseAPI) {
+        this.clientDatabaseAPI = clientDatabaseAPI;
 
-
-    private void receivePlayersPosition(){
-
-    };
-
-    private ItemBox receiveItemBox(){
-        return null;
-    }
-
-    private void receiveDamage(double damage){
-        if (damage != oldDamage) {
-            // shielding is done on server?
-            PlayerManager.getCurrentUser().setHealthPoints(PlayerManager.getCurrentUser().getHealthPoints() - (damage - oldDamage));
-            clientDatabaseAPI.sendHealthPoints(EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser()), value -> {
-                if(value.isSuccessful()){
-                    oldDamage = damage;
-                }
-            });
-        }
-    }
-
-    private void receiveEnemies(List<EnemyForFirebase> firebase_enemies){
-        for (EnemyForFirebase enemy: firebase_enemies) {
-            //enemy.
-        }
-    }
-
-    /**
-     * Puts the items of the taken item boxes in the user's inventory.
-     */
-    private void updateItems(){
-        if (!itemBoxes.isEmpty()) {
-            for (ItemBox box : itemBoxes) {
-                box.take();
-            }
-
-            itemBoxes.clear();
-        }
-    }
-
-    /**
-     * Change the user's health based on the damage received.
-     * Update on client for synchronisation with items.
-     */
-    private void updateHealth(){
-        clientDatabaseAPI.fetchDamage(damage -> {receiveDamage(damage.getResult());});
-    }
-
-    /**
-     * Update the players position.
-     */
-    private void updatePlayersPosition(){
-
-    }
-
-    /**
-     * Update the enemies positions.
-     */
-    private void updateEnemiesPosition(){
-        clientDatabaseAPI.fetchEnemies(enemies -> {receiveEnemies(enemies.getResult());});
+        // TODO Add Listener for and Players
+        init();
+        addEnemyListener();
+        addItemBoxesListener();
+        addUserHealthPointsListener();
+        addUserItemListener();
     }
 
     @Override
     public void update() {
-        if(counter <= 0){
-            updateHealth();
-
-            updateItems();
-            updatePlayersPosition();
-            updateEnemiesPosition();
-            counter = GameThread.FPS + 1;
+        if (counter <= 0) {
+            sendUserPosition();
+            sendUsedItems();
+            counter = 2 * GameThread.FPS + 1;
         }
 
         --counter;
+    }
+
+    private void init() {
+        clientDatabaseAPI.listenToGameStart(start -> {
+            if (start.isSuccessful()) {
+                Game.getInstance().addToUpdateList(this);
+                Game.getInstance().initGame();
+            }
+        });
+    }
+
+    private void addEnemyListener() {
+        clientDatabaseAPI.addEnemyListener(value -> {
+            if (value.isSuccessful()) {
+                for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(value.getResult())) {
+                    enemyManager.updateEnemies(enemy);
+                }
+            }
+        });
+    }
+
+    private void addItemBoxesListener() {
+        // Listen for Items
+        clientDatabaseAPI.addItemBoxesListener(value -> {
+            if (value.isSuccessful()) {
+                for (ItemBoxForFirebase itemBoxForFirebase : value.getResult()) {
+                    String id = itemBoxForFirebase.getId();
+                    boolean taken = itemBoxForFirebase.isTaken();
+                    GeoPoint location = itemBoxForFirebase.getLocation();
+
+                    if (itemBoxManager.getItemBoxes().containsKey(id)) {
+                        if (taken) {
+                            Game.getInstance().removeFromDisplayList(itemBoxManager.getItemBoxes().get(id));
+                            itemBoxManager.getItemBoxes().remove(id);
+                        }
+                    } else {
+                        if (!taken) {
+                            ItemBox itemBox = new ItemBox(location);
+                            Game.getInstance().addToDisplayList(itemBox);
+                            itemBoxManager.addItemBoxWithId(itemBox, id);
+                        }
+                    }
+                    Log.d(TAG, "Listen for itemboxes: " + value.getResult());
+                }
+            } else {
+                Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
+            }
+        });
+
+    }
+
+    private void addUserHealthPointsListener() {
+        clientDatabaseAPI.addUserHealthPointsListener(value -> {
+            if (value.isSuccessful()) {
+                playerManager.getCurrentUser().setHealthPoints(value.getResult());
+                Log.d(TAG, "Listen for healtpoints: " + value.getResult());
+            } else {
+                Log.w(TAG, "Listen for healtpoints failed.", value.getException());
+            }
+        });
+    }
+
+    private void addUserItemListener() {
+        // Listen for Items
+        clientDatabaseAPI.addUserItemListener(value -> {
+            if (value.isSuccessful()) {
+                Map<String, Integer> items = new HashMap<>();
+                for (Map.Entry<String, Integer> entry : value.getResult().entrySet()) {
+                    items.put(entry.getKey(), entry.getValue());
+                }
+                playerManager.getCurrentUser().getInventory().setItems(items);
+                Log.d(TAG, "Listen for items: " + value.getResult());
+            } else {
+                Log.w(TAG, "Listen for items failed.", value.getException());
+            }
+        });
+    }
+
+
+    private void sendUserPosition() {
+        clientDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+    }
+
+    private void sendUsedItems() {
+        Map<String, Integer> usedItems = playerManager.getCurrentUser().getInventory().getUsedItems();
+        if (!usedItems.isEmpty()) {
+            clientDatabaseAPI.sendUsedItems(EntityConverter.convertItems(usedItems));
+            playerManager.getCurrentUser().getInventory().clearUsedItems();
+        }
     }
 }

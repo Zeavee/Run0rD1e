@@ -21,9 +21,12 @@ import org.junit.runner.RunWith;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.utils.CommonMockDatabaseAPI;
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
+import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ClientFirestoreDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
@@ -31,6 +34,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -85,17 +89,19 @@ public class MapsActivityTest {
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0.0));
+                    map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
                     appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
+                    appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+                    appContainer.clientDatabaseAPI = new ClientMockDatabaseAPI();
                 }
             };
 
     @Before
     public void setup() {
-        PlayerManager.setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
-        PlayerManager.getCurrentUser().getInventory().addItem(new Healthpack(10));
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
+        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
         mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
     }
 
@@ -116,11 +122,6 @@ public class MapsActivityTest {
     @Test
     public void weatherOpensAndCloses() {
         testFragmentOpendsAndCloses(R.id.button_weather, R.id.temp);
-    }
-
-    @Test
-    public void leaderboardOpens() {
-        testButtonWorks(R.id.button_leaderboard, R.id.recycler_view);
     }
 
     @Test

@@ -46,7 +46,7 @@ public class AddFriendsActivityTest {
 
     @Before
     public void setup() {
-        PlayerManager.setCurrentUser(new Player("stupid0", "stupid0@gmail.com"));
+        PlayerManager.getInstance().setCurrentUser(new Player("stupid0", "stupid0@gmail.com"));
     }
 
     public void step1() {

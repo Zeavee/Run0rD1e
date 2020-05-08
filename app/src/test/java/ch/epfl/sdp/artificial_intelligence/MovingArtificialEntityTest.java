@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -26,7 +27,7 @@ public class MovingArtificialEntityTest {
     public void setup(){
         map = new MockMap();
         Game.getInstance().setMapApi(map);
-        PlayerManager.setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
     }
 
     @Test
@@ -92,7 +93,7 @@ public class MovingArtificialEntityTest {
         CartesianPoint entityPos = PointConverter.geoPointToCartesianPoint(entityLocation);
         Area rectangleBounds = new RectangleArea(50, 50);
         LocalArea patrolBounds = new LocalArea(rectangleBounds, entityPos);
-        MovingArtificialEntity movingArtificialEntity = new Enemy(patrolBounds, rectangleBounds);
+        MovingArtificialEntity movingArtificialEntity = new Enemy(0, patrolBounds, rectangleBounds);
         LinearMovement movement = new LinearMovement(entityPos);
 
         movement.setVelocity(10);

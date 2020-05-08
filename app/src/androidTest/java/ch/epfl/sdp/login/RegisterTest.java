@@ -1,4 +1,4 @@
-package ch.epfl.sdp.loginTests;
+package ch.epfl.sdp.login;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -25,13 +25,11 @@ import java.util.List;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.login.LoginFormActivity;
-import ch.epfl.sdp.login.RegisterFormActivity;
-import ch.epfl.sdp.utils.CommonMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;

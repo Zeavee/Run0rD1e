@@ -31,7 +31,7 @@ public class ShelterAreaTest {
         players.add(player3);
         players.add(player4);
         double shelterAoeRadius = 100;
-        PlayerManager.setPlayers(players);
+        PlayerManager.getInstance().setPlayers(players);
         return new ShelterArea(shelterLocation, shelterAoeRadius);
     }
 
@@ -49,9 +49,6 @@ public class ShelterAreaTest {
         assertFalse(shelterArea.isInShelterArea(player2));
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));
-
-        assertFalse(shelterArea.isOnce());
-
     }
 
     @Test

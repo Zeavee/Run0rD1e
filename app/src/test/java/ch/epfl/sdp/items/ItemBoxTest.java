@@ -8,6 +8,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.MockMap;
@@ -16,17 +17,17 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ItemBoxTest {
-    Player player;
-    GeoPoint location;
-    MockMap mockMap;
+    private Player player;
+    private GeoPoint location;
+    private MockMap mockMap;
 
     @Before
     public void setup() {
-        PlayerManager.removeAll(); // Just to be sure that there are no players
+        PlayerManager.getInstance().removeAll(); // Just to be sure that there are no players
         location = new GeoPoint(0,0);
-        player = new Player("","");
+        player = new Player("test","test@gmail.com");
         player.setLocation(location);
-        PlayerManager.setCurrentUser(player);
+        PlayerManager.getInstance().setCurrentUser(player);
         mockMap = new MockMap();
         Game.getInstance().setMapApi(mockMap);
         Game.getInstance().setRenderer(mockMap);
@@ -35,48 +36,43 @@ public class ItemBoxTest {
 
     @After
     public void teardown(){
-        PlayerManager.removeAll();
+        PlayerManager.getInstance().removeAll();
+        Game.getInstance().destroyGame();
     }
 
     @Test
     public void takingItemBoxMakesItDisappear(){
-        ItemBox itemBox = new ItemBox();
-        itemBox.setLocation(location);
+        ItemBox itemBox = new ItemBox(location);
 
         Game.getInstance().addToUpdateList(itemBox);
         Game.getInstance().addToDisplayList(itemBox);
 
         assertTrue(Game.getInstance().updatablesContains(itemBox));
-        assertFalse(Game.getInstance().displayablesContains(itemBox));
+        assertTrue(Game.getInstance().displayablesContains(itemBox));
         assertFalse(itemBox.isTaken());
 
         Game.getInstance().update();
-
-        assertTrue(Game.getInstance().updatablesContains(itemBox));
-        assertFalse(Game.getInstance().displayablesContains(itemBox));
         assertTrue(itemBox.isTaken());
     }
 
     @Test
     public void takingItemBoxAddItemsToInventory() {
-        Item item = new Item("", "") {
+        Item item = new Item("healthpack", "increase healthPoint") {
             @Override
             public Item clone() {
                 return null;
             }
 
             @Override
-            public void use() {
+            public void useOn(Player player) {
             }
         };
 
 
-        assertFalse(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
+        assertFalse(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
 
         for (int i = 0; i < 2; ++i) {
-            ItemBox itemBox = new ItemBox();
-
-            itemBox.setLocation(location);
+            ItemBox itemBox = new ItemBox(location);
             itemBox.putItems(item, 1);
 
             Game.getInstance().addToUpdateList(itemBox);
@@ -84,9 +80,23 @@ public class ItemBoxTest {
 
             Game.getInstance().update();
 
-            assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().containsKey(item));
+            assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
         }
 
-        assertTrue(PlayerManager.getCurrentUser().getInventory().getItems().get(item) == 2);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()) == 2);
+
     }
+    @Test
+    public void isTakenShouldWork() {
+        ItemBox itemBox = new ItemBox(location);
+
+        Game.getInstance().addToUpdateList(itemBox);
+        Game.getInstance().addToDisplayList(itemBox);
+
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
+        assertTrue(Game.getInstance().displayablesContains(itemBox));
+        assertFalse(itemBox.isTaken());
+    }
+
+
 }

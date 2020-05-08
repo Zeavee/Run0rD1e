@@ -47,7 +47,7 @@
         android:text="@string/inventory"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/scanButton" />
+        map:layout_constraintTop_toBottomOf="@+id/recenter" />
 
     <Button
         android:id="@+id/button_leaderboard"

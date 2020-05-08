@@ -31,8 +31,8 @@ public class ItemsTest {
         Game.getInstance().setMapApi(new MockMap());
         playerManager = new PlayerManager();
         player = new Player("","");
-        PlayerManager.addPlayer(player);
-        PlayerManager.setCurrentUser(player);
+        PlayerManager.getInstance().addPlayer(player);
+        PlayerManager.getInstance().setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
 
         healthpack = new Healthpack( 60);
@@ -45,17 +45,16 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getCurrentUser().setHealthPoints(10);
-        healthpack.use();
-
-        assertTrue(PlayerManager.getCurrentUser().getHealthPoints() == 11);
+        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
 
     @Test
     public void ifItemNotInInventoryNothingHappens() {
         Player player = new Player(6.149290, 46.212470, 50,
                 "Skyris", "test@email.com"); //player position is in Geneva
-        player.getInventory().removeItem(new Healthpack(0));
+        player.getInventory().removeItem(new Healthpack(0).getName());
         assertEquals(0, player.getInventory().getItems().size());
     }
 
@@ -73,26 +72,20 @@ public class ItemsTest {
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getCurrentUser().setHealthPoints(30);
-        PlayerManager.setCurrentUser(PlayerManager.getCurrentUser());
-        healthpack.use();
-        assertEquals(90, PlayerManager.getCurrentUser().getHealthPoints(), 0);
-        healthpack.use();
-        assertEquals(100, PlayerManager.getCurrentUser().getHealthPoints(), 0);
-    }
-
-    @Test
-    public void scanTest() {
-        scan.use();
+        PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
+        PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
     }
 
     @Test
     public void coinTest() {
-        PlayerManager.getCurrentUser().removeMoney(PlayerManager.getCurrentUser().getMoney());
-        Coin c = new Coin(5);
+        PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
+        Coin c = new Coin(5, new GeoPoint(10,10));
         assertTrue(5 == c.getValue());
-        c.use();
-        assertTrue(PlayerManager.getCurrentUser().getMoney() == 5);
-
+        c.useOn(PlayerManager.getInstance().getCurrentUser());
+        assertTrue(PlayerManager.getInstance().getCurrentUser().getMoney() == 5);
     }
 }

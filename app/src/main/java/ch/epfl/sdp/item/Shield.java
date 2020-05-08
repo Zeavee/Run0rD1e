@@ -1,12 +1,12 @@
 package ch.epfl.sdp.item;
 
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.Player;
 
-public class Shield extends TimedItem  {
+public class Shield extends TimedItem {
     private int shieldTime;
 
     public Shield(int shieldTime) {
-        super(String.format("Shield (%d)", shieldTime), String.format("Protects you from taking damage from the enemy for %d seconds", shieldTime), shieldTime);
+        super(String.format("Shield %d", shieldTime), String.format("Protects you from taking damage from the enemy for %d seconds", shieldTime), shieldTime);
         this.shieldTime = shieldTime;
     }
 
@@ -16,14 +16,14 @@ public class Shield extends TimedItem  {
     }
 
     @Override
-    public void use() {
-        super.use();
-        PlayerManager.getCurrentUser().setShielded(true);
+    public void useOn(Player player) {
+        super.useOn(player);
+        player.setShielded(true);
     }
 
     @Override
-    public void stopUsing(){
-        PlayerManager.getCurrentUser().setShielded(false);
+    public void stopUsingOn(Player player){
+        player.setShielded(false);
     }
 
 }

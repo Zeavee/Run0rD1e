@@ -3,7 +3,6 @@ package ch.epfl.sdp.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,6 +13,7 @@ import java.util.regex.Pattern;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -24,7 +24,6 @@ public class RegisterFormActivity extends AppCompatActivity {
     private static final int MINIMUM_PASSWORD_LENGTH = 8;
 
     private EditText txtUsername, txtEmail, txtPassword, txtPasswordConf;
-    private Button registerButton;
 
     private AuthenticationAPI authenticationAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -38,7 +37,6 @@ public class RegisterFormActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.email);
         txtPassword = findViewById(R.id.password);
         txtPasswordConf = findViewById(R.id.passwordconf);
-        registerButton = findViewById(R.id.registerbutton);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
@@ -64,23 +62,19 @@ public class RegisterFormActivity extends AppCompatActivity {
     }
 
     private void register(String username, String email, String password) {
-        authenticationAPI.register(email, password, new OnAuthCallback() {
-            @Override
-            public void finish() {
-                UserForFirebase userForFirebase = new UserForFirebase(email, username, 0.0);
-                commonDatabaseAPI.addUser(userForFirebase, task -> {
-                    if(!task.isSuccessful()) {
-                        Toast.makeText(RegisterFormActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
+        authenticationAPI.register(email, password, registerRes -> {
+            if (!registerRes.isSuccessful()) {
+                Toast.makeText(RegisterFormActivity.this, registerRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                UserForFirebase userForFirebase = new UserForFirebase(email, username, 0);
+                commonDatabaseAPI.addUser(userForFirebase, addUserRes -> {
+                    if(!addUserRes.isSuccessful()) {
+                        Toast.makeText(RegisterFormActivity.this, addUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
                         RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainActivity.class));
                         RegisterFormActivity.this.finish();
                     }
                 });
-            }
-
-            @Override
-            public void error(Exception ex) {
-                Toast.makeText(RegisterFormActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

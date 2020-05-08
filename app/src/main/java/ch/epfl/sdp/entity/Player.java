@@ -13,7 +13,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
-    private double score;
     private double healthPoints;
     private CartesianPoint position;
     private boolean alive;
@@ -38,7 +37,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         this.setLocation(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
-        this.setScore(0);
         this.setHealthPoints(100);
         this.setAlive(true);
         this.setShielded(false);
@@ -46,8 +44,9 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setActive(true);
-        this.distanceTraveled = 0;
         this.generalScore = 0;
+        this.currentGameScore = 0;
+        this.distanceTraveled = 0;
         this.speed = 0;
         this.money = 0;
     }
@@ -64,10 +63,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         return alive;
     }
 
-    public double getScore() {
-        return score;
-    }
-
     public String getUsername() {
         return this.username;
     }
@@ -77,7 +72,15 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
     }
 
     public void setHealthPoints(double amount) {
-        this.healthPoints = amount;
+        if(amount > 100){
+            healthPoints = 100;
+        }else if (amount > 0){
+            healthPoints = amount;;
+        }else{
+            healthPoints = 0;
+            alive = false;
+        }
+        PlayerManager.getInstance().addPlayerWaitingHealth(this);
     }
 
     public boolean isShielded() {
@@ -100,23 +103,19 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         return generalScore;
     }
 
+    public int getCurrentGameScore() { return currentGameScore; }
+
     public double getDistanceTraveled() {
         return this.distanceTraveled;
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
-        if (this == PlayerManager.getCurrentUser()) {
+        if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
             mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
         } else {
-            mapApi.displayMarkerCircle(this, Color.YELLOW, "Other player", 100);
+            mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
         }
-    }
-
-
-    @Override
-    public boolean isOnce() {
-        return false;
     }
 
     @Override
@@ -140,10 +139,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         this.email = email;
     }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
-
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
@@ -164,6 +159,14 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         this.distanceTraveled = distanceTraveled;
     }
 
+    public void setGeneralScore(int generalScore) {
+        this.generalScore = generalScore;
+    }
+
+    /**
+     * A method to get the player's money
+     * @return an int which is equal to the player's money
+     */
     public int getMoney() {
         return money;
     }

@@ -1,11 +1,10 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -17,12 +16,8 @@ import ch.epfl.sdp.utils.RandomGenerator;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
 
-    // This area will be split into tiles of size 1x1 in order to fill them according to the density of enemies rule
-    private HashMap<Long, Integer> mapEnemiesToTiles;
-
-    public RandomEnemyGenerator(RectangleArea enclosure, Player player) {
-        super(enclosure, player);
-        mapEnemiesToTiles = new HashMap<>();
+    public RandomEnemyGenerator(RectangleArea enclosure) {
+        super(enclosure);
         enemies = new ArrayList<>();
         timer = new Timer();
     }
@@ -68,17 +63,17 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     @Override
     GeoPoint rule() {
         Random rd = new Random();
-        GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
+        GeoPoint enemyPos = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
         int maxIter = 500;
         while(maxIter > 0) {
             // TODO better randomization
-            GeoPoint local = RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
-            enemyPos = RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
+            GeoPoint local = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
+            enemyPos = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
             LocalArea localArea = new LocalArea(new RectangleArea(f1, f2), PointConverter.geoPointToCartesianPoint(local));
             Area area = new UnboundedArea();
-            Enemy enemy = new Enemy(localArea, area);
+            Enemy enemy = new Enemy(maxIter, localArea, area);
             enemy.setLocation(enemyPos);
             SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
             movement.setVelocity(5);

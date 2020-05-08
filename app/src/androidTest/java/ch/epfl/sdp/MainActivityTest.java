@@ -10,12 +10,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -40,12 +40,11 @@ public class MainActivityTest {
     @Before
     public void setup() {
         Game.getInstance().setMapApi(new MockMapApi());
-        PlayerManager.setCurrentUser(new Player("test", "test@gmail.com"));
+        PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
     }
 
     @After
     public void teardown() {
-        PlayerManager.setCurrentUser(null);
     }
 
     @Test

@@ -2,8 +2,6 @@ package ch.epfl.sdp.database.room;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-
 import static org.junit.Assert.assertEquals;
 
 public class LeaderboardEntityTest {

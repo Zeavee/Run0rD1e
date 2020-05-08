@@ -44,7 +44,7 @@ public class LocalArea implements Area, Positionable {
      * @return The location of the localArea on the geodesic surface.
      */
     public GeoPoint getLocation() {
-        return PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getCurrentUser().getLocation());
+        return PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getInstance().getCurrentUser().getLocation());
     }
 
     @Override

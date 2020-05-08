@@ -31,8 +31,8 @@ public class GoogleLocationFinder implements LocationFinder {
             @Override
             public void onLocationChanged(Location latestLocation) {
                 currentLocation = latestLocation;
-                PlayerManager.getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
-                PlayerManager.getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getCurrentUser().getLocation()));
+                PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
+                PlayerManager.getInstance().getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getInstance().getCurrentUser().getLocation()));
                 requestUpdatePosition();
             }
 

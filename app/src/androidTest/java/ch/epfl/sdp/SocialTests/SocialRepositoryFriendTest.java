@@ -37,7 +37,7 @@ public class SocialRepositoryFriendTest {
 
         @Override
         protected void beforeActivityLaunched() {
-            PlayerManager.setCurrentUser(new Player("mock", "mock@mock.com"));
+            PlayerManager.getInstance().setCurrentUser(new Player("mock", "mock@mock.com"));
             prepopulateDatabase();
         }
     };

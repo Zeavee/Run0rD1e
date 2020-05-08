@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.List;
 
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.Conversation.ChatActivity;
