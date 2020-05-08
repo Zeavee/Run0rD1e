@@ -77,7 +77,7 @@ public class MarketActivityTest {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-    // click on the shield (checking it is displayed)
+    // click on the shield image (checking it is displayed)
     public void step1(){
         ViewInteraction appCompatImageView = onView(
                 allOf(withId(R.id.shieldImg),
