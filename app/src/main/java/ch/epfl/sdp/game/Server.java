@@ -32,7 +32,7 @@ import ch.epfl.sdp.item.ItemFactory;
  */
 public class Server implements Updatable {
     private static final String TAG = "Database";
-    private int counter;
+    private int counter = 0;
     private ServerDatabaseAPI serverDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
