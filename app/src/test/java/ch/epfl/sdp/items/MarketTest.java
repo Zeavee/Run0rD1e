@@ -17,6 +17,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Market;
+import ch.epfl.sdp.item.Trap;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -75,7 +76,7 @@ public class MarketTest {
 
     @Test
     public void playerCannotBuyNonExistentItem(){
-        Item b = new Healthpack(100);
+        Item b = new Trap(50, 20);
         assertFalse(market.buy(b.getClass(), buyer));
     }
 

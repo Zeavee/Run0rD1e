@@ -165,26 +165,8 @@ public class MarketActivityTest {
                         isDisplayed()));
         textView2.check(matches(withText("Shield")));
     }
-    @Test
-    public void marketActivityTest() {
 
-        // click on the shield (checking it is displayed)
-        step1();
-
-        // click on the scanner (checking it is displayed)
-        step2();
-
-        // click on the shrinker (checking it is displayed)
-        step3();
-
-        // check the health pack has label health displayed underneath it
-        step4();
-
-        // check the shield has label shield displayed underneath it
-        step5();
-
-
-
+    public void step6(){
         ViewInteraction textView3 = onView(
                 allOf(withText("Scan"),
                         childAtPosition(
@@ -201,6 +183,9 @@ public class MarketActivityTest {
                         isDisplayed()));
         textView3.check(matches(withText("Scan")));
 
+    }
+
+    public void step7(){
         ViewInteraction textView4 = onView(
                 allOf(withText("Shrinker"),
                         childAtPosition(
@@ -216,6 +201,33 @@ public class MarketActivityTest {
                                 1),
                         isDisplayed()));
         textView4.check(matches(withText("Shrinker")));
+    }
+    @Test
+    public void marketActivityTest() {
+
+        // click on the shield (checking it is displayed)
+        step1();
+
+        // click on the scanner (checking it is displayed)
+        step2();
+
+        // click on the shrinker (checking it is displayed)
+        step3();
+
+        // check the health pack has label "health" displayed underneath it
+        step4();
+
+        // check the shield has label "shield" displayed underneath it
+        step5();
+
+        // check the scan has label "scan" displayed below it
+        step6();
+
+        step7();
+
+
+
+
 
 
 
