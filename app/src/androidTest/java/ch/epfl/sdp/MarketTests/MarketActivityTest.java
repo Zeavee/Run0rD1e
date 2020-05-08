@@ -76,6 +76,7 @@ public class MarketActivityTest {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
+    // click on the shield (checking it is displayed)
     public void step1(){
         ViewInteraction appCompatImageView = onView(
                 allOf(withId(R.id.shieldImg),
@@ -94,6 +95,7 @@ public class MarketActivityTest {
         appCompatImageView.perform(click());
     }
 
+    // click on the scanner (checking it is displayed)
     public void step2(){
         ViewInteraction appCompatImageView2 = onView(
                 allOf(withId(R.id.scanImg),
@@ -112,6 +114,7 @@ public class MarketActivityTest {
         appCompatImageView2.perform(click());
     }
 
+    // click on the shrinker (checking it is displayed)
     public void step3(){
         ViewInteraction appCompatImageView3 = onView(
                 allOf(withId(R.id.aeoImg),
@@ -130,6 +133,7 @@ public class MarketActivityTest {
         appCompatImageView3.perform(click());
     }
 
+    // check the health pack has label "health" displayed underneath it
     public void step4(){
         ViewInteraction textView = onView(
                 allOf(withText("Health"),
@@ -148,6 +152,7 @@ public class MarketActivityTest {
         textView.check(matches(withText("Health")));
     }
 
+    // check the shield has label "shield" displayed underneath it
     public void step5(){
         ViewInteraction textView2 = onView(
                 allOf(withText("Shield"),
@@ -166,6 +171,7 @@ public class MarketActivityTest {
         textView2.check(matches(withText("Shield")));
     }
 
+    // check the scan has label "scan" displayed below it
     public void step6(){
         ViewInteraction textView3 = onView(
                 allOf(withText("Scan"),
@@ -185,6 +191,7 @@ public class MarketActivityTest {
 
     }
 
+    // check the shrinker has label "shrinker" displayed underneath it
     public void step7(){
         ViewInteraction textView4 = onView(
                 allOf(withText("Shrinker"),
@@ -202,35 +209,8 @@ public class MarketActivityTest {
                         isDisplayed()));
         textView4.check(matches(withText("Shrinker")));
     }
-    @Test
-    public void marketActivityTest() {
 
-        // click on the shield (checking it is displayed)
-        step1();
-
-        // click on the scanner (checking it is displayed)
-        step2();
-
-        // click on the shrinker (checking it is displayed)
-        step3();
-
-        // check the health pack has label "health" displayed underneath it
-        step4();
-
-        // check the shield has label "shield" displayed underneath it
-        step5();
-
-        // check the scan has label "scan" displayed below it
-        step6();
-
-        step7();
-
-
-
-
-
-
-
+    public void step8(){
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.buyButton), withText("BUY"),
                         childAtPosition(
@@ -246,13 +226,24 @@ public class MarketActivityTest {
                                 2),
                         isDisplayed()));
         appCompatButton3.perform(click());
-
-
-
+    }
+    public void step9(){
         ViewInteraction textView5 = onView(
                 allOf(withId(R.id.textGrid), withText("MARKET"),
                         isDisplayed()));
         textView5.check(matches(withText("MARKET")));
+    }
+    @Test
+    public void marketActivityTest() {
+        step1();
+        step2();
+        step3();
+        step4();
+        step5();
+        step6();
+        step7();
+        step8();
+        step9();
     }
 
     private static Matcher<View> childAtPosition(
