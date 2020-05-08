@@ -123,6 +123,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
     }
 
+    /**
+     * on Travis the map will not appear since it is not connected via API Key
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         if (((MyApplication)getApplication()).appContainer.testing) { return; }
