@@ -22,6 +22,11 @@ public class ItemTest {
             @Override
             public void use() {
             }
+
+            @Override
+            public double getValue() {
+                return 0;
+            }
         };
     }
 

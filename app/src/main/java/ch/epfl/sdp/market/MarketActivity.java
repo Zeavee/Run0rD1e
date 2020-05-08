@@ -35,6 +35,9 @@ public class MarketActivity extends AppCompatActivity {
     private Button buy;
     private HashMap<Integer, Pair<Integer, Integer>> itemToViewMap = new HashMap<>();
 
+    /**
+     * Does whatever the f**k you think it does
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +60,10 @@ public class MarketActivity extends AppCompatActivity {
         syncMarketBackendToFrontend();
     }
 
+    /**
+     * buys the items that were selected by the user.
+     * If the user does not have enough money, they will not be bought
+     */
     private void checkoutItems() {
         for (View v: viewsSelected.keySet()){
             if (viewsSelected.get(v).first == 1) {
@@ -66,6 +73,9 @@ public class MarketActivity extends AppCompatActivity {
         Toast.makeText(this.getApplicationContext(), "Transaction finished", Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Maps the views to their corresponding item classes as well as if they are selected
+     */
     private void initViewsSelected() {
         viewsSelected.put(aoeImg, new Pair<Integer, Class<? extends Item>>(0, Shrinker.class));
         viewsSelected.put(scanImg, new Pair<Integer, Class<? extends Item>>(0, Scan.class));
@@ -73,9 +83,12 @@ public class MarketActivity extends AppCompatActivity {
         viewsSelected.put(healthImg, new Pair<Integer, Class<? extends Item>>(0, Healthpack.class));
     }
 
+    /**
+     * synchronizes the market backend to the frontend
+     */
     private void syncMarketBackendToFrontend() {
         backend = ((MyApplication)getApplication()).appContainer.marketBackend;
-        if (backend == null) return;
+        if (backend == null) finish();
         setupItemToViewMap();
         for (Item i: backend.getStock().keySet()){
             ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()).first)).setText("Cost: " + backend.getStock().get(i).second);
@@ -83,6 +96,9 @@ public class MarketActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * sets up the map responsible for showing the prices of items as well their value
+     */
     private void setupItemToViewMap() {
         itemToViewMap.put(Healthpack.class.hashCode(), new Pair<>(R.id.costEms, R.id.valEms));
         itemToViewMap.put(Shield.class.hashCode(), new Pair<>(R.id.costShield, R.id.valShield));
@@ -91,6 +107,9 @@ public class MarketActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * inverts the card's height when the picture of the item is clicked
+     */
     private void invertCardView(View v) {
         int originalValue = viewsSelected.get(v).first;
         Class<? extends Item> itemType = viewsSelected.get(v).second;
@@ -98,13 +117,13 @@ public class MarketActivity extends AppCompatActivity {
         ((CardView)(v.getParent().getParent())).setCardElevation(originalValue*20);
     }
 
+    /**
+     * stops the app flow of the marketActivity inside the app container
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
         ((MyApplication)getApplication()).appContainer.marketActivity = null;
     }
 
-    public Market getBackend() {
-        return backend;
-    }
 }
