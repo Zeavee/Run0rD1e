@@ -90,8 +90,22 @@ public class MarketActivityTest {
         textView.check(matches(withText(text)));
     }
 
-    private void checkImgIcon(){
-        
+    private void checkImgIcon(int id, int id2, int position){
+        ViewInteraction appCompatImageView = onView(
+                allOf(withId(id),
+                        childAtPosition(
+                                childAtPosition(
+                                        allOf(withId(id2),
+                                                childAtPosition(
+                                                        allOf(withId(R.id.mainGrid),
+                                                                childAtPosition(
+                                                                        withClassName(is("android.widget.LinearLayout")),
+                                                                        1)),
+                                                        position)),
+                                        0),
+                                0),
+                        isDisplayed()));
+        appCompatImageView.perform(click());
     }
 
 
@@ -102,40 +116,12 @@ public class MarketActivityTest {
 
     // click on the shield image (checking it is displayed)
     public void step1(){
-        ViewInteraction appCompatImageView = onView(
-                allOf(withId(R.id.shieldImg),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.shieldCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        withClassName(is("android.widget.LinearLayout")),
-                                                                        1)),
-                                                        0)),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatImageView.perform(click());
+        checkImgIcon(R.id.shieldImg, R.id.shieldCard, 0);
     }
 
     // click on the scanner image (checking it is displayed)
     public void step2(){
-        ViewInteraction appCompatImageView2 = onView(
-                allOf(withId(R.id.scanImg),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.scanCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        withClassName(is("android.widget.LinearLayout")),
-                                                                        1)),
-                                                        2)),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatImageView2.perform(click());
+        checkImgIcon(R.id.scanImg, R.id.scanCard, 2);
     }
 
     // click on the shrinker image (checking it is displayed)
