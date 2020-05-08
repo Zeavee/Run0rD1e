@@ -71,8 +71,7 @@ public class Coin extends Item implements Displayable, Updatable {
         }
     }
 
-    public void setLocation(GeoPoint location) {
-        this.location = location;
+    public void setLocation(GeoPoint location) { this.location = location;
     }
 
 
