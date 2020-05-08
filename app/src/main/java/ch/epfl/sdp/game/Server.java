@@ -26,6 +26,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
+import ch.epfl.sdp.market.Market;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -71,6 +72,7 @@ public class Server implements Updatable {
                             }
                             Log.d(TAG, "(Server) Getting Player: " + player);
                         }
+                        initMarket();
                         initItemBoxes();
                         initEnemies();
                         initCoins();
@@ -83,6 +85,12 @@ public class Server implements Updatable {
                             } else Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage()); });
                     } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
+    }
+
+    private void initMarket() {
+        // Market ----------------------------- LOCATION IMPORTANT FOR MARKET ACTIVITY TEST
+        Market market = new Market(new GeoPoint(6.14, 46.22));
+        Game.getInstance().addToDisplayList(market);
     }
 
     private void initEnemies() {
