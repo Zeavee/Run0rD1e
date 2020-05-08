@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 
 import static java.lang.Math.sin;
@@ -18,7 +18,7 @@ public class SinusoidalMovement extends Movement {
      *
      * @param initialPosition The position in the 2D plane where the movement begins.
      */
-    public SinusoidalMovement(CartesianPoint initialPosition) {
+    public SinusoidalMovement(GeoPoint initialPosition) {
         this(initialPosition, 1, 2 * Math.PI / 60);
     }
 
@@ -29,8 +29,8 @@ public class SinusoidalMovement extends Movement {
      * @param amplitude       The amplitude of the sine function.
      * @param angleStep       The step value to be added to the angle after each move.
      */
-    public SinusoidalMovement(CartesianPoint initialPosition, double amplitude, double angleStep) {
-        super(initialPosition);
+    public SinusoidalMovement(GeoPoint initialPosition, double amplitude, double angleStep) {
+        super();
         this.amplitude = amplitude;
         this.angleStep = angleStep;
         angle = 0;
@@ -77,13 +77,12 @@ public class SinusoidalMovement extends Movement {
     }
 
     @Override
-    public CartesianPoint nextPosition() {
-        CartesianPoint pos = getPosition();
+    public GeoPoint nextPosition(GeoPoint from) {
         Vector dirVector = Vector.fromPolar(getVelocity(), getOrientation());
         Vector sineVector = dirVector.perpendicular().normalize().multiplyByScalar(amplitude * sin(angle));
 
         angle += angleStep;
 
-        return pos.asOriginTo(dirVector.add(sineVector));
+        return from.asOriginTo(dirVector.add(sineVector));
     }
 }

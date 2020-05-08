@@ -7,7 +7,6 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
@@ -29,8 +28,8 @@ public class BehaviourTest {
         PlayerManager.getInstance().addPlayer(player);
         RectangleArea patrolBounds = new RectangleArea(10, 10);
         RectangleArea maxBounds = new RectangleArea(100, 100);
-        CartesianPoint enemyPos = new CartesianPoint(20, 20);
-        CartesianPoint patrolCenter = new CartesianPoint(10, 10);
+        GeoPoint enemyPos = new GeoPoint(20, 20);
+        GeoPoint patrolCenter = new GeoPoint(10, 10);
         LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
         enemy = new Enemy(0, 10, 1, 50, 20, localArea, maxBounds);
         enemy.getMovement().setVelocity(1);

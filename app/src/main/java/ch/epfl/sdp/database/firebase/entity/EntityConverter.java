@@ -41,7 +41,8 @@ public class EntityConverter {
 
         playerForFirebase.setUsername(player.getUsername());
         playerForFirebase.setEmail(player.getEmail());
-        playerForFirebase.setLocation(player.getLocation());
+        playerForFirebase.setLongitude(player.getLocation().getLongitude());
+        playerForFirebase.setLatitude(player.getLocation().getLatitude());
         playerForFirebase.setAoeRadius(player.getAoeRadius());
         playerForFirebase.setHealthPoints(player.getHealthPoints());
         playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
@@ -86,8 +87,8 @@ public class EntityConverter {
     }
 
     public static Player playerForFirebaseToPlayer(PlayerForFirebase playerForFirebase) {
-        double longitude = playerForFirebase.getLocation().getLongitude();
-        double latitude = playerForFirebase.getLocation().getLatitude();
+        double longitude = playerForFirebase.getLongitude();
+        double latitude = playerForFirebase.getLatitude();
         double aoeRadius = playerForFirebase.getAoeRadius();
         String username = playerForFirebase.getUsername();
         String email = playerForFirebase.getEmail();

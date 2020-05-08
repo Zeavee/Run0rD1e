@@ -7,7 +7,6 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
@@ -59,7 +58,7 @@ public class RandomGeneratorTest {
     public void randomCartesianPointTest() {
         for (int i = 1; i <= 5; i++) {
             for (int j = 1; j <= 5; j++) {
-                CartesianPoint q = randGen.randomCartesianPoint(i, j);
+                GeoPoint q = randGen.randomCartesianPoint(i, j);
                 assertTrue(q.getX() <= i);
                 assertTrue(q.getY() <= j);
             }
@@ -127,7 +126,7 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomGeoPointAroundLocationTest() {
-        GeoPoint g = new GeoPoint();
+        GeoPoint g = new GeoPoint(0,0);
         GeoPoint f = randGen.randomGeoPointAroundLocation(g);
         double dlong = g.getLongitude() - f.getLongitude();
         if(dlong < 0) {

@@ -1,6 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 
 /**
@@ -9,16 +9,14 @@ import ch.epfl.sdp.geometry.Vector;
 public class LinearMovement extends Movement {
     /**
      * Creates a movement which is linear.
-     *
-     * @param initialPosition The position in the 2D plane where the movement begins.
      */
-    public LinearMovement(CartesianPoint initialPosition) {
-        super(initialPosition);
+    public LinearMovement() {
+        super();
     }
 
     @Override
-    public CartesianPoint nextPosition() {
+    public GeoPoint nextPosition(GeoPoint from) {
         Vector vector = Vector.fromPolar(getVelocity(), getOrientation());
-        return getPosition().asOriginTo(vector);
+        return from.asOriginTo(vector);
     }
 }

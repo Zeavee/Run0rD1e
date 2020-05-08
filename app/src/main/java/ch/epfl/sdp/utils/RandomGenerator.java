@@ -8,10 +8,8 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
-import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
@@ -85,12 +83,11 @@ public class RandomGenerator {
      // Chooses a random location on a circle of chosen radius
      public static GeoPoint randomLocationOnCircle(GeoPoint reference, int radius){
          Vector vector = Vector.fromPolar(radius, rand.nextDouble() * Math.PI);
-         CartesianPoint ref = PointConverter.geoPointToCartesianPoint(reference);
-         return PointConverter.cartesianPointToGeoPoint(ref.asOriginTo(vector), reference);
+         return reference.asOriginTo(vector);
      }
 
-    public CartesianPoint randomCartesianPoint(int a, int b) {
-        CartesianPoint point = new CartesianPoint(rand.nextInt(a), rand.nextInt(b));
+    public GeoPoint randomCartesianPoint(int a, int b) {
+        GeoPoint point = new GeoPoint(rand.nextInt(a), rand.nextInt(b));
         return point;
     }
 
@@ -147,8 +144,8 @@ public class RandomGenerator {
 
          LocalArea l = new LocalArea(r, randomCartesianPoint(1, 5));
          UnboundedArea randomArea = new UnboundedArea();
-
-         Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
+         LocalArea localAreaMax = new LocalArea(randomArea, new GeoPoint(0,0));
+         Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, l, localAreaMax);
          return e;
      }
 

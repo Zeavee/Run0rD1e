@@ -13,7 +13,8 @@ import ch.epfl.sdp.geometry.GeoPoint;
 public class PlayerForFirebase {
     private String username;
     private String email;
-    private GeoPoint location;
+    private double latitude;
+    private double longitude;
     private double aoeRadius;
     private double healthPoints;
     private int currentGameScore;
@@ -63,21 +64,39 @@ public class PlayerForFirebase {
     }
 
     /**
-     * Get the GeoPoint Location of the playerForFirebase
+     * Get the longitude of the playerForFirebase
      *
-     * @return The GeoPoint Location of the playerForFirebase
+     * @return The longitude of the playerForFirebase
      */
-    public GeoPoint getLocation() {
-        return location;
+    public double getLongitude() {
+        return longitude;
     }
 
     /**
-     * Set the GeoPoint Location of the playerForFirebase
+     * Set the longitude of the playerForFirebase
      *
-     * @param location The GeoPoint Location of the playerForFirebase
+     * @param longitude The longitude of the playerForFirebase
      */
-    public void setLocation(GeoPoint location) {
-        this.location = location;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    /**
+     * Get the latitude of the playerForFirebase
+     *
+     * @return The latitude of the playerForFirebase
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * Set the latitude of the playerForFirebase
+     *
+     * @param latitude The latitude of the playerForFirebase
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
     /**

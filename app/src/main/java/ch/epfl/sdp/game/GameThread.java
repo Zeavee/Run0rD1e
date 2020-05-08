@@ -4,7 +4,7 @@ package ch.epfl.sdp.game;
  * Manages the main loop.
  */
 public class GameThread extends Thread{
-    public static final int FPS = 30;
+    public static final int FPS = 24;
     private boolean running;
     private Game game;
     private long startTime;

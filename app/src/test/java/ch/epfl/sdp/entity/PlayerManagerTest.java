@@ -6,7 +6,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -65,13 +65,13 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void testSelectCloestPlayer() {
+    public void testSelectClosestPlayer() {
         PlayerManager.getInstance().removeAll();
         Player player1 = new Player("test", "test@gmail.com");
-        player1.setPosition(new CartesianPoint(1,1));
+        player1.setLocation(new GeoPoint(1,1));
         PlayerManager.getInstance().addPlayer(player1);
 
-        Player closestPlayer = PlayerManager.getInstance().selectClosestPlayer(new CartesianPoint(1,1));
+        Player closestPlayer = PlayerManager.getInstance().selectClosestPlayer(new GeoPoint(1,1));
         assertEquals("test", closestPlayer.getUsername());
     }
 
