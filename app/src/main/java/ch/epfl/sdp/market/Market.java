@@ -64,12 +64,12 @@ public class Market extends InteractiveEntity implements Displayable {
 
         int currentStock =stock.get(item).first;
         int price = stock.get(item).second;
+
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
             return false;
-        } else {
-            stock.put(item, new Pair<>(currentStock-1, price));
-            player.getInventory().addItem(item.clone());
         }
+        stock.put(item, new Pair<>(currentStock-1, price));
+        player.getInventory().addItem(item.clone());
         return true;
     }
 
