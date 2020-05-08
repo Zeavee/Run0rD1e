@@ -165,22 +165,7 @@ public class MarketActivityTest {
 
     // check the scan image has label "scan" displayed below it
     public void step6(){
-        ViewInteraction textView3 = onView(
-                allOf(withText("Scan"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.scanCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                                        1)),
-                                                        2)),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textView3.check(matches(withText("Scan")));
-
+        checkImgLabelExistsWithTextAndDepth("Scan", R.id.scanCard, 2);
     }
 
     // check the shrinker image has label "shrinker" displayed underneath it
