@@ -96,7 +96,7 @@ public class MarketActivityTest {
         appCompatImageView.perform(click());
     }
 
-    // click on the scanner (checking it is displayed)
+    // click on the scanner image (checking it is displayed)
     public void step2(){
         ViewInteraction appCompatImageView2 = onView(
                 allOf(withId(R.id.scanImg),
