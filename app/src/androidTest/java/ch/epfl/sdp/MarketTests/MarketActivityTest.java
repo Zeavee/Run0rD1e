@@ -90,6 +90,10 @@ public class MarketActivityTest {
         textView.check(matches(withText(text)));
     }
 
+    private void checkImgIcon(){
+        
+    }
+
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =
@@ -170,21 +174,7 @@ public class MarketActivityTest {
 
     // check the shrinker image has label "shrinker" displayed underneath it
     public void step7(){
-        ViewInteraction textView4 = onView(
-                allOf(withText("Shrinker"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.shrinkCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                                        1)),
-                                                        3)),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textView4.check(matches(withText("Shrinker")));
+        checkImgLabelExistsWithTextAndDepth("Shrinker", R.id.shrinkCard, 3);
     }
 
     // click on button "buy" making sure it is displayed
