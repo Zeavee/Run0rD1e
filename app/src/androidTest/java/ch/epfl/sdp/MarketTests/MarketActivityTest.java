@@ -72,6 +72,25 @@ public class MarketActivityTest {
         }
     };
 
+    private void checkImgLabelExistsWithTextAndDepth(String text, int Id, int position){
+        ViewInteraction textView = onView(
+                allOf(withText(text),
+                        childAtPosition(
+                                childAtPosition(
+                                        allOf(withId(position),
+                                                childAtPosition(
+                                                        allOf(withId(R.id.mainGrid),
+                                                                childAtPosition(
+                                                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
+                                                                        1)),
+                                                        position)),
+                                        0),
+                                1),
+                        isDisplayed()));
+        textView.check(matches(withText(text)));
+    }
+
+
     @Rule
     public GrantPermissionRule mGrantPermissionRule =
             GrantPermissionRule.grant(
@@ -136,40 +155,12 @@ public class MarketActivityTest {
 
     // check the health pack image has label "health" displayed underneath it
     public void step4(){
-        ViewInteraction textView = onView(
-                allOf(withText("Health"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.emsCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                                        1)),
-                                                        1)),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textView.check(matches(withText("Health")));
+        checkImgLabelExistsWithTextAndDepth("Health", R.id.emsCard, 1);
     }
 
     // check the shield has label "shield" displayed underneath it
     public void step5(){
-        ViewInteraction textView2 = onView(
-                allOf(withText("Shield"),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.shieldCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                                        1)),
-                                                        0)),
-                                        0),
-                                1),
-                        isDisplayed()));
-        textView2.check(matches(withText("Shield")));
+        checkImgLabelExistsWithTextAndDepth("Shield", R.id.shieldCard, 0);
     }
 
     // check the scan image has label "scan" displayed below it
