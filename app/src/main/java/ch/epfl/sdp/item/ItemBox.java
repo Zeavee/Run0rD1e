@@ -16,7 +16,7 @@ import ch.epfl.sdp.map.MapApi;
  * Represents a box that can store items and can be taken by players.
  */
 public class ItemBox implements Displayable, Updatable {
-    private Map<String, Integer> items;
+    private Map<Item, Integer> items;
     private GeoPoint location;
     private boolean taken;
     private boolean isDisplayed;
@@ -38,7 +38,7 @@ public class ItemBox implements Displayable, Updatable {
      * @param quantity The quantity of the item to be stored.
      */
     public void putItems(Item item, int quantity) {
-        items.put(item.getName(), quantity);
+        items.put(item, quantity);
     }
 
     /**
@@ -56,8 +56,9 @@ public class ItemBox implements Displayable, Updatable {
      * @param player The player that has detected the entity.
      */
     public void react(Player player) {
-        for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
-            player.getInventory().addItem(itemQuant.getKey(), itemQuant.getValue());
+        for (Map.Entry<Item, Integer> itemQuant : items.entrySet()) {
+            player.getInventory().addItem(itemQuant.getKey().getName(), itemQuant.getValue());
+
         }
         PlayerManager.getInstance().addPlayerWaitingItems(player);
     }

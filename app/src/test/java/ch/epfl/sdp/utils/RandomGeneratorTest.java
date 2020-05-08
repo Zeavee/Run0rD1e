@@ -69,7 +69,7 @@ public class RandomGeneratorTest {
     @Test
     public void randomHealthPackTest() {
         Healthpack h = randGen.randomHealthPack();
-        assertTrue(h.getHealthPackAmount() >=25 && h.getHealthPackAmount() <= 50);
+        assertTrue(h.getValue() >=25 && h.getValue() <= 50);
     }
 
     @Test

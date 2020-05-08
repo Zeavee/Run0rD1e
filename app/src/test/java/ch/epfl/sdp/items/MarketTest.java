@@ -13,9 +13,11 @@ import java.util.Set;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Market;
+import ch.epfl.sdp.market.Market;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -32,7 +34,7 @@ public class MarketTest {
         buyer = new Player(20.0, 20.0, 20, "Skyris", "skyris@gmail.com");
         buyer.addMoney(4000);
         PlayerManager.getInstance().setCurrentUser(buyer);
-        market = new Market();
+        market = new Market(new GeoPoint(1.0, 3.4));
     }
 
     @Test
@@ -48,7 +50,7 @@ public class MarketTest {
             amounts.put(qty.getKey(), qty.getValue().first);
         }
         for (Item i : items){
-            market.buy(i, buyer);
+            market.buy(i.getClass(), buyer);
         }
         Map<Item, Integer> amountsAfter = new HashMap<>();
         for (Map.Entry<Item, Pair<Integer, Integer>> qty : market.getStock().entrySet()) {
@@ -65,7 +67,7 @@ public class MarketTest {
         Set<Item> items = market.getStock().keySet();
         for (int i= 0; i < 10;++i){
             for (Item j : items){
-                isExhausted = isExhausted || (!market.buy(j, buyer));
+                isExhausted = isExhausted || (!market.buy(j.getClass(), buyer));
             }
         }
         assertTrue(isExhausted);
@@ -73,8 +75,8 @@ public class MarketTest {
 
     @Test
     public void playerCannotBuyNonExistentItem(){
-        Item b = new Healthpack(100);
-        assertFalse(market.buy(b, buyer));
+        Item b = new Coin(10, new GeoPoint(3.0,1.0));
+        assertFalse(market.buy(b.getClass(), buyer));
     }
 
     @After

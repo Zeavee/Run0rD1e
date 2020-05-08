@@ -39,7 +39,7 @@ public class Coin extends Item implements Displayable, Updatable {
         return new Coin(value, this.location);
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

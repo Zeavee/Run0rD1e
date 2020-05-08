@@ -31,8 +31,12 @@ public class Healthpack extends Item {
         Log.d("Database", "Using Healthpack on " + player.getEmail());
     }
 
-    public double getHealthPackAmount() {
-        return this.healthPackAmount;
+    /**
+     * gets the value of the item
+     */
+    @Override
+    public double getValue() {
+        return healthPackAmount;
     }
 
 }

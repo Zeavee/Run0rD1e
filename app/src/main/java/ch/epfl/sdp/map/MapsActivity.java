@@ -43,6 +43,8 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.market.MarketActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -82,6 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
+        appContainer.mapsActivity = this;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -122,45 +125,47 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
-        Game.getInstance().setRenderer(this);
+        if (!((MyApplication)getApplication()).appContainer.testing) {
+            Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
+            Game.getInstance().setRenderer(this);
 
-        //Get email of CurrentUser;
-        String email = authenticationAPI.getCurrentUserEmail();
+            //Get email of CurrentUser;
+            String email = authenticationAPI.getCurrentUserEmail();
 
-        Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+            Log.d("Database", "Game running is " + Game.getInstance().isRunning());
 
-        if (!Game.getInstance().isRunning()) {
-            commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
-                if (fetchUserRes.isSuccessful()) {
-                    Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
-                    playerManager.setCurrentUser(currentUser);
-                    Game.getInstance().addToDisplayList(currentUser);
-                    Log.d("Database", "User fetched");
+            if (!Game.getInstance().isRunning()) {
+                commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
+                    if (fetchUserRes.isSuccessful()) {
+                        Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
+                        playerManager.setCurrentUser(currentUser);
+                        Game.getInstance().addToDisplayList(currentUser);
+                        Log.d("Database", "User fetched");
 
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-                    } else {
-                        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
-                    }
-
-                    commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                        if (selectLobbyRes.isSuccessful()) {
-                            PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
-                            if (playerManager.isServer()) data.put("startGame", false);
-                            Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                            joinLobby(playerForFirebase, data);
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
                         } else {
-                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
                         }
-                    });
-                } else {
-                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
+
+                        commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+                            if (selectLobbyRes.isSuccessful()) {
+                                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                                if (playerManager.isServer()) data.put("startGame", false);
+                                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                                joinLobby(playerForFirebase, data);
+                            } else {
+                                Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
         }
 
         Log.d("Database", "Quit map ready");
@@ -222,6 +227,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
+                if (displayable instanceof Market) {
+                    ((Market) displayable).setCallingActivity(this);
+                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -232,5 +240,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         runOnUiThread(() -> {
             displayable.unDisplayOn(Game.getInstance().getMapApi());
         });
+    }
+    /**
+     * switches to a market activity, where user can buy health, shield, scan, or shrinker items
+     */
+    public void startMarket(Market backend) {
+        Intent intendingMarket = new Intent(MapsActivity.this, MarketActivity.class);
+        ((MyApplication)getApplication()).appContainer.marketBackend = backend;
+        startActivity(intendingMarket);
     }
 }

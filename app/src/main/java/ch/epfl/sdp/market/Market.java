@@ -1,8 +1,6 @@
-package ch.epfl.sdp.item;
-
+package ch.epfl.sdp.market;
 
 import androidx.core.util.Pair;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,9 +8,12 @@ import java.util.Random;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
+import android.util.Log;
 
 /**
  * A Market is a place where the players can go and buy items using their money
@@ -21,14 +22,21 @@ public class Market implements Displayable {
     private Map<Item, Pair<Integer, Integer>> stock;
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
-    private GeoPoint location;
+    private final GeoPoint loc;
     private final RandomGenerator randomGenerator = new RandomGenerator();
+    private MapsActivity mapActivity;
+    private boolean hasVisitedMarket = false;
+
+    public void setCallingActivity(MapsActivity mapActivity) {
+        this.mapActivity = mapActivity;
+    }
 
     /**
      * This is a constructor for Market which randomly initialize the items that will be available
      */
-    public Market() {
-        this.location = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 1000);
+    public Market(GeoPoint loc) {
+        // RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000)
+        this.loc = loc;
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item: randomGenerator.randomItemsList()) {
@@ -46,28 +54,43 @@ public class Market implements Displayable {
 
     /**
      * A method to buy an item from the Market
-     * @param item The item the player wants to buy. If the item is not in the stock, we return false
+     * @param itemType The type of item the player wants to buy. If the item is not in the stock, we return false
      * @param player The player that wants to buy the item
      * @return a boolean that shows if the transaction occurred correctly
      */
-    public boolean buy(Item item, Player player) {
-        if (!stock.containsKey(item)) {
-            return false;
-        }
+    public boolean buy(Class<? extends Item> itemType, Player player) {
+        Item item = getItemOfType(itemType);
+        if (item == null) return false;
+
         int currentStock =stock.get(item).first;
         int price = stock.get(item).second;
+
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
             return false;
-        } else {
-            stock.put(item, new Pair<>(currentStock-1, price));
-            player.getInventory().addItem(item.clone().getName());
         }
+        stock.put(item, new Pair<>(currentStock-1, price));
+        player.getInventory().addItem(item.clone().getName());
         return true;
     }
 
+    private Item getItemOfType(Class<? extends Item> itemType){
+        Item item = null;
+        for (Item i: stock.keySet()) {
+            if (i.getClass().equals(itemType)) {
+                item = i;
+            }
+        }
+        return item;
+    }
+
+    /**
+     * Method for getting the location for displaying on the map
+     *
+     * @return a GeoPoint which is a location
+     */
     @Override
     public GeoPoint getLocation() {
-        return location;
+        return null;
     }
 
     /**
@@ -77,7 +100,16 @@ public class Market implements Displayable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        // TODO: when the user moves onto the displayed icon of this market then switch to the market activity
+        if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50 && !hasVisitedMarket) {
+            if (mapActivity != null){
+                Log.d("Market", "displayOn");
+                hasVisitedMarket = true;
+                mapActivity.startMarket(this);
+            }
+        }else  if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > 50){
+            hasVisitedMarket = false;
+        }
     }
+
 }
 

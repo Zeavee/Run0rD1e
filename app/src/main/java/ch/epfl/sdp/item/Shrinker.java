@@ -24,6 +24,14 @@ public class Shrinker extends TimedItem {
         player.setAoeRadius(aoeRadius);
     }
 
+    /**
+     * gets the value of the item
+     */
+    @Override
+    public double getValue() {
+        return shrinkingRadius;
+    }
+
     @Override
     public void stopUsingOn(Player player){
         double aoeRadius = player.getAoeRadius() + getShrinkingRadius();

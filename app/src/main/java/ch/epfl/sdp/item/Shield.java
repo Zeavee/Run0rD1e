@@ -21,6 +21,14 @@ public class Shield extends TimedItem {
         player.setShielded(true);
     }
 
+    /**
+     * gets the value of the item
+     */
+    @Override
+    public double getValue() {
+        return shieldTime;
+    }
+
     @Override
     public void stopUsingOn(Player player){
         player.setShielded(false);
