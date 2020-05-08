@@ -21,6 +21,10 @@ public class Shield extends TimedItem  {
         PlayerManager.getCurrentUser().setShielded(true);
     }
 
+    public double getValue() {
+        return shieldTime;
+    }
+
     @Override
     public void stopUsing(){
         PlayerManager.getCurrentUser().setShielded(false);

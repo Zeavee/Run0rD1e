@@ -13,7 +13,6 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -70,7 +69,7 @@ public class RandomGeneratorTest {
     @Test
     public void randomHealthPackTest() {
         Healthpack h = randGen.randomHealthPack();
-        assertTrue(h.getHealthPackAmount() >=25 && h.getHealthPackAmount() <= 50);
+        assertTrue(h.getValue() >=25 && h.getValue() <= 50);
     }
 
     @Test
@@ -85,8 +84,8 @@ public class RandomGeneratorTest {
         Shrinker s = randGen.randomShrinker();
         assertTrue(s.getRemainingTime() >= 0);
         assertTrue(s.getRemainingTime() <= 1);
-        assertTrue(s.getShrinkingRadius() >= 0);
-        assertTrue(s.getShrinkingRadius() <= 1);
+        assertTrue(s.getValue() >= 0);
+        assertTrue(s.getValue() <= 1);
     }
 
     @Test

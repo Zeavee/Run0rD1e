@@ -12,12 +12,13 @@ import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
-import android.app.Activity;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * A Market is a place where the players can go and buy items using their money
  */
-public class Market extends InteractiveEntity implements Displayable {
+public class Market extends InteractiveEntity implements Displayable, Parcelable {
     private Map<Item, Pair<Integer, Integer>> stock;
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
@@ -77,7 +78,7 @@ public class Market extends InteractiveEntity implements Displayable {
     @Override
     public void displayOn(MapApi mapApi) {
         if (PlayerManager.getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50) {
-            mapActivity.startMarket();
+            mapActivity.startMarket(this);
         }
     }
 
@@ -86,5 +87,31 @@ public class Market extends InteractiveEntity implements Displayable {
         return false;
     }
 
+    /**
+     * Describe the kinds of special objects contained in this Parcelable
+     * instance's marshaled representation. For example, if the object will
+     * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
+     * the return value of this method must include the
+     * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
+     *
+     * @return a bitmask indicating the set of special object types marshaled
+     * by this Parcelable object instance.
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Flatten this object in to a Parcel.
+     *
+     * @param dest  The Parcel in which the object should be written.
+     * @param flags Additional flags about how the object should be written.
+     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
 }
 

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import androidx.core.util.Pair;
+
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
@@ -20,15 +22,15 @@ public class Shrinker extends TimedItem {
     @Override
     public void use() {
         super.use();
-        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() - getShrinkingRadius());
+        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() - getValue());
     }
 
     @Override
     public void stopUsing(){
-        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() + getShrinkingRadius());
+        PlayerManager.getCurrentUser().setAoeRadius(PlayerManager.getCurrentUser().getAoeRadius() + getValue());
     }
 
 
-    public double getShrinkingRadius() {return this.shrinkingRadius;}
+    public double getValue() {return this.shrinkingRadius;}
 }
 

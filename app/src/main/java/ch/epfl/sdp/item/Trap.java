@@ -48,6 +48,11 @@ public class Trap extends Item implements Updatable, Displayable {
     }
 
     @Override
+    public double getValue() {
+        return damage;
+    }
+
+    @Override
     public void update() {
         boolean hasSomeoneTakenDamage = false;
         for (Player p : PlayerManager.getPlayers()) {

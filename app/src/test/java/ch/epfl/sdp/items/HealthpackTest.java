@@ -15,7 +15,7 @@ public class HealthpackTest {
     public void cloneHasSameHealthPoints() {
         Healthpack original = new Healthpack(50.5);
         Item cloned = original.clone();
-        assertTrue(((Healthpack)cloned).getHealthPackAmount() == original.getHealthPackAmount());
+        assertTrue(((Healthpack)cloned).getValue() == original.getValue());
     }
 
     @Test

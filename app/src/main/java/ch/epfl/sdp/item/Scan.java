@@ -7,7 +7,6 @@ import ch.epfl.sdp.map.Renderer;
 
 public class Scan extends TimedItem  {
     private int scanTime;
-    private Renderer renderer;
 
     public Scan(int scanTime) {
         super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
@@ -33,6 +32,10 @@ public class Scan extends TimedItem  {
         for (Player p : PlayerManager.getPlayers()) {
             p.unDisplayOn(Game.getInstance().getMapApi());
         }
+    }
+
+    public double getValue(){
+        return this.scanTime;
     }
 
 }

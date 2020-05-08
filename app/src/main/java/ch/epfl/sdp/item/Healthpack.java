@@ -29,7 +29,7 @@ public class Healthpack extends Item {
         PlayerManager.getCurrentUser().setHealthPoints(increasedHP);
     }
 
-    public double getHealthPackAmount() {
+    public double getValue() {
         return this.healthPackAmount;
     }
 

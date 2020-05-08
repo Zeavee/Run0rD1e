@@ -20,7 +20,7 @@ public class Coin extends Item {
         PlayerManager.getCurrentUser().addMoney(value);
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

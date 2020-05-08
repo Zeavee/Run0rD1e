@@ -204,9 +204,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * switches to a market activity, where user can buy health or shield
+     * switches to a market activity, where user can buy health, shield, scan, or shrinker items
      */
-    public void startMarket() {
-        startActivity(new Intent(MapsActivity.this, MarketActivity.class));
+    public void startMarket(Market backend) {
+        Intent intendingMarket = new Intent(MapsActivity.this, MarketActivity.class);
+        intendingMarket.putExtra("backend", backend);
+        startActivity(intendingMarket);
     }
 }

@@ -1,80 +1,78 @@
 package ch.epfl.sdp.market;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.util.Pair;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.HashMap;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.item.Market;
+import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
 
 public class MarketActivity extends AppCompatActivity {
 
-    private SeekBar health;
-    private SeekBar shield;
-    private Button buy;
-    private TextView priceHealth;
-    private TextView priceShield;
-    private final static int SHIELD_COST_PER_MINUTE = 2;
-    private final static int HEALTH_COST_PER_UNIT = 1;
+    private Market backend;
+    private ImageView aoeImg;
+    private ImageView scanImg;
+    private ImageView shImg;
+    private ImageView healthImg;
+    private HashMap<Integer, Pair<Integer, Integer>> itemToViewMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
 
-        health = findViewById(R.id.healthSeek);
-        shield = findViewById(R.id.shieldSeek);
-        buy = findViewById(R.id.buyButton);
-        priceHealth = findViewById(R.id.priceHealth);
-        priceShield = findViewById(R.id.priceShield);
-        buy.setOnClickListener(v->buyItems());
+        aoeImg = findViewById(R.id.aeoImg);
+        scanImg = findViewById(R.id.scanImg);
+        shImg = findViewById(R.id.shieldImg);
+        healthImg = findViewById(R.id.emsImg);
 
-        health.setOnSeekBarChangeListener(new SeekBarCustomListener(priceHealth, HEALTH_COST_PER_UNIT));
-        shield.setOnSeekBarChangeListener(new SeekBarCustomListener(priceShield, SHIELD_COST_PER_MINUTE));
+        aoeImg.setOnClickListener(v -> sinkCardView(v));
+        scanImg.setOnClickListener(v -> sinkCardView(v));
+        shImg.setOnClickListener(v -> sinkCardView(v));
+        healthImg.setOnClickListener(v -> sinkCardView(v));
+
+        syncMarketBackendToFrontend();
     }
 
-    /**
-     * buys items such as health (max 100 health) or shield (max 20 minutes)
-     */
-    private void buyItems(){
-        int bank = PlayerManager.getCurrentUser().getMoney();
-        int assetsTotal = health.getProgress()+shield.getProgress();
-        if (assetsTotal > bank){
-            Toast.makeText(MarketActivity.this, "Insufficient funds", Toast.LENGTH_LONG);
-        }else {
-            if (shield.getProgress() > 0) {
-                PlayerManager.getCurrentUser().getInventory().addItem(new Shield(60 * shield.getProgress()));
-            }
-            double currentHealth = PlayerManager.getCurrentUser().getHealthPoints();
-            PlayerManager.getCurrentUser().setHealthPoints(Math.max(100,currentHealth+health.getProgress()));
-            PlayerManager.getCurrentUser().removeMoney(assetsTotal);
-            Toast.makeText(MarketActivity.this, "Transaction successful", Toast.LENGTH_LONG);
+    private void syncMarketBackendToFrontend() {
+        backend = (Market) (getIntent().getParcelableExtra("backend"));
+        if (backend == null) return;
+        setupItemToViewMap();
+        for (Item i: backend.getStock().keySet()){
+            ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()).first)).setText("Cost: " + backend.getStock().get(i).second);
+            ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()).second)).setText("Value: " + i.getValue());
         }
     }
-}
-class SeekBarCustomListener implements SeekBar.OnSeekBarChangeListener{
 
-    private TextView priceTag;
-    private int unitCost;
+    private void setupItemToViewMap() {
+        itemToViewMap = new HashMap<>();
+        itemToViewMap.put(Healthpack.class.hashCode(), new Pair<>(R.id.costEms, R.id.valEms));
+        itemToViewMap.put(Shield.class.hashCode(), new Pair<>(R.id.costShield, R.id.valShield));
+        itemToViewMap.put(Scan.class.hashCode(), new Pair<>(R.id.costScan, R.id.valScan));
+        itemToViewMap.put(Shrinker.class.hashCode(), new Pair<>(R.id.costShrinker, R.id.valShrinker));
 
-    public SeekBarCustomListener(TextView v, int unitCost) {
-        this.priceTag = v;
-        this.unitCost = unitCost;
-    }
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        priceTag.setText("Cost: "+ Integer.toString(unitCost*progress));
     }
 
-    @Override
-    public void onStartTrackingTouch(SeekBar seekBar) { }
-
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) { }
+    private void sinkCardView(View v) {
+        ((CardView)(v.getParent().getParent())).setCardElevation(0);
+    }
 }
