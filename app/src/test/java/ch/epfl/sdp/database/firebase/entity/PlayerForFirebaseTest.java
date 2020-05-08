@@ -10,7 +10,6 @@ public class PlayerForFirebaseTest {
     @Test
     public void playerForFirebaseTest() {
         PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
-        PlayerForFirebase playerForFirebase2 = new PlayerForFirebase("test@gmail.com", "test", new GeoPoint(22,22), 22);
 
         playerForFirebase1.setEmail("user1@gmail.com");
         assertEquals("user1@gmail.com", playerForFirebase1.getEmail());
@@ -23,9 +22,6 @@ public class PlayerForFirebaseTest {
 
         playerForFirebase1.setHealthPoints(100);
         assertEquals(100.0, playerForFirebase1.getHealthPoints(), 0.01);
-
-        playerForFirebase1.setDamage(1.0);
-        assertEquals(1.0, playerForFirebase1.getDamage(), 0.01);
 
         playerForFirebase1.setLocation(new GeoPoint(33,33));
         assertEquals(33, playerForFirebase1.getLocation().getLatitude(), 0.01);

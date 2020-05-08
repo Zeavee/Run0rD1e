@@ -3,7 +3,7 @@ package ch.epfl.sdp.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
@@ -13,7 +13,6 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -122,8 +121,24 @@ public class RandomGeneratorTest {
     @Test
     public void randomCoinTest() {
         for (int i = 0; i<4; i++) {
-            assertTrue(randGen.randomCoin().getValue() < 30);
+            assertTrue(randGen.randomCoin(randGen.randomGeoPoint()).getValue() < 30);
         }
+    }
+
+    @Test
+    public void randomGeoPointAroundLocationTest() {
+        GeoPoint g = new GeoPoint();
+        GeoPoint f = randGen.randomGeoPointAroundLocation(g);
+        double dlong = g.getLongitude() - f.getLongitude();
+        if(dlong < 0) {
+            dlong = (-1)*dlong;
+        }
+        double dlat = g.getLatitude() - f.getLatitude();
+        if(dlat < 0) {
+            dlat = (-1)*dlat;
+        }
+        assertTrue(dlat < 0.5);
+        assertTrue(dlong < 0.5);
     }
 
 

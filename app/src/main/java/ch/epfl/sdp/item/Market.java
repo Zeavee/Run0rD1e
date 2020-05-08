@@ -9,6 +9,7 @@ import java.util.Random;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.utils.RandomGenerator;
@@ -16,17 +17,18 @@ import ch.epfl.sdp.utils.RandomGenerator;
 /**
  * A Market is a place where the players can go and buy items using their money
  */
-public class Market extends InteractiveEntity implements Displayable {
+public class Market implements Displayable {
     private Map<Item, Pair<Integer, Integer>> stock;
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
+    private GeoPoint location;
     private final RandomGenerator randomGenerator = new RandomGenerator();
 
     /**
      * This is a constructor for Market which randomly initialize the items that will be available
      */
     public Market() {
-        super(RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000), true);
+        this.location = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 1000);
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item: randomGenerator.randomItemsList()) {
@@ -58,9 +60,14 @@ public class Market extends InteractiveEntity implements Displayable {
             return false;
         } else {
             stock.put(item, new Pair<>(currentStock-1, price));
-            player.getInventory().addItem(item.clone());
+            player.getInventory().addItem(item.clone().getName());
         }
         return true;
+    }
+
+    @Override
+    public GeoPoint getLocation() {
+        return location;
     }
 
     /**
@@ -72,11 +79,5 @@ public class Market extends InteractiveEntity implements Displayable {
     public void displayOn(MapApi mapApi) {
         // TODO: when the user moves onto the displayed icon of this market then switch to the market activity
     }
-
-    @Override
-    public boolean isOnce() {
-        return false;
-    }
-
 }
 

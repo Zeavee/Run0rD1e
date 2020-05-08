@@ -1,6 +1,8 @@
-package ch.epfl.sdp.database.firebase.utils;
+package ch.epfl.sdp.database.databaseUtils;
 
 import org.junit.Test;
+
+import ch.epfl.sdp.database.utils.CustomResult;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;

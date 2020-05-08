@@ -4,24 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.RectangleArea;
 
 public abstract class EnemyGenerator {
-
     protected int maxEnemiesPerUnitArea;
     protected float timeToCreate;
     protected double minDistanceFromPlayer;
     protected RectangleArea enclosure;
     protected List<Enemy> enemies;
-    protected Player player;
     protected Timer timer;
     protected float timeRemaining;
 
-    public EnemyGenerator(RectangleArea enclosure, Player player) {
+    public EnemyGenerator(RectangleArea enclosure) {
         this.enclosure = enclosure;
-        this.player = player;
     }
 
     public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);

@@ -1,8 +1,8 @@
-package ch.epfl.sdp.artificial_intelligence;
+package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.artificial_intelligence.MovingArtificialEntity;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.LocalArea;
@@ -24,6 +24,7 @@ import ch.epfl.sdp.map.MapApi;
  * ATTACK         WANDER<-----------+
  */
 public class Enemy extends MovingArtificialEntity {
+    private int id;
     private Behaviour behaviour;
     /**
      * The enemy's attack strength
@@ -69,16 +70,27 @@ public class Enemy extends MovingArtificialEntity {
     /**
      * Creates an enemy that is bounded in an area.
      *
+     * @param id           The enemy's id.
+     * @param patrolBounds The enemy's patrol area.
+     * @param maxBounds    The enemy's maximum visitable area.
+     */
+    public Enemy(int id, LocalArea patrolBounds, Area maxBounds) {
+        this(id, 10, 1, 1000, 50, patrolBounds, maxBounds);
+    }
+
+    /**
      * @param patrolBounds The enemy's patrol area.
      * @param maxBounds    The enemy's maximum visitable area.
      */
     public Enemy(LocalArea patrolBounds, Area maxBounds) {
-        this(0, 0, 1000, 50, patrolBounds, maxBounds);
+
+        this(0, 10, 1, 1000, 50, patrolBounds, maxBounds);
     }
 
     /**
      * Creates an enemy.
      *
+     * @param id                The enemy's id.
      * @param damage            The enemy's attack's strength.
      * @param damageRate        The enemy's damage rate per second.
      * @param detectionDistance The enemy's detection range for chasing player when in patrol state.
@@ -86,11 +98,12 @@ public class Enemy extends MovingArtificialEntity {
      * @param patrolBounds      The enemy's patrol area.
      * @param maxBounds         The enemy's maximum visitable area.
      */
-    public Enemy(int damage, float damageRate, float detectionDistance, double aoeRadius, LocalArea patrolBounds, Area maxBounds) {
+    public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, LocalArea patrolBounds, Area maxBounds) {
         super();
         super.getMovement().setVelocity(25);
         super.setMoving(true);
         super.setArea(maxBounds);
+        this.id = id;
         this.damage = damage;
         this.damageRate = damageRate;
         this.detectionDistance = detectionDistance;
@@ -102,6 +115,24 @@ public class Enemy extends MovingArtificialEntity {
         if (aoeRadius < detectionDistance) {
             this.setAoeRadius(aoeRadius);
         }
+    }
+
+    /**
+     * Get the unique id of the enemy
+     *
+     * @return The unique id of the enemy
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * Set the unique id of the enemy
+     *
+     * @param id
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -171,21 +202,23 @@ public class Enemy extends MovingArtificialEntity {
      * Can also go to the wait state if the flag is enabled.
      */
     private void attack() {
-        if (attackTimeDelay <= 0) {
-            double attackRange = this.getAoeRadius();
-            Player target = playerDetected(attackRange);
-            if (target != null && !target.isShielded()) {
-                target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
-            } else {
-                setMoving(true);
-                behaviour = Behaviour.CHASE;
-            }
-
-            attackTimeDelay = GameThread.FPS;
-        } else {
+        if(attackTimeDelay > 0) {
             attackTimeDelay -= 1;
+            checkWaiting();
+            return;
         }
 
+        double attackRange = this.getAoeRadius();
+        Player target = playerDetected(attackRange);
+        if (target != null && !target.isShielded()) {
+            target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
+            // PlayerManager.getInstance().addPlayerWaitingHealth(target);
+        } else {
+            setMoving(true);
+            behaviour = Behaviour.CHASE;
+        }
+
+        attackTimeDelay = GameThread.FPS;
         checkWaiting();
     }
 
@@ -269,7 +302,7 @@ public class Enemy extends MovingArtificialEntity {
      * @return The Player if one was detected, otherwise returns null.
      */
     private Player playerDetected(double distance) {
-        Player target = PlayerManager.selectClosestPlayer(getPosition());
+        Player target = PlayerManager.getInstance().selectClosestPlayer(getPosition());
         if (target != null && target.getPosition().distanceFrom(getPosition()) - target.getAoeRadius() < distance) {
             return target;
         } else {

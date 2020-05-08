@@ -3,6 +3,7 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -11,6 +12,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MockMap;
+import static org.junit.Assert.*;
 
 import static junit.framework.TestCase.assertSame;
 
@@ -21,16 +23,16 @@ public class BehaviourTest {
     @Before
     public void setup() {
         Game.getInstance().setMapApi(new MockMap());
-        PlayerManager.removeAll();
+        PlayerManager.getInstance().removeAll();
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
-        PlayerManager.setCurrentUser(player);
+        PlayerManager.getInstance().addPlayer(player);
         RectangleArea patrolBounds = new RectangleArea(10, 10);
         RectangleArea maxBounds = new RectangleArea(100, 100);
         CartesianPoint enemyPos = new CartesianPoint(20, 20);
         CartesianPoint patrolCenter = new CartesianPoint(10, 10);
         LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
-        enemy = new Enemy(10, 1, 50, 20, localArea, maxBounds);
+        enemy = new Enemy(0, 10, 1, 50, 20, localArea, maxBounds);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }
@@ -53,7 +55,7 @@ public class BehaviourTest {
 
             enemy.update();
 
-           //assertTrue(health != player.getHealthPoints());
+           assertTrue(health != player.getHealthPoints());
         }
     }
 
@@ -111,4 +113,3 @@ public class BehaviourTest {
         assertSame(enemy.getBehaviour(), Behaviour.WAIT);
     }
 }
-

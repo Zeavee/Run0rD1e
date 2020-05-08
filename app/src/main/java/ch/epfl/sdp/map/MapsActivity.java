@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -25,29 +26,34 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.AuthenticationAPI;
+import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
-import ch.epfl.sdp.login.AuthenticationAPI;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
-    private static InventoryFragment inventoryFragment = new InventoryFragment();
+    private ServerDatabaseAPI serverDatabaseAPI;
+    private ClientDatabaseAPI clientDatabaseAPI;
+    private InventoryFragment inventoryFragment = new InventoryFragment();
     private LocationFinder locationFinder;
+    boolean flag = false;
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
-
-    boolean flag = false;
+    private PlayerManager playerManager = PlayerManager.getInstance();
 
     /**
      * A method to set a LocationFinder
@@ -68,6 +74,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
+        serverDatabaseAPI = appContainer.serverDatabaseAPI;
+        clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -102,14 +110,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
+        Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+
         if (!Game.getInstance().isRunning()) {
             commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
-                if (!fetchUserRes.isSuccessful()) {
-                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                } else {
-                    Player currentUser = EntityConverter.UserForFirebaseToPlayer(fetchUserRes.getResult());
-                    PlayerManager.setCurrentUser(currentUser);
+                if (fetchUserRes.isSuccessful()) {
+                    Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
+                    playerManager.setCurrentUser(currentUser);
                     Game.getInstance().addToDisplayList(currentUser);
+                    Log.d("Database", "User fetched");
 
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -119,27 +128,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
 
                     commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                        if (!selectLobbyRes.isSuccessful()) {
-                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        } else {
-                            PlayerForFirebase playerForFirebase = EntityConverter.PlayerToPlayerForFirebase(PlayerManager.getCurrentUser());
+                        if (selectLobbyRes.isSuccessful()) {
+                            PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
                             Map<String, Object> data = new HashMap<>();
-                            data.put("count", PlayerManager.getNumPlayersBeforeJoin() + 1);
-                            if (PlayerManager.isServer()) data.put("startGame", false);
-
-                            commonDatabaseAPI.registerToLobby(playerForFirebase, data, registerToLobbyRes -> {
-                                if (!registerToLobbyRes.isSuccessful()) {
-                                    Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                                } else {
-                                    Server.initEnvironment();
-                                }
-                            });
+                            data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                            if (playerManager.isServer()) data.put("startGame", false);
+                            Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                            joinLobby(playerForFirebase, data);
+                        } else {
+                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
+                } else {
+                    Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         }
-        display(Game.getInstance().getDisplayablesOnce());
+
+        Log.d("Database", "Quit map ready");
+    }
+
+    private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
+        commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
+            if (registerToLobbyRes.isSuccessful()) {
+                if (playerManager.isServer()) {
+                    serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                    new Server(serverDatabaseAPI);
+                } else {
+                    clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
+                    new Client(clientDatabaseAPI);
+                }
+
+                Log.d("Database", "Lobby registered/joined");
+
+            } else {
+                Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     /**
@@ -167,10 +192,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     while (!isInterrupted()) {
                         Thread.sleep(2000);
                         runOnUiThread(() -> {
-                            if (PlayerManager.getCurrentUser() != null && PlayerManager.getCurrentUser().getHealthPoints() > 0) {
-                                healthPointProgressBar.setProgress((int) Math.round(PlayerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(PlayerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
-                                username.setText(PlayerManager.getCurrentUser().getUsername());
+                            if (playerManager.getCurrentUser() != null) {
+                                healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
+                                healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
+                                username.setText(playerManager.getCurrentUser().getUsername());
                             }
                         });
                     }
@@ -178,7 +203,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         };
-
         return thread;
     }
 

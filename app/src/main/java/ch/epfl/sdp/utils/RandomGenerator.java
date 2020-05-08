@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import ch.epfl.sdp.artificial_intelligence.Enemy;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
@@ -132,12 +132,12 @@ public class RandomGenerator {
          GeoPoint g5 = randomGeoPoint();
          Player p5 = new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble()+50, randomString(10), randomEmail());
 
-         PlayerManager playerManager = new PlayerManager();
-         PlayerManager.addPlayer(p1);
-         PlayerManager.addPlayer(p2);
-         PlayerManager.addPlayer(p3);
-         PlayerManager.addPlayer(p4);
-         PlayerManager.addPlayer(p5);
+         PlayerManager playerManager = PlayerManager.getInstance();
+         playerManager.addPlayer(p1);
+         playerManager.addPlayer(p2);
+         playerManager.addPlayer(p3);
+         playerManager.addPlayer(p4);
+         playerManager.addPlayer(p5);
 
          int randBound = rand.nextInt(20);
          int randomDmg = rand.nextInt(randBound+1);
@@ -148,7 +148,7 @@ public class RandomGenerator {
          LocalArea l = new LocalArea(r, randomCartesianPoint(1, 5));
          UnboundedArea randomArea = new UnboundedArea();
 
-         Enemy e = new Enemy(randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
+         Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, l, randomArea);
          return e;
      }
 
@@ -156,14 +156,14 @@ public class RandomGenerator {
        GeoPoint l = this.randomGeoPoint();
        double aoe = rand.nextDouble();
        ShelterArea s = new ShelterArea(l,  aoe);
-       PlayerManager.removeAll();
+       PlayerManager.getInstance().removeAll();
        Player p = this.randomPlayer();
        for (int i = 0; i < 3; i++) {
            while (p.getLocation().distanceTo(l) < aoe) {
-               PlayerManager.addPlayer(p);
+               PlayerManager.getInstance().addPlayer(p);
            }
        }
-       PlayerManager.addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
+       PlayerManager.getInstance().addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
        s.shelter();
        return s;
      }
@@ -176,8 +176,20 @@ public class RandomGenerator {
         return result;
     }
 
-     public Coin randomCoin() {
+     public Coin randomCoin(GeoPoint location) {
        int i = rand.nextInt(30);
-       return new Coin(i);
+       return new Coin(i, location);
+     }
+
+     public GeoPoint randomGeoPointAroundLocation(GeoPoint location) {
+       double latitude = location.getLatitude();
+       double longitude = location.getLongitude();
+       double leftLimit = -0.1;
+       double rightLimit = 0.12;
+       double randomExt = leftLimit + rand.nextDouble()*(rightLimit - leftLimit);
+       double newLat = latitude + randomExt;
+       double anotherRandomExt = leftLimit + rand.nextDouble()*(rightLimit - leftLimit);
+       double newLong = longitude + anotherRandomExt;
+       return new GeoPoint(newLong, newLat);
      }
 }

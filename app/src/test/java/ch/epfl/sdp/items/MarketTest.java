@@ -19,12 +19,11 @@ import ch.epfl.sdp.item.Market;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class MarketTest {
     // IMPORTANT: state of PlayerManager must be restored after test teardown
-    private Player originalPlayer = PlayerManager.getCurrentUser();
+    private Player originalPlayer = PlayerManager.getInstance().getCurrentUser();
     private Player buyer;
     private Market market;
 
@@ -32,7 +31,7 @@ public class MarketTest {
     public void setUp() {
         buyer = new Player(20.0, 20.0, 20, "Skyris", "skyris@gmail.com");
         buyer.addMoney(4000);
-        PlayerManager.setCurrentUser(buyer);
+        PlayerManager.getInstance().setCurrentUser(buyer);
         market = new Market();
     }
 
@@ -78,13 +77,8 @@ public class MarketTest {
         assertFalse(market.buy(b, buyer));
     }
 
-    @Test
-    public void marketDisplayedForever(){
-        assertFalse(market.isOnce());
-    }
-
     @After
     public void tearDown(){
-        PlayerManager.setCurrentUser(originalPlayer);
+        PlayerManager.getInstance().setCurrentUser(originalPlayer);
     }
 }

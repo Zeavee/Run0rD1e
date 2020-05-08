@@ -13,9 +13,4 @@ public abstract class AoeRadiusMovingEntity extends MovingEntity {
     public void setAoeRadius(double aoeRadius) {
         this.aoeRadius = aoeRadius;
     }
-
-    @Override
-    public boolean isOnce() {
-        return false;
-    }
 }

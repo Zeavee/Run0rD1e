@@ -12,13 +12,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.Conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.utils.MockAuthenticationAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

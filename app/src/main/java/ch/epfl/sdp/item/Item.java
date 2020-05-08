@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import ch.epfl.sdp.entity.Player;
+
 /**
  * Represent a game item, which can have an effect on the game.
  */
@@ -41,6 +43,7 @@ public abstract class Item implements Cloneable {
 
     /**
      * This method should modify the state of the player or game.
+     * @param player A player to in which we use the item
      */
-    public abstract void use();
+    public abstract void useOn(Player player);
 }

@@ -14,7 +14,7 @@ public class LocalAreaTest {
     public void testSetters() {
         Game.getInstance().setMapApi(new MockMap());
         GeoPoint geoPoint = new GeoPoint(40, 50);
-        PlayerManager.setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
+        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "owner", "owner@owner.com"));
         CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(geoPoint);
         LocalArea localArea = new LocalArea(new UnboundedArea(), new CartesianPoint(0, 0));
         localArea.setArea(new UnboundedArea());

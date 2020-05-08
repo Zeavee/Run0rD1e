@@ -47,7 +47,7 @@ public class ScoreUpdater {
      * and if he walked more than 10 meters, he also gets 10 points
      */
     private void updateLocalScoreOfPlayers() {
-        for (Player player : PlayerManager.getPlayers()) {
+        for (Player player : PlayerManager.getInstance().getPlayers()) {
             player.updateLocalScore();
         }
     }
@@ -57,7 +57,7 @@ public class ScoreUpdater {
      * All the players get their local score added to the general score and if they are alive, they get 50 bonus points
      */
     private void updateGeneralScoreOfPlayers() {
-        for (Player player : PlayerManager.getPlayers()) {
+        for (Player player : PlayerManager.getInstance().getPlayers()) {
             if (player.isAlive()) {
                 player.currentGameScore += 50;
             }

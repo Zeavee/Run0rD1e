@@ -118,7 +118,7 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
         CartesianPoint position = movement.nextPosition();
         if (area.isInside(position) || forceMove) {
             movement.setPosition(position);
-            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getCurrentUser().getLocation()));
+            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getInstance().getCurrentUser().getLocation()));
             //TODO change this
         } else {
             bounce();
@@ -134,11 +134,6 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
     @Override
     public boolean isMoving() {
         return moving;
-    }
-
-    @Override
-    public boolean isOnce() {
-        return false;
     }
 
     @Override
