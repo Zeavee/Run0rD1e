@@ -17,6 +17,7 @@ import ch.epfl.sdp.utils.RandomGenerator;
  * Class representing a coin in the game
  */
 public class Coin extends Item implements Displayable, Updatable {
+    
     private int value;
     private GeoPoint location;
     private boolean isDisplayed;
