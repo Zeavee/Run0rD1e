@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.androdocs.httprequest.HttpRequest;
@@ -27,7 +26,7 @@ public class WeatherFragment extends Fragment {
             sunsetTxt, windTxt, humidityTxt;
 
     private long sunrise, sunset;
-    private String updatedAtText, temp, tempMin,  tempMax, humidity, windSpeed, weatherDescription, address;
+    private String updatedAtText, temp, tempMin, tempMax, humidity, windSpeed, weatherDescription, address;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,7 +63,7 @@ public class WeatherFragment extends Fragment {
         }
 
         protected String doInBackground(String... args) {
-            GeoPoint location = PlayerManager.getCurrentUser().getLocation();
+            GeoPoint location = PlayerManager.getInstance().getCurrentUser().getLocation();
             String API = "b840e4c524a759fd39f896b665f92de0";
             return HttpRequest.excuteGet("https://api.openweathermap.org/data/2.5/weather?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "&units=metric&appid=" + API);
         }
@@ -83,11 +82,11 @@ public class WeatherFragment extends Fragment {
                 temp = main.getString("temp") + "°C";
                 tempMin = "Min Temp: " + main.getString("temp_min") + "°C";
                 tempMax = "Max Temp: " + main.getString("temp_max") + "°C";
-                humidity = main.getString("humidity");
+                humidity = main.getString("humidity") + "%";
 
                 sunrise = sys.getLong("sunrise");
                 sunset = sys.getLong("sunset");
-                windSpeed = wind.getString("speed");
+                windSpeed = wind.getString("speed") + " km/h";
                 weatherDescription = weather.getString("description");
 
                 address = jsonObj.getString("name") + ", " + sys.getString("country");
