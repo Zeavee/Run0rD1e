@@ -6,8 +6,10 @@ import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
+import ch.epfl.sdp.item.Market;
 import ch.epfl.sdp.login.AuthenticationAPI;
 import ch.epfl.sdp.login.FirebaseAuthenticationAPI;
+import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.social.Conversation.FireStoreToSQLiteAdapter;
 import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.RemoteUsers.FriendsRepository;
@@ -31,4 +33,8 @@ public class AppContainer {
     public ServerDatabaseAPI serverDatabaseAPI = new ServerFirestoreDatabaseAPI();
 
     public ClientDatabaseAPI clientDatabaseAPI = new ClientFirestoreDatabaseAPI();
+
+    public MarketActivity marketActivity = null;
+
+    public Market marketBackend = null;
 }

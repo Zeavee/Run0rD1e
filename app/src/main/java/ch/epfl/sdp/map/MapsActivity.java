@@ -208,7 +208,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public void startMarket(Market backend) {
         Intent intendingMarket = new Intent(MapsActivity.this, MarketActivity.class);
-        intendingMarket.putExtra("backend", backend);
+        ((MyApplication)getApplication()).appContainer.marketBackend = backend;
         startActivity(intendingMarket);
     }
 }

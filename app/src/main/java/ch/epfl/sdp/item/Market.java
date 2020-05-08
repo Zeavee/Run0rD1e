@@ -8,22 +8,25 @@ import java.util.Random;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.RandomGenerator;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * A Market is a place where the players can go and buy items using their money
  */
-public class Market extends InteractiveEntity implements Displayable, Parcelable {
+public class Market extends InteractiveEntity implements Displayable {
     private Map<Item, Pair<Integer, Integer>> stock;
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
     private final RandomGenerator randomGenerator = new RandomGenerator();
     private MapsActivity mapActivity;
+    private boolean hasVisitedMarket = false;
 
     public void setCallingActivity(MapsActivity mapActivity) {
         this.mapActivity = mapActivity;
@@ -32,8 +35,9 @@ public class Market extends InteractiveEntity implements Displayable, Parcelable
     /**
      * This is a constructor for Market which randomly initialize the items that will be available
      */
-    public Market() {
-        super(RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000), true);
+    public Market(GeoPoint loc) {
+        // RandomGenerator.randomLocationOnCircle(PlayerManager.getCurrentUser().getLocation(), 1000)
+        super(loc, true);
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item: randomGenerator.randomItemsList()) {
@@ -51,14 +55,19 @@ public class Market extends InteractiveEntity implements Displayable, Parcelable
 
     /**
      * A method to buy an item from the Market
-     * @param item The item the player wants to buy. If the item is not in the stock, we return false
+     * @param itemType The type of item the player wants to buy. If the item is not in the stock, we return false
      * @param player The player that wants to buy the item
      * @return a boolean that shows if the transaction occurred correctly
      */
-    public boolean buy(Item item, Player player) {
-        if (!stock.containsKey(item)) {
-            return false;
+    public boolean buy(Class<? extends Item> itemType, Player player) {
+        Item item = null;
+        for (Item i: stock.keySet()) {
+            if (i.getClass().equals(itemType)) {
+                item = i;
+                break;
+            }
         }
+        if (item == null) return false;
         int currentStock =stock.get(item).first;
         int price = stock.get(item).second;
         if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
@@ -77,8 +86,14 @@ public class Market extends InteractiveEntity implements Displayable, Parcelable
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        if (PlayerManager.getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50) {
-            mapActivity.startMarket(this);
+        if (PlayerManager.getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50 && !hasVisitedMarket) {
+            if (mapActivity != null){
+                Log.d("Market", "displayOn");
+                hasVisitedMarket = true;
+                mapActivity.startMarket(this);
+            }
+        }else  if (PlayerManager.getCurrentUser().getLocation().distanceTo(this.getLocation()) > 50){
+            hasVisitedMarket = false;
         }
     }
 
@@ -87,31 +102,5 @@ public class Market extends InteractiveEntity implements Displayable, Parcelable
         return false;
     }
 
-    /**
-     * Describe the kinds of special objects contained in this Parcelable
-     * instance's marshaled representation. For example, if the object will
-     * include a file descriptor in the output of {@link #writeToParcel(Parcel, int)},
-     * the return value of this method must include the
-     * {@link #CONTENTS_FILE_DESCRIPTOR} bit.
-     *
-     * @return a bitmask indicating the set of special object types marshaled
-     * by this Parcelable object instance.
-     */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    /**
-     * Flatten this object in to a Parcel.
-     *
-     * @param dest  The Parcel in which the object should be written.
-     * @param flags Additional flags about how the object should be written.
-     *              May be 0 or {@link #PARCELABLE_WRITE_RETURN_VALUE}.
-     */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-    }
 }
 

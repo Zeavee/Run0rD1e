@@ -13,6 +13,7 @@ import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.item.Market;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -65,6 +66,11 @@ public class Server implements Updatable {
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
         //  -------------------------------------------
+
+        // Market --------------------------------------------
+        Market market = new Market(new GeoPoint(6.14, 46.22));
+        Game.getInstance().addToDisplayList(market);
+
     }
 
     @Override
