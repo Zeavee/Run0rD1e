@@ -56,7 +56,7 @@ public class MarketActivityTest {
         public void beforeActivityLaunched(){
 
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com" );
-            amro.addMoney(95000); // what I have in real life (...if you're dumb enough to believe)
+            amro.addMoney(95000); // sufficiently high enough to be able to buy
             PlayerManager.setCurrentUser(amro);
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI();
