@@ -77,7 +77,7 @@ public class MarketActivityTest {
                 allOf(withText(text),
                         childAtPosition(
                                 childAtPosition(
-                                        allOf(withId(position),
+                                        allOf(withId(Id),
                                                 childAtPosition(
                                                         allOf(withId(R.id.mainGrid),
                                                                 childAtPosition(
@@ -126,21 +126,7 @@ public class MarketActivityTest {
 
     // click on the shrinker image (checking it is displayed)
     public void step3(){
-        ViewInteraction appCompatImageView3 = onView(
-                allOf(withId(R.id.aeoImg),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(R.id.shrinkCard),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        withClassName(is("android.widget.LinearLayout")),
-                                                                        1)),
-                                                        3)),
-                                        0),
-                                0),
-                        isDisplayed()));
-        appCompatImageView3.perform(click());
+        checkImgIcon(R.id.aeoImg, R.id.shrinkCard, 3);
     }
 
     // check the health pack image has label "health" displayed underneath it
