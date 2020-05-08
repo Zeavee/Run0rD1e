@@ -251,5 +251,4 @@ public class MarketActivityTest {
         step8();
         step9();
     }
-
 }
