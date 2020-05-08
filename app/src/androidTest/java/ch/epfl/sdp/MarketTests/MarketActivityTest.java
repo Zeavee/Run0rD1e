@@ -134,7 +134,7 @@ public class MarketActivityTest {
         appCompatImageView3.perform(click());
     }
 
-    // check the health pack has label "health" displayed underneath it
+    // check the health pack image has label "health" displayed underneath it
     public void step4(){
         ViewInteraction textView = onView(
                 allOf(withText("Health"),
