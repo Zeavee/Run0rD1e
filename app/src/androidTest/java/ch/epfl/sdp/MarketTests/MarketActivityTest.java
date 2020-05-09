@@ -23,6 +23,7 @@ import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.utils.MockMapApi;
 
@@ -60,6 +61,8 @@ public class MarketActivityTest {
         // start the game engine MANUALLY
         @Override
         public void afterActivityLaunched(){
+            // always return this for current location
+            getActivity().setLocationFinder(() -> new GeoPoint(6.14, 46.22));
             getActivity().createAndRunServer();
         }
     };
