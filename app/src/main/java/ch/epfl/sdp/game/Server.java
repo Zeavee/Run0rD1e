@@ -75,7 +75,6 @@ public class Server implements Updatable {
                                 playerManager.addPlayer(player);
                             }
                         }
-                        initMarket();
                         initItemBoxes();
                         initEnemies();
                         initCoins();
