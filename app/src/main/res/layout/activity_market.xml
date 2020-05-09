@@ -68,10 +68,10 @@
                 <ImageButton
                     android:id="@+id/shieldImg"
                     android:layout_width="100dp"
-                    android:layout_height="105dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/sh"
-                    android:adjustViewBounds="true"/>
+                    android:adjustViewBounds="true"
+                    android:src="@mipmap/ic_sh" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,12 +127,12 @@
                 android:layout_margin="16dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/emsImg"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ems" />
+                    android:src="@mipmap/ic_ems" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -191,12 +191,12 @@
                 android:layout_margin="16dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/scanImg"
-                    android:layout_width="126dp"
-                    android:layout_height="113dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/sc" />
+                    android:src="@mipmap/ic_scan" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -256,12 +256,12 @@
                 android:layout_margin="16dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/aeoImg"
-                    android:layout_width="124dp"
-                    android:layout_height="107dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/shrink" />
+                    android:src="@mipmap/ic_shrinker" />
 
                 <TextView
                     android:layout_width="match_parent"

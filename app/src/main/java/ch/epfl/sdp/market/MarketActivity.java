@@ -33,10 +33,10 @@ import ch.epfl.sdp.item.Shrinker;
 public class MarketActivity extends AppCompatActivity {
 
     private Market backend;
-    private ImageView aoeImg;
-    private ImageView scanImg;
+    private ImageButton aoeImg;
+    private ImageButton scanImg;
     private ImageButton shImg;
-    private ImageView healthImg;
+    private ImageButton healthImg;
     private HashMap<View, Pair<Integer, Class<? extends Item> >> viewsSelected = new HashMap<>();
     private Button buy;
     private HashMap<Integer, Pair<Integer, Integer>> itemToViewMap = new HashMap<>();
