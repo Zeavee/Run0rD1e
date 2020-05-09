@@ -64,8 +64,8 @@ public class MarketActivity extends AppCompatActivity {
         healthImg.setOnClickListener(v -> invertCardView(v));
         buy.setOnClickListener(v -> checkoutItems());
 
-        initViewsSelected();
-        syncMarketBackendToFrontend();
+        /*initViewsSelected();
+        syncMarketBackendToFrontend();*/
     }
 
     /**
@@ -85,33 +85,33 @@ public class MarketActivity extends AppCompatActivity {
      * Maps the views to their corresponding item classes as well as if they are selected
      */
     private void initViewsSelected() {
-        viewsSelected.put(aoeImg, new Pair<Integer, Class<? extends Item>>(0, Shrinker.class));
+       /* viewsSelected.put(aoeImg, new Pair<Integer, Class<? extends Item>>(0, Shrinker.class));
         viewsSelected.put(scanImg, new Pair<Integer, Class<? extends Item>>(0, Scan.class));
         viewsSelected.put(shImg, new Pair<Integer, Class<? extends Item>>(0, Shield.class));
-        viewsSelected.put(healthImg, new Pair<Integer, Class<? extends Item>>(0, Healthpack.class));
+        viewsSelected.put(healthImg, new Pair<Integer, Class<? extends Item>>(0, Healthpack.class));*/
     }
 
     /**
      * synchronizes the market backend to the frontend
      */
     private void syncMarketBackendToFrontend() {
-        backend = ((MyApplication)getApplication()).appContainer.marketBackend;
+        /*backend = ((MyApplication)getApplication()).appContainer.marketBackend;
         if (backend == null) finish();
         setupItemToViewMap();
         for (Item i: backend.getStock().keySet()){
             ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()).first)).setText("Cost: " + backend.getStock().get(i).second);
             ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()).second)).setText("Value: " + ((int)(100*i.getValue()))/100.0);
-        }
+        }*/
     }
 
     /**
      * sets up the map responsible for showing the prices of items as well their value
      */
     private void setupItemToViewMap() {
-        itemToViewMap.put(Healthpack.class.hashCode(), new Pair<>(R.id.costEms, R.id.valEms));
+        /*itemToViewMap.put(Healthpack.class.hashCode(), new Pair<>(R.id.costEms, R.id.valEms));
         itemToViewMap.put(Shield.class.hashCode(), new Pair<>(R.id.costShield, R.id.valShield));
         itemToViewMap.put(Scan.class.hashCode(), new Pair<>(R.id.costScan, R.id.valScan));
-        itemToViewMap.put(Shrinker.class.hashCode(), new Pair<>(R.id.costShrinker, R.id.valShrinker));
+        itemToViewMap.put(Shrinker.class.hashCode(), new Pair<>(R.id.costShrinker, R.id.valShrinker));*/
 
     }
 
@@ -119,10 +119,10 @@ public class MarketActivity extends AppCompatActivity {
      * inverts the card's height when the picture of the item is clicked
      */
     private void invertCardView(View v) {
-        int originalValue = viewsSelected.get(v).first;
+        /*int originalValue = viewsSelected.get(v).first;
         Class<? extends Item> itemType = viewsSelected.get(v).second;
         viewsSelected.put(v, new Pair<>(1- originalValue,itemType));
-        ((CardView)(v.getParent().getParent())).setCardElevation(originalValue*20);
+        ((CardView)(v.getParent().getParent())).setCardElevation(originalValue*20);*/
     }
 
     /**
@@ -131,7 +131,7 @@ public class MarketActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ((MyApplication)getApplication()).appContainer.marketActivity = null;
+        /*((MyApplication)getApplication()).appContainer.marketActivity = null;*/
     }
 
 }
