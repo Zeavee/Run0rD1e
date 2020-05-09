@@ -47,7 +47,7 @@ public class ServerTest {
 
     @Test
     public void testServer() throws InterruptedException {
-        Server server = new Server(new ServerMockDatabaseAPI());
+        Server server = new Server(new ServerMockDatabaseAPI(), false);
 
         Thread.sleep(3000);
 
