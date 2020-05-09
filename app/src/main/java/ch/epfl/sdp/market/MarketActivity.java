@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +35,7 @@ public class MarketActivity extends AppCompatActivity {
     private Market backend;
     private ImageView aoeImg;
     private ImageView scanImg;
-    private ImageView shImg;
+    private ImageButton shImg;
     private ImageView healthImg;
     private HashMap<View, Pair<Integer, Class<? extends Item> >> viewsSelected = new HashMap<>();
     private Button buy;

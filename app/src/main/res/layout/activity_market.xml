@@ -65,12 +65,13 @@
                 android:layout_margin="16dp"
                 android:orientation="vertical">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/shieldImg"
                     android:layout_width="100dp"
                     android:layout_height="105dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/sh" />
+                    android:src="@drawable/sh"
+                    android:adjustViewBounds="true"/>
 
                 <TextView
                     android:layout_width="match_parent"
