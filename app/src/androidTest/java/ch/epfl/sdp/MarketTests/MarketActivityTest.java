@@ -103,8 +103,7 @@ public class MarketActivityTest {
 
     @Rule
     public GrantPermissionRule mGrantPermissionRule =
-            GrantPermissionRule.grant(
-                    "android.permission.ACCESS_FINE_LOCATION");
+            GrantPermissionRule.grant("android.permission.ACCESS_FINE_LOCATION");
 
     // click on the shield image (checking it is displayed)
     public void step1(){
