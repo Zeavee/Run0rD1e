@@ -90,7 +90,7 @@ public class MarketActivityTest {
 
     private void checkImgIcon(int id, int id2, int position){
         ViewInteraction appCompatImageView = onView(
-                allOf(withId(id),  childAtPosition(allOf(withId(id2)), 0),  isDisplayed()));
+                allOf(withId(id), isDisplayed()));
         appCompatImageView.perform(click());
     }
 
