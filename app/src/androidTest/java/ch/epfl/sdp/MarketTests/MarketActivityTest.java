@@ -90,35 +90,23 @@ public class MarketActivityTest {
 
     private void checkImgIcon(int id, int id2, int position){
         ViewInteraction appCompatImageView = onView(
-                allOf(withId(id),
-                        childAtPosition(
-                                childAtPosition(
-                                        allOf(withId(id2),
-                                                childAtPosition(
-                                                        allOf(withId(R.id.mainGrid),
-                                                                childAtPosition(
-                                                                        withClassName(is("android.widget.LinearLayout")),
-                                                                        1)),
-                                                        position)),
-                                        0),
-                                0),
-                        isDisplayed()));
+                allOf(withId(id),  childAtPosition(allOf(withId(id2)), 0),  isDisplayed()));
         appCompatImageView.perform(click());
     }
 
     // click on the shield image (checking it is displayed)
     public void step1(){
-        checkImgIcon(R.id.shieldImg, R.id.shieldCard, 0);
+        checkImgIcon(R.id.shieldImg, R.id.linlayShield, 0);
     }
 
     // click on the scanner image (checking it is displayed)
     public void step2(){
-        checkImgIcon(R.id.scanImg, R.id.scanCard, 2);
+        checkImgIcon(R.id.scanImg, R.id.linlayScan, 2);
     }
 
     // click on the shrinker image (checking it is displayed)
     public void step3(){
-        checkImgIcon(R.id.aeoImg, R.id.shrinkCard, 3);
+        checkImgIcon(R.id.aeoImg, R.id.linlayShrink, 3);
     }
 
     // check the health pack image has label "health" displayed underneath it
@@ -173,14 +161,14 @@ public class MarketActivityTest {
     public void marketActivityTest() throws InterruptedException {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", 0); //not needed since onMapReady is skipped
         Thread.sleep(5000);
-        /*step1();
+        step1();
         step2();
         step3();
         step4();
         step5();
         step6();
         step7();
-        step8();*/
+        step8();
         step9();
     }
 
