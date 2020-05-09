@@ -26,6 +26,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -52,7 +53,6 @@ public class MarketActivityTest {
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com" );
             amro.addMoney(95000); // sufficiently high enough to be able to buy
             PlayerManager.getInstance().setCurrentUser(amro);
-            PlayerManager.getInstance().setIsServer(true);
             MockMapApi mockMapApi = new MockMapApi();
             Game.getInstance().setMapApi(mockMapApi);
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
@@ -65,7 +65,8 @@ public class MarketActivityTest {
         public void afterActivityLaunched(){
             // always return this for current location
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 46.22));
-            getActivity().createAndRunServer();
+            Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.14, 46.22)));
+            Game.getInstance().initGame();
         }
     };
 
