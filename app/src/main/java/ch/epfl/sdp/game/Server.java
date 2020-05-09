@@ -40,10 +40,12 @@ public class Server implements Updatable {
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
+    private boolean testing = false;
 
-    public Server(ServerDatabaseAPI serverDatabaseAPI) {
+    public Server(ServerDatabaseAPI serverDatabaseAPI, boolean testing) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         itemFactory = new ItemFactory();
+        this.testing = testing;
         initEnvironment();
         Log.d("Server.java", "constructor");
     }
@@ -62,7 +64,12 @@ public class Server implements Updatable {
     }
 
     private void initEnvironment() {
-        initMarket();
+        if (testing){
+            initMarket();
+            Game.getInstance().addToUpdateList(this);
+            Game.getInstance().initGame();
+            return;
+        }
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");

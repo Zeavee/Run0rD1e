@@ -176,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     // for manually starting the remote game engine (server) for tests
     public void createAndRunServer(){
-        new Server(serverDatabaseAPI);
+        new Server(serverDatabaseAPI, ((MyApplication)getApplication()).appContainer.testing);
     }
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
         commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {

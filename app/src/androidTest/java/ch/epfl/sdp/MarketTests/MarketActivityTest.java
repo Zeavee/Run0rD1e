@@ -171,7 +171,7 @@ public class MarketActivityTest {
     @Test
     public void marketActivityTest() throws InterruptedException {
         //permissionsIfNeeded("ACCESS_FINE_LOCATION", 0); not needed since onMapReady is skipped
-        Thread.sleep(2000);
+        Thread.sleep(5000);
         step1();
         step2();
         step3();
