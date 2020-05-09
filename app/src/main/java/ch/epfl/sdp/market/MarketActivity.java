@@ -73,12 +73,12 @@ public class MarketActivity extends AppCompatActivity {
      * If the user does not have enough money, they will not be bought
      */
     private void checkoutItems() {
-        for (View v: viewsSelected.keySet()){
+        /*for (View v: viewsSelected.keySet()){
             if (viewsSelected.get(v).first == 1) {
                 backend.buy(viewsSelected.get(v).second, PlayerManager.getInstance().getCurrentUser());
             }
         }
-        Toast.makeText(this.getApplicationContext(), "Transaction finished", Toast.LENGTH_LONG).show();
+        Toast.makeText(this.getApplicationContext(), "Transaction finished", Toast.LENGTH_LONG).show();*/
     }
 
     /**
