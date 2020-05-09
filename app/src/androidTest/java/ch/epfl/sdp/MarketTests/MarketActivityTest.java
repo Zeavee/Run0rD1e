@@ -50,6 +50,8 @@ public class MarketActivityTest {
             amro.addMoney(95000); // sufficiently high enough to be able to buy
             PlayerManager.getInstance().setCurrentUser(amro);
             PlayerManager.getInstance().setIsServer(true);
+            MockMapApi mockMapApi = new MockMapApi();
+            Game.getInstance().setMapApi(mockMapApi);
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
@@ -58,9 +60,6 @@ public class MarketActivityTest {
         // start the game engine MANUALLY
         @Override
         public void afterActivityLaunched(){
-            MockMapApi mockMapApi = new MockMapApi();
-            Game.getInstance().setMapApi(mockMapApi);
-            Game.getInstance().setRenderer(mockMapApi);
             getActivity().createAndRunServer();
         }
     };
