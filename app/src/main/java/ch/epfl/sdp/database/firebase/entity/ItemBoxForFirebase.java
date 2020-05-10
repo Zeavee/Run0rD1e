@@ -1,7 +1,6 @@
 package ch.epfl.sdp.database.firebase.entity;
 
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
-import ch.epfl.sdp.geometry.GeoPoint;
 
 public class ItemBoxForFirebase {
     private String id;

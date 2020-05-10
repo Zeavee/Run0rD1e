@@ -192,15 +192,18 @@ public class Game implements Updatable {
      */
     public void destroyGame() {
         if(gameThread.getState() != Thread.State.NEW) {
-            while (gameThread.getState() != Thread.State.TERMINATED) {
-                try {
-                    gameThread.setRunning(false);
-                    gameThread.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            return;
+        }
+
+        while (gameThread.getState() != Thread.State.TERMINATED) {
+            try {
+                gameThread.setRunning(false);
+                gameThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
+
         scoreUpdater.destroy();
     }
 
