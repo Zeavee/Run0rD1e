@@ -89,10 +89,12 @@ public class ArtificialMovingEntityTest {
     @Test
     public void secondConstructorWorks() {
         Area area = new UnboundedArea();
-        ArtificialMovingEntity artificialMovingEntity = new Enemy();
-        //artificialMovingEntity.setLocalArea(area);
-        assertEquals(area, artificialMovingEntity.getLocalArea());
-        //assertEquals(true, area.isInside(artificialMovingEntity.getLocation()));
+        GeoPoint location = new GeoPoint(0,0);
+        LocalArea localArea = new LocalArea(area, location);
+        ame.setLocalArea(localArea);
+        ame.setLocation(location);
+        assertEquals(localArea, ame.getLocalArea());
+        assertEquals(true, localArea.isInside(ame.getLocation()));
     }
 
     @Test

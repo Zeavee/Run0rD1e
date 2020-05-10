@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -13,8 +14,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 public class PlayerForFirebase {
     private String username;
     private String email;
-    private double latitude;
-    private double longitude;
+    private GeoPointForFirebase geoPointForFirebase;
     private double aoeRadius;
     private double healthPoints;
     private int currentGameScore;
@@ -63,40 +63,12 @@ public class PlayerForFirebase {
         this.email = email;
     }
 
-    /**
-     * Get the longitude of the playerForFirebase
-     *
-     * @return The longitude of the playerForFirebase
-     */
-    public double getLongitude() {
-        return longitude;
+    public GeoPointForFirebase getGeoPointForFirebase() {
+        return geoPointForFirebase;
     }
 
-    /**
-     * Set the longitude of the playerForFirebase
-     *
-     * @param longitude The longitude of the playerForFirebase
-     */
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    /**
-     * Get the latitude of the playerForFirebase
-     *
-     * @return The latitude of the playerForFirebase
-     */
-    public double getLatitude() {
-        return latitude;
-    }
-
-    /**
-     * Set the latitude of the playerForFirebase
-     *
-     * @param latitude The latitude of the playerForFirebase
-     */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setGeoPointForFirebase(GeoPointForFirebase geoPointForFirebase) {
+        this.geoPointForFirebase = geoPointForFirebase;
     }
 
     /**

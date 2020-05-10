@@ -153,8 +153,8 @@ public class Server implements Updatable {
         serverDatabaseAPI.addPlayersPositionListener(value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
-                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(new GeoPoint(playerForFirebase.getLongitude(), playerForFirebase.getLatitude()));
-                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getLongitude() + " " + playerForFirebase.getLatitude());
+                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getGeoPointForFirebase());
                 }
             } else {
                 Log.w(TAG, "addPlayersPositionListener: failed", value.getException());

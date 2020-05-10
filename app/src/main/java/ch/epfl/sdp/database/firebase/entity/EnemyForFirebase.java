@@ -1,5 +1,6 @@
 package ch.epfl.sdp.database.firebase.entity;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -7,7 +8,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
  */
 public class EnemyForFirebase {
     private int id;
-    private GeoPoint location;
+    private GeoPointForFirebase location;
 
     /**
      * For firebase each custom class must hava a public constructor that takes no argument.
@@ -21,7 +22,7 @@ public class EnemyForFirebase {
      * @param id       The id of the enemyForFirebase
      * @param location The location of the enemyForFirebase
      */
-    public EnemyForFirebase(int id, GeoPoint location) {
+    public EnemyForFirebase(int id, GeoPointForFirebase location) {
         this.id = id;
         this.location = location;
     }
@@ -49,7 +50,7 @@ public class EnemyForFirebase {
      *
      * @return The location of the enemyForFirebase
      */
-    public GeoPoint getLocation() {
+    public GeoPointForFirebase getLocation() {
         return location;
     }
 
@@ -58,7 +59,7 @@ public class EnemyForFirebase {
      *
      * @param location The location of the enemyForFirebase
      */
-    public void setLocation(GeoPoint location) {
+    public void setLocation(GeoPointForFirebase location) {
         this.location = location;
     }
 }
