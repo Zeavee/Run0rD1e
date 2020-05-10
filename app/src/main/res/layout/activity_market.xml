@@ -21,9 +21,9 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="140dp"
             android:layout_marginBottom="0dp"
-            android:text="MARKET"
+            android:text="@string/market"
             android:textColor="@android:color/white"
-            android:textSize="34dp"
+            android:textSize="34sp"
             android:textStyle="normal|bold|italic" />
 
 
@@ -65,8 +65,8 @@
 
                 <ImageButton
                     android:id="@+id/shieldImg"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:adjustViewBounds="true"
                     android:backgroundTint="#FFFFFF"
@@ -78,14 +78,14 @@
                     android:text="Shield"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/costShield"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="0dp"
                     android:text="Cost:"
                     android:textColor="@android:color/background_dark"
                     android:textSize="9sp"
@@ -128,8 +128,8 @@
 
                 <ImageButton
                     android:id="@+id/emsImg"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="#FFFFFF"
                     android:src="@mipmap/ic_ems" />
@@ -140,14 +140,14 @@
                     android:text="Health"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/costEms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="0dp"
                     android:text="Cost:"
                     android:textColor="@android:color/background_dark"
                     android:textSize="9sp"
@@ -193,8 +193,8 @@
 
                 <ImageButton
                     android:id="@+id/scanImg"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="#FFFFFF"
                     android:src="@mipmap/ic_scan" />
@@ -205,7 +205,7 @@
                     android:text="Scan"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -257,8 +257,8 @@
 
                 <ImageButton
                     android:id="@+id/aeoImg"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="#FFFFFF"
                     android:src="@mipmap/ic_shrinker" />
@@ -269,14 +269,14 @@
                     android:text="Shrinker"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/costShrinker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="0dp"
                     android:text="Cost:"
                     android:textColor="@android:color/background_dark"
                     android:textSize="9sp"

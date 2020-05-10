@@ -84,7 +84,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
-        appContainer.mapsActivity = this;
 
         findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
 
@@ -254,7 +253,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void startMarket(Market backend) {
         Log.d("MapsActivity", "start market");
         Intent intendingMarket = new Intent(MapsActivity.this, MarketActivity.class);
-        ((MyApplication)getApplication()).appContainer.marketBackend = backend;
+        ((MyApplication)getApplication()).appContainer.marketBackend = backend; // the only alternative is to use static setter (which they don't like)
         startActivity(intendingMarket);
     }
 }
