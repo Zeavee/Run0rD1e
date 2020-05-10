@@ -89,6 +89,7 @@ public class Server implements Updatable {
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
     }
 
+    // unused for now
     private void initMarket() {
         // Market ------------------------------- NOTE LOCATION IMPORTANT FOR (android) MARKET ACTIVITY TEST
         Market market = new Market(new GeoPoint(6.14, 46.22));
