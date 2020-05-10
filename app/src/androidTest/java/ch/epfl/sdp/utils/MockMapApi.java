@@ -64,7 +64,6 @@ public class MockMapApi implements MapApi, Renderer {
         for (Displayable displayable : displayables) {
             if (displayable instanceof Market) {
                 Log.d("mock map", "being displayed");
-                ((Market) displayable).setCallingActivity(((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.mapsActivity);
             }
             displayable.displayOn(Game.getInstance().getMapApi());
         }

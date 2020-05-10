@@ -49,7 +49,6 @@ public class MarketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market);
-        Log.d("Market activity", "in GUI");
 
         aoeImg = findViewById(R.id.aeoImg);
         scanImg = findViewById(R.id.scanImg);
@@ -122,15 +121,6 @@ public class MarketActivity extends AppCompatActivity {
         Class<? extends Item> itemType = viewsSelected.get(v).second;
         viewsSelected.put(v, new Pair<>(1- originalValue,itemType));
         ((CardView)(v.getParent().getParent())).setCardElevation(originalValue*20);
-    }
-
-    /**
-     * stops the app flow of the marketActivity inside the app container
-     */
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        ((MyApplication)getApplication()).appContainer.marketActivity = null;
     }
 
 }

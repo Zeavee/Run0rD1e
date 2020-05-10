@@ -36,11 +36,7 @@ public class AppContainer {
 
     public ClientDatabaseAPI clientDatabaseAPI = new ClientFirestoreDatabaseAPI();
 
-    public MarketActivity marketActivity = null;
-
     public Market marketBackend = null;
-
-    public MapsActivity mapsActivity = null;
 
     public boolean testing  = false;
 }
