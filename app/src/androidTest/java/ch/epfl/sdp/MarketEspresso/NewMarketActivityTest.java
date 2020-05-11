@@ -1,10 +1,6 @@
 package ch.epfl.sdp.MarketEspresso;
 
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -12,11 +8,6 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,15 +22,12 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -54,11 +42,11 @@ import static org.hamcrest.Matchers.is;
 public class NewMarketActivityTest {
 
     @Rule
-    public ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<MapsActivity>(MapsActivity.class){
+    public ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<MapsActivity>(MapsActivity.class) {
 
         @Override
-        public void beforeActivityLaunched(){
-            Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com" );
+        public void beforeActivityLaunched() {
+            Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
             amro.addMoney(95000); // sufficiently high enough to be able to buy
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMapApi mockMapApi = new MockMapApi();
@@ -69,7 +57,7 @@ public class NewMarketActivityTest {
 
         // start the game engine MANUALLY
         @Override
-        public void afterActivityLaunched(){
+        public void afterActivityLaunched() {
             // always return this for current location
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 46.22));
             Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.14, 46.22)));
@@ -82,7 +70,7 @@ public class NewMarketActivityTest {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-    private void clickOnItem(int buttonId, int cardId, int position){
+    private void clickOnItem(int buttonId, int cardId, int position) {
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(buttonId),
                         childAtPosition(
@@ -102,27 +90,27 @@ public class NewMarketActivityTest {
     }
 
     // click on scan button
-    public void step1(){
+    public void step1() {
         clickOnItem(R.id.scanButton, R.id.scanCard, 2);
     }
 
     // click on shrinker button
-    public void step2(){
+    public void step2() {
         clickOnItem(R.id.shrinkButton, R.id.shrinkerCard, 1);
     }
 
     // click on the health pack button
-    public void step3(){
+    public void step3() {
         clickOnItem(R.id.emsButton, R.id.emsCard, 4);
     }
 
     // click on the shield button
-    public void step4(){
+    public void step4() {
         clickOnItem(R.id.shieldButton, R.id.shieldCard, 3);
     }
 
     // click on "buy items"
-    public void step5(){
+    public void step5() {
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.BuyButton), withText("Buy Items"),
                         childAtPosition(
@@ -141,7 +129,7 @@ public class NewMarketActivityTest {
     }
 
     // check "Market" is displayed
-    public void step6(){
+    public void step6() {
         ViewInteraction textView = onView(withId(R.id.marketLabel));
         textView.check(matches(withText("MARKET")));
     }
@@ -157,10 +145,4 @@ public class NewMarketActivityTest {
         step5();
         step6();
     }
-
-    @After
-    public void tear(){
-        ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
-    }
-
 }
