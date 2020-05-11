@@ -1,5 +1,8 @@
 package ch.epfl.sdp.database.firebase;
 
+/**
+ * Simplified version of GeoPoint for database usage
+ */
 public class GeoPointForFirebase {
     private double longitude;
     private double latitude;

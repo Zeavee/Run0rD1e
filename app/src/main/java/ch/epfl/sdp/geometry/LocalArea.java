@@ -1,7 +1,5 @@
 package ch.epfl.sdp.geometry;
 
-import ch.epfl.sdp.entity.PlayerManager;
-
 /**
  * Represents an area on the 2D plane that has a position.
  */

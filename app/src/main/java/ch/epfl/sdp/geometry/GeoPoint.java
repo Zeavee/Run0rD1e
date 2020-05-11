@@ -27,10 +27,6 @@ public final class GeoPoint {
         this.latitude = latitude;
     }
 
-    /*public GeoPoint getOrigin(){
-        return utmToGeoPoint(0, 0, new GeoPoint(0,0));
-    }*/
-
     public double getLongitude() {
         return longitude;
     }
