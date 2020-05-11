@@ -63,7 +63,6 @@ public class NewMarketActivityTest {
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMapApi mockMapApi = new MockMapApi();
             Game.getInstance().setMapApi(mockMapApi);
-            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
         }
