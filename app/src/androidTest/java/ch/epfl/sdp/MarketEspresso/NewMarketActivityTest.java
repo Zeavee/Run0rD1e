@@ -83,8 +83,8 @@ public class NewMarketActivityTest {
                     "android.permission.ACCESS_FINE_LOCATION");
 
     @Test
-    public void newMarketActivityTest() {
-
+    public void newMarketActivityTest() throws InterruptedException {
+        Thread.sleep(5000);
         ViewInteraction appCompatImageButton = onView(
                 allOf(withId(R.id.scanButton),
                         childAtPosition(
