@@ -23,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.137" />
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/shrinkerCard"
         android:layout_width="100dp"
@@ -35,6 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/marketLabel"
         app:layout_constraintVertical_bias="0.0">
 
+        <!-- the shrink image button-->
         <ImageButton
             android:id="@+id/shrinkButton"
             android:layout_width="match_parent"
@@ -42,6 +44,7 @@
             android:backgroundTint="#FFFFFF"
             android:src="@mipmap/ic_shrinker" />
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/scanCard"
@@ -53,6 +56,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/marketLabel">
 
+        <!-- the scan image button-->
         <ImageButton
             android:id="@+id/scanButton"
             android:layout_width="match_parent"
@@ -60,6 +64,7 @@
             android:backgroundTint="#FFFFFF"
             android:src="@mipmap/ic_scan" />
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/shieldCard"
@@ -75,6 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/shrinkerCard"
         app:layout_constraintVertical_bias="0.13">
 
+        <!-- the shield image button-->
         <ImageButton
             android:id="@+id/shieldButton"
             android:layout_width="match_parent"
@@ -82,6 +88,7 @@
             android:backgroundTint="#FFFFFF"
             android:src="@mipmap/ic_sh" />
     </androidx.cardview.widget.CardView>
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/emsCard"
@@ -97,6 +104,7 @@
         app:layout_constraintTop_toBottomOf="@+id/scanCard"
         app:layout_constraintVertical_bias="0.24000001">
 
+        <!-- the health pack image button-->
         <ImageButton
             android:id="@+id/emsButton"
             android:layout_width="match_parent"
@@ -104,6 +112,7 @@
             android:backgroundTint="#FFFFFF"
             android:src="@mipmap/ic_ems" />
     </androidx.cardview.widget.CardView>
+
 
     <Button
         android:id="@+id/BuyButton"
@@ -118,6 +127,7 @@
         app:layout_constraintTop_toBottomOf="@+id/marketLabel"
         app:layout_constraintVertical_bias="0.73" />
 
+    <!-- Cost and value are no longer separate text views-->
     <TextView
         android:id="@+id/costScan"
         android:layout_width="wrap_content"
@@ -144,6 +154,7 @@
         app:layout_constraintTop_toBottomOf="@+id/shrinkerCard"
         app:layout_constraintVertical_bias="0.476" />
 
+
     <TextView
         android:id="@+id/costEms"
         android:layout_width="wrap_content"
@@ -157,6 +168,7 @@
         app:layout_constraintTop_toBottomOf="@+id/emsCard"
         app:layout_constraintVertical_bias="0.068" />
 
+
     <TextView
         android:id="@+id/costShield"
         android:layout_width="wrap_content"
@@ -169,5 +181,6 @@
         app:layout_constraintStart_toEndOf="@+id/costEms"
         app:layout_constraintTop_toBottomOf="@+id/shieldCard"
         app:layout_constraintVertical_bias="0.06999999" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

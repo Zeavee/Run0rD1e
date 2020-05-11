@@ -101,22 +101,28 @@ public class NewMarketActivityTest {
         appCompatImageButton.perform(click());
 
     }
+
+    // click on scan button
     public void step1(){
         clickOnItem(R.id.scanButton, R.id.scanCard, 2);
     }
 
+    // click on shrinker button
     public void step2(){
         clickOnItem(R.id.shrinkButton, R.id.shrinkerCard, 1);
     }
 
+    // click on the health pack button
     public void step3(){
         clickOnItem(R.id.emsButton, R.id.emsCard, 4);
     }
 
+    // click on the shield button
     public void step4(){
         clickOnItem(R.id.shieldButton, R.id.shieldCard, 3);
     }
 
+    // click on "buy items"
     public void step5(){
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.BuyButton), withText("Buy Items"),
@@ -135,6 +141,7 @@ public class NewMarketActivityTest {
         appCompatButton3.perform(click());
     }
 
+    // check "Market" is displayed
     public void step6(){
         ViewInteraction textView = onView(withId(R.id.marketLabel));
         textView.check(matches(withText("MARKET")));
@@ -142,6 +149,7 @@ public class NewMarketActivityTest {
 
     @Test
     public void newMarketActivityTest() throws InterruptedException {
+        // wait a bit for MarketActivity to be intended
         Thread.sleep(5000);
         step1();
         step2();
@@ -150,6 +158,7 @@ public class NewMarketActivityTest {
         step5();
         step6();
     }
+
     @After
     public void tear(){
         ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
