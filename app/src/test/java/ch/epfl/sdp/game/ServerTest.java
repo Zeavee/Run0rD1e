@@ -17,6 +17,7 @@ public class ServerTest {
     public void setup() {
         Game.getInstance().clearGame();
         Game.getInstance().setMapApi(new MockMap());
+        Game.getInstance().setRenderer(new MockMap());
 
         PlayerManager playerManager = PlayerManager.getInstance();
         playerManager.clear();
@@ -49,7 +50,7 @@ public class ServerTest {
     public void testServer() throws InterruptedException {
         Server server = new Server(new ServerMockDatabaseAPI());
 
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size() );
     }

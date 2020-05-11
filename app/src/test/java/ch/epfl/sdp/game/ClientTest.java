@@ -17,6 +17,7 @@ public class ClientTest {
     public void setup() {
         Game.getInstance().clearGame();
         Game.getInstance().setMapApi(new MockMap());
+        Game.getInstance().setRenderer(new MockMap());
 
         PlayerManager playerManager = PlayerManager.getInstance();
         playerManager.clear();
@@ -51,7 +52,7 @@ public class ClientTest {
         PlayerManager.getInstance().getCurrentUser().getInventory().addItem("Healthpack 10", 2);
         PlayerManager.getInstance().getCurrentUser().getInventory().useItem("Healthpack 10");
 
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         assertEquals(20.0, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.01);
     }

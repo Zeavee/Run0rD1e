@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
 import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.GoogleMapApi;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.Renderer;
 
@@ -191,7 +192,8 @@ public class Game implements Updatable {
      * Kill the game
      */
     public void destroyGame() {
-        if(gameThread.getState() != Thread.State.NEW) {
+        // This line is needed don't delete it, or else infinite while loop.
+        if(gameThread.getState() == Thread.State.NEW) {
             return;
         }
 
