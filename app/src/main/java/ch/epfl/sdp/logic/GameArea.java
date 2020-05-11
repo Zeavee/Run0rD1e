@@ -20,6 +20,7 @@ public class GameArea {
 
     /**
      * This method find a smaller GameArea that fits entirely inside the current GameArea
+     *
      * @param factor it is a number we multiply with the current GameArea's size to get the new size
      * @return A random GameArea inside the current one
      */
@@ -35,7 +36,7 @@ public class GameArea {
 
         //radius/111300.0 is used because we want to convert the radius into degrees
         //we want a point that is not too far from the old center so the new circle can fit in the old one
-        double randomDistance = ((1.0-factor)*radius/111300.0) * sqrt(u);
+        double randomDistance = ((1.0 - factor) * radius / 111300.0) * sqrt(u);
         double randomAngle = 2 * Math.PI * v;
 
 
@@ -45,14 +46,15 @@ public class GameArea {
         //this is because of East-West shrinking distances
         double xPrime = x / cos(toRadians(y));
 
-        double newRadius = factor*radius;
-        GeoPoint newCenter = new GeoPoint(center.getLongitude()+xPrime, center.getLatitude()+y);
+        double newRadius = factor * radius;
+        GeoPoint newCenter = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
 
         return new GameArea(newRadius, newCenter);
     }
 
     /**
      * Method to get the center of the GameArea
+     *
      * @return a GeoPoint which is a location
      */
     public GeoPoint getCenter() {
@@ -61,6 +63,7 @@ public class GameArea {
 
     /**
      * Method to get the radius of the GameArea
+     *
      * @return the radius
      */
     public double getRadius() {
@@ -69,8 +72,9 @@ public class GameArea {
 
     /**
      * Method that gives all the transitions states to display the shrinking of the GameArea
-     * @param time the time which has passed since the start of the shrinking
-     * @param finalTime the time when the shrinking will end
+     *
+     * @param time        the time which has passed since the start of the shrinking
+     * @param finalTime   the time when the shrinking will end
      * @param startCircle the old GameArea
      * @return a GameArea we can display for animation the transition
      */
@@ -85,6 +89,6 @@ public class GameArea {
     }
 
     private double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
-        return (finalTime-time)/finalTime*startValue + time/finalTime*finalValue;
+        return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
 }

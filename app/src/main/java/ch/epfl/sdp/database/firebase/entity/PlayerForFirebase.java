@@ -3,8 +3,6 @@ package ch.epfl.sdp.database.firebase.entity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.Map;
-
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -91,6 +89,7 @@ public class PlayerForFirebase {
 
     /**
      * Set the aoeRadius of the playerForFirebase
+     *
      * @param aoeRadius The aoeRadius of the playerForFirebase
      */
     public void setAoeRadius(double aoeRadius) {
@@ -135,6 +134,7 @@ public class PlayerForFirebase {
 
     /**
      * Get the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
+     *
      * @return The timeStamp
      */
     public Timestamp getTimestamp() {
@@ -143,6 +143,7 @@ public class PlayerForFirebase {
 
     /**
      * Set the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
+     *
      * @param timestamp The timeStamp
      */
     public void setTimestamp(Timestamp timestamp) {

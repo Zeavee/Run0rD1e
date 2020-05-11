@@ -10,8 +10,8 @@ public interface AuthenticationAPI {
     /**
      * Sign in to the firebase using email and password
      *
-     * @param email The email of the CurrentUser
-     * @param password The password of the CurrentUser
+     * @param email                The email of the CurrentUser
+     * @param password             The password of the CurrentUser
      * @param onValueReadyCallback Callback after signing in to the firebase
      */
     void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
@@ -19,8 +19,8 @@ public interface AuthenticationAPI {
     /**
      * Register to the firebase with email and password
      *
-     * @param email The unique email of the new User
-     * @param password The password of the new User
+     * @param email                The unique email of the new User
+     * @param password             The password of the new User
      * @param onValueReadyCallback CallBack after registering to the firebase
      */
     void register(String email, String password, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);

@@ -91,6 +91,7 @@ public class Game implements Updatable {
      * @param updatable The updatable to be added.
      */
     private ReentrantLock lock = new ReentrantLock();
+
     public void addToUpdateList(Updatable updatable) {
         lock.lock();
         updatables.add(updatable);

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.R;
 
@@ -23,8 +24,7 @@ public class MessageAdapter extends BaseAdapter {
     private Context context;
 
     /**
-     *
-     * @param context The context in which we want to display the messages (the activity)
+     * @param context        The context in which we want to display the messages (the activity)
      * @param remote_user_id The name of the user
      */
     public MessageAdapter(Context context, String remote_user_id) {
@@ -34,6 +34,7 @@ public class MessageAdapter extends BaseAdapter {
 
     /**
      * This methods adds a message in the list that we display
+     *
      * @param message The message we want to add
      */
     public void add(ChatActivity.MessageDecorator message) {

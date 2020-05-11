@@ -13,7 +13,7 @@ public abstract class MovingEntity implements Displayable {
     private GeoPoint location;
 
     public MovingEntity() {
-        location = new GeoPoint(0,0);
+        location = new GeoPoint(0, 0);
     }
 
     @Override

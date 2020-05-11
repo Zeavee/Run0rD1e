@@ -42,8 +42,8 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      * already moving.
      *
      * @param movement the type of movement the entity use
-     * @param area the area the entity can move in
-     * @param moving a boolean that tell if the entity is moving
+     * @param area     the area the entity can move in
+     * @param moving   a boolean that tell if the entity is moving
      */
     public MovingArtificialEntity(Movement movement, Area area, boolean moving) {
         super();

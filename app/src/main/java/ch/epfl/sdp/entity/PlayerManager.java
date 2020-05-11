@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.geometry.CartesianPoint;
 
 /**
@@ -141,7 +140,7 @@ public class PlayerManager {
             playersWaitingHealthPoint.add(player);
         }
     }
-    
+
     /**
      * Remove all the players in the player manager.
      */

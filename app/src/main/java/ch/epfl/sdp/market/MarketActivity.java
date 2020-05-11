@@ -1,22 +1,19 @@
 package ch.epfl.sdp.market;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.HashMap;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
@@ -38,7 +35,7 @@ public class MarketActivity extends AppCompatActivity {
     private ImageButton shImg;
     private ImageButton healthImg;
     private final static int CARD_HEIGHT = 20;
-    private HashMap<View, Pair<Integer, Class<? extends Item> >> viewsSelected = new HashMap<>();
+    private HashMap<View, Pair<Integer, Class<? extends Item>>> viewsSelected = new HashMap<>();
     private Button buy;
     private HashMap<Integer, Integer> itemToViewMap = new HashMap<>();
 
@@ -72,7 +69,7 @@ public class MarketActivity extends AppCompatActivity {
      * If the user does not have enough money, they will not be bought
      */
     private void checkoutItems() {
-        for (View v: viewsSelected.keySet()){
+        for (View v : viewsSelected.keySet()) {
             if (viewsSelected.get(v).first == 1) {
                 backend.buy(viewsSelected.get(v).second, PlayerManager.getInstance().getCurrentUser());
             }
@@ -84,21 +81,21 @@ public class MarketActivity extends AppCompatActivity {
      * Maps the views to their corresponding item classes as well as if they are selected
      */
     private void initViewsSelected() {
-        viewsSelected.put(aoeImg, new Pair<Integer, Class<? extends Item>>(0, Shrinker.class));
-        viewsSelected.put(scanImg, new Pair<Integer, Class<? extends Item>>(0, Scan.class));
-        viewsSelected.put(shImg, new Pair<Integer, Class<? extends Item>>(0, Shield.class));
-        viewsSelected.put(healthImg, new Pair<Integer, Class<? extends Item>>(0, Healthpack.class));
+        viewsSelected.put(aoeImg, new Pair<>(0, Shrinker.class));
+        viewsSelected.put(scanImg, new Pair<>(0, Scan.class));
+        viewsSelected.put(shImg, new Pair<>(0, Shield.class));
+        viewsSelected.put(healthImg, new Pair<>(0, Healthpack.class));
     }
 
     /**
      * synchronizes the market backend to the frontend
      */
     private void syncMarketBackendToFrontend() {
-        backend = ((MyApplication)getApplication()).appContainer.marketBackend;
+        backend = ((ObjectWrapperForBinder<Market>) getIntent().getExtras().getBinder("object_value")).getData();
         if (backend == null) finish();
         setupItemToViewMap();
-        for (Item i: backend.getStock().keySet()){
-            ((TextView)findViewById(itemToViewMap.get(i.getClass().hashCode()))).setText("Cost: " + backend.getStock().get(i).second+"\n"+"Value: " + (((int)(100*i.getValue()))/100.0));
+        for (Item i : backend.getStock().keySet()) {
+            ((TextView) findViewById(itemToViewMap.get(i.getClass().hashCode()))).setText("Cost: " + backend.getStock().get(i).second + "\n" + "Value: " + (((int) (100 * i.getValue())) / 100.0));
         }
     }
 
@@ -119,8 +116,8 @@ public class MarketActivity extends AppCompatActivity {
     private void invertCardView(View v) {
         int originalValue = viewsSelected.get(v).first;
         Class<? extends Item> itemType = viewsSelected.get(v).second;
-        viewsSelected.put(v, new Pair<>(1- originalValue,itemType));
-        ((CardView)(v.getParent())).setCardElevation(originalValue*CARD_HEIGHT);
+        viewsSelected.put(v, new Pair<>(1 - originalValue, itemType));
+        ((CardView) (v.getParent())).setCardElevation(originalValue * CARD_HEIGHT);
     }
 
 }

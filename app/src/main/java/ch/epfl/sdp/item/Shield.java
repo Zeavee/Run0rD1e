@@ -30,7 +30,7 @@ public class Shield extends TimedItem {
     }
 
     @Override
-    public void stopUsingOn(Player player){
+    public void stopUsingOn(Player player) {
         player.setShielded(false);
     }
 

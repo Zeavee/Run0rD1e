@@ -79,7 +79,7 @@ public class ItemBox implements Displayable, Updatable {
 
     @Override
     public void update() {
-        if(taken) {
+        if (taken) {
             return;
         }
 

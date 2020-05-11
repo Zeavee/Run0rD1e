@@ -1,7 +1,5 @@
 package ch.epfl.sdp.item;
 
-import android.graphics.Color;
-
 import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
@@ -48,7 +46,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
-            if(this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
+            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
                 return;
             }
             this.taken = true;
@@ -72,9 +70,13 @@ public class Coin extends Item implements Displayable, Updatable {
         }
     }
 
-    public void setLocation(GeoPoint location) { this.location = location; }
+    public void setLocation(GeoPoint location) {
+        this.location = location;
+    }
 
-    public boolean isTaken() { return this.taken; }
+    public boolean isTaken() {
+        return this.taken;
+    }
 
     public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
         ArrayList<Coin> generatedCoins = new ArrayList<Coin>();

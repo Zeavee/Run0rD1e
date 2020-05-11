@@ -9,6 +9,7 @@ import uk.me.jstott.jcoord.UTMRef;
 public class PointConverter {
     /**
      * Gets a GenPoint from a GeoPoint.
+     *
      * @param geoPoint The point on a geodesic surface.
      * @return A point transformed from the geodesic surface to the plane.
      */
@@ -20,9 +21,10 @@ public class PointConverter {
 
     /**
      * Gets a GeoPoint from a GenPoint
+     *
      * @param cartesianPoint The Point in the plane (unit in meters)
-     * @param refGeoPoint The reference point on the surface of earth, must be close to the actual
-     *                    playing location
+     * @param refGeoPoint    The reference point on the surface of earth, must be close to the actual
+     *                       playing location
      * @return A point transformed from the plane to a geodesic surface
      */
     public static GeoPoint cartesianPointToGeoPoint(CartesianPoint cartesianPoint, GeoPoint refGeoPoint) {

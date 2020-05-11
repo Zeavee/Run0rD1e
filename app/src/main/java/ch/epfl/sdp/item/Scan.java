@@ -22,7 +22,7 @@ public class Scan extends TimedItem {
         super.useOn(player);
 
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-             p.displayOn(Game.getInstance().getMapApi());
+            p.displayOn(Game.getInstance().getMapApi());
         }
     }
 

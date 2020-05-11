@@ -12,7 +12,6 @@ import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -27,7 +26,6 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.market.Market;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -40,12 +38,10 @@ public class Server implements Updatable {
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
-    private boolean testing = false;
 
-    public Server(ServerDatabaseAPI serverDatabaseAPI, boolean testing) {
+    public Server(ServerDatabaseAPI serverDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         itemFactory = new ItemFactory();
-        this.testing = testing;
         initEnvironment();
         Log.d("Server.java", "constructor");
     }
@@ -84,16 +80,14 @@ public class Server implements Updatable {
                                 Game.getInstance().initGame();
                                 addPlayersPositionListener();
                                 addUsedItemsListener();
-                            } else Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage()); });
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
-    }
-
-    // unused for now
-    private void initMarket() {
-        // Market ------------------------------- NOTE LOCATION IMPORTANT FOR (android) MARKET ACTIVITY TEST
-        Market market = new Market(new GeoPoint(6.14, 46.22));
-        Game.getInstance().addToDisplayList(market);
+                            } else
+                                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
+                        });
+                    } else
+                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                });
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+        });
     }
 
     private void initEnemies() {
@@ -115,9 +109,9 @@ public class Server implements Updatable {
     }
 
     private void initCoins() {
-        int amount  = 10;
+        int amount = 10;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
-        for(Coin c: coins) {
+        for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }

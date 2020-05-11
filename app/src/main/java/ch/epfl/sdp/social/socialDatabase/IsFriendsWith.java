@@ -17,7 +17,7 @@ import androidx.room.Index;
                 entity = User.class,
                 parentColumns = "userID",
                 childColumns = "friendID2"
-        )}, indices = { @Index(value="friendID2")} )
+        )}, indices = {@Index(value = "friendID2")})
 public class IsFriendsWith {
     @NonNull
     private String friendID1;

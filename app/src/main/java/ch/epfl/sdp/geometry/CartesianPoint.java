@@ -53,7 +53,7 @@ public class CartesianPoint {
      * @return A point representing the combination of a vector and this point as origin.
      */
     public CartesianPoint asOriginTo(Vector vector) {
-        return new CartesianPoint(getX() + vector.x(),getY() + vector.y());
+        return new CartesianPoint(getX() + vector.x(), getY() + vector.y());
     }
 
     /**
@@ -62,6 +62,6 @@ public class CartesianPoint {
      * @return A vector representation of this point.
      */
     public Vector toVector() {
-        return new Vector(getX(),getY());
+        return new Vector(getX(), getY());
     }
 }

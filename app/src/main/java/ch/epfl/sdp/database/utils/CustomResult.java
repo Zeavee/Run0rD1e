@@ -2,6 +2,7 @@ package ch.epfl.sdp.database.utils;
 
 /**
  * The class used to store the information after the execution of the callee method
+ *
  * @param <T> The type parameter of the result
  */
 public class CustomResult<T> {
@@ -12,9 +13,10 @@ public class CustomResult<T> {
 
     /**
      * Construct a CustomResult instance
-     * @param result The result after execution of the callee method
+     *
+     * @param result       The result after execution of the callee method
      * @param isSuccessful The boolean value indicates whether the execution of the callee method is succeeded or not
-     * @param exception The possible exception after execution of the callee method
+     * @param exception    The possible exception after execution of the callee method
      */
     public CustomResult(T result, boolean isSuccessful, Exception exception) {
         this.result = result;
