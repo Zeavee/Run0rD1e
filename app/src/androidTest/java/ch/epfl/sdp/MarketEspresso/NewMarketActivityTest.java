@@ -45,6 +45,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -82,13 +83,11 @@ public class NewMarketActivityTest {
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
 
-    @Test
-    public void newMarketActivityTest() throws InterruptedException {
-        Thread.sleep(5000);
+    private void clickOnItem(int buttonId, int cardId, int position){
         ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.scanButton),
+                allOf(withId(buttonId),
                         childAtPosition(
-                                allOf(withId(R.id.scanCard),
+                                allOf(withId(cardId),
                                         childAtPosition(
                                                 childAtPosition(
                                                         allOf(withId(android.R.id.content),
@@ -96,59 +95,29 @@ public class NewMarketActivityTest {
                                                                         withId(R.id.action_bar_root),
                                                                         1)),
                                                         0),
-                                                2)),
+                                                position)),
                                 0),
                         isDisplayed()));
         appCompatImageButton.perform(click());
 
-        ViewInteraction appCompatImageButton2 = onView(
-                allOf(withId(R.id.shrinkButton),
-                        childAtPosition(
-                                allOf(withId(R.id.shrinkerCard),
-                                        childAtPosition(
-                                                childAtPosition(
-                                                        allOf(withId(android.R.id.content),
-                                                                childAtPosition(
-                                                                        withId(R.id.action_bar_root),
-                                                                        1)),
-                                                        0),
-                                                1)),
-                                0),
-                        isDisplayed()));
-        appCompatImageButton2.perform(click());
+    }
+    public void step1(){
+        clickOnItem(R.id.scanButton, R.id.scanCard, 2);
+    }
 
-        ViewInteraction appCompatImageButton3 = onView(
-                allOf(withId(R.id.emsButton),
-                        childAtPosition(
-                                allOf(withId(R.id.emsCard),
-                                        childAtPosition(
-                                                childAtPosition(
-                                                        allOf(withId(android.R.id.content),
-                                                                childAtPosition(
-                                                                        withId(R.id.action_bar_root),
-                                                                        1)),
-                                                        0),
-                                                4)),
-                                0),
-                        isDisplayed()));
-        appCompatImageButton3.perform(click());
+    public void step2(){
+        clickOnItem(R.id.shrinkButton, R.id.shrinkerCard, 1);
+    }
 
-        ViewInteraction appCompatImageButton4 = onView(
-                allOf(withId(R.id.shieldButton),
-                        childAtPosition(
-                                allOf(withId(R.id.shieldCard),
-                                        childAtPosition(
-                                                childAtPosition(
-                                                        allOf(withId(android.R.id.content),
-                                                                childAtPosition(
-                                                                        withId(R.id.action_bar_root),
-                                                                        1)),
-                                                        0),
-                                                3)),
-                                0),
-                        isDisplayed()));
-        appCompatImageButton4.perform(click());
+    public void step3(){
+        clickOnItem(R.id.emsButton, R.id.emsCard, 4);
+    }
 
+    public void step4(){
+        clickOnItem(R.id.shieldButton, R.id.shieldCard, 3);
+    }
+
+    public void step5(){
         ViewInteraction appCompatButton3 = onView(
                 allOf(withId(R.id.BuyButton), withText("Buy Items"),
                         childAtPosition(
@@ -164,31 +133,26 @@ public class NewMarketActivityTest {
                                 5),
                         isDisplayed()));
         appCompatButton3.perform(click());
+    }
 
+    public void step6(){
         ViewInteraction textView = onView(withId(R.id.marketLabel));
         textView.check(matches(withText("MARKET")));
+    }
+
+    @Test
+    public void newMarketActivityTest() throws InterruptedException {
+        Thread.sleep(5000);
+        step1();
+        step2();
+        step3();
+        step4();
+        step5();
+        step6();
     }
     @After
     public void tear(){
         ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
     }
 
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 }
