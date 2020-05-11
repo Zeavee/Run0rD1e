@@ -16,6 +16,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -166,6 +167,10 @@ public class NewMarketActivityTest {
 
         ViewInteraction textView = onView(withId(R.id.marketLabel));
         textView.check(matches(withText("MARKET")));
+    }
+    @After
+    public void tear(){
+        ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.testing = true;
     }
 
     private static Matcher<View> childAtPosition(
