@@ -10,5 +10,5 @@ public interface Positionable {
      *
      * @return The position in a 2D plane.
      */
-    CartesianPoint getPosition();
+    GeoPoint getLocation();
 }

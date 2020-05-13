@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
@@ -29,7 +30,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
         List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPoint(22, 22));
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPointForFirebase(22, 22));
         enemyForFirebaseList.add(enemyForFirebase);
 
         onValueReadyCallback.finish(new CustomResult<>(enemyForFirebaseList, true, null));
@@ -39,8 +40,8 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void addItemBoxesListener(OnValueReadyCallback<CustomResult<List<ItemBoxForFirebase>>> onValueReadyCallback) {
         List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPoint(22,22), false);
-        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPoint(23,23), true);
+        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22,22), false);
+        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23,23), true);
 
         itemBoxForFirebaseList.add(itemBoxForFirebase0);
         itemBoxForFirebaseList.add(itemBoxForFirebase1);

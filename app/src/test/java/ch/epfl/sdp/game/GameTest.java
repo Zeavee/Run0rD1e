@@ -17,10 +17,17 @@ public class GameTest {
     @Before
     public void setup() {
         MockMap mockMap = new MockMap();
+        Game.getInstance().clearGame();
         Game.getInstance().setMapApi(mockMap);
         Game.getInstance().setRenderer(mockMap);
+    }
+
+    @Before
+    public void teardown(){
+        Game.getInstance().destroyGame();
         Game.getInstance().clearGame();
     }
+
 
     @Test
     public void firstConstructorTest() {

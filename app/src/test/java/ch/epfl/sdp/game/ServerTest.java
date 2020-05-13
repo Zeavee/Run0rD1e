@@ -17,9 +17,10 @@ public class ServerTest {
     public void setup() {
         Game.getInstance().clearGame();
         Game.getInstance().setMapApi(new MockMap());
+        Game.getInstance().setRenderer(new MockMap());
 
         PlayerManager playerManager = PlayerManager.getInstance();
-        playerManager.removeAll();
+        playerManager.clear();
         playerManager.setCurrentUser(new Player("server", "server@gmail.com"));
         playerManager.setIsServer(true);
 
@@ -37,7 +38,7 @@ public class ServerTest {
         Game.getInstance().clearGame();
         Game.getInstance().destroyGame();
 
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
 
         EnemyManager.getInstance().removeAll();
 
@@ -49,7 +50,7 @@ public class ServerTest {
     public void testServer() throws InterruptedException {
         Server server = new Server(new ServerMockDatabaseAPI());
 
-        Thread.sleep(3000);
+        //Thread.sleep(3000);
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size() );
     }

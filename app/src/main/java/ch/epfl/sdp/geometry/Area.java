@@ -1,14 +1,26 @@
 package ch.epfl.sdp.geometry;
 
+import ch.epfl.sdp.map.Displayable;
+
 /**
  * Represents an area in the 2D plane.
  */
-public interface Area {
-    /**
-     * This method should return true if and only if the point is inside the area.
-     *
-     * @param cartesianPoint The point in the 2D plane to be checked.
-     * @return True if and only if the point is inside the area.
-     */
-    boolean isInside(CartesianPoint cartesianPoint);
+public abstract class Area implements Positionable, Displayable {
+    protected GeoPoint center;
+
+    public boolean isInside(GeoPoint geoPoint) {
+        Vector vect = center.toVector().subtract(geoPoint.toVector());
+        return isInside(vect);
+    }
+
+    protected abstract boolean isInside(Vector vector);
+
+    public void setCenter(GeoPoint center) {
+        this.center = center;
+    }
+
+    @Override
+    public GeoPoint getLocation() {
+        return center;
+    }
 }

@@ -8,14 +8,12 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
-import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
-    public RandomEnemyGenerator(LocalArea localArea, Area enclosure) {
+    public RandomEnemyGenerator(Area localArea, Area enclosure) {
         super(localArea, enclosure);
         enemies = new ArrayList<>();
         timer = new Timer();
@@ -70,11 +68,11 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             enemyPos = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 100 + rd.nextInt(50000));
             Float f1 = rd.nextFloat() * 5000;
             Float f2 = rd.nextFloat() * 5000;
-            LocalArea localArea = new LocalArea(new RectangleArea(f1, f2), PointConverter.geoPointToCartesianPoint(local));
+            Area localArea = new RectangleArea(f1, f2, local);
             Area area = new UnboundedArea();
             Enemy enemy = new Enemy(maxIter, localArea, area);
             enemy.setLocation(enemyPos);
-            SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
+            SinusoidalMovement movement = new SinusoidalMovement();
             movement.setVelocity(5);
             movement.setAngleStep(0.1);
             movement.setAmplitude(10);

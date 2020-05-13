@@ -4,7 +4,6 @@ import android.graphics.Color;
 
 import java.util.Random;
 
-import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
 import static java.lang.Math.cos;
@@ -15,9 +14,8 @@ import static java.lang.Math.toRadians;
 /**
  * The area where the players can go without losing life
  */
-public class CircleArea implements Displayable, Area {
+public class CircleArea extends Area {
     private double radius;
-    private GeoPoint center;
 
     /**
      * A constructor for the GameArea
@@ -25,8 +23,8 @@ public class CircleArea implements Displayable, Area {
      * @param center the center of the GameArea
      */
     public CircleArea(double radius, GeoPoint center) {
+        setCenter(center);
         this.radius = radius;
-        this.center = center;
     }
 
     /**
@@ -100,6 +98,11 @@ public class CircleArea implements Displayable, Area {
     }
 
     @Override
+    protected boolean isInside(Vector vector) {
+        return vector.norm() < radius;
+    }
+
+    @Override
     public GeoPoint getLocation() {
         return center;
     }
@@ -107,10 +110,5 @@ public class CircleArea implements Displayable, Area {
     @Override
     public void displayOn(MapApi mapApi) {
         mapApi.displayCircle(this, Color.RED, (int) radius);
-    }
-
-    @Override
-    public boolean isInside(CartesianPoint cartesianPoint) {
-        return cartesianPoint.distanceFrom(PointConverter.geoPointToCartesianPoint(center)) < radius;
     }
 }

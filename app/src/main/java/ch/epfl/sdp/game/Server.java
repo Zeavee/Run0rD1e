@@ -20,8 +20,6 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
-import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
@@ -98,12 +96,12 @@ public class Server implements Updatable {
         // Enemy -------------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         Area area = new CircleArea(2000, local);
-        LocalArea localArea = new LocalArea(area, PointConverter.geoPointToCartesianPoint(local));
+        LocalArea localArea = new LocalArea(area, local);
         RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(localArea, area);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemy.getLocation()));
-        movement.setVelocity(25);
+        SinusoidalMovement movement = new SinusoidalMovement();
+        movement.setVelocity(600);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
@@ -161,9 +159,8 @@ public class Server implements Updatable {
         serverDatabaseAPI.addPlayersPositionListener(value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
-                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(playerForFirebase.getLocation());
-                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setPosition(PointConverter.geoPointToCartesianPoint(playerForFirebase.getLocation()));
-                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getLocation());
+                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getGeoPointForFirebase());
                 }
             } else {
                 Log.w(TAG, "addPlayersPositionListener: failed", value.getException());

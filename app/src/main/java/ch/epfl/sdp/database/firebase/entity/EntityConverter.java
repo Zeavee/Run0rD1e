@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 
 /**
@@ -41,12 +43,20 @@ public class EntityConverter {
 
         playerForFirebase.setUsername(player.getUsername());
         playerForFirebase.setEmail(player.getEmail());
-        playerForFirebase.setLocation(player.getLocation());
+        playerForFirebase.setGeoPointForFirebase(EntityConverter.geoPointToGeoPointForFirebase(player.getLocation()));
         playerForFirebase.setAoeRadius(player.getAoeRadius());
         playerForFirebase.setHealthPoints(player.getHealthPoints());
         playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
 
         return playerForFirebase;
+    }
+
+    public static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint){
+        return new GeoPointForFirebase(geoPoint.getLongitude(), geoPoint.getLatitude());
+    }
+
+    public static GeoPoint geoPointForFirebaseToGeoPoint(GeoPointForFirebase geoPointForFirebase){
+        return new GeoPoint(geoPointForFirebase.getLongitude(), geoPointForFirebase.getLatitude());
     }
 
     /**
@@ -58,7 +68,7 @@ public class EntityConverter {
     public static List<EnemyForFirebase> convertEnemyList(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
         for (Enemy enemy : enemies) {
-            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getLocation()));
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation())));
         }
 
         return enemyForFirebases;
@@ -69,7 +79,7 @@ public class EntityConverter {
         for (EnemyForFirebase enemyForFirebase : enemyForFirebaseList) {
             Enemy enemy = new Enemy();
             enemy.setId(enemyForFirebase.getId());
-            enemy.setLocation(enemyForFirebase.getLocation());
+            enemy.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(enemyForFirebase.getLocation()));
             enemyList.add(enemy);
         }
         return enemyList;
@@ -86,8 +96,8 @@ public class EntityConverter {
     }
 
     public static Player playerForFirebaseToPlayer(PlayerForFirebase playerForFirebase) {
-        double longitude = playerForFirebase.getLocation().getLongitude();
-        double latitude = playerForFirebase.getLocation().getLatitude();
+        double longitude = playerForFirebase.getGeoPointForFirebase().getLongitude();
+        double latitude = playerForFirebase.getGeoPointForFirebase().getLatitude();
         double aoeRadius = playerForFirebase.getAoeRadius();
         String username = playerForFirebase.getUsername();
         String email = playerForFirebase.getEmail();
@@ -106,7 +116,7 @@ public class EntityConverter {
     public static List<ItemBoxForFirebase> convertItemBoxMap(Map<String, ItemBox> itemBoxMap) {
         List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
         for (Map.Entry<String, ItemBox> entry : itemBoxMap.entrySet()) {
-            itemBoxForFirebaseList.add(new ItemBoxForFirebase(entry.getKey(), entry.getValue().getLocation(), entry.getValue().isTaken()));
+            itemBoxForFirebaseList.add(new ItemBoxForFirebase(entry.getKey(), EntityConverter.geoPointToGeoPointForFirebase(entry.getValue().getLocation()), entry.getValue().isTaken()));
         }
         return itemBoxForFirebaseList;
     }

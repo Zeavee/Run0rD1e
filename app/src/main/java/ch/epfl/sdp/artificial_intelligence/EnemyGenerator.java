@@ -7,18 +7,17 @@ import java.util.Timer;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
 
 public abstract class EnemyGenerator {
     protected int maxEnemiesPerUnitArea;
     protected float timeToCreate;
     protected double minDistanceFromPlayer;
     protected Area enclosure;
-    protected LocalArea localArea;
+    protected Area localArea;
     protected List<Enemy> enemies;
     protected Timer timer;
 
-    public EnemyGenerator(LocalArea localArea, Area enclosure) {
+    public EnemyGenerator(Area localArea, Area enclosure) {
         this.localArea = localArea;
         this.enclosure = enclosure;
     }

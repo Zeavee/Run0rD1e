@@ -1,5 +1,6 @@
 package ch.epfl.sdp.items;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ItemsTest {
-    private PlayerManager playerManager;
     private Player player;
     private GeoPoint A;
     private Healthpack healthpack;
@@ -29,7 +29,6 @@ public class ItemsTest {
     @Before
     public void setup(){
         Game.getInstance().setMapApi(new MockMap());
-        playerManager = new PlayerManager();
         player = new Player("","");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
@@ -39,6 +38,12 @@ public class ItemsTest {
         shield = new Shield( 40);
         shrinker = new Shrinker( 40, 10);
         scan = new Scan( 50);
+    }
+
+    @After
+    public void teardown(){
+        PlayerManager.getInstance().clear();
+        Game.getInstance().destroyGame();
     }
 
     @Test

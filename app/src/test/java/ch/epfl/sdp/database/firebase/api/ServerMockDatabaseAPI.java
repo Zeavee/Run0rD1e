@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
@@ -23,7 +24,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
         playerForFirebase0.setUsername("server");
         playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setLocation(new GeoPoint(22,22));
+        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
         playerForFirebase0.setAoeRadius(22.0);
         playerForFirebase0.setHealthPoints(20.0);
         playerForFirebase0.setCurrentGameScore(0);
@@ -32,7 +33,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
         playerForFirebase1.setUsername("client");
         playerForFirebase1.setEmail("client@gmail.com");
-        playerForFirebase1.setLocation(new GeoPoint(22,22));
+        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
         playerForFirebase1.setAoeRadius(22.0);
         playerForFirebase1.setHealthPoints(20.0);
         playerForFirebase1.setCurrentGameScore(0);

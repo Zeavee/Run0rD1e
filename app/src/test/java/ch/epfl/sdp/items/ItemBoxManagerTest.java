@@ -19,7 +19,7 @@ public class ItemBoxManagerTest {
 
     @Before
     public void setupTest() {
-        dummyItemBox = new ItemBox(new GeoPoint());
+        dummyItemBox = new ItemBox(new GeoPoint(0,0));
         ItemBoxManager.getInstance().getItemBoxes().clear();
         ItemBoxManager.getInstance().getWaitingItemBoxes().clear();
     }
