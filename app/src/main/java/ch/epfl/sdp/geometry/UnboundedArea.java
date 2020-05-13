@@ -13,7 +13,12 @@ public class UnboundedArea extends Area {
     }
 
     @Override
-    public UnboundedArea shrink(double factor) {
+    public void shrink(double factor) {
+
+    }
+
+    @Override
+    public Area getShrinkTransition() {
         return this;
     }
 
@@ -25,6 +30,11 @@ public class UnboundedArea extends Area {
     @Override
     public GeoPoint randomLocation() {
         return new RandomGenerator().randomGeoPoint();
+    }
+
+    @Override
+    public void finishShrink() {
+
     }
 
     @Override

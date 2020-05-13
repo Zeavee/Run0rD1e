@@ -17,6 +17,7 @@ import static java.lang.Math.toRadians;
  */
 public class CircleArea extends Area {
     private double radius;
+    private double oldRadius;
 
     /**
      * A constructor for the GameArea
@@ -30,9 +31,9 @@ public class CircleArea extends Area {
     }
 
     @Override
-    public CircleArea shrink(double factor) {
+    public void shrink(double factor) {
         if (factor < 0 || factor > 1) {
-            return null;
+            return;
         }
         Random random = new Random();
 
@@ -52,21 +53,11 @@ public class CircleArea extends Area {
         //this is because of East-West shrinking distances
         double xPrime = x / cos(toRadians(y));
 
-        double newRadius = factor * radius;
-        GeoPoint newCenter = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
+        oldCenter = center;
+        oldRadius = radius;
 
-        isShrinking = true;
-
-        return new CircleArea(newRadius, newCenter);
-    }
-
-    /**
-     * Method to get the center of the GameArea
-     *
-     * @return a GeoPoint which is a location
-     */
-    public GeoPoint getCenter() {
-        return center;
+        radius = factor * radius;
+        center = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
     }
 
     /**
@@ -78,21 +69,14 @@ public class CircleArea extends Area {
         return radius;
     }
 
-    /**
-     * Method that gives all the transitions states to display the shrinking of the GameArea
-     *
-     * @param time        the time which has passed since the start of the shrinking
-     * @param finalTime   the time when the shrinking will end
-     * @param startCircle the old GameArea
-     * @return a GameArea we can display for animation the transition
-     */
-    public CircleArea getShrinkTransition(double time, double finalTime, CircleArea startCircle) {
-        if (time > finalTime || time < 0 || startCircle == null) {
+    @Override
+    public CircleArea getShrinkTransition() {
+        if (time > finalTime || time < 0) {
             return null;
         }
-        double outputRadius = getValueForTime(time, finalTime, startCircle.getRadius(), this.radius);
-        double outputLatitude = getValueForTime(time, finalTime, startCircle.getCenter().getLatitude(), this.center.getLatitude());
-        double outputLongitude = getValueForTime(time, finalTime, startCircle.getCenter().getLongitude(), this.center.getLongitude());
+        double outputRadius = getValueForTime(time, finalTime, oldRadius, radius);
+        double outputLatitude = getValueForTime(time, finalTime, oldCenter.getLatitude(), center.getLatitude());
+        double outputLongitude = getValueForTime(time, finalTime, oldCenter.getLongitude(), center.getLongitude());
         return new CircleArea(outputRadius, new GeoPoint(outputLongitude, outputLatitude));
     }
 
@@ -116,7 +100,17 @@ public class CircleArea extends Area {
     }
 
     @Override
+    public void finishShrink() {
+        isShrinking = false;
+    }
+
+    @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayCircle(this, Color.RED, (int) radius);
+        if (isShrinking) {
+            CircleArea tempCircleArea = getShrinkTransition();
+            mapApi.displayCircle(tempCircleArea, Color.RED, (int) tempCircleArea.radius);
+        } else {
+            mapApi.displayCircle(this, Color.RED, (int) radius);
+        }
     }
 }

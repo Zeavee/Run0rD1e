@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
@@ -99,12 +97,7 @@ public class Server implements Updatable {
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
         Game.getInstance().addToDisplayList(gameArea);
-        new Timer().scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                gameArea = gameArea.shrink(0.75);
-            }
-        }, 1000, 12000);
+        Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
     private void initEnemies() {

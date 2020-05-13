@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
+import ch.epfl.sdp.geometry.AreaShrinker;
 import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GoogleMapApi;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.Renderer;
 
@@ -20,6 +20,8 @@ public class Game implements Updatable {
     private ArrayList<Displayable> displayables;
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
+
+    public AreaShrinker areaShrinker = new AreaShrinker();
 
     private static Game instance = new Game();
 

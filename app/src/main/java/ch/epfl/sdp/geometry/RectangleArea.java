@@ -38,8 +38,12 @@ public class RectangleArea extends Area {
     }
 
     @Override
-    public RectangleArea shrink(double factor) {
-        //TODO implement
+    public void shrink(double factor) {
+
+    }
+
+    @Override
+    public Area getShrinkTransition() {
         return null;
     }
 
@@ -52,6 +56,11 @@ public class RectangleArea extends Area {
     public GeoPoint randomLocation() {
         //TODO implement
         return null;
+    }
+
+    @Override
+    public void finishShrink() {
+
     }
 
     @Override
