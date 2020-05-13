@@ -3,7 +3,7 @@ package ch.epfl.sdp.logic;
 import org.junit.Test;
 
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.logic.GameArea;
+import ch.epfl.sdp.geometry.CircleArea;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,44 +11,44 @@ public class GameAreaTest {
 
     @Test
     public void shrinkWithNegativeOrTooBigFactorDoesNotDoAnything() {
-        GameArea gameArea = new GameArea(100, new GeoPoint(40, 50));
-        GameArea newGameArea = gameArea.shrink(-1);
-        assertEquals(gameArea.getRadius(), 100, 0.01);
-        gameArea.shrink(1.5);
-        assertEquals(gameArea.getRadius(), 100, 0.01);
-        assertEquals(newGameArea, null);
+        CircleArea circleArea = new CircleArea(100, new GeoPoint(40, 50));
+        CircleArea newCircleArea = circleArea.shrink(-1);
+        assertEquals(circleArea.getRadius(), 100, 0.01);
+        circleArea.shrink(1.5);
+        assertEquals(circleArea.getRadius(), 100, 0.01);
+        assertEquals(newCircleArea, null);
     }
 
     @Test
     public void shrinkWorks() {
         GeoPoint oldCenter = new GeoPoint(40, 50);
-        GameArea oldGameArea = new GameArea(10000, oldCenter);
-        GameArea newGameArea = oldGameArea.shrink(0.5);
-        assertEquals(newGameArea.getRadius(), 10000*0.5, 0.01);
-        assertEquals(true, oldCenter.distanceTo(newGameArea.getCenter()) < 10000*0.5);
+        CircleArea oldCircleArea = new CircleArea(10000, oldCenter);
+        CircleArea newCircleArea = oldCircleArea.shrink(0.5);
+        assertEquals(newCircleArea.getRadius(), 10000*0.5, 0.01);
+        assertEquals(true, oldCenter.distanceTo(newCircleArea.getCenter()) < 10000*0.5);
     }
 
     @Test
     public void getShrinkTransitionWorks() {
-        GameArea oldGameArea = new GameArea(10000, new GeoPoint(40, 50));
-        GameArea newGameArea = oldGameArea.shrink(0.5);
-        GameArea tempGameAreaStart = newGameArea.getShrinkTransition(0, 2, oldGameArea);
-        GameArea tempGameAreaMid = newGameArea.getShrinkTransition(1, 2, oldGameArea);
-        GameArea tempGameAreaEnd = newGameArea.getShrinkTransition(2, 2, oldGameArea);
-        assertEquals(tempGameAreaStart.getRadius(), oldGameArea.getRadius(), 0.01);
-        assertEquals(tempGameAreaMid.getRadius(), oldGameArea.getRadius()-newGameArea.getRadius()/2, 0.01);
-        assertEquals(tempGameAreaEnd.getRadius(), newGameArea.getRadius(), 0.01);
-        assertEquals(0, oldGameArea.getCenter().distanceTo(tempGameAreaStart.getCenter()), 0.01);
-        assertEquals(oldGameArea.getCenter().distanceTo(newGameArea.getCenter())/2, oldGameArea.getCenter().distanceTo(tempGameAreaMid.getCenter()), 10);
-        assertEquals(0, newGameArea.getCenter().distanceTo(tempGameAreaEnd.getCenter()), 0.01);
+        CircleArea oldCircleArea = new CircleArea(10000, new GeoPoint(40, 50));
+        CircleArea newCircleArea = oldCircleArea.shrink(0.5);
+        CircleArea tempCircleAreaStart = newCircleArea.getShrinkTransition(0, 2, oldCircleArea);
+        CircleArea tempCircleAreaMid = newCircleArea.getShrinkTransition(1, 2, oldCircleArea);
+        CircleArea tempCircleAreaEnd = newCircleArea.getShrinkTransition(2, 2, oldCircleArea);
+        assertEquals(tempCircleAreaStart.getRadius(), oldCircleArea.getRadius(), 0.01);
+        assertEquals(tempCircleAreaMid.getRadius(), oldCircleArea.getRadius()- newCircleArea.getRadius()/2, 0.01);
+        assertEquals(tempCircleAreaEnd.getRadius(), newCircleArea.getRadius(), 0.01);
+        assertEquals(0, oldCircleArea.getCenter().distanceTo(tempCircleAreaStart.getCenter()), 0.01);
+        assertEquals(oldCircleArea.getCenter().distanceTo(newCircleArea.getCenter())/2, oldCircleArea.getCenter().distanceTo(tempCircleAreaMid.getCenter()), 10);
+        assertEquals(0, newCircleArea.getCenter().distanceTo(tempCircleAreaEnd.getCenter()), 0.01);
     }
 
     @Test
     public void getShrinkTransitionReturnsNullOnInvalidTime() {
-        GameArea oldGameArea = new GameArea(10000, new GeoPoint(40, 50));
-        GameArea newGameArea = oldGameArea.shrink(0.5);
-        assertEquals(null, newGameArea.getShrinkTransition(-1, 2, oldGameArea));
-        assertEquals(null, newGameArea.getShrinkTransition(3, 2, oldGameArea));
-        assertEquals(null, newGameArea.getShrinkTransition(0, 2, null));
+        CircleArea oldCircleArea = new CircleArea(10000, new GeoPoint(40, 50));
+        CircleArea newCircleArea = oldCircleArea.shrink(0.5);
+        assertEquals(null, newCircleArea.getShrinkTransition(-1, 2, oldCircleArea));
+        assertEquals(null, newCircleArea.getShrinkTransition(3, 2, oldCircleArea));
+        assertEquals(null, newCircleArea.getShrinkTransition(0, 2, null));
     }
 }

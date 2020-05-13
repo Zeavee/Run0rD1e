@@ -83,4 +83,17 @@ public class GoogleMapApi implements MapApi {
                         .radius(aoeRadius)
                         .strokeWidth(1f))));
     }
+
+    @Override
+    public void displayCircle(Displayable displayable, int color, int radius) {
+        removeMarkers(displayable);
+        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+        entityCircles.put(displayable, new MapDrawing(
+                mMap.addCircle(new CircleOptions()
+                        .center(position)
+                        .strokeColor(color)
+                        .fillColor(color - 0x80000000)
+                        .radius(radius)
+                        .strokeWidth(1f))));
+    }
 }

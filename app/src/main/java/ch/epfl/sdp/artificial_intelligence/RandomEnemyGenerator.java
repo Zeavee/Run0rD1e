@@ -15,9 +15,8 @@ import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
-
-    public RandomEnemyGenerator(RectangleArea enclosure) {
-        super(enclosure);
+    public RandomEnemyGenerator(LocalArea localArea, Area enclosure) {
+        super(localArea, enclosure);
         enemies = new ArrayList<>();
         timer = new Timer();
     }
@@ -38,7 +37,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             return;
         }
 
-        Enemy e = new Enemy();
+        Enemy e = new Enemy(localArea, enclosure);
         e.setLocation(enemyLocation);
         enemies.add(e);
     }
