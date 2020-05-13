@@ -16,9 +16,9 @@ public class RectangleArea extends Area {
      * @param width  The width of the rectangle.
      */
     public RectangleArea(float height, float width, GeoPoint center) {
+        super(center);
         this.halfHeight = height / 2;
         this.halfWidth = width / 2;
-        setCenter(center);
     }
 
     /**
@@ -38,8 +38,20 @@ public class RectangleArea extends Area {
     }
 
     @Override
+    public RectangleArea shrink(double factor) {
+        //TODO implement
+        return null;
+    }
+
+    @Override
     protected boolean isInside(Vector vector) {
         return vector.x() < halfWidth && vector.x() > -halfWidth && vector.y() < halfHeight && vector.y() > -halfHeight;
+    }
+
+    @Override
+    public GeoPoint randomLocation() {
+        //TODO implement
+        return null;
     }
 
     @Override

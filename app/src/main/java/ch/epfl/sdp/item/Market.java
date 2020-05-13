@@ -28,7 +28,7 @@ public class Market implements Displayable {
      * This is a constructor for Market which randomly initialize the items that will be available
      */
     public Market() {
-        this.location = RandomGenerator.randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 1000);
+        this.location = new RandomGenerator().randomLocationOnCircle(PlayerManager.getInstance().getCurrentUser().getLocation(), 1000);
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item: randomGenerator.randomItemsList()) {

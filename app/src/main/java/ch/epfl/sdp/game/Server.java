@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
@@ -38,6 +40,7 @@ public class Server implements Updatable {
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
+    private Area gameArea;
 
     public Server(ServerDatabaseAPI serverDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
@@ -71,8 +74,8 @@ public class Server implements Updatable {
                             }
                             Log.d(TAG, "(Server) Getting Player: " + player);
                         }
-                        initItemBoxes();
                         initGameArea();
+                        initItemBoxes();
                         initEnemies();
                         initCoins();
                         serverDatabaseAPI.startGame(value2 -> {
@@ -81,28 +84,40 @@ public class Server implements Updatable {
                                 Game.getInstance().initGame();
                                 addPlayersPositionListener();
                                 addUsedItemsListener();
-                            } else Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage()); });
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
+                            } else
+                                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
+                        });
+                    } else
+                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                });
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+        });
     }
 
     private void initGameArea() {
         //GameArea -----------------------------------------
-        GeoPoint center = new GeoPoint(6.2419, 46.2201);
-        CircleArea circleArea = new CircleArea(1750, center);
-        Game.getInstance().addToDisplayList(circleArea);
+        GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
+        gameArea = new CircleArea(3000, local);
+        Game.getInstance().addToDisplayList(gameArea);
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                gameArea = gameArea.shrink(0.75);
+            }
+        }, 1000, 12000);
     }
 
     private void initEnemies() {
         // Enemy -------------------------------------------
-        GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
-        Area localArea = new CircleArea(2000, local);
         Area area = new UnboundedArea();
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(localArea, area);
+        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        randomEnemyGenerator.setEnemyCreationTime(1000);
+        randomEnemyGenerator.setMaxEnemies(10);
+        randomEnemyGenerator.setMinDistanceFromEnemies(100);
+        randomEnemyGenerator.setMinDistanceFromPlayers(100);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
         SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setVelocity(600);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
@@ -111,9 +126,9 @@ public class Server implements Updatable {
     }
 
     private void initCoins() {
-        int amount  = 10;
+        int amount = 10;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
-        for(Coin c: coins) {
+        for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }

@@ -24,7 +24,7 @@ public class EnemyManager {
 
     public void updateEnemies(Enemy enemy) {
         int enemyId = enemy.getId();
-        if(enemies.containsKey(enemyId)) {
+        if (enemies.containsKey(enemyId)) {
             // update the location
             Enemy enemyToBeUpdate = enemies.get(enemyId);
             enemyToBeUpdate.setLocation(enemy.getLocation());

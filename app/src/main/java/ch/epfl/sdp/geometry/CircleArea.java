@@ -5,6 +5,7 @@ import android.graphics.Color;
 import java.util.Random;
 
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -19,19 +20,16 @@ public class CircleArea extends Area {
 
     /**
      * A constructor for the GameArea
+     *
      * @param radius the radius of the GameArea
      * @param center the center of the GameArea
      */
     public CircleArea(double radius, GeoPoint center) {
-        setCenter(center);
+        super(center);
         this.radius = radius;
     }
 
-    /**
-     * This method find a smaller GameArea that fits entirely inside the current GameArea
-     * @param factor it is a number we multiply with the current GameArea's size to get the new size
-     * @return A random GameArea inside the current one
-     */
+    @Override
     public CircleArea shrink(double factor) {
         if (factor < 0 || factor > 1) {
             return null;
@@ -44,7 +42,7 @@ public class CircleArea extends Area {
 
         //radius/111300.0 is used because we want to convert the radius into degrees
         //we want a point that is not too far from the old center so the new circle can fit in the old one
-        double randomDistance = ((1.0-factor)*radius/111300.0) * sqrt(u);
+        double randomDistance = ((1.0 - factor) * radius / 111300.0) * sqrt(u);
         double randomAngle = 2 * Math.PI * v;
 
 
@@ -54,14 +52,17 @@ public class CircleArea extends Area {
         //this is because of East-West shrinking distances
         double xPrime = x / cos(toRadians(y));
 
-        double newRadius = factor*radius;
-        GeoPoint newCenter = new GeoPoint(center.getLongitude()+xPrime, center.getLatitude()+y);
+        double newRadius = factor * radius;
+        GeoPoint newCenter = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
+
+        isShrinking = true;
 
         return new CircleArea(newRadius, newCenter);
     }
 
     /**
      * Method to get the center of the GameArea
+     *
      * @return a GeoPoint which is a location
      */
     public GeoPoint getCenter() {
@@ -70,6 +71,7 @@ public class CircleArea extends Area {
 
     /**
      * Method to get the radius of the GameArea
+     *
      * @return the radius
      */
     public double getRadius() {
@@ -78,8 +80,9 @@ public class CircleArea extends Area {
 
     /**
      * Method that gives all the transitions states to display the shrinking of the GameArea
-     * @param time the time which has passed since the start of the shrinking
-     * @param finalTime the time when the shrinking will end
+     *
+     * @param time        the time which has passed since the start of the shrinking
+     * @param finalTime   the time when the shrinking will end
      * @param startCircle the old GameArea
      * @return a GameArea we can display for animation the transition
      */
@@ -94,7 +97,7 @@ public class CircleArea extends Area {
     }
 
     private double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
-        return (finalTime-time)/finalTime*startValue + time/finalTime*finalValue;
+        return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
 
     @Override
@@ -105,6 +108,11 @@ public class CircleArea extends Area {
     @Override
     public GeoPoint getLocation() {
         return center;
+    }
+
+    @Override
+    public GeoPoint randomLocation() {
+        return new RandomGenerator().randomLocationOnCircle(center, (int) radius);
     }
 
     @Override

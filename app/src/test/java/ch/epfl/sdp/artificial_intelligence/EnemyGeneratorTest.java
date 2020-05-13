@@ -24,8 +24,8 @@ public class EnemyGeneratorTest {
     public void generateEnemyWorks() {
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(10000, 10000));
-        enemyGenerator.setMaxEnemiesPerUnitArea(1);
-        enemyGenerator.setMaxEnemiesPerUnitArea(-1);
+        enemyGenerator.setMinDistanceBetweenEnemies(1);
+        enemyGenerator.setMinDistanceBetweenEnemies(-1);
         enemyGenerator.setEnemyCreationTime(1);
         enemyGenerator.setEnemyCreationTime(-1);
         enemyGenerator.generateEnemy(100);
@@ -36,7 +36,7 @@ public class EnemyGeneratorTest {
     @Test
     public void setMaxEnemiesWorks() {
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1));
-        enemyGenerator.setMaxEnemiesPerUnitArea(2);
+        enemyGenerator.setMinDistanceBetweenEnemies(2);
         assertEquals(0, enemyGenerator.getEnemies().size());
     }
 
@@ -44,8 +44,8 @@ public class EnemyGeneratorTest {
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1));//, player);
-        enemyGenerator.setMaxEnemiesPerUnitArea(10);
-        enemyGenerator.setMinDistanceFromPlayer(1000);
+        enemyGenerator.setMinDistanceBetweenEnemies(10);
+        enemyGenerator.setMinDistanceFromPlayers(1000);
         for (Enemy e : enemyGenerator.getEnemies()) {
             assertEquals(true, e.getLocation().distanceTo(player.getLocation()) > 1000);
         }
