@@ -20,6 +20,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
@@ -95,8 +96,8 @@ public class Server implements Updatable {
     private void initEnemies() {
         // Enemy -------------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
-        Area area = new CircleArea(2000, local);
-        LocalArea localArea = new LocalArea(area, local);
+        Area localArea = new CircleArea(2000, local);
+        Area area = new UnboundedArea();
         RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(localArea, area);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
