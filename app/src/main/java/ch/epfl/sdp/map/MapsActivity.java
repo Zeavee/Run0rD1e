@@ -55,10 +55,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private TextView username, healthPointText;
     private ProgressBar healthPointProgressBar;
-  
+
     private boolean flagInventory = false;
     private boolean flagWeather = false;
-  
+
     private PlayerManager playerManager = PlayerManager.getInstance();
 
     /**
@@ -94,15 +94,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
         Button weather = findViewById(R.id.button_weather);
-        weather.setOnClickListener(v ->  {
+        weather.setOnClickListener(v -> {
             showFragment(weatherFragment, R.id.fragment_weather_container, flagWeather);
-            flagWeather = ! flagWeather;
+            flagWeather = !flagWeather;
         });
 
         Button inventory = findViewById(R.id.button_inventory);
-        inventory.setOnClickListener(v ->  {
+        inventory.setOnClickListener(v -> {
             showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
-            flagInventory = ! flagInventory;
+            flagInventory = !flagInventory;
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -169,6 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
         commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
             if (registerToLobbyRes.isSuccessful()) {
+                Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     new Server(serverDatabaseAPI);
@@ -176,9 +177,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     new Client(clientDatabaseAPI);
                 }
-
-                Log.d("Database", "Lobby registered/joined");
-
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }

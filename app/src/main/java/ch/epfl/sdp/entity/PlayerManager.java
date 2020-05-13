@@ -14,7 +14,7 @@ import ch.epfl.sdp.geometry.CartesianPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
@@ -172,7 +172,7 @@ public class PlayerManager {
      * Selects the closest player alive based on a given position in the 2D plane.
      *
      * @return A player representing the closest player alive from a given position. If there is no
-     * player alive it returns null.
+     * player alive (healthPoint is bigger than 0) it returns null.
      */
     public Player selectClosestPlayer(CartesianPoint position) {
         Player target = null;
@@ -181,7 +181,7 @@ public class PlayerManager {
 
         for (Player player : playersMap.values()) {
             currDistance = player.getPosition().distanceFrom(position) - player.getAoeRadius();
-            if (currDistance < minDistance && player.isAlive()) {
+            if (currDistance < minDistance && player.getHealthPoints() > 0) {
                 minDistance = currDistance;
                 target = player;
             }

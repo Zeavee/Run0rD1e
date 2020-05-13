@@ -36,6 +36,8 @@ public interface ServerDatabaseAPI {
      */
     void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
+    void removePlayer(String email);
+
     /**
      * Send the enemies to the Firebase Firestore
      *

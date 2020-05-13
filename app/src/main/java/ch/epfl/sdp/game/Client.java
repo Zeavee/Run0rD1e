@@ -43,6 +43,7 @@ public class Client implements Updatable {
 
     @Override
     public void update() {
+//        checkEndOfGame();
         if (counter <= 0) {
             sendUserPosition();
             sendUsedItems();
@@ -138,6 +139,13 @@ public class Client implements Updatable {
         if (!usedItems.isEmpty()) {
             clientDatabaseAPI.sendUsedItems(EntityConverter.convertItems(usedItems));
             playerManager.getCurrentUser().getInventory().clearUsedItems();
+        }
+    }
+
+    private void checkEndOfGame() {
+        if(playerManager.getCurrentUser().getHealthPoints() == 0) {
+            Game.getInstance().clearGame();
+            Game.getInstance().destroyGame();
         }
     }
 }

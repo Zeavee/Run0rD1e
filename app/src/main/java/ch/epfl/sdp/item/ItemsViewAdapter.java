@@ -50,8 +50,6 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
                 PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
             }
 
-//            PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
-
             // Update the quantity of that item
             holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         });

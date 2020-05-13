@@ -23,8 +23,8 @@ public class Healthpack extends Item {
     @Override
     public void useOn(Player player) {
         double increasedHP = player.getHealthPoints() + healthPackAmount;
-        if (increasedHP > Player.getMaxHealth()) {
-            increasedHP = Player.getMaxHealth();
+        if (increasedHP > Player.MAX_HEALTH) {
+            increasedHP = Player.MAX_HEALTH;
         }
 
         player.setHealthPoints(increasedHP);

@@ -2,6 +2,8 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import com.google.api.LogDescriptor;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,7 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.PointConverter;
@@ -32,7 +35,7 @@ import ch.epfl.sdp.item.ItemFactory;
  */
 public class Server implements Updatable {
     private static final String TAG = "Database";
-    private int counter = 0;
+    private int counter;
     private ServerDatabaseAPI serverDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
@@ -41,17 +44,20 @@ public class Server implements Updatable {
 
     public Server(ServerDatabaseAPI serverDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
+        this.counter = 0;
         itemFactory = new ItemFactory();
         initEnvironment();
     }
 
     @Override
     public void update() {
+//        checkPlayerStatus();
         if (counter <= 0) {
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
             sendPlayersItems();
+
             counter = 2 * GameThread.FPS + 1;
         }
 
@@ -104,9 +110,9 @@ public class Server implements Updatable {
     }
 
     private void initCoins() {
-        int amount  = 10;
+        int amount = 10;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
-        for(Coin c: coins) {
+        for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }
@@ -153,9 +159,22 @@ public class Server implements Updatable {
         serverDatabaseAPI.addPlayersPositionListener(value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
-                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setLocation(playerForFirebase.getLocation());
-                    playerManager.getPlayersMap().get(playerForFirebase.getEmail()).setPosition(PointConverter.geoPointToCartesianPoint(playerForFirebase.getLocation()));
-                    Log.d(TAG, "Get changes for " + playerForFirebase.getEmail() + "'s location: " + playerForFirebase.getLocation());
+                    Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
+                    CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(playerForFirebase.getLocation());
+
+                    if (player.getPosition() != null) {
+                        Log.d(TAG, "addPlayersPositionListener: ===============================");
+                        Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " +  player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
+                        Log.d(TAG, "addPlayersPositionListener: after " +  playerForFirebase.getUsername() + " " +  playerForFirebase.getLocation().getLatitude() + " " + playerForFirebase.getLocation().getLongitude());
+                        double traveledDistance = player.getPosition().distanceFrom(cartesianPoint);
+                        player.updateDistanceTraveled(traveledDistance);
+                        player.setLocation(playerForFirebase.getLocation());
+                        player.setPosition(cartesianPoint);
+                        Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
+                        Log.d(TAG, "addPlayersPositionListener: ===============================");
+
+                    }
+
                 }
             } else {
                 Log.w(TAG, "addPlayersPositionListener: failed", value.getException());
@@ -195,5 +214,24 @@ public class Server implements Updatable {
             serverDatabaseAPI.sendPlayersItems(playersItemsMap);
             playerManager.getPlayersWaitingItems().clear();
         }
+    }
+
+    private void checkPlayerStatus() {
+        for (Player player : playerManager.getPlayers()) {
+            if (player.getHealthPoints() <= 0) {
+                Log.d(TAG, "checkPlayerStatus: remove the player " + player.getUsername() );
+                // remove player locally in the playerManager
+                playerManager.removePlayer(player);
+
+                // remove player on the cloud firebase
+                serverDatabaseAPI.removePlayer(player.getEmail());
+            }
+        }
+
+        // if the number of the player smaller than 1 we end the game
+        if(playerManager.getPlayers().size() <= 1) {
+
+        }
+
     }
 }

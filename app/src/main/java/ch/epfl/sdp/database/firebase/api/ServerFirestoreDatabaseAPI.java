@@ -1,5 +1,7 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,8 +27,11 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
+    private String lobbyName;
 
     public void setLobbyRef(String lobbyName) {
+        Log.d("database", "Server setLobbyRef with name: " + lobbyName);
+        this.lobbyName = lobbyName;
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
 
@@ -60,6 +65,11 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                     }
                     onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+    }
+
+    @Override
+    public void removePlayer(String email) {
+        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(email).delete();
     }
 
     @Override

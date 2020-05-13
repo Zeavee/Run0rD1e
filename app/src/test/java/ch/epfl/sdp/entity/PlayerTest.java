@@ -25,11 +25,8 @@ public class PlayerTest {
 
     @Test
     public void otherMethodTest() {
-        assertTrue(player1.isAlive());
         assertEquals("Skyris", player1.getUsername());
         assertEquals("test@email.com", player1.getEmail());
-        assertEquals(0, player1.getSpeed(), 0.001);
-        assertEquals(0, player1.getTimeTraveled(), 0.001);
         assertEquals(0, player1.getGeneralScore());
         assertEquals(0, player1.getDistanceTraveled(), 0.001);
     }
@@ -46,17 +43,17 @@ public class PlayerTest {
 
     @Test
     public void scoreIncreasesOnDisplacementWithTime() throws InterruptedException {
-        assertEquals(0, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
+        assertEquals(0, player1.getGeneralScore());
+        assertEquals(0, player1.getCurrentGameScore());
         Game.getInstance().initGame();
         Thread.sleep(11000);
-        assertEquals(10, player1.currentGameScore);
-        player1.distanceTraveled += 5000;
+        assertEquals(10, player1.getCurrentGameScore());
+        player1.setDistanceTraveled(player1.getDistanceTraveled() + 5000);
         Thread.sleep(10000);
-        assertEquals(30, player1.currentGameScore);
+        assertEquals(30, player1.getCurrentGameScore());
         Game.getInstance().destroyGame();
         Thread.sleep(10000);
-        assertEquals(80, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
+        assertEquals(80, player1.getGeneralScore());
+        assertEquals(0, player1.getCurrentGameScore());
     }
 }

@@ -58,11 +58,11 @@ public class ScoreUpdater {
      */
     private void updateGeneralScoreOfPlayers() {
         for (Player player : PlayerManager.getInstance().getPlayers()) {
-            if (player.isAlive()) {
-                player.currentGameScore += 50;
+            if (player.getHealthPoints() > 0) {
+                player.setCurrentGameScore(player.getCurrentGameScore() + 50);
             }
-            player.generalScore += player.currentGameScore;
-            player.currentGameScore = 0;
+            player.setGeneralScore(player.getGeneralScore() + player.getCurrentGameScore());
+            player.setCurrentGameScore(0);
         }
     }
 }

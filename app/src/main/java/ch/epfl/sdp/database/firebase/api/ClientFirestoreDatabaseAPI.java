@@ -1,5 +1,7 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,6 +26,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private DocumentReference lobbyRef;
 
     public void setLobbyRef(String lobbyName) {
+        Log.d("database", "Client setLobbyRef with name " + lobbyName);
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
 
