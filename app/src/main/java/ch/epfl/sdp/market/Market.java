@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -27,7 +28,7 @@ public class Market implements Displayable {
     private final GeoPoint loc;
     private final RandomGenerator randomGenerator = new RandomGenerator();
     private MapsActivity mapActivity;
-    private boolean hasVisitedMarket = false;
+    private boolean hasVisitedMarket = false, isDisplayed = false;
 
     public void setCallingActivity(MapsActivity mapActivity) {
         this.mapActivity = mapActivity;
@@ -103,6 +104,10 @@ public class Market implements Displayable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
+        if (!isDisplayed) {
+            mapApi.displaySmallIcon(this, "Market", R.drawable.sm_logo);
+            isDisplayed = true;
+        }
         if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50 && !hasVisitedMarket) {
             if (mapActivity != null) {
                 Log.d("Market", "displayOn");
