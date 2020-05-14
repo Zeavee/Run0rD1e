@@ -58,8 +58,6 @@ public class InventoryTest {
         inventory.addItem(item3.getName());
         inventory.clearUsedItems();
         assertEquals(2, inventory.size());
-
-
     }
 
     @Test
@@ -70,5 +68,18 @@ public class InventoryTest {
         assertEquals(0, inventory.size());
         assertEquals("Shield 2", item5.getName());
         assertEquals("Shrinker", item6.getName().split(" ")[0]);
+    }
+
+    @Test
+    public void getUsedItemsShouldReturnCorrectMap() {
+        Item item1 = new Healthpack(0);
+        Item item2 = new Healthpack(1);
+        Inventory inventory = new Inventory();
+
+        inventory.addItem(item1.getName());
+        inventory.addItem(item2.getName(), 2);
+        inventory.useItem(item1.getName());
+
+        assertEquals(1, inventory.getUsedItems().size());
     }
 }
