@@ -115,9 +115,7 @@ public class Server implements Updatable {
                 initEnemies();
                 initCoins();
                 startGame();
-            } else {
-                Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
-            }
+            } else Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
     }
 
@@ -128,8 +126,7 @@ public class Server implements Updatable {
                 Game.getInstance().initGame();
                 addPlayersPositionListener();
                 addUsedItemsListener();
-            } else
-                Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
 
@@ -214,7 +211,6 @@ public class Server implements Updatable {
                     GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase());
 
                     if (player.getLocation() != null) {
-                        Log.d(TAG, "addPlayersPositionListener: ===============================");
                         Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " + player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
                         Log.d(TAG, "addPlayersPositionListener: after " + playerForFirebase.getUsername() + " " + location.getLatitude() + " " + location.getLongitude());
                         double traveledDistance = player.getLocation().distanceTo(location);
@@ -223,13 +219,9 @@ public class Server implements Updatable {
                         // update the location of the player
                         player.setLocation(location);
                         Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
-                        Log.d(TAG, "addPlayersPositionListener: ===============================");
-
                     }
                 }
-            } else {
-                Log.w(TAG, "addPlayersPositionListener: failed", value.getException());
-            }
+            } else Log.w(TAG, "addPlayersPositionListener: failed", value.getException());
         });
     }
 
