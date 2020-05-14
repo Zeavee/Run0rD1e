@@ -12,6 +12,9 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
+/**
+ *  Adapter for In game leaderboard
+ */
 public class CurrentGameLeaderboardAdapter extends RecyclerView.Adapter<CurrentGameLeaderboardAdapter.CurrentGameLeaderboardViewHolder> {
     @NonNull
     @Override
