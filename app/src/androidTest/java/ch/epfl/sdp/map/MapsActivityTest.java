@@ -19,7 +19,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
@@ -92,7 +94,13 @@ public class MapsActivityTest {
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
-                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
+
+                    List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+                    userForFirebaseList.add(new UserForFirebase("leader0@gmail.com", "leader0", 100));
+                    userForFirebaseList.add(new UserForFirebase("leader1@gmail.com", "leader1", 90));
+                    userForFirebaseList.add(new UserForFirebase("leader2@gmail.com", "leader2", 80));
+
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map, userForFirebaseList);
                     appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
                     appContainer.clientDatabaseAPI = new ClientMockDatabaseAPI();
                 }

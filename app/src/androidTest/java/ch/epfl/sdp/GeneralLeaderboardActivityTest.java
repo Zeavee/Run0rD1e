@@ -8,7 +8,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
@@ -30,8 +32,13 @@ public class GeneralLeaderboardActivityTest {
                 protected void beforeActivityLaunched() {
                     HashMap<String, UserForFirebase> map = new HashMap<>();
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
+
+                    List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+                    userForFirebaseList.add(new UserForFirebase("leader0@gmail.com", "leader0", 100));
+                    userForFirebaseList.add(new UserForFirebase("leader1@gmail.com", "leader1", 90));
+                    userForFirebaseList.add(new UserForFirebase("leader2@gmail.com", "leader2", 80));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
-                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map, userForFirebaseList);
                 }
             };
 

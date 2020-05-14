@@ -59,7 +59,7 @@ public class RegisterTest {
                 protected void beforeActivityLaunched() {
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), null);
-                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
+                    appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
                 }
             };
 
