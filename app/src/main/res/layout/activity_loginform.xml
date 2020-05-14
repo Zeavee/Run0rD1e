@@ -43,23 +43,25 @@
         android:fontFamily="@font/bold"
         android:text="Offline Mode"
         android:textColor="@color/blue"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.936"
         app:layout_constraintStart_toStartOf="@id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        app:layout_constraintVertical_bias="0.694" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="110dp"
         android:layout_height="35dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/btn_rounded"
         android:fontFamily="@font/bold"
         android:onClick="loginBtn_OnClick"
         android:text="Login"
         android:textColor="@color/blue"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintHorizontal_bias="0.053"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordlog"
         tools:ignore="MissingConstraints" />
@@ -128,15 +130,18 @@
         android:id="@+id/createAccountBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="548dp"
         android:fontFamily="@font/bold"
         android:onClick="createAccountBtn_OnClick"
         android:text="Register"
 
         android:textColor="@color/red"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="225dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.561"
+        app:layout_constraintStart_toStartOf="@+id/memberText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordlog"
+        app:layout_constraintVertical_bias="0.948"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/niceText"
@@ -156,14 +161,16 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="77dp"
-        android:layout_height="59dp"
+        android:layout_width="110dp"
+        android:layout_height="88dp"
         app:layout_constraintBottom_toTopOf="@+id/emaillog"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/greetingText"
-        app:layout_constraintVertical_bias="0.802"
+        app:layout_constraintVertical_bias="0.683"
         app:srcCompat="@drawable/runlogo"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="192dp" />
+        tools:ignore="MissingConstraints" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
