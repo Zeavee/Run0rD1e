@@ -2,6 +2,7 @@ package ch.epfl.sdp.database.firebase.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,11 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
+    public Map<String, ItemsForFirebase> usedItems = new HashMap<String, ItemsForFirebase>();
 
     @Override
     public void setLobbyRef(String lobbyName) {
@@ -69,6 +72,6 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
 
     @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
-
+        usedItems.put(PlayerManager.getInstance().getCurrentUser().getEmail(), itemsForFirebase);
     }
 }
