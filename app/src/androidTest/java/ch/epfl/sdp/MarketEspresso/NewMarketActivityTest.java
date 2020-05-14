@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import ch.epfl.sdp.R;
@@ -51,7 +52,7 @@ public class NewMarketActivityTest {
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMapApi mockMapApi = new MockMapApi();
             Game.getInstance().setMapApi(mockMapApi);
-            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>());
+            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
         }
 
