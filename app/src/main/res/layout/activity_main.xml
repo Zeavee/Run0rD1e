@@ -111,12 +111,12 @@
         android:layout_height="18dp"
         android:layout_marginEnd="43dp"
         android:onClick="backBtn_OnClick"
-        app:layout_constraintBottom_toBottomOf="@+id/logoutBt"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/mapButton"
-        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.232"
+        app:layout_constraintVertical_bias="0.802"
         app:srcCompat="@drawable/arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
