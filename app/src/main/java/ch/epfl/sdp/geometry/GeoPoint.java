@@ -90,6 +90,12 @@ public final class GeoPoint {
         return utm.getNorthing();
     }
 
+    /**
+     * Take this GeoPoint as origin to a vector, which will create a new GeoPoint
+     * based on that vector.
+     * @param vector The vector which uses this GeoPoint as origin.
+     * @return A point on the geodesic surface.
+     */
     public GeoPoint asOriginTo(Vector vector) {
         return utmToGeoPoint(getX() + vector.x(), getY() + vector.y(), this);
     }
