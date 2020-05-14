@@ -2,6 +2,7 @@ package ch.epfl.sdp.map;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -43,6 +44,9 @@ import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
+import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.market.MarketActivity;
+import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -128,6 +132,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
     }
 
+    /**
+     * on Travis the map will not appear since it is not connected via API Key
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
@@ -136,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
-        Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+        Log.d("Inside MapsActivity", "Game running is " + Game.getInstance().isRunning());
 
         if (!Game.getInstance().isRunning()) {
             commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
@@ -236,6 +245,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
+                if (displayable instanceof Market) {
+                    ((Market) displayable).setCallingActivity(this);
+                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -243,8 +255,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void unDisplay(Displayable displayable) {
-        runOnUiThread(() -> {
-            displayable.unDisplayOn(Game.getInstance().getMapApi());
-        });
+        runOnUiThread(() -> displayable.unDisplayOn(Game.getInstance().getMapApi()));
+    }
+
+    /**
+     * switches to a market activity, where user can buy health, shield, scan, or shrinker items
+     */
+    public void startMarket(Market backend) {
+        Log.d("MapsActivity", "start market");
+
+        final Bundle bundle = new Bundle();
+        bundle.putBinder("object_value", new ObjectWrapperForBinder<>(backend));
+        startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
+
     }
 }

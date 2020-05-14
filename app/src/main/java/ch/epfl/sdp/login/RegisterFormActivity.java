@@ -68,7 +68,7 @@ public class RegisterFormActivity extends AppCompatActivity {
             } else {
                 UserForFirebase userForFirebase = new UserForFirebase(email, username, 0);
                 commonDatabaseAPI.addUser(userForFirebase, addUserRes -> {
-                    if(!addUserRes.isSuccessful()) {
+                    if (!addUserRes.isSuccessful()) {
                         Toast.makeText(RegisterFormActivity.this, addUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
                         RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainActivity.class));

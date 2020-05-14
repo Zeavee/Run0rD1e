@@ -16,6 +16,7 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
  */
 public interface ServerDatabaseAPI {
     void setLobbyRef(String lobbyName);
+
     /**
      * Listen to the number of players in the lobby, if the lobby is full, populate the enemy and start the game
      *

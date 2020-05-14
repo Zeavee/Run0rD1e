@@ -23,6 +23,11 @@ public class ItemTest {
             @Override
             public void useOn(Player player) {
             }
+
+            @Override
+            public double getValue() {
+                return 0;
+            }
         };
     }
 

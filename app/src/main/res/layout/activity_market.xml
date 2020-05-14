@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical"
+    tools:context=".market.MarketActivity">
+
+
+    <TextView
+        android:id="@+id/marketLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/market"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.137" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/shrinkerCard"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="52dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scanCard"
+        app:layout_constraintTop_toBottomOf="@+id/marketLabel"
+        app:layout_constraintVertical_bias="0.0">
+
+        <!-- the shrink image button-->
+        <ImageButton
+            android:id="@+id/shrinkButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFFFFF"
+            android:src="@mipmap/ic_shrinker" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/scanCard"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.26"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/marketLabel">
+
+        <!-- the scan image button-->
+        <ImageButton
+            android:id="@+id/scanButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFFFFF"
+            android:src="@mipmap/ic_scan" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/shieldCard"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toEndOf="@+id/emsCard"
+        app:layout_constraintTop_toBottomOf="@+id/shrinkerCard"
+        app:layout_constraintVertical_bias="0.13">
+
+        <!-- the shield image button-->
+        <ImageButton
+            android:id="@+id/shieldButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFFFFF"
+            android:src="@mipmap/ic_sh" />
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/emsCard"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="92dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/shieldCard"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanCard"
+        app:layout_constraintVertical_bias="0.24000001">
+
+        <!-- the health pack image button-->
+        <ImageButton
+            android:id="@+id/emsButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#FFFFFF"
+            android:src="@mipmap/ic_ems" />
+    </androidx.cardview.widget.CardView>
+
+
+    <Button
+        android:id="@+id/BuyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="100dp"
+        android:text="Buy Items"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/marketLabel"
+        app:layout_constraintVertical_bias="0.73" />
+
+    <!-- Cost and value are no longer separate text views-->
+    <TextView
+        android:id="@+id/costScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost: \nValue:"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/emsCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanCard"
+        app:layout_constraintVertical_bias="0.344" />
+
+    <TextView
+        android:id="@+id/costShrink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost: \nValue:"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toTopOf="@+id/shieldCard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toEndOf="@+id/costScan"
+        app:layout_constraintTop_toBottomOf="@+id/shrinkerCard"
+        app:layout_constraintVertical_bias="0.476" />
+
+
+    <TextView
+        android:id="@+id/costEms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost: \nValue:"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.235"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emsCard"
+        app:layout_constraintVertical_bias="0.068" />
+
+
+    <TextView
+        android:id="@+id/costShield"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost: \nValue:"
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.409"
+        app:layout_constraintStart_toEndOf="@+id/costEms"
+        app:layout_constraintTop_toBottomOf="@+id/shieldCard"
+        app:layout_constraintVertical_bias="0.06999999" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

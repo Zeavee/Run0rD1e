@@ -30,6 +30,11 @@ public class ItemBoxTest {
         @Override
         public void useOn(Player player) {
         }
+
+        @Override
+        public double getValue(){
+            return 0.0;
+        }
     };
 
     @Before
@@ -69,6 +74,7 @@ public class ItemBoxTest {
     @Test
     public void takingItemBoxAddItemsToInventory() {
         Item item = new Item("healthpack", "increase healthPoint") {
+
             @Override
             public Item clone() {
                 return null;
@@ -76,6 +82,11 @@ public class ItemBoxTest {
 
             @Override
             public void useOn(Player player) {
+            }
+
+            @Override
+            public double getValue() {
+                return 0.0;
             }
         };
 

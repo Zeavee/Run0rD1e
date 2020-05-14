@@ -22,8 +22,16 @@ public class Scan extends TimedItem {
         super.useOn(player);
 
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-             p.displayOn(Game.getInstance().getMapApi());
+            p.displayOn(Game.getInstance().getMapApi());
         }
+    }
+
+    /**
+     * gets the value of the item
+     */
+    @Override
+    public double getValue() {
+        return scanTime;
     }
 
     public void stopUsingOn(Player player) {

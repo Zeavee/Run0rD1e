@@ -30,12 +30,12 @@ public class AddFriendsActivity extends AppCompatActivity {
         server = appContainer.remoteUserFetch;
 
         recyclerView = findViewById(R.id.recyclerQueryFriends);
-        
+
         cached_adapter = new RecyclerQueryAdapter(appContainer.authenticationAPI.getCurrentUserEmail());
         recyclerView.setAdapter(cached_adapter);
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-        
+
     }
 
     @Override

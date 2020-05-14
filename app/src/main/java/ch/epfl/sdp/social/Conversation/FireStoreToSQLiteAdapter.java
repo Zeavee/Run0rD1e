@@ -47,20 +47,19 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
                 whereEqualTo(PATH_SEGMENTS.get(3), false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     QuerySnapshot result = task.getResult();
-                    for (QueryDocumentSnapshot doc: result) {
-                        remoteMessages.add(new Message(((Timestamp)doc.getData().get("date")).toDate(),
-                                                        (String)doc.getData().get("content"),
-                                                        chat_id));
+                    for (QueryDocumentSnapshot doc : result) {
+                        remoteMessages.add(new Message(((Timestamp) doc.getData().get("date")).toDate(),
+                                (String) doc.getData().get("content"),
+                                chat_id));
                         remoteHost.collection(
-                                 PATH_SEGMENTS.get(0))
+                                PATH_SEGMENTS.get(0))
                                 .document(owner).collection(PATH_SEGMENTS.get(1))
                                 .document(sender).collection(PATH_SEGMENTS.get(2))
                                 .document(doc.getId()).update(PATH_SEGMENTS.get(3), true);
                     }
-                    ((WaitsOnWithServer<Message>)listener).contentFetchedWithServer(remoteMessages, true, true);
+                    ((WaitsOnWithServer<Message>) listener).contentFetchedWithServer(remoteMessages, true, true);
                 }
             }
         });

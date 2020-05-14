@@ -1,7 +1,8 @@
 package ch.epfl.sdp.logic;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.R;
 
