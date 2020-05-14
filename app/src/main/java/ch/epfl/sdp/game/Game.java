@@ -194,7 +194,7 @@ public class Game implements Updatable {
      * Kill the game
      */
     public void destroyGame() {
-        // This line is needed don't delete it, or else infinite while loop.
+        // This line is needed, don't delete it, or else infinite while loop.
         if(gameThread.getState() == Thread.State.NEW) {
             return;
         }
