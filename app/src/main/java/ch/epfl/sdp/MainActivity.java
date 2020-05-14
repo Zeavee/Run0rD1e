@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void backBtn_OnClick(View view) {
-        startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
-        finish();
+        logout();
     }
 }
     

@@ -1,5 +1,7 @@
-package ch.epfl.sdp.SocialTests;
+import org.junit.Test;
 
+//package ch.epfl.sdp.SocialTests;
+/*
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.filters.LargeTest;
@@ -32,14 +34,17 @@ import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
 import static ch.epfl.sdp.SocialTests.ChildParentMatcher.matchesChildWithTextAtDepth4;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
-
+*/
 //@LargeTest
 //@RunWith(AndroidJUnit4.class)
 /**
  * @brief tests if message "thanks" sent to stupid2@gmail.com is displayed on the ChatActivity's view
  * for this test to work, we must first register them as friends inside the SQLite database
- *//*
+ */
+
+/*
 public class ChatActivityTest {
+
     private String currentEmail;
 
     @Rule
@@ -116,13 +121,13 @@ public class ChatActivityTest {
         ViewInteraction textView = matchesChildWithTextAtDepth4("thanks", R.id.message_body, R.id.messages_view, 0);
         textView.check(matches(withText("thanks")));
     }
-/*
+
     @Test
     public void chatActivityTest() {
         step1();
         step2();
         step3();
         step4();
-    }*/
+    }
 
 }*/
