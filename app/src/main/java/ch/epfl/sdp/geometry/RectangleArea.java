@@ -35,8 +35,7 @@ public class RectangleArea implements Area {
     }
 
     @Override
-    public boolean isInside(CartesianPoint cartesianPoint) {
-        CartesianPoint cp = cartesianPoint;
-        return cp.getX() < halfWidth && cp.getX() > -halfWidth && cp.getY() < halfHeight && cp.getY() > -halfHeight;
+    public boolean isInside(Vector vector) {
+        return vector.x() < halfWidth && vector.x() > -halfWidth && vector.y() < halfHeight && vector.y() > -halfHeight;
     }
 }

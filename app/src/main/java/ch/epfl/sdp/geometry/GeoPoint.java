@@ -1,29 +1,26 @@
 package ch.epfl.sdp.geometry;
 
-
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
 
+import ch.epfl.sdp.entity.PlayerManager;
+import uk.me.jstott.jcoord.LatLng;
+import uk.me.jstott.jcoord.UTMRef;
+
 
 /**
  * Class GeoPoint: Represents a point on the surface of the Earth
  */
 public final class GeoPoint {
-
     /**
      * Constant value which represents the length of Earth's radius (in meters)
      */
-    public static final double EARTH_RADIUS = 6371000;
-
-    private double longitude;
-    private double latitude;
-
-    public GeoPoint() {
-
-    }
+    private final double EARTH_RADIUS = 6371000;
+    private final double longitude;
+    private final double latitude;
 
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;
@@ -34,16 +31,8 @@ public final class GeoPoint {
         return longitude;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
     public double getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
     }
 
     /**
@@ -79,5 +68,58 @@ public final class GeoPoint {
      */
     private double toMeters(double distanceInRadians) {
         return distanceInRadians * EARTH_RADIUS;
+    }
+
+    /**
+     * Gets the point's x coordinate.
+     *
+     * @return A value representing the x coordinate.
+     */
+    public double getX() {
+        UTMRef utm = geoPointToUTMRef(this);
+        return utm.getEasting();
+    }
+
+    /**
+     * Gets the point's y coordinate.
+     *
+     * @return A value representing the y coordinate.
+     */
+    public double getY() {
+        UTMRef utm = geoPointToUTMRef(this);
+        return utm.getNorthing();
+    }
+
+    /**
+     * Take this GeoPoint as origin to a vector, which will create a new GeoPoint
+     * based on that vector.
+     * @param vector The vector which uses this GeoPoint as origin.
+     * @return A point on the geodesic surface.
+     */
+    public GeoPoint asOriginTo(Vector vector) {
+        return utmToGeoPoint(getX() + vector.x(), getY() + vector.y(), this);
+    }
+
+    /**
+     * Transform this point into a vector with origin (0,0).
+     *
+     * @return A vector representation of this point.
+     */
+    public Vector toVector() {
+        return new Vector(getX(),getY());
+    }
+
+    private UTMRef geoPointToUTMRef(GeoPoint geoPoint) {
+        LatLng laln = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+        UTMRef utm = laln.toUTMRef();
+        return utm;
+    }
+
+    private GeoPoint utmToGeoPoint(double x, double y, GeoPoint refGeoPoint) {
+        int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
+        char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
+        UTMRef utm = new UTMRef(lngZone, latZone, x, y);
+        LatLng laln = utm.toLatLng();
+        return new GeoPoint(laln.getLongitude(), laln.getLatitude());
     }
 }

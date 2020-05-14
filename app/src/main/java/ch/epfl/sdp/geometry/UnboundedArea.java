@@ -5,7 +5,7 @@ package ch.epfl.sdp.geometry;
  */
 public class UnboundedArea implements Area {
     @Override
-    public boolean isInside(CartesianPoint cartesianPoint) {
+    public boolean isInside(Vector vector) {
         return true;
     }
 }

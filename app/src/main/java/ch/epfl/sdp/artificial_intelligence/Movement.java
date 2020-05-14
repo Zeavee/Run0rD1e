@@ -1,44 +1,23 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
  * The representation of a movement from an initial position in the 2D plane.
  */
 public abstract class Movement {
-    private CartesianPoint position;
     private float velocity;
     private float acceleration;
     private double orientation;
 
     /**
      * Creates a movement which begins in a given initial position in the 2D plane.
-     *
-     * @param initialPosition
      */
-    public Movement(CartesianPoint initialPosition) {
-        position = initialPosition;
+    public Movement() {
         velocity = 1;
         acceleration = 0;
         orientation = 0;
-    }
-
-    /**
-     * Gets the current position determined by the movement.
-     *
-     * @return A position in the 2D plane.
-     */
-    public CartesianPoint getPosition() {
-        return position;
-    }
-
-    /**
-     * Sets the current position of the movement.
-     *
-     * @param position The position in the 2D plane.
-     */
-    public void setPosition(CartesianPoint position) {
-        this.position = position;
     }
 
     /**
@@ -54,7 +33,7 @@ public abstract class Movement {
      * @param velocity The velocity of the movement.
      */
     public void setVelocity(float velocity) {
-        this.velocity = velocity;
+        this.velocity = velocity/GameThread.FPS;
     }
 
     /**
@@ -93,6 +72,7 @@ public abstract class Movement {
      * Returns the next position determined by the movement.
      *
      * @return A position in the 2D plane.
+     * @param from
      */
-    public abstract CartesianPoint nextPosition();
+    public abstract GeoPoint nextPosition(GeoPoint from);
 }

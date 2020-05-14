@@ -7,6 +7,7 @@ import org.junit.Test;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
@@ -18,7 +19,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TimedItemTest {
-    public final int FPS = 30;
     public final int countTime = 2;
     Player user;
 
@@ -32,17 +32,18 @@ public class TimedItemTest {
 
     @After
     public void teardown(){
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
     }
 
     @Test
     public void timedItemCounterIsDecrementedBy1WhenUpdated(){
         TimedItem timedItem = new Shield(countTime) {};
 
-        for(int i = countTime*FPS; i > 0; --i) {
-            assertEquals(timedItem.getRemainingTime(), i/FPS);
+        for(int i = countTime*GameThread.FPS; i > 0; --i) {
+            assertEquals(timedItem.getRemainingTime(), i/ GameThread.FPS);
+            System.out.println(Math.floorDiv(i,GameThread.FPS) + " i =  " + i  +  " " +  timedItem.getRemainingTime());
             timedItem.update();
-            assertEquals(timedItem.getRemainingTime(), (i-1)/FPS);
+            assertEquals(timedItem.getRemainingTime(), (i-1)/GameThread.FPS);
         }
     }
 
@@ -51,7 +52,7 @@ public class TimedItemTest {
         TimedItem timedItem = new Shield(countTime) {};
         Game.getInstance().addToUpdateList(timedItem);
 
-        for(int i = countTime*FPS; i > 0; --i) {
+        for(int i = countTime*GameThread.FPS; i > 0; --i) {
             timedItem.update();
         }
 
@@ -73,7 +74,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS; i > 0; --i){
+        for(int i = GameThread.FPS; i > 0; --i){
             assertFalse(map.getDisplayables().isEmpty());
             scan.update();
         }
@@ -93,7 +94,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS; i > 0; --i){
+        for(int i = GameThread.FPS; i > 0; --i){
             assertTrue(user.isShielded());
             shield.update();
         }
@@ -114,7 +115,7 @@ public class TimedItemTest {
         }
 
         // getRemainingTime is in seconds so we still have some frames
-        for(int i = FPS; i > 0; --i){
+        for(int i = GameThread.FPS; i > 0; --i){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
             shrinker.update();
         }

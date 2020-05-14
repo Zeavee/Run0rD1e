@@ -44,7 +44,7 @@ public class ItemFactoryTest {
 
     @Test
     public void getItemShouldGenerateScan() {
-        Item item = itemFactory.getItem("Scan efdkgjndfjkgdhnfkjgndfkjghndfk 100");
+        Item item = itemFactory.getItem("Scan 100");
         assertTrue(item instanceof Scan);
     }
 
