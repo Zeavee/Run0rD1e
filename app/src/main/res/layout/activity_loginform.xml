@@ -57,19 +57,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
+
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="110dp"
-        android:layout_height="88dp"
-        app:layout_constraintBottom_toTopOf="@+id/emaillog"
+        android:layout_width="117dp"
+        android:layout_height="102dp"
+        app:layout_constraintBottom_toTopOf="@+id/createAccountBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.418"
+        app:layout_constraintHorizontal_bias="0.394"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/niceText"
-        app:layout_constraintVertical_bias="0.585"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.176"
         app:srcCompat="@drawable/runlogo"
         tools:ignore="MissingConstraints" />
-
 
     <TextView
         android:id="@+id/offline_button"
@@ -94,7 +94,7 @@
         android:textColor="@color/dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintHorizontal_bias="0.058"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.977" />
@@ -104,11 +104,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="Welcome to Run0rD1e"
+        android:text="Welcome to"
         android:textColor="@color/green"
-        android:textSize="20sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/offline_button"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.37"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.09" />
@@ -117,33 +118,18 @@
         android:id="@+id/createAccountBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:fontFamily="@font/bold"
         android:onClick="createAccountBtn_OnClick"
         android:text="Register"
         android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.624"
+        app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintRight_toLeftOf="@+id/memberText"
         app:layout_constraintStart_toStartOf="@+id/memberText"
         app:layout_constraintTop_toBottomOf="@+id/passwordlog"
         app:layout_constraintVertical_bias="0.948"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/niceText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="92dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/bold"
-        android:text="Nice to see you again!"
-        android:textColor="@color/blue"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/createAccountBtn"
-        app:layout_constraintStart_toStartOf="@+id/memberText"
-        app:layout_constraintTop_toTopOf="@+id/greetingText"
-        app:layout_constraintVertical_bias="0.023"
         tools:ignore="MissingConstraints" />
 
     <androidx.constraintlayout.widget.Guideline
