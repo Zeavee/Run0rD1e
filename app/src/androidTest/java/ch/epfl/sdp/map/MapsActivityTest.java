@@ -24,17 +24,18 @@ import java.util.HashMap;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.ClientFirestoreDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.AreaShrinker;
+import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -42,7 +43,9 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
@@ -95,6 +98,7 @@ public class MapsActivityTest {
                     appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
                     appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
                     appContainer.clientDatabaseAPI = new ClientMockDatabaseAPI();
+                    Game.getInstance().areaShrinker = new AreaShrinker(5000, 5000, 0.75);
                 }
             };
 
@@ -140,5 +144,14 @@ public class MapsActivityTest {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
         onView(withId(view)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void areaShrinkerWorks() throws InterruptedException {
+        GeoPoint center = new GeoPoint(40, 50);
+        CircleArea gameArea = new CircleArea(1000, center);
+        Game.getInstance().areaShrinker.setGameArea(gameArea);
+        Thread.sleep(10000);
+        onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
     }
 }

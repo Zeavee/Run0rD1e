@@ -37,6 +37,17 @@ public class MapDrawing {
     }
 
     /**
+     * The constructor for our drawing composed of a marker (icon)
+     *
+     * @param circle a Google Maps Circle
+     */
+    public MapDrawing(Circle circle) {
+        hasMarker = false;
+        hasCircle = true;
+        aoe = circle;
+    }
+
+    /**
      * A getter for the marker
      *
      * @return the marker of the drawing

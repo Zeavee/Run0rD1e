@@ -1,5 +1,8 @@
 package ch.epfl.sdp.map;
 
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.Marker;
+
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertNotNull;
@@ -16,8 +19,12 @@ public class MapDrawingTest {
         assertNull(mapDrawing.getAoe());
         assertNull(mapDrawing.getMarker());
 
-        MapDrawing mapDrawingOnlyMarker = new MapDrawing(null);
+        MapDrawing mapDrawingOnlyMarker = new MapDrawing((Marker) null);
         assertEquals(true, mapDrawingOnlyMarker.hasMarker());
         assertEquals(false, mapDrawingOnlyMarker.hasCircle());
+
+        MapDrawing mapDrawingOnlyCircle = new MapDrawing((Circle) null);
+        assertEquals(false, mapDrawingOnlyCircle.hasMarker());
+        assertEquals(true, mapDrawingOnlyCircle.hasCircle());
     }
 }

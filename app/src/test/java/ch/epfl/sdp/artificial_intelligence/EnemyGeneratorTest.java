@@ -7,7 +7,10 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.CircleArea;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.RectangleArea;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
@@ -22,30 +25,29 @@ public class EnemyGeneratorTest {
 
     @Test
     public void generateEnemyWorks() {
-        PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(10000, 10000));
-        enemyGenerator.setMaxEnemiesPerUnitArea(1);
-        enemyGenerator.setMaxEnemiesPerUnitArea(-1);
+        Player player = new Player("test", "test@gmail.com");
+        player.setLocation(new GeoPoint(10, 20));
+        PlayerManager.getInstance().setCurrentUser(player);
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()), new UnboundedArea());
+        enemyGenerator.setMinDistanceFromEnemies(1);
+        enemyGenerator.setMinDistanceFromEnemies(-1);
         enemyGenerator.setEnemyCreationTime(1);
         enemyGenerator.setEnemyCreationTime(-1);
+        enemyGenerator.setMaxEnemies(10);
+        enemyGenerator.setMaxEnemies(-10);
         enemyGenerator.generateEnemy(100);
         assertEquals(1, enemyGenerator.getEnemies().size());
         assertNotNull(enemyGenerator.getEnemies().get(0));
     }
 
     @Test
-    public void setMaxEnemiesWorks() {
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1));
-        enemyGenerator.setMaxEnemiesPerUnitArea(2);
-        assertEquals(0, enemyGenerator.getEnemies().size());
-    }
-
-    @Test
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1));//, player);
-        enemyGenerator.setMaxEnemiesPerUnitArea(10);
-        enemyGenerator.setMinDistanceFromPlayer(1000);
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1, player.getLocation()), new UnboundedArea());
+        enemyGenerator.setMinDistanceFromEnemies(10);
+        enemyGenerator.setMinDistanceFromPlayers(1000);
+        enemyGenerator.setMaxEnemies(10);
+        enemyGenerator.setEnemyCreationTime(1);
         for (Enemy e : enemyGenerator.getEnemies()) {
             assertEquals(true, e.getLocation().distanceTo(player.getLocation()) > 1000);
         }

@@ -22,7 +22,7 @@ public interface MapApi {
     void displaySmallIcon(Displayable displayable, String title, int id);
 
     /**
-     * A method that display a two circles
+     * A method that display two circles
      * One of them show the aoe radius and the other shows the more precise position
      *
      * @param displayable the object we want to display
@@ -33,7 +33,16 @@ public interface MapApi {
     void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius);
 
     /**
-     * This methods remove a given object from the map
+     * A method that display one circle
+     *
+     * @param displayable the object we want to display
+     * @param color       the color of the circles
+     * @param radius   the aoeRadius of the displayable
+     */
+    void displayCircle(Displayable displayable, int color, int radius);
+
+    /**
+     * This method remove a given object from the map
      *
      * @param displayable the object we want to remove from the map
      */

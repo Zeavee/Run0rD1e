@@ -55,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ClientDatabaseAPI clientDatabaseAPI;
     private LocationFinder locationFinder;
 
-    private TextView username, healthPointText;
+    private TextView username, healthPointText, timerShrinking;
     private ProgressBar healthPointProgressBar;
 
     private boolean flagInventory = false;
@@ -110,6 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(MapsActivity.this);
         showGameInfoThread().start();
+
+        timerShrinking = findViewById(R.id.timerShrinking);
+        Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
     }
 
     @Override

@@ -18,10 +18,20 @@ public class EnemyManager {
         this.enemies = new HashMap<>();
     }
 
+    /**
+     * This method returns the instance of the singleton EnemyManager
+     *
+     * @return the instance of the singleton EnemyManager
+     */
     public static EnemyManager getInstance() {
         return instance;
     }
 
+    /**
+     * This method updates the given enemy
+     *
+     * @param enemy the enemy we want to update
+     */
     public void updateEnemies(Enemy enemy) {
         int enemyId = enemy.getId();
         if (enemies.containsKey(enemyId)) {
@@ -38,14 +48,27 @@ public class EnemyManager {
         }
     }
 
+    /**
+     * This method removes an enemy from the list
+     *
+     * @param enemy the enemy we want to remove
+     */
     public void removeEnemy(Enemy enemy) {
         enemies.remove(enemy.getId());
     }
 
+    /**
+     * This method returns the list of all the enemies
+     *
+     * @return the list of all the enemies
+     */
     public List<Enemy> getEnemies() {
         return new ArrayList<>(enemies.values());
     }
 
+    /**
+     * This method removes all the enemies of the list
+     */
     public void removeAll() {
         enemies.clear();
     }

@@ -42,6 +42,11 @@ public class MockMapApi implements MapApi, Renderer {
     }
 
     @Override
+    public void displayCircle(Displayable displayable, int color, int radius) {
+        displayables.add(displayable);
+    }
+
+    @Override
     public void removeMarkers(Displayable displayable) {
         displayables.remove(displayable);
     }

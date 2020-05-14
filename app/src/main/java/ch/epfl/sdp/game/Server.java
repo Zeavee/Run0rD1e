@@ -7,18 +7,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
-import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
@@ -37,12 +39,12 @@ public class Server implements Updatable {
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
+    private Area gameArea;
 
     public Server(ServerDatabaseAPI serverDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         itemFactory = new ItemFactory();
         initEnvironment();
-        Log.d("Server.java", "constructor");
     }
 
     @Override
@@ -64,16 +66,7 @@ public class Server implements Updatable {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
                 serverDatabaseAPI.fetchPlayers(value1 -> {
                     if (value1.isSuccessful()) {
-                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                playerManager.addPlayer(player);
-                            }
-                        }
-                        initItemBoxes();
-                        initEnemies();
-                        initCoins();
-                        startGame();
+                        initGame(value1);
                     } else
                         Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                 });
@@ -81,7 +74,18 @@ public class Server implements Updatable {
         });
     }
 
-    private void startGame() {
+    private void initGame(CustomResult<List<PlayerForFirebase>> value1) {
+        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                playerManager.addPlayer(player);
+            }
+            Log.d(TAG, "(Server) Getting Player: " + player);
+        }
+        initGameArea();
+        initItemBoxes();
+        initEnemies();
+        initCoins();
         serverDatabaseAPI.startGame(value2 -> {
             if (value2.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
@@ -93,18 +97,25 @@ public class Server implements Updatable {
         });
     }
 
+    private void initGameArea() {
+        //GameArea -----------------------------------------
+        GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
+        gameArea = new CircleArea(3000, local);
+        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().areaShrinker.setGameArea(gameArea);
+    }
+
     private void initEnemies() {
         // Enemy -------------------------------------------
-        // TODO USE random enemy generator to generate enemy
-        GeoPoint local = new GeoPoint(6.2419, 46.2201);
-        GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), local);
-        LocalArea localAreaMax = new LocalArea(new UnboundedArea(), new GeoPoint(0,0));
-        Enemy enemy = new Enemy(0, localArea, localAreaMax);
-        enemy.setLocation(enemyPos);
-        enemy.setAoeRadius(100);
+        Area area = new UnboundedArea();
+        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        randomEnemyGenerator.setEnemyCreationTime(1000);
+        randomEnemyGenerator.setMaxEnemies(10);
+        randomEnemyGenerator.setMinDistanceFromEnemies(100);
+        randomEnemyGenerator.setMinDistanceFromPlayers(100);
+        randomEnemyGenerator.generateEnemy(100);
+        Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
         SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setVelocity(600);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);

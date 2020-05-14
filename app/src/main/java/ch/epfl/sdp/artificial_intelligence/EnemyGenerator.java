@@ -5,29 +5,34 @@ import java.util.List;
 import java.util.Timer;
 
 import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.RectangleArea;
 
 public abstract class EnemyGenerator {
-    protected int maxEnemiesPerUnitArea;
-    protected float timeToCreate;
-    protected double minDistanceFromPlayer;
-    protected RectangleArea enclosure;
+    protected double minDistanceFromEnemies;
+    protected long timeToCreate;
+    protected double minDistanceFromPlayers;
+    protected Area enclosure;
+    protected Area localArea;
     protected List<Enemy> enemies;
     protected Timer timer;
-    protected float timeRemaining;
+    protected int maxEnemies;
+    protected boolean readyToCreate;
 
-    public EnemyGenerator(RectangleArea enclosure) {
+    public EnemyGenerator(Area localArea, Area enclosure) {
+        this.localArea = localArea;
         this.enclosure = enclosure;
     }
 
-    public abstract void setMinDistanceFromPlayer(double minDistanceFromPlayer);
+    public abstract void setMaxEnemies(int maxEnemies);
 
-    public abstract void setEnemyCreationTime(float time);
+    public abstract void setMinDistanceFromPlayers(double minDistanceFromPlayers);
+
+    public abstract void setEnemyCreationTime(long time);
 
     public abstract void generateEnemy(double radius);
 
-    public abstract void setMaxEnemiesPerUnitArea(int enemyCount);
+    public abstract void setMinDistanceFromEnemies(double minDistanceFromEnemies);
 
     abstract GeoPoint rule();
 

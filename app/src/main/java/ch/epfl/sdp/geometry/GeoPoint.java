@@ -1,14 +1,13 @@
 package ch.epfl.sdp.geometry;
 
+import uk.me.jstott.jcoord.LatLng;
+import uk.me.jstott.jcoord.UTMRef;
+
 import static java.lang.Math.asin;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 import static java.lang.Math.toRadians;
-
-import ch.epfl.sdp.entity.PlayerManager;
-import uk.me.jstott.jcoord.LatLng;
-import uk.me.jstott.jcoord.UTMRef;
 
 
 /**
@@ -22,15 +21,31 @@ public final class GeoPoint {
     private final double longitude;
     private final double latitude;
 
+    /**
+     * A constructor for the GeoPoint
+     *
+     * @param longitude the longitude of the location
+     * @param latitude  the latitude of the location
+     */
     public GeoPoint(double longitude, double latitude) {
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
+    /**
+     * This method gets the longitude of the location
+     *
+     * @return the longitude of the location
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * This method gets the latitude of the location
+     *
+     * @return the latitude of the location
+     */
     public double getLatitude() {
         return latitude;
     }
@@ -96,6 +111,7 @@ public final class GeoPoint {
     /**
      * Take this GeoPoint as origin to a vector, which will create a new GeoPoint
      * based on that vector.
+     *
      * @param vector The vector which uses this GeoPoint as origin.
      * @return A point on the geodesic surface.
      */
@@ -109,7 +125,7 @@ public final class GeoPoint {
      * @return A vector representation of this point.
      */
     public Vector toVector() {
-        return new Vector(getX(),getY());
+        return new Vector(getX(), getY());
     }
 
     private UTMRef geoPointToUTMRef(GeoPoint geoPoint) {
