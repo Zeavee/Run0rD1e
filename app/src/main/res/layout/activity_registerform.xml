@@ -145,6 +145,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow"
-        tools:layout_editor_absoluteX="18dp" />
+        tools:layout_editor_absoluteX="18dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
