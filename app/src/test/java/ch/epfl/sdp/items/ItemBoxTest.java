@@ -12,6 +12,7 @@ import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.MockMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -19,6 +20,17 @@ public class ItemBoxTest {
     private Player player;
     private GeoPoint location;
     private MockMap mockMap;
+
+    private Item dummyItem = new Item("healthpack", "increase healthPoint") {
+        @Override
+        public Item clone() {
+            return null;
+        }
+
+        @Override
+        public void useOn(Player player) {
+        }
+    };
 
     @Before
     public void setup() {
@@ -97,5 +109,14 @@ public class ItemBoxTest {
         assertFalse(itemBox.isTaken());
     }
 
+    @Test
+    public void putItemsShouldWork() {
+        ItemBox itemBox = new ItemBox(location);
+
+        itemBox.putItems(dummyItem, 2);
+        Player player = new Player("a", "b");
+        itemBox.react(player);
+        assertEquals(2, player.getInventory().size());
+    }
 
 }
