@@ -20,6 +20,7 @@ public class ItemBox implements Displayable, Updatable {
     private GeoPoint location;
     private boolean taken;
     private boolean isDisplayed;
+    private boolean reDisplay;
 
     /**
      * Creates an item box.
@@ -29,6 +30,11 @@ public class ItemBox implements Displayable, Updatable {
         this.location = location;
         taken = false;
         isDisplayed = false;
+        reDisplay = false;
+    }
+
+    public void setReDisplay(boolean reDisplay) {
+        this.reDisplay = reDisplay;
     }
 
     /**
@@ -70,9 +76,10 @@ public class ItemBox implements Displayable, Updatable {
     @Override
     public void displayOn(MapApi mapApi) {
         // The locatioon of the itemBox will never change, we only need to display once
-        if (!isDisplayed) {
+        if (!isDisplayed || reDisplay) {
             mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
             isDisplayed = true;
+            reDisplay = false;
         }
     }
 

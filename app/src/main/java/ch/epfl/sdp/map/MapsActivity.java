@@ -40,6 +40,8 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
+import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
@@ -164,6 +166,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+        } else {
+            // reDisplay the itemBox when resume the map
+            for(ItemBox itemBox: ItemBoxManager.getInstance().getItemBoxes().values()) {
+                itemBox.setReDisplay(true);
+            }
         }
 
         Log.d("Database", "Quit map ready");
