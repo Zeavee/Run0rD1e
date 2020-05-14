@@ -45,7 +45,7 @@ public class RectangleArea extends Area {
     }
 
     @Override
-    protected void setShrinkTransition() {
+    public void setShrinkTransition() {
         //TODO implement
     }
 

@@ -107,7 +107,7 @@ public class CircleArea extends Area {
     }
 
     @Override
-    protected boolean isInside(Vector vector) {
+    boolean isInside(Vector vector) {
         return vector.norm() < radius;
     }
 

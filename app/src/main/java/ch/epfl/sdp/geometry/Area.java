@@ -6,12 +6,12 @@ import ch.epfl.sdp.map.Displayable;
  * Represents an area in the 2D plane.
  */
 public abstract class Area implements Positionable, Displayable {
-    protected GeoPoint center;
-    protected GeoPoint oldCenter;
-    protected GeoPoint newCenter;
-    protected double time;
-    protected double finalTime;
-    protected boolean isShrinking;
+    GeoPoint center;
+    GeoPoint oldCenter;
+    GeoPoint newCenter;
+    double time;
+    double finalTime;
+    boolean isShrinking;
 
     /**
      * A constructor for an area
@@ -50,7 +50,10 @@ public abstract class Area implements Positionable, Displayable {
      */
     public abstract void shrink(double factor);
 
-    protected abstract void setShrinkTransition();
+    /**
+     * This method set the field of the area for displaying a transition state depending on the time set before
+     */
+    public abstract void setShrinkTransition();
 
     /**
      * This method sets the time passed since the shrinking started
@@ -70,7 +73,7 @@ public abstract class Area implements Positionable, Displayable {
         this.finalTime = finalTime;
     }
 
-    protected abstract boolean isInside(Vector vector);
+    abstract boolean isInside(Vector vector);
 
     @Override
     public GeoPoint getLocation() {
