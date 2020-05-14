@@ -117,6 +117,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.088"
         app:srcCompat="@drawable/arrow"
-        tools:ignore="MissingConstraints" />
+         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
