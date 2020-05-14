@@ -1,6 +1,7 @@
 package ch.epfl.sdp.database.firebase.api;
 
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -16,27 +17,13 @@ import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardViewModel;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();
-
-    @Override
-    public void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel) {
-        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME)
-                .orderBy("score", Query.Direction.DESCENDING)
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        UserForFirebase player = documentSnapshot.toObject(UserForFirebase.class);
-                        LeaderboardEntity user = new LeaderboardEntity(player.getEmail(), player.getUsername(), player.getGeneralScore());
-                        leaderboardViewModel.insertToLeaderboard(user);
-                    }
-                });
-    }
 
     @Override
     public void addUser(UserForFirebase userForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
@@ -93,5 +80,21 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                     }
                     onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+    }
+
+    @Override
+    public void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).addSnapshotListener((queryDocumentSnapshots, e) -> {
+            if (e != null) {
+                onValueReadyCallback.finish(new CustomResult<>(null, false, e));
+            } else {
+                List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    userForFirebaseList.add(dc.getDocument().toObject(UserForFirebase.class));
+                }
+                onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
+            }
+        });
+
     }
 }

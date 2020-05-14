@@ -36,7 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".leaderboard.LeaderboardActivity" />
+        <activity android:name=".leaderboard.GeneralLeaderboardActivity" />
         <activity android:name=".logic.RuleActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

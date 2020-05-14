@@ -14,7 +14,7 @@ import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -22,10 +22,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class LeaderboardActivityTest {
+public class GeneralLeaderboardActivityTest {
     @Rule
-    public final ActivityTestRule<LeaderboardActivity> mActivityRule =
-            new ActivityTestRule<LeaderboardActivity>(LeaderboardActivity.class) {
+    public final ActivityTestRule<GeneralLeaderboardActivity> mActivityRule =
+            new ActivityTestRule<GeneralLeaderboardActivity>(GeneralLeaderboardActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     HashMap<String, UserForFirebase> map = new HashMap<>();

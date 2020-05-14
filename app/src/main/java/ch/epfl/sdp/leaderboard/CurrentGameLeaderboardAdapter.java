@@ -12,17 +12,16 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
-public class IngameLeaderboardAdapter extends RecyclerView.Adapter<IngameLeaderboardAdapter.IngameLeaderboardViewHolder> {
-
+public class CurrentGameLeaderboardAdapter extends RecyclerView.Adapter<CurrentGameLeaderboardAdapter.CurrentGameLeaderboardViewHolder> {
     @NonNull
     @Override
-    public IngameLeaderboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CurrentGameLeaderboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_ingame_leaderboard_listitem, parent, false);
-        return new IngameLeaderboardViewHolder(view);
+        return new CurrentGameLeaderboardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull IngameLeaderboardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CurrentGameLeaderboardViewHolder holder, int position) {
         Player player = PlayerManager.getInstance().getPlayersSortByIngameScore().get(position);
 
         holder.ingameRanking.setText(String.valueOf(position + 1));
@@ -40,13 +39,13 @@ public class IngameLeaderboardAdapter extends RecyclerView.Adapter<IngameLeaderb
         return PlayerManager.getInstance().getPlayersSortByIngameScore().size();
     }
 
-    public class IngameLeaderboardViewHolder extends RecyclerView.ViewHolder {
+    public class CurrentGameLeaderboardViewHolder extends RecyclerView.ViewHolder {
         TextView ingameRanking;
         TextView username;
         TextView ingameScore;
         TextView isAlive;
 
-        public IngameLeaderboardViewHolder(@NonNull View itemView) {
+        public CurrentGameLeaderboardViewHolder(@NonNull View itemView) {
             super(itemView);
             ingameRanking = itemView.findViewById(R.id.ingame_leaderboard_ranking);
             username = itemView.findViewById(R.id.ingame_leaderboard_username);

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ch.epfl.sdp.R;
 
-public class IngameLeaderboardFragment extends Fragment {
+public class CurrentGameLeaderboardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,13 +22,13 @@ public class IngameLeaderboardFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initInGameLeaderboard();
+        currentInGameLeaderboard();
     }
 
-    private void initInGameLeaderboard() {
+    private void currentInGameLeaderboard() {
         RecyclerView recyclerView = getView().findViewById(R.id.ingame_leaderboard_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new IngameLeaderboardAdapter());
+        recyclerView.setAdapter(new CurrentGameLeaderboardAdapter());
 
     }
 

@@ -7,7 +7,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardViewModel;
 
 /**
  * The interface with the method related to the Firebase Firestore
@@ -45,13 +45,12 @@ public interface CommonDatabaseAPI {
      */
     void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-
-    void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel);
-
     /**
      * Fetch players from the Firebase Firestore
      *
      * @param onValueReadyCallback Callback after fetching players from the firebase
      */
     void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
+
+    void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback);
 }

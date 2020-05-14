@@ -4,11 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
+import java.util.List;
 
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardViewModel;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
@@ -27,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
 
-        findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, LeaderboardActivity.class)));
+        findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GeneralLeaderboardActivity.class)));
 
         findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
 

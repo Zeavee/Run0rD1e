@@ -1,9 +1,15 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -16,6 +22,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -46,12 +53,22 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         lobbyRef.update("startGame", true)
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-
     }
 
     @Override
-    public void removePlayer(String email) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(email).delete();
+    public void fetchGeneralScoreForPlayers(List<String> playerEmailList, OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).whereIn("email", playerEmailList).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+                        for (DocumentSnapshot dc : task.getResult().getDocuments()) {
+                            userForFirebaseList.add(dc.toObject(UserForFirebase.class));
+                        }
+                        onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
+                    } else {
+                        onValueReadyCallback.finish(new CustomResult<>(null, false, task.getException()));
+                    }
+                });
     }
 
     @Override
@@ -105,15 +122,20 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void updatePlayersInGameScore(Map<String, Integer> emailsScoreMap) {
+    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
         WriteBatch batch = firebaseFirestore.batch();
-
         for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
-            batch.update(docRef, "currentGameScore", entry.getValue());
+            if (scoreType.equals("currentGameScore")) {
+                DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
+                batch.update(docRef, "currentGameScore", entry.getValue());
+            } else if (scoreType.equals("generalScore")) {
+                DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(entry.getKey());
+                batch.update(docRef, "generalScore", entry.getValue());
+            }
         }
         batch.commit();
     }
+
 
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {

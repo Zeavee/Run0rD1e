@@ -1,0 +1,81 @@
+package ch.epfl.sdp.leaderboard;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
+import ch.epfl.sdp.R;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.room.LeaderboardEntity;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
+
+public class GeneralLeaderboardActivity extends AppCompatActivity {
+    private GeneralLeaderboardViewModel generalLeaderboardViewModel;
+    private CommonDatabaseAPI commonDatabaseAPI;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_leaderboard);
+
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        final GeneralLeaderboardAdapter adapter = new GeneralLeaderboardAdapter();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        commonDatabaseAPI = appContainer.commonDatabaseAPI;
+
+        // Get a new or existing ViewModel from the ViewModelProvider.
+        generalLeaderboardViewModel = new ViewModelProvider(this).get(GeneralLeaderboardViewModel.class);
+
+        // Add an observer on the LiveData.
+        // The onChanged() method fires when the observed data changes and the activity is
+        // in the foreground.
+        generalLeaderboardViewModel.getLeaderboard().observe(this, users -> { adapter.setLeaderboard(users); });
+        generalLeaderboardViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
+
+        addGeneralGameScoreListener();
+    }
+
+    public void setupChampions(List<LeaderboardEntity> players) {
+        TextView tv_username = null;
+        TextView tv_healthpoint = null;
+
+        if (players != null) {
+            for(int i = 0; i < players.size() && i < 3; i++) {
+                if(i == 0) {
+                    tv_username = findViewById(R.id.tv_username1);
+                    tv_healthpoint = findViewById(R.id.tv_healthpoint1);
+                } else if (i == 1) {
+                    tv_username = findViewById(R.id.tv_username2);
+                    tv_healthpoint = findViewById(R.id.tv_healthpoint2);
+                } else if (i == 2) {
+                    tv_username = findViewById(R.id.tv_username3);
+                    tv_healthpoint = findViewById(R.id.tv_healthpoint3);
+                }
+                tv_username.setText(players.get(i).getUsername());
+                tv_healthpoint.setText(String.valueOf(players.get(i).getScore()));
+            }
+        }
+    }
+
+    private void addGeneralGameScoreListener() {
+        commonDatabaseAPI.generalGameScoreListener(value -> {
+            if(value.isSuccessful()) {
+                for(UserForFirebase userForFirebase: value.getResult()) {
+                    LeaderboardEntity user = new LeaderboardEntity(userForFirebase.getEmail(), userForFirebase.getUsername(), userForFirebase.getGeneralScore());
+                    generalLeaderboardViewModel.insertToLeaderboard(user);
+                }
+            }
+        });
+    }
+
+}

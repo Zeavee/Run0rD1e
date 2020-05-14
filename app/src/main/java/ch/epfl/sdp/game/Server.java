@@ -15,6 +15,9 @@ import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -38,6 +41,7 @@ public class Server implements Updatable {
     private static final String TAG = "Database";
     private int counter;
     private int scoreTimeCounter;
+    private boolean gameEnd;
     private ServerDatabaseAPI serverDatabaseAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
@@ -50,19 +54,19 @@ public class Server implements Updatable {
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.scoreTimeCounter = 0;
+        this.gameEnd = false;
         itemFactory = new ItemFactory();
         initEnvironment();
     }
 
     @Override
     public void update() {
-//        checkPlayerStatus();
         if (counter <= 0) {
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
             sendPlayersItems();
-
+            checkPlayerStatus();
             counter = 2 * GameThread.FPS + 1;
         }
 
@@ -82,26 +86,50 @@ public class Server implements Updatable {
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
-                    if (value1.isSuccessful()) {
-                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                playerManager.addPlayer(player);
-                            }
-                            Log.d(TAG, "(Server) Getting Player: " + player);
-                        }
-                        initItemBoxes();
-                        initEnemies();
-                        initCoins();
-                        serverDatabaseAPI.startGame(value2 -> {
-                            if (value2.isSuccessful()) {
-                                Game.getInstance().addToUpdateList(this);
-                                Game.getInstance().initGame();
-                                addPlayersPositionListener();
-                                addUsedItemsListener();
-                            } else Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage()); });
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+               fetchPlayers();
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
+    }
+
+    private void fetchPlayers() {
+        commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
+            if (value1.isSuccessful()) {
+                for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+                    Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+                    if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                        playerManager.addPlayer(player);
+                    }
+                    Log.d(TAG, "(Server) Getting Player: " + player);
+                }
+                List<String> playersEmailList = new ArrayList<>();
+                playersEmailList.addAll(playerManager.getPlayersMap().keySet());
+                fetchGeneralScore(playersEmailList);
+            } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+    }
+
+    private void fetchGeneralScore(List<String> playersEmailList) {
+        serverDatabaseAPI.fetchGeneralScoreForPlayers(playersEmailList, value -> {
+            if(value.isSuccessful()) {
+                for(UserForFirebase userForFirebase: value.getResult()) {
+                    playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
+                    Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
+                }
+                initItemBoxes();
+                initEnemies();
+                initCoins();
+                startGame();
+            } else {
+                Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
+            }
+        });
+    }
+
+    private void startGame() {
+        serverDatabaseAPI.startGame(value -> {
+            if (value.isSuccessful()) {
+                Game.getInstance().addToUpdateList(this);
+                Game.getInstance().initGame();
+                addPlayersPositionListener();
+                addUsedItemsListener();
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
     }
 
@@ -235,31 +263,32 @@ public class Server implements Updatable {
     private void updateInGameScoreOfPlayer() {
         Map<String, Integer> emailsScoreMap = new HashMap<>();
         for (Player player : PlayerManager.getInstance().getPlayers()) {
-            Log.d(TAG, "updateInGameScoreOfPlayer: " + PlayerManager.getInstance().getPlayers().size());
             player.updateLocalScore();
             Log.d(TAG, "updateInGameScoreOfPlayer: " + player.getEmail() + " " + player.getCurrentGameScore());
             emailsScoreMap.put(player.getEmail(), player.getCurrentGameScore());
         }
 
-        serverDatabaseAPI.updatePlayersInGameScore(emailsScoreMap);
+        serverDatabaseAPI.updatePlayersScore("currentGameScore", emailsScoreMap);
     }
 
     private void checkPlayerStatus() {
-        for (Player player : playerManager.getPlayers()) {
-            if (player.getHealthPoints() <= 0) {
-                Log.d(TAG, "checkPlayerStatus: remove the player " + player.getUsername() );
-                // remove player locally in the playerManager
-                playerManager.removePlayer(player);
-
-                // remove player on the cloud firebase
-                serverDatabaseAPI.removePlayer(player.getEmail());
+        int numberOfPlayerAlive = 0;
+        // check the number of players alive
+        for(Player player: playerManager.getPlayers()) {
+            if(player.getHealthPoints() > 0) {
+                numberOfPlayerAlive += 1;
             }
         }
 
-        // if the number of the player smaller than 1 we end the game
-        if(playerManager.getPlayers().size() <= 1) {
-
+        if(numberOfPlayerAlive == 0 && !gameEnd) {
+            // update the general score of players
+            Map<String, Integer> emailsScoreMap = new HashMap<>();
+            for(Player player: playerManager.getPlayers()) {
+                player.setGeneralScore(player.getGeneralScore() + player.getCurrentGameScore());
+                emailsScoreMap.put(player.getEmail(), player.getGeneralScore());
+            }
+            serverDatabaseAPI.updatePlayersScore("generalScore", emailsScoreMap);
+            gameEnd = true;
         }
-
     }
 }

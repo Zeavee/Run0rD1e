@@ -40,14 +40,14 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
-import ch.epfl.sdp.leaderboard.IngameLeaderboardFragment;
+import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
-    private static IngameLeaderboardFragment ingameLeaderboardFragment = new IngameLeaderboardFragment();
+    private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
     private LocationFinder locationFinder;
