@@ -251,9 +251,7 @@ public class Server implements Updatable {
         List<Player> players = playerManager.getPlayersWaitingItems();
         if (!players.isEmpty()) {
             Map<String, ItemsForFirebase> playersItemsMap = new HashMap<>();
-            for (Player player : players) {
-                playersItemsMap.put(player.getEmail(), EntityConverter.convertItems(player.getInventory().getItems()));
-            }
+            for (Player player : players) playersItemsMap.put(player.getEmail(), EntityConverter.convertItems(player.getInventory().getItems()));
             serverDatabaseAPI.sendPlayersItems(playersItemsMap);
             playerManager.getPlayersWaitingItems().clear();
         }
