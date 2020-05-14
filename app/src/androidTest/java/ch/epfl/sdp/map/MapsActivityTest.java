@@ -125,6 +125,11 @@ public class MapsActivityTest {
     }
 
     @Test
+    public void leaderboardOpensAndCloses() {
+        testFragmentOpendsAndCloses(R.id.button_leaderboard, R.id.temp);
+    }
+
+    @Test
     public void moveCameraWorks() {
         testButtonWorks(R.id.recenter, R.id.map);
     }

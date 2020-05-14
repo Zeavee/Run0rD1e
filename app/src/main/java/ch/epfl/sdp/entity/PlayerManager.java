@@ -92,15 +92,6 @@ public class PlayerManager {
     }
 
     /**
-     * Remove the specified player from the player manager if it exists.
-     *
-     * @param player A player to be removed from the player manager.
-     */
-    public void removePlayer(Player player) {
-        playersMap.remove(player.getEmail());
-    }
-
-    /**
      * Gets a list of all players in the player manager.
      *
      * @return A list of all players in the player manager

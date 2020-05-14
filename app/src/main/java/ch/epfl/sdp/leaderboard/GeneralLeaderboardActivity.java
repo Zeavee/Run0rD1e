@@ -48,22 +48,27 @@ public class GeneralLeaderboardActivity extends AppCompatActivity {
     public void setupChampions(List<LeaderboardEntity> players) {
         TextView tv_username = null;
         TextView tv_healthpoint = null;
+        if(players == null) {
+            return;
+        }
 
-        if (players != null) {
-            for(int i = 0; i < players.size() && i < 3; i++) {
-                if(i == 0) {
+        for(int i = 0; i < players.size() && i < 3; i++) {
+            switch(i) {
+                case 0:
                     tv_username = findViewById(R.id.tv_username1);
                     tv_healthpoint = findViewById(R.id.tv_healthpoint1);
-                } else if (i == 1) {
+                    break;
+                case 1:
                     tv_username = findViewById(R.id.tv_username2);
                     tv_healthpoint = findViewById(R.id.tv_healthpoint2);
-                } else if (i == 2) {
+                    break;
+                case 2:
                     tv_username = findViewById(R.id.tv_username3);
                     tv_healthpoint = findViewById(R.id.tv_healthpoint3);
-                }
-                tv_username.setText(players.get(i).getUsername());
-                tv_healthpoint.setText(String.valueOf(players.get(i).getScore()));
+                    break;
             }
+            tv_username.setText(players.get(i).getUsername());
+            tv_healthpoint.setText(String.valueOf(players.get(i).getScore()));
         }
     }
 

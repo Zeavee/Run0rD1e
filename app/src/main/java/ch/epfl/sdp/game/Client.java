@@ -92,13 +92,10 @@ public class Client implements Updatable {
     }
 
     private void addItemBoxesListener() {
-        // Listen for Items
         clientDatabaseAPI.addCollectionListerner(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) {
-                    itemBoxForFirebaseList.add((ItemBoxForFirebase) object);
-                }
+                for (Object object : value.getResult()) { itemBoxForFirebaseList.add((ItemBoxForFirebase) object); }
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -118,9 +115,7 @@ public class Client implements Updatable {
                     }
                     Log.d(TAG, "Listen for itemboxes: " + value.getResult());
                 }
-            } else {
-                Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
-            }
+            } else { Log.w(TAG, "Listen for itemBoxes failed.", value.getException()); }
         });
     }
 

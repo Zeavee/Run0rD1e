@@ -275,7 +275,10 @@ public class Server implements Updatable {
                 numberOfPlayerAlive += 1;
             }
         }
+        updateTheGeneralScore(numberOfPlayerAlive);
+    }
 
+    private void updateTheGeneralScore(int numberOfPlayerAlive) {
         if (numberOfPlayerAlive == 0 && !gameEnd) {
             // update the general score of players
             Map<String, Integer> emailsScoreMap = new HashMap<>();
