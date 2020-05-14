@@ -1,15 +1,11 @@
 package ch.epfl.sdp.SocialTests;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
-
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.rule.ActivityTestRule;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -40,6 +36,7 @@ import static org.hamcrest.Matchers.is;
  * for this test to work, we must first register them as friends inside the SQLite database
  */
 public class ChatActivityTest {
+
     private String currentEmail;
 
     @Rule
