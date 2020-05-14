@@ -123,9 +123,9 @@
         android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintHorizontal_bias="0.624"
         app:layout_constraintRight_toLeftOf="@+id/memberText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/memberText"
         app:layout_constraintTop_toBottomOf="@+id/passwordlog"
         app:layout_constraintVertical_bias="0.948"
         tools:ignore="MissingConstraints" />
