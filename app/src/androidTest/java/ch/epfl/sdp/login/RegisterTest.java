@@ -158,6 +158,7 @@ public class RegisterTest {
         closeSoftKeyboard();
         intending(toPackage(MainActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
+        onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
     }
 
     // for now
