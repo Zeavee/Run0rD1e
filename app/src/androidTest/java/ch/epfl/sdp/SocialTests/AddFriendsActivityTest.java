@@ -1,4 +1,4 @@
-/*package ch.epfl.sdp.SocialTests;
+package ch.epfl.sdp.SocialTests;
 
 import android.util.Log;
 
@@ -113,4 +113,4 @@ public class AddFriendsActivityTest {
     }
 
 
-}*/
+}
