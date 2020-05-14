@@ -97,6 +97,14 @@ public class Market implements Displayable {
         return loc;
     }
 
+    private void displayIcon(MapApi mapApi)
+    {
+        if (!isDisplayed) {
+            mapApi.displaySmallIcon(this, "Market", R.drawable.sm_logo);
+            isDisplayed = true;
+        }
+    }
+
     /**
      * Method for displaying the displayable on the map
      *
@@ -104,10 +112,7 @@ public class Market implements Displayable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        if (!isDisplayed) {
-            mapApi.displaySmallIcon(this, "Market", R.drawable.sm_logo);
-            isDisplayed = true;
-        }
+        displayIcon(mapApi);
         if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50 && !hasVisitedMarket) {
             if (mapActivity != null) {
                 Log.d("Market", "displayOn");
