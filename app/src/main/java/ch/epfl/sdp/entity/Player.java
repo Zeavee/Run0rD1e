@@ -12,18 +12,17 @@ import ch.epfl.sdp.map.MapApi;
 
 public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
     public final static double MAX_HEALTH = 100;
-
     private String username;
     private String email;
     private double healthPoints;
     private CartesianPoint position;
     private boolean isShielded;
     private Inventory inventory;
-    private int money;
     private int generalScore;
     private int currentGameScore;
     private double distanceTraveled;
     private double distanceTraveledAtLastCheck;
+    private int money;
 
     public Player(String username, String email) {
         this(0, 0, 10, username, email);
@@ -43,15 +42,20 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         this.setGeneralScore(0);
         this.setCurrentGameScore(0);
         this.setDistanceTraveled(0);
+        this.setDistanceTraveledAtLastCheck(0);
         this.money = 0;
     }
 
-    public double getHealthPoints() {
-        return healthPoints;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUsername() {
         return this.username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getEmail() {
@@ -73,33 +77,12 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         }
     }
 
-    public boolean isShielded() {
-        return this.isShielded;
+    public double getHealthPoints() {
+        return healthPoints;
     }
 
-    public void setShielded(boolean shielded) {
-        isShielded = shielded;
-    }
-
-    public int getGeneralScore() {
-        return generalScore;
-    }
-
-    public int getCurrentGameScore() {
-        return currentGameScore;
-    }
-
-    public double getDistanceTraveled() {
-        return this.distanceTraveled;
-    }
-
-    @Override
-    public void displayOn(MapApi mapApi) {
-        if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
-            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
-        } else {
-            mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
-        }
+    public void setPosition(CartesianPoint position) {
+        this.position = position;
     }
 
     @Override
@@ -111,37 +94,56 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         }
     }
 
-    public void setPosition(CartesianPoint position) {
-        this.position = position;
+    public void setShielded(boolean shielded) {
+        isShielded = shielded;
+    }
+
+    public boolean isShielded() {
+        return this.isShielded;
+    }
+
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public Inventory getInventory() {
         return inventory;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setGeneralScore(int generalScore) {
+        this.generalScore = generalScore;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public int getGeneralScore() {
+        return generalScore;
     }
 
+    public void setCurrentGameScore(int currentGameScore) {
+        this.currentGameScore = currentGameScore;
+    }
 
-    public void setInventory(Inventory inventory) {
-        this.inventory = inventory;
+    public int getCurrentGameScore() {
+        return currentGameScore;
     }
 
     public void setDistanceTraveled(double distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
 
-    public void updateDistanceTraveled(double traveledAmount) {
-        this.setDistanceTraveled(this.getDistanceTraveled() + traveledAmount);
+    public double getDistanceTraveled() {
+        return this.distanceTraveled;
     }
 
-    public void setGeneralScore(int generalScore) {
-        this.generalScore = generalScore;
+    public void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck) {
+        this.distanceTraveledAtLastCheck = distanceTraveledAtLastCheck;
+    }
+
+    public double getDistanceTraveledAtLastCheck() {
+        return distanceTraveledAtLastCheck;
+    }
+
+    public void updateDistanceTraveled(double traveledAmount) {
+        this.distanceTraveled = this.distanceTraveled + traveledAmount;
     }
 
     /**
@@ -197,15 +199,12 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
         }
     }
 
-    public void setCurrentGameScore(int currentGameScore) {
-        this.currentGameScore = currentGameScore;
-    }
-
-    public double getDistanceTraveledAtLastCheck() {
-        return distanceTraveledAtLastCheck;
-    }
-
-    public void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck) {
-        this.distanceTraveledAtLastCheck = distanceTraveledAtLastCheck;
+    @Override
+    public void displayOn(MapApi mapApi) {
+        if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
+            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+        } else {
+            mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
+        }
     }
 }

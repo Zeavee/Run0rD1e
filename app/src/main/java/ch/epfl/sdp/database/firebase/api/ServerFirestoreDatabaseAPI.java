@@ -1,7 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import android.util.Log;
-
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,11 +25,8 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
-    private String lobbyName;
 
     public void setLobbyRef(String lobbyName) {
-        Log.d("database", "Server setLobbyRef with name: " + lobbyName);
-        this.lobbyName = lobbyName;
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
 
@@ -120,6 +115,17 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
             batch.set(docRef, entry.getValue());
         }
 
+        batch.commit();
+    }
+
+    @Override
+    public void updatePlayersInGameScore(Map<String, Integer> emailsScoreMap) {
+        WriteBatch batch = firebaseFirestore.batch();
+
+        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
+            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
+            batch.update(docRef, "currentGameScore", entry.getValue());
+        }
         batch.commit();
     }
 

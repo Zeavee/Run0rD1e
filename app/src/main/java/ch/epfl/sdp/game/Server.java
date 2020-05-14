@@ -36,6 +36,7 @@ import ch.epfl.sdp.item.ItemFactory;
 public class Server implements Updatable {
     private static final String TAG = "Database";
     private int counter;
+    private int scoreTimeCounter;
     private ServerDatabaseAPI serverDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
@@ -45,6 +46,7 @@ public class Server implements Updatable {
     public Server(ServerDatabaseAPI serverDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.counter = 0;
+        this.scoreTimeCounter = 0;
         itemFactory = new ItemFactory();
         initEnvironment();
     }
@@ -62,6 +64,15 @@ public class Server implements Updatable {
         }
 
         --counter;
+
+        // update Players score every 10 seconds
+        if (scoreTimeCounter <= 0) {
+            Log.d(TAG, "update: update the score of player");
+            updateInGameScoreOfPlayer();
+            scoreTimeCounter = 10 * GameThread.FPS + 1;
+        }
+        --scoreTimeCounter;
+
     }
 
     private void initEnvironment() {
@@ -168,6 +179,8 @@ public class Server implements Updatable {
                         Log.d(TAG, "addPlayersPositionListener: after " +  playerForFirebase.getUsername() + " " +  playerForFirebase.getLocation().getLatitude() + " " + playerForFirebase.getLocation().getLongitude());
                         double traveledDistance = player.getPosition().distanceFrom(cartesianPoint);
                         player.updateDistanceTraveled(traveledDistance);
+
+                        // update the location of the player
                         player.setLocation(playerForFirebase.getLocation());
                         player.setPosition(cartesianPoint);
                         Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
@@ -214,6 +227,18 @@ public class Server implements Updatable {
             serverDatabaseAPI.sendPlayersItems(playersItemsMap);
             playerManager.getPlayersWaitingItems().clear();
         }
+    }
+
+    private void updateInGameScoreOfPlayer() {
+        Map<String, Integer> emailsScoreMap = new HashMap<>();
+        for (Player player : PlayerManager.getInstance().getPlayers()) {
+            Log.d(TAG, "updateInGameScoreOfPlayer: " + PlayerManager.getInstance().getPlayers().size());
+            player.updateLocalScore();
+            Log.d(TAG, "updateInGameScoreOfPlayer: " + player.getEmail() + " " + player.getCurrentGameScore());
+            emailsScoreMap.put(player.getEmail(), player.getCurrentGameScore());
+        }
+
+        serverDatabaseAPI.updatePlayersInGameScore(emailsScoreMap);
     }
 
     private void checkPlayerStatus() {

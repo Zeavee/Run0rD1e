@@ -51,6 +51,8 @@ public interface ServerDatabaseAPI {
 
     void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap);
 
+    void updatePlayersInGameScore(Map<String, Integer> emailsScoreMap);
+
     void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback);
 
     void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
