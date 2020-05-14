@@ -34,7 +34,7 @@ public class ScoreUpdater {
     }
 
     /**
-     * This methods ends the updating of the score
+     * This method ends the updating of the score
      * It also gives the bonus to the last players alive
      */
     public void destroy() {
@@ -53,7 +53,7 @@ public class ScoreUpdater {
     }
 
     /**
-     * This methods update the general score of all the players in the game at the end of the game.
+     * This method updates the general score of all the players in the game at the end of the game.
      * All the players get their local score added to the general score and if they are alive, they get 50 bonus points
      */
     private void updateGeneralScoreOfPlayers() {

@@ -1,13 +1,11 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import com.google.android.gms.maps.GoogleMap;
-
 import java.util.Random;
 
 import ch.epfl.sdp.entity.AoeRadiusEntity;
 import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 
 /**
@@ -16,7 +14,7 @@ import ch.epfl.sdp.geometry.UnboundedArea;
  */
 public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements Updatable {
     private Movement movement;
-    private LocalArea localArea;
+    private Area area;
     private boolean moving;
 
     /**
@@ -31,7 +29,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      */
     public ArtificialMovingEntity() {
         this(new GeoPoint(0,0), new LinearMovement(),
-            new LocalArea(new UnboundedArea(), new GeoPoint(0,0)), true);
+            new UnboundedArea(), true);
     }
 
     /**
@@ -39,14 +37,14 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * already moving.
      *
      * @param movement the type of movement the entity use
-     * @param localArea the area the entity can move in
+     * @param area the area the entity can move in
      * @param moving a boolean that tell if the entity is moving
      */
-    public ArtificialMovingEntity(GeoPoint location, Movement movement, LocalArea localArea,
+    public ArtificialMovingEntity(GeoPoint location, Movement movement, Area area,
                                   boolean moving) {
         super(location);
         this.movement = movement;
-        this.localArea = localArea;
+        this.area = area;
         this.moving = moving;
     }
 
@@ -55,8 +53,8 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      *
      * @return An area where the moving artificial entity can reside.
      */
-    public LocalArea getLocalArea() {
-        return localArea;
+    public Area getLocalArea() {
+        return area;
     }
 
     /**
@@ -64,8 +62,8 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      *
      * @param area An area where the moving artificial entity can reside.
      */
-    public void setLocalArea(LocalArea localArea) {
-        this.localArea = localArea;
+    public void setLocalArea(Area area) {
+        this.area = area;
     }
 
     /**
@@ -113,7 +111,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
 
     public void move() {
         GeoPoint position = movement.nextPosition(getLocation());
-        if (localArea.isInside(position) || forceMove) {
+        if (area.isInside(position) || forceMove) {
             super.setLocation(position);
         } else {
             bounce();

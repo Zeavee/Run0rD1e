@@ -1,12 +1,11 @@
 package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.artificial_intelligence.ArtificialMovingEntity;
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.geometry.LocalArea;
+import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.Positionable;
-import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
 import ch.epfl.sdp.map.MapApi;
@@ -42,7 +41,7 @@ public class Enemy extends ArtificialMovingEntity {
      * The number of frames before enemy is in the patrol state.
      */
     private int wanderingTimeDelay;
-    private LocalArea patrolBounds;
+    private Area patrolBounds;
     /**
      * The flag to decide to go in wait state.
      */
@@ -55,14 +54,14 @@ public class Enemy extends ArtificialMovingEntity {
         super.setAoeRadius(1);
         super.getMovement().setVelocity(50);
         super.setMoving(true);
-        super.setLocalArea(new LocalArea(new UnboundedArea(), getLocation()));
+        super.setLocalArea(new UnboundedArea());
         this.damage = 1;
         this.damageRate = 1;
         this.detectionDistance = 1;
         behaviour = Behaviour.PATROL;
         attackTimeDelay = 30; // Needs calibration
         wanderingTimeDelay = GameThread.FPS;
-        this.patrolBounds = new LocalArea(new UnboundedArea(), this.getLocation());
+        this.patrolBounds = new UnboundedArea();
         this.waiting = false;
     }
 
@@ -72,7 +71,7 @@ public class Enemy extends ArtificialMovingEntity {
      * @param patrolBounds The enemy's patrol area.
      * @param maxBounds    The enemy's maximum visitable area.
      */
-    public Enemy(int id, LocalArea patrolBounds, LocalArea maxBounds) {
+    public Enemy(int id, Area patrolBounds, Area maxBounds) {
         this(id, 10, 1, 1000, 50, patrolBounds, maxBounds);
     }
 
@@ -80,7 +79,7 @@ public class Enemy extends ArtificialMovingEntity {
      * @param patrolBounds The enemy's patrol area.
      * @param maxBounds    The enemy's maximum visitable area.
      */
-    public Enemy(LocalArea patrolBounds, LocalArea maxBounds) {
+    public Enemy(Area patrolBounds, Area maxBounds) {
 
         this(0, 10, 1, 1000, 50, patrolBounds, maxBounds);
     }
@@ -95,7 +94,7 @@ public class Enemy extends ArtificialMovingEntity {
      * @param patrolBounds      The enemy's patrol area.
      * @param maxBounds         The enemy's maximum visitable area.
      */
-    public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, LocalArea patrolBounds, LocalArea maxBounds) {
+    public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, Area patrolBounds, Area maxBounds) {
         super();
         super.getMovement().setVelocity(25);
         super.setMoving(true);

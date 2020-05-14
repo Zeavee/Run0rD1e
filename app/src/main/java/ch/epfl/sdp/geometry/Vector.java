@@ -119,6 +119,10 @@ public class Vector {
         return new Vector(-y, x);
     }
 
+    public double norm() {
+        return Math.sqrt(x*x + y*y);
+    }
+
     /**
      * Invert the vector's direction.
      *

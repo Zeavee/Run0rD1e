@@ -8,7 +8,6 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MockMap;
 import static org.junit.Assert.*;
@@ -26,13 +25,11 @@ public class BehaviourTest {
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
         PlayerManager.getInstance().addPlayer(player);
-        RectangleArea patrolBounds = new RectangleArea(10, 10);
-        RectangleArea maxBounds = new RectangleArea(100, 100);
         GeoPoint enemyPos = new GeoPoint(20, 20);
         GeoPoint patrolCenter = new GeoPoint(10, 10);
-        LocalArea localArea = new LocalArea(patrolBounds, patrolCenter);
-        LocalArea localAreaMax = new LocalArea(maxBounds, enemyPos);
-        enemy = new Enemy(0, 10, 1, 50, 20, localArea, localAreaMax);
+        RectangleArea patrolBounds = new RectangleArea(10, 10, patrolCenter);
+        RectangleArea maxBounds = new RectangleArea(100, 100, enemyPos);
+        enemy = new Enemy(0, 10, 1, 50, 20, patrolBounds, maxBounds);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }
