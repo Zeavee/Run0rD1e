@@ -31,8 +31,7 @@ public class AreaShrinker {
                         });
 
                 gameArea.shrink(0.75);
-                gameArea.setFinalTime(finalTime);
-
+                gameArea.setFinalTime(20000);
                 runTimer(20000, () -> {
                     time[0] += 500;
                     gameArea.setTime(time[0]);
@@ -50,6 +49,11 @@ public class AreaShrinker {
         scheduler.schedule(() -> {
             update.cancel(true);
         }, (long) finalTime, TimeUnit.MILLISECONDS);
+        try {
+            scheduler.awaitTermination((long)finalTime, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String getRemainingTimeAsString() {

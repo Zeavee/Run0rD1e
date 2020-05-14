@@ -8,12 +8,17 @@ import ch.epfl.sdp.map.Displayable;
 public abstract class Area implements Positionable, Displayable {
     protected GeoPoint center;
     protected GeoPoint oldCenter;
+    protected GeoPoint newCenter;
     protected double time;
     protected double finalTime;
     protected boolean isShrinking;
 
     public Area(GeoPoint center) {
         this.center = center;
+    }
+
+    public boolean isShrinking() {
+        return isShrinking;
     }
 
     public boolean isInside(GeoPoint geoPoint) {
@@ -29,12 +34,7 @@ public abstract class Area implements Positionable, Displayable {
      */
     public abstract void shrink(double factor);
 
-    /**
-     * Method that gives all the transitions states to display the shrinking of the area
-     *
-     * @return an area we can display for animation the transition
-     */
-    public abstract Area getShrinkTransition();
+    protected abstract void setShrinkTransition();
 
     public void setTime(double time) {
         this.time = time;
@@ -49,6 +49,14 @@ public abstract class Area implements Positionable, Displayable {
     @Override
     public GeoPoint getLocation() {
         return center;
+    }
+
+    public GeoPoint getOldLocation() {
+        return oldCenter;
+    }
+
+    public GeoPoint getNewLocation() {
+        return newCenter;
     }
 
     public abstract GeoPoint randomLocation();

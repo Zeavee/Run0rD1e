@@ -8,18 +8,21 @@ import ch.epfl.sdp.utils.RandomGenerator;
  */
 public class UnboundedArea extends Area {
 
+    /**
+     * The constructor for the unbounded area. We only need a center which can be random
+     */
     public UnboundedArea() {
         super(new RandomGenerator().randomGeoPoint());
     }
 
     @Override
     public void shrink(double factor) {
-
+        //we do not need to shrink anything here
     }
 
     @Override
-    public Area getShrinkTransition() {
-        return this;
+    public void setShrinkTransition() {
+        //there is no shrink transition here
     }
 
     @Override
@@ -34,7 +37,7 @@ public class UnboundedArea extends Area {
 
     @Override
     public void finishShrink() {
-
+        //we do not need to do anything here
     }
 
     @Override

@@ -39,12 +39,12 @@ public class RectangleArea extends Area {
 
     @Override
     public void shrink(double factor) {
-
+        //TODO implement
     }
 
     @Override
-    public Area getShrinkTransition() {
-        return null;
+    protected void setShrinkTransition() {
+        //TODO implement
     }
 
     @Override
@@ -60,7 +60,7 @@ public class RectangleArea extends Area {
 
     @Override
     public void finishShrink() {
-
+        //TODO implement
     }
 
     @Override

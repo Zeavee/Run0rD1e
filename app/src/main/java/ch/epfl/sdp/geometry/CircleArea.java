@@ -18,6 +18,7 @@ import static java.lang.Math.toRadians;
 public class CircleArea extends Area {
     private double radius;
     private double oldRadius;
+    private double newRadius;
 
     /**
      * A constructor for the GameArea
@@ -56,12 +57,14 @@ public class CircleArea extends Area {
         oldCenter = center;
         oldRadius = radius;
 
-        radius = factor * radius;
-        center = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
+        isShrinking = true;
+
+        newRadius = factor * radius;
+        newCenter = new GeoPoint(center.getLongitude() + xPrime, center.getLatitude() + y);
     }
 
     /**
-     * Method to get the radius of the GameArea
+     * Method to get the radius of the area
      *
      * @return the radius
      */
@@ -69,15 +72,34 @@ public class CircleArea extends Area {
         return radius;
     }
 
+
+    /**
+     * Method to get the radius of the new area
+     *
+     * @return the radius
+     */
+    public double getNewRadius() {
+        return newRadius;
+    }
+
+    /**
+     * Method to get the radius of the old area
+     *
+     * @return the radius
+     */
+    public double getOldRadius() {
+        return oldRadius;
+    }
+
     @Override
-    public CircleArea getShrinkTransition() {
+    public void setShrinkTransition() {
         if (time > finalTime || time < 0) {
-            return null;
+            return;
         }
-        double outputRadius = getValueForTime(time, finalTime, oldRadius, radius);
-        double outputLatitude = getValueForTime(time, finalTime, oldCenter.getLatitude(), center.getLatitude());
-        double outputLongitude = getValueForTime(time, finalTime, oldCenter.getLongitude(), center.getLongitude());
-        return new CircleArea(outputRadius, new GeoPoint(outputLongitude, outputLatitude));
+        radius = getValueForTime(time, finalTime, oldRadius, newRadius);
+        double outputLatitude = getValueForTime(time, finalTime, oldCenter.getLatitude(), newCenter.getLatitude());
+        double outputLongitude = getValueForTime(time, finalTime, oldCenter.getLongitude(), newCenter.getLongitude());
+        center = new GeoPoint(outputLongitude, outputLatitude);
     }
 
     private double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
@@ -102,15 +124,15 @@ public class CircleArea extends Area {
     @Override
     public void finishShrink() {
         isShrinking = false;
+        center = newCenter;
+        radius = newRadius;
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
         if (isShrinking) {
-            CircleArea tempCircleArea = getShrinkTransition();
-            mapApi.displayCircle(tempCircleArea, Color.RED, (int) tempCircleArea.radius);
-        } else {
-            mapApi.displayCircle(this, Color.RED, (int) radius);
+            setShrinkTransition();
         }
+            mapApi.displayCircle(this, Color.RED, (int) radius);
     }
 }
