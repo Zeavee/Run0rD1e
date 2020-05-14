@@ -117,13 +117,13 @@ public class ChatActivityTest {
         ViewInteraction textView = matchesChildWithTextAtDepth4("thanks", R.id.message_body, R.id.messages_view, 0);
         textView.check(matches(withText("thanks")));
     }
-
+/*
     @Test
     public void chatActivityTest() {
         step1();
         step2();
         step3();
         step4();
-    }
+    }*/
 
 }

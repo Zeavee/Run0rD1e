@@ -102,7 +102,7 @@ public class AddFriendsActivityTest {
         textView.check(matches(withText("stupid0@gmail.com")));
     }
 
-    @Test
+  /*  @Test
     public void addFriendsActivityTest() throws InterruptedException {
 
         step1();
@@ -111,7 +111,7 @@ public class AddFriendsActivityTest {
         step2();
         step3();
         step4();
-    }
+    }*/
 
 
 }
