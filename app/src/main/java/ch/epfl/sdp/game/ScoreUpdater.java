@@ -14,8 +14,7 @@ public class ScoreUpdater {
     private ScheduledExecutorService exec;
     volatile private boolean isTerminated;
 
-    public void setIsTerminated(boolean isTerminated)
-    {
+    public void setIsTerminated(boolean isTerminated) {
         this.isTerminated = isTerminated;
     }
 

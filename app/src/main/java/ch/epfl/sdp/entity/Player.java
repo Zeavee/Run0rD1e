@@ -71,11 +71,12 @@ public class Player extends AoeRadiusEntity implements Positionable, Displayable
     }
 
     public void setHealthPoints(double amount) {
-        if(amount > 100){
+        if (amount > 100) {
             healthPoints = 100;
-        }else if (amount > 0){
-            healthPoints = amount;;
-        }else{
+        } else if (amount > 0) {
+            healthPoints = amount;
+            ;
+        } else {
             healthPoints = 0;
             alive = false;
         }
@@ -102,7 +103,9 @@ public class Player extends AoeRadiusEntity implements Positionable, Displayable
         return generalScore;
     }
 
-    public int getCurrentGameScore() { return currentGameScore; }
+    public int getCurrentGameScore() {
+        return currentGameScore;
+    }
 
     public double getDistanceTraveled() {
         return this.distanceTraveled;
@@ -164,6 +167,7 @@ public class Player extends AoeRadiusEntity implements Positionable, Displayable
 
     /**
      * A method to get the player's money
+     *
      * @return an int which is equal to the player's money
      */
     public int getMoney() {
@@ -172,6 +176,7 @@ public class Player extends AoeRadiusEntity implements Positionable, Displayable
 
     /**
      * A method to remove money from the player
+     *
      * @param amount the amount of money we want to take from the player
      * @return a boolean that tells if the transaction finished correctly
      */
@@ -185,6 +190,7 @@ public class Player extends AoeRadiusEntity implements Positionable, Displayable
 
     /**
      * A method to add money to the player
+     *
      * @param amount the amount of money we want to give to the player
      * @return a boolean that tells if the transaction finished correctly
      */

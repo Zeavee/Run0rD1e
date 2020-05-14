@@ -1,7 +1,5 @@
 package ch.epfl.sdp.item;
 
-import android.graphics.Color;
-
 import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
@@ -17,6 +15,7 @@ import ch.epfl.sdp.utils.RandomGenerator;
  * Class representing a coin in the game
  */
 public class Coin extends Item implements Displayable, Updatable {
+
     private int value;
     private GeoPoint location;
     private boolean isDisplayed;
@@ -39,7 +38,7 @@ public class Coin extends Item implements Displayable, Updatable {
         return new Coin(value, this.location);
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -47,7 +46,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
-            if(this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
+            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
                 return;
             }
             this.taken = true;
@@ -74,8 +73,6 @@ public class Coin extends Item implements Displayable, Updatable {
     public void setLocation(GeoPoint location) {
         this.location = location;
     }
-
-
 
     public boolean isTaken() {
         return this.taken;

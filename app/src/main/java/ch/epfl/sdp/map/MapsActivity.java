@@ -42,6 +42,9 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.market.MarketActivity;
+import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -54,10 +57,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private TextView username, healthPointText, timerShrinking;
     private ProgressBar healthPointProgressBar;
-  
+
     private boolean flagInventory = false;
     private boolean flagWeather = false;
-  
+
     private PlayerManager playerManager = PlayerManager.getInstance();
 
     /**
@@ -93,15 +96,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
         Button weather = findViewById(R.id.button_weather);
-        weather.setOnClickListener(v ->  {
+        weather.setOnClickListener(v -> {
             showFragment(weatherFragment, R.id.fragment_weather_container, flagWeather);
-            flagWeather = ! flagWeather;
+            flagWeather = !flagWeather;
         });
 
         Button inventory = findViewById(R.id.button_inventory);
-        inventory.setOnClickListener(v ->  {
+        inventory.setOnClickListener(v -> {
             showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
-            flagInventory = ! flagInventory;
+            flagInventory = !flagInventory;
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -122,6 +125,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
     }
 
+    /**
+     * on Travis the map will not appear since it is not connected via API Key
+     *
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
@@ -130,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
-        Log.d("Database", "Game running is " + Game.getInstance().isRunning());
+        Log.d("Inside MapsActivity", "Game running is " + Game.getInstance().isRunning());
 
         if (!Game.getInstance().isRunning()) {
             commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
@@ -224,6 +232,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
+                if (displayable instanceof Market) {
+                    ((Market) displayable).setCallingActivity(this);
+                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -231,8 +242,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void unDisplay(Displayable displayable) {
-        runOnUiThread(() -> {
-            displayable.unDisplayOn(Game.getInstance().getMapApi());
-        });
+        runOnUiThread(() -> displayable.unDisplayOn(Game.getInstance().getMapApi()));
+    }
+
+    /**
+     * switches to a market activity, where user can buy health, shield, scan, or shrinker items
+     */
+    public void startMarket(Market backend) {
+        Log.d("MapsActivity", "start market");
+
+        final Bundle bundle = new Bundle();
+        bundle.putBinder("object_value", new ObjectWrapperForBinder<>(backend));
+        startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
+
     }
 }

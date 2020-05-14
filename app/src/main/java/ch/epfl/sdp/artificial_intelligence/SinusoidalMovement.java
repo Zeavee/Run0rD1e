@@ -35,6 +35,7 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Gets the sine amplitude.
+     *
      * @return A value representing the sine amplitude.
      */
     public double getAmplitude() {
@@ -43,6 +44,7 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Sets the sine amplitude.
+     *
      * @param amplitude The value representing the sine amplitude.
      */
     public void setAmplitude(double amplitude) {
@@ -51,6 +53,7 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Gets the angle of the sine function.
+     *
      * @return A value representing the angle of the sine function.
      */
     public double getAngle() {
@@ -59,6 +62,7 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Sets the sine angle.
+     *
      * @param angle The value representing the sine angle.
      */
     public void setAngle(double angle) {
@@ -67,6 +71,7 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Sets the angle step.
+     *
      * @param angleStep The value which is added to the angle after each move.
      */
     public void setAngleStep(double angleStep) {

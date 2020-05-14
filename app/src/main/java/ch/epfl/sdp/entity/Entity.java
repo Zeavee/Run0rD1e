@@ -34,4 +34,3 @@ public abstract class Entity implements Positionable, Displayable {
         this.location = location;
     }
 }
-

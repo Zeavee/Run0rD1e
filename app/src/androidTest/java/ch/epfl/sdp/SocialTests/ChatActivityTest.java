@@ -30,8 +30,6 @@ import static ch.epfl.sdp.SocialTests.ChildParentMatcher.matchesChildWithTextAtD
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
-//@LargeTest
-//@RunWith(AndroidJUnit4.class)
 
 /**
  * @brief tests if message "thanks" sent to stupid2@gmail.com is displayed on the ChatActivity's view

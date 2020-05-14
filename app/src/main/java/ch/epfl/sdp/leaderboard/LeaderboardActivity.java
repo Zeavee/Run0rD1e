@@ -3,15 +3,15 @@ package ch.epfl.sdp.leaderboard;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.List;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;

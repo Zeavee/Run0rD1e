@@ -81,6 +81,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     /**
      * This method tells what do do when the send button is clicked
      * It sends the message the user has written
+     *
      * @param v the view on which we clicked
      */
     public void onSendClicked(View v) {

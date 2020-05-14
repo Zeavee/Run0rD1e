@@ -29,7 +29,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      */
     public ArtificialMovingEntity() {
         this(new GeoPoint(0,0), new LinearMovement(),
-            new UnboundedArea(), true);
+                new UnboundedArea(), true);
     }
 
     /**

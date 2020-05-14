@@ -43,7 +43,13 @@ public abstract class Item implements Cloneable {
 
     /**
      * This method should modify the state of the player or game.
+     *
      * @param player A player to in which we use the item
      */
     public abstract void useOn(Player player);
+
+    /**
+     * gets the value of the item
+     */
+    public abstract double getValue();
 }

@@ -22,6 +22,7 @@ public abstract class Movement {
 
     /**
      * Gets the current velocity determined by the movement.
+     *
      * @return A value representing the velocity of the movement.
      */
     public float getVelocity() {
@@ -30,6 +31,7 @@ public abstract class Movement {
 
     /**
      * Sets the current velocity of the movement.
+     *
      * @param velocity The velocity of the movement.
      */
     public void setVelocity(float velocity) {
@@ -38,6 +40,7 @@ public abstract class Movement {
 
     /**
      * Gets the current acceleration determined by the movement.
+     *
      * @return A value representing the acceleration of the movement.
      */
     public float getAcceleration() {
@@ -46,6 +49,7 @@ public abstract class Movement {
 
     /**
      * Sets the current acceleration of the movement.
+     *
      * @param acceleration The acceleration of the movement.
      */
     public void setAcceleration(float acceleration) {
@@ -54,6 +58,7 @@ public abstract class Movement {
 
     /**
      * Gets the current orientation determined by the movement.
+     *
      * @return A value representing the orientation of the movement.
      */
     public double getOrientation() {
@@ -62,6 +67,7 @@ public abstract class Movement {
 
     /**
      * Sets the current orientation of the movement.
+     *
      * @param orientation The orientation of the movement.
      */
     public void setOrientation(double orientation) {

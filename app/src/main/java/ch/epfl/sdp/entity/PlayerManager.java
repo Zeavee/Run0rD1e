@@ -142,7 +142,7 @@ public class PlayerManager {
             playersWaitingHealthPoint.add(player);
         }
     }
-    
+
     /**
      * Remove all the players in the player manager.
      */

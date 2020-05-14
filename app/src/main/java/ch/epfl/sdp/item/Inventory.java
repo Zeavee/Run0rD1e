@@ -32,7 +32,7 @@ public class Inventory {
     }
 
     public void addItem(String itemName, int quantity) {
-        if(items.containsKey(itemName)) {
+        if (items.containsKey(itemName)) {
             items.put(itemName, quantity + items.get(itemName));
         } else {
             items.put(itemName, quantity);
@@ -41,13 +41,14 @@ public class Inventory {
 
     /**
      * Decreases the given item quantity, if the quantity is positive.
+     *
      * @param itemName The name of the item to be removed.
      */
     public void removeItem(String itemName) {
         if (items.containsKey(itemName)) {
-            if(items.get(itemName) > 1) {
+            if (items.get(itemName) > 1) {
                 items.put(itemName, items.get(itemName) - 1);
-            }else{
+            } else {
                 items.remove(itemName);
             }
         }
@@ -67,20 +68,21 @@ public class Inventory {
      *
      * @return A map containing the items and its related quantity.
      */
-    public void setItems(Map<String, Integer> items){
+    public void setItems(Map<String, Integer> items) {
         this.items = items;
     }
 
     /**
      * Use an item and put it in the used item map for the database.
+     *
      * @param itemName A name referring to the item.
      */
-    public void useItem(String itemName){
-        if(items.containsKey(itemName)){
+    public void useItem(String itemName) {
+        if (items.containsKey(itemName)) {
             removeItem(itemName);
-            if(usedItems.containsKey(itemName)) {
+            if (usedItems.containsKey(itemName)) {
                 usedItems.put(itemName, 1 + usedItems.get(itemName));
-            }else {
+            } else {
                 usedItems.put(itemName, 1);
             }
         }
@@ -95,22 +97,22 @@ public class Inventory {
         return Collections.unmodifiableMap(usedItems);
     }
 
-    public void clearUsedItems(){
+    public void clearUsedItems() {
         usedItems.clear();
     }
 
     /**
      * The amount of items in the inventory.
+     *
      * @return An amount representing the sum of quantity of each item.
      */
-    public int size(){
+    public int size() {
         int size = 0;
 
-        for (int value :items.values()) {
+        for (int value : items.values()) {
             size += value;
         }
 
         return size;
     }
 }
-

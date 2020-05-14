@@ -18,6 +18,7 @@ public class TimestampConverter {
 
     /**
      * Gets a date object from milliseconds
+     *
      * @param value the milliseconds since January 1 1970
      * @return the date given the milliseconds since  January 1 1970
      */
@@ -28,6 +29,7 @@ public class TimestampConverter {
 
     /**
      * Gets milliseconds from date object
+     *
      * @param date the date formatted according to df
      * @return the number of milliseconds from January 1 1970 to the given date specified by "Date"
      */

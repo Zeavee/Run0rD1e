@@ -198,7 +198,7 @@ public class Enemy extends ArtificialMovingEntity {
      * Can also go to the wait state if the flag is enabled.
      */
     private void attack() {
-        if(attackTimeDelay > 0) {
+        if (attackTimeDelay > 0) {
             attackTimeDelay -= 1;
             checkWaiting();
             return;
