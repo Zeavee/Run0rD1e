@@ -38,7 +38,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * @brief tests if message "thanks" sent to stupid2@gmail.com is displayed on the ChatActivity's view
  * for this test to work, we must first register them as friends inside the SQLite database
- *//*
+ */
 public class ChatActivityTest {
     private String currentEmail;
 
@@ -125,4 +125,4 @@ public class ChatActivityTest {
         step4();
     }
 
-}*/
+}
