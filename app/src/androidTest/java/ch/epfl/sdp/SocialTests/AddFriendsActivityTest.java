@@ -101,7 +101,6 @@ public class AddFriendsActivityTest {
         ViewInteraction textView = matchesChildWithTextAtDepth4("stupid0@gmail.com", R.id.textViewEmail, R.id.recyclerQueryFriends, 2);
         textView.check(matches(withText("stupid0@gmail.com")));
     }
-
     @Test
     public void addFriendsActivityTest() throws InterruptedException {
 
