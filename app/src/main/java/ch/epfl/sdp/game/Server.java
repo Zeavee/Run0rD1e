@@ -13,6 +13,7 @@ import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -65,30 +66,34 @@ public class Server implements Updatable {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
                 serverDatabaseAPI.fetchPlayers(value1 -> {
                     if (value1.isSuccessful()) {
-                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                playerManager.addPlayer(player);
-                            }
-                            Log.d(TAG, "(Server) Getting Player: " + player);
-                        }
-                        initGameArea();
-                        initItemBoxes();
-                        initEnemies();
-                        initCoins();
-                        serverDatabaseAPI.startGame(value2 -> {
-                            if (value2.isSuccessful()) {
-                                Game.getInstance().addToUpdateList(this);
-                                Game.getInstance().initGame();
-                                addPlayersPositionListener();
-                                addUsedItemsListener();
-                            } else
-                                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
-                        });
+                        initGame(value1);
                     } else
                         Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                 });
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+        });
+    }
+
+    private void initGame(CustomResult<List<PlayerForFirebase>> value1) {
+        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                playerManager.addPlayer(player);
+            }
+            Log.d(TAG, "(Server) Getting Player: " + player);
+        }
+        initGameArea();
+        initItemBoxes();
+        initEnemies();
+        initCoins();
+        serverDatabaseAPI.startGame(value2 -> {
+            if (value2.isSuccessful()) {
+                Game.getInstance().addToUpdateList(this);
+                Game.getInstance().initGame();
+                addPlayersPositionListener();
+                addUsedItemsListener();
+            } else
+                Log.d(TAG, "initEnvironment: failed" + value2.getException().getMessage());
         });
     }
 
