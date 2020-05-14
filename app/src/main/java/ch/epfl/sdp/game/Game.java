@@ -21,7 +21,7 @@ public class Game implements Updatable {
     private Renderer renderer;
     private ScoreUpdater scoreUpdater;
 
-    public AreaShrinker areaShrinker = new AreaShrinker();
+    public AreaShrinker areaShrinker = new AreaShrinker(10000, 30000, 0.75);
 
     private static Game instance = new Game();
 

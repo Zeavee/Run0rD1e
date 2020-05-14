@@ -15,42 +15,52 @@ import java.util.concurrent.TimeUnit;
  */
 public class AreaShrinker {
     private Area gameArea;
-    private final double[] time = {0};
-    private double finalTime;
+    private final long[] time = {0};
+    private long finalTime;
     private TextView timer;
     private Activity context;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private long timeBeforeShrinking;
+    private long shrinkingDuration;
+    private double shrinkFactor;
+    private final long tick = 500;
+
+    public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {
+        this.timeBeforeShrinking = timeBeforeShrinking;
+        this.shrinkingDuration = shrinkingDuration;
+        this.shrinkFactor = shrinkFactor;
+    }
 
     private void startShrink() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runTimer(10000, () -> {
-                            time[0] += 500;
+                runTimer(timeBeforeShrinking, () -> {
+                            time[0] += tick;
                             context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
                         });
 
-                gameArea.shrink(0.75);
-                gameArea.setFinalTime(20000);
-                runTimer(20000, () -> {
-                    time[0] += 500;
+                gameArea.shrink(shrinkFactor);
+                gameArea.setFinalTime(shrinkingDuration);
+                runTimer(shrinkingDuration, () -> {
+                    time[0] += tick;
                     gameArea.setTime(time[0]);
                     context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
                 });
                 gameArea.finishShrink();
             }
-        }, 0, 10000);
+        }, 0, 1);
     }
 
-    private void runTimer(double finalTime, Runnable runnable) {
+    private void runTimer(long finalTime, Runnable runnable) {
         time[0] = 0;
         this.finalTime = finalTime;
         ScheduledFuture<?> update = scheduler.scheduleWithFixedDelay(runnable, 0, 500, TimeUnit.MILLISECONDS);
         scheduler.schedule(() -> {
             update.cancel(true);
-        }, (long) finalTime, TimeUnit.MILLISECONDS);
+        }, finalTime, TimeUnit.MILLISECONDS);
         try {
-            scheduler.awaitTermination((long)finalTime, TimeUnit.MILLISECONDS);
+            scheduler.awaitTermination(finalTime, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             e.printStackTrace();
         }
