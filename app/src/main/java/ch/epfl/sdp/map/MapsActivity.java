@@ -109,6 +109,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         showGameInfoThread().start();
 
         timerShrinking = findViewById(R.id.timerShrinking);
+        Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
     }
 
     @Override
@@ -173,7 +174,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     new Server(serverDatabaseAPI);
-                    Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     new Client(clientDatabaseAPI);

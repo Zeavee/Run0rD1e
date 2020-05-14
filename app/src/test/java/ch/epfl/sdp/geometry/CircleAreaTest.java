@@ -27,6 +27,26 @@ public class CircleAreaTest {
         assertTrue(oldCenter.distanceTo(oldCircleArea.getNewLocation()) < 10000 * 0.5);
         assertEquals(oldCircleArea.getOldRadius(), 10000, 0.01);
         assertTrue(oldCenter.distanceTo(oldCircleArea.getOldLocation()) < 0.01);
+        oldCircleArea.finishShrink();
+        assertFalse(oldCircleArea.isShrinking());
+        assertEquals(10000 * 0.5, oldCircleArea.getRadius(), 0.01);
+        assertTrue(oldCircleArea.getLocation().distanceTo(oldCircleArea.getNewLocation()) < 0.01);
+    }
+
+    @Test
+    public void randomLocationWorks() {
+        GeoPoint center = new GeoPoint(30, 40);
+        CircleArea circleArea = new CircleArea(1000, center);
+        GeoPoint randomLocation = circleArea.randomLocation();
+        assertTrue(center.distanceTo(randomLocation) < circleArea.getRadius());
+    }
+
+    @Test
+    public void isInsideWorks() {
+        GeoPoint center = new GeoPoint(30, 40);
+        CircleArea circleArea = new CircleArea(1000, center);
+        assertTrue(center.distanceTo(new GeoPoint(30.001, 40)) < 1000);
+        assertTrue(circleArea.isInside(new GeoPoint(30.001, 40)));
     }
 
     @Test
