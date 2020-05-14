@@ -78,7 +78,7 @@ public class Client implements Updatable {
                 for (ItemBoxForFirebase itemBoxForFirebase : value.getResult()) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
-                    GeoPoint location = itemBoxForFirebase.getLocation();
+                    GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(itemBoxForFirebase.getLocation());
 
                     if (itemBoxManager.getItemBoxes().containsKey(id)) {
                         if (taken) {

@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.PointConverter;
 
 public class GoogleLocationFinder implements LocationFinder {
     private LocationListener locationListener;
@@ -32,7 +31,7 @@ public class GoogleLocationFinder implements LocationFinder {
             public void onLocationChanged(Location latestLocation) {
                 currentLocation = latestLocation;
                 PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
-                PlayerManager.getInstance().getCurrentUser().setPosition(PointConverter.geoPointToCartesianPoint(PlayerManager.getInstance().getCurrentUser().getLocation()));
+                PlayerManager.getInstance().getCurrentUser().setLocation(PlayerManager.getInstance().getCurrentUser().getLocation());
                 requestUpdatePosition();
             }
 

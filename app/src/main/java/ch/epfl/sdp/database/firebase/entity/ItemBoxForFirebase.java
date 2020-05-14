@@ -1,13 +1,13 @@
 package ch.epfl.sdp.database.firebase.entity;
 
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 
 public class ItemBoxForFirebase {
     private String id;
-    private GeoPoint location;
+    private GeoPointForFirebase location;
     private boolean taken;
 
-    public ItemBoxForFirebase(String id, GeoPoint location, boolean taken) {
+    public ItemBoxForFirebase(String id, GeoPointForFirebase location, boolean taken) {
         this.id = id;
         this.location = location;
         this.taken = taken;
@@ -24,11 +24,11 @@ public class ItemBoxForFirebase {
         this.taken = taken;
     }
 
-    public GeoPoint getLocation() {
+    public GeoPointForFirebase getLocation() {
         return location;
     }
 
-    public void setLocation(GeoPoint location) {
+    public void setLocation(GeoPointForFirebase location) {
         this.location = location;
     }
 

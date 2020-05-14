@@ -12,7 +12,7 @@ public class ItemFactory {
             case "Shrinker":
                 return new Shrinker(Integer.parseInt(parts[1]), Double.parseDouble(parts[2]));
             case "Scan":
-                return new Scan(Integer.parseInt(parts[2]));
+                return new Scan(Integer.parseInt(parts[1]));
         }
 
         return null;
