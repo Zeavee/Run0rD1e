@@ -81,7 +81,7 @@ public class RandomGenerator {
 
     // Chooses a random location on a circle of chosen radius
     public GeoPoint randomLocationOnCircle(GeoPoint reference, int radius) {
-        Vector vector = Vector.fromPolar(rand.nextDouble() * radius, rand.nextDouble() * Math.PI * 2);
+        Vector vector = Vector.fromPolar(rand.nextDouble() * radius, rand.nextDouble() * Math.PI);
         return reference.asOriginTo(vector);
     }
 
