@@ -2,6 +2,7 @@ package ch.epfl.sdp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -52,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         Game.getInstance().destroyGame();
         startActivity(new Intent(MainActivity.this, LoginFormActivity.class));
         finish();
+    }
+
+    public void backBtn_OnClick(View view) {
+        logout();
     }
 }
     

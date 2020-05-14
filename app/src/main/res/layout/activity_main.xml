@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -21,9 +22,10 @@
     <Button
         android:id="@+id/logoutBt"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:text="Logout"
+        android:background="@drawable/general_btn_rounded"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
@@ -60,9 +62,10 @@
     <Button
         android:id="@+id/leaderboard"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:text="LeaderBoard"
+        android:background="@drawable/general_btn_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +74,9 @@
     <Button
         android:id="@+id/mapButton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/general_btn_rounded"
         android:text="Start Game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -82,9 +86,10 @@
     <Button
         android:id="@+id/rulesButton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:text="Rules"
+        android:background="@drawable/general_btn_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapButton" />
@@ -95,8 +100,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@drawable/general_btn_rounded"
         android:text="Friends"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="43dp"
+        android:onClick="backBtn_OnClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/mapButton"
+        app:layout_constraintHorizontal_bias="0.838"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.047"
+        app:srcCompat="@drawable/arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
