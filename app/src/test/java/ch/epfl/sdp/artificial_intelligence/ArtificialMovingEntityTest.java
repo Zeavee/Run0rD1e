@@ -10,7 +10,6 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapApi;
@@ -90,30 +89,28 @@ public class ArtificialMovingEntityTest {
     public void secondConstructorWorks() {
         Area area = new UnboundedArea();
         GeoPoint location = new GeoPoint(0,0);
-        LocalArea localArea = new LocalArea(area, location);
-        ame.setLocalArea(localArea);
+        ame.setLocalArea(area);
         ame.setLocation(location);
-        assertEquals(localArea, ame.getLocalArea());
-        assertEquals(true, localArea.isInside(ame.getLocation()));
+        assertEquals(area, ame.getLocalArea());
+        assertEquals(true, area.isInside(ame.getLocation()));
     }
 
     @Test
     public void entityDoesNotGetOutOfBoundsWithLinear() {
         GeoPoint entityLocation = new GeoPoint(40, 50);
-        Area rectangleBounds = new RectangleArea(1, 1);
-        LocalArea localArea = new LocalArea(rectangleBounds, entityLocation);
+        Area rectangleArea = new RectangleArea(1, 1, entityLocation);
         LinearMovement movement = new LinearMovement();
 
         ame.setLocation(entityLocation);
         ame.setMovement(movement);
-        ame.setLocalArea(localArea);
+        ame.setLocalArea(rectangleArea);
 
         movement.setVelocity(10);
         ame.setMovement(movement);
 
         for (int i = 0; i < 1000; ++i) {
             ame.update();
-            assertTrue(localArea.isInside(ame.getLocation()));
+            assertTrue(rectangleArea.isInside(ame.getLocation()));
         }
     }
 }

@@ -9,7 +9,9 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </androidx.fragment.app.FragmentContainerView>
 
     <FrameLayout
         android:id="@+id/fragment_inventory_container"
@@ -104,6 +106,16 @@
         android:textColor="#ffffff"
         map:layout_constraintBottom_toBottomOf="@+id/map"
         map:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/timerShrinking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp"
+        map:layout_constraintEnd_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/button_leaderboard" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

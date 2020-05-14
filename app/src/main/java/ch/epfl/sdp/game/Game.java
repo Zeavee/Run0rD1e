@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
+import ch.epfl.sdp.geometry.AreaShrinker;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.Renderer;
@@ -18,6 +19,8 @@ public class Game implements Updatable {
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
     private ArrayList<Displayable> displayables;
     private Renderer renderer;
+
+    public AreaShrinker areaShrinker = new AreaShrinker(10000, 30000, 0.75);
 
     private static Game instance = new Game();
 
