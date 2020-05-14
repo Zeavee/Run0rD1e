@@ -4,20 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Entity;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a box that can store items and can be taken by players.
  */
-public class ItemBox implements Displayable, Updatable {
+public class ItemBox extends Entity implements Updatable {
     private Map<String, Integer> items;
-    private GeoPoint location;
     private boolean taken;
     private boolean isDisplayed;
     private boolean reDisplay;
@@ -26,8 +25,8 @@ public class ItemBox implements Displayable, Updatable {
      * Creates an item box.
      */
     public ItemBox(GeoPoint location) {
+        super(location);
         this.items = new HashMap<>();
-        this.location = location;
         taken = false;
         isDisplayed = false;
         reDisplay = false;
@@ -75,7 +74,7 @@ public class ItemBox implements Displayable, Updatable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        // The locatioon of the itemBox will never change, we only need to display once
+        // The location of the itemBox will never change, we only need to display once
         if (!isDisplayed || reDisplay) {
             mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
             isDisplayed = true;
@@ -101,20 +100,5 @@ public class ItemBox implements Displayable, Updatable {
             Game.getInstance().removeFromDisplayList(this);
             break;
         }
-    }
-
-
-    @Override
-    public GeoPoint getLocation() {
-        return location;
-    }
-
-    /**
-     * Sets the location of the entity on the geodesic surface.
-     *
-     * @param location The location on the geodesic surface.
-     */
-    public void setLocation(GeoPoint location) {
-        this.location = location;
     }
 }

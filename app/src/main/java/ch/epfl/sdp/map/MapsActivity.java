@@ -182,10 +182,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    Server server = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    server.start();
+
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    Client client = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    client.start();
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();

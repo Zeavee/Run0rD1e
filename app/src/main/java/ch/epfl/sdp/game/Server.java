@@ -2,8 +2,6 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
-import com.google.api.LogDescriptor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,16 +14,12 @@ import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.LocalArea;
-import ch.epfl.sdp.geometry.PointConverter;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Coin;
@@ -56,7 +50,6 @@ public class Server implements Updatable {
         this.scoreTimeCounter = 0;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
-        initEnvironment();
     }
 
     @Override
@@ -82,12 +75,13 @@ public class Server implements Updatable {
 
     }
 
-    private void initEnvironment() {
+    public void start() {
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-               fetchPlayers();
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
+                fetchPlayers();
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+        });
     }
 
     private void fetchPlayers() {
@@ -103,13 +97,14 @@ public class Server implements Updatable {
                 List<String> playersEmailList = new ArrayList<>();
                 playersEmailList.addAll(playerManager.getPlayersMap().keySet());
                 fetchGeneralScore(playersEmailList);
-            } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+            } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+        });
     }
 
     private void fetchGeneralScore(List<String> playersEmailList) {
         serverDatabaseAPI.fetchGeneralScoreForPlayers(playersEmailList, value -> {
-            if(value.isSuccessful()) {
-                for(UserForFirebase userForFirebase: value.getResult()) {
+            if (value.isSuccessful()) {
+                for (UserForFirebase userForFirebase : value.getResult()) {
                     playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
@@ -130,7 +125,8 @@ public class Server implements Updatable {
                 Game.getInstance().initGame();
                 addPlayersPositionListener();
                 addUsedItemsListener();
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage()); });
+            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+        });
     }
 
     private void initEnemies() {
@@ -138,12 +134,13 @@ public class Server implements Updatable {
         // TODO USE random enemy generator to generate enemy
         GeoPoint local = new GeoPoint(6.2419, 46.2201);
         GeoPoint enemyPos = new GeoPoint(6.3419, 46.2301);
-        LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), PointConverter.geoPointToCartesianPoint(local));
-        Enemy enemy = new Enemy(0, localArea, new UnboundedArea());
+        LocalArea localArea = new LocalArea(new RectangleArea(3500, 3500), local);
+        LocalArea localAreaMax = new LocalArea(new UnboundedArea(), new GeoPoint(0, 0));
+        Enemy enemy = new Enemy(0, localArea, localAreaMax);
         enemy.setLocation(enemyPos);
         enemy.setAoeRadius(100);
-        SinusoidalMovement movement = new SinusoidalMovement(PointConverter.geoPointToCartesianPoint(enemyPos));
-        movement.setVelocity(25);
+        SinusoidalMovement movement = new SinusoidalMovement();
+        movement.setVelocity(600);
         movement.setAngleStep(0.1);
         movement.setAmplitude(10);
         enemy.setMovement(movement);
@@ -187,7 +184,8 @@ public class Server implements Updatable {
                     ItemsForFirebase itemsForFirebase = entry.getValue();
 
                     for (Map.Entry<String, Integer> items : itemsForFirebase.getItemsMap().entrySet()) {
-                        for (int i = 0; i < items.getValue(); ++i) {
+                        int usedCount = items.getValue();
+                        for (int i = 0; i < usedCount; i++) {
                             itemFactory.getItem(items.getKey()).useOn(playerManager.getPlayersMap().get(email));
                             playerManager.getPlayersMap().get(email).getInventory().removeItem(items.getKey());
                         }
@@ -202,23 +200,21 @@ public class Server implements Updatable {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
-                    CartesianPoint cartesianPoint = PointConverter.geoPointToCartesianPoint(playerForFirebase.getLocation());
+                    GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase());
 
-                    if (player.getPosition() != null) {
+                    if (player.getLocation() != null) {
                         Log.d(TAG, "addPlayersPositionListener: ===============================");
-                        Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " +  player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
-                        Log.d(TAG, "addPlayersPositionListener: after " +  playerForFirebase.getUsername() + " " +  playerForFirebase.getLocation().getLatitude() + " " + playerForFirebase.getLocation().getLongitude());
-                        double traveledDistance = player.getPosition().distanceFrom(cartesianPoint);
+                        Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " + player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
+                        Log.d(TAG, "addPlayersPositionListener: after " + playerForFirebase.getUsername() + " " + location.getLatitude() + " " + location.getLongitude());
+                        double traveledDistance = player.getLocation().distanceTo(location);
                         player.updateDistanceTraveled(traveledDistance);
 
                         // update the location of the player
-                        player.setLocation(playerForFirebase.getLocation());
-                        player.setPosition(cartesianPoint);
+                        player.setLocation(location);
                         Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
                         Log.d(TAG, "addPlayersPositionListener: ===============================");
 
                     }
-
                 }
             } else {
                 Log.w(TAG, "addPlayersPositionListener: failed", value.getException());
@@ -274,16 +270,16 @@ public class Server implements Updatable {
     private void checkPlayerStatus() {
         int numberOfPlayerAlive = 0;
         // check the number of players alive
-        for(Player player: playerManager.getPlayers()) {
-            if(player.getHealthPoints() > 0) {
+        for (Player player : playerManager.getPlayers()) {
+            if (player.getHealthPoints() > 0) {
                 numberOfPlayerAlive += 1;
             }
         }
 
-        if(numberOfPlayerAlive == 0 && !gameEnd) {
+        if (numberOfPlayerAlive == 0 && !gameEnd) {
             // update the general score of players
             Map<String, Integer> emailsScoreMap = new HashMap<>();
-            for(Player player: playerManager.getPlayers()) {
+            for (Player player : playerManager.getPlayers()) {
                 player.setGeneralScore(player.getGeneralScore() + player.getCurrentGameScore());
                 emailsScoreMap.put(player.getEmail(), player.getGeneralScore());
             }

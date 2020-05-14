@@ -40,18 +40,10 @@ public class Client implements Updatable {
     public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
-
-        // TODO Add Listener for and Players
-        init();
-        addEnemyListener();
-        addItemBoxesListener();
-        addIngameScoreAndHealthPointListener();
-        addUserItemListener();
     }
 
     @Override
     public void update() {
-//        checkEndOfGame();
         if (counter <= 0) {
             sendUserPosition();
             sendUsedItems();
@@ -61,7 +53,7 @@ public class Client implements Updatable {
         --counter;
     }
 
-    private void init() {
+    public void start() {
         clientDatabaseAPI.listenToGameStart(start -> {
             if (start.isSuccessful()) {
                 commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
@@ -78,6 +70,11 @@ public class Client implements Updatable {
                     } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
             }
         });
+
+        addEnemyListener();
+        addItemBoxesListener();
+        addIngameScoreAndHealthPointListener();
+        addUserItemListener();
     }
 
     private void addEnemyListener() {
@@ -105,7 +102,7 @@ public class Client implements Updatable {
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
-                    GeoPoint location = itemBoxForFirebase.getLocation();
+                    GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(itemBoxForFirebase.getLocation());
 
                     if (itemBoxManager.getItemBoxes().containsKey(id)) {
                         if (taken) {
@@ -171,13 +168,6 @@ public class Client implements Updatable {
         if (!usedItems.isEmpty()) {
             clientDatabaseAPI.sendUsedItems(EntityConverter.convertItems(usedItems));
             playerManager.getCurrentUser().getInventory().clearUsedItems();
-        }
-    }
-
-    private void checkEndOfGame() {
-        if (playerManager.getCurrentUser().getHealthPoints() == 0) {
-            Game.getInstance().clearGame();
-            Game.getInstance().destroyGame();
         }
     }
 }

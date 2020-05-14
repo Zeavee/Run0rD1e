@@ -2,24 +2,21 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.Random;
 
-import ch.epfl.sdp.entity.AoeRadiusMovingEntity;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.AoeRadiusEntity;
 import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.PointConverter;
-import ch.epfl.sdp.geometry.Positionable;
+import ch.epfl.sdp.geometry.LocalArea;
 import ch.epfl.sdp.geometry.UnboundedArea;
 
 /**
  * Represents an entity of the game that can move automatically by setting a movement. The movement
  * can be limited by setting an area where the entity can reside.
  */
-public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity implements Movable, Positionable, Updatable {
+public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements Updatable {
     private Movement movement;
-    private Area area;
+    private LocalArea localArea;
     private boolean moving;
+
     /**
      * When the forceMove is true the entity is allowed to go move outside the area.
      */
@@ -30,11 +27,9 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      * Creates a default moving artificial entity, without a bounded area and with a linear
      * movement.
      */
-    public MovingArtificialEntity() {
-        super();
-        movement = new LinearMovement(PointConverter.geoPointToCartesianPoint(getLocation()));
-        area = new UnboundedArea();
-        moving = true;
+    public ArtificialMovingEntity() {
+        this(new GeoPoint(0,0), new LinearMovement(),
+            new LocalArea(new UnboundedArea(), new GeoPoint(0,0)), true);
     }
 
     /**
@@ -42,13 +37,14 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      * already moving.
      *
      * @param movement the type of movement the entity use
-     * @param area the area the entity can move in
+     * @param localArea the area the entity can move in
      * @param moving a boolean that tell if the entity is moving
      */
-    public MovingArtificialEntity(Movement movement, Area area, boolean moving) {
-        super();
+    public ArtificialMovingEntity(GeoPoint location, Movement movement, LocalArea localArea,
+                                  boolean moving) {
+        super(location);
         this.movement = movement;
-        this.area = area;
+        this.localArea = localArea;
         this.moving = moving;
     }
 
@@ -57,17 +53,17 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
      *
      * @return An area where the moving artificial entity can reside.
      */
-    public Area getArea() {
-        return area;
+    public LocalArea getLocalArea() {
+        return localArea;
     }
 
     /**
      * Gets the area of the moving artificial entity.
      *
-     * @param area An area where the moving artificial entity can reside.
+     * @param localArea An area where the moving artificial entity can reside.
      */
-    public void setArea(Area area) {
-        this.area = area;
+    public void setLocalArea(LocalArea localArea) {
+        this.localArea = localArea;
     }
 
     /**
@@ -113,25 +109,15 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
         this.movement = movement;
     }
 
-    @Override
     public void move() {
-        CartesianPoint position = movement.nextPosition();
-        if (area.isInside(position) || forceMove) {
-            movement.setPosition(position);
-            super.setLocation(PointConverter.cartesianPointToGeoPoint(position, PlayerManager.getInstance().getCurrentUser().getLocation()));
-            //TODO change this
+        GeoPoint position = movement.nextPosition(getLocation());
+        if (localArea.isInside(position) || forceMove) {
+            super.setLocation(position);
         } else {
             bounce();
         }
     }
 
-    @Override
-    public void setLocation(GeoPoint geoPoint) {
-        super.setLocation(geoPoint);
-        movement.setPosition(PointConverter.geoPointToCartesianPoint(geoPoint));
-    }
-
-    @Override
     public boolean isMoving() {
         return moving;
     }
@@ -141,19 +127,5 @@ public abstract class MovingArtificialEntity extends AoeRadiusMovingEntity imple
         if (moving) {
             move();
         }
-    }
-
-    @Override
-    public CartesianPoint getPosition() {
-        return movement.getPosition();
-    }
-
-    /**
-     * Sets the current position (of the moving artificial entity) in the 2D plan.
-     *
-     * @param position A position in the 2D plane.
-     */
-    public void setPosition(CartesianPoint position) {
-        movement.setPosition(position);
     }
 }

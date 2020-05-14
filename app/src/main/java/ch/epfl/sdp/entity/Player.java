@@ -2,20 +2,15 @@ package ch.epfl.sdp.entity;
 
 import android.graphics.Color;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.PointConverter;
-import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
-import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
-public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
+public class Player extends AoeRadiusEntity {
     public final static double MAX_HEALTH = 100;
     private String username;
     private String email;
     private double healthPoints;
-    private CartesianPoint position;
     private boolean isShielded;
     private Inventory inventory;
     private int generalScore;
@@ -30,13 +25,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
 
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
-        super();
-        this.setLocation(new GeoPoint(longitude, latitude));
+        super(new GeoPoint(longitude,latitude));
         this.setUsername(username);
         this.setEmail(email);
         this.setHealthPoints(MAX_HEALTH);
         this.setShielded(false);
-        this.setPosition(PointConverter.geoPointToCartesianPoint(this.getLocation()));
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setGeneralScore(0);
@@ -79,19 +72,6 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
 
     public double getHealthPoints() {
         return healthPoints;
-    }
-
-    public void setPosition(CartesianPoint position) {
-        this.position = position;
-    }
-
-    @Override
-    public CartesianPoint getPosition() {
-        if (position == null) {
-            return null;
-        } else {
-            return position;
-        }
     }
 
     public void setShielded(boolean shielded) {

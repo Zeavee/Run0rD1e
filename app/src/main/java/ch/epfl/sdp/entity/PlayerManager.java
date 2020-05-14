@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.geometry.CartesianPoint;
+import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
  * This class should contain all the players in the current game. It allows to to operations on all
@@ -43,6 +42,9 @@ public class PlayerManager {
 
     public static PlayerManager getInstance() {
         return instance;
+    }
+
+    private PlayerManager() {
     }
 
     /**
@@ -146,14 +148,17 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingHealth(Player player) {
-            playersWaitingHealthPoint.add(player);
+        playersWaitingHealthPoint.add(player);
     }
-    
+
     /**
      * Remove all the players in the player manager.
      */
-    public void removeAll() {
+    public void clear() {
         playersMap.clear();
+        playersWaitingHealthPoint.clear();
+        playersWaitingItems.clear();
+        currentUser = null;
     }
 
     /**
@@ -181,13 +186,13 @@ public class PlayerManager {
      * @return A player representing the closest player alive from a given position. If there is no
      * player alive (healthPoint is bigger than 0) it returns null.
      */
-    public Player selectClosestPlayer(CartesianPoint position) {
+    public Player selectClosestPlayer(GeoPoint position) {
         Player target = null;
         double minDistance = Double.MAX_VALUE;
         double currDistance;
 
         for (Player player : playersMap.values()) {
-            currDistance = player.getPosition().distanceFrom(position) - player.getAoeRadius();
+            currDistance = player.getLocation().distanceTo(position) - player.getAoeRadius();
             if (currDistance < minDistance && player.getHealthPoints() > 0) {
                 minDistance = currDistance;
                 target = player;

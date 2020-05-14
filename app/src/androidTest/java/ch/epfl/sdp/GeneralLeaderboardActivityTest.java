@@ -32,7 +32,6 @@ public class GeneralLeaderboardActivityTest {
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map);
-
                 }
             };
 

@@ -48,7 +48,7 @@ public class CoinTest {
 
     @Test
     public void coinDisappearsWhenPicked() {
-        PlayerManager.getInstance().removeAll(); // Just to be sure that there are no players
+        PlayerManager.getInstance().clear(); // Just to be sure that there are no players
         l = new GeoPoint(10,10);
         player = new Player("testPlayer","testPlayer@gmail.com");
         player.setLocation(l);
@@ -65,7 +65,7 @@ public class CoinTest {
         assertFalse(c.isTaken());
         Game.getInstance().update();
         assertTrue(c.isTaken());
-        PlayerManager.getInstance().removeAll();
+        PlayerManager.getInstance().clear();
     }
 
     @Test

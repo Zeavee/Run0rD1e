@@ -1,6 +1,7 @@
 package ch.epfl.sdp.database.firebase;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
@@ -16,11 +17,6 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     public CommonMockDatabaseAPI(HashMap<String, UserForFirebase> userData) {
         this.userData = userData;
-    }
-
-    @Override
-    public void syncCloudFirebaseToRoom(GeneralLeaderboardViewModel generalLeaderboardViewModel) {
-
     }
 
     @Override
@@ -52,5 +48,15 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     @Override
     public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+    }
+
+    @Override
+    public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+
+    }
+
+    @Override
+    public void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
+
     }
 }
