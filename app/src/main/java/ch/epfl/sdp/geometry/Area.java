@@ -39,8 +39,6 @@ public abstract class Area implements Positionable, Displayable {
      */
     public boolean isInside(GeoPoint geoPoint) {
         Vector vec = center.toVector().subtract(geoPoint.toVector());
-        System.out.println(vec.x());
-        System.out.println(vec.y());
         return isInside(vec);
     }
 
