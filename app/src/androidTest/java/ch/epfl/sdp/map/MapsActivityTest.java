@@ -126,7 +126,7 @@ public class MapsActivityTest {
 
     @Test
     public void leaderboardOpensAndCloses() {
-        testFragmentOpendsAndCloses(R.id.button_leaderboard, R.id.temp);
+        testFragmentOpendsAndCloses(R.id.button_leaderboard, R.id.ingame_leaderboard_recyclerview);
     }
 
     @Test
