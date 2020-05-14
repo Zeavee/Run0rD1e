@@ -2,13 +2,10 @@ package ch.epfl.sdp.SocialTests;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
@@ -38,7 +35,7 @@ import static org.hamcrest.Matchers.is;
 /**
  * @brief tests if message "thanks" sent to stupid2@gmail.com is displayed on the ChatActivity's view
  * for this test to work, we must first register them as friends inside the SQLite database
- *//*
+ */
 public class ChatActivityTest {
     private String currentEmail;
 
@@ -125,4 +122,4 @@ public class ChatActivityTest {
         step4();
     }
 
-}*/
+}
