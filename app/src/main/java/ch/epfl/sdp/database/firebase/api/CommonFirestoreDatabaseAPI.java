@@ -82,4 +82,16 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e))))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
+
+    @Override
+    public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName).collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                        playerForFirebases.add(document.toObject(PlayerForFirebase.class));
+                    }
+                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
+                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+    }
 }

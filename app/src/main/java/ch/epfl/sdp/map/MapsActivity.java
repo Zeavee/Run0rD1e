@@ -2,12 +2,10 @@ package ch.epfl.sdp.map;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,13 +40,14 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
-import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.leaderboard.IngameLeaderboardFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private CommonDatabaseAPI commonDatabaseAPI;
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
+    private static IngameLeaderboardFragment ingameLeaderboardFragment = new IngameLeaderboardFragment();
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
     private LocationFinder locationFinder;
@@ -58,6 +57,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private boolean flagInventory = false;
     private boolean flagWeather = false;
+    private boolean flagIngameLeaderboard = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
 
@@ -83,8 +83,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
-        findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
-
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
@@ -103,6 +101,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         inventory.setOnClickListener(v -> {
             showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
             flagInventory = !flagInventory;
+        });
+
+        findViewById(R.id.button_leaderboard).setOnClickListener(view -> {
+            showFragment(ingameLeaderboardFragment, R.id.fragment_ingame_leaderboard_container, flagIngameLeaderboard);
+            flagIngameLeaderboard = !flagIngameLeaderboard;
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -172,10 +175,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Server(serverDatabaseAPI);
+                    new Server(serverDatabaseAPI, commonDatabaseAPI);
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Client(clientDatabaseAPI);
+                    new Client(clientDatabaseAPI, commonDatabaseAPI);
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();

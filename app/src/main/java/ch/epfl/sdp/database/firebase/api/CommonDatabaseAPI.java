@@ -1,5 +1,6 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
@@ -46,4 +47,11 @@ public interface CommonDatabaseAPI {
 
 
     void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel);
+
+    /**
+     * Fetch players from the Firebase Firestore
+     *
+     * @param onValueReadyCallback Callback after fetching players from the firebase
+     */
+    void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 }

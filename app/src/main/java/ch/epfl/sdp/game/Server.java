@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
@@ -38,13 +39,15 @@ public class Server implements Updatable {
     private int counter;
     private int scoreTimeCounter;
     private ServerDatabaseAPI serverDatabaseAPI;
+    private CommonDatabaseAPI commonDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private ItemFactory itemFactory;
 
-    public Server(ServerDatabaseAPI serverDatabaseAPI) {
+    public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
+        this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.scoreTimeCounter = 0;
         itemFactory = new ItemFactory();
@@ -79,7 +82,7 @@ public class Server implements Updatable {
         serverDatabaseAPI.listenToNumOfPlayers(value -> {
             if (value.isSuccessful()) {
                 Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                serverDatabaseAPI.fetchPlayers(value1 -> {
+                commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
                     if (value1.isSuccessful()) {
                         for (PlayerForFirebase playerForFirebase : value1.getResult()) {
                             Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);

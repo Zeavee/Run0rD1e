@@ -4,7 +4,6 @@ import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -51,18 +50,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        playerForFirebases.add(document.toObject(PlayerForFirebase.class));
-                    }
-                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-    }
-
-    @Override
     public void removePlayer(String email) {
         lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(email).delete();
     }
@@ -95,7 +82,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {

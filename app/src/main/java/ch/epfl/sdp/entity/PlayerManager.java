@@ -1,6 +1,8 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +107,13 @@ public class PlayerManager {
         return new ArrayList<>(playersMap.values());
     }
 
+    public List<Player> getPlayersSortByIngameScore() {
+        List<Player> players = this.getPlayers();
+        Comparator<Player> compareByIngameScore = (o1, o2) -> o2.getCurrentGameScore() - o1.getCurrentGameScore();
+        Collections.sort(players, compareByIngameScore);
+        return players;
+    }
+
     public Map<String, Player> getPlayersMap() {
         return playersMap;
     }
@@ -137,9 +146,7 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingHealth(Player player) {
-        if (currentUser != null && !currentUser.getEmail().equals(player.getEmail())) {
             playersWaitingHealthPoint.add(player);
-        }
     }
     
     /**

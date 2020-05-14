@@ -29,13 +29,6 @@ public interface ServerDatabaseAPI {
      */
     void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    /**
-     * Fetch players from the Firebase Firestore
-     *
-     * @param onValueReadyCallback Callback after fetching players from the firebase
-     */
-    void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
-
     void removePlayer(String email);
 
     /**
