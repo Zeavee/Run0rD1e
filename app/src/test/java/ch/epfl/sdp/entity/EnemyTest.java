@@ -1,5 +1,6 @@
 package ch.epfl.sdp.entity;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static ch.epfl.sdp.artificial_intelligence.Behaviour.PATROL;

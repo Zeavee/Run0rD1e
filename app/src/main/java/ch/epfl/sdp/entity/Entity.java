@@ -1,19 +1,20 @@
 package ch.epfl.sdp.entity;
 
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.map.Displayable;
 
 /**
- * Abstract class representing a moving entity
+ * Abstract class representing an entity
  */
-public abstract class MovingEntity implements Displayable {
+public abstract class Entity implements Positionable, Displayable {
     /**
      * GeoPoint representing the localisation of the entity
      */
     private GeoPoint location;
 
-    public MovingEntity() {
-        location = new GeoPoint(0, 0);
+    public Entity(GeoPoint geoPoint) {
+        location = geoPoint;
     }
 
     @Override
@@ -25,4 +26,3 @@ public abstract class MovingEntity implements Displayable {
         this.location = location;
     }
 }
-

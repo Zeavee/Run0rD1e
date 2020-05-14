@@ -4,20 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.entity.Entity;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a box that can store items and can be taken by players.
  */
-public class ItemBox implements Displayable, Updatable {
-    private Map<Item, Integer> items;
-    private GeoPoint location;
+public class ItemBox extends Entity implements Updatable {
+    private Map<String, Integer> items;
     private boolean taken;
     private boolean isDisplayed;
 
@@ -25,8 +24,8 @@ public class ItemBox implements Displayable, Updatable {
      * Creates an item box.
      */
     public ItemBox(GeoPoint location) {
+        super(location);
         this.items = new HashMap<>();
-        this.location = location;
         taken = false;
         isDisplayed = false;
     }
@@ -38,7 +37,7 @@ public class ItemBox implements Displayable, Updatable {
      * @param quantity The quantity of the item to be stored.
      */
     public void putItems(Item item, int quantity) {
-        items.put(item, quantity);
+        items.put(item.getName(), quantity);
     }
 
     /**
@@ -56,9 +55,8 @@ public class ItemBox implements Displayable, Updatable {
      * @param player The player that has detected the entity.
      */
     public void react(Player player) {
-        for (Map.Entry<Item, Integer> itemQuant : items.entrySet()) {
-            player.getInventory().addItem(itemQuant.getKey().getName(), itemQuant.getValue());
-
+        for (Map.Entry<String, Integer> itemQuant : items.entrySet()) {
+            player.getInventory().addItem(itemQuant.getKey(), itemQuant.getValue());
         }
         PlayerManager.getInstance().addPlayerWaitingItems(player);
     }
@@ -70,7 +68,7 @@ public class ItemBox implements Displayable, Updatable {
      */
     @Override
     public void displayOn(MapApi mapApi) {
-        // The locatioon of the itemBox will never change, we only need to display once
+        // The location of the itemBox will never change, we only need to display once
         if (!isDisplayed) {
             mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
             isDisplayed = true;
@@ -79,7 +77,7 @@ public class ItemBox implements Displayable, Updatable {
 
     @Override
     public void update() {
-        if (taken) {
+        if(taken) {
             return;
         }
 
@@ -95,20 +93,5 @@ public class ItemBox implements Displayable, Updatable {
             Game.getInstance().removeFromDisplayList(this);
             break;
         }
-    }
-
-
-    @Override
-    public GeoPoint getLocation() {
-        return location;
-    }
-
-    /**
-     * Sets the location of the entity on the geodesic surface.
-     *
-     * @param location The location on the geodesic surface.
-     */
-    public void setLocation(GeoPoint location) {
-        this.location = location;
     }
 }

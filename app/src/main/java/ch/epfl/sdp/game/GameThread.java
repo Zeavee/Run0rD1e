@@ -3,27 +3,27 @@ package ch.epfl.sdp.game;
 /**
  * Manages the main loop.
  */
-public class GameThread extends Thread {
-    public static final int FPS = 30;
+public class GameThread extends Thread{
+    public static final int FPS = 24;
     private boolean running;
     private Game game;
     private long startTime;
     private long totalTime = 0;
     private int frameCount = 0;
+    private boolean exceptionFlag = false;
 
     /**
      * Creates a thread for the game loop.
      *
      * @param game The current game.
      */
-    public GameThread(Game game) {
+    public GameThread(Game game){
         this.game = game;
     }
 
 
     /**
      * Get the actual state of the loop.
-     *
      * @return true if it is running, false otherwise.
      */
     public boolean isRunning() {
@@ -32,7 +32,6 @@ public class GameThread extends Thread {
 
     /**
      * Set true to start or continue the loop, false to stop it.
-     *
      * @param running defines the state of the loop.
      */
     public void setRunning(boolean running) {
@@ -43,9 +42,9 @@ public class GameThread extends Thread {
      * Main loop that can be parameterized, started and stopped, manages frames and updates.
      */
     @Override
-    public void run() {
+    public void run(){
         // Main loop of the game
-        while (running) {
+        while(running){
             startTime = System.nanoTime();
 
             // Does this needs synchronization?
@@ -53,6 +52,7 @@ public class GameThread extends Thread {
                 game.update();
                 game.draw();
             } catch (Exception e) {
+                exceptionFlag = true;
                 e.printStackTrace();
             }
 
@@ -87,7 +87,7 @@ public class GameThread extends Thread {
         totalTime += System.nanoTime() - startTime;
         frameCount++;
 
-        if (frameCount == FPS) {
+        if(frameCount == FPS) {
             double avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
 
             // Reset values
@@ -97,5 +97,9 @@ public class GameThread extends Thread {
             // Print avergage FPS
             System.out.println("Average FPS: " + avgFPS);
         }
+    }
+
+    public boolean getExceptionFlag(){
+        return exceptionFlag;
     }
 }

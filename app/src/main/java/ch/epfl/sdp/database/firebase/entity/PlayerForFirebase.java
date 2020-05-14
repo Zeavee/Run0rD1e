@@ -3,6 +3,9 @@ package ch.epfl.sdp.database.firebase.entity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.util.Map;
+
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -11,7 +14,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 public class PlayerForFirebase {
     private String username;
     private String email;
-    private GeoPoint location;
+    private GeoPointForFirebase geoPointForFirebase;
     private double aoeRadius;
     private double healthPoints;
     private int currentGameScore;
@@ -60,22 +63,12 @@ public class PlayerForFirebase {
         this.email = email;
     }
 
-    /**
-     * Get the GeoPoint Location of the playerForFirebase
-     *
-     * @return The GeoPoint Location of the playerForFirebase
-     */
-    public GeoPoint getLocation() {
-        return location;
+    public GeoPointForFirebase getGeoPointForFirebase() {
+        return geoPointForFirebase;
     }
 
-    /**
-     * Set the GeoPoint Location of the playerForFirebase
-     *
-     * @param location The GeoPoint Location of the playerForFirebase
-     */
-    public void setLocation(GeoPoint location) {
-        this.location = location;
+    public void setGeoPointForFirebase(GeoPointForFirebase geoPointForFirebase) {
+        this.geoPointForFirebase = geoPointForFirebase;
     }
 
     /**
@@ -89,7 +82,6 @@ public class PlayerForFirebase {
 
     /**
      * Set the aoeRadius of the playerForFirebase
-     *
      * @param aoeRadius The aoeRadius of the playerForFirebase
      */
     public void setAoeRadius(double aoeRadius) {
@@ -134,7 +126,6 @@ public class PlayerForFirebase {
 
     /**
      * Get the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
-     *
      * @return The timeStamp
      */
     public Timestamp getTimestamp() {
@@ -143,7 +134,6 @@ public class PlayerForFirebase {
 
     /**
      * Set the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
-     *
      * @param timestamp The timeStamp
      */
     public void setTimestamp(Timestamp timestamp) {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -53,7 +54,7 @@ public class EntityConverterTest {
     @Test
     public void convertEnemyForFirebaseListTest() {
         List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
-        enemyForFirebasesList.add(new EnemyForFirebase(1, new GeoPoint(33,33)));
+        enemyForFirebasesList.add(new EnemyForFirebase(1, new GeoPointForFirebase(33,33)));
 
         List<Enemy> enemyList = EntityConverter.convertEnemyForFirebaseList(enemyForFirebasesList);
         assertEquals(1, enemyList.size());

@@ -8,7 +8,7 @@ public class Scan extends TimedItem {
     private int scanTime;
 
     public Scan(int scanTime) {
-        super(String.format("Scan (%d)", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
+        super(String.format("Scan %d", scanTime), String.format("Item that scans the entire map and reveals other players for %d seconds", scanTime), scanTime);
         this.scanTime = scanTime;
     }
 

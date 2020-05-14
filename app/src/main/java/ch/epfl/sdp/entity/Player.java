@@ -2,19 +2,18 @@ package ch.epfl.sdp.entity;
 
 import android.graphics.Color;
 
-import ch.epfl.sdp.geometry.CartesianPoint;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Positionable;
 import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
 
-public class Player extends AoeRadiusMovingEntity implements Positionable, Displayable {
+public class Player extends AoeRadiusEntity implements Positionable, Displayable {
     private String username;
     private String email;
     private final static double MAX_HEALTH = 100;
     private double healthPoints;
-    private CartesianPoint position;
+    private GeoPoint position;
     private boolean alive;
     private boolean isShielded;
     private Inventory inventory;
@@ -33,14 +32,14 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
 
     //Constructor for the class
     public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
-        super();
+        super(new GeoPoint(longitude,latitude));
         this.setLocation(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
         this.setHealthPoints(100);
         this.setAlive(true);
         this.setShielded(false);
-        this.setPosition(new CartesianPoint((float) longitude, (float) latitude));
+        this.setLocation(new GeoPoint(longitude, latitude));
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setActive(true);
@@ -122,11 +121,11 @@ public class Player extends AoeRadiusMovingEntity implements Positionable, Displ
     }
 
     @Override
-    public CartesianPoint getPosition() {
+    public GeoPoint getLocation() {
         return position;
     }
 
-    public void setPosition(CartesianPoint position) {
+    public void setLocation(GeoPoint position) {
         this.position = position;
     }
 

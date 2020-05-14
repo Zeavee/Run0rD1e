@@ -24,8 +24,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class MarketTest {
-    // IMPORTANT: state of PlayerManager must be restored after test teardown
-    private Player originalPlayer = PlayerManager.getInstance().getCurrentUser();
     private Player buyer;
     private Market market;
 
@@ -35,6 +33,11 @@ public class MarketTest {
         buyer.addMoney(4000);
         PlayerManager.getInstance().setCurrentUser(buyer);
         market = new Market(new GeoPoint(1.0, 3.4));
+    }
+
+    @After
+    public void tearDown(){
+        PlayerManager.getInstance().clear();
     }
 
     @Test
@@ -77,10 +80,5 @@ public class MarketTest {
     public void playerCannotBuyNonExistentItem(){
         Item b = new Coin(10, new GeoPoint(3.0,1.0));
         assertFalse(market.buy(b.getClass(), buyer));
-    }
-
-    @After
-    public void tearDown(){
-        PlayerManager.getInstance().setCurrentUser(originalPlayer);
     }
 }
