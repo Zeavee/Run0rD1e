@@ -1,16 +1,12 @@
-package ch.epfl.sdp.logic;
+package ch.epfl.sdp.geometry;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.CircleArea;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class GameAreaTest {
+public class CircleAreaTest {
 
     @Test
     public void shrinkWithNegativeOrTooBigFactorDoesNotDoAnything() {
@@ -52,7 +48,7 @@ public class GameAreaTest {
         circle.setTime(2);
         circle.setShrinkTransition();
         assertEquals(5000, circle.getRadius(), 0.01);
-        assertEquals(0, circle.getOldLocation().distanceTo(circle.getNewLocation()), 0.01);
+        assertEquals(0, circle.getLocation().distanceTo(circle.getNewLocation()), 0.01);
     }
 
     @Test
@@ -62,9 +58,9 @@ public class GameAreaTest {
         circle.setFinalTime(2);
         circle.setTime(-1);
         circle.setShrinkTransition();
-        assertNull(circle.getOldLocation());
+        assertEquals(circle.getOldRadius(), circle.getRadius(), 0.01);
         circle.setTime(3);
         circle.setShrinkTransition();
-        assertNull(circle.getOldLocation());
+        assertEquals(circle.getOldRadius(), circle.getRadius(), 0.01);
     }
 }

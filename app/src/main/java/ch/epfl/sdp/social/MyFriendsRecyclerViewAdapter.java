@@ -19,7 +19,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
     private static MyClickListener myClickListener;
 
     /**
-     * This methods create a recycler view adapter
+     * This method creates a recycler view adapter
      * @param items the list of users we will see in our friends list
      */
     public MyFriendsRecyclerViewAdapter(List<User> items) {
@@ -27,7 +27,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
     }
 
     /**
-     * This methods sets our click listener
+     * This method sets our click listener
      * @param myClickListener The click listener that we want to use
      */
     public void setOnItemClickListener(MyClickListener myClickListener) {

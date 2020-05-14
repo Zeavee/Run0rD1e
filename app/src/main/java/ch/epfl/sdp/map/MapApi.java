@@ -42,7 +42,7 @@ public interface MapApi {
     void displayCircle(Displayable displayable, int color, int radius);
 
     /**
-     * This methods remove a given object from the map
+     * This method remove a given object from the map
      *
      * @param displayable the object we want to remove from the map
      */

@@ -33,7 +33,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     /**
-     * This methods adds a message in the list that we display
+     * This method adds a message in the list that we display
      * @param message The message we want to add
      */
     public void add(ChatActivity.MessageDecorator message) {

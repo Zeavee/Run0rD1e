@@ -23,6 +23,7 @@ public class RectangleArea extends Area {
 
     /**
      * Gets the height of the rectangle.
+     *
      * @return A value representing the height of the rectangle.
      */
     public float getHeight() {
@@ -31,6 +32,7 @@ public class RectangleArea extends Area {
 
     /**
      * Gets the width of the rectangle.
+     *
      * @return A value representing the width of the rectangle.
      */
     public float getWidth() {
