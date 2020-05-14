@@ -7,6 +7,7 @@ import org.junit.Test;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MockMap;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -115,5 +116,25 @@ public class GameTest {
 
         // assert
         Assert.assertFalse(Game.getInstance().isRunning());
+    }
+
+    @Test
+    public void gameThreadCatchExceptions() {
+        Game.getInstance().initGame();
+
+        Updatable updatable = new Updatable() {
+            @Override
+            public void update() {
+                double a = 1/0;
+            }
+        };
+
+        Game.getInstance().addToUpdateList(updatable);
+
+        while (!Game.getInstance().getGameThreadExceptionFlag()){
+            System.out.println("Waiting Exception");
+        }
+
+        assertTrue(Game.getInstance().getGameThreadExceptionFlag());
     }
 }

@@ -227,4 +227,8 @@ public class Game implements Updatable {
     public void draw() {
         renderer.display(displayables);
     }
+
+    public boolean getGameThreadExceptionFlag(){
+        return gameThread.getExceptionFlag();
+    }
 }

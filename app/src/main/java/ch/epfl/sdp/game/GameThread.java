@@ -10,6 +10,7 @@ public class GameThread extends Thread{
     private long startTime;
     private long totalTime = 0;
     private int frameCount = 0;
+    private boolean exceptionFlag = false;
 
     /**
      * Creates a thread for the game loop.
@@ -51,6 +52,7 @@ public class GameThread extends Thread{
                 game.update();
                 game.draw();
             } catch (Exception e) {
+                exceptionFlag = true;
                 e.printStackTrace();
             }
 
@@ -95,5 +97,9 @@ public class GameThread extends Thread{
             // Print avergage FPS
             System.out.println("Average FPS: " + avgFPS);
         }
+    }
+
+    public boolean getExceptionFlag(){
+        return exceptionFlag;
     }
 }
