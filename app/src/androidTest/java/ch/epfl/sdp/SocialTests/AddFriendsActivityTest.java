@@ -107,7 +107,7 @@ public class AddFriendsActivityTest {
 
         step1();
         closeSoftKeyboard();
-        Thread.sleep(1000); // for travis absolutely NECESSARY
+        Thread.sleep(2000); // for travis absolutely NECESSARY
         step2();
         step3();
         step4();
