@@ -96,14 +96,8 @@ public class CircleArea extends Area {
         if (time > finalTime || time < 0) {
             return;
         }
+        super.setShrinkTransition();
         radius = getValueForTime(time, finalTime, oldRadius, newRadius);
-        double outputLatitude = getValueForTime(time, finalTime, oldCenter.getLatitude(), newCenter.getLatitude());
-        double outputLongitude = getValueForTime(time, finalTime, oldCenter.getLongitude(), newCenter.getLongitude());
-        center = new GeoPoint(outputLongitude, outputLatitude);
-    }
-
-    private double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
-        return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
 
     @Override
@@ -123,8 +117,7 @@ public class CircleArea extends Area {
 
     @Override
     public void finishShrink() {
-        isShrinking = false;
-        center = newCenter;
+        super.finishShrink();
         radius = newRadius;
     }
 

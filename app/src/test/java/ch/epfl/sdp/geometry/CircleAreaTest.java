@@ -72,7 +72,7 @@ public class CircleAreaTest {
     }
 
     @Test
-    public void getShrinkTransitionReturnsNullOnInvalidTime() {
+    public void getShrinkTransitionDoesNotDoAnythingInvalidTime() {
         CircleArea circle = new CircleArea(10000, new GeoPoint(40, 50));
         circle.shrink(0.5);
         circle.setFinalTime(2);

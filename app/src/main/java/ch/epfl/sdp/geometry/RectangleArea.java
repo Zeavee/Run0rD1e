@@ -1,13 +1,21 @@
 package ch.epfl.sdp.geometry;
 
+import java.util.Random;
+
 import ch.epfl.sdp.map.MapApi;
 
 /**
  * Represents a rectangle area.
  */
 public class RectangleArea extends Area {
-    private final float halfHeight;
-    private final float halfWidth;
+    private double halfHeight;
+    private double halfWidth;
+
+    private double newHalfHeight;
+    private double newHalfWidth;
+
+    private double oldHalfHeight;
+    private double oldHalfWidth;
 
     /**
      * Creates a rectangle area with the given height and width.
@@ -15,7 +23,7 @@ public class RectangleArea extends Area {
      * @param height The height of the rectangle.
      * @param width  The width of the rectangle.
      */
-    public RectangleArea(float height, float width, GeoPoint center) {
+    public RectangleArea(double height, double width, GeoPoint center) {
         super(center);
         this.halfHeight = height / 2;
         this.halfWidth = width / 2;
@@ -26,7 +34,7 @@ public class RectangleArea extends Area {
      *
      * @return A value representing the height of the rectangle.
      */
-    public float getHeight() {
+    public double getHeight() {
         return 2 * halfHeight;
     }
 
@@ -35,38 +43,115 @@ public class RectangleArea extends Area {
      *
      * @return A value representing the width of the rectangle.
      */
-    public float getWidth() {
+    public double getWidth() {
         return 2 * halfWidth;
     }
 
     @Override
     public void shrink(double factor) {
-        //TODO implement
+        if (factor < 0 || factor > 1) {
+            return;
+        }
+        oldCenter = center;
+        newCenter = new RectangleArea(2 * halfHeight * (1 - factor), 2 * halfWidth * (1 - factor), center).randomLocation();
+
+        oldHalfHeight = halfHeight;
+        oldHalfWidth = halfWidth;
+
+        newHalfHeight = halfHeight * (float) factor;
+        newHalfWidth = halfWidth * (float) factor;
+
+        isShrinking = true;
     }
 
     @Override
     public void setShrinkTransition() {
-        //TODO implement
+        if (time > finalTime || time < 0) {
+            return;
+        }
+        super.setShrinkTransition();
+        halfHeight = getValueForTime(time, finalTime, oldHalfHeight, newHalfHeight);
+        halfWidth = getValueForTime(time, finalTime, oldHalfWidth, newHalfWidth);
     }
 
     @Override
-    protected boolean isInside(Vector vector) {
-        return vector.x() < halfWidth && vector.x() > -halfWidth && vector.y() < halfHeight && vector.y() > -halfHeight;
+    boolean isInside(Vector vector) {
+        return false;
+    }
+
+    @Override
+    public boolean isInside(GeoPoint geoPoint) {
+        return Math.abs(geoPoint.getX() - center.getX()) < halfWidth && Math.abs(geoPoint.getY() - center.getY()) < halfHeight;
     }
 
     @Override
     public GeoPoint randomLocation() {
-        //TODO implement
-        return null;
+        Random random = new Random();
+
+        double pos1 = random.nextDouble();
+        double pos2 = random.nextDouble();
+
+        int sign1 = 1;
+        int sign2 = 1;
+
+        if (pos1 < 0.5) {
+            sign1 *= -1;
+        }
+
+        if (pos2 < 0.5) {
+            sign2 *= -1;
+        }
+
+        Vector newCenterVec = new Vector(random.nextDouble() * sign1 * halfWidth, random.nextDouble() * sign2 * halfHeight);
+
+        return center.asOriginTo(newCenterVec);
     }
 
     @Override
     public void finishShrink() {
-        //TODO implement
+        super.finishShrink();
+        halfHeight = newHalfHeight;
+        halfWidth = newHalfWidth;
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
         //TODO implement
+    }
+
+    /**
+     * Method to get the height of the new area
+     *
+     * @return the radius
+     */
+    public double getNewHeight() {
+        return newHalfHeight * 2;
+    }
+
+    /**
+     * Method to get the width of the new area
+     *
+     * @return the radius
+     */
+    public double getNewWidth() {
+        return newHalfWidth * 2;
+    }
+
+    /**
+     * Method to get the height of the old area
+     *
+     * @return the radius
+     */
+    public double getOldHeight() {
+        return oldHalfHeight * 2;
+    }
+
+    /**
+     * Method to get the width of the old area
+     *
+     * @return the radius
+     */
+    public double getOldWidth() {
+        return oldHalfWidth * 2;
     }
 }

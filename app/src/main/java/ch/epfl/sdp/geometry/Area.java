@@ -39,6 +39,8 @@ public abstract class Area implements Positionable, Displayable {
      */
     public boolean isInside(GeoPoint geoPoint) {
         Vector vec = center.toVector().subtract(geoPoint.toVector());
+        System.out.println(vec.x());
+        System.out.println(vec.y());
         return isInside(vec);
     }
 
@@ -46,14 +48,17 @@ public abstract class Area implements Positionable, Displayable {
      * This method finds a smaller area that fits entirely inside the current area
      *
      * @param factor it is a number we multiply with the current area's size to get the new size
-     * @return A random area inside the current one
      */
     public abstract void shrink(double factor);
 
     /**
      * This method set the field of the area for displaying a transition state depending on the time set before
      */
-    public abstract void setShrinkTransition();
+    public void setShrinkTransition() {
+        double outputLatitude = getValueForTime(time, finalTime, oldCenter.getLatitude(), newCenter.getLatitude());
+        double outputLongitude = getValueForTime(time, finalTime, oldCenter.getLongitude(), newCenter.getLongitude());
+        center = new GeoPoint(outputLongitude, outputLatitude);
+    }
 
     /**
      * This method sets the time passed since the shrinking started
@@ -108,5 +113,12 @@ public abstract class Area implements Positionable, Displayable {
     /**
      * This method finishes the shrinking
      */
-    public abstract void finishShrink();
+    public void finishShrink() {
+        isShrinking = false;
+        center = newCenter;
+    }
+
+    double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
+        return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
+    }
 }
