@@ -139,8 +139,8 @@
 
     <ImageView
         android:id="@+id/backBtn"
-        android:layout_width="38dp"
-        android:layout_height="30dp"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
         android:onClick="backBtn_OnClick"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintTop_toTopOf="parent"
