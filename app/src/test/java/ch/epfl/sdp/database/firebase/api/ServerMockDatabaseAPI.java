@@ -13,13 +13,19 @@ import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
-    List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-    Map<String, ItemsForFirebase> usedItems = new HashMap<>();
+    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<String, PlayerForFirebase>();
+    public Map<String, ItemsForFirebase> usedItems = new HashMap<>();
+    public Map<String, ItemsForFirebase> items = new HashMap<>();
 
     public ServerMockDatabaseAPI() {
+
+    }
+
+    public void hardCodedInit(){
         PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
 
         playerForFirebase0.setUsername("server");
@@ -38,9 +44,8 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
         playerForFirebase1.setHealthPoints(20.0);
         playerForFirebase1.setCurrentGameScore(0);
 
-
-        playerForFirebaseList.add(playerForFirebase0);
-        playerForFirebaseList.add(playerForFirebase1);
+        playerForFirebaseMap.put(playerForFirebase0.getEmail(), playerForFirebase0);
+        playerForFirebaseMap.put(playerForFirebase1.getEmail(), playerForFirebase1);
 
         Map<String, Integer> itemsMap = new HashMap<>();
         itemsMap.put("Healthpack 10", 2);
@@ -65,7 +70,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
+        onValueReadyCallback.finish(new CustomResult<>(getPlayerForFirebaseList(), true, null));
     }
 
     @Override
@@ -79,13 +84,18 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases) {
-
+    public void sendPlayersHealth(List<PlayerForFirebase> playersForFirebase) {
+        for (PlayerForFirebase playerForFirebase: playersForFirebase) {
+            playerForFirebaseMap.get(playerForFirebase.getEmail())
+                    .setHealthPoints(playerForFirebase.getHealthPoints());
+        }
     }
 
     @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
-
+        for (Map.Entry<String, ItemsForFirebase> item: emailsItemsMap.entrySet()) {
+            items.put(item.getKey(),item.getValue());
+        }
     }
 
     @Override
@@ -95,6 +105,14 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onPlayersPositionCallback) {
-        onPlayersPositionCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
+        onPlayersPositionCallback.finish(new CustomResult<>(getPlayerForFirebaseList(), true, null));
+    }
+
+    public List<PlayerForFirebase> getPlayerForFirebaseList(){
+        return new ArrayList<>(playerForFirebaseMap.values());
+    }
+
+    public void addPlayerForFirebase(PlayerForFirebase playerForFirebase){
+        playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
     }
 }
