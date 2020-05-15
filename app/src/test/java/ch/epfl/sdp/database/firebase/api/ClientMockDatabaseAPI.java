@@ -66,6 +66,11 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
+    public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
+        
+    }
+
+    @Override
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
         playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
     }
