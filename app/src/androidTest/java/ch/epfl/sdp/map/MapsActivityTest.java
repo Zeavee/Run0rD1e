@@ -157,9 +157,10 @@ public class MapsActivityTest {
         onView(withId(view)).check(doesNotExist());
     }
 
-    private void testButtonWorks(int button, int view) {
+    private void testButtonWorks(int button, int view) throws InterruptedException {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
+        Thread.sleep(100);
         onView(withId(view)).check(matches(isDisplayed()));
     }
 
