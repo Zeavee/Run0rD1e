@@ -143,8 +143,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
 
-        Game.getInstance().addToDisplayList(new Market(new GeoPoint( 6.141384, 46.214278))); // for demo add Market in GVA
-
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
