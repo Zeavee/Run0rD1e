@@ -66,11 +66,6 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-        playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
-    }
-
-    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
     }
 }

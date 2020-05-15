@@ -55,4 +55,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
         userForFirebaseList.add(userForFirebaseMap.get("test@gmail.com"));
         onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
     }
+
+    @Override
+    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
+
+    }
 }
