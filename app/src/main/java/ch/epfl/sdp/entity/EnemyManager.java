@@ -43,8 +43,9 @@ public class EnemyManager {
             // add a new enemy instance
             enemies.put(enemyId, enemy);
             Game.getInstance().addToDisplayList(enemy);
-            Game.getInstance().addToUpdateList(enemy);
-
+            if(PlayerManager.getInstance().isServer()) {
+                Game.getInstance().addToUpdateList(enemy);
+            }
         }
     }
 

@@ -63,7 +63,7 @@ public class Client implements Updatable {
                             if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
                                 playerManager.addPlayer(player);
                             }
-                            Log.d(TAG, "(Server) Getting Player: " + player);
+                            Log.d(TAG, "Getting Player: " + player);
                         }
                         Game.getInstance().addToUpdateList(this);
                         Game.getInstance().initGame();
@@ -86,6 +86,7 @@ public class Client implements Updatable {
                 }
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
+                    Log.d(TAG, "addEnemyListener: " + enemy.getLocation().getLatitude() + enemy.getLocation().getLongitude());
                 }
             }
         });
