@@ -1,19 +1,28 @@
 package ch.epfl.sdp.geometry;
 
 import androidx.annotation.NonNull;
+import androidx.room.Update;
 
+import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.map.Displayable;
 
 /**
  * Represents an area in the 2D plane.
  */
-public abstract class Area implements Positionable, Displayable {
+public abstract class Area implements Positionable, Displayable, Updatable {
     GeoPoint center;
     GeoPoint oldCenter;
     GeoPoint newCenter;
     double time;
     double finalTime;
     boolean isShrinking;
+
+    private int DAMAGE = 10;
+    private int damageDelay = GameThread.FPS;
 
     /**
      * A constructor for an area
@@ -123,6 +132,20 @@ public abstract class Area implements Positionable, Displayable {
     }
 
     public abstract void updateGameArea(Area area);
+
+    @Override
+    public void update() {
+        if (damageDelay > 0) {
+            damageDelay--;
+            return;
+        }
+        damageDelay = GameThread.FPS;
+        for (Player player : PlayerManager.getInstance().getPlayers()) {
+            if (!isInside(player.getLocation())) {
+                player.setHealthPoints(player.getHealthPoints() - DAMAGE);
+            }
+        }
+    }
 
     @NonNull
     @Override

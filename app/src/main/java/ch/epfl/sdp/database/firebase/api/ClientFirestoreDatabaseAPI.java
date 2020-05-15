@@ -16,7 +16,9 @@ import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
@@ -80,6 +82,18 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
+        lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
+            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
+            else {
+                if (documentSnapshot != null && documentSnapshot.exists() && documentSnapshot.getString(PlayerManager.GAME_AREA_COLLECTION_NAME) != null) {
+                    onValueReadyCallback.finish(new CustomResult<>(documentSnapshot.getString(PlayerManager.GAME_AREA_COLLECTION_NAME), true, null));
+                }
+            }
+        }));
     }
 
     @Override

@@ -165,7 +165,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendGameArea(Area gameArea) {
-        lobbyRef.collection(PlayerManager.GAME_AREA_COLLECTION_NAME).document(PlayerManager.GAME_AREA_COLLECTION_NAME).update(PlayerManager.GAME_AREA_COLLECTION_NAME, gameArea.toString());
+        lobbyRef.update(PlayerManager.GAME_AREA_COLLECTION_NAME, gameArea.toString());
     }
 
     private interface Function<T, R> {

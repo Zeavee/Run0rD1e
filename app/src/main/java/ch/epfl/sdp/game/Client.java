@@ -71,7 +71,9 @@ public class Client implements Updatable {
                         }
                         Game.getInstance().addToUpdateList(this);
                         Game.getInstance().initGame();
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                    } else
+                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                });
             }
         });
 
@@ -101,7 +103,9 @@ public class Client implements Updatable {
         clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) { itemBoxForFirebaseList.add((ItemBoxForFirebase) object); }
+                for (Object object : value.getResult()) {
+                    itemBoxForFirebaseList.add((ItemBoxForFirebase) object);
+                }
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -121,7 +125,9 @@ public class Client implements Updatable {
                     }
                     Log.d(TAG, "Listen for itemboxes: " + value.getResult());
                 }
-            } else { Log.w(TAG, "Listen for itemBoxes failed.", value.getException()); }
+            } else {
+                Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
+            }
         });
     }
 
@@ -144,15 +150,15 @@ public class Client implements Updatable {
     }
 
     private void addGameAreaListener() {
-        clientDatabaseAPI.addCollectionListener(String.class, value -> {
+        clientDatabaseAPI.addGameAreaListener(value -> {
             if (value.isSuccessful()) {
-                for (Object object : value.getResult()) {
-                    if (area instanceof UnboundedArea) {
-                        area = new AreaFactory().getArea((String) object);
-                        Game.getInstance().addToDisplayList(area);
-                    }
-                    area.updateGameArea(new AreaFactory().getArea((String) object));
+                if (area instanceof UnboundedArea) {
+                    area = new AreaFactory().getArea(value.getResult());
+                    Game.getInstance().addToDisplayList(area);
                 }
+                area.updateGameArea(new AreaFactory().getArea(value.getResult()));
+            } else {
+                Log.w(TAG, "Listen for game area failed.", value.getException());
             }
         });
     }

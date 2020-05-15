@@ -26,6 +26,8 @@ public interface ClientDatabaseAPI {
 
     void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback);
 
+    void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback);
+
     void sendUserPosition(PlayerForFirebase playerForFirebase);
 
     void sendUsedItems(ItemsForFirebase itemsForFirebase);

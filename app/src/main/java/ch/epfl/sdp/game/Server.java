@@ -141,6 +141,7 @@ public class Server implements Updatable {
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
         Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
