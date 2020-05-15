@@ -39,7 +39,12 @@ public class UnboundedArea extends Area {
 
     @Override
     public void finishShrink() {
-        //we do not need to do anything here
+        //We do not need to do anything here
+    }
+
+    @Override
+    public void updateGameArea(Area area) {
+        //We do not need to update anything
     }
 
     @NonNull

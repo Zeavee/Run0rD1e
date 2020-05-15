@@ -53,5 +53,5 @@ public interface ServerDatabaseAPI {
 
     void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
-    void sendGameArea(List<Area> gameArea);
+    void sendGameArea(Area gameArea);
 }

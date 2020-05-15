@@ -20,6 +20,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -79,7 +80,14 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        sendList(playerForFirebaseList, PlayerManager.PLAYER_COLLECTION_NAME, PlayerForFirebase::getEmail, PlayerForFirebase::getHealthPoints);
+        WriteBatch batch = firebaseFirestore.batch();
+
+        for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
+            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
+            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
+        }
+
+        batch.commit();
     }
 
     @Override
@@ -156,8 +164,8 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendGameArea(List<Area> gameArea) {
-        sendList(gameArea, PlayerManager.GAME_AREA_COLLECTION_NAME, (a) -> "gameArea", Area::toString);
+    public void sendGameArea(Area gameArea) {
+        lobbyRef.collection(PlayerManager.GAME_AREA_COLLECTION_NAME).document(PlayerManager.GAME_AREA_COLLECTION_NAME).update(PlayerManager.GAME_AREA_COLLECTION_NAME, gameArea.toString());
     }
 
     private interface Function<T, R> {

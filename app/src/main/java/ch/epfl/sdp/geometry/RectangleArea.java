@@ -117,6 +117,13 @@ public class RectangleArea extends Area {
     }
 
     @Override
+    public void updateGameArea(Area area) {
+        center = area.getLocation();
+        halfHeight = ((RectangleArea) area).getHeight() / 2;
+        halfWidth = ((RectangleArea) area).getWidth() / 2;
+    }
+
+    @Override
     public void displayOn(MapApi mapApi) {
         //TODO implement
     }

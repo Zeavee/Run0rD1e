@@ -122,6 +122,8 @@ public abstract class Area implements Positionable, Displayable {
         return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
 
+    public abstract void updateGameArea(Area area);
+
     @NonNull
     @Override
     public abstract String toString();

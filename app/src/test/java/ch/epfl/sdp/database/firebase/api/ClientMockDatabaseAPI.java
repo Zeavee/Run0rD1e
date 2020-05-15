@@ -48,7 +48,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
         List<Object> entityList = new ArrayList<>();
         if (EnemyForFirebase.class.equals(entityType)) {
             entityList.addAll(enemyForFirebasesList);

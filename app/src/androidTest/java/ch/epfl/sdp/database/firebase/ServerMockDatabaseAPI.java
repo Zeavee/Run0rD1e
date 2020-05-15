@@ -70,7 +70,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendGameArea(List<Area> gameArea) {
+    public void sendGameArea(Area gameArea) {
 
     }
 }

@@ -22,7 +22,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
 
     }
 

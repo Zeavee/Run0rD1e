@@ -40,7 +40,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
         String collectionName = "";
         if (EnemyForFirebase.class.equals(entityType)) {
             collectionName = PlayerManager.ENEMY_COLLECTION_NAME;

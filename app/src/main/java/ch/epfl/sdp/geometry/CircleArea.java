@@ -123,6 +123,12 @@ public class CircleArea extends Area {
         radius = newRadius;
     }
 
+    @Override
+    public void updateGameArea(Area area) {
+        center = area.getLocation();
+        radius = ((CircleArea) area).getRadius();
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -134,6 +140,6 @@ public class CircleArea extends Area {
         if (isShrinking) {
             setShrinkTransition();
         }
-            mapApi.displayCircle(this, Color.RED, (int) radius);
+        mapApi.displayCircle(this, Color.RED, (int) radius);
     }
 }

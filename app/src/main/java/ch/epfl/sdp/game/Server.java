@@ -80,7 +80,7 @@ public class Server implements Updatable {
     }
 
     private void sendGameArea() {
-        serverDatabaseAPI.sendGameArea(Collections.singletonList(gameArea));
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     public void start() {
@@ -140,7 +140,7 @@ public class Server implements Updatable {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
-//        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToDisplayList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
