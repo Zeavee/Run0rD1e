@@ -8,6 +8,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
@@ -28,7 +29,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+    public void fetchGeneralScoreForPlayers(List<String> playerEmailList, OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
 
     }
 
@@ -49,6 +50,11 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
+
+    }
+
+    @Override
+    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
 
     }
 

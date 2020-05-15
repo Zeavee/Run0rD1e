@@ -60,7 +60,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
     /**
      * Gets the area of the moving artificial entity.
      *
-     * @param area An area where the moving artificial entity can reside.
+     * @param localArea An area where the moving artificial entity can reside.
      */
     public void setLocalArea(Area area) {
         this.area = area;

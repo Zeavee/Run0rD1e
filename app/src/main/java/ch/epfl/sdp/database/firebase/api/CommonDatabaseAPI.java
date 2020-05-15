@@ -1,12 +1,12 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.leaderboard.LeaderboardViewModel;
 
 /**
  * The interface with the method related to the Firebase Firestore
@@ -44,6 +44,12 @@ public interface CommonDatabaseAPI {
      */
     void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
+    /**
+     * Fetch players from the Firebase Firestore
+     *
+     * @param onValueReadyCallback Callback after fetching players from the firebase
+     */
+    void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
-    void syncCloudFirebaseToRoom(LeaderboardViewModel leaderboardViewModel);
+    void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback);
 }

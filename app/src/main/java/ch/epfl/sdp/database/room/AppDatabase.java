@@ -46,24 +46,13 @@ abstract class AppDatabase extends RoomDatabase {
      */
     private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
 
-            // If you want to keep data through app restarts,
-            // comment out the following block
             databaseExecutor.execute(() -> {
 
-                // Delete the leaderboard everytime open the database
+                // Delete the leaderboard first time create the database
                 INSTANCE.AppDAO().deleteAllFromLeaderboard();
-
-                // populate the leaderboardEntity
-                LeaderboardEntity leaderboardEntity0 = new LeaderboardEntity("fake0@gmail.com", "fake0", 100);
-                LeaderboardEntity leaderboardEntity1 = new LeaderboardEntity("fake1@gmail.com", "fake1", 90);
-                LeaderboardEntity leaderboardEntity2 = new LeaderboardEntity("fake2@gmail.com", "fake2", 80);
-                INSTANCE.AppDAO().insertToLeaderboard(leaderboardEntity0);
-                INSTANCE.AppDAO().insertToLeaderboard(leaderboardEntity1);
-                INSTANCE.AppDAO().insertToLeaderboard(leaderboardEntity2);
-
             });
         }
     };

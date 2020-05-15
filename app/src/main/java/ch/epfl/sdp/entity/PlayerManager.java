@@ -1,6 +1,8 @@
 package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,7 +15,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
-    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 1;
+    public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
@@ -42,7 +44,8 @@ public class PlayerManager {
         return instance;
     }
 
-    private PlayerManager(){}
+    private PlayerManager() {
+    }
 
     /**
      * Get the DocumentReference of currentUser's lobby
@@ -89,21 +92,19 @@ public class PlayerManager {
     }
 
     /**
-     * Remove the specified player from the player manager if it exists.
-     *
-     * @param player A player to be removed from the player manager.
-     */
-    public void removePlayer(Player player) {
-        playersMap.remove(player.getEmail());
-    }
-
-    /**
      * Gets a list of all players in the player manager.
      *
      * @return A list of all players in the player manager
      */
     public List<Player> getPlayers() {
         return new ArrayList<>(playersMap.values());
+    }
+
+    public List<Player> getPlayersSortByIngameScore() {
+        List<Player> players = this.getPlayers();
+        Comparator<Player> compareByIngameScore = (o1, o2) -> o2.getCurrentGameScore() - o1.getCurrentGameScore();
+        Collections.sort(players, compareByIngameScore);
+        return players;
     }
 
     public Map<String, Player> getPlayersMap() {
@@ -138,9 +139,7 @@ public class PlayerManager {
     }
 
     public void addPlayerWaitingHealth(Player player) {
-        if (currentUser != null && !currentUser.getEmail().equals(player.getEmail())) {
-            playersWaitingHealthPoint.add(player);
-        }
+        playersWaitingHealthPoint.add(player);
     }
 
     /**
@@ -176,7 +175,7 @@ public class PlayerManager {
      * Selects the closest player alive based on a given position in the 2D plane.
      *
      * @return A player representing the closest player alive from a given position. If there is no
-     * player alive it returns null.
+     * player alive (healthPoint is bigger than 0) it returns null.
      */
     public Player selectClosestPlayer(GeoPoint position) {
         Player target = null;
@@ -185,7 +184,7 @@ public class PlayerManager {
 
         for (Player player : playersMap.values()) {
             currDistance = player.getLocation().distanceTo(position) - player.getAoeRadius();
-            if (currDistance < minDistance && player.isAlive()) {
+            if (currDistance < minDistance && player.getHealthPoints() > 0) {
                 minDistance = currDistance;
                 target = player;
             }

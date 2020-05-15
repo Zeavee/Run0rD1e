@@ -39,49 +39,33 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
         if (flag.get()) ListenerRegistration.remove();
     }
 
-
     @Override
-    public void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.ENEMY_COLLECTION_NAME)
-                .addSnapshotListener((queryDocumentSnapshots, e) -> {
-                    if (e == null) {
-                        List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
-                        for (DocumentChange documentChange : queryDocumentSnapshots.getDocumentChanges()) {
-                            enemyForFirebaseList.add(documentChange.getDocument().toObject(EnemyForFirebase.class));
-                        }
-                        onValueReadyCallback.finish(new CustomResult<>(enemyForFirebaseList, true, null));
-                    } else {
-                        onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    }
-                });
-    }
+    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+        String collectionName = "";
+        if (EnemyForFirebase.class.equals(entityType)) {
+            collectionName = PlayerManager.ENEMY_COLLECTION_NAME;
+        } else if (PlayerForFirebase.class.equals(entityType)) {
+            collectionName = PlayerManager.PLAYER_COLLECTION_NAME;
+        } else if (ItemBoxForFirebase.class.equals(entityType)) {
+            collectionName = ItemBoxManager.ITEMBOX_COLLECTION_NAME;
+        }
 
-    @Override
-    public void addItemBoxesListener(OnValueReadyCallback<CustomResult<List<ItemBoxForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(ItemBoxManager.ITEMBOX_COLLECTION_NAME)
-                .addSnapshotListener((querySnapshot, e) -> {
-                    if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    else {
-                        List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                        for (DocumentChange documentChange : querySnapshot.getDocumentChanges()) {
-                            itemBoxForFirebaseList.add(documentChange.getDocument().toObject(ItemBoxForFirebase.class));
-                        }
-                        onValueReadyCallback.finish(new CustomResult<>(itemBoxForFirebaseList, true, null));
+        lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
+            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
+            else {
+                List<Object> entityList = new ArrayList<>();
+                for (DocumentChange documentChange : querySnapshot.getDocumentChanges()) {
+                    if (EnemyForFirebase.class.equals(entityType)) {
+                        entityList.add(documentChange.getDocument().toObject(EnemyForFirebase.class));
+                    } else if (PlayerForFirebase.class.equals(entityType)) {
+                        entityList.add(documentChange.getDocument().toObject(PlayerForFirebase.class));
+                    } else if (ItemBoxForFirebase.class.equals(entityType)) {
+                        entityList.add(documentChange.getDocument().toObject(ItemBoxForFirebase.class));
                     }
-                });
-    }
-
-    @Override
-    public void addUserHealthPointsListener(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
-                .addSnapshotListener((documentSnapshot, e) -> {
-                    if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    else {
-                        if (documentSnapshot != null && documentSnapshot.exists()) {
-                            onValueReadyCallback.finish(new CustomResult<>((double) documentSnapshot.get("healthPoints"), true, null));
-                        }
-                    }
-                });
+                }
+                onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
+            }
+        });
     }
 
     @Override
@@ -107,6 +91,4 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
     }
-
-
 }

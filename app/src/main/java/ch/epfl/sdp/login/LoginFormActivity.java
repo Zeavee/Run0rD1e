@@ -13,6 +13,7 @@ import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 
 
 public class LoginFormActivity extends AppCompatActivity {
@@ -34,6 +35,8 @@ public class LoginFormActivity extends AppCompatActivity {
             startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
             finish();
         }
+
+        findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderboardActivity.class)));
     }
 
     public void createAccountBtn_OnClick(View view) {

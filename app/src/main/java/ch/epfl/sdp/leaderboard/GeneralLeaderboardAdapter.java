@@ -12,30 +12,27 @@ import java.util.List;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.room.LeaderboardEntity;
 
-public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.LeaderboardViewHolder>{
+public class GeneralLeaderboardAdapter extends RecyclerView.Adapter<GeneralLeaderboardAdapter.GeneralLeaderboardViewHolder>{
     private List<LeaderboardEntity> mUsers;
-
-    public LeaderboardAdapter() {
-    }
 
     @NonNull
     @Override
-    public LeaderboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GeneralLeaderboardViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_leaderboard_listitem, parent, false);
-        return new LeaderboardViewHolder(view);
+        return new GeneralLeaderboardViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LeaderboardViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GeneralLeaderboardViewHolder holder, int position) {
         if (mUsers != null) {
             holder.ranking.setText(String.valueOf(position+1));
             holder.username.setText(mUsers.get(position).getUsername());
-            holder.healthpoint.setText(String.valueOf(mUsers.get(position).getScore()));
+            holder.generalScore.setText(String.valueOf(mUsers.get(position).getScore()));
         } else {
             // Covers the case of data not being ready yet.
             holder.ranking.setText("");
             holder.username.setText("");
-            holder.healthpoint.setText("");
+            holder.generalScore.setText("");
         }
 
     }
@@ -52,16 +49,16 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         notifyDataSetChanged();
     }
 
-    public class LeaderboardViewHolder extends RecyclerView.ViewHolder {
+    public class GeneralLeaderboardViewHolder extends RecyclerView.ViewHolder {
         TextView ranking;
         TextView username;
-        TextView healthpoint;
+        TextView generalScore;
 
-        public LeaderboardViewHolder(@NonNull View itemView) {
+        public GeneralLeaderboardViewHolder(@NonNull View itemView) {
             super(itemView);
             ranking = itemView.findViewById(R.id.leaderboard_ranking);
             username = itemView.findViewById(R.id.leaderboard_username);
-            healthpoint = itemView.findViewById(R.id.leaderboard_healthpoint);
+            generalScore = itemView.findViewById(R.id.leaderboard_generalscore);
         }
     }
 }

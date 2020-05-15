@@ -22,16 +22,7 @@ public interface ClientDatabaseAPI {
      */
     void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    /**
-     * Fetch a list of enemies from the Firebase Firestore
-     *
-     * @param onValueReadyCallback Callback after fetching the list of enemies from the firebase
-     */
-    void addEnemyListener(OnValueReadyCallback<CustomResult<List<EnemyForFirebase>>> onValueReadyCallback);
-
-    void addItemBoxesListener(OnValueReadyCallback<CustomResult<List<ItemBoxForFirebase>>> onValueReadyCallback);
-
-    void addUserHealthPointsListener(OnValueReadyCallback<CustomResult<Double>> onValueReadyCallback);
+    void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback);
 
     void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback);
 

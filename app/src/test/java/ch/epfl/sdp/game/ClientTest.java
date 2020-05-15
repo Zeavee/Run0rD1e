@@ -1,30 +1,35 @@
 package ch.epfl.sdp.game;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import ch.epfl.sdp.JunkCleaner;
+import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class ClientTest {
     ClientMockDatabaseAPI clientMockDatabaseAPI;
-
-    @Before
-    public void setup() {
-        JunkCleaner.clearAll();
-        Game.getInstance().setMapApi(new MockMap());
-        Game.getInstance().setRenderer(new MockMap());
-
-        PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
-    }
+    CommonMockDatabaseAPI commonMockDatabaseAPI;
 
     @After
     public void destroy() {
@@ -33,31 +38,94 @@ public class ClientTest {
 
     @Test
     public void testClient() throws InterruptedException {
-        clientMockDatabaseAPI = new ClientMockDatabaseAPI();
-        Client client = new Client(clientMockDatabaseAPI);
+        JunkCleaner.clearAll();
+        setupEnvironment();
+        Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI);
+        client.start();
 
-        Healthpack healthpack = new Healthpack(10);
-        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(healthpack.getName(), 2);
-        PlayerManager.getInstance().getCurrentUser().getInventory().useItem(healthpack.getName());
+        assertEquals(2, PlayerManager.getInstance().getPlayers().size());
+        assertEquals(1, EnemyManager.getInstance().getEnemies().size());
+        assertEquals(1, ItemBoxManager.getInstance().getItemBoxes().size());
+        assertEquals(2, PlayerManager.getInstance().getCurrentUser().getInventory().size());
 
-        assertEquals(20.0, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.01);
+        PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(100, 100));
+        Thread.sleep(3000);
+
+        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
+        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
     }
 
-    @Test
-    public void usedItemsTest(){
+    private void setupEnvironment() {
+        Game.getInstance().setMapApi(new MockMap());
+        Game.getInstance().setRenderer(new MockMap());
+
+        PlayerManager.getInstance().setCurrentUser(new Player("client", "client@gmail.com"));
+        PlayerManager.getInstance().setIsServer(false);
+
+        Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
+        Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
+        List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
+        List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
+        ItemsForFirebase userItems;
+
+        /**
+         * populate All Users
+         */
+        UserForFirebase userForFirebase0 = new UserForFirebase("server@gmail.com", "server", 0);
+        UserForFirebase userForFirebase1 = new UserForFirebase("client@gmail.com", "client", 0);
+        UserForFirebase userForFirebase2 = new UserForFirebase("test@gmail.com", "test", 0);
+        userForFirebaseMap.put(userForFirebase0.getEmail(), userForFirebase0);
+        userForFirebaseMap.put(userForFirebase1.getEmail(), userForFirebase1);
+        userForFirebaseMap.put(userForFirebase2.getEmail(), userForFirebase2);
+
+
+        /**
+         * polulate the players in lobby
+         */
+        PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
+        playerForFirebase0.setUsername("server");
+        playerForFirebase0.setEmail("server@gmail.com");
+        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
+        playerForFirebase0.setAoeRadius(22.0);
+        playerForFirebase0.setHealthPoints(20.0);
+        playerForFirebase0.setCurrentGameScore(0);
+
+        PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
+        playerForFirebase1.setUsername("client");
+        playerForFirebase1.setEmail("client@gmail.com");
+        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
+        playerForFirebase1.setAoeRadius(22.0);
+        playerForFirebase1.setHealthPoints(20.0);
+        playerForFirebase1.setCurrentGameScore(0);
+
+        playerForFirebaseMap.put(playerForFirebase0.getEmail(), playerForFirebase0);
+        playerForFirebaseMap.put(playerForFirebase1.getEmail(), playerForFirebase1);
+
+        /**
+         *  Populate the enemy in lobby
+         */
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPointForFirebase(22, 22));
+        enemyForFirebasesList.add(enemyForFirebase);
+
+        /**
+         *  Populate the itemBox in lobby
+         */
+        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22,22), false);
+        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23,23), true);
+
+        itemBoxForFirebaseList.add(itemBoxForFirebase0);
+        itemBoxForFirebaseList.add(itemBoxForFirebase1);
+
+        /**
+         * Populate the Items of Current User
+         */
+        Map<String, Integer> itemsMap = new HashMap<>();
+        itemsMap.put("Healthpack 10", 2);
+        userItems = new ItemsForFirebase(itemsMap, new Date(System.currentTimeMillis()));
+
         clientMockDatabaseAPI = new ClientMockDatabaseAPI();
-        Client client = new Client(clientMockDatabaseAPI);
-
-        assertTrue(clientMockDatabaseAPI.usedItems.size() == 0);
-
-        Healthpack healthpack = new Healthpack(10);
-        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(healthpack.getName(), 1);
-        PlayerManager.getInstance().getCurrentUser().getInventory().useItem(healthpack.getName());
-
-        while(clientMockDatabaseAPI.usedItems.size() == 0){
-            System.out.println(clientMockDatabaseAPI.usedItems.size());
-        }
-
-        assertTrue(clientMockDatabaseAPI.usedItems.size() == 1);
+        commonMockDatabaseAPI = new CommonMockDatabaseAPI();
+        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebasesList, itemBoxForFirebaseList, userItems);
+        commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

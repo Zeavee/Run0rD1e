@@ -19,6 +19,7 @@ public class ItemBox extends Entity implements Updatable {
     private Map<String, Integer> items;
     private boolean taken;
     private boolean isDisplayed;
+    private boolean reDisplay;
 
     /**
      * Creates an item box.
@@ -28,6 +29,11 @@ public class ItemBox extends Entity implements Updatable {
         this.items = new HashMap<>();
         taken = false;
         isDisplayed = false;
+        reDisplay = false;
+    }
+
+    public void setReDisplay(boolean reDisplay) {
+        this.reDisplay = reDisplay;
     }
 
     /**
@@ -69,9 +75,10 @@ public class ItemBox extends Entity implements Updatable {
     @Override
     public void displayOn(MapApi mapApi) {
         // The location of the itemBox will never change, we only need to display once
-        if (!isDisplayed) {
+        if (!isDisplayed || reDisplay) {
             mapApi.displaySmallIcon(this, "ItemBox", R.drawable.itembox);
             isDisplayed = true;
+            reDisplay = false;
         }
     }
 

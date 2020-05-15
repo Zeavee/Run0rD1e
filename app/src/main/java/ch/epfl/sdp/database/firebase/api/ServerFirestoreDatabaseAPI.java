@@ -2,9 +2,9 @@ package ch.epfl.sdp.database.firebase.api;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -17,6 +17,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -47,19 +48,22 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         lobbyRef.update("startGame", true)
                 .addOnSuccessListener(aVoid -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
                 .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-
     }
 
     @Override
-    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        playerForFirebases.add(document.toObject(PlayerForFirebase.class));
+    public void fetchGeneralScoreForPlayers(List<String> playerEmailList, OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
+        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).whereIn("email", playerEmailList).get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+                        for (DocumentSnapshot dc : task.getResult().getDocuments()) {
+                            userForFirebaseList.add(dc.toObject(UserForFirebase.class));
+                        }
+                        onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
+                    } else {
+                        onValueReadyCallback.finish(new CustomResult<>(null, false, task.getException()));
                     }
-                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+                });
     }
 
     @Override
@@ -90,7 +94,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
@@ -112,6 +115,22 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
         batch.commit();
     }
+
+    @Override
+    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
+        WriteBatch batch = firebaseFirestore.batch();
+        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
+            if (scoreType.equals("currentGameScore")) {
+                DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
+                batch.update(docRef, "currentGameScore", entry.getValue());
+            } else if (scoreType.equals("generalScore")) {
+                DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(entry.getKey());
+                batch.update(docRef, "generalScore", entry.getValue());
+            }
+        }
+        batch.commit();
+    }
+
 
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {

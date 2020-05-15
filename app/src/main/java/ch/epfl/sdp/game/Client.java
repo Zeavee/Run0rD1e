@@ -2,14 +2,20 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
@@ -23,6 +29,7 @@ public class Client implements Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
     private ClientDatabaseAPI clientDatabaseAPI;
+    private CommonDatabaseAPI commonDatabaseAPI;
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
@@ -30,15 +37,9 @@ public class Client implements Updatable {
     /**
      * Creates a new client
      */
-    public Client(ClientDatabaseAPI clientDatabaseAPI) {
+    public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.clientDatabaseAPI = clientDatabaseAPI;
-
-        // TODO Add Listener for and Players
-        init();
-        addEnemyListener();
-        addItemBoxesListener();
-        addUserHealthPointsListener();
-        addUserItemListener();
+        this.commonDatabaseAPI = commonDatabaseAPI;
     }
 
     @Override
@@ -52,19 +53,38 @@ public class Client implements Updatable {
         --counter;
     }
 
-    private void init() {
+    public void start() {
         clientDatabaseAPI.listenToGameStart(start -> {
             if (start.isSuccessful()) {
-                Game.getInstance().addToUpdateList(this);
-                Game.getInstance().initGame();
+                commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
+                    if (value1.isSuccessful()) {
+                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                                playerManager.addPlayer(player);
+                            }
+                            Log.d(TAG, "(Server) Getting Player: " + player);
+                        }
+                        Game.getInstance().addToUpdateList(this);
+                        Game.getInstance().initGame();
+                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
             }
         });
+
+        addEnemyListener();
+        addItemBoxesListener();
+        addIngameScoreAndHealthPointListener();
+        addUserItemListener();
     }
 
     private void addEnemyListener() {
-        clientDatabaseAPI.addEnemyListener(value -> {
+        clientDatabaseAPI.addCollectionListerner(EnemyForFirebase.class, value -> {
             if (value.isSuccessful()) {
-                for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(value.getResult())) {
+                List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
+                for (Object object : value.getResult()) {
+                    enemyForFirebaseList.add((EnemyForFirebase) object);
+                }
+                for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
                 }
             }
@@ -72,10 +92,11 @@ public class Client implements Updatable {
     }
 
     private void addItemBoxesListener() {
-        // Listen for Items
-        clientDatabaseAPI.addItemBoxesListener(value -> {
+        clientDatabaseAPI.addCollectionListerner(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
-                for (ItemBoxForFirebase itemBoxForFirebase : value.getResult()) {
+                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
+                for (Object object : value.getResult()) { itemBoxForFirebaseList.add((ItemBoxForFirebase) object); }
+                for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
                     GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(itemBoxForFirebase.getLocation());
@@ -94,20 +115,24 @@ public class Client implements Updatable {
                     }
                     Log.d(TAG, "Listen for itemboxes: " + value.getResult());
                 }
-            } else {
-                Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
-            }
+            } else { Log.w(TAG, "Listen for itemBoxes failed.", value.getException()); }
         });
-
     }
 
-    private void addUserHealthPointsListener() {
-        clientDatabaseAPI.addUserHealthPointsListener(value -> {
+    private void addIngameScoreAndHealthPointListener() {
+        clientDatabaseAPI.addCollectionListerner(PlayerForFirebase.class, value -> {
             if (value.isSuccessful()) {
-                playerManager.getCurrentUser().setHealthPoints(value.getResult());
-                Log.d(TAG, "Listen for healtpoints: " + value.getResult());
+                for (Object object : value.getResult()) {
+                    PlayerForFirebase playerForFirebase = (PlayerForFirebase) object;
+                    Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
+                    if (player != null) {
+                        player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
+                        player.setHealthPoints(playerForFirebase.getHealthPoints());
+                    }
+                    Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
+                }
             } else {
-                Log.w(TAG, "Listen for healtpoints failed.", value.getException());
+                Log.w(TAG, "Listen for ingameScore failed.", value.getException());
             }
         });
     }

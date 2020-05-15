@@ -7,6 +7,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
@@ -30,12 +31,7 @@ public interface ServerDatabaseAPI {
      */
     void startGame(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    /**
-     * Fetch players from the Firebase Firestore
-     *
-     * @param onValueReadyCallback Callback after fetching players from the firebase
-     */
-    void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
+    void fetchGeneralScoreForPlayers(List<String> playerEmailList,  OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback);
 
     /**
      * Send the enemies to the Firebase Firestore
@@ -49,6 +45,8 @@ public interface ServerDatabaseAPI {
     void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases);
 
     void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap);
+
+    void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap);
 
     void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback);
 

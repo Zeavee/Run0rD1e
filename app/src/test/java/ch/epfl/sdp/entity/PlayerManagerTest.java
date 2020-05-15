@@ -29,17 +29,7 @@ public class PlayerManagerTest {
     }
 
     @Test
-    public void removingPlayerShouldDecreasePlayerNumber() {
-        PlayerManager.getInstance().clear();
-        PlayerManager.getInstance().addPlayer(player);
-        assertEquals(1, PlayerManager.getInstance().getPlayers().size());
-        PlayerManager.getInstance().getInstance().removePlayer(player);
-        assertEquals(0, PlayerManager.getInstance().getPlayers().size());
-    }
-
-    @Test
     public void testSetAndGet(){
-        assertEquals(1, PlayerManager.getInstance().NUMBER_OF_PLAYERS_IN_LOBBY);
         assertEquals("AllUsers", PlayerManager.getInstance().USER_COLLECTION_NAME);
         assertEquals("Lobbies", PlayerManager.getInstance().LOBBY_COLLECTION_NAME);
         assertEquals("Players", PlayerManager.getInstance().PLAYER_COLLECTION_NAME);

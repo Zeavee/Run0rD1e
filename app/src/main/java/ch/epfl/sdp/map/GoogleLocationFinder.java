@@ -6,6 +6,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -29,10 +30,11 @@ public class GoogleLocationFinder implements LocationFinder {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
-                currentLocation = latestLocation;
-                PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
-                PlayerManager.getInstance().getCurrentUser().setLocation(PlayerManager.getInstance().getCurrentUser().getLocation());
-                requestUpdatePosition();
+                if (Math.floor(latestLocation.getLatitude() * 100) / 100 != 37.42 || Math.ceil(latestLocation.getLongitude() * 100) / 100 != -122.08) {
+                    currentLocation = latestLocation;
+                    PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
+                    requestUpdatePosition();
+                }
             }
 
             @Override

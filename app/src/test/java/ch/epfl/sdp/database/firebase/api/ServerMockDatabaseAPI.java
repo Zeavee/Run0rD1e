@@ -11,13 +11,17 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
-    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<String, PlayerForFirebase>();
+    public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
+    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
+    public List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
+    public List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
     public Map<String, ItemsForFirebase> usedItems = new HashMap<>();
     public Map<String, ItemsForFirebase> items = new HashMap<>();
 
@@ -25,32 +29,24 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     }
 
-    public void hardCodedInit(){
-        PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
+    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, Map<String, ItemsForFirebase> usedItems, Map<String, ItemsForFirebase> items){
+        // populate the all Users in firebase
+        this.userForFirebaseMap = userForFirebaseMap;
 
-        playerForFirebase0.setUsername("server");
-        playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
-        playerForFirebase0.setAoeRadius(22.0);
-        playerForFirebase0.setHealthPoints(20.0);
-        playerForFirebase0.setCurrentGameScore(0);
+        // populate the Players in lobby
+        this.playerForFirebaseMap = playerForFirebaseMap;
 
-        PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
+        // populate the Enemy
+        this.enemyForFirebasesList = enemyForFirebasesList;
 
-        playerForFirebase1.setUsername("client");
-        playerForFirebase1.setEmail("client@gmail.com");
-        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
-        playerForFirebase1.setAoeRadius(22.0);
-        playerForFirebase1.setHealthPoints(20.0);
-        playerForFirebase1.setCurrentGameScore(0);
+        // populate the itemBox
+        this.itemBoxForFirebaseList = itemBoxForFirebaseList;
 
-        playerForFirebaseMap.put(playerForFirebase0.getEmail(), playerForFirebase0);
-        playerForFirebaseMap.put(playerForFirebase1.getEmail(), playerForFirebase1);
+        // populate the usedItem for each player in the lobby
+        this.usedItems = usedItems;
 
-        Map<String, Integer> itemsMap = new HashMap<>();
-        itemsMap.put("Healthpack 10", 2);
-        ItemsForFirebase itemsForFirebase = new ItemsForFirebase(itemsMap, new Date(System.currentTimeMillis()));
-        usedItems.put("server@gmail.com", itemsForFirebase);
+        // populate the owned items for each player in the lobby
+        this.items = items;
     }
 
     @Override
@@ -69,8 +65,12 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void fetchPlayers(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        onValueReadyCallback.finish(new CustomResult<>(getPlayerForFirebaseList(), true, null));
+    public void fetchGeneralScoreForPlayers(List<String> playerEmailList, OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
+        List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+        for(String email: playerEmailList) {
+            userForFirebaseList.add(userForFirebaseMap.get(email));
+        }
+        onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
     }
 
     @Override
@@ -99,20 +99,17 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
+
+    }
+
+    @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(usedItems, true, null));
     }
 
     @Override
     public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onPlayersPositionCallback) {
-        onPlayersPositionCallback.finish(new CustomResult<>(getPlayerForFirebaseList(), true, null));
-    }
-
-    public List<PlayerForFirebase> getPlayerForFirebaseList(){
-        return new ArrayList<>(playerForFirebaseMap.values());
-    }
-
-    public void addPlayerForFirebase(PlayerForFirebase playerForFirebase){
-        playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
+        onPlayersPositionCallback.finish(new CustomResult<>(new ArrayList<>(playerForFirebaseMap.values()), true, null));
     }
 }

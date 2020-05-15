@@ -41,7 +41,9 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.item.InventoryFragment;
-import ch.epfl.sdp.leaderboard.LeaderboardActivity;
+import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
@@ -51,6 +53,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private AuthenticationAPI authenticationAPI;
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
+    private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
     private LocationFinder locationFinder;
@@ -60,6 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private boolean flagInventory = false;
     private boolean flagWeather = false;
+    private boolean flagIngameLeaderboard = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
 
@@ -85,8 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
-        findViewById(R.id.button_leaderboard).setOnClickListener(view -> startActivity(new Intent(MapsActivity.this, LeaderboardActivity.class)));
-
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
@@ -105,6 +107,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         inventory.setOnClickListener(v -> {
             showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
             flagInventory = !flagInventory;
+        });
+
+        findViewById(R.id.button_leaderboard).setOnClickListener(view -> {
+            showFragment(ingameLeaderboardFragment, R.id.fragment_ingame_leaderboard_container, flagIngameLeaderboard);
+            flagIngameLeaderboard = !flagIngameLeaderboard;
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -171,6 +178,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
+        } else {
+            // reDisplay the itemBox when resume the map
+            for(ItemBox itemBox: ItemBoxManager.getInstance().getItemBoxes().values()) {
+                itemBox.setReDisplay(true);
+            }
         }
 
         Log.d("Database", "Quit map ready");
@@ -179,16 +191,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
         commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
             if (registerToLobbyRes.isSuccessful()) {
+                Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Server(serverDatabaseAPI);
+                    Server server = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    server.start();
+
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    new Client(clientDatabaseAPI);
+                    Client client = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    client.start();
                 }
-
-                Log.d("Database", "Lobby registered/joined");
-
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }

@@ -3,10 +3,7 @@ package ch.epfl.sdp.database.firebase.entity;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
 
-import java.util.Map;
-
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
-import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
  * The in-game player entity to be stored in the cloud firebase

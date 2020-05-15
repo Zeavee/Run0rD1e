@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,6 +12,39 @@
         android:layout_height="match_parent" >
 
     </androidx.fragment.app.FragmentContainerView>
+
+    <FrameLayout
+        android:id="@+id/fragment_inventory_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" >
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_weather_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toBottomOf="@+id/cardView">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_ingame_leaderboard_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:elevation="20dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toStartOf="parent" >
+    </FrameLayout>
 
     <Button
         android:id="@+id/recenter"
@@ -181,26 +213,5 @@
 
     </androidx.cardview.widget.CardView>
 
-    <FrameLayout
-        android:id="@+id/fragment_inventory_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintStart_toStartOf="parent" >
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_weather_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/cardView">
-
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

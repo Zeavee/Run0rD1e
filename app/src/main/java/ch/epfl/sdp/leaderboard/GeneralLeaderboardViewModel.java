@@ -11,11 +11,11 @@ import ch.epfl.sdp.database.room.LeaderboardEntity;
 
 import java.util.List;
 
-public class LeaderboardViewModel extends AndroidViewModel {
+public class GeneralLeaderboardViewModel extends AndroidViewModel {
     private AppRepository sRepository;
     private final LiveData<List<LeaderboardEntity>> mObservableUsers;
 
-    public LeaderboardViewModel(@NonNull Application application) {
+    public GeneralLeaderboardViewModel(@NonNull Application application) {
         super(application);
         sRepository = AppRepository.getInstance(application);
         mObservableUsers = sRepository.getLeaderboard();
