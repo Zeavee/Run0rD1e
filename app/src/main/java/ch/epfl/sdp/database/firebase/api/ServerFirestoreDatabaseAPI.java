@@ -1,9 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -16,7 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Function;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
@@ -75,42 +70,16 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void sendEnemies(List<EnemyForFirebase> enemies) {
         sendList(enemies, PlayerManager.ENEMY_COLLECTION_NAME, enemyForFirebase -> ("enemy") + enemyForFirebase.getId(), enemyForFirebase -> enemyForFirebase);
-        /*// Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for (EnemyForFirebase enemyForFirebase : enemies) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.ENEMY_COLLECTION_NAME).document("enemy" + enemyForFirebase.getId());
-            batch.set(docRef, enemyForFirebase);
-        }
-
-        batch.commit();*/
     }
 
     @Override
     public void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList) {
         sendList(itemBoxForFirebaseList, ItemBoxManager.ITEMBOX_COLLECTION_NAME, ItemBoxForFirebase::getId, itemBoxForFirebase -> itemBoxForFirebase);
-        /*WriteBatch batch = firebaseFirestore.batch();
-
-        for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
-            DocumentReference docRef = lobbyRef.collection(ItemBoxManager.ITEMBOX_COLLECTION_NAME).document(itemBoxForFirebase.getId());
-            batch.set(docRef, itemBoxForFirebase);
-        }
-
-        batch.commit();*/
     }
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
         sendList(playerForFirebaseList, PlayerManager.PLAYER_COLLECTION_NAME, PlayerForFirebase::getEmail, PlayerForFirebase::getHealthPoints);
-        /*WriteBatch batch = firebaseFirestore.batch();
-
-        for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
-        }
-
-        batch.commit();*/
     }
 
     @Override
@@ -173,15 +142,14 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                 });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
         // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
         // Collection Ref
         for (T entity : list) {
-            DocumentReference docRef = lobbyRef.collection(collection).document(converterToString.apply(entity));
-            batch.set(docRef, converterToSend.apply(entity));
+            DocumentReference docRef = lobbyRef.collection(collection).document(converterToString.methodFromT(entity));
+            batch.set(docRef, converterToSend.methodFromT(entity));
         }
 
         batch.commit();
@@ -190,23 +158,9 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void sendGameArea(List<Area> gameArea) {
         sendList(gameArea, PlayerManager.GAME_AREA_COLLECTION_NAME, (a) -> "gameArea", Area::toString);
-    /*    // Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for (Area area : gameArea) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.GAME_AREA_COLLECTION_NAME).document("GameArea");
-            batch.set(docRef, area.toString());
-        }
-
-        batch.commit();*/
     }
 
-    public interface ConverterToSend<T> {
-        Object methodFromT(T t);
-    }
-
-    public interface ConverterToString<T> {
-        String convertToString(T t);
+    private interface Function<T, R> {
+        R methodFromT(T t);
     }
 }
