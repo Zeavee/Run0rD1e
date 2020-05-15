@@ -3,6 +3,7 @@ package ch.epfl.sdp.game;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class Server implements Updatable {
     }
 
     private void sendGameArea() {
-        serverDatabaseAPI.sendGameArea(gameArea);
+        serverDatabaseAPI.sendGameArea(Collections.singletonList(gameArea));
     }
 
     public void start() {
