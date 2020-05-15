@@ -62,7 +62,7 @@ public class SocialRepositoryChatTest {
     @Before
     public void setup() {
         SocialRepository.setContextActivity(mActivityTestRule.getActivity());
-        SocialRepository.setEmail(currentUserEmail);
+        SocialRepository.currentEmail = currentUserEmail;
     }
 
     private SocialRepository testRepo;

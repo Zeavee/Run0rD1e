@@ -56,7 +56,7 @@ public class ChatActivityTest {
 
             // testRepo is the social database controller (router)
             SocialRepository testRepo = SocialRepository.getInstance();
-            testRepo.setEmail(currentEmail);
+            SocialRepository.currentEmail = currentEmail;
             testRepo.addUser(cur_user);
             testRepo.addUser(friend_user);
             testRepo.addChat(new Chat(cur_user.getEmail(), friend_user.getEmail()));

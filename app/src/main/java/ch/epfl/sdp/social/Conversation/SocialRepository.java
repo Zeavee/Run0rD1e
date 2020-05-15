@@ -33,7 +33,7 @@ public final class SocialRepository {
     private Context contextActivity;
     private static boolean singletonCreated = false;
     private static SocialRepository singleton;
-    private static String currentEmail;
+    public static String currentEmail;
 
     private SocialRepository(Context contextActivity) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
@@ -59,13 +59,6 @@ public final class SocialRepository {
             singletonCreated = true;
         }
         singleton.contextActivity = contextActivity;
-    }
-
-    /**
-     * @param newEmail the email of the current user (injected from FriendsListActivity or )
-     */
-    public static void setEmail(String newEmail) {
-        currentEmail = newEmail;
     }
 
     /**
