@@ -3,6 +3,7 @@ package ch.epfl.sdp.social.Conversation;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.room.Room;
 
@@ -13,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
@@ -31,13 +33,12 @@ public final class SocialRepository {
     private Context contextActivity;
     private static boolean singletonCreated = false;
     private static SocialRepository singleton;
-    private String currentEmail;
+    private static String currentEmail;
 
-    private SocialRepository(Context contextActivity, String currentEmail) {
+    private SocialRepository(Context contextActivity) {
         //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
-        this.currentEmail = currentEmail;
     }
 
     /**
@@ -52,12 +53,19 @@ public final class SocialRepository {
      *
      * @param contextActivity the UI context (typically an instance of the Activity class)
      */
-    public static void setContextActivityAndCurrentEmail(Context contextActivity, String currentEmail) {
+    public static void setContextActivity(Context contextActivity) {
         if (!singletonCreated) {
-            singleton = new SocialRepository(contextActivity, currentEmail);
+            singleton = new SocialRepository(contextActivity);
             singletonCreated = true;
         }
         singleton.contextActivity = contextActivity;
+    }
+
+    /**
+     * @param newEmail the email of the current user (injected from FriendsListActivity or )
+     */
+    public static void setEmail(String newEmail) {
+        currentEmail = newEmail;
     }
 
     /**

@@ -55,9 +55,9 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         messageAdapter = new MessageAdapter(this, chattingWith);
         lv.setAdapter(messageAdapter);
 
-        SocialRepository.setContextActivityAndCurrentEmail(this, currentEmail);
-
         currentEmail = ((MyApplication) getApplication()).appContainer.authenticationAPI.getCurrentUserEmail();
+
+        SocialRepository.setContextActivity(this);
 
         // The current user is the sender
         chatFromCurrent = SocialRepository.getInstance().getChat(currentEmail, chattingWith);
