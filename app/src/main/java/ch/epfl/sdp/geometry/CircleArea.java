@@ -2,6 +2,8 @@ package ch.epfl.sdp.geometry;
 
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 
 import ch.epfl.sdp.map.MapApi;
@@ -119,6 +121,12 @@ public class CircleArea extends Area {
     public void finishShrink() {
         super.finishShrink();
         radius = newRadius;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "CircleArea " + radius + " " + center.getLongitude() + " " + center.getLatitude();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.geometry;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 
 import ch.epfl.sdp.map.MapApi;
@@ -153,5 +155,11 @@ public class RectangleArea extends Area {
      */
     public double getOldWidth() {
         return oldHalfWidth * 2;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "RectangleArea " + getHeight() + " " + getWidth() + " " + center.getLongitude() + " " + center.getLatitude();
     }
 }

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.geometry;
 
+import androidx.annotation.NonNull;
+
 import ch.epfl.sdp.map.Displayable;
 
 /**
@@ -119,4 +121,8 @@ public abstract class Area implements Positionable, Displayable {
     double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
         return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
+
+    @NonNull
+    @Override
+    public abstract String toString();
 }

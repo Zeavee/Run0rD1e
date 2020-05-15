@@ -57,6 +57,7 @@ public class Server implements Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -75,6 +76,10 @@ public class Server implements Updatable {
         }
         --scoreTimeCounter;
 
+    }
+
+    private void sendGameArea() {
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     public void start() {

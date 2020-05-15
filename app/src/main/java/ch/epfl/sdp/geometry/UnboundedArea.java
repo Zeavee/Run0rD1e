@@ -1,5 +1,7 @@
 package ch.epfl.sdp.geometry;
 
+import androidx.annotation.NonNull;
+
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.utils.RandomGenerator;
 
@@ -38,6 +40,12 @@ public class UnboundedArea extends Area {
     @Override
     public void finishShrink() {
         //we do not need to do anything here
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "UnboundedArea";
     }
 
     @Override
