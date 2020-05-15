@@ -94,6 +94,10 @@ public class MapsActivityTest {
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
+                    Game.getInstance().destroyGame();
+                    Game.getInstance().clearGame();
+                    PlayerManager.getInstance().clear();
+
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
@@ -156,6 +160,11 @@ public class MapsActivityTest {
     private void testButtonWorks(int button, int view) {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(view)).check(matches(isDisplayed()));
     }
 
