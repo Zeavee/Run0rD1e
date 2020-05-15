@@ -167,4 +167,5 @@ public class MapsActivityTest {
         Thread.sleep(10000);
         onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
     }
+
 }
