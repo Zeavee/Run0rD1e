@@ -1,5 +1,9 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -12,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
@@ -168,15 +173,15 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                 });
     }
 
-    @Override
-    public <T> void sendList(List<T> list, String collection, ConverterToString<T> converterToString, ConverterToSend<T> converterToSend) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
         // Get a new write batch
         WriteBatch batch = firebaseFirestore.batch();
 
         // Collection Ref
         for (T entity : list) {
-            DocumentReference docRef = lobbyRef.collection(collection).document(converterToString.convertToString(entity));
-            batch.set(docRef, converterToSend.methodFromT(entity));
+            DocumentReference docRef = lobbyRef.collection(collection).document(converterToString.apply(entity));
+            batch.set(docRef, converterToSend.apply(entity));
         }
 
         batch.commit();

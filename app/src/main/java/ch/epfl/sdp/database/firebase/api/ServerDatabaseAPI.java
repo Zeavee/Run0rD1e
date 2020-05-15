@@ -53,7 +53,5 @@ public interface ServerDatabaseAPI {
 
     void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
-    <T> void sendList(List<T> list, String collection, ServerFirestoreDatabaseAPI.ConverterToString<T> converterToString, ServerFirestoreDatabaseAPI.ConverterToSend<T> converterToSend);
-
     void sendGameArea(List<Area> gameArea);
 }

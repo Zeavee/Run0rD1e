@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
@@ -67,11 +66,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-
-    }
-
-    @Override
-    public <T> void sendList(List<T> list, String collection, ServerFirestoreDatabaseAPI.ConverterToString<T> converterToString, ServerFirestoreDatabaseAPI.ConverterToSend<T> converterToSend) {
 
     }
 

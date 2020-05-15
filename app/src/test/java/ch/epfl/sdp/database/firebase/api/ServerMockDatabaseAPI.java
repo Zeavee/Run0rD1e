@@ -111,11 +111,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public <T> void sendList(List<T> list, String collection, ServerFirestoreDatabaseAPI.ConverterToString<T> converterToString, ServerFirestoreDatabaseAPI.ConverterToSend<T> converterToSend) {
-        
-    }
-
-    @Override
     public void sendGameArea(List<Area> gameArea) {
 
     }
