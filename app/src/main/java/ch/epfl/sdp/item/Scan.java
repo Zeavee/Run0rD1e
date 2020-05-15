@@ -22,7 +22,9 @@ public class Scan extends TimedItem {
         super.useOn(player);
 
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-            p.displayOn(Game.getInstance().getMapApi());
+            if(!player.getEmail().equals(PlayerManager.getInstance().getCurrentUser())) {
+                Game.getInstance().addToDisplayList(p);
+            }
         }
     }
 
@@ -36,7 +38,9 @@ public class Scan extends TimedItem {
 
     public void stopUsingOn(Player player) {
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-            p.unDisplayOn(Game.getInstance().getMapApi());
+            if(!player.getEmail().equals(PlayerManager.getInstance().getCurrentUser())) {
+                Game.getInstance().removeFromDisplayList(p);
+            }
         }
     }
 

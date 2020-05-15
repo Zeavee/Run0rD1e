@@ -73,7 +73,7 @@ public class Client implements Updatable {
 
         addEnemyListener();
         addItemBoxesListener();
-        addIngameScoreAndHealthPointListener();
+        addPlayersListener();
         addUserItemListener();
     }
 
@@ -120,7 +120,7 @@ public class Client implements Updatable {
         });
     }
 
-    private void addIngameScoreAndHealthPointListener() {
+    private void addPlayersListener() {
         clientDatabaseAPI.addCollectionListerner(PlayerForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 for (Object object : value.getResult()) {
@@ -129,6 +129,8 @@ public class Client implements Updatable {
                     if (player != null) {
                         player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
                         player.setHealthPoints(playerForFirebase.getHealthPoints());
+                        player.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                        Log.d(TAG, "addPlayersListener: " + player.getEmail());
                     }
                     Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
                 }
@@ -156,7 +158,7 @@ public class Client implements Updatable {
 
 
     private void sendUserPosition() {
-        clientDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+        commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
     }
 
     private void sendUsedItems() {

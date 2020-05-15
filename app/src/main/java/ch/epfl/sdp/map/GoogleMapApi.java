@@ -70,18 +70,20 @@ public class GoogleMapApi implements MapApi {
     @UiThread
     @Override
     public void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
-        removeMarkers(displayable);
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
-                mMap.addCircle(new CircleOptions()
-                        .center(position)
-                        .strokeColor(color)
-                        .fillColor(color - 0x80000000)
-                        .radius(aoeRadius)
-                        .strokeWidth(1f))));
+        if(aoeRadius > 0) {
+            removeMarkers(displayable);
+            LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
+            entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
+                    .position(position)
+                    .title(title)
+                    .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
+                    mMap.addCircle(new CircleOptions()
+                            .center(position)
+                            .strokeColor(color)
+                            .fillColor(color - 0x80000000)
+                            .radius(aoeRadius)
+                            .strokeWidth(1f))));
+        }
     }
 
     @Override

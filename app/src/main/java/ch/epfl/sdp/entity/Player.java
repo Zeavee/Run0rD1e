@@ -187,4 +187,8 @@ public class Player extends AoeRadiusEntity {
             mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
         }
     }
+
+    public boolean isAlive(){
+        return healthPoints > 0;
+    }
 }

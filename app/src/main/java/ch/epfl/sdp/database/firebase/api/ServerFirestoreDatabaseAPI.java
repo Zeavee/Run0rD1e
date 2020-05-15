@@ -149,7 +149,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
         lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
                 .addSnapshotListener((querySnapshot, e) -> {
                     if (e != null) {

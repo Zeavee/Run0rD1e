@@ -32,11 +32,6 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-
-    }
-
-    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
 
     }

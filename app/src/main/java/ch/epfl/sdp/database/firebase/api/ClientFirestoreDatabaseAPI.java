@@ -83,11 +83,6 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerForFirebase.getGeoPointForFirebase());
-    }
-
-    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
     }

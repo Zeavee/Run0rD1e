@@ -43,11 +43,15 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(itemName);
         holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         holder.button.setOnClickListener(v -> {
+
+            itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
+
             if (PlayerManager.getInstance().isServer()) {
-                itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
+
                 PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
             } else {
                 PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
+
             }
 
             // Update the quantity of that item

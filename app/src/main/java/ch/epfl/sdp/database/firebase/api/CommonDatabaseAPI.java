@@ -52,4 +52,7 @@ public interface CommonDatabaseAPI {
     void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
     void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback);
+
+    void sendUserPosition(PlayerForFirebase playerForFirebase);
+
 }

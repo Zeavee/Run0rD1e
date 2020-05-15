@@ -1,5 +1,7 @@
 package ch.epfl.sdp.entity;
 
+import android.util.Log;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.ArtificialMovingEntity;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
@@ -67,7 +69,7 @@ public class Enemy extends ArtificialMovingEntity {
 
     /**
      * Creates an enemy that is bounded in an area.
-     *  @param id           The enemy's id.
+     * @param id           The enemy's id.
      * @param patrolBounds The enemy's patrol area.
      * @param maxBounds    The enemy's maximum visitable area.
      */
@@ -206,7 +208,14 @@ public class Enemy extends ArtificialMovingEntity {
 
         double attackRange = this.getAoeRadius();
         Player target = playerDetected(attackRange);
-        if (target != null && !target.isShielded()) {
+
+        if(target != null) {
+            Log.d("Enemy", "Target:" + target.getEmail());
+            Log.d("Enemy", "shielded:" + target.isShielded());
+        }
+
+        if (target != null && target.isAlive() && !target.isShielded()) {
+            Log.d("Enemy", "Attacking:" + target.getEmail());
             target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
         } else {
             setMoving(true);
@@ -250,7 +259,6 @@ public class Enemy extends ArtificialMovingEntity {
         } else {
             super.setLocalArea(patrolBounds);
             setForceMove(true);
-            //super.getMovement().setVelocity(super.getMovement().getVelocity() / 2);
             behaviour = Behaviour.PATROL;
         }
 
@@ -270,7 +278,6 @@ public class Enemy extends ArtificialMovingEntity {
         }
 
         if (playerDetected(detectionDistance) != null) {
-            //super.getMovement().setVelocity(super.getMovement().getVelocity() * 2);
             super.setMoving(true);
             behaviour = Behaviour.CHASE;
         }
