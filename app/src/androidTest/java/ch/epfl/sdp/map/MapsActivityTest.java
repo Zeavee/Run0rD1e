@@ -94,6 +94,10 @@ public class MapsActivityTest {
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
+                    Game.getInstance().destroyGame();
+                    Game.getInstance().clearGame();
+                    PlayerManager.getInstance().clear();
+
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(new HashMap<>(), "testMap@gmail.com");
