@@ -16,10 +16,10 @@ public class AreaFactoryTest {
         RectangleArea rectangle = (RectangleArea) areaFactory.getArea(rectangleArea.toString());
         UnboundedArea unbounded = (UnboundedArea) areaFactory.getArea(unboundedArea.toString());
         assertEquals(circleArea.getRadius(), circle.getRadius(), 0.01);
-        assertEquals(circleArea.getLocation().distanceTo(circle.getLocation()), 0.01);
+        assertEquals(circleArea.getLocation().distanceTo(circle.getLocation()), 0, 0.01);
         assertEquals(rectangleArea.getWidth(), rectangle.getWidth(), 0.01);
         assertEquals(rectangleArea.getHeight(), rectangle.getHeight(), 0.01);
-        assertEquals(rectangleArea.getLocation().distanceTo(rectangle.getLocation()), 0.01);
+        assertEquals(rectangleArea.getLocation().distanceTo(rectangle.getLocation()), 0, 0.01);
         assertEquals(unboundedArea.toString(), unbounded.toString());
     }
 }
