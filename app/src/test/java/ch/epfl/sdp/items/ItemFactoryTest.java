@@ -38,7 +38,7 @@ public class ItemFactoryTest {
 
     @Test
     public void getItemShouldGenerateShrinker() {
-        Item item = itemFactory.getItem("Shrinker 1 2.0");
+        Item item = itemFactory.getItem("Shrinker 1 2");
         assertTrue(item instanceof Shrinker);
     }
 

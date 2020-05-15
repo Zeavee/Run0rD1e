@@ -71,7 +71,7 @@ public class RandomGeneratorTest {
         assertTrue(s.getRemainingTime() >= 0);
         assertTrue(s.getRemainingTime() <= 1);
         assertTrue(s.getShrinkingRadius() >= 0);
-        assertTrue(s.getShrinkingRadius() <= 1);
+        assertTrue(s.getShrinkingRadius() <= 10);
     }
 
     @Test

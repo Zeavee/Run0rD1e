@@ -11,8 +11,8 @@ import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
-    private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
-    private Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
+    public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
+    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
 
     public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap){
         // populate the all Users in firebase
@@ -58,6 +58,6 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-
+        playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
     }
 }

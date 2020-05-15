@@ -32,12 +32,12 @@ public class ClientTest {
     CommonMockDatabaseAPI commonMockDatabaseAPI;
 
     @After
-    public void destroy() {
+    public void teardown() {
         JunkCleaner.clearAll();
     }
 
     @Test
-    public void testClient() throws InterruptedException {
+    public void testClient() {
         JunkCleaner.clearAll();
         setupEnvironment();
         Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI);
@@ -48,11 +48,15 @@ public class ClientTest {
         assertEquals(1, ItemBoxManager.getInstance().getItemBoxes().size());
         assertEquals(2, PlayerManager.getInstance().getCurrentUser().getInventory().size());
 
-        PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(100, 100));
-        Thread.sleep(3000);
+        Player user = PlayerManager.getInstance().getCurrentUser();
+        user.setLocation(new GeoPoint(100, 100));
 
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
+        while (commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLatitude() != 100 &&
+                commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLongitude() != 100){
+        }
+
+        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
+        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
     }
 
     private void setupEnvironment() {
