@@ -26,6 +26,7 @@ public class PlayerManager {
     private String lobbyDocumentName;
     private long numPlayersBeforeJoin;
     private boolean isServer;
+    private boolean soloMode;
 
     /**
      * The player representing the user in the game.
@@ -79,6 +80,24 @@ public class PlayerManager {
 
     public void setIsServer(boolean isServer) {
         this.isServer = isServer;
+    }
+
+    /**
+     * Check whether the play mode is soloMode or multiPlayer mode
+     *
+     * @return True if the play mode is soloMode else false
+     */
+    public boolean isSoloMode() {
+        return soloMode;
+    }
+
+    /**
+     * Set the play mode, true if the play mode is soloMode else false
+     *
+     * @param soloMode Boolean value indicate whether the play mode is soloMode
+     */
+    public void setSoloMode(boolean soloMode) {
+        this.soloMode = soloMode;
     }
 
     /**

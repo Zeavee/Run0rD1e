@@ -19,18 +19,6 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MergeRootFrame" />
 
-    <Button
-        android:id="@+id/logoutBt"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:text="Logout"
-        android:background="@drawable/general_btn_rounded"
-        app:layout_constraintEnd_toStartOf="@+id/guideline10"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/guideline9"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboard" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline9"
         android:layout_width="wrap_content"
@@ -60,18 +48,6 @@
         app:layout_constraintGuide_percent="0.809" />
 
     <Button
-        android:id="@+id/leaderboard"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:text="LeaderBoard"
-        android:background="@drawable/general_btn_rounded"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rulesButton" />
-
-    <Button
         android:id="@+id/mapButton"
         android:layout_width="200dp"
         android:layout_height="40dp"
@@ -84,6 +60,17 @@
         app:layout_constraintTop_toBottomOf="@+id/guideline11" />
 
     <Button
+        android:id="@+id/soloMode"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/general_btn_rounded"
+        android:text="Solo Mode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+
+    <Button
         android:id="@+id/rulesButton"
         android:layout_width="200dp"
         android:layout_height="40dp"
@@ -92,7 +79,31 @@
         android:background="@drawable/general_btn_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+        app:layout_constraintTop_toBottomOf="@+id/soloMode" />
+
+    <Button
+        android:id="@+id/leaderboard"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:text="LeaderBoard"
+        android:background="@drawable/general_btn_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rulesButton" />
+
+    <Button
+        android:id="@+id/logoutBt"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="28dp"
+        android:text="Logout"
+        android:background="@drawable/general_btn_rounded"
+        app:layout_constraintEnd_toStartOf="@+id/guideline10"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toBottomOf="@+id/leaderboard" />
 
     <Button
         android:id="@+id/friendsButton"

@@ -67,7 +67,7 @@ public class Enemy extends ArtificialMovingEntity {
 
     /**
      * Creates an enemy that is bounded in an area.
-     *  @param id           The enemy's id.
+     * @param id           The enemy's id.
      * @param patrolBounds The enemy's patrol area.
      * @param maxBounds    The enemy's maximum visitable area.
      */
