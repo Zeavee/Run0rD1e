@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="Market"
+        android:text="MARKET"
         android:textColor="@color/green"
         android:textSize="30sp"
         android:textStyle="bold"
