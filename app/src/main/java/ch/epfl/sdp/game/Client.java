@@ -33,6 +33,7 @@ public class Client implements GameController, Updatable {
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
+    private boolean gameStarted;
 
     /**
      * Creates a new client
@@ -40,6 +41,7 @@ public class Client implements GameController, Updatable {
     public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
+        this.gameStarted = false;
     }
 
     @Override
@@ -55,27 +57,31 @@ public class Client implements GameController, Updatable {
 
     @Override
     public void start() {
-        clientDatabaseAPI.listenToGameStart(start -> {
-            if (start.isSuccessful()) {
-                commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
-                    if (value1.isSuccessful()) {
-                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                playerManager.addPlayer(player);
-                            }
-                            Log.d(TAG, "Getting Player: " + player);
-                        }
-                        Game.getInstance().addToUpdateList(this);
-                        Game.getInstance().initGame();
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
-            }
-        });
+        if(!gameStarted) {
+            gameStarted = true;
 
-        addEnemyListener();
-        addItemBoxesListener();
-        addIngameScoreAndHealthPointListener();
-        addUserItemListener();
+            clientDatabaseAPI.listenToGameStart(start -> {
+                if (start.isSuccessful()) {
+                    commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
+                        if (value1.isSuccessful()) {
+                            for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+                                Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+                                if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                                    playerManager.addPlayer(player);
+                                }
+                                Log.d(TAG, "Getting Player: " + player);
+                            }
+                            Game.getInstance().addToUpdateList(this);
+                            Game.getInstance().initGame();
+                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                }
+            });
+
+            addEnemyListener();
+            addItemBoxesListener();
+            addIngameScoreAndHealthPointListener();
+            addUserItemListener();
+        }
     }
 
     private void addEnemyListener() {

@@ -35,6 +35,8 @@ public class Solo implements GameController, Updatable {
 
     public void start() {
         if(!gameStarted) {
+            gameStarted = true;
+
             previousLocation = currentUser.getLocation();
 
             // init the environment
@@ -46,7 +48,6 @@ public class Solo implements GameController, Updatable {
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
             Game.getInstance().initGame();
-            gameStarted = true;
         }
     }
 

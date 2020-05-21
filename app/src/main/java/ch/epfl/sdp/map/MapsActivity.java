@@ -173,15 +173,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-//                        Solo solo = new Solo();
-//                        solo.start();
                         gameController = new Solo(soloDatabaseAPI);
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-                        } else {
-                            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
-                        }
+                        initLocationFinder();
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false
@@ -229,18 +222,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Server server = new Server(serverDatabaseAPI, commonDatabaseAPI);
-                    server.start();
+                    gameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    initLocationFinder();
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Client client = new Client(clientDatabaseAPI, commonDatabaseAPI);
-                    client.start();
+                    gameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    initLocationFinder();
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void initLocationFinder() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        } else {
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
+        }
     }
 
     private void showFragment(Fragment fragment, int containerId, boolean flag) {
