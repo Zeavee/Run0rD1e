@@ -42,7 +42,7 @@ public class Market implements Displayable {
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item : randomGenerator.randomItemsList()) {
-            stock.put(item, new Pair<>(random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
+            stock.put(item, new Pair<>(1+random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
         }
     }
 
