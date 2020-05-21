@@ -114,8 +114,8 @@ public class SocialRepositoryChatTest {
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
         testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed", c.getChat_id());
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
-        // Pretend fetching takes 2 seconds
-        Thread.sleep(2000);
+        // Pretend fetching takes 3 seconds
+        Thread.sleep(3000);
         String result = mActivityTestRule.getActivity().getMessages().get(1).getText();
         assertTrue(result.equals("Blessed"));
     }
