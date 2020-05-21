@@ -21,15 +21,19 @@ import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
     ClientMockDatabaseAPI clientMockDatabaseAPI;
     CommonMockDatabaseAPI commonMockDatabaseAPI;
+
+    GeoPoint center;
 
     @After
     public void destroy() {
@@ -53,6 +57,13 @@ public class ClientTest {
 
         assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
         assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
+
+        Game.getInstance().getDisplayables().forEach((d) -> {
+            if (d instanceof CircleArea) {
+                assertTrue(center.distanceTo(d.getLocation()) < 0.01);
+                assertEquals(300, ((CircleArea) d).getRadius(), 0.01);
+            }
+        });
     }
 
     private void setupEnvironment() {
@@ -123,9 +134,12 @@ public class ClientTest {
         itemsMap.put("Healthpack 10", 2);
         userItems = new ItemsForFirebase(itemsMap, new Date(System.currentTimeMillis()));
 
+        center = new GeoPoint(22, 22);
+        CircleArea circleArea = new CircleArea(300, center);
+
         clientMockDatabaseAPI = new ClientMockDatabaseAPI();
         commonMockDatabaseAPI = new CommonMockDatabaseAPI();
-        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebasesList, itemBoxForFirebaseList, userItems);
+        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebasesList, itemBoxForFirebaseList, userItems, circleArea.toString());
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

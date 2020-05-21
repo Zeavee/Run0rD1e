@@ -12,8 +12,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -52,48 +54,37 @@ public class GoogleMapApi implements MapApi {
             if (entityCircles.get(displayable).hasMarker())
                 entityCircles.get(displayable).getMarker().remove();
             if (entityCircles.get(displayable).hasCircle())
-                entityCircles.get(displayable).getAoe().remove();
+                entityCircles.get(displayable).getArea().remove();
+            if (entityCircles.get(displayable).hasPolygon())
+                entityCircles.get(displayable).getPolygon().remove();
         }
     }
 
     @UiThread
     @Override
     public void displaySmallIcon(Displayable displayable, String title, int id) {
-        removeMarkers(displayable);
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromResource(id)))));
+        displayMapDrawing(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions().position(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).title(title).icon(BitmapDescriptorFactory.fromResource(id)))));
     }
 
     @UiThread
     @Override
     public void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
-        removeMarkers(displayable);
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions()
-                .position(position)
-                .title(title)
-                .icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
-                mMap.addCircle(new CircleOptions()
-                        .center(position)
-                        .strokeColor(color)
-                        .fillColor(color - 0x80000000)
-                        .radius(aoeRadius)
-                        .strokeWidth(1f))));
+        displayMapDrawing(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions().position(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).title(title).icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
+                mMap.addCircle(new CircleOptions().center(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).strokeColor(color).fillColor(color - 0x80000000).radius(aoeRadius).strokeWidth(2f))));
     }
 
     @Override
-    public void displayCircle(Displayable displayable, int color, int radius) {
+    public void displayCircle(Displayable displayable, int strokeColor, int radius, int fillColor) {
+        displayMapDrawing(displayable, new MapDrawing(mMap.addCircle(new CircleOptions().center(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).strokeColor(strokeColor).fillColor(fillColor).radius(radius).strokeWidth(2f))));
+    }
+
+    @Override
+    public void displayPolygon(Displayable displayable, List<LatLng> vertices, int strokeColor, int fillColor) {
+        displayMapDrawing(displayable, new MapDrawing(mMap.addPolygon(new PolygonOptions().addAll(vertices).strokeColor(strokeColor).fillColor(fillColor).strokeWidth(2f))));
+    }
+
+    private void displayMapDrawing(Displayable displayable, MapDrawing mapDrawing) {
         removeMarkers(displayable);
-        LatLng position = new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude());
-        entityCircles.put(displayable, new MapDrawing(
-                mMap.addCircle(new CircleOptions()
-                        .center(position)
-                        .strokeColor(color)
-                        .fillColor(color - 0x80000000)
-                        .radius(radius)
-                        .strokeWidth(1f))));
+        entityCircles.put(displayable, mapDrawing);
     }
 }

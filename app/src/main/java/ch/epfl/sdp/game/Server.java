@@ -32,10 +32,11 @@ import ch.epfl.sdp.item.ItemFactory;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements Updatable {
+public class Server implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter;
     private int scoreTimeCounter;
+    private boolean gameStarted;
     private boolean gameEnd;
     private ServerDatabaseAPI serverDatabaseAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -50,13 +51,30 @@ public class Server implements Updatable {
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.scoreTimeCounter = 0;
+        this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
     }
 
     @Override
+    public void start() {
+        if(!gameStarted) {
+            gameStarted = true;
+
+            serverDatabaseAPI.listenToNumOfPlayers(value -> {
+                if (value.isSuccessful()) {
+                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
+                    fetchPlayers();
+                } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+            });
+        }
+
+    }
+
+    @Override
     public void update() {
         if (counter <= 0) {
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -77,13 +95,8 @@ public class Server implements Updatable {
 
     }
 
-    public void start() {
-        serverDatabaseAPI.listenToNumOfPlayers(value -> {
-            if (value.isSuccessful()) {
-                Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                fetchPlayers();
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
-        });
+    private void sendGameArea() {
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     private void fetchPlayers() {
@@ -134,7 +147,8 @@ public class Server implements Updatable {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
-//        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
