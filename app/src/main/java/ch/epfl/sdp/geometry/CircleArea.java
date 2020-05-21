@@ -140,6 +140,6 @@ public class CircleArea extends Area {
         if (isShrinking) {
             setShrinkTransition();
         }
-        mapApi.displayCircle(this, Color.RED, (int) radius);
+        mapApi.displayCircle(this, Color.RED, (int) radius, Color.argb(20, 255, 0, 0));
     }
 }

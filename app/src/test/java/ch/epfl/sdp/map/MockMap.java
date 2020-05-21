@@ -1,7 +1,10 @@
 package ch.epfl.sdp.map;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import ch.epfl.sdp.geometry.GeoPoint;
 
@@ -31,13 +34,18 @@ public class MockMap implements MapApi, Renderer, LocationFinder {
     }
 
     @Override
-    public void displayCircle(Displayable displayable, int color, int radius) {
+    public void displayCircle(Displayable displayable, int color, int radius, int alpha) {
         displayables.add(displayable);
     }
 
     @Override
     public void removeMarkers(Displayable displayable) {
         displayables.remove(displayable);
+    }
+
+    @Override
+    public void displayPolygon(Displayable displayable, List<LatLng> vertices, int strokeColor, int fillColor) {
+        displayables.add(displayable);
     }
 
     @Override

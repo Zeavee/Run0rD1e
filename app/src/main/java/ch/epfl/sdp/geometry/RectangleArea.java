@@ -1,7 +1,13 @@
 package ch.epfl.sdp.geometry;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ch.epfl.sdp.map.MapApi;
@@ -120,7 +126,19 @@ public class RectangleArea extends Area {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        //TODO implement
+        if (isShrinking) {
+            setShrinkTransition();
+        }
+        List<LatLng> vertices = new ArrayList<>();
+        GeoPoint SO = center.asOriginTo(new Vector(-halfWidth, -halfHeight));
+        GeoPoint SE = center.asOriginTo(new Vector(halfWidth, -halfHeight));
+        GeoPoint NE = center.asOriginTo(new Vector(halfWidth, halfHeight));
+        GeoPoint NW = center.asOriginTo(new Vector(-halfWidth, halfHeight));
+        vertices.add(new LatLng(SO.getLatitude(), SO.getLongitude()));
+        vertices.add(new LatLng(SE.getLatitude(), SE.getLongitude()));
+        vertices.add(new LatLng(NE.getLatitude(), NE.getLongitude()));
+        vertices.add(new LatLng(NW.getLatitude(), NW.getLongitude()));
+        mapApi.displayPolygon(this, vertices, Color.RED, Color.argb(20, 255, 0, 0));
     }
 
     /**

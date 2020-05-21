@@ -2,13 +2,16 @@ package ch.epfl.sdp.map;
 
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.Polygon;
 
 /**
  * A class that represent the drawing we draw on the map
  */
 public class MapDrawing {
+    private Polygon polygon;
     private Marker marker;
-    private Circle aoe;
+    private Circle area;
+    private boolean hasPolygon;
     private boolean hasMarker;
     private boolean hasCircle;
 
@@ -20,9 +23,10 @@ public class MapDrawing {
      */
     public MapDrawing(Marker marker, Circle circle) {
         this.marker = marker;
-        aoe = circle;
+        area = circle;
         hasMarker = true;
         hasCircle = true;
+        hasPolygon = false;
     }
 
     /**
@@ -34,6 +38,7 @@ public class MapDrawing {
         this.marker = marker;
         hasMarker = true;
         hasCircle = false;
+        hasPolygon = false;
     }
 
     /**
@@ -44,7 +49,20 @@ public class MapDrawing {
     public MapDrawing(Circle circle) {
         hasMarker = false;
         hasCircle = true;
-        aoe = circle;
+        hasPolygon = false;
+        area = circle;
+    }
+
+    /**
+     * The constructor for our drawing composed of a marker (icon)
+     *
+     * @param polygon a Google Maps Circle
+     */
+    public MapDrawing(Polygon polygon) {
+        hasMarker = false;
+        hasCircle = false;
+        hasPolygon = true;
+        this.polygon = polygon;
     }
 
     /**
@@ -61,8 +79,17 @@ public class MapDrawing {
      *
      * @return the circle of the drawing
      */
-    public Circle getAoe() {
-        return aoe;
+    public Circle getArea() {
+        return area;
+    }
+
+    /**
+     * A getter for the polygon
+     *
+     * @return the polygon of the drawing
+     */
+    public Polygon getPolygon() {
+        return polygon;
     }
 
     /**
@@ -81,5 +108,14 @@ public class MapDrawing {
      */
     public boolean hasMarker() {
         return hasMarker;
+    }
+
+    /**
+     * This method permits to determine if the drawing has a polygon
+     *
+     * @return a boolean that tells if the drawing has a polygon
+     */
+    public boolean hasPolygon() {
+        return hasPolygon;
     }
 }

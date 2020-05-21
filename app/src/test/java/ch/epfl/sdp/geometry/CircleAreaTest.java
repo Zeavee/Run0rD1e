@@ -89,7 +89,7 @@ public class CircleAreaTest {
     }
 
     @Test
-    public void displayDoesNotDoAnything() {
+    public void displayWorks() {
         CircleArea circle = new CircleArea(10000, new GeoPoint(40, 50));
         MockMap mockMap = new MockMap();
         circle.displayOn(mockMap);
