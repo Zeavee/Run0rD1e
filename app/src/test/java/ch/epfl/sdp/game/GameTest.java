@@ -125,7 +125,6 @@ public class GameTest {
         Updatable updatable = new Updatable() {
             @Override
             public void update() {
-                double a = 1/0;
             }
         };
 
