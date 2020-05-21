@@ -18,6 +18,9 @@ import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 
+/**
+ *  Control the whole game lifecycle of the solo mode
+ */
 public class Solo implements StartGameController, Updatable {
     private SoloDatabaseAPI soloDatabaseAPI;
     private Player currentUser = PlayerManager.getInstance().getCurrentUser();

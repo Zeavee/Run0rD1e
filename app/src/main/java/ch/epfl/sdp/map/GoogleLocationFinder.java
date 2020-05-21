@@ -31,11 +31,15 @@ public class GoogleLocationFinder implements LocationFinder {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
+
+                // The player's location will change to this weird GeoPoint(-122.08, 37.42)(which is the base of Google in the USA) automatically sometimes,
+                // even the player stays in the fixed location. It seems like a problem from the emulator, so we filtered this location.
                 if (Math.floor(latestLocation.getLatitude() * 100) / 100 != 37.42 || Math.ceil(latestLocation.getLongitude() * 100) / 100 != -122.08) {
 
                     currentLocation = latestLocation;
                     PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
 
+                    // After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
                     if(!gameStarted) {
                         gameStarted = true;
                         startGameController.start();

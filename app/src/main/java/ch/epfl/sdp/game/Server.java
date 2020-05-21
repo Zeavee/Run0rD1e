@@ -57,6 +57,21 @@ public class Server implements StartGameController, Updatable {
     }
 
     @Override
+    public void start() {
+        if(!gameStarted) {
+            gameStarted = true;
+
+            serverDatabaseAPI.listenToNumOfPlayers(value -> {
+                if (value.isSuccessful()) {
+                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
+                    fetchPlayers();
+                } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+            });
+        }
+
+    }
+
+    @Override
     public void update() {
         if (counter <= 0) {
             sendEnemies();
@@ -76,20 +91,6 @@ public class Server implements StartGameController, Updatable {
             scoreTimeCounter = 10 * GameThread.FPS + 1;
         }
         --scoreTimeCounter;
-
-    }
-
-    public void start() {
-        if(!gameStarted) {
-            gameStarted = true;
-
-            serverDatabaseAPI.listenToNumOfPlayers(value -> {
-                if (value.isSuccessful()) {
-                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                    fetchPlayers();
-                } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
-            });
-        }
 
     }
 

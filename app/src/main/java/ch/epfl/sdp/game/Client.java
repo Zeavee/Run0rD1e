@@ -45,17 +45,6 @@ public class Client implements StartGameController, Updatable {
     }
 
     @Override
-    public void update() {
-        if (counter <= 0) {
-            sendUserPosition();
-            sendUsedItems();
-            counter = 2 * GameThread.FPS + 1;
-        }
-
-        --counter;
-    }
-
-    @Override
     public void start() {
         if(!gameStarted) {
             gameStarted = true;
@@ -82,6 +71,17 @@ public class Client implements StartGameController, Updatable {
             addIngameScoreAndHealthPointListener();
             addUserItemListener();
         }
+    }
+
+    @Override
+    public void update() {
+        if (counter <= 0) {
+            sendUserPosition();
+            sendUsedItems();
+            counter = 2 * GameThread.FPS + 1;
+        }
+
+        --counter;
     }
 
     private void addEnemyListener() {
