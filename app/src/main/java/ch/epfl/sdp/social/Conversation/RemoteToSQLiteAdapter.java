@@ -8,6 +8,8 @@ public interface RemoteToSQLiteAdapter {
 
     void setListener(Context listener);
 
+    void addRemoteListener(String owner, String sender, int chat_id);
+
     /**
      * @param owner   the currently signed in user
      * @param sender  the user who sent the messages we are fetching

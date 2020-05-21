@@ -70,7 +70,6 @@ public final class SocialRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
-
                     singleton.chatDB.daoAccess().sendMessage(message);
                 } catch (SQLiteConstraintException e) {
                 }

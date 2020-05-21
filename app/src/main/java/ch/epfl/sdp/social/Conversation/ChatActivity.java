@@ -1,14 +1,19 @@
 package ch.epfl.sdp.social.Conversation;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,9 +21,12 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /**
  * @brief this activity shows the conversation of the current user and another user
@@ -68,6 +76,8 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         sendButton.setOnClickListener(v -> onSendClicked(v));
         sqliteFirestoreInterface = ((MyApplication) getApplication()).appContainer.remoteToSQLiteAdapter;
         loadExistingMessages();
+
+        sqliteFirestoreInterface.addRemoteListener(currentEmail, chattingWith, chatFromFriend.getChat_id());
     }
 
     private void loadExistingMessages() {
