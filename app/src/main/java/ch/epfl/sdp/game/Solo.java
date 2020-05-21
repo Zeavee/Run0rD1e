@@ -33,6 +33,7 @@ public class Solo implements StartGameController, Updatable {
         this.gameEnd = false;
     }
 
+    @Override
     public void start() {
         if(!gameStarted) {
             gameStarted = true;
@@ -146,5 +147,9 @@ public class Solo implements StartGameController, Updatable {
             soloDatabaseAPI.updateCurrentUserScore(currentUser.getEmail(), currentUser.getGeneralScore());
             gameEnd = true;
         }
+    }
+
+    public boolean isGameEnd() {
+        return gameEnd;
     }
 }

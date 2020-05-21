@@ -48,27 +48,27 @@
         app:layout_constraintGuide_percent="0.809" />
 
     <Button
-        android:id="@+id/mapButton"
+        android:id="@+id/solo"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/general_btn_rounded"
-        android:text="Start Game"
+        android:text="Solo Mode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/guideline11" />
 
     <Button
-        android:id="@+id/solo"
+        android:id="@+id/mapButton"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/general_btn_rounded"
-        android:text="Solo Mode"
+        android:text="Start Game"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
+        app:layout_constraintTop_toBottomOf="@+id/solo" />
 
     <Button
         android:id="@+id/rulesButton"
@@ -79,7 +79,7 @@
         android:background="@drawable/general_btn_rounded"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/solo" />
+        app:layout_constraintTop_toBottomOf="@+id/mapButton" />
 
     <Button
         android:id="@+id/leaderboard"

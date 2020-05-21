@@ -51,7 +51,7 @@ import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
-    private String playMode;
+    private String playMode = "";
 
     private AuthenticationAPI authenticationAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
