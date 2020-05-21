@@ -1,18 +1,13 @@
 package ch.epfl.sdp.social.Conversation;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -23,13 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Message;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /*
  This class fetches messages from FireStore and places them in the local SQLite database.
@@ -43,18 +34,6 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
 
     public void setListener(Context listener) {
         this.listener = listener;
-    }
-
-    @Override
-    public void addRemoteListener(String owner, String sender, int chat_id) {
-        remoteHost.collection(PATH_SEGMENTS.get(0)).document(owner).collection(PATH_SEGMENTS.get(1)).document(owner).collection(PATH_SEGMENTS.get(2)).addSnapshotListener((documentSnapshot, e) -> {
-            if (e != null) {
-                Log.w(TAG, "Failed to listen to message");
-                e.printStackTrace();
-                return;
-            }
-            sendRemoteServerDataToLocal(owner, sender, chat_id);
-        });
     }
 
     @Override

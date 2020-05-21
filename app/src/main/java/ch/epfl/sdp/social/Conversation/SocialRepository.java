@@ -34,7 +34,6 @@ public final class SocialRepository {
     private String currentEmail;
 
     private SocialRepository(Context contextActivity, String currentEmail) {
-        //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
         this.currentEmail = currentEmail;
