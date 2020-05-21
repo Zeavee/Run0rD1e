@@ -79,20 +79,23 @@ public class MarketActivity extends AppCompatActivity {
      * If the user does not have enough money, they will not be bought
      */
     private void checkoutItems()  {
-
-        boolean transactionSuccessful = true;
         List<String> purchased = new ArrayList<>();
         List<String> failed = new ArrayList<>();
         for (View v : viewsSelected.keySet()) {
             if (viewsSelected.get(v).first == 1) {
-                transactionSuccessful = backend.buy(viewsSelected.get(v).second, PlayerManager.getInstance().getCurrentUser());
-                String nameItem = viewsSelected.get(v).second.getSimpleName();
-                if (transactionSuccessful) purchased.add(nameItem);
-                else failed.add(nameItem);
+                addToCart(failed, purchased, viewsSelected.get(v).second);
             }
         }
         updateMoneyShown();
         Toast.makeText(this.getApplicationContext(), parseList(purchased, true) +"\n"+parseList(failed, false) , Toast.LENGTH_SHORT).show();
+    }
+
+    // adds an item given by argument "second" to the cart if user has enough money
+    private void addToCart(List<String> failed, List<String> purchased, Class<? extends Item> second) {
+        boolean transactionSuccessful = backend.buy(second, PlayerManager.getInstance().getCurrentUser());
+        String nameItem = second.getSimpleName();
+        if (transactionSuccessful) purchased.add(nameItem);
+        else failed.add(nameItem);
     }
 
     // displays in format  "purchased: item1, item2

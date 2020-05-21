@@ -1,4 +1,4 @@
-package ch.epfl.sdp.gameover;
+package ch.epfl.sdp.xgameover;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
@@ -65,5 +65,6 @@ public class GameOverTest {
         Thread.sleep(500);
         ViewInteraction textView = onView(withId(R.id.gameovr));
         textView.check(matches(withText("game0vr")));
+        //Thread.sleep(1000);
     }
 }

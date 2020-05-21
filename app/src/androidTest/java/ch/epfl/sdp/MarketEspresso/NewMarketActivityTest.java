@@ -162,7 +162,7 @@ public class NewMarketActivityTest {
         step4();
         step5();
         step6();
-        Thread.sleep(1000); // wait for money to subtracted
+        Thread.sleep(500); // wait for money to subtracted
         step7();
         step8();
     }
