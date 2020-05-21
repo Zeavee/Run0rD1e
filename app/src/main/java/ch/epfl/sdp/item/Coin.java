@@ -1,6 +1,7 @@
 package ch.epfl.sdp.item;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -20,6 +21,7 @@ public class Coin extends Item implements Displayable, Updatable {
     private GeoPoint location;
     private boolean isDisplayed;
     private boolean taken;
+    private final int coinAoeRadius = 50;
 
     public Coin(int value, GeoPoint location) {
         super(String.format("Coin of value %d", value), "Medium of exchange that allows a player to buy items in shops");
@@ -46,7 +48,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
-            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() - 50 >= 1) {
+            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() - coinAoeRadius >= 1) {
                 return;
             }
             this.taken = true;
@@ -65,7 +67,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
             String title = String.format("Coin of value %d", value);
-            mapApi.displayMarkerCircle(this, 0xFFD700, title, 50);
+            mapApi.displayMarkerCircle(this, 0xFFD700, title, coinAoeRadius);
             this.isDisplayed = true;
         }
     }
@@ -78,10 +80,16 @@ public class Coin extends Item implements Displayable, Updatable {
         return this.taken;
     }
 
-    public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
-        ArrayList<Coin> generatedCoins = new ArrayList<Coin>();
+    /**
+     * Method which generates Coins around a given location
+     * @param location GeoPoint around which coins will be generated
+     * @param amount nb of coins we need to generate
+     * @return ArrayList of randomly generated coins around location
+     */
+    public static List<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
+        List<Coin> generatedCoins = new ArrayList<Coin>();
         RandomGenerator randGen = new RandomGenerator();
-        for (int i = 0; i < amount; i++) {
+        for (int k = 1; k <= amount; k++) {
             generatedCoins.add(randGen.randomCoin(randGen.randomGeoPointAroundLocation(location)));
         }
         return generatedCoins;
