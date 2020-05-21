@@ -88,7 +88,6 @@ public class MapsActivityTest {
             throw new RuntimeException("Cannot execute Thread.sleep()");
         }
     }
-
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
@@ -172,5 +171,4 @@ public class MapsActivityTest {
         Thread.sleep(10000);
         onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
     }
-
 }

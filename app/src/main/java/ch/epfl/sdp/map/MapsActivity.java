@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.dynamic.ObjectWrapper;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -31,7 +30,6 @@ import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.SoloDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -58,7 +56,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private AuthenticationAPI authenticationAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
-    private SoloDatabaseAPI soloDatabaseAPI;
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
 
@@ -101,7 +98,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
-        soloDatabaseAPI = appContainer.soloDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
@@ -176,7 +172,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        startGameController = new Solo(soloDatabaseAPI);
+                        startGameController = new Solo();
                         initLocationFinder();
 
                     } else if (playMode.equals("multi-player")) {

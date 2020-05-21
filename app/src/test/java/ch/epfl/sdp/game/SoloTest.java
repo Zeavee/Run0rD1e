@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Test;
 
 import ch.epfl.sdp.JunkCleaner;
-import ch.epfl.sdp.database.firebase.api.SoloMockDatabaseAPI;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.MockMap;
@@ -28,8 +27,7 @@ public class SoloTest {
         PlayerManager.getInstance().setSoloMode(true);
         PlayerManager.getInstance().setIsServer(false);
 
-        SoloMockDatabaseAPI soloMockDatabaseAPI = new SoloMockDatabaseAPI();
-        Solo solo = new Solo(soloMockDatabaseAPI);
+        Solo solo = new Solo();
 
         solo.start();
 
