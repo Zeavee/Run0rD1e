@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        findViewById(R.id.soloMode).setOnClickListener(v -> {
+        findViewById(R.id.solo).setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             intent.putExtra("playMode", "single-player");
             startActivity(intent);

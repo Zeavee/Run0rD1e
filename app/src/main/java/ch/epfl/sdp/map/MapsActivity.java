@@ -30,6 +30,7 @@ import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
+import ch.epfl.sdp.database.firebase.api.SoloDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -38,8 +39,9 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.GameController;
 import ch.epfl.sdp.game.Server;
-import ch.epfl.sdp.game.SoloMode;
+import ch.epfl.sdp.game.Solo;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -49,25 +51,29 @@ import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
-    private CommonDatabaseAPI commonDatabaseAPI;
+    private String playMode;
+
     private AuthenticationAPI authenticationAPI;
+    private CommonDatabaseAPI commonDatabaseAPI;
+    private SoloDatabaseAPI soloDatabaseAPI;
+    private ServerDatabaseAPI serverDatabaseAPI;
+    private ClientDatabaseAPI clientDatabaseAPI;
+
+    private GameController gameController;
+    private LocationFinder locationFinder;
+
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
     private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
-    private ServerDatabaseAPI serverDatabaseAPI;
-    private ClientDatabaseAPI clientDatabaseAPI;
-    private LocationFinder locationFinder;
-
-    private TextView username, healthPointText, timerShrinking;
-    private ProgressBar healthPointProgressBar;
-
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
 
-    private String playMode;
+    private TextView username, healthPointText, timerShrinking;
+    private ProgressBar healthPointProgressBar;
+
 
     /**
      * A method to set a LocationFinder
@@ -92,6 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
+        soloDatabaseAPI = appContainer.soloDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
@@ -132,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         }
-        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
     }
 
     /**
@@ -158,13 +165,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Game.getInstance().addToDisplayList(currentUser);
                     Log.d("Database", "User fetched");
 
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
-                    } else {
-                        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
-                    }
-
                     if (playMode.equals("single-player")) {
                         // Set the soloMode in playerManager to be true
                         playerManager.setSoloMode(true);
@@ -173,8 +173,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        SoloMode soloMode = new SoloMode();
-                        soloMode.start();
+//                        Solo solo = new Solo();
+//                        solo.start();
+                        gameController = new Solo(soloDatabaseAPI);
+                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                        } else {
+                            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
+                        }
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false
