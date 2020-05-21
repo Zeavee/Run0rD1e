@@ -84,7 +84,7 @@ public class Client implements Updatable {
         addIngameScoreAndHealthPointListener();
         addUserItemListener();
         addGameAreaListener();
-        initCoins();
+        initCoinsAndShelterPoints();
     }
 
     private void addEnemyListener() {
@@ -195,7 +195,7 @@ public class Client implements Updatable {
         }
     }
 
-    private void initCoins() {
+    private void initCoinsAndShelterPoints() {
         int amount = 5;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
         for (Coin c : coins) {

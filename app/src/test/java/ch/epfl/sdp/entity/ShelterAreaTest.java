@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -63,6 +64,15 @@ public class ShelterAreaTest {
         assertFalse(player3.isShielded());
         assertFalse(player4.isShielded());
         assertTrue(player1.isShielded());
+    }
+
+    @Test
+    public void generateShelterAreaTest() {
+        RandomGenerator r = new RandomGenerator();
+        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(r.randomGeoPoint(), 3);
+        for (ShelterArea s : shelterAreas) {
+            assertTrue(s.getAoeRadius()<=150 && s.getAoeRadius()>=90);
+        }
     }
 
 
