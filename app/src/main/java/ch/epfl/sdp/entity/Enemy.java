@@ -340,7 +340,13 @@ public class Enemy extends ArtificialMovingEntity {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
+        if (behaviour == Behaviour.ATTACK || behaviour == Behaviour.CHASE) {
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_attack);
+        }else if (behaviour == Behaviour.PATROL) {
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_patrol);
+        }else{
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_wander);
+        }
     }
 }
 
