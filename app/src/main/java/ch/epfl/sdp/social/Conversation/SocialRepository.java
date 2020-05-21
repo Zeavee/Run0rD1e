@@ -36,7 +36,6 @@ public final class SocialRepository {
     public static String currentEmail;
 
     private SocialRepository(Context contextActivity) {
-        //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
     }
@@ -71,7 +70,6 @@ public final class SocialRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
-
                     singleton.chatDB.daoAccess().sendMessage(message);
                 } catch (SQLiteConstraintException e) {
                 }

@@ -10,6 +10,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.geometry.Area;
 
 /**
  * The interface with the method related to the firebase firestore
@@ -51,4 +52,6 @@ public interface ServerDatabaseAPI {
     void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback);
 
     void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
+
+    void sendGameArea(Area gameArea);
 }

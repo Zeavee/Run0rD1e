@@ -17,7 +17,10 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.AreaFactory;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 
@@ -33,6 +36,7 @@ public class Client implements Updatable {
     private PlayerManager playerManager = PlayerManager.getInstance();
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
+    private Area area = new UnboundedArea();
 
     /**
      * Creates a new client
@@ -63,11 +67,13 @@ public class Client implements Updatable {
                             if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
                                 playerManager.addPlayer(player);
                             }
-                            Log.d(TAG, "(Server) Getting Player: " + player);
+                            Log.d(TAG, "Getting Player: " + player);
                         }
                         Game.getInstance().addToUpdateList(this);
                         Game.getInstance().initGame();
-                    } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                    } else
+                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                });
             }
         });
 
@@ -75,10 +81,11 @@ public class Client implements Updatable {
         addItemBoxesListener();
         addIngameScoreAndHealthPointListener();
         addUserItemListener();
+        addGameAreaListener();
     }
 
     private void addEnemyListener() {
-        clientDatabaseAPI.addCollectionListerner(EnemyForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(EnemyForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
                 for (Object object : value.getResult()) {
@@ -86,16 +93,19 @@ public class Client implements Updatable {
                 }
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
+                    Log.d(TAG, "addEnemyListener: " + enemy.getLocation().getLatitude() + enemy.getLocation().getLongitude());
                 }
             }
         });
     }
 
     private void addItemBoxesListener() {
-        clientDatabaseAPI.addCollectionListerner(ItemBoxForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) { itemBoxForFirebaseList.add((ItemBoxForFirebase) object); }
+                for (Object object : value.getResult()) {
+                    itemBoxForFirebaseList.add((ItemBoxForFirebase) object);
+                }
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -115,12 +125,14 @@ public class Client implements Updatable {
                     }
                     Log.d(TAG, "Listen for itemboxes: " + value.getResult());
                 }
-            } else { Log.w(TAG, "Listen for itemBoxes failed.", value.getException()); }
+            } else {
+                Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
+            }
         });
     }
 
     private void addIngameScoreAndHealthPointListener() {
-        clientDatabaseAPI.addCollectionListerner(PlayerForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 for (Object object : value.getResult()) {
                     PlayerForFirebase playerForFirebase = (PlayerForFirebase) object;
@@ -133,6 +145,20 @@ public class Client implements Updatable {
                 }
             } else {
                 Log.w(TAG, "Listen for ingameScore failed.", value.getException());
+            }
+        });
+    }
+
+    private void addGameAreaListener() {
+        clientDatabaseAPI.addGameAreaListener(value -> {
+            if (value.isSuccessful()) {
+                if (area instanceof UnboundedArea) {
+                    area = new AreaFactory().getArea(value.getResult());
+                    Game.getInstance().addToDisplayList(area);
+                }
+                area.updateGameArea(new AreaFactory().getArea(value.getResult()));
+            } else {
+                Log.w(TAG, "Listen for game area failed.", value.getException());
             }
         });
     }

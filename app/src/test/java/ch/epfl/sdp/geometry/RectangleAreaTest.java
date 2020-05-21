@@ -1,6 +1,10 @@
 package ch.epfl.sdp.geometry;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
+
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -83,5 +87,23 @@ public class RectangleAreaTest {
         rectangleArea.setShrinkTransition();
         assertEquals(rectangleArea.getOldHeight(), rectangleArea.getHeight(), 0.01);
         assertEquals(rectangleArea.getOldWidth(), rectangleArea.getWidth(), 0.01);
+    }
+
+    @Test
+    public void updateRectangleAreaWorks() {
+        RectangleArea rectangleArea = new RectangleArea(1000, 2000, new GeoPoint(30, 30));
+        RectangleArea newRectangleArea = new RectangleArea(10000, 20000, new GeoPoint(40, 40));
+        rectangleArea.updateGameArea(newRectangleArea);
+        assertEquals(rectangleArea.getHeight(), newRectangleArea.getHeight(), 0.01);
+        assertEquals(rectangleArea.getWidth(), newRectangleArea.getWidth(), 0.01);
+        assertTrue(rectangleArea.getLocation().distanceTo(newRectangleArea.getLocation()) < 0.01);
+    }
+
+    @Test
+    public void displayWorks() {
+        RectangleArea circle = new RectangleArea(10000, 20000, new GeoPoint(40, 50));
+        MockMap mockMap = new MockMap();
+        circle.displayOn(mockMap);
+        TestCase.assertTrue(mockMap.getDisplayables().size() == 1);
     }
 }

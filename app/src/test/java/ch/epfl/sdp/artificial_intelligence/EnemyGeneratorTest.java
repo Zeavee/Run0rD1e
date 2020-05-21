@@ -14,6 +14,7 @@ import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
 public class EnemyGeneratorTest {
@@ -43,13 +44,17 @@ public class EnemyGeneratorTest {
     @Test
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new RectangleArea(1, 1, player.getLocation()), new UnboundedArea());
+        PlayerManager.getInstance().addPlayer(player);
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()), new UnboundedArea());
         enemyGenerator.setMinDistanceFromEnemies(10);
         enemyGenerator.setMinDistanceFromPlayers(1000);
         enemyGenerator.setMaxEnemies(10);
         enemyGenerator.setEnemyCreationTime(1);
+        while (enemyGenerator.getEnemies().size() < 10) {
+            enemyGenerator.generateEnemy(100);
+        }
         for (Enemy e : enemyGenerator.getEnemies()) {
-            assertEquals(true, e.getLocation().distanceTo(player.getLocation()) > 1000);
+            assertTrue(e.getLocation().distanceTo(player.getLocation()) > 1000);
         }
     }
 
