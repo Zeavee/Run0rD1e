@@ -1,5 +1,5 @@
 package ch.epfl.sdp.game;
 
-public interface GameController {
+public interface StartGameController {
     void start();
 }

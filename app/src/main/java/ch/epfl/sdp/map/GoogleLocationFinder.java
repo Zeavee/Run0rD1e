@@ -8,7 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.GameController;
+import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class GoogleLocationFinder implements LocationFinder {
@@ -22,7 +22,7 @@ public class GoogleLocationFinder implements LocationFinder {
     private final double listenDistance = 5; // meters
 
 
-    public GoogleLocationFinder(LocationManager locationManager, GameController gameController) {
+    public GoogleLocationFinder(LocationManager locationManager, StartGameController startGameController) {
         this.locationManager = locationManager;
 
         criteria = new Criteria();
@@ -36,9 +36,9 @@ public class GoogleLocationFinder implements LocationFinder {
                     currentLocation = latestLocation;
                     PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
 
-                    if(!gameStarted && latestLocation.getLatitude() != 0 || latestLocation.getLongitude() != 0) {
-                        gameController.start();
+                    if(!gameStarted) {
                         gameStarted = true;
+                        startGameController.start();
                     }
                     requestUpdatePosition();
                 }

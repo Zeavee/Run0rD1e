@@ -18,7 +18,7 @@ import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 
-public class Solo implements GameController, Updatable {
+public class Solo implements StartGameController, Updatable {
     private SoloDatabaseAPI soloDatabaseAPI;
     private Player currentUser = PlayerManager.getInstance().getCurrentUser();
     private int counter = 0;

@@ -32,7 +32,7 @@ import ch.epfl.sdp.item.ItemFactory;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements GameController, Updatable {
+public class Server implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter;
     private int scoreTimeCounter;

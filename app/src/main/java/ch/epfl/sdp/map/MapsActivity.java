@@ -39,7 +39,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.game.GameController;
+import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.game.Solo;
 import ch.epfl.sdp.item.InventoryFragment;
@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
 
-    private GameController gameController;
+    private StartGameController startGameController;
     private LocationFinder locationFinder;
 
     private static InventoryFragment inventoryFragment = new InventoryFragment();
@@ -139,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         }
-        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
     }
 
     /**
@@ -173,7 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        gameController = new Solo(soloDatabaseAPI);
+                        startGameController = new Solo(soloDatabaseAPI);
                         initLocationFinder();
 
                     } else if (playMode.equals("multi-player")) {
@@ -222,12 +222,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    gameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
                     initLocationFinder();
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    gameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
                     initLocationFinder();
                 }
             } else {
@@ -241,7 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
-            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), gameController);
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
         }
     }
 
