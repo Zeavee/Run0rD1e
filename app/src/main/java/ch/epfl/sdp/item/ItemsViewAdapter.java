@@ -1,16 +1,15 @@
 package ch.epfl.sdp.item;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Map;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -25,7 +24,7 @@ import static ch.epfl.sdp.R.id.useitem;
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
     private ItemFactory itemFactory;
 
-    public ItemsViewAdapter(Context mContext) {
+    public ItemsViewAdapter() {
         itemFactory = new ItemFactory();
     }
 
@@ -43,11 +42,17 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(itemName);
         holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         holder.button.setOnClickListener(v -> {
-            if (PlayerManager.getInstance().isServer()) {
+            if (PlayerManager.getInstance().isSoloMode() || PlayerManager.getInstance().isServer()) {
+
+                // If currentUser is in soloMode or the currentUser is the Server in multiPlayer mode
+                // use the item locally and get the effect directly.
                 itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
                 PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
             } else {
-                PlayerManager.getInstance().getCurrentUser().getInventory().useItem(itemName);
+
+                // If the currentUser is the Client in multiPlayer mode
+                // Just move the item to the usedItem Map and updated in cloud firebase to inform the Server
+                PlayerManager.getInstance().getCurrentUser().getInventory().moveItemToUsedItems(itemName);
             }
 
             // Update the quantity of that item

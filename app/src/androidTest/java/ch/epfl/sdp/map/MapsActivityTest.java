@@ -157,7 +157,7 @@ public class MapsActivityTest {
         onView(withId(button)).perform(click());
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

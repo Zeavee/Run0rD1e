@@ -3,7 +3,6 @@ package ch.epfl.sdp.game;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +32,11 @@ import ch.epfl.sdp.item.ItemFactory;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements Updatable {
+public class Server implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter;
     private int scoreTimeCounter;
+    private boolean gameStarted;
     private boolean gameEnd;
     private ServerDatabaseAPI serverDatabaseAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -51,8 +51,24 @@ public class Server implements Updatable {
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.scoreTimeCounter = 0;
+        this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
+    }
+
+    @Override
+    public void start() {
+        if(!gameStarted) {
+            gameStarted = true;
+
+            serverDatabaseAPI.listenToNumOfPlayers(value -> {
+                if (value.isSuccessful()) {
+                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
+                    fetchPlayers();
+                } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+            });
+        }
+
     }
 
     @Override
@@ -81,15 +97,6 @@ public class Server implements Updatable {
 
     private void sendGameArea() {
         serverDatabaseAPI.sendGameArea(gameArea);
-    }
-
-    public void start() {
-        serverDatabaseAPI.listenToNumOfPlayers(value -> {
-            if (value.isSuccessful()) {
-                Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                fetchPlayers();
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
-        });
     }
 
     private void fetchPlayers() {

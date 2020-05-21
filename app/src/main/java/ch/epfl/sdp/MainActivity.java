@@ -3,6 +3,7 @@ package ch.epfl.sdp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -36,7 +37,17 @@ public class MainActivity extends AppCompatActivity {
 
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
-        findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
+        findViewById(R.id.mapButton).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            intent.putExtra("playMode", "multi-player");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.solo).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            intent.putExtra("playMode", "single-player");
+            startActivity(intent);
+        });
 
         findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GeneralLeaderboardActivity.class)));
 
