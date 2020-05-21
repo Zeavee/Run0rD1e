@@ -195,18 +195,22 @@ public class Client implements Updatable {
         }
     }
 
+    /**
+     * Creates shelter area and coins on client side
+     * This is meant not to be synched between different devices (i.e. users in the same lobby won't see the same coin locations and shelter are locations
+     */
     private void initCoinsAndShelterPoints() {
-        int amount = 5;
-        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
-        for (Coin c : coins) {
-            Game.getInstance().addToDisplayList(c);
-            Game.getInstance().addToUpdateList(c);
-        }
-        amount = 2;
-        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
+        int nbCoins = 4;
+        int nbShelterArea = 2;
+        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation(), nbShelterArea);
         for (ShelterArea s : shelterAreas) {
             Game.getInstance().addToDisplayList(s);
             Game.getInstance().addToUpdateList(s);
+            ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), nbCoins);
+            for (Coin c : coins) {
+                Game.getInstance().addToDisplayList(c);
+                Game.getInstance().addToUpdateList(c);
+            }
         }
     }
 }
