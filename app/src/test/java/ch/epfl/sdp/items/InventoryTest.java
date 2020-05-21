@@ -42,7 +42,7 @@ public class InventoryTest {
         Item item1 = new Healthpack(0);
         Item item2 = new Healthpack(1);
         Inventory inventory = new Inventory();
-        inventory.useItem("Healthpack 0");
+        inventory.moveItemToUsedItems("Healthpack 0");
         assertEquals("Healthpack 0", item1.getName());
     }
 
@@ -78,7 +78,7 @@ public class InventoryTest {
 
         inventory.addItem(item1.getName());
         inventory.addItem(item2.getName(), 2);
-        inventory.useItem(item1.getName());
+        inventory.moveItemToUsedItems(item1.getName());
 
         assertEquals(1, inventory.getUsedItems().size());
     }
