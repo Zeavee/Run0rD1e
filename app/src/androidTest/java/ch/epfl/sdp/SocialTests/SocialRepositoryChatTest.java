@@ -113,6 +113,8 @@ public class SocialRepositoryChatTest {
         User sacha = fantasticSix.get(2);
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
         testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed", c.getChat_id());
+        // pretend inserting will take 2 seconds
+        Thread.sleep(2000);
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 3 seconds
         Thread.sleep(3000);
