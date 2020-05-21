@@ -171,13 +171,15 @@ public class Server implements Updatable {
      */
     private void initCoinsAndShelterAreas() {
         GeoPoint currentPlayerLocation = playerManager.getCurrentUser().getLocation();
-        int amount = 20;
+        int amount = 8;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(currentPlayerLocation, amount);
         for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }
-        amount = 5;
+
+        amount = 2;
+
         ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(currentPlayerLocation, amount);
         for (ShelterArea s : shelterAreas) {
             Game.getInstance().addToDisplayList(s);

@@ -30,7 +30,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", 100);
+        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", (int) this.aoeRadius);
     }
 
     public double getAoeRadius() {
@@ -87,7 +87,7 @@ public class ShelterArea implements Displayable, Updatable {
         ArrayList<ShelterArea> generatedShelterAreas = new ArrayList<>();
         RandomGenerator randGen = new RandomGenerator();
         for (int i = 0; i < amount; i++) {
-            generatedShelterAreas.add(randGen.randomShelterArea(location));
+            generatedShelterAreas.add(randGen.randomShelterArea(randGen.randomGeoPointAroundLocation(location)));
         }
         return generatedShelterAreas;
     }

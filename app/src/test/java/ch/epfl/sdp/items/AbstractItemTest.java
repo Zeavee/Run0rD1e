@@ -21,7 +21,7 @@ import ch.epfl.sdp.utils.RandomGenerator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class ItemsTest {
+public class AbstractItemTest {
     private Player player;
     private GeoPoint A;
     private Healthpack healthpack;

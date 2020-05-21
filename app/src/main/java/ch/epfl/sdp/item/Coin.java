@@ -46,7 +46,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
-            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
+            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() - 50 >= 1) {
                 return;
             }
             this.taken = true;
@@ -65,7 +65,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
             String title = String.format("Coin of value %d", value);
-            mapApi.displayMarkerCircle(this, 0xFFD700, title, 100);
+            mapApi.displayMarkerCircle(this, 0xFFD700, title, 50);
             this.isDisplayed = true;
         }
     }

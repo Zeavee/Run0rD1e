@@ -233,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
                                 healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(playerManager.getCurrentUser().getUsername());
-                                moneyText.setText(playerManager.getCurrentUser().getMoney());
+                                moneyText.setText(String.format("%d", playerManager.getCurrentUser().getMoney()));
                             }
                         });
                     }

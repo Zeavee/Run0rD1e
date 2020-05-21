@@ -196,12 +196,13 @@ public class Client implements Updatable {
     }
 
     private void initCoins() {
-        int amount = 20;
+        int amount = 5;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
         for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }
+        amount = 2;
         ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
         for (ShelterArea s : shelterAreas) {
             Game.getInstance().addToDisplayList(s);

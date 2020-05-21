@@ -3,17 +3,25 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 
-public class ItemTest {
+public class EveryItemTest {
     private Item item;
+    private String itemName;
+    private String itemDescription;
 
     @Before
     public void setup() {
-        item = new Item("ItemName", "ItemDescription") {
+        RandomGenerator r = new RandomGenerator();
+        itemName = r.randomValidString(10);
+        itemDescription = r.randomString(60);
+        item = new Item(itemName, itemDescription) {
 
             @Override
             public Item clone() {
@@ -33,8 +41,8 @@ public class ItemTest {
 
     @Test
     public void itemHasNameAndDescription() {
-        assertEquals(item.getName(), "ItemName");
-        assertEquals(item.getDescription(), "ItemDescription");
+        assertEquals(itemName, item.getName());
+        assertEquals(itemDescription, item.getDescription());
     }
     
 }

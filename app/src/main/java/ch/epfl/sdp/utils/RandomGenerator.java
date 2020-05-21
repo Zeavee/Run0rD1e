@@ -187,8 +187,8 @@ public class RandomGenerator {
      * @return shelterArea with random aoe (between 60 and 70)
      */
     public ShelterArea randomShelterArea(GeoPoint location) {
-        double rangeMin = 60.0;
-        double rangeMax = 70.0;
+        double rangeMin = 90.0;
+        double rangeMax = 150.0;
         double aoe = rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
         ShelterArea s = new ShelterArea(location, aoe);
         return s;
@@ -226,8 +226,8 @@ public class RandomGenerator {
     public GeoPoint randomGeoPointAroundLocation(GeoPoint location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        double leftLimit = -0.1;
-        double rightLimit = 0.12;
+        double leftLimit = -0.001;
+        double rightLimit = 0.012;
         double randomExt = leftLimit + rand.nextDouble() * (rightLimit - leftLimit);
         double newLat = latitude + randomExt;
         double anotherRandomExt = leftLimit + rand.nextDouble() * (rightLimit - leftLimit);
