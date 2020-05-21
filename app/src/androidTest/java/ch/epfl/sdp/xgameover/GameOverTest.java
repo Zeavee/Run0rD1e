@@ -62,7 +62,7 @@ public class GameOverTest {
     @Test
     public void test() throws InterruptedException {
         // wait a moment for the splash screen to be intended
-        Thread.sleep(500);
+        Thread.sleep(1000);
         ViewInteraction textView = onView(withId(R.id.gameovr));
         textView.check(matches(withText("game0vr")));
         //Thread.sleep(1000);
