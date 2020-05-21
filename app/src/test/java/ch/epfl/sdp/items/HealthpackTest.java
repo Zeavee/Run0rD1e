@@ -2,15 +2,17 @@ package ch.epfl.sdp.items;
 
 import org.junit.Test;
 
+import java.util.Random;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertTrue;
 
 public class HealthpackTest {
-    private Player originalPlayer = PlayerManager.getInstance().getCurrentUser();
 
     @Test
     public void cloneHasSameHealthPoints() {
@@ -21,16 +23,16 @@ public class HealthpackTest {
 
     @Test
     public void healthPackIncreasesHealthToThreshold(){
-        Player sick = new Player(20.0, 20.0, 100, "amroa", "amro.abdrabo@gmail.com");
-        sick.setHealthPoints(20.0);
-        PlayerManager.getInstance().setCurrentUser(sick);
-        Healthpack pack = new Healthpack(30);
-        //pack.useOn(sick);
-        //assertTrue(sick.getHealthPoints() == 50.0);
-        //Healthpack pack2 = new Healthpack(70);
-        //pack2.useOn(sick);
-        //assertTrue(sick.getHealthPoints() == 100.0);
-        // PlayerManager.getInstance().setCurrentUser(originalPlayer);
+        RandomGenerator randGen = new RandomGenerator();
+        Player sick = new Player(20.0, 20.0, 100, randGen.randomString(10), randGen.randomEmail());
+        sick.setHealthPoints(10.0);
+        RandomGenerator rand = new RandomGenerator();
+        Healthpack pack = rand.randomHealthPack();
+        pack.useOn(sick);
+        assertTrue(sick.getHealthPoints() == 10+pack.getValue());
+        Healthpack pack2 = new Healthpack(1203);
+        pack2.useOn(sick);
+        assertTrue(sick.getHealthPoints() == 100.0);
     }
 
     @Test

@@ -13,7 +13,13 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 
+
+/**
+ * Class that randomly generates an enemy
+ * This class differs from RandomGenerator, as it specifically generates an enemy (and nothing else)
+ */
 public class RandomEnemyGenerator extends EnemyGenerator {
+
 
     public RandomEnemyGenerator(Area localArea, Area enclosure) {
         super(localArea, enclosure);

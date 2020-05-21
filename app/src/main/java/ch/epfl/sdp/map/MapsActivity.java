@@ -59,7 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ClientDatabaseAPI clientDatabaseAPI;
     private LocationFinder locationFinder;
 
-    private TextView username, healthPointText, timerShrinking;
+    private TextView username, healthPointText, timerShrinking, moneyText;
     private ProgressBar healthPointProgressBar;
 
     private boolean flagInventory = false;
@@ -93,6 +93,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
+        moneyText = findViewById(R.id.gameinfo_money_text);
         username.setText("");
 
         Button mapButton = findViewById(R.id.recenter);
@@ -232,6 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
                                 healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
                                 username.setText(playerManager.getCurrentUser().getUsername());
+                                moneyText.setText(playerManager.getCurrentUser().getMoney());
                             }
                         });
                     }

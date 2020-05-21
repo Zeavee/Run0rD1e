@@ -93,18 +93,6 @@ public class RandomGeneratorTest {
     }
 
     @Test
-    public void randomEnemy() {
-        Enemy e = randGen.randomEnemy();
-        assertFalse(1 == 2);
-    }
-
-    @Test
-    public void randomShelterPointTest() {
-        ShelterArea s = randGen.randomShelterArea();
-        assertEquals(1,s.getPlayersInShelterArea().size());
-    }
-
-    @Test
     public void randomCoinTest() {
         for (int i = 0; i<4; i++) {
             assertTrue(randGen.randomCoin(randGen.randomGeoPoint()).getValue() < 30);
@@ -127,5 +115,11 @@ public class RandomGeneratorTest {
         assertTrue(dlong < 0.5);
     }
 
+    @Test
+    public void randomShelterAreaTest() {
+        GeoPoint g = randGen.randomGeoPoint();
+        ShelterArea s = randGen.randomShelterArea(g);
+        assertTrue(s.getAoeRadius() <= 70 && s.getAoeRadius() >= 60);
+    }
 
 }

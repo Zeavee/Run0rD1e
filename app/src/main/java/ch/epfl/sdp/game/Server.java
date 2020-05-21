@@ -20,6 +20,7 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -29,6 +30,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -119,7 +121,7 @@ public class Server implements Updatable {
                 initGameArea();
                 initItemBoxes();
                 initEnemies();
-                initCoins();
+                initCoinsAndShelterAreas();
                 startGame();
             } else Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
@@ -163,25 +165,37 @@ public class Server implements Updatable {
         //  -------------------------------------------
     }
 
-    private void initCoins() {
-        int amount = 10;
-        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
+
+    /**
+     * Randomly initializes the coin around the player's location
+     */
+    private void initCoinsAndShelterAreas() {
+        GeoPoint currentPlayerLocation = playerManager.getCurrentUser().getLocation();
+        int amount = 20;
+        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(currentPlayerLocation, amount);
         for (Coin c : coins) {
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
+        }
+        amount = 5;
+        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(currentPlayerLocation, amount);
+        for (ShelterArea s : shelterAreas) {
+            Game.getInstance().addToDisplayList(s);
+            Game.getInstance().addToUpdateList(s);
         }
     }
 
     private void initItemBoxes() {
         // ItemBox -------------------------------------------
-        Healthpack healthpack = new Healthpack(10);
-        ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
+        RandomGenerator randGen = new RandomGenerator();
+        Healthpack healthpack = randGen.randomHealthPack();
+        ItemBox itemBox = new ItemBox(randGen.randomGeoPointAroundLocation(playerManager.getCurrentUser().getLocation()));
         itemBox.putItems(healthpack, 2);
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
 
-        Healthpack healthpack1 = new Healthpack(10);
-        ItemBox itemBox1 = new ItemBox(new GeoPoint(6.1488, 46.2125));
+        Healthpack healthpack1 = randGen.randomHealthPack();
+        ItemBox itemBox1 = new ItemBox(randGen.randomGeoPointAroundLocation(playerManager.getCurrentUser().getLocation()));
         itemBox1.putItems(healthpack1, 1);
         Game.getInstance().addToDisplayList(itemBox1);
         Game.getInstance().addToUpdateList(itemBox1);

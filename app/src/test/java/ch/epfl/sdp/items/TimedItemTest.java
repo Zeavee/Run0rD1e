@@ -13,6 +13,7 @@ import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,8 +25,9 @@ public class TimedItemTest {
 
     @Before
     public void setup() {
+        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
-        Player player = new Player("","");
+        Player player = new Player(r.randomValidString(10),r.randomEmail());
         PlayerManager.getInstance().setCurrentUser(player);
         user = PlayerManager.getInstance().getCurrentUser();
     }

@@ -17,7 +17,9 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.map.GoogleLocationFinder;
 import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -29,7 +31,9 @@ public class MarketTest {
 
     @Before
     public void setUp() {
-        buyer = new Player(20.0, 20.0, 20, "Skyris", "skyris@gmail.com");
+        RandomGenerator r = new RandomGenerator();
+        GeoPoint g = r.randomGeoPoint();
+        buyer = new Player(g.getLongitude(), g.getLatitude(), 20, r.randomValidString(5), r.randomEmail());
         buyer.addMoney(4000);
         PlayerManager.getInstance().setCurrentUser(buyer);
         market = new Market(new GeoPoint(1.0, 3.4));

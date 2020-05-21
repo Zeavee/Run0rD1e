@@ -17,10 +17,12 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.AreaFactory;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 
@@ -82,6 +84,7 @@ public class Client implements Updatable {
         addIngameScoreAndHealthPointListener();
         addUserItemListener();
         addGameAreaListener();
+        initCoins();
     }
 
     private void addEnemyListener() {
@@ -189,6 +192,20 @@ public class Client implements Updatable {
         if (!usedItems.isEmpty()) {
             clientDatabaseAPI.sendUsedItems(EntityConverter.convertItems(usedItems));
             playerManager.getCurrentUser().getInventory().clearUsedItems();
+        }
+    }
+
+    private void initCoins() {
+        int amount = 20;
+        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
+        for (Coin c : coins) {
+            Game.getInstance().addToDisplayList(c);
+            Game.getInstance().addToUpdateList(c);
+        }
+        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
+        for (ShelterArea s : shelterAreas) {
+            Game.getInstance().addToDisplayList(s);
+            Game.getInstance().addToUpdateList(s);
         }
     }
 }

@@ -6,6 +6,7 @@ import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Class representing a Shelter Area
@@ -80,5 +81,14 @@ public class ShelterArea implements Displayable, Updatable {
     @Override
     public void update() {
         shelter();
+    }
+
+    public static ArrayList<ShelterArea> generateShelterAreaAroundLocation(GeoPoint location, int amount) {
+        ArrayList<ShelterArea> generatedShelterAreas = new ArrayList<>();
+        RandomGenerator randGen = new RandomGenerator();
+        for (int i = 0; i < amount; i++) {
+            generatedShelterAreas.add(randGen.randomShelterArea(location));
+        }
+        return generatedShelterAreas;
     }
 }
