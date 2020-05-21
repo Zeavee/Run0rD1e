@@ -30,7 +30,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
  * This class updates the game from the client point of view. It fetches the data from firebase and
  * the data is updated by the server.
  */
-public class Client implements Updatable {
+public class Client implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
     private ClientDatabaseAPI clientDatabaseAPI;
@@ -39,6 +39,7 @@ public class Client implements Updatable {
     private EnemyManager enemyManager = EnemyManager.getInstance();
     private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private Area area = new UnboundedArea();
+    private boolean gameStarted;
 
     /**
      * Creates a new client
@@ -46,6 +47,38 @@ public class Client implements Updatable {
     public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
+        this.gameStarted = false;
+    }
+
+    @Override
+    public void start() {
+        if(!gameStarted) {
+            gameStarted = true;
+
+            clientDatabaseAPI.listenToGameStart(start -> {
+                if (start.isSuccessful()) {
+                    commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
+                        if (value1.isSuccessful()) {
+                            for (PlayerForFirebase playerForFirebase : value1.getResult()) {
+                                Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
+                                if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
+                                    playerManager.addPlayer(player);
+                                }
+                                Log.d(TAG, "Getting Player: " + player);
+                            }
+                            Game.getInstance().addToUpdateList(this);
+                            Game.getInstance().initGame();
+                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                }
+            });
+
+            addEnemyListener();
+            addItemBoxesListener();
+            addIngameScoreAndHealthPointListener();
+            addUserItemListener();
+            addGameAreaListener();
+            initCoinsAndShelterPoints();
+        }
     }
 
     @Override
@@ -57,34 +90,6 @@ public class Client implements Updatable {
         }
 
         --counter;
-    }
-
-    public void start() {
-        clientDatabaseAPI.listenToGameStart(start -> {
-            if (start.isSuccessful()) {
-                commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
-                    if (value1.isSuccessful()) {
-                        for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                            Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                            if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                playerManager.addPlayer(player);
-                            }
-                            Log.d(TAG, "Getting Player: " + player);
-                        }
-                        Game.getInstance().addToUpdateList(this);
-                        Game.getInstance().initGame();
-                    } else
-                        Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
-                });
-            }
-        });
-
-        addEnemyListener();
-        addItemBoxesListener();
-        addIngameScoreAndHealthPointListener();
-        addUserItemListener();
-        addGameAreaListener();
-        initCoinsAndShelterPoints();
     }
 
     private void addEnemyListener() {

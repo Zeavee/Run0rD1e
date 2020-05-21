@@ -77,7 +77,7 @@ public class Inventory {
      *
      * @param itemName A name referring to the item.
      */
-    public void useItem(String itemName) {
+    public void moveItemToUsedItems(String itemName) {
         if (items.containsKey(itemName)) {
             removeItem(itemName);
             if (usedItems.containsKey(itemName)) {
