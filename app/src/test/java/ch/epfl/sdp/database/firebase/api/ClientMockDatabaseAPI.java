@@ -19,8 +19,9 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     public List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
     public List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
     ItemsForFirebase userItems;
+    String gameArea;
 
-    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, ItemsForFirebase userItems){
+    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, ItemsForFirebase userItems, String gameArea){
         // populate the all Users in firebase
         this.userForFirebaseMap = userForFirebaseMap;
 
@@ -35,6 +36,9 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
 
         // populate the usedItem
         this.userItems = userItems;
+
+        // set the game area
+        this.gameArea = gameArea;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
         List<Object> entityList = new ArrayList<>();
         if (EnemyForFirebase.class.equals(entityType)) {
             entityList.addAll(enemyForFirebasesList);
@@ -63,6 +67,11 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(userItems.getItemsMap(), true, null));
+    }
+
+    @Override
+    public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
+        onValueReadyCallback.finish(new CustomResult<>(gameArea, true, null));
     }
 
     @Override

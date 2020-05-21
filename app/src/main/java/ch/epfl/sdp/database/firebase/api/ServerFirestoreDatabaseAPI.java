@@ -20,7 +20,9 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
@@ -68,28 +70,12 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendEnemies(List<EnemyForFirebase> enemies) {
-        // Get a new write batch
-        WriteBatch batch = firebaseFirestore.batch();
-
-        // Collection Ref
-        for (EnemyForFirebase enemyForFirebase : enemies) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.ENEMY_COLLECTION_NAME).document("enemy" + enemyForFirebase.getId());
-            batch.set(docRef, enemyForFirebase);
-        }
-
-        batch.commit();
+        sendList(enemies, PlayerManager.ENEMY_COLLECTION_NAME, enemyForFirebase -> ("enemy") + enemyForFirebase.getId(), enemyForFirebase -> enemyForFirebase);
     }
 
     @Override
     public void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList) {
-        WriteBatch batch = firebaseFirestore.batch();
-
-        for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
-            DocumentReference docRef = lobbyRef.collection(ItemBoxManager.ITEMBOX_COLLECTION_NAME).document(itemBoxForFirebase.getId());
-            batch.set(docRef, itemBoxForFirebase);
-        }
-
-        batch.commit();
+        sendList(itemBoxForFirebaseList, ItemBoxManager.ITEMBOX_COLLECTION_NAME, ItemBoxForFirebase::getId, itemBoxForFirebase -> itemBoxForFirebase);
     }
 
     @Override
@@ -162,5 +148,27 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                         onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
                     }
                 });
+    }
+
+    private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
+        // Get a new write batch
+        WriteBatch batch = firebaseFirestore.batch();
+
+        // Collection Ref
+        for (T entity : list) {
+            DocumentReference docRef = lobbyRef.collection(collection).document(converterToString.methodFromT(entity));
+            batch.set(docRef, converterToSend.methodFromT(entity));
+        }
+
+        batch.commit();
+    }
+
+    @Override
+    public void sendGameArea(Area gameArea) {
+        lobbyRef.update(PlayerManager.GAME_AREA_COLLECTION_NAME, gameArea.toString());
+    }
+
+    private interface Function<T, R> {
+        R methodFromT(T t);
     }
 }

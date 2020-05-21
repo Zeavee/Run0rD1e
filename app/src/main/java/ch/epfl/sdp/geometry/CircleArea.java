@@ -2,6 +2,8 @@ package ch.epfl.sdp.geometry;
 
 import android.graphics.Color;
 
+import androidx.annotation.NonNull;
+
 import java.util.Random;
 
 import ch.epfl.sdp.map.MapApi;
@@ -122,10 +124,22 @@ public class CircleArea extends Area {
     }
 
     @Override
+    public void updateGameArea(Area area) {
+        center = area.getLocation();
+        radius = ((CircleArea) area).getRadius();
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "CircleArea " + radius + " " + center.getLongitude() + " " + center.getLatitude();
+    }
+
+    @Override
     public void displayOn(MapApi mapApi) {
         if (isShrinking) {
             setShrinkTransition();
         }
-            mapApi.displayCircle(this, Color.RED, (int) radius);
+        mapApi.displayCircle(this, Color.RED, (int) radius, Color.argb(20, 255, 0, 0));
     }
 }

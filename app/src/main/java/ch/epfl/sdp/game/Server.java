@@ -3,6 +3,7 @@ package ch.epfl.sdp.game;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class Server implements Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -75,6 +77,10 @@ public class Server implements Updatable {
         }
         --scoreTimeCounter;
 
+    }
+
+    private void sendGameArea() {
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     public void start() {
@@ -134,7 +140,8 @@ public class Server implements Updatable {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
-//        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 

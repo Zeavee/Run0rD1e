@@ -1,5 +1,9 @@
 package ch.epfl.sdp.map;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.List;
+
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -36,10 +40,11 @@ public interface MapApi {
      * A method that display one circle
      *
      * @param displayable the object we want to display
-     * @param color       the color of the circles
-     * @param radius   the aoeRadius of the displayable
+     * @param fillColor   the color of the filling
+     * @param radius      the aoeRadius of the displayable
+     * @param alpha       color of the stroke
      */
-    void displayCircle(Displayable displayable, int color, int radius);
+    void displayCircle(Displayable displayable, int fillColor, int radius, int alpha);
 
     /**
      * This method remove a given object from the map
@@ -47,4 +52,14 @@ public interface MapApi {
      * @param displayable the object we want to remove from the map
      */
     void removeMarkers(Displayable displayable);
+
+    /**
+     * A method that display one polygon
+     *
+     * @param displayable the object we want to display
+     * @param vertices    the list of the vertices of the polygon
+     * @param strokeColor the color of the filling
+     * @param fillColor   the color of the stroke
+     */
+    void displayPolygon(Displayable displayable, List<LatLng> vertices, int strokeColor, int fillColor);
 }
