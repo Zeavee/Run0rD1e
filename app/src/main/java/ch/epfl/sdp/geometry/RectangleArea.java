@@ -78,12 +78,7 @@ public class RectangleArea extends Area {
 
     @Override
     boolean isInside(Vector vector) {
-        return false;
-    }
-
-    @Override
-    public boolean isInside(GeoPoint geoPoint) {
-        return Math.abs(geoPoint.getX() - center.getX()) < halfWidth && Math.abs(geoPoint.getY() - center.getY()) < halfHeight;
+        return Math.abs(vector.x()) < halfWidth && Math.abs(vector.y()) < halfHeight;
     }
 
     @Override

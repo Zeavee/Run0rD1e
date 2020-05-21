@@ -1,6 +1,10 @@
 package ch.epfl.sdp.geometry;
 
+import junit.framework.TestCase;
+
 import org.junit.Test;
+
+import ch.epfl.sdp.map.MockMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -82,5 +86,13 @@ public class CircleAreaTest {
         circle.setTime(3);
         circle.setShrinkTransition();
         assertEquals(circle.getOldRadius(), circle.getRadius(), 0.01);
+    }
+
+    @Test
+    public void displayDoesNotDoAnything() {
+        CircleArea circle = new CircleArea(10000, new GeoPoint(40, 50));
+        MockMap mockMap = new MockMap();
+        circle.displayOn(mockMap);
+        TestCase.assertTrue(mockMap.getDisplayables().size() == 1);
     }
 }

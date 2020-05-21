@@ -84,4 +84,14 @@ public class RectangleAreaTest {
         assertEquals(rectangleArea.getOldHeight(), rectangleArea.getHeight(), 0.01);
         assertEquals(rectangleArea.getOldWidth(), rectangleArea.getWidth(), 0.01);
     }
+
+    @Test
+    public void updateRectangleAreaWorks() {
+        RectangleArea rectangleArea = new RectangleArea(1000, 2000, new GeoPoint(30, 30));
+        RectangleArea newRectangleArea = new RectangleArea(10000, 20000, new GeoPoint(40, 40));
+        rectangleArea.updateGameArea(newRectangleArea);
+        assertEquals(rectangleArea.getHeight(), newRectangleArea.getHeight(), 0.01);
+        assertEquals(rectangleArea.getWidth(), newRectangleArea.getWidth(), 0.01);
+        assertTrue(rectangleArea.getLocation().distanceTo(newRectangleArea.getLocation()) < 0.01);
+    }
 }

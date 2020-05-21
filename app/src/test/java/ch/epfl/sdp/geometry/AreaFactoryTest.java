@@ -3,6 +3,7 @@ package ch.epfl.sdp.geometry;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNull;
 
 public class AreaFactoryTest {
 
@@ -21,5 +22,6 @@ public class AreaFactoryTest {
         assertEquals(rectangleArea.getHeight(), rectangle.getHeight(), 0.01);
         assertEquals(rectangleArea.getLocation().distanceTo(rectangle.getLocation()), 0, 0.01);
         assertEquals(unboundedArea.toString(), unbounded.toString());
+        assertNull(areaFactory.getArea("nothing"));
     }
 }
