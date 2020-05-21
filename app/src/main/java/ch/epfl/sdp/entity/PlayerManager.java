@@ -22,6 +22,7 @@ public class PlayerManager {
     public static final String ENEMY_COLLECTION_NAME = "Enemies";
     public static final String ITEM_COLLECTION_NAME = "Items";
     public static final String USED_ITEM_COLLECTION_NAME = "UsedItems";
+    public static final String GAME_AREA_COLLECTION_NAME = "GameArea";
 
     private String lobbyDocumentName;
     private long numPlayersBeforeJoin;

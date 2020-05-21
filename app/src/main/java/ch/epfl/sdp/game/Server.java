@@ -74,6 +74,7 @@ public class Server implements StartGameController, Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -92,6 +93,10 @@ public class Server implements StartGameController, Updatable {
         }
         --scoreTimeCounter;
 
+    }
+
+    private void sendGameArea() {
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     private void fetchPlayers() {
@@ -142,7 +147,8 @@ public class Server implements StartGameController, Updatable {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
-//        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
