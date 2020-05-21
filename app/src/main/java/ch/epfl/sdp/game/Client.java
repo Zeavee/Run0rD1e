@@ -66,9 +66,7 @@ public class Client implements StartGameController, Updatable {
                             }
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
-                        } else {
-                            Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
-                        }});
+                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
                 }
             });
 
