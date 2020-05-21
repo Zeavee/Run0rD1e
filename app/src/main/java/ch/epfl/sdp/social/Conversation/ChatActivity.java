@@ -148,7 +148,9 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         timer.purge();
     }
 
-    // needed for testing
+    /**
+     * needed for testing, returns the list of messages
+     */
     public List<Message> getMessages() {
         // return defensive copy
         return new ArrayList<>(messages);
