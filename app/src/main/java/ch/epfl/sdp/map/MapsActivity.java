@@ -40,6 +40,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
+import ch.epfl.sdp.gameOver.GameOverActivity;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
@@ -246,9 +247,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
-                if (displayable instanceof Market) {
-                    ((Market) displayable).setCallingActivity(this);
-                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -263,11 +261,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * switches to a market activity, where user can buy health, shield, scan, or shrinker items
      */
     public void startMarket(Market backend) {
-        Log.d("MapsActivity", "start market");
-
         final Bundle bundle = new Bundle();
         bundle.putBinder("object_value", new ObjectWrapperForBinder<>(backend));
         startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
+    }
 
+    public void endGame() {
+        startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
     }
 }

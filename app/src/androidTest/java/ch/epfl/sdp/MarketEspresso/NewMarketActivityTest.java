@@ -52,6 +52,7 @@ public class NewMarketActivityTest {
         @Override
         public void beforeActivityLaunched() {
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
+            amro.setHealthPoints(100);
             amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);

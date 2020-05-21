@@ -49,7 +49,6 @@ public class Client implements Updatable {
             sendUsedItems();
             counter = 2 * GameThread.FPS + 1;
         }
-
         --counter;
     }
 
