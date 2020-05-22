@@ -26,6 +26,7 @@ import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -120,9 +121,9 @@ public class SocialRepositoryChatTest {
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 5 seconds
         List<Message> result = new ArrayList<>();
-        while (result == null || result.isEmpty()) {
+        while (result.isEmpty()) {
             result.addAll(mActivityTestRule.getActivity().getMessages());
         }
-        assertTrue(result.get(1).getText().equals("Blessed"));
+        assertEquals("Blessed", result.get(1).getText());
     }
 }
