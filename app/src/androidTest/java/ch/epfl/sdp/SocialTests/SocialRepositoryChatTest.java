@@ -118,8 +118,10 @@ public class SocialRepositoryChatTest {
         Thread.sleep(2000);
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 5 seconds
-        Thread.sleep(5000);
         List<Message> result = mActivityTestRule.getActivity().getMessages();
+        while (result == null) {
+            result = mActivityTestRule.getActivity().getMessages();
+        }
         result.clear();
         assertTrue(result.isEmpty());
     }
