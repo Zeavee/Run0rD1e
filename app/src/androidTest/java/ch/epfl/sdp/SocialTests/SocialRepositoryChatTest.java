@@ -55,6 +55,7 @@ public class SocialRepositoryChatTest {
             appContainer.remoteToSQLiteAdapter.setListener(mActivityTestRule.getActivity());
             appContainer.authenticationAPI = new MockAuthenticationAPI(null, "amro@gmail.com");
             currentUserEmail = appContainer.authenticationAPI.getCurrentUserEmail();
+            SocialRepository.setContextActivity(ApplicationProvider.getApplicationContext());
             prepopulateDatabase();
         }
     };
@@ -116,8 +117,8 @@ public class SocialRepositoryChatTest {
         // pretend inserting will take 2 seconds
         Thread.sleep(2000);
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
-        // Pretend fetching takes 2 seconds
-        Thread.sleep(2000);
+        // Pretend fetching takes 5 seconds
+        Thread.sleep(5000);
         List<Message> result = mActivityTestRule.getActivity().getMessages();
         result.clear();
         assertTrue(result.isEmpty());
