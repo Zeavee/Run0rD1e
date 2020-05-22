@@ -116,7 +116,7 @@ public class SocialRepositoryChatTest {
         // pretend inserting will take 2 seconds
         Thread.sleep(2000);
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
-        // Pretend fetching takes 2 seconds
+        // pretend fetching takes 2 seconds
         Thread.sleep(2000);
         List<Message> result = mActivityTestRule.getActivity().getMessages();
         result.clear();
