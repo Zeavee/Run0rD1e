@@ -13,8 +13,6 @@ import com.google.firebase.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.MyApplication;
@@ -33,11 +31,10 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private String chattingWith;
     private Chat chatFromCurrent;
     private Chat chatFromFriend;
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
     private MessageAdapter messageAdapter;
     private RemoteToSQLiteAdapter sqliteFirestoreInterface;
     private String currentEmail;
-    private Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +67,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         sendButton.setOnClickListener(v -> onSendClicked(v));
         sqliteFirestoreInterface = ((MyApplication) getApplication()).appContainer.remoteToSQLiteAdapter;
         loadExistingMessages();
-
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                sqliteFirestoreInterface.sendRemoteServerDataToLocal(currentEmail, chattingWith, chatFromFriend.getChat_id());
-            }
-        }, 5000, 5000);
     }
 
     private void loadExistingMessages() {
@@ -124,6 +114,10 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     @Override
     public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
+        List<String> texts = new ArrayList<>();
+        for (Message m : output) {
+            texts.add(m.getText());
+        }
         messages = output;
         for (Message el : messages) {
             if (isFromServer) {
@@ -136,15 +130,13 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timer.cancel();
-        timer.purge();
     }
 
     /**
      * needed for testing, returns the list of messages
      */
     public List<Message> getMessages() {
-        // return defensive copy
+        if (messages == null) return null;
         return new ArrayList<>(messages);
     }
 }

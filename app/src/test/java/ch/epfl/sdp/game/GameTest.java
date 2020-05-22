@@ -7,6 +7,7 @@ import org.junit.Test;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MockMap;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
@@ -23,7 +24,7 @@ public class GameTest {
     }
 
     @Before
-    public void teardown(){
+    public void teardown() {
         Game.getInstance().destroyGame();
         Game.getInstance().clearGame();
     }
@@ -117,7 +118,6 @@ public class GameTest {
         Assert.assertFalse(Game.getInstance().isRunning());
     }
 
-    // Rafael, I would advise you to stop writing tests that end up looping forever or divide by zero and wasting people's time
     @Test
     public void gameThreadCatchExceptions() {
         Game.getInstance().initGame();
@@ -125,14 +125,16 @@ public class GameTest {
         Updatable updatable = new Updatable() {
             @Override
             public void update() {
+                double a = 1 / 0;
             }
         };
 
         Game.getInstance().addToUpdateList(updatable);
-        int timeout = 100;
-        while (!Game.getInstance().getGameThreadExceptionFlag() && timeout > 0) {
+
+        while (!Game.getInstance().getGameThreadExceptionFlag()) {
             System.out.println("Waiting Exception");
-            timeout = timeout - 1;
         }
+
+        assertTrue(Game.getInstance().getGameThreadExceptionFlag());
     }
 }
