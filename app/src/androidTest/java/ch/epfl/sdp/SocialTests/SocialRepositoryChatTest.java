@@ -1,5 +1,7 @@
 package ch.epfl.sdp.SocialTests;
 
+import android.util.Log;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -12,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -110,17 +113,23 @@ public class SocialRepositoryChatTest {
 
     @Test
     public void SachaCanReceiveRemoteMessage() throws InterruptedException {
-        User sacha = fantasticSix.get(2);
-        Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
+        Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(),fantasticSix.get(2).getEmail());
         testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed", c.getChat_id());
-        // pretend inserting will take 2 seconds
-        Thread.sleep(2000);
+        // pretend inserting will take 4 seconds
+        Thread.sleep(4000);
+
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
-        // Pretend fetching takes 2 seconds
-        Thread.sleep(2000);
-        List<Message> result = mActivityTestRule.getActivity().getMessages();
-        result.clear();
-        assertTrue(result.isEmpty());
+        // pretend fetching will take 4 seconds
+        Thread.sleep(4000);
+
+        while (mActivityTestRule.getActivity().getMessages() == null) {
+        }
+        List<Message> msgs = mActivityTestRule.getActivity().getMessages();
+        List<String> texts = new ArrayList<>();
+        for (Message m: msgs){
+            texts.add(m.getText());
+        }
+        assertTrue(texts.get(1).equals("Blessed"));
     }
 
 }

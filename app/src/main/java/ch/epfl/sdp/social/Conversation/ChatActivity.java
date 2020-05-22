@@ -45,7 +45,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private MessageAdapter messageAdapter;
     private RemoteToSQLiteAdapter sqliteFirestoreInterface;
     private String currentEmail;
-    private Timer timer = new Timer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +78,6 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         sqliteFirestoreInterface = ((MyApplication) getApplication()).appContainer.remoteToSQLiteAdapter;
         loadExistingMessages();
 
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                sqliteFirestoreInterface.sendRemoteServerDataToLocal(currentEmail, chattingWith, chatFromFriend.getChat_id());
-            }
-        }, 5000, 5000);
     }
 
     private void loadExistingMessages() {
@@ -132,6 +125,10 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     @Override
     public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
+        List<String> texts = new ArrayList<>();
+        for (Message m: output){
+            texts.add(m.getText());
+        }
         messages = output;
         for (Message el : messages) {
             if (isFromServer) {
@@ -144,15 +141,13 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timer.cancel();
-        timer.purge();
     }
 
     /**
      * needed for testing, returns the list of messages
      */
     public List<Message> getMessages() {
-        // return defensive copy
+        if (messages == null) return null;
         return new ArrayList<>(messages);
     }
 }
