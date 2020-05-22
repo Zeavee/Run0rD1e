@@ -35,10 +35,11 @@ import ch.epfl.sdp.item.Shrinker;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements Updatable {
+public class Server implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter;
     private int scoreTimeCounter;
+    private boolean gameStarted;
     private boolean gameEnd;
     private ServerDatabaseAPI serverDatabaseAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
@@ -53,14 +54,31 @@ public class Server implements Updatable {
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.scoreTimeCounter = 0;
+        this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
     }
 
     @Override
+    public void start() {
+        if (!gameStarted) {
+            gameStarted = true;
+
+            serverDatabaseAPI.listenToNumOfPlayers(value -> {
+                if (value.isSuccessful()) {
+                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
+                    fetchPlayers();
+                } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
+            });
+        }
+
+    }
+
+    @Override
     public void update() {
         if (counter <= 0) {
-            sendUserPosition();
+            // sendUserPosition();
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -81,13 +99,8 @@ public class Server implements Updatable {
 
     }
 
-    public void start() {
-        serverDatabaseAPI.listenToNumOfPlayers(value -> {
-            if (value.isSuccessful()) {
-                Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
-                fetchPlayers();
-            } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
-        });
+    private void sendGameArea() {
+        serverDatabaseAPI.sendGameArea(gameArea);
     }
 
     private void fetchPlayers() {
@@ -135,21 +148,20 @@ public class Server implements Updatable {
     }
 
     private void initGameArea() {
-        //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
-//        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToDisplayList(gameArea);
+        Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
     }
 
     private void initEnemies() {
-        // Enemy -------------------------------------------
         Area area = new UnboundedArea();
         RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
         randomEnemyGenerator.setEnemyCreationTime(1000);
         randomEnemyGenerator.setMaxEnemies(10);
-        randomEnemyGenerator.setMinDistanceFromEnemies(1000);
-        randomEnemyGenerator.setMinDistanceFromPlayers(10000);
+        randomEnemyGenerator.setMinDistanceFromEnemies(100);
+        randomEnemyGenerator.setMinDistanceFromPlayers(100);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
         SinusoidalMovement movement = new SinusoidalMovement();
@@ -157,7 +169,6 @@ public class Server implements Updatable {
         movement.setAmplitude(10);
         enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
-        //  -------------------------------------------
     }
 
     private void initCoins() {
@@ -170,7 +181,6 @@ public class Server implements Updatable {
     }
 
     private void initItemBoxes() {
-        // ItemBox -------------------------------------------
         Scan scan = new Scan(10);
         Shield shield = new Shield(10);
         Shrinker shrinker = new Shrinker(10,5);

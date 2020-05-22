@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/background"
     android:orientation="vertical"
     tools:context=".market.MarketActivity">
 
@@ -13,10 +13,11 @@
         android:id="@+id/marketLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/market"
-        android:textColor="#FFFFFF"
+        android:fontFamily="@font/bold"
+        android:text="MARKET"
+        android:textColor="@color/green"
         android:textSize="30sp"
-        android:textStyle="italic|bold"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +115,8 @@
     </androidx.cardview.widget.CardView>
 
 
+    <!-- Cost and value are no longer separate text views-->
+
     <Button
         android:id="@+id/BuyButton"
         android:layout_width="wrap_content"
@@ -121,13 +124,14 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:text="Buy Items"
+        android:background="@drawable/btn_rounded"
+        android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/marketLabel"
-        app:layout_constraintVertical_bias="0.73" />
+        app:layout_constraintVertical_bias="0.801" />
 
-    <!-- Cost and value are no longer separate text views-->
     <TextView
         android:id="@+id/costScan"
         android:layout_width="wrap_content"
@@ -181,6 +185,20 @@
         app:layout_constraintStart_toEndOf="@+id/costEms"
         app:layout_constraintTop_toBottomOf="@+id/shieldCard"
         app:layout_constraintVertical_bias="0.06999999" />
+
+    <TextView
+        android:id="@+id/textMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Money: "
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.242"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costEms"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

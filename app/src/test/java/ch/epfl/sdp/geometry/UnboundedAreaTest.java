@@ -34,6 +34,13 @@ public class UnboundedAreaTest {
     }
 
     @Test
+    public void updateAreaDoesNotDoAnything() {
+        GeoPoint center = unboundedArea.getLocation();
+        unboundedArea.updateGameArea(new UnboundedArea());
+        assertTrue(center.distanceTo(unboundedArea.getLocation()) < 0.01);
+    }
+
+    @Test
     public void testShrink() {
         //We want to check that shrink does not do anything
         GeoPoint center = unboundedArea.getLocation();

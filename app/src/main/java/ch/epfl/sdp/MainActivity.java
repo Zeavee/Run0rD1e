@@ -5,21 +5,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
-
-import java.util.List;
 
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
-import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.room.LeaderboardEntity;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
-import ch.epfl.sdp.leaderboard.GeneralLeaderboardViewModel;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
@@ -36,7 +26,17 @@ public class MainActivity extends AppCompatActivity {
 
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
-        findViewById(R.id.mapButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, MapsActivity.class)));
+        findViewById(R.id.mapButton).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            intent.putExtra("playMode", "multi-player");
+            startActivity(intent);
+        });
+
+        findViewById(R.id.solo).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+            intent.putExtra("playMode", "single-player");
+            startActivity(intent);
+        });
 
         findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GeneralLeaderboardActivity.class)));
 

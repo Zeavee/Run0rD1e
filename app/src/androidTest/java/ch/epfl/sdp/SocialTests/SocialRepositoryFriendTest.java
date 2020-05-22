@@ -44,7 +44,8 @@ public class SocialRepositoryFriendTest {
 
     @Before
     public void setup() {
-        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), "mock@mock.com");
+        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        SocialRepository.currentEmail = "mock@mock.com";
     }
 
     private void addUniqueFriendship(User x, User y) {

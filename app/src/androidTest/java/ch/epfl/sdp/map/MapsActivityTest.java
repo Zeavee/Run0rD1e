@@ -88,7 +88,6 @@ public class MapsActivityTest {
             throw new RuntimeException("Cannot execute Thread.sleep()");
         }
     }
-
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
@@ -97,6 +96,7 @@ public class MapsActivityTest {
                     Game.getInstance().destroyGame();
                     Game.getInstance().clearGame();
                     PlayerManager.getInstance().clear();
+                    PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
 
                     map.put("testMap@gmail.com", new UserForFirebase("testMap@gmail.com", "testMap", 0));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
@@ -116,8 +116,6 @@ public class MapsActivityTest {
 
     @Before
     public void setup() {
-        PlayerManager.getInstance().setCurrentUser(new Player(40, 50, 10, "testMap", "testMap@gmail.com"));
-        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
         mActivityRule.getActivity().setLocationFinder(() -> new GeoPoint(40, 50));
     }
 
@@ -132,25 +130,21 @@ public class MapsActivityTest {
 
     @Test
     public void inventoryOpensAndCloses() {
-        testFragmentOpendsAndCloses(R.id.button_inventory, R.id.items_recyclerview);
+        PlayerManager.getInstance().getCurrentUser().getInventory().addItem(new Healthpack(10).getName());
+        testFragmentOpensAndCloses(R.id.button_inventory, R.id.items_recyclerview);
     }
 
     @Test
     public void weatherOpensAndCloses() {
-        testFragmentOpendsAndCloses(R.id.button_weather, R.id.temp);
+        testFragmentOpensAndCloses(R.id.button_weather, R.id.temp);
     }
 
     @Test
     public void leaderboardOpensAndCloses() {
-        testFragmentOpendsAndCloses(R.id.button_leaderboard, R.id.ingame_leaderboard_recyclerview);
+        testFragmentOpensAndCloses(R.id.button_leaderboard, R.id.ingame_leaderboard_recyclerview);
     }
 
-    @Test
-    public void moveCameraWorks() {
-        testButtonWorks(R.id.recenter, R.id.map);
-    }
-
-    private void testFragmentOpendsAndCloses(int button, int view) {
+    private void testFragmentOpensAndCloses(int button, int view) {
         onView(withId(view)).check(doesNotExist());
         testButtonWorks(button, view);
         onView(withId(button)).perform(click());
@@ -160,8 +154,9 @@ public class MapsActivityTest {
     private void testButtonWorks(int button, int view) {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
+
         try {
-            Thread.sleep(100);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -176,5 +171,4 @@ public class MapsActivityTest {
         Thread.sleep(10000);
         onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
     }
-
 }

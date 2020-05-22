@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="#359c5e"
+        android:background="@color/green"
         android:padding="8dp"
         android:text="@string/my_position"
         android:textColor="#ffffff"
@@ -77,7 +77,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:background="#359c5e"
+        android:background="@color/green"
         android:text="@string/inventory"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="16dp"
-        android:background="#359c5e"
+        android:background="@color/green"
         android:text="@string/leaderboard"
         android:textColor="#ffffff"
         map:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="#359c5e"
+        android:background="@color/green"
         android:text="@string/weather"
         android:textColor="#ffffff"
         map:layout_constraintBottom_toBottomOf="@+id/map"
@@ -131,7 +131,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#359C5E"
+            android:background="@color/green"
             android:orientation="vertical">
 
             <LinearLayout

@@ -40,7 +40,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
         String collectionName = "";
         if (EnemyForFirebase.class.equals(entityType)) {
             collectionName = PlayerManager.ENEMY_COLLECTION_NAME;
@@ -80,6 +80,18 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
+        lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
+            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
+            else {
+                if (documentSnapshot != null && documentSnapshot.exists() && documentSnapshot.getString(PlayerManager.GAME_AREA_COLLECTION_NAME) != null) {
+                    onValueReadyCallback.finish(new CustomResult<>(documentSnapshot.getString(PlayerManager.GAME_AREA_COLLECTION_NAME), true, null));
+                }
+            }
+        }));
     }
 
     @Override

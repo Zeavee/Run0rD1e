@@ -20,6 +20,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MockMap;
 
@@ -65,7 +66,9 @@ public class ServerTest {
         Game.getInstance().setMapApi(new MockMap());
         Game.getInstance().setRenderer(new MockMap());
 
-        PlayerManager.getInstance().setCurrentUser(new Player("server", "server@gmail.com"));
+        Player server = new Player("server", "server@gmail.com");
+        server.setLocation(new GeoPoint(33.001, 33));
+        PlayerManager.getInstance().setCurrentUser(server);
         PlayerManager.getInstance().setIsServer(true);
 
         Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
@@ -92,7 +95,7 @@ public class ServerTest {
         PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
         playerForFirebase0.setUsername("server");
         playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
+        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(33.001, 33));
         playerForFirebase0.setAoeRadius(22.0);
         playerForFirebase0.setHealthPoints(20.0);
         playerForFirebase0.setCurrentGameScore(0);

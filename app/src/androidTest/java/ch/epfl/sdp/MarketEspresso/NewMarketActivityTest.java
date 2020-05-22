@@ -30,6 +30,7 @@ import ch.epfl.sdp.utils.MockMapApi;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -37,6 +38,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.StringContains.containsString;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -48,7 +51,9 @@ public class NewMarketActivityTest {
         @Override
         public void beforeActivityLaunched() {
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
-            amro.addMoney(95000); // sufficiently high enough to be able to buy
+            amro.setHealthPoints(100);
+            amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
+            amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMapApi mockMapApi = new MockMapApi();
             Game.getInstance().setMapApi(mockMapApi);
@@ -135,15 +140,29 @@ public class NewMarketActivityTest {
         textView.check(matches(withText("MARKET")));
     }
 
+    // check that the money displayed has changed
+    public void step7() {
+        ViewInteraction textView = onView(withId(R.id.textMoney));
+        textView.check(matches(not(withText("Money: 100000"))));
+    }
+
+    // check that a toast is displayed describing the outcome of the transaction
+    public void step8() {
+        onView(withText(containsString("purchase"))).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
+    }
+
     @Test
     public void newMarketActivityTest() throws InterruptedException {
         // wait a bit for MarketActivity to be intended
-        Thread.sleep(5000);
+        Thread.sleep(4000);
         step1();
         step2();
         step3();
         step4();
         step5();
         step6();
+        Thread.sleep(500); // wait for money to subtracted
+        step7();
+        step8();
     }
 }

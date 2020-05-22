@@ -2,14 +2,14 @@ package ch.epfl.sdp.utils;
 
 import android.util.Log;
 
-import androidx.test.core.app.ApplicationProvider;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -42,13 +42,18 @@ public class MockMapApi implements MapApi, Renderer {
     }
 
     @Override
-    public void displayCircle(Displayable displayable, int color, int radius) {
+    public void displayCircle(Displayable displayable, int color, int radius, int alpha) {
         displayables.add(displayable);
     }
 
     @Override
     public void removeMarkers(Displayable displayable) {
         displayables.remove(displayable);
+    }
+
+    @Override
+    public void displayPolygon(Displayable displayable, List<LatLng> vertices, int strokeColor, int fillColor) {
+        displayables.add(displayable);
     }
 
     @Test
@@ -81,6 +86,6 @@ public class MockMapApi implements MapApi, Renderer {
      */
     @Override
     public void unDisplay(Displayable displayable) {
-
+        displayable.unDisplayOn(this);
     }
 }

@@ -1,12 +1,10 @@
 package ch.epfl.sdp.database.firebase.api;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
@@ -14,8 +12,7 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.Area;
 
 public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
@@ -111,5 +108,10 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onPlayersPositionCallback) {
         onPlayersPositionCallback.finish(new CustomResult<>(new ArrayList<>(playerForFirebaseMap.values()), true, null));
+    }
+
+    @Override
+    public void sendGameArea(Area gameArea) {
+
     }
 }

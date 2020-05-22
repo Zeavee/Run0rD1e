@@ -106,7 +106,7 @@ public class RandomGenerator {
     }
 
     public Scan randomScan() {
-        Scan s = new Scan(rand.nextInt(1));
+        Scan s = new Scan(1 + rand.nextInt(1));
         return s;
     }
 

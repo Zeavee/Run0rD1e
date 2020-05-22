@@ -6,9 +6,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class GoogleLocationFinder implements LocationFinder {
@@ -16,12 +16,13 @@ public class GoogleLocationFinder implements LocationFinder {
     private LocationManager locationManager;
     private Criteria criteria;
     private Location currentLocation;
+    private boolean gameStarted = false;
 
     private final double listenTime = 1000; // milliseconds
     private final double listenDistance = 5; // meters
 
 
-    public GoogleLocationFinder(LocationManager locationManager) {
+    public GoogleLocationFinder(LocationManager locationManager, StartGameController startGameController) {
         this.locationManager = locationManager;
 
         criteria = new Criteria();
@@ -30,9 +31,19 @@ public class GoogleLocationFinder implements LocationFinder {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location latestLocation) {
+
+                // The player's location will change to this weird GeoPoint(-122.08, 37.42)(which is the base of Google in the USA) automatically sometimes,
+                // even the player stays in the fixed location. It seems like a problem from the emulator, so we filtered this location.
                 if (Math.floor(latestLocation.getLatitude() * 100) / 100 != 37.42 || Math.ceil(latestLocation.getLongitude() * 100) / 100 != -122.08) {
+
                     currentLocation = latestLocation;
                     PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
+
+                    // After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
+                    if (!gameStarted) {
+                        gameStarted = true;
+                        startGameController.start();
+                    }
                     requestUpdatePosition();
                 }
             }

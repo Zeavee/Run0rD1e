@@ -3,10 +3,7 @@ package ch.epfl.sdp.database.firebase.api;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
@@ -22,9 +19,11 @@ public interface ClientDatabaseAPI {
      */
     void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    void addCollectionListerner(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback);
+    void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback);
 
     void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback);
+
+    void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback);
 
     void sendUsedItems(ItemsForFirebase itemsForFirebase);
 }

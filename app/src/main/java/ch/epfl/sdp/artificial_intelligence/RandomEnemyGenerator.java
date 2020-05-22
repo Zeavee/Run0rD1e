@@ -86,17 +86,17 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         do {
             enemyPos = localArea.randomLocation();
             --maxIter;
-        } while (maxIter > 0 && checkDistanceFromList(enemyPos, (List<Entity>)(List<?>) PlayerManager.getInstance().getPlayers())
-                && checkDistanceFromList(enemyPos, (List<Entity>)(List<?>) EnemyManager.getInstance().getEnemies()));
+        } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
+                || checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));
         return enemyPos;
     }
 
-    private boolean checkDistanceFromList(GeoPoint enemyPos, List<Entity> entities) {
+    private boolean checkDistanceFromList(GeoPoint enemyPos, List<Entity> entities, double minDistance) {
         for (Entity entity : entities) {
-            if (entity.getLocation().distanceTo(enemyPos) < minDistanceFromPlayers) {
-                return false;
+            if (entity.getLocation().distanceTo(enemyPos) < minDistance) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }

@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:clipToPadding="false"
     android:focusableInTouchMode="true"
-    tools:context=".social.ChatActivity">
+    android:background="@drawable/background"
+    tools:context=".social.Conversation.ChatActivity">
 
     <ListView
         android:id="@+id/messages_view"

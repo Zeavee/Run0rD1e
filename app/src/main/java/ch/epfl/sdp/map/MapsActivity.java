@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +39,10 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
+import ch.epfl.sdp.game.Solo;
+import ch.epfl.sdp.game.StartGameController;
+import ch.epfl.sdp.gameOver.GameOverActivity;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -49,23 +52,28 @@ import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
-    private CommonDatabaseAPI commonDatabaseAPI;
+    private String playMode = "";
+
     private AuthenticationAPI authenticationAPI;
+    private CommonDatabaseAPI commonDatabaseAPI;
+    private ServerDatabaseAPI serverDatabaseAPI;
+    private ClientDatabaseAPI clientDatabaseAPI;
+
+    private StartGameController startGameController;
+    private LocationFinder locationFinder;
+
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
     private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
-    private ServerDatabaseAPI serverDatabaseAPI;
-    private ClientDatabaseAPI clientDatabaseAPI;
-    private LocationFinder locationFinder;
-
-    private TextView username, healthPointText, timerShrinking;
-    private ProgressBar healthPointProgressBar;
-
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
+
+    private TextView username, healthPointText, timerShrinking;
+    private ProgressBar healthPointProgressBar;
+
 
     /**
      * A method to set a LocationFinder
@@ -81,6 +89,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Intent intent = getIntent();
+        playMode = intent.getStringExtra("playMode");
+        Log.d("play mode", "The play mode: " + playMode);
+
         Game.getInstance().setRenderer(this);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
@@ -94,17 +106,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
         username.setText("");
 
-        Button mapButton = findViewById(R.id.recenter);
-        mapButton.setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
+        findViewById(R.id.recenter).setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
-        Button weather = findViewById(R.id.button_weather);
-        weather.setOnClickListener(v -> {
+        findViewById(R.id.button_weather).setOnClickListener(v -> {
             showFragment(weatherFragment, R.id.fragment_weather_container, flagWeather);
             flagWeather = !flagWeather;
         });
 
-        Button inventory = findViewById(R.id.button_inventory);
-        inventory.setOnClickListener(v -> {
+        findViewById(R.id.button_inventory).setOnClickListener(v -> {
             showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
             flagInventory = !flagInventory;
         });
@@ -129,7 +138,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         }
-        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
     }
 
     /**
@@ -141,7 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
-
+        Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.141384, 46.214278))); // for demo add Market in GVA
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
@@ -155,37 +164,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Game.getInstance().addToDisplayList(currentUser);
                     Log.d("Database", "User fetched");
 
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                    if (playMode.equals("single-player")) {
+                        // Set the soloMode in playerManager to be true
+                        playerManager.setSoloMode(true);
+
+                        // Only in multiPlayer mode and the currentUser is the first one join the lobby the isServer will be true
+                        playerManager.setIsServer(false);
+
+                        // Create a soloMode instance and start the game
+                        startGameController = new Solo();
+                        initLocationFinder();
+
+                    } else if (playMode.equals("multi-player")) {
+                        // Set the soloMode in the playerManager to be false
+                        playerManager.setSoloMode(false);
+
+                        // select the lobby in cloud firebase which has less than the number of players required to play the game, then currentUser is Client
+                        // If all the lobbies are full, create a new lobby in the cloud firebase and then the currentUser is Server
+                        selectLobby();
                     } else {
-                        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+                        Toast.makeText(MapsActivity.this, "No such play mode", Toast.LENGTH_LONG).show();
                     }
 
-                    commonDatabaseAPI.selectLobby(selectLobbyRes -> {
-                        if (selectLobbyRes.isSuccessful()) {
-                            PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                            Map<String, Object> data = new HashMap<>();
-                            data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
-                            if (playerManager.isServer()) data.put("startGame", false);
-                            Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                            joinLobby(playerForFirebase, data);
-                        } else {
-                            Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    });
                 } else {
                     Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         } else {
             // reDisplay the itemBox when resume the map
-            for(ItemBox itemBox: ItemBoxManager.getInstance().getItemBoxes().values()) {
+            for (ItemBox itemBox : ItemBoxManager.getInstance().getItemBoxes().values()) {
                 itemBox.setReDisplay(true);
             }
         }
 
         Log.d("Database", "Quit map ready");
+    }
+
+    private void selectLobby() {
+        commonDatabaseAPI.selectLobby(selectLobbyRes -> {
+            if (selectLobbyRes.isSuccessful()) {
+                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                Map<String, Object> data = new HashMap<>();
+                data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                if (playerManager.isServer()) data.put("startGame", false);
+                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                joinLobby(playerForFirebase, data);
+            } else {
+                Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
@@ -194,18 +221,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Server server = new Server(serverDatabaseAPI, commonDatabaseAPI);
-                    server.start();
+                    startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    initLocationFinder();
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Client client = new Client(clientDatabaseAPI, commonDatabaseAPI);
-                    client.start();
+                    startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    initLocationFinder();
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void initLocationFinder() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        } else {
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
+        }
     }
 
     private void showFragment(Fragment fragment, int containerId, boolean flag) {
@@ -245,9 +281,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
-                if (displayable instanceof Market) {
-                    ((Market) displayable).setCallingActivity(this);
-                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -262,11 +295,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * switches to a market activity, where user can buy health, shield, scan, or shrinker items
      */
     public void startMarket(Market backend) {
-        Log.d("MapsActivity", "start market");
-
         final Bundle bundle = new Bundle();
         bundle.putBinder("object_value", new ObjectWrapperForBinder<>(backend));
         startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
+    }
 
+    public void endGame() {
+        startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
     }
 }

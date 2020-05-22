@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -33,8 +35,9 @@ public class MarketActivity extends AppCompatActivity {
     private ImageButton aoeImg;
     private ImageButton scanImg;
     private ImageButton shImg;
+    private final static int CARD_HEIGHT = 30;
     private ImageButton healthImg;
-    private final static int CARD_HEIGHT = 20;
+    private TextView money;
     private HashMap<View, Pair<Integer, Class<? extends Item>>> viewsSelected = new HashMap<>();
     private Button buy;
     private HashMap<Integer, Integer> itemToViewMap = new HashMap<>();
@@ -53,6 +56,7 @@ public class MarketActivity extends AppCompatActivity {
         shImg = findViewById(R.id.shieldButton);
         healthImg = findViewById(R.id.emsButton);
         buy = findViewById(R.id.BuyButton);
+        money = findViewById(R.id.textMoney);
 
         aoeImg.setOnClickListener(v -> invertCardView(v));
         scanImg.setOnClickListener(v -> invertCardView(v));
@@ -60,8 +64,13 @@ public class MarketActivity extends AppCompatActivity {
         healthImg.setOnClickListener(v -> invertCardView(v));
         buy.setOnClickListener(v -> checkoutItems());
 
+        updateMoneyShown();
         initViewsSelected();
         syncMarketBackendToFrontend();
+    }
+
+    private void updateMoneyShown() {
+        money.setText("Money: " + PlayerManager.getInstance().getCurrentUser().getMoney());
     }
 
     /**
@@ -69,12 +78,32 @@ public class MarketActivity extends AppCompatActivity {
      * If the user does not have enough money, they will not be bought
      */
     private void checkoutItems() {
+        List<String> purchased = new ArrayList<>();
+        List<String> failed = new ArrayList<>();
         for (View v : viewsSelected.keySet()) {
             if (viewsSelected.get(v).first == 1) {
-                backend.buy(viewsSelected.get(v).second, PlayerManager.getInstance().getCurrentUser());
+                addToCart(failed, purchased, viewsSelected.get(v).second);
             }
         }
-        Toast.makeText(this.getApplicationContext(), "Transaction finished", Toast.LENGTH_LONG).show();
+        updateMoneyShown();
+        Toast.makeText(this.getApplicationContext(), parseList(purchased, true) + "\n" + parseList(failed, false), Toast.LENGTH_SHORT).show();
+    }
+
+    // adds an item given by argument "second" to the cart if user has enough money
+    private void addToCart(List<String> failed, List<String> purchased, Class<? extends Item> second) {
+        boolean transactionSuccessful = backend.buy(second, PlayerManager.getInstance().getCurrentUser());
+        String nameItem = second.getSimpleName();
+        if (transactionSuccessful) purchased.add(nameItem);
+        else failed.add(nameItem);
+    }
+
+    // displays in format  "purchased: item1, item2
+    //                      could not purchase: item3, item4"
+    private String parseList(List<String> arg, boolean purchased) {
+        String toStr = arg.toString();
+        String listUpper = toStr.substring(1, toStr.length() - 1).toUpperCase();
+        if (purchased) return arg.isEmpty() ? "" : "purchased " + listUpper;
+        else return arg.isEmpty() ? "" : "could not purchase " + listUpper;
     }
 
     /**

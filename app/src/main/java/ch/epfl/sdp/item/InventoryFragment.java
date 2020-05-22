@@ -28,7 +28,7 @@ public class InventoryFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         RecyclerView recyclerView = getView().findViewById(R.id.items_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        ItemsViewAdapter adpater = new ItemsViewAdapter(getActivity());
+        ItemsViewAdapter adpater = new ItemsViewAdapter();
         recyclerView.setAdapter(adpater);
     }
 }

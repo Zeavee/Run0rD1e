@@ -31,13 +31,11 @@ public final class SocialRepository {
     private Context contextActivity;
     private static boolean singletonCreated = false;
     private static SocialRepository singleton;
-    private String currentEmail;
+    public static String currentEmail;
 
-    private SocialRepository(Context contextActivity, String currentEmail) {
-        //chatDB = Room.inMemoryDatabaseBuilder(contextActivity, ChatDatabase.class).build();
+    private SocialRepository(Context contextActivity) {
         chatDB = Room.databaseBuilder(contextActivity, ChatDatabase.class, "ChatDatabase").allowMainThreadQueries().build();
         this.contextActivity = contextActivity;
-        this.currentEmail = currentEmail;
     }
 
     /**
@@ -52,9 +50,9 @@ public final class SocialRepository {
      *
      * @param contextActivity the UI context (typically an instance of the Activity class)
      */
-    public static void setContextActivityAndCurrentEmail(Context contextActivity, String currentEmail) {
+    public static void setContextActivity(Context contextActivity) {
         if (!singletonCreated) {
-            singleton = new SocialRepository(contextActivity, currentEmail);
+            singleton = new SocialRepository(contextActivity);
             singletonCreated = true;
         }
         singleton.contextActivity = contextActivity;
@@ -70,7 +68,6 @@ public final class SocialRepository {
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
-
                     singleton.chatDB.daoAccess().sendMessage(message);
                 } catch (SQLiteConstraintException e) {
                 }

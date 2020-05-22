@@ -12,6 +12,7 @@ public class IsFriendsWithTest {
     @Test
     public void isFriendsInstantiationWorks()
     {
+        User test = new User("fhjdeukifh");
         User jacob = new User("placeholder");
         jacob.setEmail("jacob");
         IsFriendsWith pair = new IsFriendsWith(jacob.getEmail(), "samuel");
