@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -110,7 +111,7 @@ public class SocialRepositoryChatTest {
     }
 
     @Test
-    public void SachaCanReceiveRemoteMessage() throws InterruptedException {
+    public void SachaCanReceiveRemoteMessage() {
         try {
             User sacha = fantasticSix.get(2);
             Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
@@ -119,9 +120,9 @@ public class SocialRepositoryChatTest {
             Thread.sleep(2000);
             testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
             // Pretend fetching takes 5 seconds
-            List<Message> result = mActivityTestRule.getActivity().getMessages();
+            List<Message> result = new ArrayList<>();
             while (result == null || result.isEmpty()) {
-                result = mActivityTestRule.getActivity().getMessages();
+                result.addAll(mActivityTestRule.getActivity().getMessages());
             }
             assertTrue(result.get(1).getText().equals("Blessed"));
         } catch (Exception e) {
