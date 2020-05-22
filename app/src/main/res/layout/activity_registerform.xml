@@ -7,23 +7,33 @@
     android:background="@drawable/background"
     tools:context=".login.RegisterFormActivity">
 
-    <EditText
-        android:id="@+id/email"
-        android:layout_width="230dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_mail"
-        android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:text=""
-        android:textSize="15sp"
-        android:textColor="@color/blue"
-        app:layout_constraintEnd_toStartOf="@+id/guideline4"
-        app:layout_constraintHorizontal_bias="0.174"
+    <ImageView
+        android:id="@+id/backBtn"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:onClick="backBtn_OnClick"
+        app:layout_constraintBottom_toTopOf="@+id/createText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411"
+        app:srcCompat="@drawable/arrow" />
+
+    <TextView
+        android:id="@+id/createText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bold"
+        android:text="Create a new account"
+        android:textColor="@color/green"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.098"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.463" />
 
     <EditText
         android:id="@+id/username"
@@ -44,6 +54,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
         tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="230dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/input_field"
+        android:drawableLeft="@drawable/ic_action_mail"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:text=""
+        android:textSize="15sp"
+        android:textColor="@color/blue"
+        app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <EditText
         android:id="@+id/password"
@@ -130,33 +158,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.809" />
-
-    <TextView
-        android:id="@+id/createText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bold"
-        android:text="Create a new account"
-        android:textColor="@color/green"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.098"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.463" />
-
-    <ImageView
-        android:id="@+id/backBtn"
-        android:layout_width="32dp"
-        android:layout_height="18dp"
-        android:onClick="backBtn_OnClick"
-        app:layout_constraintBottom_toTopOf="@+id/createText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411"
-        app:srcCompat="@drawable/arrow" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
