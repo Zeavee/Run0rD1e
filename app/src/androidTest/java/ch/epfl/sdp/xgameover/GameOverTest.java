@@ -65,6 +65,5 @@ public class GameOverTest {
         Thread.sleep(5000);
         ViewInteraction textView = onView(withId(R.id.gameovr));
         textView.check(matches(withText("game0vr")));
-        //Thread.sleep(1000);
     }
 }
