@@ -183,8 +183,8 @@ public class RandomGenerator {
 
     /**
      * Creates a ShelterArea around a given location. The Aoe of the ShelterArea is random
-     * @param location
-     * @return shelterArea with random aoe (between 60 and 70)
+     * @param location arounch where the shelter point is created
+     * @return shelterArea with random aoe (between 90 and 150)
      */
     public ShelterArea randomShelterArea(GeoPoint location) {
         double rangeMin = 90.0;

@@ -119,7 +119,7 @@ public class RandomGeneratorTest {
     public void randomShelterAreaTest() {
         GeoPoint g = randGen.randomGeoPoint();
         ShelterArea s = randGen.randomShelterArea(g);
-        assertTrue(s.getAoeRadius() <= 70 && s.getAoeRadius() >= 60);
+        assertTrue(s.getAoeRadius() <= 150 && s.getAoeRadius() >= 90);
     }
 
 }
