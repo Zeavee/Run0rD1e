@@ -30,7 +30,6 @@ import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.SoloDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -41,6 +40,8 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.game.Server;
+import ch.epfl.sdp.gameOver.GameOverActivity;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.game.Solo;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
@@ -55,13 +56,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private AuthenticationAPI authenticationAPI;
     private CommonDatabaseAPI commonDatabaseAPI;
-    private SoloDatabaseAPI soloDatabaseAPI;
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
 
-
-    private TextView username, healthPointText, timerShrinking, moneyText;
-    private ProgressBar healthPointProgressBar;
     private StartGameController startGameController;
     private LocationFinder locationFinder;
 
@@ -73,6 +70,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean flagIngameLeaderboard = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
+
+    private TextView username, healthPointText, timerShrinking, moneyText;
+    private ProgressBar healthPointProgressBar;
 
 
     /**
@@ -98,7 +98,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
-        soloDatabaseAPI = appContainer.soloDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
@@ -152,7 +151,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
-
+        Game.getInstance().addToDisplayList(new Market(new GeoPoint( 6.141384, 46.214278))); // for demo add Market in GVA
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
@@ -174,7 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        startGameController = new Solo(soloDatabaseAPI);
+                        startGameController = new Solo();
                         initLocationFinder();
 
                     } else if (playMode.equals("multi-player")) {
@@ -284,9 +283,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void display(Collection<Displayable> displayables) {
         runOnUiThread(() -> {
             for (Displayable displayable : displayables) {
-                if (displayable instanceof Market) {
-                    ((Market) displayable).setCallingActivity(this);
-                }
                 displayable.displayOn(Game.getInstance().getMapApi());
             }
         });
@@ -301,11 +297,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * switches to a market activity, where user can buy health, shield, scan, or shrinker items
      */
     public void startMarket(Market backend) {
-        Log.d("MapsActivity", "start market");
-
         final Bundle bundle = new Bundle();
         bundle.putBinder("object_value", new ObjectWrapperForBinder<>(backend));
         startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
+    }
 
+    public void endGame() {
+        startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
     }
 }

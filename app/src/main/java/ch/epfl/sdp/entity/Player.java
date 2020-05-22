@@ -66,18 +66,12 @@ public class Player extends AoeRadiusEntity {
             healthPoints = amount;
         } else {
             healthPoints = 0;
-            gotoGameOver();
         }
 
         // only the server need to upload the healthPoint for all the players
         if (PlayerManager.getInstance().isServer()) {
             PlayerManager.getInstance().addPlayerWaitingHealth(this);
         }
-    }
-
-    private void gotoGameOver() {
-        if (Game.getInstance().getRenderer() instanceof MapsActivity)  // we don't call gameOver on mock renderers (especially since this functionality is already tested)
-            ((MapsActivity)(Game.getInstance().getRenderer())).endGame();
     }
 
     public double getHealthPoints() {
