@@ -101,7 +101,7 @@ public class RandomGenerator {
     }
 
     public Shrinker randomShrinker() {
-        Shrinker s = new Shrinker(rand.nextInt(1), rand.nextInt(10));
+        Shrinker s = new Shrinker(rand.nextInt(1), rand.nextInt(5));
         return s;
     }
 

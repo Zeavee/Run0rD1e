@@ -55,9 +55,6 @@ public class ClientTest {
         Player user = PlayerManager.getInstance().getCurrentUser();
         user.setLocation(new GeoPoint(100, 100));
 
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
-
         Game.getInstance().getDisplayables().forEach((d) -> {
             if (d instanceof CircleArea) {
                 assertTrue(center.distanceTo(d.getLocation()) < 0.01);
