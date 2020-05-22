@@ -186,11 +186,6 @@ public final class SocialRepository {
 
             @Override
             protected void onPostExecute(List<Message> ls) {
-                List<String> texts = new ArrayList<>();
-                for (Message m: ls){
-                    texts.add(m.getText());
-                }
-                Log.d("foundx", "messages "+texts.toString());
                 boolean incoming = true;
                 if (sender.equals(currentEmail)) {
                     incoming = false;

@@ -26,7 +26,9 @@ import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -62,9 +64,10 @@ public class GameOverTest {
     @Test
     public void test() throws InterruptedException {
         // wait a moment for the splash screen to be intended
-        Thread.sleep(1000);
+        while (!mActivityTestRule.getActivity().flagGameOver);
         ViewInteraction textView = onView(withId(R.id.gameovr));
         textView.check(matches(withText("game0vr")));
-        //Thread.sleep(1000);
+        onView(withId(R.id.backFromGameOverButton)).perform(click());
+        onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }
 }

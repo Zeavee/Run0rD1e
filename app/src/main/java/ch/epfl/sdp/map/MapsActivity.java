@@ -68,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
+    public boolean flagGameOver = false;
 
     private PlayerManager playerManager = PlayerManager.getInstance();
 
@@ -302,5 +303,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
+        flagGameOver = true;
     }
 }

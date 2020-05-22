@@ -5,7 +5,6 @@
     android:paddingVertical="10dp"
     android:paddingRight="15dp"
     android:paddingLeft="60dp"
-    android:background="@drawable/background"
     android:clipToPadding="false">
 
     <TextView
