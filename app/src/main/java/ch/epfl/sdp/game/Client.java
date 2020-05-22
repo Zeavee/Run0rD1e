@@ -72,12 +72,16 @@ public class Client implements StartGameController, Updatable {
                 }
             });
 
-            addEnemyListener();
-            addItemBoxesListener();
-            addPlayersListener();
-            addUserItemListener();
-            addGameAreaListener();
+            addListeners();
         }
+    }
+
+    private void addListeners() {
+        addEnemyListener();
+        addItemBoxesListener();
+        addPlayersListener();
+        addUserItemListener();
+        addGameAreaListener();
     }
 
     @Override

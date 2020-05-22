@@ -1,58 +1,34 @@
 {
   "project_info": {
-    "project_number": "111308722886",
-    "firebase_url": "https://strong-land-269613.firebaseio.com",
-    "project_id": "strong-land-269613",
-    "storage_bucket": "strong-land-269613.appspot.com"
+    "project_number": "797911468650",
+    "firebase_url": "https://sdp-game.firebaseio.com",
+    "project_id": "sdp-game",
+    "storage_bucket": "sdp-game.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:111308722886:android:9c119485553ab38c3f3dc7",
+        "mobilesdk_app_id": "1:797911468650:android:1222c517151f7c9bf9d813",
         "android_client_info": {
           "package_name": "ch.epfl.sdp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "111308722886-2f465i6gog7dgpcumun2qoma5bu5d778.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ch.epfl.sdp",
-            "certificate_hash": "5de0ce4956e5b0a12467362cdedbbff30dceefb9"
-          }
-        },
-        {
-          "client_id": "111308722886-41bijlhb0h1kq2fk426h4qisdo0kqudh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ch.epfl.sdp",
-            "certificate_hash": "e5b9429bebf1868c7891fc17698998d59f648710"
-          }
-        },
-        {
-          "client_id": "111308722886-e2olcvc6qe5rn9svk7ma99ijc98qtj2b.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "ch.epfl.sdp",
-            "certificate_hash": "d359b58ca12f4dd6f7fd3020a5d7d501fb9a989e"
-          }
-        },
-        {
-          "client_id": "111308722886-kuq312s03ptpkg2ebbdm4ivvk2hd8eli.apps.googleusercontent.com",
+          "client_id": "797911468650-qk9pqnvomds65rqpq3tvtfpdllgp5g5s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDd3am8s2ZAGmoRG6cdBryFu0tEMRrYaTE"
+          "current_key": "AIzaSyA17-qhwOJkRInVb8qoh1coEDeKzc_dVUI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "111308722886-kuq312s03ptpkg2ebbdm4ivvk2hd8eli.apps.googleusercontent.com",
+              "client_id": "797911468650-qk9pqnvomds65rqpq3tvtfpdllgp5g5s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
