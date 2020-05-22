@@ -2,9 +2,13 @@ package ch.epfl.sdp.entity;
 
 import android.graphics.Color;
 
+import com.google.common.collect.Maps;
+
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Inventory;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.MapsActivity;
 
 public class Player extends AoeRadiusEntity {
     public final static double MAX_HEALTH = 100;
@@ -62,12 +66,18 @@ public class Player extends AoeRadiusEntity {
             healthPoints = amount;
         } else {
             healthPoints = 0;
+            gotoGameOver();
         }
 
         // only the server need to upload the healthPoint for all the players
         if (PlayerManager.getInstance().isServer()) {
             PlayerManager.getInstance().addPlayerWaitingHealth(this);
         }
+    }
+
+    private void gotoGameOver() {
+        if (Game.getInstance().getRenderer() instanceof MapsActivity)  // we don't call gameOver on mock renderers (especially since this functionality is already tested)
+            ((MapsActivity)(Game.getInstance().getRenderer())).endGame();
     }
 
     public double getHealthPoints() {

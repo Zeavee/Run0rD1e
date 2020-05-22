@@ -61,6 +61,13 @@ public class Game implements Updatable {
     }
 
     /**
+     * Gets the Renderer the game is using
+     */
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    /**
      * Returns the MapApi the game is using.
      *
      * @return the MapApi the game is using.

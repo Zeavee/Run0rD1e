@@ -88,7 +88,6 @@ public class MapsActivityTest {
             throw new RuntimeException("Cannot execute Thread.sleep()");
         }
     }
-
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
@@ -155,6 +154,7 @@ public class MapsActivityTest {
     private void testButtonWorks(int button, int view) {
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(button)).perform(click());
+
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -171,5 +171,4 @@ public class MapsActivityTest {
         Thread.sleep(10000);
         onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
     }
-
 }

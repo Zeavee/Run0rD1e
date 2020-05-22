@@ -1,5 +1,7 @@
 package ch.epfl.sdp.SocialTests;
 
+import android.util.Log;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
@@ -54,6 +56,7 @@ public class ChatActivityTest {
 
             // testRepo is the social database controller (router)
             SocialRepository testRepo = SocialRepository.getInstance();
+            SocialRepository.currentEmail = currentEmail;
             testRepo.addUser(cur_user);
             testRepo.addUser(friend_user);
             testRepo.addChat(new Chat(cur_user.getEmail(), friend_user.getEmail()));

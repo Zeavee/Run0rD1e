@@ -11,6 +11,7 @@ import java.util.Random;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.Displayable;
@@ -25,14 +26,11 @@ public class Market implements Displayable {
     private Map<Item, Pair<Integer, Integer>> stock;
     private final double MIN_PRICE = 200;
     private final double MAX_PRICE = 300;
+    private final int THRESH_DIST = 50; // in meters
     private final GeoPoint loc;
     private final RandomGenerator randomGenerator = new RandomGenerator();
-    private MapsActivity mapActivity;
     private boolean hasVisitedMarket = false, isDisplayed = false;
 
-    public void setCallingActivity(MapsActivity mapActivity) {
-        this.mapActivity = mapActivity;
-    }
 
     /**
      * This is a constructor for Market which randomly initialize the items that will be available
@@ -42,7 +40,7 @@ public class Market implements Displayable {
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item : randomGenerator.randomItemsList()) {
-            stock.put(item, new Pair<>(random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
+            stock.put(item, new Pair<>(1+random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
         }
     }
 
@@ -113,13 +111,11 @@ public class Market implements Displayable {
     @Override
     public void displayOn(MapApi mapApi) {
         displayIcon(mapApi);
-        if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= 50 && !hasVisitedMarket) {
-            if (mapActivity != null) {
-                Log.d("Market", "displayOn");
-                hasVisitedMarket = true;
-                mapActivity.startMarket(this);
-            }
-        } else if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > 50) {
+        if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= THRESH_DIST && !hasVisitedMarket) {
+            hasVisitedMarket = true;
+            ((MapsActivity) (Game.getInstance().getRenderer())).startMarket(this);
+        }
+        else if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > THRESH_DIST) {
             hasVisitedMarket = false;
         }
     }

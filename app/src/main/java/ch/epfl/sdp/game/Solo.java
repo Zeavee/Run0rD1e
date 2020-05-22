@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.firebase.api.SoloDatabaseAPI;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -22,7 +21,6 @@ import ch.epfl.sdp.item.ItemBox;
  *  Control the whole game lifecycle of the solo mode
  */
 public class Solo implements StartGameController, Updatable {
-    private SoloDatabaseAPI soloDatabaseAPI;
     private Player currentUser = PlayerManager.getInstance().getCurrentUser();
     private int counter = 0;
     private Area gameArea;
@@ -30,8 +28,7 @@ public class Solo implements StartGameController, Updatable {
     private boolean gameStarted;
     private boolean gameEnd;
 
-    public Solo(SoloDatabaseAPI soloDatabaseAPI) {
-        this.soloDatabaseAPI = soloDatabaseAPI;
+    public Solo() {
         this.gameStarted = false;
         this.gameEnd = false;
     }
@@ -146,8 +143,6 @@ public class Solo implements StartGameController, Updatable {
     private void checkGameEnd() {
         if(!gameEnd && currentUser.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
-            Log.d("solo", "checkGameEnd: " + currentUser.getGeneralScore());
-            soloDatabaseAPI.updateCurrentUserScore(currentUser.getEmail(), currentUser.getGeneralScore());
             gameEnd = true;
         }
     }

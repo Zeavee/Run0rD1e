@@ -158,7 +158,7 @@ public class RandomGenerator {
      * @return
      */
     public Shrinker randomShrinker() {
-        Shrinker s = new Shrinker(rand.nextInt(1), rand.nextDouble());
+        Shrinker s = new Shrinker(2+rand.nextInt(1), Math.min(rand.nextDouble(), 0.1));
         return s;
     }
 
@@ -167,7 +167,7 @@ public class RandomGenerator {
      * @return
      */
     public Scan randomScan() {
-        Scan s = new Scan(rand.nextInt(1));
+        Scan s = new Scan(1+rand.nextInt(1));
         return s;
     }
 
