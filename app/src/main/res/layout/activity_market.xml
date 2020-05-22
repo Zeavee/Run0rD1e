@@ -115,6 +115,8 @@
     </androidx.cardview.widget.CardView>
 
 
+    <!-- Cost and value are no longer separate text views-->
+
     <Button
         android:id="@+id/BuyButton"
         android:layout_width="wrap_content"
@@ -128,9 +130,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/marketLabel"
-        app:layout_constraintVertical_bias="0.73" />
+        app:layout_constraintVertical_bias="0.801" />
 
-    <!-- Cost and value are no longer separate text views-->
     <TextView
         android:id="@+id/costScan"
         android:layout_width="wrap_content"
@@ -184,6 +185,20 @@
         app:layout_constraintStart_toEndOf="@+id/costEms"
         app:layout_constraintTop_toBottomOf="@+id/shieldCard"
         app:layout_constraintVertical_bias="0.06999999" />
+
+    <TextView
+        android:id="@+id/textMoney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Money: "
+        android:textStyle="italic|bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.242"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/costEms"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

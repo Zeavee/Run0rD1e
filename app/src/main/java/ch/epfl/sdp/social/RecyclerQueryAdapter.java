@@ -84,7 +84,8 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
         public void onClick(View v) {
 
             // Let it know which UI context thread to run on
-            SocialRepository.setContextActivityAndCurrentEmail(v.getContext(), currentEmail);
+            SocialRepository.setContextActivity(v.getContext());
+            SocialRepository.currentEmail= currentEmail;
 
             // completeDBSetup will add the user and his friend to the local database to register them as friends
             completeDBSetup();

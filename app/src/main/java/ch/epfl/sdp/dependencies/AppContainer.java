@@ -8,8 +8,6 @@ import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonFirestoreDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerFirestoreDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.SoloDatabaseAPI;
-import ch.epfl.sdp.database.firebase.api.SoloFirestoreDatabaseAPI;
 import ch.epfl.sdp.social.Conversation.FireStoreToSQLiteAdapter;
 import ch.epfl.sdp.social.Conversation.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.RemoteUsers.FriendsRepository;
@@ -34,5 +32,4 @@ public class AppContainer {
 
     public ClientDatabaseAPI clientDatabaseAPI = new ClientFirestoreDatabaseAPI();
 
-    public SoloDatabaseAPI soloDatabaseAPI = new SoloFirestoreDatabaseAPI();
 }

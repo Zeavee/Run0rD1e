@@ -32,7 +32,8 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
     @Override
     protected void onResume() {
         super.onResume();
-        SocialRepository.setContextActivityAndCurrentEmail(this, current_email_id);
+        SocialRepository.setContextActivity(this);
+        SocialRepository.currentEmail = current_email_id;
         chatRepo = SocialRepository.getInstance();
         chatRepo.fetchFriends(new User(current_email_id));
     }
@@ -48,7 +49,9 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         current_email_id = appContainer.authenticationAPI.getCurrentUserEmail();
 
-        SocialRepository.setContextActivityAndCurrentEmail(this, current_email_id);
+        SocialRepository.setContextActivity(this);
+        SocialRepository.currentEmail= current_email_id; // injection point here
+
         SocialRepository.getInstance().fetchFriends(new User(current_email_id));
     }
 

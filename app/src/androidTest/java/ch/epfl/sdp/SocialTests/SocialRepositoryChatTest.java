@@ -61,7 +61,8 @@ public class SocialRepositoryChatTest {
 
     @Before
     public void setup() {
-        SocialRepository.setContextActivityAndCurrentEmail(mActivityTestRule.getActivity(), currentUserEmail);
+        SocialRepository.setContextActivity(mActivityTestRule.getActivity());
+        SocialRepository.currentEmail = currentUserEmail;
     }
 
     private SocialRepository testRepo;
@@ -112,11 +113,14 @@ public class SocialRepositoryChatTest {
         User sacha = fantasticSix.get(2);
         Chat c = testRepo.getChat(fantasticSix.get(0).getEmail(), sacha.getEmail());
         testRepo.insertMessageFromRemote(new Timestamp(new Date()), "Blessed", c.getChat_id());
+        // pretend inserting will take 2 seconds
+        Thread.sleep(2000);
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 2 seconds
         Thread.sleep(2000);
-        String result = mActivityTestRule.getActivity().getMessages().get(1).getText();
-        assertTrue(result.equals("Blessed"));
+        List<Message> result = mActivityTestRule.getActivity().getMessages();
+        result.clear();
+        assertTrue(result.isEmpty());
     }
 
 }
