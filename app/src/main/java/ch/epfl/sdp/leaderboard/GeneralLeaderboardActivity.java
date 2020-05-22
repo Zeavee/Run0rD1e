@@ -1,5 +1,6 @@
 package ch.epfl.sdp.leaderboard;
 
+import android.app.usage.EventStats;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
@@ -39,10 +41,22 @@ public class GeneralLeaderboardActivity extends AppCompatActivity {
         // Add an observer on the LiveData.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
-        generalLeaderboardViewModel.getLeaderboard().observe(this, users -> { adapter.setLeaderboard(users); });
+        generalLeaderboardViewModel.getLeaderboard().observe(this, users -> { adapter.setLeaderboard(skipFirst(users, 3)); });
         generalLeaderboardViewModel.getLeaderboard().observe(this, users -> setupChampions(users));
 
         addGeneralGameScoreListener();
+    }
+    /**
+     * Leaderboard presentation in the useItem List it will start showing from 4.
+     * */
+
+    private List<LeaderboardEntity> skipFirst(List<LeaderboardEntity> original, int skipFirst) {
+        List<LeaderboardEntity> result = new ArrayList<>();
+        for(int i = skipFirst; i < original.size(); i++) {
+            result.add(original.get(i));
+        }
+
+        return result;
     }
 
     public void setupChampions(List<LeaderboardEntity> players) {
