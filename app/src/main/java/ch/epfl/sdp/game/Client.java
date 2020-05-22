@@ -85,7 +85,6 @@ public class Client implements StartGameController, Updatable {
             sendUsedItems();
             counter = 2 * GameThread.FPS + 1;
         }
-
         --counter;
     }
 

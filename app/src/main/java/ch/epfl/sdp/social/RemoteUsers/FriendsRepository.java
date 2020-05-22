@@ -18,7 +18,7 @@ import ch.epfl.sdp.social.socialDatabase.User;
  * This class permits to get the friends list of the user
  */
 public class FriendsRepository implements RemoteFriendFetcher {
-    private static final String USERS_PATH = "Users";
+    private static final String USERS_PATH = "AllUsers";
 
     @Override
     public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
