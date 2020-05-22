@@ -124,6 +124,10 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
 
     @Override
     public void contentFetchedWithServer(List<Message> output, boolean isFromServer, boolean incoming) {
+        List<String> texts = new ArrayList<>();
+        for (Message m: output){
+            texts.add(m.getText());
+        }
         messages = output;
         for (Message el : messages) {
             if (isFromServer) {
@@ -142,7 +146,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
      * needed for testing, returns the list of messages
      */
     public List<Message> getMessages() {
-        // return defensive copy
+        if (messages == null) return null;
         return new ArrayList<>(messages);
     }
 }
