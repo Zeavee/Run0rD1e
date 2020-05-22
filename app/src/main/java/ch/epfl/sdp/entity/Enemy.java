@@ -265,6 +265,7 @@ public class Enemy extends ArtificialMovingEntity {
     private void patrol() {
         if (!patrolBounds.isInside(super.getLocation())) {
             orientToTarget(patrolBounds);
+            setForceMove(true);
         } else {
             setForceMove(false);
         }
