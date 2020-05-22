@@ -9,136 +9,303 @@
     tools:context=".logic.RuleActivity">
 
     <TextView
-        android:id="@+id/rule1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="33dp"
-        android:text="1. All the players are put together in a lobby."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleRules" />
-
-    <TextView
         android:id="@+id/titleRules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/bold"
         android:text="Rules"
         android:textColor="@color/green"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/rule2"
-        android:layout_width="0dp"
+        android:id="@+id/introTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/bold"
+        android:text="Intro"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bulb"
+        android:layout_width="55dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/introText"
+        app:layout_constraintEnd_toStartOf="@+id/titleRules"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871"
+        app:srcCompat="@drawable/bulb" />
+
+    <TextView
+        android:id="@+id/introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="In this game you play on the map."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleRules" />
+
+    <TextView
+        android:id="@+id/introText2"
+        android:layout_width="318dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="64dp"
+        android:text="To play you will need to activate your current position and be ready to run away."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleRules" />
+
+    <ImageView
+        android:id="@+id/playermodeimg"
+        android:layout_width="43dp"
+        android:layout_height="25dp"
+        app:layout_constraintBottom_toBottomOf="@+id/plamodesingle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.676"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2"
+        app:layout_constraintVertical_bias="0.24"
+        app:srcCompat="@drawable/multiplayer" />
+
+    <TextView
+        android:id="@+id/playmodeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:fontFamily="@font/bold"
+        android:text="Playmode"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/playermodeimg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/soloplayerbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:fontFamily="@font/bold"
+        android:text="Soloplayer: "
+        app:layout_constraintBottom_toTopOf="@+id/enemyRule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2"
+        app:layout_constraintVertical_bias="0.194" />
+
+    <TextView
+        android:id="@+id/plamodesingle"
+        android:layout_width="189dp"
+        android:layout_height="19dp"
         android:layout_marginEnd="24dp"
-        android:text="2. Once there is enough players (depending of the size of the map), the game starts."
-        android:textAlignment="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="80dp"
+        android:gravity="left"
+        android:text="You can start the game."
+        android:textAlignment="gravity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.643"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText" />
+
+    <TextView
+        android:id="@+id/multiplayerbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/bold"
+        android:text="Multiplayer: "
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2" />
+
+    <TextView
+        android:id="@+id/multiplayerText"
+        android:layout_width="275dp"
+        android:layout_height="38dp"
+        android:text="Two or more players can join a game room/lobby and start a multiplayer game against each other."
+        app:layout_constraintBottom_toTopOf="@+id/howToplayTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plamodesingle"
+        app:layout_constraintVertical_bias="0.28" />
+
+    <TextView
+        android:id="@+id/howToplayTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="@font/bold"
+        android:text="How to play?"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plamodesingle" />
+
+    <ImageView
+        android:id="@+id/playIcon"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        app:layout_constraintBottom_toTopOf="@+id/enemyRule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/howToplayTitle"
+        app:layout_constraintTop_toBottomOf="@+id/multiplayerText"
+        app:layout_constraintVertical_bias="0.659"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/enemyRule"
+        android:layout_width="282dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:gravity="left"
+        android:textAlignment="gravity"
+        android:text="Some enemies (controlled by the computer) appear on the map."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule1" />
+        app:layout_constraintTop_toBottomOf="@+id/howToplayTitle" />
 
     <TextView
-        android:id="@+id/duringGame"
+        android:id="@+id/closeToEnemy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="left"
+        android:textAlignment="gravity"
+        android:text="If the player stands too close to an enemy, he loses heatlhpoints."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enemyRule" />
+
+    <TextView
+        android:id="@+id/healthdrops"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:text="During the game: "
+        android:layout_marginTop="8dp"
+        android:text="If a player's health drops to zero, he disappears."
+        android:textAlignment="gravity"
+        android:gravity="left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.227"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/closeToEnemy" />
+
+
+    <TextView
+        android:id="@+id/enemyAppear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="left"
+        android:text="After some time, more enemies appear."
+        android:textAlignment="gravity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/healthdrops" />
+
+
+
+    <TextView
+        android:id="@+id/highestScoreWin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="The player with the highest score will win the game."
+        android:textAlignment="gravity"
+        android:gravity="left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.285"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enemyAppear" />
+
+    <TextView
+        android:id="@+id/itemsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:fontFamily="@font/bold"
+        android:text="Items"
+        android:textColor="@color/blue"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule2" />
+        app:layout_constraintTop_toBottomOf="@+id/highestScoreWin" />
+
+    <ImageView
+        android:id="@+id/itemsIcon"
+        android:layout_width="21dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="292dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/highestScoreWin"
+        app:srcCompat="@drawable/healthpack" />
 
     <TextView
-        android:id="@+id/rule3"
+        android:id="@+id/increaseHealthpack"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:text="3. Some enemies (controlled by the computer) appear on the map."
-        android:textAlignment="center"
+        android:text="If you use the healthpack then you can increase your healthpoints about 10 points."
+        android:textAlignment="gravity"
+        android:gravity="left"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/duringGame" />
+        app:layout_constraintTop_toBottomOf="@+id/itemsTitle" />
 
     <TextView
-        android:id="@+id/rule4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="24dp"
-        android:text="4. If a player stands too close to an enemyOutDated, he loses health points."
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule3" />
-
-    <TextView
-        android:id="@+id/rule5"
+        android:id="@+id/ShrinkerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="5. If a player's health drops to zero, he disappears."
-        android:textAlignment="center"
+        android:gravity="left"
+        android:text="If no player has lost within a given time the map shrinks."
+        android:textAlignment="gravity"
+        app:layout_constraintBottom_toTopOf="@+id/MarketText"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule4" />
+        app:layout_constraintTop_toTopOf="@+id/increaseHealthpack"
+        app:layout_constraintVertical_bias="0.849" />
 
     <TextView
-        android:id="@+id/rule6"
+        android:id="@+id/MarketText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="6. After some time, more enemies appear."
-        android:textAlignment="center"
+        android:layout_marginTop="132dp"
+        android:gravity="left"
+        android:text="You can collect coins to buy healthpacket in the market."
+        android:textAlignment="gravity"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule5" />
+        app:layout_constraintTop_toBottomOf="@+id/highestScoreWin" />
 
-    <TextView
-        android:id="@+id/rule7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="7. If no player has lost within a given time, the map shrinks."
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule6" />
-
-    <TextView
-        android:id="@+id/endGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:text="End of the game:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rule7" />
-
-    <TextView
-        android:id="@+id/rule8"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="24dp"
-        android:text="8. The games end when there is only one player left. The last survivor wins."
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endGame" />
 </androidx.constraintlayout.widget.ConstraintLayout>

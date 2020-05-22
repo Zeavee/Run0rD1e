@@ -46,6 +46,9 @@ public class GeneralLeaderboardActivity extends AppCompatActivity {
 
         addGeneralGameScoreListener();
     }
+    /**
+     * Leaderboard presentation in the useItem List it will start showing from 4.
+     * */
 
     private List<LeaderboardEntity> skipFirst(List<LeaderboardEntity> original, int skipFirst) {
         List<LeaderboardEntity> result = new ArrayList<>();
