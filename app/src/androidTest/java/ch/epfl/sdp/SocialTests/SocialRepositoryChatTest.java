@@ -122,8 +122,7 @@ public class SocialRepositoryChatTest {
         while (result == null) {
             result = mActivityTestRule.getActivity().getMessages();
         }
-        result.clear();
-        assertTrue(result.isEmpty());
+        assertTrue(result.get(1).getText().equals("Blessed"));
     }
 
 }
