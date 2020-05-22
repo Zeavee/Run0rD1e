@@ -119,8 +119,8 @@ public class SocialRepositoryChatTest {
         // pretend fetching takes 2 seconds
         Thread.sleep(2000);
         List<Message> result = mActivityTestRule.getActivity().getMessages();
-        result.clear();
-        assertTrue(result.isEmpty());
+        if (result != null) result.clear();
+        assertTrue(result.isEmpty() || result == null);
     }
 
 }
