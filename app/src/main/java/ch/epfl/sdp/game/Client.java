@@ -207,8 +207,8 @@ public class Client implements StartGameController, Updatable {
     private void initCoinsAndShelterPoints() {
         int nbCoins = 4;
         int nbShelterArea = 2;
-        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation(), nbShelterArea);
-        for (ShelterArea s : shelterAreas) {
+        for (int i = 1; i<= nbShelterArea; i++) {
+            ShelterArea s = ShelterArea.generateShelterAreaAroundLocation(playerManager.getCurrentUser().getLocation());
             Game.getInstance().addToDisplayList(s);
             Game.getInstance().addToUpdateList(s);
             ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), nbCoins);

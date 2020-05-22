@@ -83,12 +83,11 @@ public class ShelterArea implements Displayable, Updatable {
         shelter();
     }
 
-    public static ArrayList<ShelterArea> generateShelterAreaAroundLocation(GeoPoint location, int amount) {
-        ArrayList<ShelterArea> generatedShelterAreas = new ArrayList<>();
+
+    public static ShelterArea generateShelterAreaAroundLocation(GeoPoint location) {
         RandomGenerator randGen = new RandomGenerator();
-        for (int i = 0; i < amount; i++) {
-            generatedShelterAreas.add(randGen.randomShelterArea(randGen.randomGeoPointAroundLocation(location)));
-        }
-        return generatedShelterAreas;
+        return randGen.randomShelterArea(randGen.randomGeoPointAroundLocation(location));
     }
+
+
 }

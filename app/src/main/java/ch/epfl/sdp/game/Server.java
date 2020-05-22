@@ -187,8 +187,8 @@ public class Server implements StartGameController, Updatable {
 
         amount = 2;
 
-        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(currentPlayerLocation, amount);
-        for (ShelterArea s : shelterAreas) {
+        for (int k = 0; k < amount; k++) {
+            ShelterArea s = ShelterArea.generateShelterAreaAroundLocation(currentPlayerLocation);
             Game.getInstance().addToDisplayList(s);
             Game.getInstance().addToUpdateList(s);
         }

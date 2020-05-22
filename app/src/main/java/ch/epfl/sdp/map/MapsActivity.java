@@ -74,9 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private PlayerManager playerManager = PlayerManager.getInstance();
 
-    private TextView username, healthPointText, timerShrinking;
-    private ProgressBar healthPointProgressBar;
-
 
     /**
      * A method to set a LocationFinder

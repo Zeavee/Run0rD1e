@@ -69,11 +69,9 @@ public class ShelterAreaTest {
     @Test
     public void generateShelterAreaTest() {
         RandomGenerator r = new RandomGenerator();
-        ArrayList<ShelterArea> shelterAreas = ShelterArea.generateShelterAreaAroundLocation(r.randomGeoPoint(), 3);
-        for (ShelterArea s : shelterAreas) {
-            assertTrue(s.getAoeRadius()<=150 && s.getAoeRadius()>=90);
-        }
-    }
+        ShelterArea s = ShelterArea.generateShelterAreaAroundLocation(r.randomGeoPoint());
+        assertTrue(s.getAoeRadius()<=150 && s.getAoeRadius()>=90);
+     }
 
 
 }

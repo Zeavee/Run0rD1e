@@ -1,8 +1,6 @@
 package ch.epfl.sdp.item;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -86,8 +84,8 @@ public class Coin extends Item implements Displayable, Updatable {
      * @param amount nb of coins we need to generate
      * @return ArrayList of randomly generated coins around location
      */
-    public static List<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
-        List<Coin> generatedCoins = new ArrayList<Coin>();
+    public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
+        ArrayList<Coin> generatedCoins = new ArrayList<Coin>();
         RandomGenerator randGen = new RandomGenerator();
         for (int k = 1; k <= amount; k++) {
             generatedCoins.add(randGen.randomCoin(randGen.randomGeoPointAroundLocation(location)));
