@@ -26,7 +26,9 @@ import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -65,5 +67,7 @@ public class GameOverTest {
         while (!mActivityTestRule.getActivity().flagGameOver);
         ViewInteraction textView = onView(withId(R.id.gameovr));
         textView.check(matches(withText("game0vr")));
+        onView(withId(R.id.backFromGameOverButton)).perform(click());
+        onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }
 }

@@ -119,7 +119,7 @@ public class SocialRepositoryChatTest {
         testRepo.getMessagesExchanged(fantasticSix.get(0).getEmail(), fantasticSix.get(2).getEmail());
         // Pretend fetching takes 5 seconds
         List<Message> result = mActivityTestRule.getActivity().getMessages();
-        while (result.isEmpty()) {
+        while (result == null || result.isEmpty()) {
             result = mActivityTestRule.getActivity().getMessages();
         }
         assertTrue(result.get(1).getText().equals("Blessed"));
