@@ -41,7 +41,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     private String chattingWith;
     private Chat chatFromCurrent;
     private Chat chatFromFriend;
-    private List<Message> messages;
+    private List<Message> messages = new ArrayList<>();
     private MessageAdapter messageAdapter;
     private RemoteToSQLiteAdapter sqliteFirestoreInterface;
     private String currentEmail;
