@@ -60,4 +60,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     public void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
     }
+
+    @Override
+    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
+
+    }
 }

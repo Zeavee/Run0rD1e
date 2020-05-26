@@ -42,11 +42,11 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         holder.name.setText(itemName);
         holder.amountOfItem.setText(String.valueOf(items.get(itemName)));
         holder.button.setOnClickListener(v -> {
+            itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
             if (PlayerManager.getInstance().isSoloMode() || PlayerManager.getInstance().isServer()) {
 
                 // If currentUser is in soloMode or the currentUser is the Server in multiPlayer mode
                 // use the item locally and get the effect directly.
-                itemFactory.getItem(itemName).useOn(PlayerManager.getInstance().getCurrentUser());
                 PlayerManager.getInstance().getCurrentUser().getInventory().removeItem(itemName);
             } else {
 

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import android.util.Log;
+
 import ch.epfl.sdp.entity.Player;
 
 public class Shield extends TimedItem {
@@ -19,6 +21,7 @@ public class Shield extends TimedItem {
     public void useOn(Player player) {
         super.useOn(player);
         player.setShielded(true);
+        Log.d("Item","Shield set True");
     }
 
     /**
@@ -32,6 +35,7 @@ public class Shield extends TimedItem {
     @Override
     public void stopUsingOn(Player player) {
         player.setShielded(false);
+        Log.d("Item","Shield set False");
     }
 
 }

@@ -1,5 +1,7 @@
 package ch.epfl.sdp.entity;
 
+import android.util.Log;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.artificial_intelligence.ArtificialMovingEntity;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
@@ -23,6 +25,7 @@ import ch.epfl.sdp.map.MapApi;
  */
 public class Enemy extends ArtificialMovingEntity {
     private int id;
+
     private Behaviour behaviour;
     /**
      * The enemy's attack strength
@@ -50,8 +53,8 @@ public class Enemy extends ArtificialMovingEntity {
      * Creates a default enemy
      */
     public Enemy() {
-        super.setAoeRadius(1);
-        super.getMovement().setVelocity(50);
+        super.setAoeRadius(100);
+        //super.getMovement().setVelocity(50);
         super.setMoving(true);
         super.setLocalArea(new UnboundedArea());
         this.damage = 1;
@@ -93,7 +96,7 @@ public class Enemy extends ArtificialMovingEntity {
      */
     public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, Area maxBounds) {
         super();
-        super.getMovement().setVelocity(25);
+        //super.getMovement().setVelocity(50);
         super.setMoving(true);
         super.setLocalArea(maxBounds);
         this.id = id;
@@ -134,6 +137,10 @@ public class Enemy extends ArtificialMovingEntity {
      */
     public Behaviour getBehaviour() {
         return behaviour;
+    }
+
+    public void setBehaviour(Behaviour behaviour) {
+        this.behaviour = behaviour;
     }
 
     /**
@@ -202,7 +209,14 @@ public class Enemy extends ArtificialMovingEntity {
 
         double attackRange = this.getAoeRadius();
         Player target = playerDetected(attackRange);
-        if (target != null && !target.isShielded()) {
+
+        if(target != null) {
+            Log.d("Enemy", "Target:" + target.getEmail());
+            Log.d("Enemy", "shielded:" + target.isShielded());
+        }
+
+        if (target != null && target.isAlive() && !target.isShielded()) {
+            Log.d("Enemy", "Attacking:" + target.getEmail());
             target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
         } else {
             setMoving(true);
@@ -320,12 +334,22 @@ public class Enemy extends ArtificialMovingEntity {
     @Override
     public void update() {
         super.update();
-        behave();
+        if(PlayerManager.getInstance().isServer()) {
+            behave();
+        }
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy);
+        Log.d("Enemy", behaviour.toString());
+
+        if (behaviour == Behaviour.ATTACK || behaviour == Behaviour.CHASE) {
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_attack);
+        }else if (behaviour == Behaviour.PATROL) {
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_patrol);
+        }else{
+            mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_wander);
+        }
     }
 }
 

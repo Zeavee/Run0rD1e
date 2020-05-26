@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.JunkCleaner;
+import ch.epfl.sdp.utils.JunkCleaner;
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
@@ -36,12 +37,12 @@ public class ClientTest {
     GeoPoint center;
 
     @After
-    public void destroy() {
+    public void teardown() {
         JunkCleaner.clearAll();
     }
 
     @Test
-    public void testClient() throws InterruptedException {
+    public void testClient() {
         JunkCleaner.clearAll();
         setupEnvironment();
         Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI);
@@ -52,11 +53,8 @@ public class ClientTest {
         assertEquals(1, ItemBoxManager.getInstance().getItemBoxes().size());
         assertEquals(2, PlayerManager.getInstance().getCurrentUser().getInventory().size());
 
-        PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(100, 100));
-        Thread.sleep(3000);
-
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
-        assertEquals(100, clientMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
+        Player user = PlayerManager.getInstance().getCurrentUser();
+        user.setLocation(new GeoPoint(100, 100));
 
         Game.getInstance().getDisplayables().forEach((d) -> {
             if (d instanceof CircleArea) {
@@ -64,6 +62,13 @@ public class ClientTest {
                 assertEquals(300, ((CircleArea) d).getRadius(), 0.01);
             }
         });
+
+        while (commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLatitude() != 100 &&
+                commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLongitude() != 100){
+        }
+
+        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
+        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
     }
 
     private void setupEnvironment() {
@@ -115,7 +120,7 @@ public class ClientTest {
         /**
          *  Populate the enemy in lobby
          */
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPointForFirebase(22, 22));
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22),0);
         enemyForFirebasesList.add(enemyForFirebase);
 
         /**

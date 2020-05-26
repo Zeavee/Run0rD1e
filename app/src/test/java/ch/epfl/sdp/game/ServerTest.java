@@ -9,7 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.JunkCleaner;
+import ch.epfl.sdp.utils.JunkCleaner;
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerMockDatabaseAPI;
@@ -95,7 +96,7 @@ public class ServerTest {
         PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
         playerForFirebase0.setUsername("server");
         playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(33.001,33));
+        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(33.001, 33));
         playerForFirebase0.setAoeRadius(22.0);
         playerForFirebase0.setHealthPoints(20.0);
         playerForFirebase0.setCurrentGameScore(0);
@@ -114,7 +115,7 @@ public class ServerTest {
         /**
          *  Populate the enemy in lobby
          */
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPointForFirebase(22, 22));
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22),0);
         enemyForFirebasesList.add(enemyForFirebase);
 
         /**
@@ -140,5 +141,4 @@ public class ServerTest {
         serverMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebasesList, itemBoxForFirebaseList, usedItems, items );
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
-
 }

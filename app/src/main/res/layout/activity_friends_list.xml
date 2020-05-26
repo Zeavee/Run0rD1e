@@ -28,8 +28,8 @@
                 android:text="@string/add_friends"
                 android:background="@drawable/btn_rounded"
                 android:fontFamily="@font/bold"
-                android:textColor="@color/blue"
                 android:onClick="onAddFriendClicked"
+                android:textColor="@color/blue"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

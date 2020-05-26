@@ -18,7 +18,6 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
-
     private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();
 
@@ -92,6 +91,11 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
             }
         });
+    }
 
+    @Override
+    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
+        DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
+        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerForFirebase.getGeoPointForFirebase());
     }
 }

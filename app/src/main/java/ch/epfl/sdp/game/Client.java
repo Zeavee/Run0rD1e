@@ -67,12 +67,16 @@ public class Client implements StartGameController, Updatable {
                 }
             });
 
-            addEnemyListener();
-            addItemBoxesListener();
-            addIngameScoreAndHealthPointListener();
-            addUserItemListener();
-            addGameAreaListener();
+            addListeners();
         }
+    }
+
+    private void addListeners() {
+        addEnemyListener();
+        addItemBoxesListener();
+        addPlayersListener();
+        addUserItemListener();
+        addGameAreaListener();
     }
 
     @Override
@@ -126,16 +130,18 @@ public class Client implements StartGameController, Updatable {
         });
     }
 
-    private void addIngameScoreAndHealthPointListener() {
-        clientDatabaseAPI.addCollectionListener(PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
+    private void addPlayersListener() {
+            clientDatabaseAPI.addCollectionListener(PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                for (PlayerForFirebase object : value.getResult()) {
-                    Player player = playerManager.getPlayersMap().get(object.getEmail());
+                for (PlayerForFirebase playerForFirebase : value.getResult()) {
+                    Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
                     if (player != null) {
-                        player.setCurrentGameScore(object.getCurrentGameScore());
-                        player.setHealthPoints(object.getHealthPoints());
+                        player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
+                        player.setHealthPoints(playerForFirebase.getHealthPoints());
+                        player.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                        Log.d(TAG, "addPlayersListener: " + player.getEmail());
                     }
-                    Log.d(TAG, "Listen for ingameScore: " + object.getUsername() + " " + object.getCurrentGameScore());
+                    Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
                 }
             } else {
                 Log.w(TAG, "Listen for ingameScore failed.", value.getException());
@@ -175,7 +181,7 @@ public class Client implements StartGameController, Updatable {
 
 
     private void sendUserPosition() {
-        clientDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+        commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
     }
 
     private void sendUsedItems() {

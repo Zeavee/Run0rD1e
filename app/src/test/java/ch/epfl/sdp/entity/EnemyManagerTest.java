@@ -37,7 +37,7 @@ public class EnemyManagerTest {
         EnemyManager manager = EnemyManager.getInstance();
         Enemy enemy = new Enemy(1, null);
         manager.updateEnemies(enemy);
-        manager.removeAll();
+        manager.clear();
         assertEquals(0, manager.getEnemies().size());
     }
 }

@@ -22,9 +22,12 @@ public class ItemsTest {
     private Player player;
     private GeoPoint A;
     private Healthpack healthpack;
+    private int healthAmount;
     private Shield shield;
+    private int shieldTime;
     private Shrinker shrinker;
     private Scan scan;
+    private int scanTime;
 
     @Before
     public void setup(){
@@ -34,10 +37,14 @@ public class ItemsTest {
         PlayerManager.getInstance().setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
 
-        healthpack = new Healthpack( 60);
-        shield = new Shield( 40);
+        shieldTime = 40;
+        healthAmount = 60;
+        scanTime = 50;
+
+        healthpack = new Healthpack(healthAmount);
+        shield = new Shield(shieldTime);
         shrinker = new Shrinker( 40, 10);
-        scan = new Scan( 50);
+        scan = new Scan(scanTime);
     }
 
     @After
@@ -64,14 +71,22 @@ public class ItemsTest {
     }
 
     @Test
+    public void scanTest() {
+        assertTrue(scanTime == scan.getValue());
+    }
+
+
+    @Test
     public void shieldTest() {
         assertEquals(40, shield.getRemainingTime(), 0);
+        assertTrue(shieldTime == shield.getValue());
     }
 
     @Test
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
+        assertTrue(shrinker.getShrinkingRadius() == shrinker.getValue());
     }
 
 
@@ -83,6 +98,7 @@ public class ItemsTest {
         assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
         assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        assertTrue(healthAmount == healthpack.getValue());
     }
 
     @Test

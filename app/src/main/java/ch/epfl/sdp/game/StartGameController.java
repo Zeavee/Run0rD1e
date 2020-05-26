@@ -20,6 +20,9 @@ import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
 
 import static android.content.ContentValues.TAG;
 
@@ -103,10 +106,17 @@ public interface StartGameController {
      * This method initializes the item boxes
      */
     static void initItemBoxes() {
-        // ItemBox -------------------------------------------
+        Scan scan = new Scan(10);
+        Shield shield = new Shield(10);
+        Shrinker shrinker = new Shrinker(10,5);
         Healthpack healthpack = new Healthpack(10);
+
         ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(healthpack, 2);
+        itemBox.putItems(shield,100);
+        itemBox.putItems(shrinker,100);
+        itemBox.putItems(scan,100);
+        itemBox.putItems(healthpack, 100);
+
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
 

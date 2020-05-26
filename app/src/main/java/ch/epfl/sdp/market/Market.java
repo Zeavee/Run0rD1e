@@ -1,7 +1,5 @@
 package ch.epfl.sdp.market;
 
-import android.util.Log;
-
 import androidx.core.util.Pair;
 
 import java.util.HashMap;
@@ -40,7 +38,7 @@ public class Market implements Displayable {
         stock = new HashMap<>();
         Random random = new Random();
         for (Item item : randomGenerator.randomItemsList()) {
-            stock.put(item, new Pair<>(1+random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
+            stock.put(item, new Pair<>(1 + random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
         }
     }
 
@@ -114,8 +112,7 @@ public class Market implements Displayable {
         if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= THRESH_DIST && !hasVisitedMarket) {
             hasVisitedMarket = true;
             ((MapsActivity) (Game.getInstance().getRenderer())).startMarket(this);
-        }
-        else if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > THRESH_DIST) {
+        } else if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > THRESH_DIST) {
             hasVisitedMarket = false;
         }
     }

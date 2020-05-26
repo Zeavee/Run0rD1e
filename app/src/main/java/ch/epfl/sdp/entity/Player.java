@@ -21,6 +21,7 @@ public class Player extends AoeRadiusEntity {
     private String email;
     private double healthPoints;
     private boolean isShielded;
+    private boolean isShrinked;
     private Inventory inventory;
     private int generalScore;
     private int currentGameScore;
@@ -113,6 +114,9 @@ public class Player extends AoeRadiusEntity {
             healthPoints = amount;
         } else {
             healthPoints = 0;
+        }
+
+        if(PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
             gotoGameOver();
         }
 
@@ -152,6 +156,24 @@ public class Player extends AoeRadiusEntity {
      */
     public boolean isShielded() {
         return this.isShielded;
+    }
+
+    /**
+     * This method sets the boolean that tells if the player is shrank
+     *
+     * @param shrinked the boolean we want to use as the new value to know if the player is shrank
+     */
+    public void setShrinked(boolean shrinked){
+        isShrinked = shrinked;
+    }
+
+    /**
+     * This method tells if the player is shrank
+     *
+     * @return a boolean that tells if the player is shrank
+     */
+    public boolean isShrinked() {
+        return isShrinked;
     }
 
     /**
@@ -313,5 +335,9 @@ public class Player extends AoeRadiusEntity {
         } else {
             mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
         }
+    }
+
+    public boolean isAlive(){
+        return healthPoints > 0;
     }
 }

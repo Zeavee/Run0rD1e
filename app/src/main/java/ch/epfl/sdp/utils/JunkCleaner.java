@@ -1,4 +1,4 @@
-package ch.epfl.sdp;
+package ch.epfl.sdp.utils;
 
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -11,8 +11,7 @@ public class JunkCleaner {
         Game.getInstance().destroyGame();
         Game.getInstance().clearGame();
         PlayerManager.getInstance().clear();
-        EnemyManager.getInstance().removeAll();
-        ItemBoxManager.getInstance().clearItemBoxes();
-        ItemBoxManager.getInstance().clearWaitingItemBoxes();
+        EnemyManager.getInstance().clear();
+        ItemBoxManager.getInstance().clear();
     }
 }

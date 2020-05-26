@@ -49,7 +49,7 @@ public abstract class Item implements Cloneable {
     public abstract void useOn(Player player);
 
     /**
-     * gets the value of the item
+     * Gets the value (price in coins) of the item
      */
     public abstract double getValue();
 }

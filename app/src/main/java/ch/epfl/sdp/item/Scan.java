@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import androidx.core.util.Consumer;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -20,10 +22,8 @@ public class Scan extends TimedItem {
     @Override
     public void useOn(Player player) {
         super.useOn(player);
-
-        for (Player p : PlayerManager.getInstance().getPlayers()) {
-            p.displayOn(Game.getInstance().getMapApi());
-        }
+        Consumer<Player> display = p -> Game.getInstance().addToDisplayList(p);
+        loopOverPlayers(player, display);
     }
 
     /**
@@ -35,8 +35,15 @@ public class Scan extends TimedItem {
     }
 
     public void stopUsingOn(Player player) {
+        Consumer<Player> unDisplay = p -> Game.getInstance().removeFromDisplayList(p);
+        loopOverPlayers(player, unDisplay);
+    }
+
+    private void loopOverPlayers(Player user, Consumer<Player> action) {
         for (Player p : PlayerManager.getInstance().getPlayers()) {
-            p.unDisplayOn(Game.getInstance().getMapApi());
+            if (!user.getEmail().equals(PlayerManager.getInstance().getCurrentUser())) {
+                action.accept(p);
+            }
         }
     }
 

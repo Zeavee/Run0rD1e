@@ -3,7 +3,6 @@ package ch.epfl.sdp.social.Conversation;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.room.Room;
 
@@ -14,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.WaitsOnWithServer;
 import ch.epfl.sdp.social.socialDatabase.Chat;

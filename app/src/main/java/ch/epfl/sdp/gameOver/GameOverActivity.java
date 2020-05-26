@@ -1,14 +1,13 @@
 package ch.epfl.sdp.gameOver;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 /**
  * @brief displays splash-screen-like game over screen that lasts for a few seconds
@@ -20,6 +19,7 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
         findViewById(R.id.backFromGameOverButton).setOnClickListener(v -> goToMainMenu());
+        JunkCleaner.clearAll();
     }
 
     private void goToMainMenu() {

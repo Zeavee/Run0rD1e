@@ -56,7 +56,7 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
                         remoteMessages.add(new Message(((Timestamp) doc.getData().get("date")).toDate(),
                                 (String) doc.getData().get("content"),
                                 chat_id));
-                        Log.d("server fetch", (String)doc.getData().get("content"));
+                        Log.d("server fetch", (String) doc.getData().get("content"));
                         remoteHost.collection(
                                 PATH_SEGMENTS.get(0))
                                 .document(owner).collection(PATH_SEGMENTS.get(1))

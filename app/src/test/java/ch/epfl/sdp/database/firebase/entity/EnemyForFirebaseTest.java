@@ -2,6 +2,7 @@ package ch.epfl.sdp.database.firebase.entity;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.geometry.GeoPoint;
 
@@ -11,7 +12,7 @@ public class EnemyForFirebaseTest {
     @Test
     public void enemyForFirebaseTest() {
         EnemyForFirebase enemyForFirebase1 = new EnemyForFirebase();
-        EnemyForFirebase enemyForFirebase2 = new EnemyForFirebase(0, new GeoPointForFirebase(22,22));
+        EnemyForFirebase enemyForFirebase2 = new EnemyForFirebase(0, Behaviour.WAIT,new GeoPointForFirebase(22,22), 0);
 
         enemyForFirebase1.setId(1);
         enemyForFirebase1.setLocation(new GeoPointForFirebase(33,33));

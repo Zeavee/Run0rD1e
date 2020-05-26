@@ -22,6 +22,9 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
+import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -74,7 +77,8 @@ public class Server implements StartGameController, Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
-            sendGameArea();
+            sendUserPosition();
+            //sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -131,12 +135,11 @@ public class Server implements StartGameController, Updatable {
             if (value.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
                 Game.getInstance().initGame();
-                addPlayersPositionListener();
+                addPlayersListener();
                 addUsedItemsListener();
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
-
 
     private void addUsedItemsListener() {
         serverDatabaseAPI.addUsedItemsListener(value -> {
@@ -157,8 +160,8 @@ public class Server implements StartGameController, Updatable {
         });
     }
 
-    private void addPlayersPositionListener() {
-        serverDatabaseAPI.addPlayersPositionListener(value -> {
+    private void addPlayersListener() {
+        serverDatabaseAPI.addPlayersListener(value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
@@ -172,6 +175,7 @@ public class Server implements StartGameController, Updatable {
 
                         // update the location of the player
                         player.setLocation(location);
+                        player.setAoeRadius(playerForFirebase.getAoeRadius());
                         Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
                     }
                 }
@@ -245,5 +249,9 @@ public class Server implements StartGameController, Updatable {
             serverDatabaseAPI.updatePlayersScore("generalScore", emailsScoreMap);
             gameEnd = true;
         }
+    }
+
+    private void sendUserPosition() {
+        commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
     }
 }
