@@ -15,9 +15,9 @@ import ch.epfl.sdp.map.Renderer;
 public class Game implements Updatable {
     private MapApi mapApi;
     private GameThread gameThread;
-    private ArrayList<Updatable> updatables;
-    private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
-    private ArrayList<Displayable> displayables;
+    private final ArrayList<Updatable> updatables;
+    private final Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
+    private final ArrayList<Displayable> displayables;
     private Renderer renderer;
 
     /**
@@ -42,6 +42,7 @@ public class Game implements Updatable {
         mapApi = null;
         gameThread = new GameThread(this);
         updatables = new ArrayList<>();
+        itUpdatable = updatables.iterator();
         displayables = new ArrayList<>();
     }
 
@@ -223,8 +224,6 @@ public class Game implements Updatable {
      */
     @Override
     public void update() {
-        itUpdatable = updatables.iterator();
-
         while (itUpdatable.hasNext()) {
             itUpdatable.next().update();
         }

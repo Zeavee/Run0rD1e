@@ -32,11 +32,11 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class Client implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
-    private ClientDatabaseAPI clientDatabaseAPI;
-    private CommonDatabaseAPI commonDatabaseAPI;
-    private PlayerManager playerManager = PlayerManager.getInstance();
-    private EnemyManager enemyManager = EnemyManager.getInstance();
-    private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
+    private final ClientDatabaseAPI clientDatabaseAPI;
+    private final CommonDatabaseAPI commonDatabaseAPI;
+    private final PlayerManager playerManager = PlayerManager.getInstance();
+    private final EnemyManager enemyManager = EnemyManager.getInstance();
+    private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private Area area = new UnboundedArea();
     private boolean gameStarted;
 
@@ -103,7 +103,7 @@ public class Client implements StartGameController, Updatable {
     private void addItemBoxesListener() {
         clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
-                List<ItemBoxForFirebase> itemBoxForFirebaseList = (List<ItemBoxForFirebase>) (Object) Arrays.asList(value.getResult());
+                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>((List<ItemBoxForFirebase>) (Object) value.getResult());
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -121,7 +121,7 @@ public class Client implements StartGameController, Updatable {
                             itemBoxManager.addItemBoxWithId(itemBox, id);
                         }
                     }
-                    Log.d(TAG, "Listen for itemboxes: " + value.getResult());
+                    Log.d(TAG, "Listen for itemBoxes: " + value.getResult());
                 }
             } else {
                 Log.w(TAG, "Listen for itemBoxes failed.", value.getException());

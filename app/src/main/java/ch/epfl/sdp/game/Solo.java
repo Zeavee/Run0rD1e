@@ -12,9 +12,8 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * Control the whole game lifecycle of the solo mode
  */
 public class Solo implements StartGameController, Updatable {
-    private Player currentUser = PlayerManager.getInstance().getCurrentUser();
+    private final Player currentUser = PlayerManager.getInstance().getCurrentUser();
     private int counter = 0;
-    private Area gameArea;
     private GeoPoint previousLocation;
     private boolean gameStarted;
     private boolean gameEnd;
@@ -35,7 +34,7 @@ public class Solo implements StartGameController, Updatable {
             previousLocation = currentUser.getLocation();
 
             // init the environment
-            gameArea = StartGameController.initGameArea();
+            Area gameArea = StartGameController.initGameArea();
             StartGameController.initItemBoxes();
             StartGameController.initEnemies(gameArea, EnemyManager.getInstance());
             StartGameController.initCoins(currentUser.getLocation());

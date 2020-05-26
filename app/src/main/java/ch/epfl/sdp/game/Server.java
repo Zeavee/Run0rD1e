@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
@@ -31,12 +32,12 @@ public class Server implements StartGameController, Updatable {
     private int scoreTimeCounter;
     private boolean gameStarted;
     private boolean gameEnd;
-    private ServerDatabaseAPI serverDatabaseAPI;
-    private CommonDatabaseAPI commonDatabaseAPI;
-    private PlayerManager playerManager = PlayerManager.getInstance();
-    private EnemyManager enemyManager = EnemyManager.getInstance();
-    private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
-    private ItemFactory itemFactory;
+    private final ServerDatabaseAPI serverDatabaseAPI;
+    private final CommonDatabaseAPI commonDatabaseAPI;
+    private final PlayerManager playerManager = PlayerManager.getInstance();
+    private final EnemyManager enemyManager = EnemyManager.getInstance();
+    private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
+    private final ItemFactory itemFactory;
     private Area gameArea;
 
     /**
@@ -102,8 +103,7 @@ public class Server implements StartGameController, Updatable {
         commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
             if (value1.isSuccessful()) {
                 StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
-                List<String> playersEmailList = new ArrayList<>();
-                playersEmailList.addAll(playerManager.getPlayersMap().keySet());
+                List<String> playersEmailList = new ArrayList<>(playerManager.getPlayersMap().keySet());
                 fetchGeneralScore(playersEmailList);
             } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
         });
@@ -113,7 +113,7 @@ public class Server implements StartGameController, Updatable {
         serverDatabaseAPI.fetchGeneralScoreForPlayers(playersEmailList, value -> {
             if (value.isSuccessful()) {
                 for (UserForFirebase userForFirebase : value.getResult()) {
-                    playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
+                    Objects.requireNonNull(playerManager.getPlayersMap().get(userForFirebase.getEmail())).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = StartGameController.initGameArea();
@@ -149,7 +149,7 @@ public class Server implements StartGameController, Updatable {
                         int usedCount = items.getValue();
                         for (int i = 0; i < usedCount; i++) {
                             itemFactory.getItem(items.getKey()).useOn(playerManager.getPlayersMap().get(email));
-                            playerManager.getPlayersMap().get(email).getInventory().removeItem(items.getKey());
+                            Objects.requireNonNull(playerManager.getPlayersMap().get(email)).getInventory().removeItem(items.getKey());
                         }
                     }
                 }
@@ -164,7 +164,7 @@ public class Server implements StartGameController, Updatable {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
                     GeoPoint location = EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase());
 
-                    if (player.getLocation() != null) {
+                    if (Objects.requireNonNull(player).getLocation() != null) {
                         Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " + player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
                         Log.d(TAG, "addPlayersPositionListener: after " + playerForFirebase.getUsername() + " " + location.getLatitude() + " " + location.getLongitude());
                         double traveledDistance = player.getLocation().distanceTo(location);

@@ -6,7 +6,7 @@ package ch.epfl.sdp.game;
 public class GameThread extends Thread {
     public static final int FPS = 24;
     private boolean running;
-    private Game game;
+    private final Game game;
     private long startTime;
     private long totalTime = 0;
     private int frameCount = 0;
@@ -75,7 +75,7 @@ public class GameThread extends Thread {
         long waitTime = targetTime - timeMillis;
         if (waitTime > 0) {
             try {
-                this.sleep(waitTime);
+                sleep(waitTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -90,7 +90,7 @@ public class GameThread extends Thread {
         frameCount++;
 
         if (frameCount == FPS) {
-            double avgFPS = 1000 / ((totalTime / frameCount) / 1000000);
+            double avgFPS = 10000.0 / ((1.0 * totalTime / frameCount) / 1000000.0);
 
             // Reset values
             frameCount = 0;
