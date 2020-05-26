@@ -25,6 +25,7 @@ import ch.epfl.sdp.map.MapApi;
  */
 public class Enemy extends ArtificialMovingEntity {
     private int id;
+
     private Behaviour behaviour;
     /**
      * The enemy's attack strength
@@ -140,6 +141,10 @@ public class Enemy extends ArtificialMovingEntity {
      */
     public Behaviour getBehaviour() {
         return behaviour;
+    }
+
+    public void setBehaviour(Behaviour behaviour) {
+        this.behaviour = behaviour;
     }
 
     /**

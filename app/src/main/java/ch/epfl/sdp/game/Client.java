@@ -50,7 +50,7 @@ public class Client implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if (!gameStarted) {
+        if(!gameStarted) {
             gameStarted = true;
 
             clientDatabaseAPI.listenToGameStart(start -> {
@@ -66,9 +66,7 @@ public class Client implements StartGameController, Updatable {
                             }
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
-                        } else
-                            Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
-                    });
+                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
                 }
             });
 

@@ -3,6 +3,7 @@ package ch.epfl.sdp.item;
 import android.util.Log;
 
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
     private int shrinkingRadius;
@@ -21,12 +22,17 @@ public class Shrinker extends TimedItem {
 
     @Override
     public void useOn(Player player) {
-        super.useOn(player);
+        if (!player.isShrinked()){
+            player.setShrinked(true);
 
-        if(player.getAoeRadius() - getShrinkingRadius() > 0){
-            double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
-            player.setAoeRadius(aoeRadius);
-            Log.d("Item","Shrink set True");
+            super.useOn(player);
+
+            if(player.getAoeRadius() - getShrinkingRadius() > 0){
+                double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
+                player.setAoeRadius(aoeRadius);
+                PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
+                Log.d("Item","Shrink set True");
+            }
         }
     }
 
@@ -42,6 +48,8 @@ public class Shrinker extends TimedItem {
     public void stopUsingOn(Player player) {
         double aoeRadius = player.getAoeRadius() + getShrinkingRadius();
         player.setAoeRadius(aoeRadius);
+        player.setShrinked(false);
+        PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
         Log.d("Item","Shrink set false");
     }
 

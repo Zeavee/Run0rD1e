@@ -114,6 +114,7 @@ public class TimedItemTest {
         int removeAoeRadius = 1;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
         shrinker.useOn(user);
+        assertTrue(user.get)
 
         while (shrinker.getRemainingTime() > 0){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);

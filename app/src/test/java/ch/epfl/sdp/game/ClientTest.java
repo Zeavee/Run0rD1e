@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.JunkCleaner;
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
@@ -119,7 +120,7 @@ public class ClientTest {
         /**
          *  Populate the enemy in lobby
          */
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, new GeoPointForFirebase(22, 22));
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22));
         enemyForFirebasesList.add(enemyForFirebase);
 
         /**

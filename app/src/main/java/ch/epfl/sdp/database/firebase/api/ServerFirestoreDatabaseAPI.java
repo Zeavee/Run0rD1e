@@ -90,6 +90,18 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
+        WriteBatch batch = firebaseFirestore.batch();
+
+        for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
+            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
+            batch.update(docRef, "aoeRadius", playerForFirebase.getAoeRadius());
+        }
+
+        batch.commit();
+    }
+
+    @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
         WriteBatch batch = firebaseFirestore.batch();
 

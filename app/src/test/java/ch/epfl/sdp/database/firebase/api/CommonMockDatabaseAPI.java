@@ -11,7 +11,7 @@ import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
-    public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
+    private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
     public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
 
     public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap){

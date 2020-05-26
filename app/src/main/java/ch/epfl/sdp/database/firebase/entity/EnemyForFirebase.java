@@ -1,5 +1,6 @@
 package ch.epfl.sdp.database.firebase.entity;
 
+import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 
 /**
@@ -7,7 +8,9 @@ import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
  */
 public class EnemyForFirebase {
     private int id;
+    private Behaviour behaviour;
     private GeoPointForFirebase location;
+    private double orientation;
 
     /**
      * For firebase each custom class must hava a public constructor that takes no argument.
@@ -21,9 +24,10 @@ public class EnemyForFirebase {
      * @param id       The id of the enemyForFirebase
      * @param location The location of the enemyForFirebase
      */
-    public EnemyForFirebase(int id, GeoPointForFirebase location) {
+    public EnemyForFirebase(int id, Behaviour behaviour,GeoPointForFirebase location) {
         this.id = id;
         this.location = location;
+        this.behaviour = behaviour;
     }
 
     /**
@@ -44,6 +48,14 @@ public class EnemyForFirebase {
         this.id = id;
     }
 
+    public Behaviour getBehaviour() {
+        return behaviour;
+    }
+
+    public void setBehaviour(Behaviour behaviour) {
+        this.behaviour = behaviour;
+    }
+
     /**
      * Get the location of the enemyForFirebase
      *
@@ -60,5 +72,13 @@ public class EnemyForFirebase {
      */
     public void setLocation(GeoPointForFirebase location) {
         this.location = location;
+    }
+
+    public double getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(double orientation) {
+        this.orientation = orientation;
     }
 }

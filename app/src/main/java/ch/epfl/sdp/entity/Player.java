@@ -14,6 +14,7 @@ public class Player extends AoeRadiusEntity {
     private String email;
     private double healthPoints;
     private boolean isShielded;
+    private boolean isShrinked;
     private Inventory inventory;
     private int generalScore;
     private int currentGameScore;
@@ -88,6 +89,14 @@ public class Player extends AoeRadiusEntity {
 
     public boolean isShielded() {
         return this.isShielded;
+    }
+
+    public void setShrinked(boolean shrinked){
+        isShrinked = shrinked;
+    }
+
+    public boolean isShrinked() {
+        return isShrinked;
     }
 
     public void setInventory(Inventory inventory) {

@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.entity.Enemy;
+import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
@@ -68,7 +70,7 @@ public class EntityConverter {
     public static List<EnemyForFirebase> convertEnemyList(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
         for (Enemy enemy : enemies) {
-            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation())));
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getBehaviour(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation())));
         }
 
         return enemyForFirebases;
@@ -79,7 +81,19 @@ public class EntityConverter {
         for (EnemyForFirebase enemyForFirebase : enemyForFirebaseList) {
             Enemy enemy = new Enemy();
             enemy.setId(enemyForFirebase.getId());
+            enemy.setBehaviour(enemyForFirebase.getBehaviour());
             enemy.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(enemyForFirebase.getLocation()));
+            if (!EnemyManager.getInstance().enemyExists(enemy)) {
+                // TODO: To be done in a more consistent and elegant way ---------
+                SinusoidalMovement movement = new SinusoidalMovement();
+                movement.setVelocity(200);
+                movement.setAngleStep(0.1);
+                movement.setAmplitude(10);
+                movement.setAngle(1);
+                enemy.setMovement(movement);
+                // ---------------------------------------------------------------
+            }
+            enemy.getMovement().setOrientation(enemyForFirebase.getOrientation());
             enemyList.add(enemy);
         }
         return enemyList;
