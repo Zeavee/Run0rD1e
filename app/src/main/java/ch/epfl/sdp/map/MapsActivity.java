@@ -206,7 +206,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (selectLobbyRes.isSuccessful()) {
                 PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
                 Map<String, Object> data = new HashMap<>();
-                data.put("count", playerManager.getNumPlayersBeforeJoin() + 1);
+                data.put("count", playerManager.getNumPlayersInLobby() + 1);
                 if (playerManager.isServer()) data.put("startGame", false);
                 Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
                 joinLobby(playerForFirebase, data);

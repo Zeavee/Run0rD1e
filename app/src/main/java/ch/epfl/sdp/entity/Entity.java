@@ -15,6 +15,7 @@ public abstract class Entity implements Positionable, Displayable {
 
     /**
      * This is a constructor for the Entity
+     *
      * @param geoPoint the location of the entity
      */
     public Entity(GeoPoint geoPoint) {
@@ -28,6 +29,7 @@ public abstract class Entity implements Positionable, Displayable {
 
     /**
      * This method sets the location of the entity
+     *
      * @param location the location we want to set
      */
     public void setLocation(GeoPoint location) {

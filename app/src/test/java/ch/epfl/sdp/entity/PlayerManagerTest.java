@@ -35,8 +35,8 @@ public class PlayerManagerTest {
         assertEquals("Players", PlayerManager.getInstance().PLAYER_COLLECTION_NAME);
         assertEquals("Enemies", PlayerManager.getInstance().ENEMY_COLLECTION_NAME);
 
-        PlayerManager.getInstance().setNumPlayersBeforeJoin(3);
-        assertEquals(3, PlayerManager.getInstance().getNumPlayersBeforeJoin());
+        PlayerManager.getInstance().setNumPlayersInLobby(3);
+        assertEquals(3, PlayerManager.getInstance().getNumPlayersInLobby());
 
         PlayerManager.getInstance().setLobbyDocumentName("test");
         assertEquals("test", PlayerManager.getInstance().getLobbyDocumentName());

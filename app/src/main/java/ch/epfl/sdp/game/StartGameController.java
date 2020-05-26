@@ -16,7 +16,6 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
@@ -73,8 +72,7 @@ public interface StartGameController {
      */
     static void initEnemies(Area gameArea, EnemyManager enemyManager) {
         // Enemy -------------------------------------------
-        Area area = new UnboundedArea();
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea);
         randomEnemyGenerator.setEnemyCreationTime(1000);
         randomEnemyGenerator.setMaxEnemies(10);
         randomEnemyGenerator.setMinDistanceFromEnemies(100);

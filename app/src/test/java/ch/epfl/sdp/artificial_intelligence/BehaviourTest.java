@@ -25,11 +25,9 @@ public class BehaviourTest {
         GeoPoint local = new GeoPoint(40, 50);
         player = new Player(local.getLongitude(), local.getLatitude(), 0, "", "");
         PlayerManager.getInstance().addPlayer(player);
-        GeoPoint enemyPos = new GeoPoint(20, 20);
         GeoPoint patrolCenter = new GeoPoint(10, 10);
         RectangleArea patrolBounds = new RectangleArea(10, 10, patrolCenter);
-        RectangleArea maxBounds = new RectangleArea(100, 100, enemyPos);
-        enemy = new Enemy(0, 10, 1, 50, 20, patrolBounds, maxBounds);
+        enemy = new Enemy(0, 10, 1, 50, 20, patrolBounds);
         enemy.getMovement().setVelocity(1);
         enemy.setLocation(local);
     }

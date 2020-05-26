@@ -29,7 +29,7 @@ public class EnemyGeneratorTest {
         Player player = new Player("test", "test@gmail.com");
         player.setLocation(new GeoPoint(10, 20));
         PlayerManager.getInstance().setCurrentUser(player);
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()), new UnboundedArea());
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()));
         enemyGenerator.setMinDistanceFromEnemies(1);
         enemyGenerator.setMinDistanceFromEnemies(-1);
         enemyGenerator.setEnemyCreationTime(1);
@@ -45,7 +45,7 @@ public class EnemyGeneratorTest {
     public void setMinDistanceWorks() {
         Player player = new Player(45, 45, 100, "a", "b");
         PlayerManager.getInstance().addPlayer(player);
-        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()), new UnboundedArea());
+        EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()));
         enemyGenerator.setMinDistanceFromEnemies(10);
         enemyGenerator.setMinDistanceFromPlayers(1000);
         enemyGenerator.setMaxEnemies(10);

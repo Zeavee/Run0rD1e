@@ -15,7 +15,14 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
+    /**
+     * The maximum number of player in a lobby
+     */
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
+
+    /**
+     * All the names of the firebase collections
+     */
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
@@ -25,7 +32,7 @@ public class PlayerManager {
     public static final String GAME_AREA_COLLECTION_NAME = "GameArea";
 
     private String lobbyDocumentName;
-    private long numPlayersBeforeJoin;
+    private long numPlayersInLobby;
     private boolean isServer;
     private boolean soloMode;
 
@@ -34,14 +41,19 @@ public class PlayerManager {
      */
     private Player currentUser;
 
-    private Map<String, Player> playersMap = new HashMap<>();
+    private final Map<String, Player> playersMap = new HashMap<>();
 
-    private List<Player> playersWaitingItems = new ArrayList<>();
+    private final List<Player> playersWaitingItems = new ArrayList<>();
 
-    private List<Player> playersWaitingHealthPoint = new ArrayList<>();
+    private final List<Player> playersWaitingHealthPoint = new ArrayList<>();
 
     private static final PlayerManager instance = new PlayerManager();
 
+    /**
+     * This methods returns the instance of the singleton
+     *
+     * @return the instance of player manager
+     */
     public static PlayerManager getInstance() {
         return instance;
     }
@@ -67,18 +79,38 @@ public class PlayerManager {
         this.lobbyDocumentName = lobby_document_ref;
     }
 
-    public long getNumPlayersBeforeJoin() {
-        return numPlayersBeforeJoin;
+    /**
+     * This method returns the number of players in the lobby
+     *
+     * @return the number of players in the lobby
+     */
+    public long getNumPlayersInLobby() {
+        return numPlayersInLobby;
     }
 
-    public void setNumPlayersBeforeJoin(long numPlayersBeforeJoin) {
-        this.numPlayersBeforeJoin = numPlayersBeforeJoin;
+    /**
+     * This method sets the number of players in the lobby
+     *
+     * @param numPlayersInLobby the number of players in the lobby
+     */
+    public void setNumPlayersInLobby(long numPlayersInLobby) {
+        this.numPlayersInLobby = numPlayersInLobby;
     }
 
+    /**
+     * This method tells if the player acts as the server
+     *
+     * @return a boolean that tells if the player acts as the server
+     */
     public boolean isServer() {
         return isServer;
     }
 
+    /**
+     * This method sets the boolean that tells if the player act as the server
+     *
+     * @param isServer the value of the boolean we want to use
+     */
     public void setIsServer(boolean isServer) {
         this.isServer = isServer;
     }
@@ -120,6 +152,11 @@ public class PlayerManager {
         return new ArrayList<>(playersMap.values());
     }
 
+    /**
+     * This method returns the list of all the players in the game sorted by their score in the current game
+     *
+     * @return the list of all the players in the game sorted by their score in the current game
+     */
     public List<Player> getPlayersSortByIngameScore() {
         List<Player> players = this.getPlayers();
         Comparator<Player> compareByIngameScore = (o1, o2) -> o2.getCurrentGameScore() - o1.getCurrentGameScore();
@@ -127,6 +164,11 @@ public class PlayerManager {
         return players;
     }
 
+    /**
+     * This method returns the map from emails to players
+     *
+     * @return the map from emails to players
+     */
     public Map<String, Player> getPlayersMap() {
         return playersMap;
     }
@@ -137,27 +179,46 @@ public class PlayerManager {
      * @param players A list of players to be added
      */
     public void setPlayers(List<Player> players) {
-
         playersMap.clear();
         for (Player player : players) {
             playersMap.put(player.getEmail(), player);
         }
     }
 
+    /**
+     * This method return the waiting list of the players picked up an item
+     *
+     * @return the waiting list of the players that picked up an item
+     */
     public List<Player> getPlayersWaitingItems() {
         return playersWaitingItems;
     }
 
+    /**
+     * This method adds the player that picked up an item in a waiting list
+     *
+     * @param player the player that picked up an item
+     */
     public void addPlayerWaitingItems(Player player) {
         if (!currentUser.getEmail().equals(player.getEmail())) {
             playersWaitingItems.add(player);
         }
     }
 
+    /**
+     * This method return the waiting list of the players that had their health points changed
+     *
+     * @return the waiting list of the players that had their health points changed
+     */
     public List<Player> getPlayersWaitingHealthPoint() {
         return playersWaitingHealthPoint;
     }
 
+    /**
+     * This method adds the player that had his health points changed in a waiting list
+     *
+     * @param player the player that had his health points changed
+     */
     public void addPlayerWaitingHealth(Player player) {
         playersWaitingHealthPoint.add(player);
     }

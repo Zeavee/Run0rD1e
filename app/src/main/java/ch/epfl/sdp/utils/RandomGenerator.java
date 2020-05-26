@@ -138,8 +138,7 @@ public class RandomGenerator {
         float randomdps = rand.nextFloat();
         float randomDetectionDistance = rand.nextFloat() * 10 + 50;
         RectangleArea r = new RectangleArea(10, 10, randomGeoPointBetweenTwoBounds(1, 5));
-        UnboundedArea areaMax = new UnboundedArea();
-        Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, r, areaMax);
+        Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, r);
         return e;
     }
 

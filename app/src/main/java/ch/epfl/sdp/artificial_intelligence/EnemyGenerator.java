@@ -13,14 +13,12 @@ public abstract class EnemyGenerator {
     protected long timeToCreate;
     protected double minDistanceFromPlayers;
     protected Area enclosure;
-    protected Area localArea;
     protected List<Enemy> enemies;
     protected Timer timer;
     protected int maxEnemies;
     protected boolean readyToCreate;
 
-    public EnemyGenerator(Area localArea, Area enclosure) {
-        this.localArea = localArea;
+    public EnemyGenerator(Area enclosure) {
         this.enclosure = enclosure;
     }
 

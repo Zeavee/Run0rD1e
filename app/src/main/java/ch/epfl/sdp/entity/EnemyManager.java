@@ -11,7 +11,7 @@ import ch.epfl.sdp.game.Game;
  * Manages all enemies of a game.
  */
 public class EnemyManager {
-    private Map<Integer, Enemy> enemies;
+    private final Map<Integer, Enemy> enemies;
     private static final EnemyManager instance = new EnemyManager();
 
     private EnemyManager() {
