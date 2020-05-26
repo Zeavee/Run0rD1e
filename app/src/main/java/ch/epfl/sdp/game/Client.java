@@ -3,6 +3,7 @@ package ch.epfl.sdp.game;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,7 @@ public class Client implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             clientDatabaseAPI.listenToGameStart(start -> {
@@ -60,7 +61,9 @@ public class Client implements StartGameController, Updatable {
                             StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
-                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                        } else
+                            Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                    });
                 }
             });
 
@@ -100,10 +103,7 @@ public class Client implements StartGameController, Updatable {
     private void addItemBoxesListener() {
         clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
             if (value.isSuccessful()) {
-                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) {
-                    itemBoxForFirebaseList.add((ItemBoxForFirebase) object);
-                }
+                List<ItemBoxForFirebase> itemBoxForFirebaseList = (List<ItemBoxForFirebase>) (Object) Arrays.asList(value.getResult());
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();

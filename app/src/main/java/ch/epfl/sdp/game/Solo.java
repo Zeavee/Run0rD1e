@@ -2,25 +2,14 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
-import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.item.ItemBoxManager;
 
 /**
- *  Control the whole game lifecycle of the solo mode
+ * Control the whole game lifecycle of the solo mode
  */
 public class Solo implements StartGameController, Updatable {
     private Player currentUser = PlayerManager.getInstance().getCurrentUser();
@@ -30,6 +19,9 @@ public class Solo implements StartGameController, Updatable {
     private boolean gameStarted;
     private boolean gameEnd;
 
+    /**
+     * The constructor for the Solo.
+     */
     public Solo() {
         this.gameStarted = false;
         this.gameEnd = false;
@@ -37,7 +29,7 @@ public class Solo implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             previousLocation = currentUser.getLocation();
@@ -93,12 +85,17 @@ public class Solo implements StartGameController, Updatable {
     }
 
     private void checkGameEnd() {
-        if(!gameEnd && currentUser.getHealthPoints() <= 0) {
+        if (!gameEnd && currentUser.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
             gameEnd = true;
         }
     }
 
+    /**
+     * Tells if the game is finished
+     *
+     * @return a boolean that tells if the game is finished
+     */
     public boolean isGameEnd() {
         return gameEnd;
     }

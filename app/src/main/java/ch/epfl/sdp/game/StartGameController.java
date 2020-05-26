@@ -9,8 +9,6 @@ import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -28,14 +26,20 @@ import static android.content.ContentValues.TAG;
 
 public interface StartGameController {
     /**
-     *  Implemented by Solo, Server and Client and used in GoogleLocationFinder,
-     *  After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
-     *  For Solo: It means populate the Enemies, itemboxes locally and start the gameThread
-     *  For Server: It means populate the Enemies and itemboxes on cloud firebase and start the gameThread
-     *  For Client: It means fetch the Enemies and itemboxes from cloud firebase and start the gameThread.
+     * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
+     * After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
+     * For Solo: It means populate the Enemies, itemboxes locally and start the gameThread
+     * For Server: It means populate the Enemies and itemboxes on cloud firebase and start the gameThread
+     * For Client: It means fetch the Enemies and itemboxes from cloud firebase and start the gameThread.
      */
     void start();
 
+    /**
+     * This method adds the player in the player manager
+     *
+     * @param playerManager the player manager we want to add the players in
+     * @param players       the list of players we want to add
+     */
     static void addPlayersInPlayerManager(PlayerManager playerManager, List<PlayerForFirebase> players) {
         for (PlayerForFirebase playerForFirebase : players) {
             Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
@@ -46,6 +50,11 @@ public interface StartGameController {
         }
     }
 
+    /**
+     * This method initializes the game area
+     *
+     * @return the game area created
+     */
     static Area initGameArea() {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
@@ -56,6 +65,12 @@ public interface StartGameController {
         return gameArea;
     }
 
+    /**
+     * This method initializes the random enemy generator
+     *
+     * @param gameArea     the game area
+     * @param enemyManager the enemy manager
+     */
     static void initEnemies(Area gameArea, EnemyManager enemyManager) {
         // Enemy -------------------------------------------
         Area area = new UnboundedArea();
@@ -72,6 +87,11 @@ public interface StartGameController {
         //  -------------------------------------------
     }
 
+    /**
+     * This method initializes the coins
+     *
+     * @param center the location around which we want to coins to appear
+     */
     static void initCoins(GeoPoint center) {
         int amount = 10;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(center, amount);
@@ -81,6 +101,9 @@ public interface StartGameController {
         }
     }
 
+    /**
+     * This method initializes the item boxes
+     */
     static void initItemBoxes() {
         // ItemBox -------------------------------------------
         Healthpack healthpack = new Healthpack(10);

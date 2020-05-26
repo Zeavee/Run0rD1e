@@ -7,24 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
@@ -46,6 +39,12 @@ public class Server implements StartGameController, Updatable {
     private ItemFactory itemFactory;
     private Area gameArea;
 
+    /**
+     * Constructor for the Server
+     *
+     * @param serverDatabaseAPI the API for accessing the remote database used by the server
+     * @param commonDatabaseAPI the API for accessing the remote database used by the client and the server
+     */
     public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
@@ -58,7 +57,7 @@ public class Server implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             serverDatabaseAPI.listenToNumOfPlayers(value -> {
@@ -122,7 +121,8 @@ public class Server implements StartGameController, Updatable {
                 StartGameController.initEnemies(gameArea, enemyManager);
                 StartGameController.initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
                 startGame();
-            } else Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
+            } else
+                Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
     }
 
@@ -136,7 +136,6 @@ public class Server implements StartGameController, Updatable {
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
-
 
 
     private void addUsedItemsListener() {
@@ -206,7 +205,8 @@ public class Server implements StartGameController, Updatable {
         List<Player> players = playerManager.getPlayersWaitingItems();
         if (!players.isEmpty()) {
             Map<String, ItemsForFirebase> playersItemsMap = new HashMap<>();
-            for (Player player : players) playersItemsMap.put(player.getEmail(), EntityConverter.convertItems(player.getInventory().getItems()));
+            for (Player player : players)
+                playersItemsMap.put(player.getEmail(), EntityConverter.convertItems(player.getInventory().getItems()));
             serverDatabaseAPI.sendPlayersItems(playersItemsMap);
             playerManager.getPlayersWaitingItems().clear();
         }
