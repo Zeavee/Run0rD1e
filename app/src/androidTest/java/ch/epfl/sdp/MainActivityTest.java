@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
@@ -22,8 +21,6 @@ import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.map.MapsActivityTest;
 import ch.epfl.sdp.utils.MockMapApi;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -33,7 +30,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sdp.map.MapsActivityTest.GRANT_BUTTON_INDEX;
 import static ch.epfl.sdp.map.MapsActivityTest.permissionsIfNeeded;
-import static ch.epfl.sdp.map.MapsActivityTest.testButtonWorks;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
