@@ -1,17 +1,12 @@
 package ch.epfl.sdp.entity;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
-import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MockMap;
 
 import static ch.epfl.sdp.artificial_intelligence.Behaviour.PATROL;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class EnemyTest {
