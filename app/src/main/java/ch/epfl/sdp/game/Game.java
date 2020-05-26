@@ -25,7 +25,7 @@ public class Game implements Updatable {
      */
     public AreaShrinker areaShrinker = new AreaShrinker(10000, 30000, 0.75);
 
-    private static Game instance = new Game();
+    private final static Game instance = new Game();
 
     /**
      * Gets one and only instance of the game.
@@ -98,7 +98,7 @@ public class Game implements Updatable {
     }
 
 
-    private ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock();
 
     /**
      * Add the given updatable entity to the game.
