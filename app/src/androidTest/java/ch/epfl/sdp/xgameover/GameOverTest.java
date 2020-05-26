@@ -12,10 +12,13 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
+import ch.epfl.sdp.database.firebase.entity.EntityConverter;
+import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -44,8 +47,18 @@ public class GameOverTest {
             Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com");
             amro.setHealthPoints(100);
             PlayerManager.getInstance().setCurrentUser(amro);
+            
             MockMapApi mockMapApi = new MockMapApi();
             Game.getInstance().setMapApi(mockMapApi);
+
+            HashMap<String, UserForFirebase> userData = new HashMap<>();
+            List<UserForFirebase> userForFirebaseList = new ArrayList<>();
+
+            UserForFirebase amroForFirebase = new UserForFirebase(amro.getEmail(), amro.getUsername(), 100);
+
+            userData.put(amro.getEmail(), amroForFirebase);
+            userForFirebaseList.add(amroForFirebase);
+
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
         }
