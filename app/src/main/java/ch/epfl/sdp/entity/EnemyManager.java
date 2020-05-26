@@ -43,7 +43,7 @@ public class EnemyManager {
             // add a new enemy instance
             enemies.put(enemyId, enemy);
             Game.getInstance().addToDisplayList(enemy);
-            if(PlayerManager.getInstance().isServer()) {
+            if (PlayerManager.getInstance().isServer() || PlayerManager.getInstance().isSoloMode()) {
                 Game.getInstance().addToUpdateList(enemy);
             }
         }

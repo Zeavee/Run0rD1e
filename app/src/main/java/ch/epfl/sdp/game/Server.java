@@ -117,10 +117,10 @@ public class Server implements StartGameController, Updatable {
                     playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
-                initGameArea();
-                initItemBoxes();
-                initEnemies();
-                initCoins();
+                gameArea = StartGameController.initGameArea();
+                StartGameController.initItemBoxes();
+                StartGameController.initEnemies(gameArea, enemyManager);
+                StartGameController.initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
                 startGame();
             } else Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
@@ -137,60 +137,7 @@ public class Server implements StartGameController, Updatable {
         });
     }
 
-    private void initGameArea() {
-        //GameArea -----------------------------------------
-        GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
-        gameArea = new CircleArea(3000, local);
-        Game.getInstance().addToDisplayList(gameArea);
-        Game.getInstance().addToUpdateList(gameArea);
-        Game.getInstance().areaShrinker.setGameArea(gameArea);
-    }
 
-    private void initEnemies() {
-        // Enemy -------------------------------------------
-        Area area = new UnboundedArea();
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
-        randomEnemyGenerator.setEnemyCreationTime(1000);
-        randomEnemyGenerator.setMaxEnemies(10);
-        randomEnemyGenerator.setMinDistanceFromEnemies(100);
-        randomEnemyGenerator.setMinDistanceFromPlayers(100);
-        randomEnemyGenerator.generateEnemy(100);
-        Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
-        enemy.setMovement(movement);
-        enemyManager.updateEnemies(enemy);
-        //  -------------------------------------------
-    }
-
-    private void initCoins() {
-        int amount = 10;
-        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(playerManager.getCurrentUser().getLocation(), amount);
-        for (Coin c : coins) {
-            Game.getInstance().addToDisplayList(c);
-            Game.getInstance().addToUpdateList(c);
-        }
-    }
-
-    private void initItemBoxes() {
-        // ItemBox -------------------------------------------
-        Healthpack healthpack = new Healthpack(10);
-        ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(healthpack, 2);
-        Game.getInstance().addToDisplayList(itemBox);
-        Game.getInstance().addToUpdateList(itemBox);
-
-        Healthpack healthpack1 = new Healthpack(10);
-        ItemBox itemBox1 = new ItemBox(new GeoPoint(6.1488, 46.2125));
-        itemBox1.putItems(healthpack1, 1);
-        Game.getInstance().addToDisplayList(itemBox1);
-        Game.getInstance().addToUpdateList(itemBox1);
-
-        ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
-        ItemBoxManager.getInstance().addItemBox(itemBox1);
-        //  -------------------------------------------
-    }
 
     private void addUsedItemsListener() {
         serverDatabaseAPI.addUsedItemsListener(value -> {
