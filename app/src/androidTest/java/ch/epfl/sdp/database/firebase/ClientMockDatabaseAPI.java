@@ -5,7 +5,6 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
@@ -36,10 +35,6 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
 
     }
 
-    @Override
-    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-
-    }
 
     @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {

@@ -8,9 +8,6 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 import androidx.test.runner.AndroidJUnit4;
 
-import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
-import static org.hamcrest.core.StringContains.containsString;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,6 +30,7 @@ import ch.epfl.sdp.utils.MockMapApi;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -41,6 +39,7 @@ import static ch.epfl.sdp.SocialTests.ChildParentMatcher.childAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.StringContains.containsString;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -142,13 +141,13 @@ public class NewMarketActivityTest {
     }
 
     // check that the money displayed has changed
-    public void step7(){
+    public void step7() {
         ViewInteraction textView = onView(withId(R.id.textMoney));
         textView.check(matches(not(withText("Money: 100000"))));
     }
 
     // check that a toast is displayed describing the outcome of the transaction
-    public void step8(){
+    public void step8() {
         onView(withText(containsString("purchase"))).inRoot(withDecorView(not(is(mActivityTestRule.getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
 

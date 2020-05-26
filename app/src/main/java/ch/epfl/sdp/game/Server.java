@@ -28,6 +28,9 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
+import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Shield;
+import ch.epfl.sdp.item.Shrinker;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -58,7 +61,7 @@ public class Server implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             serverDatabaseAPI.listenToNumOfPlayers(value -> {
@@ -74,7 +77,8 @@ public class Server implements StartGameController, Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
-            sendGameArea();
+            sendUserPosition();
+            //sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -123,7 +127,7 @@ public class Server implements StartGameController, Updatable {
                     playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
-                initGameArea();
+                //initGameArea();
                 initItemBoxes();
                 initEnemies();
                 initCoins();
@@ -137,14 +141,13 @@ public class Server implements StartGameController, Updatable {
             if (value.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
                 Game.getInstance().initGame();
-                addPlayersPositionListener();
+                addPlayersListener();
                 addUsedItemsListener();
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
 
     private void initGameArea() {
-        //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         gameArea = new CircleArea(3000, local);
         Game.getInstance().addToDisplayList(gameArea);
@@ -153,21 +156,16 @@ public class Server implements StartGameController, Updatable {
     }
 
     private void initEnemies() {
-        // Enemy -------------------------------------------
         Area area = new UnboundedArea();
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        //RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(area, area);
         randomEnemyGenerator.setEnemyCreationTime(1000);
         randomEnemyGenerator.setMaxEnemies(10);
         randomEnemyGenerator.setMinDistanceFromEnemies(100);
         randomEnemyGenerator.setMinDistanceFromPlayers(100);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
-        enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
-        //  -------------------------------------------
     }
 
     private void initCoins() {
@@ -180,10 +178,17 @@ public class Server implements StartGameController, Updatable {
     }
 
     private void initItemBoxes() {
-        // ItemBox -------------------------------------------
+        Scan scan = new Scan(10);
+        Shield shield = new Shield(10);
+        Shrinker shrinker = new Shrinker(10,5);
         Healthpack healthpack = new Healthpack(10);
+
         ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(healthpack, 2);
+        itemBox.putItems(shield,100);
+        itemBox.putItems(shrinker,100);
+        itemBox.putItems(scan,100);
+        itemBox.putItems(healthpack, 100);
+
         Game.getInstance().addToDisplayList(itemBox);
         Game.getInstance().addToUpdateList(itemBox);
 
@@ -217,8 +222,8 @@ public class Server implements StartGameController, Updatable {
         });
     }
 
-    private void addPlayersPositionListener() {
-        serverDatabaseAPI.addPlayersPositionListener(value -> {
+    private void addPlayersListener() {
+        serverDatabaseAPI.addPlayersListener(value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
@@ -232,6 +237,7 @@ public class Server implements StartGameController, Updatable {
 
                         // update the location of the player
                         player.setLocation(location);
+                        player.setAoeRadius(playerForFirebase.getAoeRadius());
                         Log.d(TAG, "addPlayersPositionListener: traveledDistance" + traveledDistance);
                     }
                 }
@@ -304,5 +310,9 @@ public class Server implements StartGameController, Updatable {
             serverDatabaseAPI.updatePlayersScore("generalScore", emailsScoreMap);
             gameEnd = true;
         }
+    }
+
+    private void sendUserPosition() {
+        commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
     }
 }

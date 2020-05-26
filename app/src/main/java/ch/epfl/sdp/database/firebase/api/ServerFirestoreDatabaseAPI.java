@@ -20,7 +20,6 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -80,11 +79,21 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
+        sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
+    }
+
+
+    @Override
+    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
+        sendPlayersProperty(playerForFirebaseList, "aoeRadius", p -> p.getAoeRadius());
+    }
+
+    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
             DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
+            batch.update(docRef, field, property.methodFromT(playerForFirebase));
         }
 
         batch.commit();
@@ -135,7 +144,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void addPlayersPositionListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
+    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
         lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
                 .addSnapshotListener((querySnapshot, e) -> {
                     if (e != null) {

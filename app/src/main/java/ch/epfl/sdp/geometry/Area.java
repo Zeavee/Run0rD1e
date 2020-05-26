@@ -1,11 +1,9 @@
 package ch.epfl.sdp.geometry;
 
 import androidx.annotation.NonNull;
-import androidx.room.Update;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.map.Displayable;

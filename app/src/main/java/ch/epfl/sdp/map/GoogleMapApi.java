@@ -69,6 +69,9 @@ public class GoogleMapApi implements MapApi {
     @UiThread
     @Override
     public void displayMarkerCircle(Displayable displayable, int color, String title, int aoeRadius) {
+        if (aoeRadius < 0) {
+            return;
+        }
         displayMapDrawing(displayable, new MapDrawing(mMap.addMarker(new MarkerOptions().position(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).title(title).icon(BitmapDescriptorFactory.fromBitmap(createSmallCircle(color)))),
                 mMap.addCircle(new CircleOptions().center(new LatLng(displayable.getLocation().getLatitude(), displayable.getLocation().getLongitude())).strokeColor(color).fillColor(color - 0x80000000).radius(aoeRadius).strokeWidth(2f))));
     }

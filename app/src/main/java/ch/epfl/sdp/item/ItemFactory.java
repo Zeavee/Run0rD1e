@@ -10,7 +10,7 @@ public class ItemFactory {
             case "Shield":
                 return new Shield(Integer.parseInt(parts[1]));
             case "Shrinker":
-                return new Shrinker(Integer.parseInt(parts[1]), Double.parseDouble(parts[2]));
+                return new Shrinker(Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
             case "Scan":
                 return new Scan(Integer.parseInt(parts[1]));
         }

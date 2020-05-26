@@ -16,9 +16,7 @@ import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
@@ -84,7 +82,6 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                 });
     }
 
-    @Override
     public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
         lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -96,12 +93,6 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
         }));
     }
 
-    @Override
-    public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerForFirebase.getGeoPointForFirebase());
-    }
-
-    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
     }

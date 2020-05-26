@@ -1,13 +1,16 @@
 package ch.epfl.sdp.item;
 
+import android.util.Log;
+
 import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
-    private double shrinkingRadius;
+    private int shrinkingRadius;
     private int shrinkTime;
 
-    public Shrinker(int shrinkTime, double shrinkingRadius) {
-        super(String.format("Shrinker %d %f", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %f seconds", shrinkTime, shrinkingRadius), shrinkTime);
+    public Shrinker(int shrinkTime, int shrinkingRadius) {
+        super(String.format("Shrinker %d %d", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %d seconds", shrinkTime, shrinkingRadius), shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
         this.shrinkTime = shrinkTime;
     }
@@ -19,9 +22,18 @@ public class Shrinker extends TimedItem {
 
     @Override
     public void useOn(Player player) {
-        super.useOn(player);
-        double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
-        player.setAoeRadius(aoeRadius);
+        if (!player.isShrinked()){
+            player.setShrinked(true);
+
+            super.useOn(player);
+
+            if(player.getAoeRadius() - getShrinkingRadius() > 0){
+                double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
+                player.setAoeRadius(aoeRadius);
+                PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
+                Log.d("Item","Shrink set True");
+            }
+        }
     }
 
     /**
@@ -36,6 +48,9 @@ public class Shrinker extends TimedItem {
     public void stopUsingOn(Player player) {
         double aoeRadius = player.getAoeRadius() + getShrinkingRadius();
         player.setAoeRadius(aoeRadius);
+        player.setShrinked(false);
+        PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
+        Log.d("Item","Shrink set false");
     }
 
 

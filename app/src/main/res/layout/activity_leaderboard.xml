@@ -51,9 +51,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/regular"
                         android:text=""
                         android:textColor="@color/blue"
-                        android:fontFamily="@font/regular"
                         android:textSize="20sp" />
 
                     <TextView
@@ -61,9 +61,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/regular"
                         android:text=""
                         android:textColor="@color/blue"
-                        android:fontFamily="@font/regular"
                         android:textSize="20sp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -87,9 +87,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
+                        android:fontFamily="@font/regular"
                         android:text=""
                         android:textColor="@color/gold"
-                        android:fontFamily="@font/regular"
                         android:textSize="20sp" />
 
                     <TextView
@@ -97,9 +97,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/regular"
                         android:text=""
                         android:textColor="@color/gold"
-                        android:fontFamily="@font/regular"
                         android:textSize="20sp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -121,23 +121,22 @@
                         android:id="@+id/tv_healthpoint3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="20sp"
-                        android:textColor="@color/green"
+                        android:layout_marginTop="8dp"
                         android:fontFamily="@font/regular"
+                        android:text=""
+                        android:textColor="@color/green"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:id="@+id/tv_username3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="20sp"
-                        android:textColor="@color/green"
                         android:fontFamily="@font/regular"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        android:text=""
+                        android:textColor="@color/green"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_horizontal" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/iv_champion3"

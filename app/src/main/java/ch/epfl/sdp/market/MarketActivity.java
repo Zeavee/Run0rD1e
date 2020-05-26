@@ -1,7 +1,6 @@
 package ch.epfl.sdp.market;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -36,9 +35,9 @@ public class MarketActivity extends AppCompatActivity {
     private ImageButton aoeImg;
     private ImageButton scanImg;
     private ImageButton shImg;
-    private TextView money;
-    private ImageButton healthImg;
     private final static int CARD_HEIGHT = 30;
+    private ImageButton healthImg;
+    private TextView money;
     private HashMap<View, Pair<Integer, Class<? extends Item>>> viewsSelected = new HashMap<>();
     private Button buy;
     private HashMap<Integer, Integer> itemToViewMap = new HashMap<>();
@@ -78,7 +77,7 @@ public class MarketActivity extends AppCompatActivity {
      * buys the items that were selected by the user.
      * If the user does not have enough money, they will not be bought
      */
-    private void checkoutItems()  {
+    private void checkoutItems() {
         List<String> purchased = new ArrayList<>();
         List<String> failed = new ArrayList<>();
         for (View v : viewsSelected.keySet()) {
@@ -87,7 +86,7 @@ public class MarketActivity extends AppCompatActivity {
             }
         }
         updateMoneyShown();
-        Toast.makeText(this.getApplicationContext(), parseList(purchased, true) +"\n"+parseList(failed, false) , Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.getApplicationContext(), parseList(purchased, true) + "\n" + parseList(failed, false), Toast.LENGTH_SHORT).show();
     }
 
     // adds an item given by argument "second" to the cart if user has enough money
@@ -100,11 +99,11 @@ public class MarketActivity extends AppCompatActivity {
 
     // displays in format  "purchased: item1, item2
     //                      could not purchase: item3, item4"
-    private String parseList(List<String> arg, boolean purchased){
+    private String parseList(List<String> arg, boolean purchased) {
         String toStr = arg.toString();
-        String listUpper = toStr.substring(1, toStr.length() -1).toUpperCase();
-        if (purchased) return  arg.isEmpty()? "": "purchased " +listUpper;
-        else return  arg.isEmpty()? "": "could not purchase " +listUpper;
+        String listUpper = toStr.substring(1, toStr.length() - 1).toUpperCase();
+        if (purchased) return arg.isEmpty() ? "" : "purchased " + listUpper;
+        else return arg.isEmpty() ? "" : "could not purchase " + listUpper;
     }
 
     /**

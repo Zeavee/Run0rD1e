@@ -12,7 +12,6 @@ import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class InventoryTest {
     @Before

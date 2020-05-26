@@ -50,7 +50,7 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         current_email_id = appContainer.authenticationAPI.getCurrentUserEmail();
 
         SocialRepository.setContextActivity(this);
-        SocialRepository.currentEmail= current_email_id; // injection point here
+        SocialRepository.currentEmail = current_email_id; // injection point here
 
         SocialRepository.getInstance().fetchFriends(new User(current_email_id));
     }

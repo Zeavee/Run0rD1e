@@ -67,11 +67,13 @@ public class RandomGeneratorTest {
 
     @Test
     public void randomShrinker() {
-        Shrinker s = randGen.randomShrinker();
-        assertTrue(s.getRemainingTime() >= -1);
-        assertTrue(s.getRemainingTime() <= 5);
-        assertTrue(s.getShrinkingRadius() >= -1);
-        assertTrue(s.getShrinkingRadius() <= 5);
+        for(int i = 0; i < 100; ++i){
+            Shrinker s = randGen.randomShrinker();
+            assertTrue(s.getRemainingTime() >= -1);
+            assertTrue(s.getRemainingTime() <= 5);
+            assertTrue(s.getShrinkingRadius() >= -1);
+            assertTrue(s.getShrinkingRadius() <= 5);
+        }
     }
 
     @Test

@@ -32,20 +32,20 @@ public class EnemyManager {
      *
      * @param enemy the enemy we want to update
      */
-    public void updateEnemies(Enemy enemy) {
+    public void updateEnemies(Enemy enemy) { // TODO update
         int enemyId = enemy.getId();
         if (enemies.containsKey(enemyId)) {
             // update the location
             Enemy enemyToBeUpdate = enemies.get(enemyId);
             enemyToBeUpdate.setLocation(enemy.getLocation());
+            enemyToBeUpdate.setBehaviour(enemy.getBehaviour());
+            enemyToBeUpdate.getMovement().setOrientation(enemy.getMovement().getOrientation());
             enemies.put(enemyId, enemyToBeUpdate);
         } else {
             // add a new enemy instance
             enemies.put(enemyId, enemy);
             Game.getInstance().addToDisplayList(enemy);
-            if(PlayerManager.getInstance().isServer()) {
-                Game.getInstance().addToUpdateList(enemy);
-            }
+            Game.getInstance().addToUpdateList(enemy);
         }
     }
 
@@ -70,7 +70,11 @@ public class EnemyManager {
     /**
      * This method removes all the enemies of the list
      */
-    public void removeAll() {
+    public void clear() {
         enemies.clear();
+    }
+
+    public Boolean enemyExists(Enemy enemy){
+        return enemies.containsKey(enemy.getId());
     }
 }

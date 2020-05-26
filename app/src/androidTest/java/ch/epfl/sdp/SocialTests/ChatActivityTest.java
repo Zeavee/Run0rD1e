@@ -1,7 +1,5 @@
 package ch.epfl.sdp.SocialTests;
 
-import android.util.Log;
-
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;

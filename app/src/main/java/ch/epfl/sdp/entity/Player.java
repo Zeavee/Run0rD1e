@@ -2,8 +2,6 @@ package ch.epfl.sdp.entity;
 
 import android.graphics.Color;
 
-import com.google.common.collect.Maps;
-
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Inventory;
@@ -16,6 +14,7 @@ public class Player extends AoeRadiusEntity {
     private String email;
     private double healthPoints;
     private boolean isShielded;
+    private boolean isShrinked;
     private Inventory inventory;
     private int generalScore;
     private int currentGameScore;
@@ -66,6 +65,9 @@ public class Player extends AoeRadiusEntity {
             healthPoints = amount;
         } else {
             healthPoints = 0;
+        }
+
+        if(PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
             gotoGameOver();
         }
 
@@ -77,7 +79,7 @@ public class Player extends AoeRadiusEntity {
 
     private void gotoGameOver() {
         if (Game.getInstance().getRenderer() instanceof MapsActivity)  // we don't call gameOver on mock renderers (especially since this functionality is already tested)
-            ((MapsActivity)(Game.getInstance().getRenderer())).endGame();
+            ((MapsActivity) (Game.getInstance().getRenderer())).endGame();
     }
 
     public double getHealthPoints() {
@@ -90,6 +92,14 @@ public class Player extends AoeRadiusEntity {
 
     public boolean isShielded() {
         return this.isShielded;
+    }
+
+    public void setShrinked(boolean shrinked){
+        isShrinked = shrinked;
+    }
+
+    public boolean isShrinked() {
+        return isShrinked;
     }
 
     public void setInventory(Inventory inventory) {
@@ -196,5 +206,9 @@ public class Player extends AoeRadiusEntity {
         } else {
             mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
         }
+    }
+
+    public boolean isAlive(){
+        return healthPoints > 0;
     }
 }

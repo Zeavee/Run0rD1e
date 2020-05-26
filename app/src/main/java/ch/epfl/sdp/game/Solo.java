@@ -18,7 +18,7 @@ import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 
 /**
- *  Control the whole game lifecycle of the solo mode
+ * Control the whole game lifecycle of the solo mode
  */
 public class Solo implements StartGameController, Updatable {
     private Player currentUser = PlayerManager.getInstance().getCurrentUser();
@@ -35,7 +35,7 @@ public class Solo implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             previousLocation = currentUser.getLocation();
@@ -142,7 +142,7 @@ public class Solo implements StartGameController, Updatable {
     }
 
     private void checkGameEnd() {
-        if(!gameEnd && currentUser.getHealthPoints() <= 0) {
+        if (!gameEnd && currentUser.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
             gameEnd = true;
         }

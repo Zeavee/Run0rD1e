@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".gameOver.GameOverActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".WeatherFragment" />
         <activity
             android:name=".market.MarketActivity"

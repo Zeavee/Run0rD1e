@@ -40,7 +40,7 @@ public class GoogleLocationFinder implements LocationFinder {
                     PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
 
                     // After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
-                    if(!gameStarted) {
+                    if (!gameStarted) {
                         gameStarted = true;
                         startGameController.start();
                     }

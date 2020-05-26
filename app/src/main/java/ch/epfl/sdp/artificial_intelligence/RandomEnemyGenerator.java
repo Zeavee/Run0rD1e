@@ -45,11 +45,10 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         }
 
         Enemy enemy = new Enemy(localArea, enclosure);
-        enemy.setLocation(enemyLocation);
         SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setVelocity(5);
+        movement.setVelocity(10);
         movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
+        movement.setAmplitude(1);
         movement.setAngle(1);
         enemy.setMovement(movement);
         enemy.setLocation(enemyLocation);
@@ -86,8 +85,8 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         do {
             enemyPos = localArea.randomLocation();
             --maxIter;
-        } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>)(List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
-                || checkDistanceFromList(enemyPos, (List<Entity>)(List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));
+        } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
+                || checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));
         return enemyPos;
     }
 

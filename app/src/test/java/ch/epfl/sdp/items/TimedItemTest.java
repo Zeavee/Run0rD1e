@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TimedItemTest {
-    public final int countTime = 2;
+    public final int countTime = 5;
     Player user;
 
     @Before
@@ -32,7 +33,7 @@ public class TimedItemTest {
 
     @After
     public void teardown(){
-        PlayerManager.getInstance().clear();
+        JunkCleaner.clearAll();
     }
 
     @Test
@@ -64,22 +65,27 @@ public class TimedItemTest {
     public void scanGetsUpdated(){
         MockMap map = new MockMap();
         Game.getInstance().setMapApi(map);
+        Game.getInstance().setRenderer(map);
+        Game.getInstance().initGame();
         PlayerManager.getInstance().addPlayer(user);
+        PlayerManager.getInstance().addPlayer(new Player("test","test"));
         Scan scan = new Scan(countTime);
         scan.useOn(user);
 
+        while(Game.getInstance().getDisplayables().isEmpty()){}
+
         while (scan.getRemainingTime() > 0){
-            assertFalse(map.getDisplayables().isEmpty());
+            assertFalse(Game.getInstance().getDisplayables().isEmpty());
             scan.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertFalse(map.getDisplayables().isEmpty());
+            assertFalse(Game.getInstance().getDisplayables().isEmpty());
             scan.update();
         }
 
-        assertTrue(map.getDisplayables().isEmpty());
+        assertTrue(Game.getInstance().getDisplayables().isEmpty());
     }
 
     @Test
@@ -105,7 +111,7 @@ public class TimedItemTest {
     @Test
     public void shrinkerChangesAOERadiusBack(){
         Double originalRadius = user.getAoeRadius();
-        int removeAoeRadius = 10;
+        int removeAoeRadius = 1;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
         shrinker.useOn(user);
 

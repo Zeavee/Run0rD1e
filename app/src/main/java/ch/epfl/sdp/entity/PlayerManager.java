@@ -40,6 +40,8 @@ public class PlayerManager {
 
     private List<Player> playersWaitingHealthPoint = new ArrayList<>();
 
+    private List<Player> playersWaitingAoeRadius = new ArrayList<>();
+
     private static final PlayerManager instance = new PlayerManager();
 
     public static PlayerManager getInstance() {
@@ -161,6 +163,15 @@ public class PlayerManager {
     public void addPlayerWaitingHealth(Player player) {
         playersWaitingHealthPoint.add(player);
     }
+
+    public List<Player> getPlayersWaitingAoeRadius() {
+        return playersWaitingAoeRadius;
+    }
+
+    public void addPlayerWaitingAoeRadius(Player player) {
+        playersWaitingAoeRadius.add(player);
+    }
+
 
     /**
      * Remove all the players in the player manager.

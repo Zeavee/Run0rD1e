@@ -70,12 +70,16 @@ public class Client implements StartGameController, Updatable {
                 }
             });
 
-            addEnemyListener();
-            addItemBoxesListener();
-            addIngameScoreAndHealthPointListener();
-            addUserItemListener();
-            addGameAreaListener();
+            addListeners();
         }
+    }
+
+    private void addListeners() {
+        addEnemyListener();
+        addItemBoxesListener();
+        addPlayersListener();
+        addUserItemListener();
+        addGameAreaListener();
     }
 
     @Override
@@ -135,7 +139,7 @@ public class Client implements StartGameController, Updatable {
         });
     }
 
-    private void addIngameScoreAndHealthPointListener() {
+    private void addPlayersListener() {
         clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, value -> {
             if (value.isSuccessful()) {
                 for (Object object : value.getResult()) {
@@ -144,6 +148,8 @@ public class Client implements StartGameController, Updatable {
                     if (player != null) {
                         player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
                         player.setHealthPoints(playerForFirebase.getHealthPoints());
+                        player.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                        Log.d(TAG, "addPlayersListener: " + player.getEmail());
                     }
                     Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
                 }
@@ -185,7 +191,7 @@ public class Client implements StartGameController, Updatable {
 
 
     private void sendUserPosition() {
-        clientDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+        commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
     }
 
     private void sendUsedItems() {
