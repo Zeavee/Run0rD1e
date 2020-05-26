@@ -67,7 +67,7 @@ public class Player extends AoeRadiusEntity {
             healthPoints = 0;
         }
 
-        if(PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
+        if(PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
             gotoGameOver();
         }
 
