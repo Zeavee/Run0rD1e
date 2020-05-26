@@ -13,6 +13,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -85,12 +86,9 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addEnemyListener() {
-        clientDatabaseAPI.addCollectionListener(EnemyForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(PlayerManager.ENEMY_COLLECTION_NAME, (CustomResult<List<EnemyForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) {
-                    enemyForFirebaseList.add((EnemyForFirebase) object);
-                }
+                List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>(value.getResult());
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
                     Log.d(TAG, "addEnemyListener: " + enemy.getLocation().getLatitude() + enemy.getLocation().getLongitude());
@@ -100,9 +98,9 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addItemBoxesListener() {
-        clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(ItemBoxManager.ITEMBOX_COLLECTION_NAME, (CustomResult<List<ItemBoxForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>((List<ItemBoxForFirebase>) (Object) value.getResult());
+                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>(value.getResult());
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -129,16 +127,15 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addIngameScoreAndHealthPointListener() {
-        clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                for (Object object : value.getResult()) {
-                    PlayerForFirebase playerForFirebase = (PlayerForFirebase) object;
-                    Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
+                for (PlayerForFirebase object : value.getResult()) {
+                    Player player = playerManager.getPlayersMap().get(object.getEmail());
                     if (player != null) {
-                        player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
-                        player.setHealthPoints(playerForFirebase.getHealthPoints());
+                        player.setCurrentGameScore(object.getCurrentGameScore());
+                        player.setHealthPoints(object.getHealthPoints());
                     }
-                    Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
+                    Log.d(TAG, "Listen for ingameScore: " + object.getUsername() + " " + object.getCurrentGameScore());
                 }
             } else {
                 Log.w(TAG, "Listen for ingameScore failed.", value.getException());

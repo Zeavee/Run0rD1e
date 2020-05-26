@@ -8,18 +8,14 @@ import com.google.firebase.firestore.ListenerRegistration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
@@ -42,30 +38,15 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
-        String collectionName = "";
-        if (EnemyForFirebase.class.equals(entityType)) {
-            collectionName = PlayerManager.ENEMY_COLLECTION_NAME;
-        } else if (PlayerForFirebase.class.equals(entityType)) {
-            collectionName = PlayerManager.PLAYER_COLLECTION_NAME;
-        } else if (ItemBoxForFirebase.class.equals(entityType)) {
-            collectionName = ItemBoxManager.ITEMBOX_COLLECTION_NAME;
-        }
-
+    public <T> void addCollectionListener(String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
         lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             else {
-                List<Object> entityList = new ArrayList<>();
-                for (DocumentChange documentChange : querySnapshot.getDocumentChanges()) {
-                    if (EnemyForFirebase.class.equals(entityType)) {
-                        entityList.add(documentChange.getDocument().toObject(EnemyForFirebase.class));
-                    } else if (PlayerForFirebase.class.equals(entityType)) {
-                        entityList.add(documentChange.getDocument().toObject(PlayerForFirebase.class));
-                    } else if (ItemBoxForFirebase.class.equals(entityType)) {
-                        entityList.add(documentChange.getDocument().toObject(ItemBoxForFirebase.class));
-                    }
+                List<T> entityList = new ArrayList<>();
+                for (DocumentChange documentChange : Objects.requireNonNull(querySnapshot).getDocumentChanges()) {
+                    entityList.add((T) documentChange.getDocument());
                 }
-                onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
+                onValueReadyCallback.finish(new CustomResult<List<T>>(entityList, true, null));
             }
         });
     }
