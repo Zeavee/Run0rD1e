@@ -102,13 +102,7 @@ public class Server implements StartGameController, Updatable {
     private void fetchPlayers() {
         commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
             if (value1.isSuccessful()) {
-                for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                    Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                    if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                        playerManager.addPlayer(player);
-                    }
-                    Log.d(TAG, "(Server) Getting Player: " + player);
-                }
+                StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
                 List<String> playersEmailList = new ArrayList<>();
                 playersEmailList.addAll(playerManager.getPlayersMap().keySet());
                 fetchGeneralScore(playersEmailList);

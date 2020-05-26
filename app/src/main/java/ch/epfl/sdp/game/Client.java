@@ -57,13 +57,7 @@ public class Client implements StartGameController, Updatable {
                 if (start.isSuccessful()) {
                     commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
                         if (value1.isSuccessful()) {
-                            for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                                Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                                if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                    playerManager.addPlayer(player);
-                                }
-                                Log.d(TAG, "Getting Player: " + player);
-                            }
+                            StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
                         } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
