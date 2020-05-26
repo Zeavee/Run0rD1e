@@ -1,6 +1,7 @@
 package ch.epfl.sdp.map;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
@@ -88,6 +90,7 @@ public class MapsActivityTest {
             throw new RuntimeException("Cannot execute Thread.sleep()");
         }
     }
+
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityRule =
             new ActivityTestRule<MapsActivity>(MapsActivity.class) {
@@ -111,6 +114,13 @@ public class MapsActivityTest {
                     appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
                     appContainer.clientDatabaseAPI = new ClientMockDatabaseAPI();
                     Game.getInstance().areaShrinker = new AreaShrinker(5000, 5000, 0.75);
+                }
+
+                @Override
+                protected Intent getActivityIntent() {
+                    Intent intent = new Intent();
+                    intent.putExtra("playMode", "single-player");
+                    return intent;
                 }
             };
 
@@ -145,6 +155,7 @@ public class MapsActivityTest {
     }
 
     private void testFragmentOpensAndCloses(int button, int view) {
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         onView(withId(view)).check(doesNotExist());
         testButtonWorks(button, view);
         onView(withId(button)).perform(click());
@@ -165,6 +176,7 @@ public class MapsActivityTest {
 
     @Test
     public void areaShrinkerWorks() throws InterruptedException {
+        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
         GeoPoint center = new GeoPoint(40, 50);
         CircleArea gameArea = new CircleArea(1000, center);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
