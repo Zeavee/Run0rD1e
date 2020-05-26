@@ -90,7 +90,7 @@ public class GameThread extends Thread {
         frameCount++;
 
         if (frameCount == FPS) {
-            double avgFPS = 10000.0 / ((1.0 * totalTime / frameCount) / 1000000.0);
+            double avgFPS = 1000.0 / ((1.0 * totalTime / frameCount) / 1000000.0);
 
             // Reset values
             frameCount = 0;

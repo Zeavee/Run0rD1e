@@ -54,8 +54,8 @@ import static org.hamcrest.Matchers.containsString;
 @RunWith(AndroidJUnit4.class)
 public class MapsActivityTest {
     private static final int PERMISSIONS_DIALOG_DELAY = 3000;
-    private static final int GRANT_BUTTON_INDEX = 0;
-    private static final int DENY_BUTTON_INDEX = 1;
+    public static final int GRANT_BUTTON_INDEX = 0;
+    public static final int DENY_BUTTON_INDEX = 1;
 
     HashMap<String, UserForFirebase> map = new HashMap<>();
 
@@ -119,7 +119,7 @@ public class MapsActivityTest {
                 @Override
                 protected Intent getActivityIntent() {
                     Intent intent = new Intent();
-                    intent.putExtra("playMode", "single-player");
+                    intent.putExtra("playMode", "multi-player");
                     return intent;
                 }
             };
