@@ -65,9 +65,10 @@ public class Player extends AoeRadiusEntity {
             healthPoints = amount;
         } else {
             healthPoints = 0;
-            if(PlayerManager.getInstance().getCurrentUser().email.equals(getEmail())) {
-                gotoGameOver();
-            }
+        }
+
+        if(PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
+            gotoGameOver();
         }
 
         // only the server need to upload the healthPoint for all the players

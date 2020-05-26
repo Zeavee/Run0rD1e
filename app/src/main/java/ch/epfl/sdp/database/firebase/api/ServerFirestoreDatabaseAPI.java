@@ -79,24 +79,21 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        WriteBatch batch = firebaseFirestore.batch();
-
-        for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
-            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
-        }
-
-        batch.commit();
+        sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
     }
 
 
     @Override
     public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
+        sendPlayersProperty(playerForFirebaseList, "aoeRadius", p -> p.getAoeRadius());
+    }
+
+    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
             DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, "aoeRadius", playerForFirebase.getAoeRadius());
+            batch.update(docRef, field, property.methodFromT(playerForFirebase));
         }
 
         batch.commit();
