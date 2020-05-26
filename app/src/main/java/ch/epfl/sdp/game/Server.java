@@ -77,8 +77,8 @@ public class Server implements StartGameController, Updatable {
     @Override
     public void update() {
         if (counter <= 0) {
-            // sendUserPosition();
-            sendGameArea();
+            sendUserPosition();
+            //sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
@@ -127,7 +127,7 @@ public class Server implements StartGameController, Updatable {
                     playerManager.getPlayersMap().get(userForFirebase.getEmail()).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
-                initGameArea();
+                //initGameArea();
                 initItemBoxes();
                 initEnemies();
                 initCoins();
@@ -157,7 +157,8 @@ public class Server implements StartGameController, Updatable {
 
     private void initEnemies() {
         Area area = new UnboundedArea();
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        //RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea, area);
+        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(area, area);
         randomEnemyGenerator.setEnemyCreationTime(1000);
         randomEnemyGenerator.setMaxEnemies(10);
         randomEnemyGenerator.setMinDistanceFromEnemies(100);
