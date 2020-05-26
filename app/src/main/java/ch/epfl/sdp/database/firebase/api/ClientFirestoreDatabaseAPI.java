@@ -43,7 +43,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
             else {
                 List<T> entityList = new ArrayList<>();
                 for (DocumentChange documentChange : Objects.requireNonNull(querySnapshot).getDocumentChanges()) {
-                    entityList.add((T) documentChange.getDocument());
+                    entityList.add((T) documentChange.getDocument().toObject(Object.class));
                 }
                 onValueReadyCallback.finish(new CustomResult<List<T>>(entityList, true, null));
             }
