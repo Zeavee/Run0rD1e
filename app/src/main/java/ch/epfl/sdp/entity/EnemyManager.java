@@ -1,5 +1,7 @@
 package ch.epfl.sdp.entity;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

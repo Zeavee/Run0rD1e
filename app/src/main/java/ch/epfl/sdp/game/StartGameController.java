@@ -82,8 +82,6 @@ public interface StartGameController {
         randomEnemyGenerator.setMinDistanceFromPlayers(100);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        SinusoidalMovement movement = new SinusoidalMovement(10, 0.1);
-        enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
         //  -------------------------------------------
     }

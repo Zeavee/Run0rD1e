@@ -1,5 +1,6 @@
 package ch.epfl.sdp.entity;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import ch.epfl.sdp.R;
@@ -210,7 +211,7 @@ public class Enemy extends ArtificialMovingEntity {
         double attackRange = this.getAoeRadius();
         Player target = playerDetected(attackRange);
 
-        if(target != null) {
+        if (target != null) {
             Log.d("Enemy", "Target:" + target.getEmail());
             Log.d("Enemy", "shielded:" + target.isShielded());
         }
@@ -334,20 +335,18 @@ public class Enemy extends ArtificialMovingEntity {
     @Override
     public void update() {
         super.update();
-        if(PlayerManager.getInstance().isServer()) {
+        if (PlayerManager.getInstance().isServer()) {
             behave();
         }
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
-        Log.d("Enemy", behaviour.toString());
-
         if (behaviour == Behaviour.ATTACK || behaviour == Behaviour.CHASE) {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_attack);
-        }else if (behaviour == Behaviour.PATROL) {
+        } else if (behaviour == Behaviour.PATROL) {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_patrol);
-        }else{
+        } else {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_wander);
         }
     }

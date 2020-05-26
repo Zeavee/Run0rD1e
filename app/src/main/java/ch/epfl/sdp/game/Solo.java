@@ -42,6 +42,8 @@ public class Solo implements StartGameController, Updatable {
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
             Game.getInstance().initGame();
+
+            PlayerManager.getInstance().setIsServer(true);
         }
     }
 
