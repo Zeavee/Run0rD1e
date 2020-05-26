@@ -54,7 +54,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public <T> void addCollectionListener(String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
         List<Object> entityList = new ArrayList<>();
         switch (collectionName) {
             case PlayerManager.ENEMY_COLLECTION_NAME:

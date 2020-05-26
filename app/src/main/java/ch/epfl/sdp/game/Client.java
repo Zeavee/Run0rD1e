@@ -90,7 +90,7 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addEnemyListener() {
-        clientDatabaseAPI.addCollectionListener(PlayerManager.ENEMY_COLLECTION_NAME, (CustomResult<List<EnemyForFirebase>> value) -> {
+        clientDatabaseAPI.addCollectionListener(EnemyForFirebase.class, PlayerManager.ENEMY_COLLECTION_NAME, (CustomResult<List<EnemyForFirebase>> value) -> {
             if (value.isSuccessful()) {
                 List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>(value.getResult());
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
@@ -102,7 +102,7 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addItemBoxesListener() {
-        clientDatabaseAPI.addCollectionListener(ItemBoxManager.ITEMBOX_COLLECTION_NAME, (CustomResult<List<ItemBoxForFirebase>> value) -> {
+        clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, ItemBoxManager.ITEMBOX_COLLECTION_NAME, (CustomResult<List<ItemBoxForFirebase>> value) -> {
             if (value.isSuccessful()) {
                 List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>(value.getResult());
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
@@ -131,7 +131,7 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addPlayersListener() {
-            clientDatabaseAPI.addCollectionListener(PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
+            clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());

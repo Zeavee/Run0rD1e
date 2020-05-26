@@ -19,7 +19,7 @@ public interface ClientDatabaseAPI {
      */
     void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback);
 
-    <T> void addCollectionListener(String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback);
+    <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback);
 
     void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback);
 
