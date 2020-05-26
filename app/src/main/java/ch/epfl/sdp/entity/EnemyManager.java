@@ -70,7 +70,7 @@ public class EnemyManager {
     /**
      * This method removes all the enemies of the list
      */
-    public void removeAll() {
+    public void clear() {
         enemies.clear();
     }
 

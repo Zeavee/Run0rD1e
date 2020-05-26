@@ -46,9 +46,9 @@ public class RandomEnemyGenerator extends EnemyGenerator {
 
         Enemy enemy = new Enemy(localArea, enclosure);
         SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setVelocity(200);
+        movement.setVelocity(10);
         movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
+        movement.setAmplitude(1);
         movement.setAngle(1);
         enemy.setMovement(movement);
         enemy.setLocation(enemyLocation);

@@ -12,7 +12,7 @@ public class EnemyForFirebaseTest {
     @Test
     public void enemyForFirebaseTest() {
         EnemyForFirebase enemyForFirebase1 = new EnemyForFirebase();
-        EnemyForFirebase enemyForFirebase2 = new EnemyForFirebase(0, Behaviour.WAIT,new GeoPointForFirebase(22,22));
+        EnemyForFirebase enemyForFirebase2 = new EnemyForFirebase(0, Behaviour.WAIT,new GeoPointForFirebase(22,22), 0);
 
         enemyForFirebase1.setId(1);
         enemyForFirebase1.setLocation(new GeoPointForFirebase(33,33));

@@ -24,10 +24,11 @@ public class EnemyForFirebase {
      * @param id       The id of the enemyForFirebase
      * @param location The location of the enemyForFirebase
      */
-    public EnemyForFirebase(int id, Behaviour behaviour,GeoPointForFirebase location) {
+    public EnemyForFirebase(int id, Behaviour behaviour,GeoPointForFirebase location, double orientation) {
         this.id = id;
         this.location = location;
         this.behaviour = behaviour;
+        this.orientation = orientation;
     }
 
     /**

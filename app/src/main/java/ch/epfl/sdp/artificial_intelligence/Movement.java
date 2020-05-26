@@ -15,7 +15,7 @@ public abstract class Movement {
      * Creates a movement which begins in a given initial position in the 2D plane.
      */
     public Movement() {
-        velocity = 1;
+        velocity = 0;
         acceleration = 0;
         orientation = 0;
     }

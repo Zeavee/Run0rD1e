@@ -54,4 +54,6 @@ public interface ServerDatabaseAPI {
     void sendGameArea(Area gameArea);
 
     void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
+
+    void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList);
 }

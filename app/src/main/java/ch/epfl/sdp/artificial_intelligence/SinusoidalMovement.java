@@ -1,5 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
+import android.util.Log;
+
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 
@@ -80,11 +82,15 @@ public class SinusoidalMovement extends Movement {
 
     @Override
     public GeoPoint nextPosition(GeoPoint from) {
+        if(getVelocity() == 0){
+            return from;
+        }
+
         Vector dirVector = Vector.fromPolar(getVelocity(), getOrientation());
         Vector sineVector = dirVector.perpendicular().normalize().multiplyByScalar(amplitude * sin(angle));
 
         angle += angleStep;
-
+        Log.d("Enemy", String.format("dir: %f %f  sine: %f %f angle: %f velocity: %f, orientation: %f", dirVector.x(), dirVector.y(), sineVector.x(), sineVector.y(), angle, getVelocity(), getOrientation()));
         return from.asOriginTo(dirVector.add(sineVector));
     }
 }

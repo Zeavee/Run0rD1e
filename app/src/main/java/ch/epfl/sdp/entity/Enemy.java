@@ -54,8 +54,8 @@ public class Enemy extends ArtificialMovingEntity {
      * Creates a default enemy
      */
     public Enemy() {
-        super.setAoeRadius(1);
-        super.getMovement().setVelocity(50);
+        super.setAoeRadius(100);
+        //super.getMovement().setVelocity(50);
         super.setMoving(true);
         super.setLocalArea(new UnboundedArea());
         this.damage = 1;
@@ -99,7 +99,7 @@ public class Enemy extends ArtificialMovingEntity {
      */
     public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, Area patrolBounds, Area maxBounds) {
         super();
-        super.getMovement().setVelocity(25);
+        //super.getMovement().setVelocity(50);
         super.setMoving(true);
         super.setLocalArea(maxBounds);
         this.id = id;
@@ -341,11 +341,15 @@ public class Enemy extends ArtificialMovingEntity {
     @Override
     public void update() {
         super.update();
-        behave();
+        if(PlayerManager.getInstance().isServer()) {
+            behave();
+        }
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
+        Log.d("Enemy", behaviour.toString());
+
         if (behaviour == Behaviour.ATTACK || behaviour == Behaviour.CHASE) {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_attack);
         }else if (behaviour == Behaviour.PATROL) {

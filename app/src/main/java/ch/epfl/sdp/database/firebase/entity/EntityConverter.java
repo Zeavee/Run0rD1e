@@ -70,7 +70,7 @@ public class EntityConverter {
     public static List<EnemyForFirebase> convertEnemyList(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
         for (Enemy enemy : enemies) {
-            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getBehaviour(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation())));
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getBehaviour(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation()),enemy.getMovement().getOrientation()));
         }
 
         return enemyForFirebases;
@@ -86,9 +86,9 @@ public class EntityConverter {
             if (!EnemyManager.getInstance().enemyExists(enemy)) {
                 // TODO: To be done in a more consistent and elegant way ---------
                 SinusoidalMovement movement = new SinusoidalMovement();
-                movement.setVelocity(200);
+                movement.setVelocity(10);
                 movement.setAngleStep(0.1);
-                movement.setAmplitude(10);
+                movement.setAmplitude(1);
                 movement.setAngle(1);
                 enemy.setMovement(movement);
                 // ---------------------------------------------------------------

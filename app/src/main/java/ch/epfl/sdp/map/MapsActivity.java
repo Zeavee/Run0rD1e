@@ -50,6 +50,7 @@ import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private String playMode = "";

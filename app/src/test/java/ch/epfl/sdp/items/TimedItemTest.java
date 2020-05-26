@@ -4,7 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.JunkCleaner;
+import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -114,7 +114,6 @@ public class TimedItemTest {
         int removeAoeRadius = 1;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
         shrinker.useOn(user);
-        assertTrue(user.get)
 
         while (shrinker.getRemainingTime() > 0){
             assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);

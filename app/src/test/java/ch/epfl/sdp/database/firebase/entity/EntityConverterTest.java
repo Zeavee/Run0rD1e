@@ -55,7 +55,7 @@ public class EntityConverterTest {
     @Test
     public void convertEnemyForFirebaseListTest() {
         List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
-        enemyForFirebasesList.add(new EnemyForFirebase(1, Behaviour.WAIT, new GeoPointForFirebase(33,33)));
+        enemyForFirebasesList.add(new EnemyForFirebase(1, Behaviour.WAIT, new GeoPointForFirebase(33,33),0));
 
         List<Enemy> enemyList = EntityConverter.convertEnemyForFirebaseList(enemyForFirebasesList);
         assertEquals(1, enemyList.size());

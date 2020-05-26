@@ -165,10 +165,6 @@ public class Server implements StartGameController, Updatable {
         randomEnemyGenerator.setMinDistanceFromPlayers(100);
         randomEnemyGenerator.generateEnemy(100);
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        SinusoidalMovement movement = new SinusoidalMovement();
-        movement.setAngleStep(0.1);
-        movement.setAmplitude(10);
-        enemy.setMovement(movement);
         enemyManager.updateEnemies(enemy);
     }
 

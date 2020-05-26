@@ -89,6 +89,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         batch.commit();
     }
 
+
     @Override
     public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
         WriteBatch batch = firebaseFirestore.batch();
