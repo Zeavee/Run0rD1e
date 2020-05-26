@@ -25,17 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
-        findViewById(R.id.mapButton).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            intent.putExtra("playMode", "multi-player");
-            startActivity(intent);
-        });
+        findViewById(R.id.mapButton).setOnClickListener(v -> startWithStringExtra("playMode", "multi-player"));
 
-        findViewById(R.id.solo).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            intent.putExtra("playMode", "single-player");
-            startActivity(intent);
-        });
+        findViewById(R.id.solo).setOnClickListener(v -> startWithStringExtra("playMode", "single-player"));
 
         findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GeneralLeaderboardActivity.class)));
 
@@ -54,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    public void backBtn_OnClick(View view) {
-        logout();
+    private void startWithStringExtra(String extra, String value){
+        Intent intent = new Intent(MainActivity.this, MapsActivity.class);
+        intent.putExtra(extra, value);
+        startActivity(intent);
     }
 }
     

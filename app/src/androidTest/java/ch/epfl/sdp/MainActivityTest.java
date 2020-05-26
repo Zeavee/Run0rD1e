@@ -91,4 +91,10 @@ public class MainActivityTest {
         onView(withId(R.id.leaderboard)).perform(click());
         onView(withId(R.id.layout_champion)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void logoutWorks() {
+        onView(withId(R.id.logoutBt)).perform(click());
+        onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
+    }
 }
