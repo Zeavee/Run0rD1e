@@ -1,11 +1,16 @@
 package ch.epfl.sdp.database.firebase.entity;
 
+import com.google.firebase.Timestamp;
+
 import org.junit.Test;
+
+import java.util.Date;
 
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PlayerForFirebaseTest {
     @Test
@@ -28,5 +33,9 @@ public class PlayerForFirebaseTest {
         playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(33,33));
         assertEquals(33, playerForFirebase1.getGeoPointForFirebase().getLatitude(), 0.01);
         assertEquals(33, playerForFirebase1.getGeoPointForFirebase().getLongitude(), 0.01);
+
+        Timestamp timestamp = new Timestamp(new Date());
+        playerForFirebase1.setTimestamp(timestamp);
+        assertEquals(playerForFirebase1.getTimestamp(), timestamp);
     }
 }
