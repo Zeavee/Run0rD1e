@@ -78,7 +78,7 @@ public class Server implements StartGameController, Updatable {
     public void update() {
         if (counter <= 0) {
             sendUserPosition();
-            //sendGameArea();
+            sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
