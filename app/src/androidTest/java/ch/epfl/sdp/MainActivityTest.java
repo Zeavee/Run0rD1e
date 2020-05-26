@@ -33,6 +33,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static ch.epfl.sdp.map.MapsActivityTest.GRANT_BUTTON_INDEX;
 import static ch.epfl.sdp.map.MapsActivityTest.permissionsIfNeeded;
+import static ch.epfl.sdp.map.MapsActivityTest.testButtonWorks;
 
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
@@ -74,16 +75,18 @@ public class MainActivityTest {
 
     @Test
     public void mapsOpens() {
-        onView(withId(R.id.mapButton)).perform(click());
-        permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+        testButtonWorks(R.id.mapButton, R.id.map);
     }
 
     @Test
     public void soloOpens() {
-        onView(withId(R.id.solo)).perform(click());
+        testButtonWorks(R.id.solo, R.id.map);
+    }
+
+    private void testButtonWorks(int button, int view) {
+        onView(withId(button)).perform(click());
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
-        onView(withId(R.id.map)).check(matches(isDisplayed()));
+        onView(withId(view)).check(matches(isDisplayed()));
     }
 
     @Test
