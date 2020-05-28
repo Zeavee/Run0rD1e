@@ -12,10 +12,16 @@ import ch.epfl.sdp.map.MapApi;
  * In a Shelter Area, players have the ability to rest without taking any damage from the enemies
  */
 public class ShelterArea implements Displayable, Updatable {
-    private GeoPoint location;
-    private double aoeRadius;
-    private ArrayList<Player> playersInShelterArea; //Players inside the ShelterArea
+    private final GeoPoint location;
+    private final double aoeRadius;
+    private final ArrayList<Player> playersInShelterArea; //Players inside the ShelterArea
 
+    /**
+     * A constructor for the shelter area
+     *
+     * @param location  the location of the shelter area
+     * @param aoeRadius the area of effect of the shelter area
+     */
     public ShelterArea(GeoPoint location, double aoeRadius) {
         this.location = location;
         this.aoeRadius = aoeRadius;
@@ -32,6 +38,11 @@ public class ShelterArea implements Displayable, Updatable {
         mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", 100);
     }
 
+    /**
+     * This method returns the area of effect of the shelter area
+     *
+     * @return the area of effect of the shelter area
+     */
     public double getAoeRadius() {
         return aoeRadius;
     }
@@ -73,6 +84,11 @@ public class ShelterArea implements Displayable, Updatable {
         return this.playersInShelterArea.contains(p);
     }
 
+    /**
+     * This method returns the list of players that currently are in the shelter area
+     *
+     * @return the list of players that currently are in the shelter area
+     */
     public ArrayList<Player> getPlayersInShelterArea() {
         return this.playersInShelterArea;
     }

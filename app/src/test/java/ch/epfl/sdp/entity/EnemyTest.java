@@ -1,10 +1,10 @@
 package ch.epfl.sdp.entity;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import static ch.epfl.sdp.artificial_intelligence.Behaviour.PATROL;
+import ch.epfl.sdp.map.MockMap;
 
+import static ch.epfl.sdp.artificial_intelligence.Behaviour.PATROL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -51,5 +51,13 @@ public class EnemyTest {
         enemy.checkWaiting();
         assertFalse(enemy.checkWaiting() == true);
         assertTrue(enemy.checkWaiting() == false);
+    }
+
+    @Test
+    public void displayOnWorks() {
+        Enemy enemy = new Enemy();
+        MockMap mockMap = new MockMap();
+        enemy.displayOn(mockMap);
+        assertEquals(1, mockMap.getDisplayables().size());
     }
 }

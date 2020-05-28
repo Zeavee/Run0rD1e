@@ -15,14 +15,17 @@ import ch.epfl.sdp.map.Renderer;
 public class Game implements Updatable {
     private MapApi mapApi;
     private GameThread gameThread;
-    private ArrayList<Updatable> updatables;
+    private final ArrayList<Updatable> updatables;
     private Iterator<Updatable> itUpdatable; // Necessary to be able to remove element while looping
-    private ArrayList<Displayable> displayables;
+    private final ArrayList<Displayable> displayables;
     private Renderer renderer;
 
+    /**
+     * This object permits to shrink the game area.
+     */
     public AreaShrinker areaShrinker = new AreaShrinker(10000, 30000, 0.75);
 
-    private static Game instance = new Game();
+    private final static Game instance = new Game();
 
     /**
      * Gets one and only instance of the game.
@@ -93,13 +96,14 @@ public class Game implements Updatable {
         displayables.clear();
     }
 
+
+    private final ReentrantLock lock = new ReentrantLock();
+
     /**
      * Add the given updatable entity to the game.
      *
      * @param updatable The updatable to be added.
      */
-    private ReentrantLock lock = new ReentrantLock();
-
     public void addToUpdateList(Updatable updatable) {
         lock.lock();
         updatables.add(updatable);
@@ -200,7 +204,7 @@ public class Game implements Updatable {
      */
     public void destroyGame() {
         // This line is needed, don't delete it, or else infinite while loop.
-        if(gameThread.getState() == Thread.State.NEW) {
+        if (gameThread.getState() == Thread.State.NEW) {
             return;
         }
 
@@ -233,7 +237,12 @@ public class Game implements Updatable {
         renderer.display(displayables);
     }
 
-    public boolean getGameThreadExceptionFlag(){
+    /**
+     * Returns the exception flag of the game thread
+     *
+     * @return the exception flag of the game thread
+     */
+    public boolean getGameThreadExceptionFlag() {
         return gameThread.getExceptionFlag();
     }
 }

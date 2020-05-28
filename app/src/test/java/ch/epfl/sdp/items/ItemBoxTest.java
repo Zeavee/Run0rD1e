@@ -130,4 +130,17 @@ public class ItemBoxTest {
         assertEquals(2, player.getInventory().size());
     }
 
+    @Test
+    public void displayOnWorks() {
+        ItemBox itemBox = new ItemBox(location);
+        itemBox.displayOn(mockMap);
+        assertEquals(1, mockMap.getDisplayables().size());
+        itemBox.displayOn(mockMap);
+        mockMap.getDisplayables().remove(itemBox);
+        itemBox.displayOn(mockMap);
+        assertEquals(0, mockMap.getDisplayables().size());
+        itemBox.setReDisplay(true);
+        itemBox.displayOn(mockMap);
+        assertEquals(1, mockMap.getDisplayables().size());
+    }
 }

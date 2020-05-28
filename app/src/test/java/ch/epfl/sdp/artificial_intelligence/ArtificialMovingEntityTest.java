@@ -52,7 +52,7 @@ public class ArtificialMovingEntityTest {
         assertEquals(2, artificialMovingEntity.getMovement().getAcceleration(), 0.01);
         assertEquals(10.0/GameThread.FPS, artificialMovingEntity.getMovement().getVelocity(), 0.01);
         assertEquals(0.0, artificialMovingEntity.getMovement().getOrientation(), 0.01);
-        assertEquals(true, artificialMovingEntity.isMoving());
+        assertTrue(artificialMovingEntity.isMoving());
 
         artificialMovingEntity.update();
 
@@ -92,7 +92,7 @@ public class ArtificialMovingEntityTest {
         ame.setLocalArea(area);
         ame.setLocation(location);
         assertEquals(area, ame.getLocalArea());
-        assertEquals(true, area.isInside(ame.getLocation()));
+        assertTrue(area.isInside(ame.getLocation()));
     }
 
     @Test

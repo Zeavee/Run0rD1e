@@ -1,5 +1,6 @@
 package ch.epfl.sdp.entity;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import ch.epfl.sdp.R;
@@ -30,12 +31,12 @@ public class Enemy extends ArtificialMovingEntity {
     /**
      * The enemy's attack strength
      */
-    private int damage;
+    private final int damage;
     /**
      * The rate of damage per second
      */
-    private float damageRate;
-    private double detectionDistance;
+    private final float damageRate;
+    private final double detectionDistance;
     /**
      * The number of frames before the next attack.
      */
@@ -44,7 +45,6 @@ public class Enemy extends ArtificialMovingEntity {
      * The number of frames before enemy is in the patrol state.
      */
     private int wanderingTimeDelay;
-    private Area patrolBounds;
     /**
      * The flag to decide to go in wait state.
      */
@@ -64,40 +64,38 @@ public class Enemy extends ArtificialMovingEntity {
         behaviour = Behaviour.PATROL;
         attackTimeDelay = 30; // Needs calibration
         wanderingTimeDelay = GameThread.FPS;
-        this.patrolBounds = new UnboundedArea();
         this.waiting = false;
     }
 
     /**
      * Creates an enemy that is bounded in an area.
-     * @param id           The enemy's id.
-     * @param patrolBounds The enemy's patrol area.
-     * @param maxBounds    The enemy's maximum visitable area.
+     *
+     * @param id        The enemy's id.
+     * @param maxBounds The enemy's maximum visitable area.
      */
-    public Enemy(int id, Area patrolBounds, Area maxBounds) {
-        this(id, 10, 1, 1000, 50, patrolBounds, maxBounds);
+    public Enemy(int id, Area maxBounds) {
+        this(id, 10, 1, 1000, 50, maxBounds);
     }
 
     /**
-     * @param patrolBounds The enemy's patrol area.
-     * @param maxBounds    The enemy's maximum visitable area.
+     * @param maxBounds The enemy's maximum visitable area.
      */
-    public Enemy(Area patrolBounds, Area maxBounds) {
+    public Enemy(Area maxBounds) {
 
-        this(0, 10, 1, 1000, 50, patrolBounds, maxBounds);
+        this(0, 10, 1, 1000, 50, maxBounds);
     }
 
     /**
      * Creates an enemy.
-     *  @param id                The enemy's id.
+     *
+     * @param id                The enemy's id.
      * @param damage            The enemy's attack's strength.
      * @param damageRate        The enemy's damage rate per second.
      * @param detectionDistance The enemy's detection range for chasing player when in patrol state.
      * @param aoeRadius         The enemy's attack range when in chase state or attack state.
-     * @param patrolBounds      The enemy's patrol area.
      * @param maxBounds         The enemy's maximum visitable area.
      */
-    public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, Area patrolBounds, Area maxBounds) {
+    public Enemy(int id, int damage, float damageRate, float detectionDistance, double aoeRadius, Area maxBounds) {
         super();
         //super.getMovement().setVelocity(50);
         super.setMoving(true);
@@ -109,7 +107,6 @@ public class Enemy extends ArtificialMovingEntity {
         behaviour = Behaviour.WAIT;
         attackTimeDelay = GameThread.FPS; // Needs calibration
         wanderingTimeDelay = GameThread.FPS;
-        this.patrolBounds = patrolBounds;
         this.waiting = false;
         if (aoeRadius < detectionDistance) {
             this.setAoeRadius(aoeRadius);
@@ -128,7 +125,7 @@ public class Enemy extends ArtificialMovingEntity {
     /**
      * Set the unique id of the enemy
      *
-     * @param id
+     * @param id the unique id of the enemy
      */
     public void setId(int id) {
         this.id = id;
@@ -214,7 +211,7 @@ public class Enemy extends ArtificialMovingEntity {
         double attackRange = this.getAoeRadius();
         Player target = playerDetected(attackRange);
 
-        if(target != null) {
+        if (target != null) {
             Log.d("Enemy", "Target:" + target.getEmail());
             Log.d("Enemy", "shielded:" + target.isShielded());
         }
@@ -262,7 +259,6 @@ public class Enemy extends ArtificialMovingEntity {
                 behaviour = Behaviour.ATTACK;
             }
         } else {
-            super.setLocalArea(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
         }
@@ -276,8 +272,7 @@ public class Enemy extends ArtificialMovingEntity {
      * Can also go to the wait state if the flag is enabled.
      */
     private void patrol() {
-        if (!patrolBounds.isInside(super.getLocation())) {
-            orientToTarget(patrolBounds);
+        if (!getLocalArea().isInside(super.getLocation())) {
             setForceMove(true);
         } else {
             setForceMove(false);
@@ -298,9 +293,9 @@ public class Enemy extends ArtificialMovingEntity {
      * @param positionable A Positionable representing a target position.
      */
     private void orientToTarget(Positionable positionable) {
-        Vector vectPos = this.getLocation().toVector();
+        Vector vecPos = this.getLocation().toVector();
         Vector targetPos = positionable.getLocation().toVector();
-        getMovement().setOrientation(vectPos.subtract(targetPos).direction());
+        getMovement().setOrientation(vecPos.subtract(targetPos).direction());
     }
 
     /**
@@ -325,7 +320,6 @@ public class Enemy extends ArtificialMovingEntity {
      */
     private void wander() {
         if (wanderingTimeDelay <= 0) {
-            super.setLocalArea(patrolBounds);
             setForceMove(true);
             behaviour = Behaviour.PATROL;
             wanderingTimeDelay = GameThread.FPS;
@@ -341,20 +335,18 @@ public class Enemy extends ArtificialMovingEntity {
     @Override
     public void update() {
         super.update();
-        if(PlayerManager.getInstance().isServer()) {
+        if (PlayerManager.getInstance().isServer()) {
             behave();
         }
     }
 
     @Override
     public void displayOn(MapApi mapApi) {
-        Log.d("Enemy", behaviour.toString());
-
         if (behaviour == Behaviour.ATTACK || behaviour == Behaviour.CHASE) {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_attack);
-        }else if (behaviour == Behaviour.PATROL) {
+        } else if (behaviour == Behaviour.PATROL) {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_patrol);
-        }else{
+        } else {
             mapApi.displaySmallIcon(this, "Enemy", R.drawable.enemy1_wander);
         }
     }

@@ -15,8 +15,8 @@ import ch.epfl.sdp.geometry.GeoPoint;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
 
-    public RandomEnemyGenerator(Area localArea, Area enclosure) {
-        super(localArea, enclosure);
+    public RandomEnemyGenerator(Area enclosure) {
+        super(enclosure);
         enemies = new ArrayList<>();
         timer = new Timer();
         readyToCreate = true;
@@ -44,7 +44,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
             return;
         }
 
-        Enemy enemy = new Enemy(localArea, enclosure);
+        Enemy enemy = new Enemy(enclosure);
         SinusoidalMovement movement = new SinusoidalMovement();
         movement.setVelocity(10);
         movement.setAngleStep(0.1);
@@ -83,7 +83,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         GeoPoint enemyPos;
         int maxIter = 500;
         do {
-            enemyPos = localArea.randomLocation();
+            enemyPos = enclosure.randomLocation();
             --maxIter;
         } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
                 || checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));

@@ -90,7 +90,6 @@ public class SinusoidalMovement extends Movement {
         Vector sineVector = dirVector.perpendicular().normalize().multiplyByScalar(amplitude * sin(angle));
 
         angle += angleStep;
-        Log.d("Enemy", String.format("dir: %f %f  sine: %f %f angle: %f velocity: %f, orientation: %f", dirVector.x(), dirVector.y(), sineVector.x(), sineVector.y(), angle, getVelocity(), getOrientation()));
         return from.asOriginTo(dirVector.add(sineVector));
     }
 }

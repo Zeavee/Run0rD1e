@@ -41,7 +41,7 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void selectLobby(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        PlayerManager.getInstance().setNumPlayersBeforeJoin(0);
+        PlayerManager.getInstance().setNumPlayersInLobby(0);
         PlayerManager.getInstance().setIsServer(true);
         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
     }

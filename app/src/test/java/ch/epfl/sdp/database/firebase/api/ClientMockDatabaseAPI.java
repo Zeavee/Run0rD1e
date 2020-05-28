@@ -12,6 +12,8 @@ import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
@@ -52,16 +54,20 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     }
 
     @Override
-    public void addCollectionListener(Object entityType, OnValueReadyCallback<CustomResult<List<Object>>> onValueReadyCallback) {
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
         List<Object> entityList = new ArrayList<>();
-        if (EnemyForFirebase.class.equals(entityType)) {
-            entityList.addAll(enemyForFirebasesList);
-        } else if (PlayerForFirebase.class.equals(entityType)) {
-            entityList.addAll(playerForFirebaseMap.values());
-        } else if (ItemBoxForFirebase.class.equals(entityType)) {
-            entityList.addAll(itemBoxForFirebaseList);
+        switch (collectionName) {
+            case PlayerManager.ENEMY_COLLECTION_NAME:
+                entityList.addAll(enemyForFirebasesList);
+                break;
+            case PlayerManager.PLAYER_COLLECTION_NAME:
+                entityList.addAll(playerForFirebaseMap.values());
+                break;
+            case ItemBoxManager.ITEMBOX_COLLECTION_NAME:
+                entityList.addAll(itemBoxForFirebaseList);
+                break;
         }
-        onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
+        onValueReadyCallback.finish(new CustomResult<>((List<T>) entityList, true, null));
     }
 
     @Override

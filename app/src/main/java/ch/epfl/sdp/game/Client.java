@@ -13,6 +13,7 @@ import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -31,11 +32,11 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class Client implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
-    private ClientDatabaseAPI clientDatabaseAPI;
-    private CommonDatabaseAPI commonDatabaseAPI;
-    private PlayerManager playerManager = PlayerManager.getInstance();
-    private EnemyManager enemyManager = EnemyManager.getInstance();
-    private ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
+    private final ClientDatabaseAPI clientDatabaseAPI;
+    private final CommonDatabaseAPI commonDatabaseAPI;
+    private final PlayerManager playerManager = PlayerManager.getInstance();
+    private final EnemyManager enemyManager = EnemyManager.getInstance();
+    private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private Area area = new UnboundedArea();
     private boolean gameStarted;
 
@@ -50,23 +51,19 @@ public class Client implements StartGameController, Updatable {
 
     @Override
     public void start() {
-        if(!gameStarted) {
+        if (!gameStarted) {
             gameStarted = true;
 
             clientDatabaseAPI.listenToGameStart(start -> {
                 if (start.isSuccessful()) {
                     commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
                         if (value1.isSuccessful()) {
-                            for (PlayerForFirebase playerForFirebase : value1.getResult()) {
-                                Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
-                                if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
-                                    playerManager.addPlayer(player);
-                                }
-                                Log.d(TAG, "Getting Player: " + player);
-                            }
+                            StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
-                        } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage()); });
+                        } else
+                            Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
+                    });
                 }
             });
 
@@ -93,12 +90,9 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addEnemyListener() {
-        clientDatabaseAPI.addCollectionListener(EnemyForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(EnemyForFirebase.class, PlayerManager.ENEMY_COLLECTION_NAME, (CustomResult<List<EnemyForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) {
-                    enemyForFirebaseList.add((EnemyForFirebase) object);
-                }
+                List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>(value.getResult());
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
                     Log.d(TAG, "addEnemyListener: " + enemy.getLocation().getLatitude() + enemy.getLocation().getLongitude());
@@ -108,12 +102,9 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addItemBoxesListener() {
-        clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, value -> {
+        clientDatabaseAPI.addCollectionListener(ItemBoxForFirebase.class, ItemBoxManager.ITEMBOX_COLLECTION_NAME, (CustomResult<List<ItemBoxForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-                for (Object object : value.getResult()) {
-                    itemBoxForFirebaseList.add((ItemBoxForFirebase) object);
-                }
+                List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>(value.getResult());
                 for (ItemBoxForFirebase itemBoxForFirebase : itemBoxForFirebaseList) {
                     String id = itemBoxForFirebase.getId();
                     boolean taken = itemBoxForFirebase.isTaken();
@@ -131,7 +122,7 @@ public class Client implements StartGameController, Updatable {
                             itemBoxManager.addItemBoxWithId(itemBox, id);
                         }
                     }
-                    Log.d(TAG, "Listen for itemboxes: " + value.getResult());
+                    Log.d(TAG, "Listen for itemBoxes: " + value.getResult());
                 }
             } else {
                 Log.w(TAG, "Listen for itemBoxes failed.", value.getException());
@@ -140,10 +131,9 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addPlayersListener() {
-        clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, value -> {
+            clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
             if (value.isSuccessful()) {
-                for (Object object : value.getResult()) {
-                    PlayerForFirebase playerForFirebase = (PlayerForFirebase) object;
+                for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
                     if (player != null) {
                         player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
