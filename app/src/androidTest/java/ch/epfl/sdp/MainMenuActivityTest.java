@@ -32,10 +32,10 @@ import static ch.epfl.sdp.map.MapsActivityTest.GRANT_BUTTON_INDEX;
 import static ch.epfl.sdp.map.MapsActivityTest.permissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainMenuActivityTest {
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class) {
+    public final ActivityTestRule<MainMenuActivity> mActivityRule =
+            new ActivityTestRule<MainMenuActivity>(MainMenuActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     String currentEmail = "test@gmail.com";

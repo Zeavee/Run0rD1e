@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -50,7 +51,6 @@ import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
-import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private String playMode = "";
@@ -63,17 +63,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private StartGameController startGameController;
     private LocationFinder locationFinder;
 
-    private static InventoryFragment inventoryFragment = new InventoryFragment();
-    private static WeatherFragment weatherFragment = new WeatherFragment();
-    private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
+    private final static InventoryFragment inventoryFragment = new InventoryFragment();
+    private final WeatherFragment weatherFragment = new WeatherFragment();
+    private final static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
     public boolean flagGameOver = false;
 
-    private PlayerManager playerManager = PlayerManager.getInstance();
+    private final PlayerManager playerManager = PlayerManager.getInstance();
 
-    private TextView username, healthPointText, timerShrinking;
+    private TextView username;
+    private TextView healthPointText;
     private ProgressBar healthPointProgressBar;
 
 
@@ -126,15 +127,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(MapsActivity.this);
         showGameInfoThread().start();
 
-        timerShrinking = findViewById(R.id.timerShrinking);
+        TextView timerShrinking = findViewById(R.id.timerShrinking);
         Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
         for (int res : grantResults) {
             if (res != PackageManager.PERMISSION_GRANTED) {
                 return;
@@ -146,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     /**
      * on Travis the map will not appear since it is not connected via API Key
      *
-     * @param googleMap
+     * @param googleMap the instance of the Google Map
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -258,7 +260,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Thread showGameInfoThread() {
-        Thread thread = new Thread() {
+        return new Thread() {
             @Override
             public void run() {
                 try {
@@ -267,16 +269,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(() -> {
                             if (playerManager.getCurrentUser() != null) {
                                 healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
+                                String newText = playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax();
+                                healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
                             }
                         });
                     }
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         };
-        return thread;
     }
 
     @Override

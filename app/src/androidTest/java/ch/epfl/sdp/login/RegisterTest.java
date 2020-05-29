@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
@@ -156,7 +156,7 @@ public class RegisterTest {
         String newEmail = "Email@a";
         MissingFieldTestFactory.testFieldFourActions(new Pair(typeText(newUsername), R.id.username), new Pair(typeText(newEmail), R.id.email), new Pair(typeText(password), R.id.password), new Pair(typeText(password), R.id.passwordconf));
         closeSoftKeyboard();
-        intending(toPackage(MainActivity.class.getName())).respondWith(result);
+        intending(toPackage(MainMenuActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
     }

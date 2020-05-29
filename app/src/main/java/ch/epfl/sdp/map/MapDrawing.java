@@ -11,9 +11,9 @@ public class MapDrawing {
     private Polygon polygon;
     private Marker marker;
     private Circle area;
-    private boolean hasPolygon;
-    private boolean hasMarker;
-    private boolean hasCircle;
+    private final boolean hasPolygon;
+    private final boolean hasMarker;
+    private final boolean hasCircle;
 
     /**
      * The constructor for our drawing composed of a marker (icon) and a circle (aoeRadius)

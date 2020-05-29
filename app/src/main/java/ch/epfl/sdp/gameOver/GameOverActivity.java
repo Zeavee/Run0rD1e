@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.utils.JunkCleaner;
 
@@ -23,7 +23,7 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     private void goToMainMenu() {
-        Intent i = new Intent(GameOverActivity.this, MainActivity.class);
+        Intent i = new Intent(GameOverActivity.this, MainMenuActivity.class);
         startActivity(i);
         finish();
     }
