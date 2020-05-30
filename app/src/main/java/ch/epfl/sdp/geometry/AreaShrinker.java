@@ -20,9 +20,9 @@ public class AreaShrinker {
     private TextView timer;
     private Activity context;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private long timeBeforeShrinking;
-    private long shrinkingDuration;
-    private double shrinkFactor;
+    private final long timeBeforeShrinking;
+    private final long shrinkingDuration;
+    private final double shrinkFactor;
     private final long tick = 500;
 
     public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {

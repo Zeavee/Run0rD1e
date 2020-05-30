@@ -6,13 +6,12 @@ import java.util.Timer;
 
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.GeoPoint;
 
 public abstract class EnemyGenerator {
     protected double minDistanceFromEnemies;
     protected long timeToCreate;
     protected double minDistanceFromPlayers;
-    protected Area enclosure;
+    protected final Area enclosure;
     protected List<Enemy> enemies;
     protected Timer timer;
     protected int maxEnemies;
@@ -28,15 +27,13 @@ public abstract class EnemyGenerator {
 
     public abstract void setEnemyCreationTime(long time);
 
-    public abstract void generateEnemy(double radius);
+    public abstract void generateEnemy();
 
     public abstract void setMinDistanceFromEnemies(double minDistanceFromEnemies);
 
-    abstract GeoPoint rule();
-
     public List<Enemy> getEnemies() {
         List<Enemy> clone = new ArrayList<>(enemies.size());
-        for (Enemy item : enemies) clone.add(item);
+        clone.addAll(enemies);
         return clone;
     }
 

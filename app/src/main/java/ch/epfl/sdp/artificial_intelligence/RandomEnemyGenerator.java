@@ -2,7 +2,6 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,7 +34,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     }
 
     @Override
-    public void generateEnemy(double radius) {
+    public void generateEnemy() {
         if (maxEnemies <= enemies.size() || !readyToCreate) {
             return;
         }
@@ -76,16 +75,13 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         this.minDistanceFromEnemies = minDistanceFromEnemies;
     }
 
-
-    @Override
-    GeoPoint rule() {
-        Random rd = new Random();
+    private GeoPoint rule() {
         GeoPoint enemyPos;
-        int maxIter = 500;
+        int maxIteration = 500;
         do {
             enemyPos = enclosure.randomLocation();
-            --maxIter;
-        } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
+            --maxIteration;
+        } while (maxIteration > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
                 || checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));
         return enemyPos;
     }

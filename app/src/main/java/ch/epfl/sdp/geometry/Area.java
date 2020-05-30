@@ -19,7 +19,6 @@ public abstract class Area implements Positionable, Displayable, Updatable {
     double finalTime;
     boolean isShrinking;
 
-    private int DAMAGE = 10;
     private int damageDelay = GameThread.FPS;
 
     /**
@@ -140,7 +139,8 @@ public abstract class Area implements Positionable, Displayable, Updatable {
         damageDelay = GameThread.FPS;
         for (Player player : PlayerManager.getInstance().getPlayers()) {
             if (!isInside(player.getLocation())) {
-                player.setHealthPoints(player.getHealthPoints() - DAMAGE);
+                int damage = 10;
+                player.setHealthPoints(player.getHealthPoints() - damage);
             }
         }
     }

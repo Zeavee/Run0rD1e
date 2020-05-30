@@ -21,7 +21,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * When the forceMove is true the entity is allowed to go move outside the area.
      */
     private boolean forceMove = false;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     /**
      * Creates a default moving artificial entity, without a bounded area and with a linear

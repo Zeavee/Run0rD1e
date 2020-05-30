@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.entity.Enemy;
@@ -80,7 +79,7 @@ public interface StartGameController {
         randomEnemyGenerator.setMaxEnemies(10);
         randomEnemyGenerator.setMinDistanceFromEnemies(100);
         randomEnemyGenerator.setMinDistanceFromPlayers(100);
-        randomEnemyGenerator.generateEnemy(100);
+        randomEnemyGenerator.generateEnemy();
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
         enemyManager.updateEnemies(enemy);
         //  -------------------------------------------
