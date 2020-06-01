@@ -31,10 +31,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ClientTest {
-    ClientMockDatabaseAPI clientMockDatabaseAPI;
-    CommonMockDatabaseAPI commonMockDatabaseAPI;
+    private ClientMockDatabaseAPI clientMockDatabaseAPI;
+    private CommonMockDatabaseAPI commonMockDatabaseAPI;
 
-    GeoPoint center;
+    private GeoPoint center;
 
     @After
     public void teardown() {
@@ -80,11 +80,11 @@ public class ClientTest {
 
         Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
         Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
-        List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
+        List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>();
         List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
         ItemsForFirebase userItems;
 
-        /**
+        /*
          * populate All Users
          */
         UserForFirebase userForFirebase0 = new UserForFirebase("server@gmail.com", "server", 0);
@@ -95,7 +95,7 @@ public class ClientTest {
         userForFirebaseMap.put(userForFirebase2.getEmail(), userForFirebase2);
 
 
-        /**
+        /*
          * polulate the players in lobby
          */
         PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
@@ -117,13 +117,13 @@ public class ClientTest {
         playerForFirebaseMap.put(playerForFirebase0.getEmail(), playerForFirebase0);
         playerForFirebaseMap.put(playerForFirebase1.getEmail(), playerForFirebase1);
 
-        /**
+        /*
          *  Populate the enemy in lobby
          */
         EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22),0);
-        enemyForFirebasesList.add(enemyForFirebase);
+        enemyForFirebaseList.add(enemyForFirebase);
 
-        /**
+        /*
          *  Populate the itemBox in lobby
          */
         ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22,22), false);
@@ -132,7 +132,7 @@ public class ClientTest {
         itemBoxForFirebaseList.add(itemBoxForFirebase0);
         itemBoxForFirebaseList.add(itemBoxForFirebase1);
 
-        /**
+        /*
          * Populate the Items of Current User
          */
         Map<String, Integer> itemsMap = new HashMap<>();
@@ -144,7 +144,7 @@ public class ClientTest {
 
         clientMockDatabaseAPI = new ClientMockDatabaseAPI();
         commonMockDatabaseAPI = new CommonMockDatabaseAPI();
-        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebasesList, itemBoxForFirebaseList, userItems, circleArea.toString());
+        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, userItems, circleArea.toString());
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

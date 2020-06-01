@@ -1,12 +1,12 @@
-package ch.epfl.sdp.MarketEspresso;
+package ch.epfl.sdp.market_espresso;
 
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.market.Market;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.utils.MockMap;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -55,8 +55,8 @@ public class NewMarketActivityTest {
             amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);
-            MockMapApi mockMapApi = new MockMapApi();
-            Game.getInstance().setMapApi(mockMapApi);
+            MockMap mockMap = new MockMap();
+            Game.getInstance().setMapApi(mockMap);
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
         }

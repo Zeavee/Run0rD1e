@@ -32,14 +32,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class LoginTest {
     private String email;
     private String password;
-    private HashMap<String, String> registeredUsers;
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
             new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    registeredUsers = new HashMap<>();
+                    HashMap<String, String> registeredUsers = new HashMap<>();
                     registeredUsers.put("amro.abdrabo@gmail.com", "password");
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);

@@ -26,9 +26,9 @@ import java.util.List;
 import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
+import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -41,6 +41,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -103,34 +104,37 @@ public class RegisterTest {
     public void writingUsername_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.username)).perform(typeText("Username"));
+        onView(withId(R.id.username)).check(matches(withText("Username")));
     }
 
     @Test
     public void writingEmail_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.email)).perform(typeText("Email"));
+        onView(withId(R.id.email)).check(matches(withText("Email")));
     }
 
     @Test
     public void writingPassword_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.password)).perform(typeText("password"));
+        onView(withId(R.id.password)).check(matches(withText("password")));
     }
 
     @Test
     public void writingPasswordConfiguration_ShouldBeDisplayed() {
         closeSoftKeyboard();
         onView(withId(R.id.passwordconf)).perform(typeText("password"));
+        onView(withId(R.id.passwordconf)).check(matches(withText("password")));
     }
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields() {
-        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
-            MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i * 4), testCasesInt.get(i * 4)),
-                    new Pair(testCases.get(i * 4 + 1), testCasesInt.get(i * 4 + 1)),
-                    new Pair(testCases.get(i * 4 + 2), testCasesInt.get(i * 4 + 2)),
-                    new Pair(testCases.get(i * 4 + 3), testCasesInt.get(i * 4 + 3)));
+            MissingFieldTestFactory.testFieldFourActions(new Pair<>(testCases.get(i * 4), testCasesInt.get(i * 4)),
+                    new Pair<>(testCases.get(i * 4 + 1), testCasesInt.get(i * 4 + 1)),
+                    new Pair<>(testCases.get(i * 4 + 2), testCasesInt.get(i * 4 + 2)),
+                    new Pair<>(testCases.get(i * 4 + 3), testCasesInt.get(i * 4 + 3)));
             if (i > 0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
@@ -144,7 +148,7 @@ public class RegisterTest {
     // for now
     @Test
     public void registering_ShouldFailOnPasswordSmallerThan8() {
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText("a"), R.id.username), new Pair(typeText("a@a"), R.id.email), new Pair(typeText("passwor"), R.id.password), new Pair(click(), R.id.passwordconf));
+        MissingFieldTestFactory.testFieldFourActions(new Pair<>(typeText("a"), R.id.username), new Pair<>(typeText("a@a"), R.id.email), new Pair<>(typeText("passwor"), R.id.password), new Pair<>(click(), R.id.passwordconf));
         closeSoftKeyboard();
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Password is incorrect")));
@@ -154,7 +158,7 @@ public class RegisterTest {
     public void registering_ShouldWorkOnNewCorrectInformation() {
         String newUsername = "Username";
         String newEmail = "Email@a";
-        MissingFieldTestFactory.testFieldFourActions(new Pair(typeText(newUsername), R.id.username), new Pair(typeText(newEmail), R.id.email), new Pair(typeText(password), R.id.password), new Pair(typeText(password), R.id.passwordconf));
+        MissingFieldTestFactory.testFieldFourActions(new Pair<>(typeText(newUsername), R.id.username), new Pair<>(typeText(newEmail), R.id.email), new Pair<>(typeText(password), R.id.password), new Pair<>(typeText(password), R.id.passwordconf));
         closeSoftKeyboard();
         intending(toPackage(MainMenuActivity.class.getName())).respondWith(result);
         onView(withId(R.id.registerbutton)).perform(click());
@@ -170,12 +174,11 @@ public class RegisterTest {
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
     }
 
-    /*@Test
-    public void registerWhenConnected_ShouldGoToMainScreen(){
-        //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.backBtn)).perform(click());
+    @Test
+    public void registerWhenConnected_ShouldGoToMainScreen() {
+        onView(withId(R.id.registerBackButton)).perform(click());
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
         onView(withId(R.id.createAccountBtn)).perform(click());
-    }*/
+        onView(withId(R.id.solo)).check(matches(isDisplayed()));
+    }
 }

@@ -56,7 +56,7 @@ public class MapsActivityTest {
     public static final int GRANT_BUTTON_INDEX = 0;
     public static final int DENY_BUTTON_INDEX = 1;
 
-    HashMap<String, UserForFirebase> map = new HashMap<>();
+    private final HashMap<String, UserForFirebase> map = new HashMap<>();
 
     public static void permissionsIfNeeded(String permissionNeeded, int button) {
         try {
