@@ -24,6 +24,7 @@ public class AreaShrinker {
     private long shrinkingDuration;
     private double shrinkFactor;
     private final long tick = 500;
+    private boolean isStarted;
 
     public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {
         this.timeBeforeShrinking = timeBeforeShrinking;
@@ -32,20 +33,22 @@ public class AreaShrinker {
     }
 
     private void startShrink() {
+        isStarted = true;
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runTimer(timeBeforeShrinking, () -> {
-                            time[0] += tick;
-                            context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
-                        });
+                    time[0] += tick;
+                    context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
+                });
 
                 gameArea.shrink(shrinkFactor);
                 gameArea.setFinalTime(shrinkingDuration);
                 runTimer(shrinkingDuration, () -> {
                     time[0] += tick;
                     gameArea.setTime(time[0]);
-                    context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
+                    gameArea.setRemainingTimeString(getRemainingTimeAsString());
+                    showRemainingTime(getRemainingTimeAsString());
                 });
                 gameArea.finishShrink();
             }
@@ -96,8 +99,17 @@ public class AreaShrinker {
     }
 
     private void startIfReady() {
-        if (gameArea != null && timer != null) {
+        if (gameArea != null && timer != null && ! isStarted) {
             startShrink();
         }
+    }
+
+    /**
+     * This methods shows the remaining time on the timer
+     *
+     * @param remainingTime a string that represents the remaining time
+     */
+    public void showRemainingTime(String remainingTime) {
+        context.runOnUiThread(() -> timer.setText(remainingTime));
     }
 }

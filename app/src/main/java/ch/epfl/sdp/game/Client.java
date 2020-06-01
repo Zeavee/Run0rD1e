@@ -157,6 +157,7 @@ public class Client implements StartGameController, Updatable {
                     Game.getInstance().addToDisplayList(area);
                 }
                 area.updateGameArea(new AreaFactory().getArea(value.getResult()));
+                Game.getInstance().areaShrinker.showRemainingTime(area.getRemainingTimeString());
             } else {
                 Log.w(TAG, "Listen for game area failed.", value.getException());
             }

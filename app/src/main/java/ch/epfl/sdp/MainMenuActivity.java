@@ -39,11 +39,6 @@ public class MainMenuActivity extends AppCompatActivity {
         findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 
         findViewById(R.id.friendsButton).setOnClickListener(v -> startActivity(new Intent(MainMenuActivity.this, FriendsListActivity.class)));
-
-        findViewById(R.id.mainBackButton).setOnClickListener(v -> {
-            startActivity(new Intent(MainMenuActivity.this, LoginFormActivity.class));
-            finish();
-        });
     }
 
     private void logout() {
