@@ -64,7 +64,7 @@ public class ClientTest {
         });
 
         while (commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLatitude() != 100 &&
-                commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLongitude() != 100){
+                commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLongitude() != 100) {
         }
 
         assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
@@ -101,7 +101,7 @@ public class ClientTest {
         PlayerForFirebase playerForFirebase0 = new PlayerForFirebase();
         playerForFirebase0.setUsername("server");
         playerForFirebase0.setEmail("server@gmail.com");
-        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
+        playerForFirebase0.setGeoPointForFirebase(new GeoPointForFirebase(22, 22));
         playerForFirebase0.setAoeRadius(22.0);
         playerForFirebase0.setHealthPoints(20.0);
         playerForFirebase0.setCurrentGameScore(0);
@@ -109,7 +109,7 @@ public class ClientTest {
         PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
         playerForFirebase1.setUsername("client");
         playerForFirebase1.setEmail("client@gmail.com");
-        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(22,22));
+        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(22, 22));
         playerForFirebase1.setAoeRadius(22.0);
         playerForFirebase1.setHealthPoints(20.0);
         playerForFirebase1.setCurrentGameScore(0);
@@ -120,14 +120,14 @@ public class ClientTest {
         /*
          *  Populate the enemy in lobby
          */
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22),0);
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22), 0);
         enemyForFirebaseList.add(enemyForFirebase);
 
         /*
          *  Populate the itemBox in lobby
          */
-        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22,22), false);
-        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23,23), true);
+        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22, 22), false);
+        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23, 23), true);
 
         itemBoxForFirebaseList.add(itemBoxForFirebase0);
         itemBoxForFirebaseList.add(itemBoxForFirebase1);

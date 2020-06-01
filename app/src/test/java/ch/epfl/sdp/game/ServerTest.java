@@ -104,7 +104,7 @@ public class ServerTest {
         PlayerForFirebase playerForFirebase1 = new PlayerForFirebase();
         playerForFirebase1.setUsername("client");
         playerForFirebase1.setEmail("client@gmail.com");
-        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(33,33));
+        playerForFirebase1.setGeoPointForFirebase(new GeoPointForFirebase(33, 33));
         playerForFirebase1.setAoeRadius(22.0);
         playerForFirebase1.setHealthPoints(20.0);
         playerForFirebase1.setCurrentGameScore(0);
@@ -115,14 +115,14 @@ public class ServerTest {
         /*
          *  Populate the enemy in lobby
          */
-        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22),0);
+        EnemyForFirebase enemyForFirebase = new EnemyForFirebase(0, Behaviour.WAIT, new GeoPointForFirebase(22, 22), 0);
         enemyForFirebaseList.add(enemyForFirebase);
 
         /*
          *  Populate the itemBox in lobby
          */
-        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22,22), false);
-        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23,23), true);
+        ItemBoxForFirebase itemBoxForFirebase0 = new ItemBoxForFirebase("itembox0", new GeoPointForFirebase(22, 22), false);
+        ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase("itembox1", new GeoPointForFirebase(23, 23), true);
 
         itemBoxForFirebaseList.add(itemBoxForFirebase0);
         itemBoxForFirebaseList.add(itemBoxForFirebase1);
@@ -138,7 +138,7 @@ public class ServerTest {
 
         serverMockDatabaseAPI = new ServerMockDatabaseAPI();
         commonMockDatabaseAPI = new CommonMockDatabaseAPI();
-        serverMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, usedItems, items );
+        serverMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, usedItems, items);
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

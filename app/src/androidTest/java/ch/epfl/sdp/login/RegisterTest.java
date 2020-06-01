@@ -41,7 +41,6 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.toPackage;
 import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class RegisterTest {
@@ -84,8 +83,7 @@ public class RegisterTest {
 
         errorTexts = new ArrayList<>();
         errorTexts.addAll(Arrays.asList("Username is incorrect", "Email is incorrect", "Password is incorrect", "Password is incorrect"));
-
-
+        
         email = "amro.abdrabo@gmail.com";
         password = "password";
 
@@ -98,34 +96,6 @@ public class RegisterTest {
     @After
     public void tearDown() {
         Intents.release();
-    }
-
-    @Test
-    public void writingUsername_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.username)).perform(typeText("Username"));
-        onView(withId(R.id.username)).check(matches(withText("Username")));
-    }
-
-    @Test
-    public void writingEmail_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("Email"));
-        onView(withId(R.id.email)).check(matches(withText("Email")));
-    }
-
-    @Test
-    public void writingPassword_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.password)).perform(typeText("password"));
-        onView(withId(R.id.password)).check(matches(withText("password")));
-    }
-
-    @Test
-    public void writingPasswordConfiguration_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-        onView(withId(R.id.passwordconf)).check(matches(withText("password")));
     }
 
     @Test
@@ -145,7 +115,6 @@ public class RegisterTest {
         }
     }
 
-    // for now
     @Test
     public void registering_ShouldFailOnPasswordSmallerThan8() {
         MissingFieldTestFactory.testFieldFourActions(new Pair<>(typeText("a"), R.id.username), new Pair<>(typeText("a@a"), R.id.email), new Pair<>(typeText("passwor"), R.id.password), new Pair<>(click(), R.id.passwordconf));
@@ -164,8 +133,6 @@ public class RegisterTest {
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
     }
-
-    // for now
 
     @Test
     public void backButton_ShouldGoToLoginForm() {
