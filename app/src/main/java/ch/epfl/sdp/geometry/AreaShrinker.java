@@ -1,14 +1,13 @@
 package ch.epfl.sdp.geometry;
 
-import android.app.Activity;
-import android.widget.TextView;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import ch.epfl.sdp.map.TimerUI;
 
 /**
  * A class that shrinks the game area over time
@@ -17,8 +16,7 @@ public class AreaShrinker {
     private Area gameArea;
     private final long[] time = {0};
     private long finalTime;
-    private TextView timer;
-    private Activity context;
+    private TimerUI timerUI;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private long timeBeforeShrinking;
     private long shrinkingDuration;
@@ -39,7 +37,7 @@ public class AreaShrinker {
             public void run() {
                 runTimer(timeBeforeShrinking, () -> {
                     time[0] += tick;
-                    context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
+                    timerUI.displayTime(getRemainingTimeAsString());
                 });
 
                 gameArea.shrink(shrinkFactor);
@@ -48,7 +46,7 @@ public class AreaShrinker {
                     time[0] += tick;
                     gameArea.setTime(time[0]);
                     gameArea.setRemainingTimeString(getRemainingTimeAsString());
-                    showRemainingTime(getRemainingTimeAsString());
+                    timerUI.displayTime(getRemainingTimeAsString());
                 });
                 gameArea.finishShrink();
             }
@@ -79,12 +77,10 @@ public class AreaShrinker {
     /**
      * This sets the textView on which we want to display the timer and the activity on which is the timer
      *
-     * @param timerShrinking the TextView which will be the timer
-     * @param activity       the activity on which the TextView is
+     * @param timerUI this will display the remaining time before start or end of the shrinking
      */
-    public void setTextViewAndActivity(TextView timerShrinking, Activity activity) {
-        timer = timerShrinking;
-        context = activity;
+    public void setTimerUI(TimerUI timerUI) {
+        this.timerUI = timerUI;
         startIfReady();
     }
 
@@ -99,17 +95,15 @@ public class AreaShrinker {
     }
 
     private void startIfReady() {
-        if (gameArea != null && timer != null && ! isStarted) {
+        if (gameArea != null && timerUI != null && !isStarted) {
             startShrink();
         }
     }
 
     /**
-     * This methods shows the remaining time on the timer
-     *
-     * @param remainingTime a string that represents the remaining time
+     * This method permits the client to show the timer
      */
     public void showRemainingTime(String remainingTime) {
-        context.runOnUiThread(() -> timer.setText(remainingTime));
+        timerUI.displayTime(remainingTime);
     }
 }

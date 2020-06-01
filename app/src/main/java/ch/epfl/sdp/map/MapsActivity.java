@@ -52,7 +52,7 @@ import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
 
     private AuthenticationAPI authenticationAPI;
@@ -76,6 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private TextView username;
     private TextView healthPointText;
     private ProgressBar healthPointProgressBar;
+    private TextView timerShrinking;
 
 
     /**
@@ -131,8 +132,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(MapsActivity.this);
         showGameInfoThread().start();
 
-        TextView timerShrinking = findViewById(R.id.timerShrinking);
-        Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
+        timerShrinking = findViewById(R.id.timerShrinking);
+        Game.getInstance().areaShrinker.setTimerUI(this);
     }
 
     @Override
@@ -308,5 +309,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
         flagGameOver = true;
+    }
+
+    @Override
+    public void displayTime(String timeAsString) {
+        timerShrinking.setText(timeAsString);
     }
 }

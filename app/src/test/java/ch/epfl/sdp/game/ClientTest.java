@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
@@ -26,6 +25,7 @@ import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -46,6 +46,9 @@ public class ClientTest {
         JunkCleaner.clearAll();
         setupEnvironment();
         Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI);
+        Game.getInstance().areaShrinker.setTimerUI(timeAsString -> {
+
+        });
         client.start();
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size());
