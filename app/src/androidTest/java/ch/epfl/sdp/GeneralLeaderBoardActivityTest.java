@@ -37,6 +37,7 @@ public class GeneralLeaderBoardActivityTest {
                     userForFirebaseList.add(new UserForFirebase("leader0@gmail.com", "leader0", 100));
                     userForFirebaseList.add(new UserForFirebase("leader1@gmail.com", "leader1", 90));
                     userForFirebaseList.add(new UserForFirebase("leader2@gmail.com", "leader2", 80));
+                    userForFirebaseList.add(new UserForFirebase("leader3@gmail.com", "leader3", 70));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map, userForFirebaseList);
                 }
