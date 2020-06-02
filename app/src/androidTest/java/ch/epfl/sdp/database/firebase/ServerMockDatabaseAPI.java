@@ -70,11 +70,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList) {
-
-    }
-
-    @Override
     public void sendGameArea(Area gameArea) {
 
     }
