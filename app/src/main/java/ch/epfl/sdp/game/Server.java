@@ -22,9 +22,6 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).

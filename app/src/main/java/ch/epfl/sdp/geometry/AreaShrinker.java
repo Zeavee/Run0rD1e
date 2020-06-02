@@ -24,6 +24,13 @@ public class AreaShrinker {
     private final long tick = 500;
     private boolean isStarted;
 
+    /**
+     * Constructor for the area shrinker
+     *
+     * @param timeBeforeShrinking the time between two shrinks
+     * @param shrinkingDuration   the duration of the shrinking
+     * @param shrinkFactor        this factor tells the size of the new area
+     */
     public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {
         this.timeBeforeShrinking = timeBeforeShrinking;
         this.shrinkingDuration = shrinkingDuration;

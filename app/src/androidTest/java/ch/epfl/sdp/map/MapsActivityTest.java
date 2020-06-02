@@ -180,6 +180,6 @@ public class MapsActivityTest {
         CircleArea gameArea = new CircleArea(1000, center);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
         Thread.sleep(10000);
-        onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
+        onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0:"))));
     }
 }

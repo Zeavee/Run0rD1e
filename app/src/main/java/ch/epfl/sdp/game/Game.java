@@ -13,7 +13,13 @@ import ch.epfl.sdp.map.Renderer;
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable {
+    /**
+     * This boolean tells if the game started and is used in the GoogleLocationFinder to start the game only one time
+     */
     public boolean gameStarted = false;
+    /**
+     * This is the instance of the start game controller of the game
+     */
     public StartGameController startGameController;
     private MapApi mapApi;
     private GameThread gameThread;

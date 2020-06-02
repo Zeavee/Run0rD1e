@@ -140,12 +140,4 @@ public class RegisterTest {
         onView(withId(R.id.registerBackButton)).perform(click());
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void registerWhenConnected_ShouldGoToMainScreen() {
-        onView(withId(R.id.registerBackButton)).perform(click());
-        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        onView(withId(R.id.createAccountBtn)).perform(click());
-        onView(withId(R.id.solo)).check(matches(isDisplayed()));
-    }
 }
