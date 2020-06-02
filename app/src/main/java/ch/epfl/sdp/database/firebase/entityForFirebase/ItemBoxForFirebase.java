@@ -1,6 +1,4 @@
-package ch.epfl.sdp.database.firebase.entity;
-
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 /**
  * The itemBox entity to be stored in cloud firebase

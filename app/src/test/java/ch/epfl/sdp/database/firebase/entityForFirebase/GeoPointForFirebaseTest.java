@@ -1,8 +1,6 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import org.junit.Test;
-
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 
 import static junit.framework.TestCase.assertTrue;
 

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;

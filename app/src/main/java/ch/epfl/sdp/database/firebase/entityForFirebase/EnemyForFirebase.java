@@ -1,7 +1,6 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 
 /**
  * The in-game enemy entity to be stored in the cloud firebase

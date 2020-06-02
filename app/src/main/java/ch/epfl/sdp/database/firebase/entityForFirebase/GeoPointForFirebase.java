@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 /**
  * Simplified version of GeoPoint for cloud database usage

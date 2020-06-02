@@ -10,10 +10,10 @@ import java.util.Objects;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -22,9 +22,6 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).

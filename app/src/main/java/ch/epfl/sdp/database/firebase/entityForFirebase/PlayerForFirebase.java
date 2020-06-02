@@ -1,9 +1,7 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.ServerTimestamp;
-
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
 
 /**
  * The in-game player entity to be stored in the cloud firebase

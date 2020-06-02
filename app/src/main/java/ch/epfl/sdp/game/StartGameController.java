@@ -6,9 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;

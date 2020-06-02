@@ -3,7 +3,7 @@ package ch.epfl.sdp.database.firebase.api;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 

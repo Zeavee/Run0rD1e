@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import java.util.Date;
 import java.util.Map;
