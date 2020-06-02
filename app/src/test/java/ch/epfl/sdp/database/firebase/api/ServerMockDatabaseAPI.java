@@ -89,11 +89,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList) {
-
-    }
-
-    @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
         for (Map.Entry<String, ItemsForFirebase> item: emailsItemsMap.entrySet()) {
             items.put(item.getKey(),item.getValue());

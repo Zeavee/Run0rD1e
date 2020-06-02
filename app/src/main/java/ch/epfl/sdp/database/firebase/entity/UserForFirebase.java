@@ -73,7 +73,7 @@ public class UserForFirebase {
     }
 
     /**
-     * Set the generalScore of the UserForfirebase
+     * Set the generalScore of the UserForFirebase
      *
      * @param generalScore The generalScore of the userForFirebase
      */

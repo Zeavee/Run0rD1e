@@ -131,7 +131,7 @@ public class Client implements StartGameController, Updatable {
     }
 
     private void addPlayersListener() {
-            clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
+        clientDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, (CustomResult<List<PlayerForFirebase>> value) -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());

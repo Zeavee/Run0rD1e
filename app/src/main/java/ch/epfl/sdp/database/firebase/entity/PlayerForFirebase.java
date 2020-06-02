@@ -60,10 +60,21 @@ public class PlayerForFirebase {
         this.email = email;
     }
 
+
+    /**
+     * Get the location of the PlayerForFirebase
+     *
+     * @return The location of the PlayerForFirebase
+     */
     public GeoPointForFirebase getGeoPointForFirebase() {
         return geoPointForFirebase;
     }
 
+    /**
+     * Set the location of the PlayerForFirebase
+     *
+     * @param geoPointForFirebase The location of the PlayerForFirebase
+     */
     public void setGeoPointForFirebase(GeoPointForFirebase geoPointForFirebase) {
         this.geoPointForFirebase = geoPointForFirebase;
     }
@@ -79,6 +90,7 @@ public class PlayerForFirebase {
 
     /**
      * Set the aoeRadius of the playerForFirebase
+     *
      * @param aoeRadius The aoeRadius of the playerForFirebase
      */
     public void setAoeRadius(double aoeRadius) {
@@ -123,6 +135,7 @@ public class PlayerForFirebase {
 
     /**
      * Get the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
+     *
      * @return The timeStamp
      */
     public Timestamp getTimestamp() {
@@ -131,6 +144,7 @@ public class PlayerForFirebase {
 
     /**
      * Set the timeStamp indicating the time playerForFirebase join the lobby in Cloud Firebase
+     *
      * @param timestamp The timeStamp
      */
     public void setTimestamp(Timestamp timestamp) {

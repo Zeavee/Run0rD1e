@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +12,7 @@ import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
+import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
 
 
 public class LoginFormActivity extends AppCompatActivity {
@@ -36,7 +35,8 @@ public class LoginFormActivity extends AppCompatActivity {
             finish();
         }
 
-        findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderboardActivity.class)));
+        // In the offline mode, the user can review the general leaderBoard without login
+        findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderBoardActivity.class)));
     }
 
     public void createAccountBtn_OnClick(View view) {

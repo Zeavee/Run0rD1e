@@ -28,6 +28,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
 
+    @Override
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
@@ -79,13 +80,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
-    }
-
-
-    @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
-        sendPlayersProperty(playerForFirebaseList, "aoeRadius", p -> p.getAoeRadius());
+        sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
     }
 
     private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){

@@ -12,20 +12,26 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {LeaderboardEntity.class}, version = 1)
-abstract class AppDatabase extends RoomDatabase {
+@Database(entities = {LeaderBoardEntity.class}, version = 1)
+public abstract class AppDatabase extends RoomDatabase {
 
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile AppDatabase INSTANCE;
 
     public abstract AppDAO AppDAO();
 
-
     @VisibleForTesting
-    public static final String DATABASE_NAME = "app-local-db";
+    private static final String DATABASE_NAME = "app-local-db";
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    /**
+     * returns the singleton of AppDatabase. It'll create the database the first time it's accessed, using Room's database builder
+     * to create a RoomDatabase object in the application context from the AppDatabase class and names it "app-local-db".
+     *
+     * @param context The application context to be used
+     * @return The singleton of the database
+     */
     public static AppDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
@@ -50,9 +56,8 @@ abstract class AppDatabase extends RoomDatabase {
             super.onCreate(db);
 
             databaseExecutor.execute(() -> {
-
-                // Delete the leaderboard first time create the database
-                INSTANCE.AppDAO().deleteAllFromLeaderboard();
+                // Delete the leaderBoard first time create the database
+                INSTANCE.AppDAO().deleteAllFromGeneralLeaderBoard();
             });
         }
     };

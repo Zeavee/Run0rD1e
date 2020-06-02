@@ -53,29 +53,47 @@ public class EntityConverter {
         return playerForFirebase;
     }
 
-    public static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint){
+    /**
+     * Convert from local in-game GeoPoint to GeoPoint for firebase
+     *
+     * @param geoPoint The local in-game GeoPoint
+     * @return The GeoPoint for firebase
+     */
+    public static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint) {
         return new GeoPointForFirebase(geoPoint.getLongitude(), geoPoint.getLatitude());
     }
 
-    public static GeoPoint geoPointForFirebaseToGeoPoint(GeoPointForFirebase geoPointForFirebase){
+    /**
+     * Convert from GeoPoint for firebase to local in-game GeoPoint
+     *
+     * @param geoPointForFirebase The GeoPoint for firebase
+     * @return The local in-game GeoPoint
+     */
+    public static GeoPoint geoPointForFirebaseToGeoPoint(GeoPointForFirebase geoPointForFirebase) {
         return new GeoPoint(geoPointForFirebase.getLongitude(), geoPointForFirebase.getLatitude());
     }
 
     /**
-     * Convert from local in-game Enemy to Firebase stored in-game Enemy
+     * Convert from local in-game Enemies to Enemies stored in cloud firebase
      *
      * @param enemies The list of local in-game Enemy
-     * @return The list of Firebase stored in-game Enemy
+     * @return The list of enemy stored in cloud Firebase
      */
     public static List<EnemyForFirebase> convertEnemyList(List<Enemy> enemies) {
         List<EnemyForFirebase> enemyForFirebases = new ArrayList<>();
         for (Enemy enemy : enemies) {
-            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getBehaviour(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation()),enemy.getMovement().getOrientation()));
+            enemyForFirebases.add(new EnemyForFirebase(enemy.getId(), enemy.getBehaviour(), EntityConverter.geoPointToGeoPointForFirebase(enemy.getLocation()), enemy.getMovement().getOrientation()));
         }
 
         return enemyForFirebases;
     }
 
+    /**
+     * Convert from a list of enemies stored in cloud firebase to a list of local in-game enemies
+     *
+     * @param enemyForFirebaseList The list of enemy stored in cloud firebase
+     * @return The list of local in-game enemy
+     */
     public static List<Enemy> convertEnemyForFirebaseList(List<EnemyForFirebase> enemyForFirebaseList) {
         List<Enemy> enemyList = new ArrayList<>();
         for (EnemyForFirebase enemyForFirebase : enemyForFirebaseList) {
@@ -99,6 +117,12 @@ public class EntityConverter {
         return enemyList;
     }
 
+    /**
+     * Convert from a list of local in-game players to a list of players stored in cloud firebase
+     *
+     * @param players The list of local in-game players
+     * @return The list of players stored in cloud firebase
+     */
     public static List<PlayerForFirebase> convertPlayerList(List<Player> players) {
         ArrayList<PlayerForFirebase> playerList = new ArrayList<>();
         for (Player player : players) {
@@ -109,6 +133,12 @@ public class EntityConverter {
         return playerList;
     }
 
+    /**
+     * Convert from player stored in cloud firebase to the local in-game player
+     *
+     * @param playerForFirebase The player stored in cloud firebase
+     * @return The local in-game player
+     */
     public static Player playerForFirebaseToPlayer(PlayerForFirebase playerForFirebase) {
         double longitude = playerForFirebase.getGeoPointForFirebase().getLongitude();
         double latitude = playerForFirebase.getGeoPointForFirebase().getLatitude();
@@ -119,6 +149,12 @@ public class EntityConverter {
         return new Player(longitude, latitude, aoeRadius, username, email);
     }
 
+    /**
+     * Convert from a map of items to an itemsForFirebase instance
+     *
+     * @param items The map from the name of the item to the quantity of that item
+     * @return The itemsForFirebase instance
+     */
     public static ItemsForFirebase convertItems(Map<String, Integer> items) {
         ItemsForFirebase itemsForFirebase = new ItemsForFirebase();
         itemsForFirebase.setItemsMap(items);
@@ -127,6 +163,12 @@ public class EntityConverter {
         return itemsForFirebase;
     }
 
+    /**
+     * Convert from a map of itemBoxes to a list of itemBoxForFirebase
+     *
+     * @param itemBoxMap The map from the id of the itemBox to that itemBox instance
+     * @return The list of itemBoxForFirebase
+     */
     public static List<ItemBoxForFirebase> convertItemBoxMap(Map<String, ItemBox> itemBoxMap) {
         List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
         for (Map.Entry<String, ItemBox> entry : itemBoxMap.entrySet()) {

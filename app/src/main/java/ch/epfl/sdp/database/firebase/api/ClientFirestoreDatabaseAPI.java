@@ -58,12 +58,13 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                     else {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             ItemsForFirebase itemsForFirebase = documentSnapshot.toObject(ItemsForFirebase.class);
-                            onValueReadyCallback.finish(new CustomResult<>(itemsForFirebase.getItemsMap(), true, null));
+                            onValueReadyCallback.finish(new CustomResult<>(Objects.requireNonNull(itemsForFirebase).getItemsMap(), true, null));
                         }
                     }
                 });
     }
 
+    @Override
     public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
         lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -75,6 +76,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
         }));
     }
 
+    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
     }

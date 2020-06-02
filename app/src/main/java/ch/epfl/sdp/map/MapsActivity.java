@@ -46,11 +46,10 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
-import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
+import ch.epfl.sdp.leaderBoard.CurrentGameLeaderBoardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
-import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
     private String playMode = "";
@@ -65,7 +64,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static InventoryFragment inventoryFragment = new InventoryFragment();
     private static WeatherFragment weatherFragment = new WeatherFragment();
-    private static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
+    private static CurrentGameLeaderBoardFragment ingameLeaderboardFragment = new CurrentGameLeaderBoardFragment();
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
