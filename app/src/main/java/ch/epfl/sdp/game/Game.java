@@ -13,6 +13,8 @@ import ch.epfl.sdp.map.Renderer;
  * Main model of the game, it is used for state changes and animations.
  */
 public class Game implements Updatable {
+    public boolean gameStarted = false;
+    public StartGameController startGameController;
     private MapApi mapApi;
     private GameThread gameThread;
     private final ArrayList<Updatable> updatables;

@@ -31,8 +31,9 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     public void moveCameraOnLocation(GeoPoint location) {
-        LatLng currentLocationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 14));
+        if (location != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+        }
     }
 
     @UiThread

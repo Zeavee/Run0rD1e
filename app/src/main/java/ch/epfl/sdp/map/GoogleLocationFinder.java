@@ -6,8 +6,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.geometry.GeoPoint;
 
@@ -15,10 +17,9 @@ public class GoogleLocationFinder implements LocationFinder {
     private final LocationListener locationListener;
     private final LocationManager locationManager;
     private Location currentLocation;
-    private boolean gameStarted = false;
 
 
-    public GoogleLocationFinder(LocationManager locationManager, StartGameController startGameController) {
+    public GoogleLocationFinder(LocationManager locationManager) {
         this.locationManager = locationManager;
 
         Criteria criteria = new Criteria();
@@ -30,17 +31,18 @@ public class GoogleLocationFinder implements LocationFinder {
 
                 // The player's location will change to this weird GeoPoint(-122.08, 37.42)(which is the base of Google in the USA) automatically sometimes,
                 // even the player stays in the fixed location. It seems like a problem from the emulator, so we filtered this location.
-                if (Math.floor(latestLocation.getLatitude() * 100) / 100 != 37.42 || Math.ceil(latestLocation.getLongitude() * 100) / 100 != -122.08) {
+                if ((Math.floor(latestLocation.getLatitude() * 100) / 100 != 37.42 || Math.ceil(latestLocation.getLongitude() * 100) / 100 != -122.08)
+                        && PlayerManager.getInstance().getCurrentUser() != null && Game.getInstance().startGameController != null) {
                     currentLocation = latestLocation;
                     PlayerManager.getInstance().getCurrentUser().setLocation(new GeoPoint(latestLocation.getLongitude(), latestLocation.getLatitude()));
 
                     // After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
-                    if (!gameStarted) {
-                        gameStarted = true;
-                        startGameController.start();
+                    if (!Game.getInstance().gameStarted) {
+                        Game.getInstance().gameStarted = true;
+                        Game.getInstance().startGameController.start();
                     }
-                    requestUpdatePosition();
                 }
+                requestUpdatePosition();
             }
 
             @Override

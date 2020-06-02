@@ -60,7 +60,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
 
-    private StartGameController startGameController;
     private LocationFinder locationFinder;
 
     private final static InventoryFragment inventoryFragment = new InventoryFragment();
@@ -143,7 +142,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
         }
-        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
     }
 
     /**
@@ -177,8 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        startGameController = new Solo();
-                        initLocationFinder();
+                        Game.getInstance().startGameController = new Solo();
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false
@@ -201,6 +199,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 itemBox.setReDisplay(true);
             }
         }
+
+        initLocationFinder();
 
         Log.d("Database", "Quit map ready");
     }
@@ -226,13 +226,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
-                    initLocationFinder();
+                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
-                    initLocationFinder();
+                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -245,7 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
-            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
         }
     }
 
@@ -313,6 +311,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void displayTime(String timeAsString) {
-        timerShrinking.setText(timeAsString);
+        runOnUiThread(() -> timerShrinking.setText(timeAsString));
     }
 }

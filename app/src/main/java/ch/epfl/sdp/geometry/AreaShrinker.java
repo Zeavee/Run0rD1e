@@ -37,6 +37,7 @@ public class AreaShrinker {
             public void run() {
                 runTimer(timeBeforeShrinking, () -> {
                     time[0] += tick;
+                    gameArea.setRemainingTimeString(getRemainingTimeAsString());
                     timerUI.displayTime(getRemainingTimeAsString());
                 });
 
@@ -71,7 +72,7 @@ public class AreaShrinker {
         double remainingTime = finalTime - time[0];
         int minutes = (int) remainingTime / 60000;
         int seconds = ((int) remainingTime % 60000) / 1000;
-        return minutes + " : " + seconds;
+        return minutes + ":" + seconds;
     }
 
     /**
