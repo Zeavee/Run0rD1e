@@ -29,7 +29,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
  * This class updates the game from the client point of view. It fetches the data from firebase and
  * the data is updated by the server.
  */
-public class Client implements StartGameController, Updatable {
+public class Client extends StartGameController implements Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
     private final ClientDatabaseAPI clientDatabaseAPI;
@@ -58,7 +58,7 @@ public class Client implements StartGameController, Updatable {
                 if (start.isSuccessful()) {
                     commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
                         if (value1.isSuccessful()) {
-                            StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
+                            addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
                         } else

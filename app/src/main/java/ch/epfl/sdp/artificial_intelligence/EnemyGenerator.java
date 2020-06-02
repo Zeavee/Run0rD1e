@@ -10,13 +10,10 @@ import ch.epfl.sdp.geometry.GeoPoint;
 
 public abstract class EnemyGenerator {
     protected double minDistanceFromEnemies;
-    protected long timeToCreate;
     protected double minDistanceFromPlayers;
     protected Area enclosure;
     protected List<Enemy> enemies;
-    protected Timer timer;
     protected int maxEnemies;
-    protected boolean readyToCreate;
 
     public EnemyGenerator(Area enclosure) {
         this.enclosure = enclosure;
@@ -26,9 +23,7 @@ public abstract class EnemyGenerator {
 
     public abstract void setMinDistanceFromPlayers(double minDistanceFromPlayers);
 
-    public abstract void setEnemyCreationTime(long time);
-
-    public abstract void generateEnemy(double radius);
+    public abstract Enemy generateEnemy(double radius);
 
     public abstract void setMinDistanceFromEnemies(double minDistanceFromEnemies);
 

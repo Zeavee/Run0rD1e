@@ -48,7 +48,9 @@ public class GeneralLeaderBoardActivity extends AppCompatActivity {
         // Add an observer on the LiveData.
         // The onChanged() method fires when the observed data (stored in local Room database) changes and the activity is in the foreground.
         generalLeaderboardViewModel.getGeneralLeaderBoard().observe(this, this::setupChampions);
-        generalLeaderboardViewModel.getGeneralLeaderBoard().observe(this, users -> adapter.setLeaderBoard(users.subList(CHAMPION_NUM, users.size())));
+        generalLeaderboardViewModel.getGeneralLeaderBoard().observe(this, users -> {
+            if (users.size() > 3) adapter.setLeaderBoard(users.subList(CHAMPION_NUM, users.size()));
+        });
 
         tv_username1 = findViewById(R.id.tv_username1);
         tv_generalScore1 = findViewById(R.id.tv_generalScore1);
