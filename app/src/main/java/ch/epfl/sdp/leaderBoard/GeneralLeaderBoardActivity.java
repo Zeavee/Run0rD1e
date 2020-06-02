@@ -13,7 +13,8 @@ import java.util.List;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.room.LeaderBoardEntity;
+import ch.epfl.sdp.database.room.GeneralLeaderBoardEntity;
+import ch.epfl.sdp.database.room.GeneralLeaderBoardViewModel;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 
@@ -64,7 +65,7 @@ public class GeneralLeaderBoardActivity extends AppCompatActivity {
      *
      * @param users A list of leaderBoardEntity from local Room database which contains username and general scores of all the users who have played this game
      */
-    private void setupChampions(List<LeaderBoardEntity> users) {
+    private void setupChampions(List<GeneralLeaderBoardEntity> users) {
         if (users == null) {
             return;
         }
@@ -99,7 +100,7 @@ public class GeneralLeaderBoardActivity extends AppCompatActivity {
         commonDatabaseAPI.generalGameScoreListener(value -> {
             if (value.isSuccessful()) {
                 for (UserForFirebase userForFirebase : value.getResult()) {
-                    LeaderBoardEntity user = new LeaderBoardEntity(userForFirebase.getEmail(), userForFirebase.getUsername(), userForFirebase.getGeneralScore());
+                    GeneralLeaderBoardEntity user = new GeneralLeaderBoardEntity(userForFirebase.getEmail(), userForFirebase.getUsername(), userForFirebase.getGeneralScore());
                     generalLeaderboardViewModel.insertToGeneralLeaderBoard(user);
                 }
             }

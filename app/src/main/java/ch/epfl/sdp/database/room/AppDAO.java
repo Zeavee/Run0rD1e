@@ -17,8 +17,8 @@ public interface AppDAO {
      *
      * @return LiveData which holds a list of leaderBoardEntity
      */
-    @Query("SELECT * from LeaderBoard_table ORDER BY generalScore DESC")
-    LiveData<List<LeaderBoardEntity>> getGeneralLeaderBoard();
+    @Query("SELECT * from leaderBoard_table ORDER BY generalScore DESC")
+    LiveData<List<GeneralLeaderBoardEntity>> getGeneralLeaderBoard();
 
     /**
      * Insert a leaderBoardEntity to the leaderBoard_table
@@ -26,7 +26,7 @@ public interface AppDAO {
      * @param player A leaderBoardEntity object used to be insert to the leaderBoard_table
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertToGeneralLeaderBoard(LeaderBoardEntity player);
+    void insertToGeneralLeaderBoard(GeneralLeaderBoardEntity player);
 
     /**
      * Delete all the contents from leaderBoard_table

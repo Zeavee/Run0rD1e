@@ -12,8 +12,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {LeaderBoardEntity.class}, version = 1)
-public abstract class AppDatabase extends RoomDatabase {
+@Database(entities = {GeneralLeaderBoardEntity.class}, version = 2, exportSchema = false)
+abstract class AppDatabase extends RoomDatabase {
 
     // marking the instance as volatile to ensure atomic access to the variable
     private static volatile AppDatabase INSTANCE;
@@ -23,7 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
     @VisibleForTesting
     private static final String DATABASE_NAME = "app-local-db";
     private static final int NUMBER_OF_THREADS = 4;
-    public static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    static final ExecutorService databaseExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     /**
      * returns the singleton of AppDatabase. It'll create the database the first time it's accessed, using Room's database builder

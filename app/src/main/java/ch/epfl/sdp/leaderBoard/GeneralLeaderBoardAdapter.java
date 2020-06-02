@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.room.LeaderBoardEntity;
+import ch.epfl.sdp.database.room.GeneralLeaderBoardEntity;
 
 /**
  * An adapter of the recyclerView in GeneralLeaderBoard UI
  */
 public class GeneralLeaderBoardAdapter extends RecyclerView.Adapter<GeneralLeaderBoardAdapter.GeneralLeaderBoardViewHolder> {
-    private List<LeaderBoardEntity> mUsers;
+    private List<GeneralLeaderBoardEntity> mUsers;
 
     @NonNull
     @Override
@@ -45,7 +45,7 @@ public class GeneralLeaderBoardAdapter extends RecyclerView.Adapter<GeneralLeade
      *
      * @param mUsers The list of the leaderBoardEntity which contains the general score of all the users who have played this game
      */
-    void setLeaderBoard(List<LeaderBoardEntity> mUsers) {
+    void setLeaderBoard(List<GeneralLeaderBoardEntity> mUsers) {
         this.mUsers = mUsers;
         notifyDataSetChanged();
     }

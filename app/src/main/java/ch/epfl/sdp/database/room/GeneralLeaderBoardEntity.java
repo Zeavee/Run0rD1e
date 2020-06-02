@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  * Room will ultimately use these fields to both create the table and instantiate objects from rows in the database.
  */
 @Entity(tableName = "leaderBoard_table")
-public class LeaderBoardEntity {
+public class GeneralLeaderBoardEntity {
     @PrimaryKey
     @NonNull
     private String email;
@@ -26,7 +26,7 @@ public class LeaderBoardEntity {
      * @param username     The username of the leaderBoardEntity
      * @param generalScore The generalScore of the leaderBoardEntity
      */
-    public LeaderBoardEntity(@NotNull String email, String username, int generalScore) {
+    public GeneralLeaderBoardEntity(@NotNull String email, String username, int generalScore) {
         this.email = email;
         this.username = username;
         this.generalScore = generalScore;
