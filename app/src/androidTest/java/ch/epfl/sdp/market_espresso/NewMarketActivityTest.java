@@ -1,6 +1,8 @@
 package ch.epfl.sdp.market_espresso;
 
 
+import android.content.Intent;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -59,6 +61,13 @@ public class NewMarketActivityTest {
             Game.getInstance().setMapApi(mockMap);
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(new HashMap<>(), new ArrayList<>());
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+        }
+
+        @Override
+        protected Intent getActivityIntent() {
+            Intent intent = new Intent();
+            intent.putExtra("playMode", "multi-player");
+            return intent;
         }
 
         // start the game engine MANUALLY

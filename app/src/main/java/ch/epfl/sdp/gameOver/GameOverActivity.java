@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.utils.JunkCleaner;
 
 /**
@@ -19,10 +21,14 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
         findViewById(R.id.backFromGameOverButton).setOnClickListener(v -> goToMainMenu());
-        JunkCleaner.clearAll();
     }
 
     private void goToMainMenu() {
+        JunkCleaner.clearAll();
+        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+        appContainer.commonDatabaseAPI.cleanListeners();
+        appContainer.serverDatabaseAPI.cleanListeners();
+        appContainer.clientDatabaseAPI.cleanListeners();
         Intent i = new Intent(GameOverActivity.this, MainMenuActivity.class);
         startActivity(i);
         finish();

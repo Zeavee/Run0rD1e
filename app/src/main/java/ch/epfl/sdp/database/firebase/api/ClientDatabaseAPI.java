@@ -28,4 +28,6 @@ public interface ClientDatabaseAPI {
     //void sendUserPosition(PlayerForFirebase playerForFirebase);
 
     void sendUsedItems(ItemsForFirebase itemsForFirebase);
+
+    void cleanListeners();
 }

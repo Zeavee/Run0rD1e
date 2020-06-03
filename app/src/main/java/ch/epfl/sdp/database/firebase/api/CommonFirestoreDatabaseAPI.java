@@ -4,6 +4,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 
@@ -20,6 +21,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();
+    private final List<ListenerRegistration> listeners = new ArrayList<>();
 
     @Override
     public void addUser(UserForFirebase userForFirebase, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
@@ -80,7 +82,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void generalGameScoreListener(OnValueReadyCallback<CustomResult<List<UserForFirebase>>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).addSnapshotListener((queryDocumentSnapshots, e) -> {
+        ListenerRegistration listenerRegistration = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).addSnapshotListener((queryDocumentSnapshots, e) -> {
             if (e != null) {
                 onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             } else {
@@ -91,11 +93,20 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));
             }
         });
+        listeners.add(listenerRegistration);
     }
 
     @Override
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
         DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
         lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerForFirebase.getGeoPointForFirebase());
+    }
+
+    @Override
+    public void cleanListeners() {
+        for (ListenerRegistration listener : listeners) {
+            listener.remove();
+        }
+        listeners.clear();
     }
 }

@@ -55,4 +55,5 @@ public interface CommonDatabaseAPI {
 
     void sendUserPosition(PlayerForFirebase playerForFirebase);
 
+    void cleanListeners();
 }

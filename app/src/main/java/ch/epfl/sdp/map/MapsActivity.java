@@ -54,6 +54,7 @@ import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
@@ -99,13 +100,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         playMode = intent.getStringExtra("playMode");
         Log.d("play mode", "The play mode: " + playMode);
 
-        Game.getInstance().setRenderer(this);
+        boolean isSolo = playMode.equals("single-player");
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
+
+        if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
+            JunkCleaner.clearAll();
+            commonDatabaseAPI.cleanListeners();
+            serverDatabaseAPI.cleanListeners();
+            clientDatabaseAPI.cleanListeners();
+        }
+
+        Game.getInstance().setRenderer(this);
 
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
