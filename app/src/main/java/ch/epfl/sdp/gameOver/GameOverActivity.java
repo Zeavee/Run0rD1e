@@ -19,10 +19,10 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
         findViewById(R.id.backFromGameOverButton).setOnClickListener(v -> goToMainMenu());
-        JunkCleaner.clearAll();
     }
 
     private void goToMainMenu() {
+        JunkCleaner.clearAll();
         Intent i = new Intent(GameOverActivity.this, MainMenuActivity.class);
         startActivity(i);
         finish();
