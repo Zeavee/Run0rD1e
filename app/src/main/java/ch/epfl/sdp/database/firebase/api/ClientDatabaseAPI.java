@@ -30,4 +30,6 @@ public interface ClientDatabaseAPI {
     void sendUsedItems(ItemsForFirebase itemsForFirebase);
 
     void cleanListeners();
+
+    void addServerAliveSignalListener(OnValueReadyCallback<CustomResult<Long>> onValueReadyCallback);
 }

@@ -57,9 +57,8 @@ public interface StartGameController {
      * @return the game area created
      */
     static Area initGameArea() {
-        //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
-        Area gameArea = new CircleArea(3000, local);
+        Area gameArea = new CircleArea(10000, local);
         Game.getInstance().addToDisplayList(gameArea);
         Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
@@ -73,7 +72,6 @@ public interface StartGameController {
      * @param enemyManager the enemy manager
      */
     static void initEnemies(Area gameArea, EnemyManager enemyManager) {
-        // Enemy -------------------------------------------
         RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea);
         randomEnemyGenerator.setEnemyCreationTime(1000);
         randomEnemyGenerator.setMaxEnemies(10);
@@ -82,7 +80,6 @@ public interface StartGameController {
         randomEnemyGenerator.generateEnemy();
         Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
         enemyManager.updateEnemies(enemy);
-        //  -------------------------------------------
     }
 
     /**
@@ -125,6 +122,5 @@ public interface StartGameController {
 
         ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         ItemBoxManager.getInstance().addItemBox(itemBox1);
-        //  -------------------------------------------
     }
 }

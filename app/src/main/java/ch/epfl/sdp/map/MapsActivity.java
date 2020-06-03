@@ -238,6 +238,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 boolean isInLobby = false;
 
                 List<PlayerForFirebase> playersForFirebase = res.getResult();
+
                 for (PlayerForFirebase playerForFirebase: playersForFirebase) {
                     if(playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())){
                         isInLobby = true;
@@ -245,18 +246,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 }
 
-                if(isInLobby){
-                    // TODO if player is in lobby Get Player status and items
-                }else{
-                    PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                    Map<String, Object> data = new HashMap<>();
-                    data.put("count", playerManager.getNumPlayersInLobby() + 1);
-                    if (playerManager.isServer()) data.put("startGame", false);
-                    Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                    joinLobby(playerForFirebase, data);
-                }
-            }else{
+                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                Map<String, Object> data = new HashMap<>();
 
+                if(!isInLobby){
+                    data.put("players", playerManager.getNumPlayersInLobby() + 1);
+                }
+
+                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                joinLobby(playerForFirebase, data);
+            }else{
+                Log.d("Database", "In createPlayerInLobby: Could not fetch players.");
             }
         });
     }
@@ -268,7 +268,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
-
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);

@@ -58,4 +58,6 @@ public interface ServerDatabaseAPI {
     void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList);
 
     void cleanListeners();
+
+    void sendServerAliveSignal(long signal);
 }

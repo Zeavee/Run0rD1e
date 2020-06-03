@@ -32,6 +32,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class Client implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
+    private int counter10Sec = 0;
     private final ClientDatabaseAPI clientDatabaseAPI;
     private final CommonDatabaseAPI commonDatabaseAPI;
     private final PlayerManager playerManager = PlayerManager.getInstance();
@@ -39,6 +40,8 @@ public class Client implements StartGameController, Updatable {
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private Area area = new UnboundedArea();
     private boolean gameStarted;
+    private long oldSignal;
+    private long signal;
 
     /**
      * Creates a new client
@@ -47,6 +50,8 @@ public class Client implements StartGameController, Updatable {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
+        this.oldSignal = 0;
+        this.signal = 0;
     }
 
     @Override
@@ -61,13 +66,12 @@ public class Client implements StartGameController, Updatable {
                             StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
+                            addListeners();
                         } else
                             Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                     });
                 }
             });
-
-            addListeners();
         }
     }
 
@@ -77,6 +81,7 @@ public class Client implements StartGameController, Updatable {
         addPlayersListener();
         addUserItemListener();
         addGameAreaListener();
+        addServerAliveSignalListener();
     }
 
     @Override
@@ -86,7 +91,28 @@ public class Client implements StartGameController, Updatable {
             sendUsedItems();
             counter = 2 * GameThread.FPS + 1;
         }
+
+        if (counter10Sec <= 0){
+            checkSignalChanged();
+            counter10Sec = 10 * GameThread.FPS + 1;
+        }
+
         --counter;
+    }
+
+    private void addServerAliveSignalListener() {
+        clientDatabaseAPI.addServerAliveSignalListener((CustomResult<Long> value) -> {
+            signal = value.getResult();
+        });
+    }
+
+    private void checkSignalChanged(){
+        if(signal != oldSignal){
+            oldSignal = signal;
+        } else{
+            // TODO server died, choose another server
+            Log.d("Client", "Server does not respond.");
+        }
     }
 
     private void addEnemyListener() {

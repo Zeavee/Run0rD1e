@@ -29,6 +29,7 @@ import ch.epfl.sdp.item.ItemFactory;
 public class Server implements StartGameController, Updatable {
     private static final String TAG = "Database";
     private int counter;
+    private int counter5Sec;
     private int scoreTimeCounter;
     private boolean gameStarted;
     private boolean gameEnd;
@@ -39,6 +40,7 @@ public class Server implements StartGameController, Updatable {
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private final ItemFactory itemFactory;
     private Area gameArea;
+    private long signal;
 
     /**
      * Constructor for the Server
@@ -50,10 +52,12 @@ public class Server implements StartGameController, Updatable {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
+        this.counter5Sec = 0;
         this.scoreTimeCounter = 0;
         this.gameStarted = false;
         this.gameEnd = false;
-        itemFactory = new ItemFactory();
+        this.itemFactory = new ItemFactory();
+        this.signal = 0;
     }
 
     @Override
@@ -84,6 +88,13 @@ public class Server implements StartGameController, Updatable {
             counter = 2 * GameThread.FPS + 1;
         }
 
+        if(counter5Sec <= 0) {
+            serverDatabaseAPI.sendServerAliveSignal(signal);
+            ++signal;
+            counter5Sec = 5 * GameThread.FPS + 1;
+        }
+
+        --counter5Sec;
         --counter;
 
         // update Players score every 10 seconds

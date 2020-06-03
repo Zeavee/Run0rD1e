@@ -9,6 +9,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,18 +43,29 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     @Override
     public void selectLobby(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         CollectionReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME);
-        lobbyRef.whereLessThan("count", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
+        lobbyRef.whereLessThan("players", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (queryDocumentSnapshots.isEmpty()) {
+                    if(queryDocumentSnapshots.isEmpty()){
                         playerManager.setLobbyDocumentName(lobbyRef.document().getId());
-                        playerManager.setIsServer(true);
+                        playerManager.setIsServer(false);
                         playerManager.setNumPlayersInLobby(0);
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("players", 0);
+                        data.put("signal", 0);
+                        data.put("startGame", false);
+                        lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
+                    } else if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1) {
+                        QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
+                        playerManager.setLobbyDocumentName(doc.getId());
+                        playerManager.setIsServer(true);
+                        playerManager.setNumPlayersInLobby(doc.getLong("players"));
                     } else {
                         QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
                         playerManager.setLobbyDocumentName(doc.getId());
                         playerManager.setIsServer(false);
-                        playerManager.setNumPlayersInLobby(doc.getLong("count"));
+                        playerManager.setNumPlayersInLobby(doc.getLong("players"));
                     }
+
                     onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
         ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
-            if ((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
+            if ((Long) documentSnapshot.get("players") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
                 flag.set(true);
                 onValueReadyCallback.finish(new CustomResult<>(null, true, null));
             }
@@ -86,7 +87,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
         sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
     }
-
 
     @Override
     public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
@@ -194,5 +194,12 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
             listener.remove();
         }
         listeners.clear();
+    }
+
+    @Override
+    public void sendServerAliveSignal(long signal) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("signal", signal);
+        lobbyRef.update(data);
     }
 }

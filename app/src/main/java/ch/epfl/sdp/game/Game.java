@@ -31,7 +31,7 @@ public class Game implements Updatable {
     /**
      * This object permits to shrink the game area.
      */
-    public AreaShrinker areaShrinker = new AreaShrinker(10000, 30000, 0.75);
+    public AreaShrinker areaShrinker = new AreaShrinker(10000, 300000, 0.75);
 
     private final static Game instance = new Game();
 
@@ -105,7 +105,7 @@ public class Game implements Updatable {
         gameStarted = false;
         startGameController = null;
         areaShrinker.clear();
-        areaShrinker = new AreaShrinker(10000, 30000, 0.75);
+        areaShrinker = new AreaShrinker(10000, 300000, 0.75);
     }
 
 
