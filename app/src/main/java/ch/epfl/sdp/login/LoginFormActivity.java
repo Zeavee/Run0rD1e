@@ -38,16 +38,11 @@ public class LoginFormActivity extends AppCompatActivity {
             finish();
         }
 
-<<<<<<< HEAD
-        findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderboardActivity.class)));
-
         findViewById(R.id.loginButton).setOnClickListener(this::loginBtn_OnClick);
 
         findViewById(R.id.createAccountBtn).setOnClickListener(this::createAccountBtn_OnClick);
-=======
         // In the offline mode, the user can review the general leaderBoard without login
         findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderBoardActivity.class)));
->>>>>>> master
     }
 
     private void createAccountBtn_OnClick(View view) {
