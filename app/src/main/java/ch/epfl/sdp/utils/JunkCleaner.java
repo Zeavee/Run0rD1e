@@ -1,5 +1,7 @@
 package ch.epfl.sdp.utils;
 
+import ch.epfl.sdp.dependencies.AppContainer;
+import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;

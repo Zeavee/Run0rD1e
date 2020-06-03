@@ -27,6 +27,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
+    private List<ListenerRegistration> listeners = new ArrayList<>();
 
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
@@ -35,13 +36,17 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
-        ListenerRegistration ListenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
+        ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
             if ((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
                 flag.set(true);
                 onValueReadyCallback.finish(new CustomResult<>(null, true, null));
             }
         });
-        if (flag.get()) ListenerRegistration.remove();
+        if (flag.get()) {
+            listenerRegistration.remove();
+            listeners.remove(listenerRegistration);
+        }
+        listeners.add(listenerRegistration);
     }
 
     @Override
@@ -129,7 +134,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME)
+        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME)
                 .addSnapshotListener((documentSnapshot, e) -> {
                     if (e != null) {
                         onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -141,11 +146,12 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                         onValueReadyCallback.finish(new CustomResult<>(emailsItemsMap, true, null));
                     }
                 });
+        listeners.add(listenerRegistration);
     }
 
     @Override
     public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
+        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
                 .addSnapshotListener((querySnapshot, e) -> {
                     if (e != null) {
                         onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -157,6 +163,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                         onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
                     }
                 });
+        listeners.add(listenerRegistration);
     }
 
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
@@ -179,5 +186,13 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     private interface Function<T, R> {
         R methodFromT(T t);
+    }
+
+    @Override
+    public void cleanListeners() {
+        for (ListenerRegistration listener : listeners) {
+            listener.remove();
+        }
+        listeners.clear();
     }
 }

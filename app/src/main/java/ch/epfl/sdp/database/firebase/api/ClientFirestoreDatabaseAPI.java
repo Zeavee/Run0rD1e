@@ -19,6 +19,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
+    private final List<ListenerRegistration> listeners = new ArrayList<>();
 
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
@@ -27,18 +28,22 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void listenToGameStart(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
-        ListenerRegistration ListenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
+        ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
             if (documentSnapshot != null && (Boolean) documentSnapshot.get("startGame") && !flag.get()) {
                 flag.set(true);
                 onValueReadyCallback.finish(new CustomResult<>(null, true, null));
             }
         });
-        if (flag.get()) ListenerRegistration.remove();
+        if (flag.get()) {
+            listenerRegistration.remove();
+            listeners.remove(listenerRegistration);
+        }
+        listeners.add(listenerRegistration);
     }
 
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
-        lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
+        ListenerRegistration listenerRegistration = lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             else {
                 List<T> entityList = new ArrayList<>();
@@ -48,11 +53,12 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                 onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
             }
         });
+        listeners.add(listenerRegistration);
     }
 
     @Override
     public void addUserItemListener(OnValueReadyCallback<CustomResult<Map<String, Integer>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
+        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail())
                 .addSnapshotListener((documentSnapshot, e) -> {
                     if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
                     else {
@@ -62,10 +68,11 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                         }
                     }
                 });
+        listeners.add(listenerRegistration);
     }
 
     public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
-        lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
+        ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             else {
                 if (documentSnapshot != null && documentSnapshot.exists() && documentSnapshot.getString(PlayerManager.GAME_AREA_COLLECTION_NAME) != null) {
@@ -73,9 +80,18 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                 }
             }
         }));
+        listeners.add(listenerRegistration);
     }
 
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
+    }
+
+    @Override
+    public void cleanListeners() {
+        for (ListenerRegistration listener : listeners) {
+            listener.remove();
+        }
+        listeners.clear();
     }
 }

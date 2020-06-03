@@ -99,17 +99,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         boolean isSolo = playMode.equals("single-player");
 
-        if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
-            JunkCleaner.clearAll();
-        }
-
-        Game.getInstance().setRenderer(this);
-
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
+
+        if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
+            JunkCleaner.clearAll();
+            commonDatabaseAPI.cleanListeners();
+            serverDatabaseAPI.cleanListeners();
+            clientDatabaseAPI.cleanListeners();
+        }
+
+        Game.getInstance().setRenderer(this);
 
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
