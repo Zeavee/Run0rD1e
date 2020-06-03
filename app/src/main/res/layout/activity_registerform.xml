@@ -7,25 +7,12 @@
     android:background="@drawable/background"
     tools:context=".login.RegisterFormActivity">
 
-    <ImageView
-        android:id="@+id/backBtn"
-        android:layout_width="32dp"
-        android:layout_height="18dp"
-        android:onClick="backBtn_OnClick"
-        app:layout_constraintBottom_toTopOf="@+id/createText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.411"
-        app:srcCompat="@drawable/arrow" />
-
     <TextView
         android:id="@+id/createText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="Create a new account"
+        android:text="@string/register_newAccount"
         android:textColor="@color/green"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/username"
@@ -41,9 +28,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="120dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_user"
+        android:drawableStart="@drawable/ic_action_user"
         android:ems="10"
-        android:hint="Username"
+        android:hint="@string/register_username"
         android:inputType="textPersonName"
         android:text=""
         android:textSize="15sp"
@@ -53,7 +40,8 @@
         app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/email"
@@ -61,9 +49,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_mail"
+        android:drawableStart="@drawable/ic_action_mail"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/login_email"
         android:inputType="textEmailAddress"
         android:text=""
         android:textSize="15sp"
@@ -71,7 +59,8 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/password"
@@ -79,9 +68,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_password"
+        android:drawableStart="@drawable/ic_action_password"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/login_password"
         android:inputType="textPassword"
         android:text=""
         android:textSize="15sp"
@@ -90,7 +79,8 @@
         app:layout_constraintHorizontal_bias="0.174"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/passwordconf"
@@ -98,9 +88,9 @@
         android:layout_height="40dp"
         android:layout_marginTop="25dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_pw_conf"
+        android:drawableStart="@drawable/ic_action_pw_conf"
         android:ems="10"
-        android:hint="Password confirmation"
+        android:hint="@string/register_pw_conf"
         android:inputType="textPassword"
         android:text=""
         android:textSize="15sp"
@@ -109,7 +99,8 @@
         app:layout_constraintHorizontal_bias="0.088"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/registerbutton"
@@ -118,7 +109,7 @@
         android:layout_marginStart="18dp"
         android:background="@drawable/btn_rounded"
         android:onClick="registerBtn_OnClick"
-        android:text="register"
+        android:text="@string/register_btn"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
