@@ -75,6 +75,11 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public void cleanListeners() {
+
+    }
+
+    @Override
     public void sendGameArea(Area gameArea) {
 
     }

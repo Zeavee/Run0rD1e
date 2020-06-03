@@ -11,7 +11,7 @@
         android:id="@+id/winner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="game0vr"
+        android:text="Y0u w0n!"
         android:textColor="#9C27B0"
         android:textSize="45sp"
         android:textStyle="bold|italic"

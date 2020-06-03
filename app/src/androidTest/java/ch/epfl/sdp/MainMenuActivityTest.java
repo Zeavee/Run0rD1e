@@ -71,7 +71,7 @@ public class MainMenuActivityTest {
 
     @Test
     public void mapsOpens() {
-        testButtonWorks(R.id.mapButton, R.id.map);
+        testButtonWorks(R.id.multi, R.id.map);
     }
 
     @Test

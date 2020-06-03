@@ -65,4 +65,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
 
     }
+
+    @Override
+    public void cleanListeners() {
+
+    }
 }

@@ -236,7 +236,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI, this::endGame);
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
@@ -316,6 +316,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
+        finish();
         flagGameOver = true;
     }
 

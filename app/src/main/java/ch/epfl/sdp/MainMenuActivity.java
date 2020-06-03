@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.LoginFormActivity;
@@ -30,7 +29,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
-        findViewById(R.id.mapButton).setOnClickListener(v -> startWithPlayModeExtra("multi-player"));
+        findViewById(R.id.multi).setOnClickListener(v -> startWithPlayModeExtra("multi-player"));
 
         findViewById(R.id.solo).setOnClickListener(v -> startWithPlayModeExtra("single-player"));
 
@@ -58,6 +57,7 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(MainMenuActivity.this, MapsActivity.class);
         intent.putExtra("playMode", value);
         startActivity(intent);
+        finish();
     }
 }
     

@@ -77,9 +77,9 @@ public class GameOverTest {
     public void test() {
         // wait a moment for the splash screen to be intended
         while (!mActivityTestRule.getActivity().flagGameOver) ;
-        ViewInteraction textView = onView(withId(R.id.gameovr));
+        ViewInteraction textView = onView(withId(R.id.winner));
         textView.check(matches(withText("game0vr")));
-        onView(withId(R.id.backFromGameOverButton)).perform(click());
+        onView(withId(R.id.backFromWinnerButton)).perform(click());
         onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }
 }

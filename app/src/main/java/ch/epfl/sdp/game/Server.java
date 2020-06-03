@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+
+import javax.security.auth.callback.Callback;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
@@ -14,6 +17,7 @@ import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -39,6 +43,7 @@ public class Server implements StartGameController, Updatable {
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private final ItemFactory itemFactory;
     private Area gameArea;
+    private Runnable endGame;
 
     /**
      * Constructor for the Server
@@ -46,7 +51,7 @@ public class Server implements StartGameController, Updatable {
      * @param serverDatabaseAPI the API for accessing the remote database used by the server
      * @param commonDatabaseAPI the API for accessing the remote database used by the client and the server
      */
-    public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
+    public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
@@ -54,6 +59,7 @@ public class Server implements StartGameController, Updatable {
         this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
+        this.endGame = endGame;
     }
 
     @Override
@@ -82,6 +88,16 @@ public class Server implements StartGameController, Updatable {
             sendPlayersItems();
             checkPlayerStatus();
             counter = 2 * GameThread.FPS + 1;
+            boolean isWinner = true;
+            for (Player player : playerManager.getPlayers()) {
+                if (player.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
+                    isWinner = false;
+                    break;
+                }
+            }
+            if (isWinner) {
+                endGame.run();
+            }
         }
 
         --counter;

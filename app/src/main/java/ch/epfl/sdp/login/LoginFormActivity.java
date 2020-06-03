@@ -71,8 +71,8 @@ public class LoginFormActivity extends AppCompatActivity {
             if (!signInRes.isSuccessful()) {
                 Log.d("TAG", "signIn: " + signInRes.getException().getMessage());
             } else {
-                LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainMenuActivity.class));
-                LoginFormActivity.this.finish();
+                startActivity(new Intent(LoginFormActivity.this, MainMenuActivity.class));
+                finish();
             }
         });
     }

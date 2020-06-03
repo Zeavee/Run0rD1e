@@ -54,7 +54,7 @@ public class NewMarketActivityTest {
         public void beforeActivityLaunched() {
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
             amro.setHealthPoints(100);
-            amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
+            amro.removeMoney(amro.getMoney());
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMap mockMap = new MockMap();
@@ -70,7 +70,7 @@ public class NewMarketActivityTest {
             return intent;
         }
 
-        // start the game engine MANUALLY
+        // start the game engine manually
         @Override
         public void afterActivityLaunched() {
             // always return this for current location

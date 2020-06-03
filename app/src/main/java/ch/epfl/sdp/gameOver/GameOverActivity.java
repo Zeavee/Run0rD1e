@@ -9,6 +9,7 @@ import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.utils.JunkCleaner;
 
 /**
@@ -19,8 +20,13 @@ public class GameOverActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_over);
-        findViewById(R.id.backFromGameOverButton).setOnClickListener(v -> goToMainMenu());
+        if (PlayerManager.getInstance().getCurrentUser().getHealthPoints() > 0) {
+            setContentView(R.layout.activity_winner);
+            findViewById(R.id.backFromWinnerButton).setOnClickListener(v -> goToMainMenu());
+        } else {
+            setContentView(R.layout.activity_game_over);
+            findViewById(R.id.backFromWinnerButton).setOnClickListener(v -> goToMainMenu());
+        }
     }
 
     private void goToMainMenu() {

@@ -79,8 +79,8 @@ public class RegisterFormActivity extends AppCompatActivity {
                     if (!addUserRes.isSuccessful()) {
                         Toast.makeText(RegisterFormActivity.this, addUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainMenuActivity.class));
-                        RegisterFormActivity.this.finish();
+                        startActivity(new Intent(RegisterFormActivity.this, MainMenuActivity.class));
+                        finish();
                     }
                 });
             }
