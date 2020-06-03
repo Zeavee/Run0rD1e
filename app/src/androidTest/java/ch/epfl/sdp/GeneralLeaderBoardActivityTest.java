@@ -44,9 +44,8 @@ public class GeneralLeaderBoardActivityTest {
             };
 
     @Test
-    public void onCreateTest() throws InterruptedException {
+    public void onCreateTest() {
         onView(withId(R.id.recycler_view)).perform();
-        Thread.sleep(1000);
         onView(withId(R.id.iv_champion1)).check(matches(isDisplayed()));
     }
 }
