@@ -150,6 +150,11 @@
 
     <!---Here are Chat names-->
     <string name="MessageInput">Write a message</string>
+    <string name="placeholder">TextView</string>
+    <string name="placeholderImg">Image</string>
+    <string name="chat_user">Rose</string>
+    <string name="chat_exampleMsg">How are you doing? This is a long message that should probably wrap.</string>
+
 
     <!---Here is the name of GameOver-->
     <string name="GameOverLabel">game0vr</string>
@@ -185,6 +190,18 @@
     <string name="market_cost">Cost: \nValue:</string>
     <string name="market_money">Money:</string>
 
+    <!---Here are Register-->
+    <string name="register_newAccount">Create a new account</string>
+    <string name="register_username">Username</string>
+    <string name="register_pw_conf">Password confirmation</string>
+
+    <!---Here are Layout Itembox-->
+    <string name="itembox_shield">Shield</string>
+    <string name="itembox_number">Number:</string>
+    <string name="itembox_amount">5</string>
+    <string name="itembox_title">USE ITEM</string>
+
+
 
 
     <!---Here are Button names-->
@@ -197,6 +214,8 @@
     <string name="market_shield_btn">Shield Button</string>
     <string name="market_healthpack_btn">Healthpack Button</string>
     <string name="market_scan_btn">Scan Button</string>
+    <string name="register_btn">Register</string>
+    <string name="chat_btn">chat</string>
 
     <!---Here are Images/Icons names-->
     <string name="ImgItemIcon">itemIcon</string>
