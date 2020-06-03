@@ -1,10 +1,7 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
@@ -14,12 +11,11 @@ import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class RandomEnemyGenerator extends EnemyGenerator {
+    private int generatedEnemyNum;
 
     public RandomEnemyGenerator(Area enclosure) {
         super(enclosure);
-        enemies = new ArrayList<>();
-        timer = new Timer();
-        readyToCreate = true;
+        generatedEnemyNum = 0;
     }
 
     @Override
@@ -35,16 +31,17 @@ public class RandomEnemyGenerator extends EnemyGenerator {
     }
 
     @Override
-    public void generateEnemy(double radius) {
-        if (maxEnemies <= enemies.size() || !readyToCreate) {
-            return;
+    public Enemy generateEnemy(double radius) {
+        if (maxEnemies <= generatedEnemyNum) {
+            return null;
         }
         GeoPoint enemyLocation = rule();
         if (enemyLocation == null) {
-            return;
+            return null;
         }
 
-        Enemy enemy = new Enemy(enclosure);
+        // use the number of the enemies as the enemy id
+        Enemy enemy = new Enemy(generatedEnemyNum++, enclosure);
         SinusoidalMovement movement = new SinusoidalMovement();
         movement.setVelocity(10);
         movement.setAngleStep(0.1);
@@ -52,22 +49,7 @@ public class RandomEnemyGenerator extends EnemyGenerator {
         movement.setAngle(1);
         enemy.setMovement(movement);
         enemy.setLocation(enemyLocation);
-        enemies.add(enemy);
-        readyToCreate = false;
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                readyToCreate = true;
-            }
-        }, timeToCreate);
-    }
-
-    @Override
-    public void setEnemyCreationTime(long time) {
-        if (time < 0) {
-            return;
-        }
-        timeToCreate = time;
+        return enemy;
     }
 
     @Override

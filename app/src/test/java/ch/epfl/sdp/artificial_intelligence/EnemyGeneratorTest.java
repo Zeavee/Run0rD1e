@@ -31,13 +31,10 @@ public class EnemyGeneratorTest {
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()));
         enemyGenerator.setMinDistanceFromEnemies(1);
         enemyGenerator.setMinDistanceFromEnemies(-1);
-        enemyGenerator.setEnemyCreationTime(1);
-        enemyGenerator.setEnemyCreationTime(-1);
         enemyGenerator.setMaxEnemies(10);
         enemyGenerator.setMaxEnemies(-10);
-        enemyGenerator.generateEnemy(100);
-        assertEquals(1, enemyGenerator.getEnemies().size());
-        assertNotNull(enemyGenerator.getEnemies().get(0));
+        Enemy enemy = enemyGenerator.generateEnemy(100);
+        assertNotNull(enemy);
     }
 
     @Test
@@ -48,13 +45,8 @@ public class EnemyGeneratorTest {
         enemyGenerator.setMinDistanceFromEnemies(10);
         enemyGenerator.setMinDistanceFromPlayers(1000);
         enemyGenerator.setMaxEnemies(10);
-        enemyGenerator.setEnemyCreationTime(1);
-        while (enemyGenerator.getEnemies().size() < 10) {
-            enemyGenerator.generateEnemy(100);
-        }
-        for (Enemy e : enemyGenerator.getEnemies()) {
-            assertTrue(e.getLocation().distanceTo(player.getLocation()) > 1000);
-        }
+        Enemy enemy = enemyGenerator.generateEnemy(100);
+        assertTrue(enemy.getLocation().distanceTo(player.getLocation()) > 1000);
     }
 
 }
