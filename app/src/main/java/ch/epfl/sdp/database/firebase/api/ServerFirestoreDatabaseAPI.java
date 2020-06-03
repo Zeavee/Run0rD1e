@@ -150,20 +150,8 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                .addSnapshotListener((querySnapshot, e) -> {
-                    if (e != null) {
-                        onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    } else {
-                        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-                        for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-                            playerForFirebaseList.add(dc.getDocument().toObject(PlayerForFirebase.class));
-                        }
-                        onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
-                    }
-                });
-        listeners.add(listenerRegistration);
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+        DatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {

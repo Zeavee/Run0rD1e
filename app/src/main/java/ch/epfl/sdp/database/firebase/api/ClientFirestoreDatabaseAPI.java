@@ -43,17 +43,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
 
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
-        ListenerRegistration listenerRegistration = lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
-            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-            else {
-                List<T> entityList = new ArrayList<>();
-                for (DocumentChange documentChange : Objects.requireNonNull(querySnapshot).getDocumentChanges()) {
-                    entityList.add(documentChange.getDocument().toObject(tClass));
-                }
-                onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
-            }
-        });
-        listeners.add(listenerRegistration);
+        DatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     @Override

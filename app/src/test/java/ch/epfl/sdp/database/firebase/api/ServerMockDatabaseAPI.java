@@ -76,6 +76,13 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+        if (tClass == PlayerForFirebase.class) {
+            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<T>((List<T>) playerForFirebaseMap.values()), true, null));
+        }
+    }
+
+    @Override
     public void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList) {
 
     }
@@ -113,11 +120,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(usedItems, true, null));
-    }
-
-    @Override
-    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onPlayersPositionCallback) {
-        onPlayersPositionCallback.finish(new CustomResult<>(new ArrayList<>(playerForFirebaseMap.values()), true, null));
     }
 
     @Override

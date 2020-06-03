@@ -41,6 +41,8 @@ public interface ServerDatabaseAPI {
      */
     void sendEnemies(List<EnemyForFirebase> enemies);
 
+    <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback);
+
     void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList);
 
     void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases);
@@ -52,8 +54,6 @@ public interface ServerDatabaseAPI {
     void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback);
 
     void sendGameArea(Area gameArea);
-
-    void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
 
     void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList);
 

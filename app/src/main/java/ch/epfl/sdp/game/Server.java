@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
-
-import javax.security.auth.callback.Callback;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
@@ -17,7 +14,6 @@ import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -88,16 +84,7 @@ public class Server implements StartGameController, Updatable {
             sendPlayersItems();
             checkPlayerStatus();
             counter = 2 * GameThread.FPS + 1;
-            boolean isWinner = true;
-            for (Player player : playerManager.getPlayers()) {
-                if (player.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
-                    isWinner = false;
-                    break;
-                }
-            }
-            if (isWinner) {
-                endGame.run();
-            }
+            checkIfWon();
         }
 
         --counter;
@@ -110,6 +97,19 @@ public class Server implements StartGameController, Updatable {
         }
         --scoreTimeCounter;
 
+    }
+
+    private void checkIfWon() {
+        boolean isWinner = true;
+        for (Player player : playerManager.getPlayers()) {
+            if (player.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
+                isWinner = false;
+                break;
+            }
+        }
+        if (isWinner) {
+            endGame.run();
+        }
     }
 
     private void sendGameArea() {
@@ -174,7 +174,7 @@ public class Server implements StartGameController, Updatable {
     }
 
     private void addPlayersListener() {
-        serverDatabaseAPI.addPlayersListener(value -> {
+        serverDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
