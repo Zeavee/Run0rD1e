@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
+import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -24,10 +24,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
-public class GeneralLeaderboardActivityTest {
+public class GeneralLeaderBoardActivityTest {
     @Rule
-    public final ActivityTestRule<GeneralLeaderboardActivity> mActivityRule =
-            new ActivityTestRule<GeneralLeaderboardActivity>(GeneralLeaderboardActivity.class) {
+    public final ActivityTestRule<GeneralLeaderBoardActivity> mActivityRule =
+            new ActivityTestRule<GeneralLeaderBoardActivity>(GeneralLeaderBoardActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     HashMap<String, UserForFirebase> map = new HashMap<>();
@@ -37,6 +37,7 @@ public class GeneralLeaderboardActivityTest {
                     userForFirebaseList.add(new UserForFirebase("leader0@gmail.com", "leader0", 100));
                     userForFirebaseList.add(new UserForFirebase("leader1@gmail.com", "leader1", 90));
                     userForFirebaseList.add(new UserForFirebase("leader2@gmail.com", "leader2", 80));
+                    userForFirebaseList.add(new UserForFirebase("leader3@gmail.com", "leader3", 70));
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(map, userForFirebaseList);
                 }

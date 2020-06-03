@@ -2,6 +2,7 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -11,7 +12,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 /**
  * Control the whole game lifecycle of the solo mode
  */
-public class Solo implements StartGameController, Updatable {
+public class Solo extends StartGameController implements Updatable {
     private final Player currentUser = PlayerManager.getInstance().getCurrentUser();
     private int counter = 0;
     private GeoPoint previousLocation;
@@ -34,10 +35,11 @@ public class Solo implements StartGameController, Updatable {
             previousLocation = currentUser.getLocation();
 
             // init the environment
-            Area gameArea = StartGameController.initGameArea();
-            StartGameController.initItemBoxes();
-            StartGameController.initEnemies(gameArea, EnemyManager.getInstance());
-            StartGameController.initCoins(currentUser.getLocation());
+            Area gameArea = initGameArea();
+            initItemBoxes();
+            createRandomEnemyGenerator(gameArea);
+            generateEnemy(EnemyManager.getInstance());
+            initCoins(currentUser.getLocation());
 
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
@@ -59,13 +61,17 @@ public class Solo implements StartGameController, Updatable {
         // Update the current game score in 10 seconds
         if (counter % (10 * GameThread.FPS) == 0) {
             updateIngameScore();
+        }
+
+        // generate more enemy in 30 seconds
+        if(counter % (30 * GameThread.FPS) == 0) {
+            generateEnemy(EnemyManager.getInstance());
 
             // reset tht counter to avoid overflow
             counter = 0;
         }
 
         counter++;
-
     }
 
     private void updateDistanceTravelled() {
