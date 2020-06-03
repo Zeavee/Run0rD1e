@@ -60,4 +60,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
         playerForFirebaseMap.put(playerForFirebase.getEmail(), playerForFirebase);
     }
+
+    @Override
+    public void cleanListeners() {
+
+    }
 }
