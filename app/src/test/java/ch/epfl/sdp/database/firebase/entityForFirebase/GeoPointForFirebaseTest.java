@@ -7,6 +7,7 @@ import static junit.framework.TestCase.assertTrue;
 public class GeoPointForFirebaseTest {
     @Test
     public void test(){
+        GeoPointForFirebase geoPointForFirebase0 = new GeoPointForFirebase();
         GeoPointForFirebase geoPointForFirebase = new GeoPointForFirebase(22,22);
 
         assertTrue(geoPointForFirebase.getLatitude() == 22);

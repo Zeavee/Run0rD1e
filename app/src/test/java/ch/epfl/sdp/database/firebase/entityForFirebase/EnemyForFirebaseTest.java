@@ -17,5 +17,11 @@ public class EnemyForFirebaseTest {
         assertEquals(1, enemyForFirebase1.getId());
         assertEquals(33, enemyForFirebase1.getLocation().getLatitude(), 0.01);
         assertEquals(33, enemyForFirebase1.getLocation().getLongitude(), 0.01);
+
+        enemyForFirebase1.setBehaviour(Behaviour.WAIT);
+        assertEquals(Behaviour.WAIT, enemyForFirebase1.getBehaviour());
+
+        enemyForFirebase1.setOrientation(9.9);
+        assertEquals(9.9, enemyForFirebase1.getOrientation(), 0.01);
     }
 }
