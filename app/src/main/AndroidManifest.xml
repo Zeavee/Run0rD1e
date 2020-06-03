@@ -43,7 +43,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".leaderboard.GeneralLeaderboardActivity" />
-        <activity android:name=".logic.RuleActivity" />
+        <activity android:name=".logic.RulesActivityPage1" />
+        <activity android:name=".logic.RulesActivityPage2" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
