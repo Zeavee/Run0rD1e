@@ -11,9 +11,9 @@ import java.util.Objects;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
-public abstract class DatabaseAPI {
+public interface DatabaseAPI {
 
-    public static <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback, List<ListenerRegistration> listeners, DocumentReference lobbyRef) {
+    static <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback, List<ListenerRegistration> listeners, DocumentReference lobbyRef) {
         ListenerRegistration listenerRegistration = lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             else {
