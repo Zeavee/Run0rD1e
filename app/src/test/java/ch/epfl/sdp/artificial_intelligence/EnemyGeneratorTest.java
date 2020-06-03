@@ -23,7 +23,7 @@ public class EnemyGeneratorTest {
     }
 
     @Test
-    public void generateEnemyWorks() {
+    public void testGenerateEnemyCreatesAnEnemy() {
         Player player = new Player("test", "test@gmail.com");
         player.setLocation(new GeoPoint(10, 20));
         PlayerManager.getInstance().setCurrentUser(player);
@@ -40,7 +40,7 @@ public class EnemyGeneratorTest {
     }
 
     @Test
-    public void setMinDistanceWorks() {
+    public void testSetMinDistanceMakesSpawningFurtherThanMinDistance() {
         Player player = new Player(45, 45, 100, "a", "b");
         PlayerManager.getInstance().addPlayer(player);
         EnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()));

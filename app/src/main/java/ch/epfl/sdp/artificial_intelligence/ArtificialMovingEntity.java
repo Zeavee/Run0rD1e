@@ -114,7 +114,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      */
     public void move() {
         GeoPoint position = movement.nextPosition(getLocation());
-        if (area.isInside(position) || forceMove) {
+        if ((area.isInside(position) && moving) || forceMove) {
             super.setLocation(position);
         } else {
             bounce();

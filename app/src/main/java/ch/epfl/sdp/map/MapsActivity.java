@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
@@ -33,6 +34,8 @@ import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entity.EntityConverter;
 import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.utils.CustomResult;
+import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
@@ -185,6 +188,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // select the lobby in cloud firebase which has less than the number of players required to play the game, then currentUser is Client
                         // If all the lobbies are full, create a new lobby in the cloud firebase and then the currentUser is Server
                         selectLobby();
+
+
                     } else {
                         Toast.makeText(MapsActivity.this, "No such play mode", Toast.LENGTH_LONG).show();
                     }
@@ -208,14 +213,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void selectLobby() {
         commonDatabaseAPI.selectLobby(selectLobbyRes -> {
             if (selectLobbyRes.isSuccessful()) {
-                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                Map<String, Object> data = new HashMap<>();
-                data.put("count", playerManager.getNumPlayersInLobby() + 1);
-                if (playerManager.isServer()) data.put("startGame", false);
-                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                joinLobby(playerForFirebase, data);
+
+                createPlayerInLobby(playerManager.getLobbyDocumentName());
+
             } else {
                 Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void createPlayerInLobby(String lobbyId){
+        commonDatabaseAPI.fetchPlayers(lobbyId, res -> {
+            if(res.isSuccessful()){
+                boolean isInLobby = false;
+
+                List<PlayerForFirebase> playersForFirebase = res.getResult();
+                for (PlayerForFirebase playerForFirebase: playersForFirebase) {
+                    if(playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())){
+                        isInLobby = true;
+                        break;
+                    }
+                }
+
+                if(isInLobby){
+                    // TODO if player is in lobby Get Player status and items
+                }else{
+                    PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("count", playerManager.getNumPlayersInLobby() + 1);
+                    if (playerManager.isServer()) data.put("startGame", false);
+                    Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                    joinLobby(playerForFirebase, data);
+                }
+            }else{
+
             }
         });
     }
