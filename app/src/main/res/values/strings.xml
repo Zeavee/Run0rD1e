@@ -122,33 +122,30 @@
     <string name="rules_howPlay_title">How to play?</string>
     <string name="rules_howPlay_content_start">
         Some enemies (controlled by the computer) \nappear on the map.\n\nIf the player
-        stands too close to an enemy,\n he loses heatlhpoints.\n\nIf a player\'s health drops to zero,
-        he disappears.\n\nAfter some time, more enemies appear.\n\nThe player with the highest score will win the game.\n\n
+        stands too close to an enemy,\n he loses heatlhpoints.\n\nIf a player\'s health drops to zero, he disappears.\n\nAfter some time,
+        more enemies appear.\n\nThe player with the highest score will win the game.\n\n
     </string>
     <string name="rules_item_title">Items</string>
     <string name="rules_item_content">If you use the healthpack then you can increase your healthpoints about 10 points.</string>
-    <string name="rules_item_content_shrink">If no player has lost within a given time the map shrinks.</string>
-    <string name="rules_item_content_market">You can collect coins to buy healthpacket in the market.</string>
+    <string name="rules_item_content_shrink">If no player has lost within a given time the map <b>shrinks.</b></string>
+    <string name="rules_item_content_market">You can collect coins to buy healthpacket in the <b>market.</b></string>
 
     <!---Here are Rules Page 2 content-->
     <string name="rules_inventory_title">Inventory</string>
-    <string name="rules_inventory_content">Inventory contains the items</string>
+    <string name="rules_inventory_content"><b>Inventory contains the items</b></string>
 
     <string name="rules_leaderboard_title">Leaderboard / Score </string>
     <string name="rules_leaderboard_content">
         Each 10 seconds the score will be updated and if the player run more than 10 meters in 10 secs
         the player will get 20 points instead of 10 points.
     </string>
-    <string name="rules_leaderboard_content_one">
-        General score is a long-term score which\nis the sum of the <b>in-game score</b>.\nThat means the more game round you play
-        \nthe higher will be the general score.
+    <string name="rules_leaderboard_content_one"><b>General score</b> is a <b>long-term score</b> which\nis the sum of the <b>in-game score</b>.\nThat means the more game round you play
+        \nthe higher will be the <b>general score</b>.
     </string>
 
     <string name="rules_chat_title">Chat and Offline</string>
-    <string name="rules_chat_content">
-
-        CHAT: In Multiplayer mode you can chat with your friends.\n\nOFFLINE Mode: You see the leaderboard and the chat.
-
+    <string name="rules_chat_content"><b>CHAT:</b> In Multiplayer mode you can
+        chat with your friends.\n\n<b>OFFLINE</b> You see the leaderboard and the chat.
     </string>
 
     <!---Here are Button names-->

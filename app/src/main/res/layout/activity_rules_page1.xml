@@ -107,7 +107,7 @@
         app:layout_constraintBottom_toTopOf="@+id/enemyRule"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/introText2"
-        app:layout_constraintVertical_bias="0.31" />
+        app:layout_constraintVertical_bias="0.36" />
 
     <TextView
         android:id="@+id/plamodesingle"
@@ -152,13 +152,13 @@
         android:id="@+id/howToplayTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="@font/bold"
         android:text="@string/rules_howPlay_title"
         android:textColor="@color/blue"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.013"
+        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/plamodesingle" />
 
@@ -202,6 +202,6 @@
         app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.847" />
+        app:layout_constraintVertical_bias="0.959" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -45,10 +45,10 @@
         android:contentDescription="@string/ImgItemIcon"
         app:layout_constraintBottom_toTopOf="@+id/ItemContentOne"
         app:layout_constraintEnd_toStartOf="@+id/titleRules"
-        app:layout_constraintHorizontal_bias="0.277"
+        app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toEndOf="@+id/itemTitle"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703"
+        app:layout_constraintVertical_bias="0.689"
         app:srcCompat="@drawable/healthpack" />
 
     <TextView
@@ -100,7 +100,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864" />
+        app:layout_constraintVertical_bias="0.932" />
 
     <TextView
         android:id="@+id/textView4"
@@ -151,7 +151,7 @@
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.788" />
+        app:layout_constraintVertical_bias="0.92" />
 
     <TextView
         android:id="@+id/textView9"
@@ -163,7 +163,7 @@
         app:layout_constraintHorizontal_bias="0.205"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.76" />
+        app:layout_constraintVertical_bias="0.827" />
 
     <TextView
         android:id="@+id/textView10"
@@ -209,12 +209,13 @@
         android:id="@+id/imageView6"
         android:layout_width="47dp"
         android:layout_height="22dp"
-        android:layout_marginBottom="388dp"
         android:contentDescription="@string/ImgScoreBoardIcon"
-        app:layout_constraintBottom_toTopOf="@+id/btnPage1"
+        app:layout_constraintBottom_toTopOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.417"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.166"
         app:srcCompat="@drawable/score" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
