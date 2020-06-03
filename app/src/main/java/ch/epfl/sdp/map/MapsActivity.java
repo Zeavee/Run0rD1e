@@ -51,6 +51,7 @@ import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
@@ -95,6 +96,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         playMode = intent.getStringExtra("playMode");
         Log.d("play mode", "The play mode: " + playMode);
+
+        boolean isSolo = playMode.equals("single-player");
+
+        if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
+            JunkCleaner.clearAll();
+        }
 
         Game.getInstance().setRenderer(this);
 

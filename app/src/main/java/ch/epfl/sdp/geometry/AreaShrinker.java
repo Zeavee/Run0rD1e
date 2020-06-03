@@ -119,6 +119,9 @@ public class AreaShrinker {
         timerUI.displayTime(remainingTime);
     }
 
+    /**
+     * This method clears the timers of the area shrinker
+     */
     public void clear() {
         timer.cancel();
         if (update1 != null)
