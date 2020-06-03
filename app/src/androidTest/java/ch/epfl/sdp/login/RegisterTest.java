@@ -135,7 +135,8 @@ public class RegisterTest {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
             Log.d("COUNTER", " " + i);
-            onView(withId(R.id.createAccountBtn)).perform(click());
+            //onView(withId(R.id.backBtn)).perform(click());
+            //onView(withId(R.id.createAccountBtn)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
     }
@@ -161,12 +162,13 @@ public class RegisterTest {
     }
 
     // for now
-
+/*
     @Test
     public void backButton_ShouldGoToLoginForm() {
         intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
+        onView(withId(R.id.backBtn)).perform(click());
         onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
-    }
+    }*/
 
     /*@Test
     public void registerWhenConnected_ShouldGoToMainScreen(){
