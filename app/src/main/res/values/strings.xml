@@ -151,10 +151,40 @@
     <!---Here are Chat names-->
     <string name="MessageInput">Write a message</string>
 
+    <!---Here is the name of GameOver-->
+    <string name="GameOverLabel">game0vr</string>
+    <string name="BackMain">Go back to main menu</string>
+
     <!---Here are Leaderboard names-->
     <string name="lb_ranking">1</string>
     <string name="lb_user">Admin</string>
     <string name="lb_score">100</string>
+    <string name="lb_title">Leaderboard</string>
+    <string name="ranking_stage">Ranking Stage</string>
+
+    <!---Here is Login-->
+    <string name="login_greeting">Welcome to</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_offline">Offline Mode</string>
+    <string name="login_member">You are not a member?</string>
+    <string name="login_register">Register</string>
+
+    <!---Here are Rules-->
+    <string name="main_solo">Solo Mode</string>
+    <string name="main_multi">Multi Mode</string>
+    <string name="main_rules">Rules</string>
+    <string name="main_leaderboard">LeaderBoard</string>
+    <string name="main_logout">Logout</string>
+    <string name="main_friends">Friends</string>
+
+    <!---Here are Market-->
+    <string name="market_title">MARKET</string>
+    <string name="market_buyItems">Buy Items</string>
+    <string name="market_cost">Cost: \nValue:</string>
+    <string name="market_money">Money:</string>
+
 
 
     <!---Here are Button names-->
@@ -162,7 +192,11 @@
     <string name="ButtonPageTwo">Page 2</string>
     <string name="ButtonMainPage">Start Site</string>
     <string name="SendMessageButton">itemIcon</string>
-
+    <string name="ButtonName">Button</string>
+    <string name="market_shinker_btn">Shrinker Button</string>
+    <string name="market_shield_btn">Shield Button</string>
+    <string name="market_healthpack_btn">Healthpack Button</string>
+    <string name="market_scan_btn">Scan Button</string>
 
     <!---Here are Images/Icons names-->
     <string name="ImgItemIcon">itemIcon</string>
@@ -171,5 +205,6 @@
     <string name="ImgPlayIcon">playIcon</string>
     <string name="ImgChatIcon">playIcon</string>
     <string name="ImgScoreBoardIcon">playIcon</string>
+    <string name="Logo">Logo</string>
 
 </resources>
