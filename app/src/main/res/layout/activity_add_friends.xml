@@ -16,4 +16,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+    <ImageView
+        android:id="@+id/addFriendsBackButton"
+        android:layout_width="32dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/createText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.957"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.411"
+        app:srcCompat="@drawable/arrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

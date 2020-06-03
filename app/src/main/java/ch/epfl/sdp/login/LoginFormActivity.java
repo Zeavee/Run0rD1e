@@ -5,17 +5,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import ch.epfl.sdp.MainActivity;
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 
-
+/**
+ * This is the login activity
+ * It is also the starting activity and a user has to log in to play the game
+ */
 public class LoginFormActivity extends AppCompatActivity {
     private EditText lemail, lpassword;
     private AuthenticationAPI authenticationAPI;
@@ -32,19 +34,23 @@ public class LoginFormActivity extends AppCompatActivity {
 
         // If the user has already logged in, go to MainActivity directly
         if (authenticationAPI.getCurrentUserEmail() != null) {
-            startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
+            startActivity(new Intent(LoginFormActivity.this, MainMenuActivity.class));
             finish();
         }
 
         findViewById(R.id.offline_button).setOnClickListener(view -> startActivity(new Intent(LoginFormActivity.this, GeneralLeaderboardActivity.class)));
+
+        findViewById(R.id.loginButton).setOnClickListener(this::loginBtn_OnClick);
+
+        findViewById(R.id.createAccountBtn).setOnClickListener(this::createAccountBtn_OnClick);
     }
 
-    public void createAccountBtn_OnClick(View view) {
+    private void createAccountBtn_OnClick(View view) {
         startActivity(new Intent(LoginFormActivity.this, RegisterFormActivity.class));
         finish();
     }
 
-    public void loginBtn_OnClick(View view) {
+    private void loginBtn_OnClick(View view) {
         String email = lemail.getText().toString().trim();
         String password = lpassword.getText().toString().trim();
 
@@ -65,7 +71,7 @@ public class LoginFormActivity extends AppCompatActivity {
             if (!signInRes.isSuccessful()) {
                 Log.d("TAG", "signIn: " + signInRes.getException().getMessage());
             } else {
-                LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainActivity.class));
+                LoginFormActivity.this.startActivity(new Intent(LoginFormActivity.this, MainMenuActivity.class));
                 LoginFormActivity.this.finish();
             }
         });

@@ -8,10 +8,9 @@
     tools:context=".login.RegisterFormActivity">
 
     <ImageView
-        android:id="@+id/backBtn"
+        android:id="@+id/registerBackButton"
         android:layout_width="32dp"
         android:layout_height="18dp"
-        android:onClick="backBtn_OnClick"
         app:layout_constraintBottom_toTopOf="@+id/createText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.047"
@@ -117,7 +116,6 @@
         android:layout_height="35dp"
         android:layout_marginStart="18dp"
         android:background="@drawable/btn_rounded"
-        android:onClick="registerBtn_OnClick"
         android:text="register"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"

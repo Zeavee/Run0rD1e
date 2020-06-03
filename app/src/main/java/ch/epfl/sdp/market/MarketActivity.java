@@ -38,9 +38,8 @@ public class MarketActivity extends AppCompatActivity {
     private final static int CARD_HEIGHT = 30;
     private ImageButton healthImg;
     private TextView money;
-    private HashMap<View, Pair<Integer, Class<? extends Item>>> viewsSelected = new HashMap<>();
-    private Button buy;
-    private HashMap<Integer, Integer> itemToViewMap = new HashMap<>();
+    private final HashMap<View, Pair<Integer, Class<? extends Item>>> viewsSelected = new HashMap<>();
+    private final HashMap<Integer, Integer> itemToViewMap = new HashMap<>();
 
     /**
      * Initializes the viewSelected map, which maps view to an integer indicating if it's selected as well as
@@ -55,13 +54,13 @@ public class MarketActivity extends AppCompatActivity {
         scanImg = findViewById(R.id.scanButton);
         shImg = findViewById(R.id.shieldButton);
         healthImg = findViewById(R.id.emsButton);
-        buy = findViewById(R.id.BuyButton);
+        Button buy = findViewById(R.id.BuyButton);
         money = findViewById(R.id.textMoney);
 
-        aoeImg.setOnClickListener(v -> invertCardView(v));
-        scanImg.setOnClickListener(v -> invertCardView(v));
-        shImg.setOnClickListener(v -> invertCardView(v));
-        healthImg.setOnClickListener(v -> invertCardView(v));
+        aoeImg.setOnClickListener(this::invertCardView);
+        scanImg.setOnClickListener(this::invertCardView);
+        shImg.setOnClickListener(this::invertCardView);
+        healthImg.setOnClickListener(this::invertCardView);
         buy.setOnClickListener(v -> checkoutItems());
 
         updateMoneyShown();
@@ -70,7 +69,8 @@ public class MarketActivity extends AppCompatActivity {
     }
 
     private void updateMoneyShown() {
-        money.setText("Money: " + PlayerManager.getInstance().getCurrentUser().getMoney());
+        String newText = "Money: " + PlayerManager.getInstance().getCurrentUser().getMoney();
+        money.setText(newText);
     }
 
     /**
@@ -124,7 +124,8 @@ public class MarketActivity extends AppCompatActivity {
         if (backend == null) finish();
         setupItemToViewMap();
         for (Item i : backend.getStock().keySet()) {
-            ((TextView) findViewById(itemToViewMap.get(i.getClass().hashCode()))).setText("Cost: " + backend.getStock().get(i).second + "\n" + "Value: " + (((int) (100 * i.getValue())) / 100.0));
+            String newText = "Cost: " + backend.getStock().get(i).second + "\n" + "Value: " + (((int) (100 * i.getValue())) / 100.0);
+            ((TextView) findViewById(itemToViewMap.get(i.getClass().hashCode()))).setText(newText);
         }
     }
 

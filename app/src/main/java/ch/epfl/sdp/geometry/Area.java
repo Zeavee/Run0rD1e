@@ -20,6 +20,7 @@ public abstract class Area implements Positionable, Displayable, Updatable {
     boolean isShrinking;
 
     private int damageDelay = GameThread.FPS;
+    String remainingTimeString;
 
     /**
      * A constructor for an area
@@ -169,4 +170,20 @@ public abstract class Area implements Positionable, Displayable, Updatable {
     @NonNull
     @Override
     public abstract String toString();
+
+    /**
+     * This method sets the remaining time string we should display on the timer
+     *
+     * @param remainingTimeString the string representing the remaining time
+     */
+    public void setRemainingTimeString(String remainingTimeString) {
+        this.remainingTimeString = remainingTimeString;
+    }
+
+    /**
+     * This method gets the remaining time string we should display on the timer
+     */
+    public String getRemainingTimeString() {
+        return remainingTimeString;
+    }
 }

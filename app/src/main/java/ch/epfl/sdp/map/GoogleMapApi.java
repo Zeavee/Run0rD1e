@@ -21,8 +21,8 @@ import java.util.Map;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class GoogleMapApi implements MapApi {
-    private GoogleMap mMap;
-    private Map<Displayable, MapDrawing> entityCircles;
+    private final GoogleMap mMap;
+    private final Map<Displayable, MapDrawing> entityCircles;
 
     public GoogleMapApi(GoogleMap googleMap) {
         mMap = googleMap;
@@ -31,8 +31,9 @@ public class GoogleMapApi implements MapApi {
 
     @Override
     public void moveCameraOnLocation(GeoPoint location) {
-        LatLng currentLocationLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocationLatLng, 14));
+        if (location != null) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
+        }
     }
 
     @UiThread
@@ -42,8 +43,8 @@ public class GoogleMapApi implements MapApi {
         Canvas canvas = new Canvas(output);
         Paint paint = new Paint();
         paint.setColor(color);
-        canvas.drawCircle(25 / 2, 25 / 2,
-                25 / 2, paint);
+        canvas.drawCircle(12.5f, 12.5f,
+                12.5f, paint);
         return output;
     }
 

@@ -1,14 +1,13 @@
 package ch.epfl.sdp.geometry;
 
-import android.app.Activity;
-import android.widget.TextView;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import ch.epfl.sdp.map.TimerUI;
 
 /**
  * A class that shrinks the game area over time.
@@ -17,19 +16,20 @@ public class AreaShrinker {
     private Area gameArea;
     private final long[] time = {0};
     private long finalTime;
-    private TextView timer;
-    private Activity context;
+    private TimerUI timerUI;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final long timeBeforeShrinking;
     private final long shrinkingDuration;
     private final double shrinkFactor;
     private final long tick = 500;
+    private boolean isStarted;
 
     /**
-     * Creates an area shrinker.
-     * @param timeBeforeShrinking The waiting time before the shrinking begin.
-     * @param shrinkingDuration The duration of the shrinking.
-     * @param shrinkFactor The shrinking factor.
+     * Constructor for the area shrinker
+     *
+     * @param timeBeforeShrinking the time between two shrinks
+     * @param shrinkingDuration   the duration of the shrinking
+     * @param shrinkFactor        this factor tells the size of the new area
      */
     public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {
         this.timeBeforeShrinking = timeBeforeShrinking;
@@ -41,20 +41,23 @@ public class AreaShrinker {
      * The area starts shrinking, and stops after the shrinking duration.
      */
     private void startShrink() {
+        isStarted = true;
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 runTimer(timeBeforeShrinking, () -> {
-                            time[0] += tick;
-                            context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
-                        });
+                    time[0] += tick;
+                    gameArea.setRemainingTimeString(getRemainingTimeAsString());
+                    timerUI.displayTime(getRemainingTimeAsString());
+                });
 
                 gameArea.shrink(shrinkFactor);
                 gameArea.setFinalTime(shrinkingDuration);
                 runTimer(shrinkingDuration, () -> {
                     time[0] += tick;
                     gameArea.setTime(time[0]);
-                    context.runOnUiThread(() -> timer.setText(getRemainingTimeAsString()));
+                    gameArea.setRemainingTimeString(getRemainingTimeAsString());
+                    timerUI.displayTime(getRemainingTimeAsString());
                 });
                 gameArea.finishShrink();
             }
@@ -88,18 +91,16 @@ public class AreaShrinker {
         double remainingTime = finalTime - time[0];
         int minutes = (int) remainingTime / 60000;
         int seconds = ((int) remainingTime % 60000) / 1000;
-        return minutes + " : " + seconds;
+        return minutes + ":" + seconds;
     }
 
     /**
      * This sets the textView on which we want to display the timer and the activity on which is the timer
      *
-     * @param timerShrinking the TextView which will be the timer
-     * @param activity       the activity on which the TextView is
+     * @param timerUI this will display the remaining time before start or end of the shrinking
      */
-    public void setTextViewAndActivity(TextView timerShrinking, Activity activity) {
-        timer = timerShrinking;
-        context = activity;
+    public void setTimerUI(TimerUI timerUI) {
+        this.timerUI = timerUI;
         startIfReady();
     }
 
@@ -117,8 +118,15 @@ public class AreaShrinker {
      * Start shrinking if everything is ok.
      */
     private void startIfReady() {
-        if (gameArea != null && timer != null) {
+        if (gameArea != null && timerUI != null && !isStarted) {
             startShrink();
         }
+    }
+
+    /**
+     * This method permits the client to show the timer
+     */
+    public void showRemainingTime(String remainingTime) {
+        timerUI.displayTime(remainingTime);
     }
 }

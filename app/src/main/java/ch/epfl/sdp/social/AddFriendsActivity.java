@@ -1,5 +1,6 @@
 package ch.epfl.sdp.social;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,9 +10,11 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
@@ -36,6 +39,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
 
+        findViewById(R.id.addFriendsBackButton).setOnClickListener((v) -> startActivity(new Intent(AddFriendsActivity.this, FriendsListActivity.class)));
     }
 
     @Override

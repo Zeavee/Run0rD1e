@@ -21,12 +21,8 @@ import ch.epfl.sdp.utils.RandomGenerator;
  * A Market is a place where the players can go and buy items using their money
  */
 public class Market implements Displayable {
-    private Map<Item, Pair<Integer, Integer>> stock;
-    private final double MIN_PRICE = 200;
-    private final double MAX_PRICE = 300;
-    private final int THRESH_DIST = 50; // in meters
+    private final Map<Item, Pair<Integer, Integer>> stock;
     private final GeoPoint loc;
-    private final RandomGenerator randomGenerator = new RandomGenerator();
     private boolean hasVisitedMarket = false, isDisplayed = false;
 
 
@@ -37,7 +33,10 @@ public class Market implements Displayable {
         this.loc = loc;
         stock = new HashMap<>();
         Random random = new Random();
+        RandomGenerator randomGenerator = new RandomGenerator();
         for (Item item : randomGenerator.randomItemsList()) {
+            double MAX_PRICE = 300;
+            double MIN_PRICE = 200;
             stock.put(item, new Pair<>(1 + random.nextInt(5), (int) (Math.round(MIN_PRICE + (MAX_PRICE - MIN_PRICE) * random.nextDouble()))));
         }
     }
@@ -93,8 +92,7 @@ public class Market implements Displayable {
         return loc;
     }
 
-    private void displayIcon(MapApi mapApi)
-    {
+    private void displayIcon(MapApi mapApi) {
         if (!isDisplayed) {
             mapApi.displaySmallIcon(this, "Market", R.drawable.sm_logo);
             isDisplayed = true;
@@ -109,6 +107,8 @@ public class Market implements Displayable {
     @Override
     public void displayOn(MapApi mapApi) {
         displayIcon(mapApi);
+        // in meters
+        int THRESH_DIST = 50;
         if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= THRESH_DIST && !hasVisitedMarket) {
             hasVisitedMarket = true;
             ((MapsActivity) (Game.getInstance().getRenderer())).startMarket(this);

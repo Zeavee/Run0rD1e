@@ -21,7 +21,7 @@ import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.utils.MockMapApi;
+import ch.epfl.sdp.utils.MockMap;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -32,10 +32,10 @@ import static ch.epfl.sdp.map.MapsActivityTest.GRANT_BUTTON_INDEX;
 import static ch.epfl.sdp.map.MapsActivityTest.permissionsIfNeeded;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainMenuActivityTest {
     @Rule
-    public final ActivityTestRule<MainActivity> mActivityRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class) {
+    public final ActivityTestRule<MainMenuActivity> mActivityRule =
+            new ActivityTestRule<MainMenuActivity>(MainMenuActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
                     String currentEmail = "test@gmail.com";
@@ -49,7 +49,7 @@ public class MainActivityTest {
 
     @Before
     public void setup() {
-        Game.getInstance().setMapApi(new MockMapApi());
+        Game.getInstance().setMapApi(new MockMap());
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
     }
 

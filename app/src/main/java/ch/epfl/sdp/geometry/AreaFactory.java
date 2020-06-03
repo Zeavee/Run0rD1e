@@ -14,11 +14,17 @@ public class AreaFactory {
 
         switch (parts[0]) {
             case "CircleArea":
-                return new CircleArea(Double.parseDouble(parts[1]), new GeoPoint(Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+                CircleArea circleArea = new CircleArea(Double.parseDouble(parts[1]), new GeoPoint(Double.parseDouble(parts[2]), Double.parseDouble(parts[3])));
+                circleArea.setRemainingTimeString(parts[4]);
+                return circleArea;
             case "RectangleArea":
-                return new RectangleArea(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), new GeoPoint(Double.parseDouble(parts[3]), Double.parseDouble(parts[4])));
+                RectangleArea rectangleArea = new RectangleArea(Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), new GeoPoint(Double.parseDouble(parts[3]), Double.parseDouble(parts[4])));
+                rectangleArea.setRemainingTimeString(parts[5]);
+                return rectangleArea;
             case "UnboundedArea":
-                return new UnboundedArea();
+                UnboundedArea unboundedArea = new UnboundedArea();
+                unboundedArea.setRemainingTimeString(parts[1]);
+                return unboundedArea;
         }
 
         return null;

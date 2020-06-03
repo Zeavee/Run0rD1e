@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.MainActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
@@ -57,7 +56,7 @@ public class MapsActivityTest {
     public static final int GRANT_BUTTON_INDEX = 0;
     public static final int DENY_BUTTON_INDEX = 1;
 
-    HashMap<String, UserForFirebase> map = new HashMap<>();
+    private final HashMap<String, UserForFirebase> map = new HashMap<>();
 
     public static void permissionsIfNeeded(String permissionNeeded, int button) {
         try {
@@ -181,6 +180,6 @@ public class MapsActivityTest {
         CircleArea gameArea = new CircleArea(1000, center);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
         Thread.sleep(10000);
-        onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0 : "))));
+        onView(withId(R.id.timerShrinking)).check(matches(withText(containsString("0:"))));
     }
 }
