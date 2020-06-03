@@ -92,6 +92,13 @@ public class MainActivityTest {
     }
 
     @Test
+    public void rulesPageOneOpens() {
+        onView(withId(R.id.rulesButton)).perform(click());
+        onView(withId(R.id.titleRules)).check(matches(isDisplayed()));
+        onView(withId(R.id.enemyRule)).check(matches(isDisplayed()));
+    }
+
+    @Test
     public void logoutWorks() {
         onView(withId(R.id.logoutBt)).perform(click());
         onView(withId(R.id.loginButton)).check(matches(isDisplayed()));
