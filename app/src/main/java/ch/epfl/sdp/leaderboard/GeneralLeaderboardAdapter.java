@@ -25,7 +25,7 @@ public class GeneralLeaderboardAdapter extends RecyclerView.Adapter<GeneralLeade
     @Override
     public void onBindViewHolder(@NonNull GeneralLeaderboardViewHolder holder, int position) {
         if (mUsers != null) {
-            holder.ranking.setText(String.valueOf(position+1));
+            holder.ranking.setText(String.valueOf(position+4));
             holder.username.setText(mUsers.get(position).getUsername());
             holder.generalScore.setText(String.valueOf(mUsers.get(position).getScore()));
         } else {

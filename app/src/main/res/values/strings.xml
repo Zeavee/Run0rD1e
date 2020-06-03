@@ -105,4 +105,64 @@
     <string name="weather">Weather</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="market">MARKET</string>
+    <!---Here are Rules Page 1 content-->
+    <string name="rules_title">Rules</string>
+
+    <string name="rules_intro_title">Intro</string>
+    <string name="rules_intro_content_start">In this game you play on the map.</string>
+    <string name="rules_intro_content_end">To play you will need to activate your current position and be ready to run away.</string>
+
+    <string name="rules_mode_title">Playmode</string>
+    <string name="rules_solo_title">Soloplayer: </string>
+    <string name="rules_solo_content">You can start the game.</string>
+
+    <string name="rules_multi_title">Multiplayer: </string>
+    <string name="rules_multi_content">Two or more players can join a game room/lobby and start a multiplayer game against each other.</string>
+
+    <string name="rules_howPlay_title">How to play?</string>
+    <string name="rules_howPlay_content_start">
+        Some enemies (controlled by the computer) \nappear on the map.\n\nIf the player
+        stands too close to an enemy,\n he loses heatlhpoints.\n\nIf a player\'s health drops to zero,
+        he disappears.\n\nAfter some time, more enemies appear.\n\nThe player with the highest score will win the game.\n\n
+    </string>
+    <string name="rules_item_title">Items</string>
+    <string name="rules_item_content">If you use the healthpack then you can increase your healthpoints about 10 points.</string>
+    <string name="rules_item_content_shrink">If no player has lost within a given time the map shrinks.</string>
+    <string name="rules_item_content_market">You can collect coins to buy healthpacket in the market.</string>
+
+    <!---Here are Rules Page 2 content-->
+    <string name="rules_inventory_title">Inventory</string>
+    <string name="rules_inventory_content">Inventory contains the items</string>
+
+    <string name="rules_leaderboard_title">Leaderboard / Score </string>
+    <string name="rules_leaderboard_content">
+        Each 10 seconds the score will be updated and if the player run more than 10 meters in 10 secs
+        the player will get 20 points instead of 10 points.
+    </string>
+    <string name="rules_leaderboard_content_one">
+        General score is a long-term score which\nis the sum of the <b>in-game score</b>.\nThat means the more game round you play
+        \nthe higher will be the general score.
+    </string>
+
+    <string name="rules_chat_title">Chat and Offline</string>
+    <string name="rules_chat_content">
+
+        CHAT: In Multiplayer mode you can chat with your friends.
+
+        OFFLINE Mode: You see the leaderboard and the chat.
+
+    </string>
+
+    <!---Here are Button names-->
+    <string name="ButtonPageOne">Page 1</string>
+    <string name="ButtonPageTwo">Page 2</string>
+    <string name="ButtonMainPage">Start Site</string>
+
+
+    <!---Here are Images names-->
+    <string name="ImgItemIcon">itemIcon</string>
+    <string name="ImgBulb">BulbRulesIntro</string>
+    <string name="ImgModi">modi</string>
+    <string name="ImgPlayIcon">playIcon</string>
+
 </resources>
