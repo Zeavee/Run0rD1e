@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
+import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
 import ch.epfl.sdp.logic.RuleActivity;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
@@ -33,7 +33,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         findViewById(R.id.solo).setOnClickListener(v -> startWithPlayModeExtra("single-player"));
 
-        findViewById(R.id.leaderboard).setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, GeneralLeaderboardActivity.class)));
+        findViewById(R.id.generalLeaderBoard).setOnClickListener(view -> startActivity(new Intent(MainMenuActivity.this, GeneralLeaderBoardActivity.class)));
 
         findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainMenuActivity.this, RuleActivity.class)));
 

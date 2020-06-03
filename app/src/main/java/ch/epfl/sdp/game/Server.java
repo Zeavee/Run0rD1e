@@ -10,10 +10,10 @@ import java.util.Objects;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -26,10 +26,9 @@ import ch.epfl.sdp.item.ItemFactory;
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
  */
-public class Server implements StartGameController, Updatable {
+public class Server extends StartGameController implements Updatable {
     private static final String TAG = "Database";
-    private int counter;
-    private int scoreTimeCounter;
+    private int counter = 0;
     private boolean gameStarted;
     private boolean gameEnd;
     private final ServerDatabaseAPI serverDatabaseAPI;
@@ -50,8 +49,6 @@ public class Server implements StartGameController, Updatable {
     public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
-        this.counter = 0;
-        this.scoreTimeCounter = 0;
         this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
@@ -75,7 +72,8 @@ public class Server implements StartGameController, Updatable {
 
     @Override
     public void update() {
-        if (counter <= 0) {
+
+        if(counter % (2 * GameThread.FPS) == 0) {
             sendUserPosition();
             sendGameArea();
             sendEnemies();
@@ -87,16 +85,20 @@ public class Server implements StartGameController, Updatable {
             checkIfWon();
         }
 
-        --counter;
-
-        // update Players score every 10 seconds
-        if (scoreTimeCounter <= 0) {
+        // Update the current game score in 10 seconds
+        if (counter % (10 * GameThread.FPS) == 0 ) {
             Log.d(TAG, "update: update the score of player");
             updateInGameScoreOfPlayer();
-            scoreTimeCounter = 10 * GameThread.FPS + 1;
         }
-        --scoreTimeCounter;
 
+        if (counter % (30 * GameThread.FPS) == 0) {
+            generateEnemy(EnemyManager.getInstance());
+
+            // reset tht counter to avoid overflow
+            counter = 0;
+        }
+
+        counter++;
     }
 
     private void checkIfWon() {
@@ -119,7 +121,7 @@ public class Server implements StartGameController, Updatable {
     private void fetchPlayers() {
         commonDatabaseAPI.fetchPlayers(playerManager.getLobbyDocumentName(), value1 -> {
             if (value1.isSuccessful()) {
-                StartGameController.addPlayersInPlayerManager(playerManager, value1.getResult());
+                addPlayersInPlayerManager(playerManager, value1.getResult());
                 List<String> playersEmailList = new ArrayList<>(playerManager.getPlayersMap().keySet());
                 fetchGeneralScore(playersEmailList);
             } else Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
@@ -133,10 +135,11 @@ public class Server implements StartGameController, Updatable {
                     Objects.requireNonNull(playerManager.getPlayersMap().get(userForFirebase.getEmail())).setGeneralScore(userForFirebase.getGeneralScore());
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
-                gameArea = StartGameController.initGameArea();
-                StartGameController.initItemBoxes();
-                StartGameController.initEnemies(gameArea, enemyManager);
-                StartGameController.initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
+                gameArea = initGameArea();
+                initItemBoxes();
+                createRandomEnemyGenerator(gameArea);
+                generateEnemy(enemyManager);
+                initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
                 startGame();
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());

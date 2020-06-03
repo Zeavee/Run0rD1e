@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 /**
  * The long-term User entity to be stored in cloud firebase
@@ -73,7 +73,7 @@ public class UserForFirebase {
     }
 
     /**
-     * Set the generalScore of the UserForfirebase
+     * Set the generalScore of the UserForFirebase
      *
      * @param generalScore The generalScore of the userForFirebase
      */

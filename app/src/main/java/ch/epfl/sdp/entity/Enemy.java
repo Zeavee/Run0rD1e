@@ -1,6 +1,5 @@
 package ch.epfl.sdp.entity;
 
-import android.nfc.Tag;
 import android.util.Log;
 
 import ch.epfl.sdp.R;
@@ -75,14 +74,6 @@ public class Enemy extends ArtificialMovingEntity {
      */
     public Enemy(int id, Area maxBounds) {
         this(id, 10, 1, 1000, 50, maxBounds);
-    }
-
-    /**
-     * @param maxBounds The enemy's maximum visitable area.
-     */
-    public Enemy(Area maxBounds) {
-
-        this(0, 10, 1, 1000, 50, maxBounds);
     }
 
     /**

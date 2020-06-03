@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;

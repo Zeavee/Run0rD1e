@@ -13,11 +13,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -29,6 +29,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private DocumentReference lobbyRef;
     private List<ListenerRegistration> listeners = new ArrayList<>();
 
+    @Override
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
@@ -84,13 +85,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
-    }
-
-
-    @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
-        sendPlayersProperty(playerForFirebaseList, "aoeRadius", p -> p.getAoeRadius());
+        sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
     }
 
     private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){

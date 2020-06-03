@@ -10,11 +10,9 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderboard.GeneralLeaderboardActivity;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {

@@ -11,15 +11,16 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
-    private static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();
     private final List<ListenerRegistration> listeners = new ArrayList<>();
 
@@ -87,7 +88,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                 onValueReadyCallback.finish(new CustomResult<>(null, false, e));
             } else {
                 List<UserForFirebase> userForFirebaseList = new ArrayList<>();
-                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                for (DocumentChange dc : Objects.requireNonNull(queryDocumentSnapshots).getDocumentChanges()) {
                     userForFirebaseList.add(dc.getDocument().toObject(UserForFirebase.class));
                 }
                 onValueReadyCallback.finish(new CustomResult<>(userForFirebaseList, true, null));

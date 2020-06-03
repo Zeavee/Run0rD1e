@@ -87,7 +87,7 @@ public class MainMenuActivityTest {
 
     @Test
     public void leaderboardOpens() {
-        onView(withId(R.id.leaderboard)).perform(click());
+        onView(withId(R.id.generalLeaderBoard)).perform(click());
         onView(withId(R.id.layout_champion)).check(matches(isDisplayed()));
     }
 

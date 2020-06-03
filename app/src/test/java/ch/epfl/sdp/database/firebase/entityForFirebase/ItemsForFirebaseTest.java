@@ -1,12 +1,10 @@
-package ch.epfl.sdp.database.firebase.entity;
+package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import org.junit.Test;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import ch.epfl.sdp.geometry.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

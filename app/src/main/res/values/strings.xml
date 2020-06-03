@@ -105,4 +105,6 @@
     <string name="weather">Weather</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="market">MARKET</string>
+    <string name="playerStatusDead">DEAD</string>
+    <string name="playerStatusAlive">ALIVE</string>
 </resources>
