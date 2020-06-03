@@ -147,9 +147,7 @@
     <string name="rules_chat_title">Chat and Offline</string>
     <string name="rules_chat_content">
 
-        CHAT: In Multiplayer mode you can chat with your friends.
-
-        OFFLINE Mode: You see the leaderboard and the chat.
+        CHAT: In Multiplayer mode you can chat with your friends.\n\nOFFLINE Mode: You see the leaderboard and the chat.
 
     </string>
 
@@ -159,10 +157,12 @@
     <string name="ButtonMainPage">Start Site</string>
 
 
-    <!---Here are Images names-->
+    <!---Here are Images/Icons names-->
     <string name="ImgItemIcon">itemIcon</string>
     <string name="ImgBulb">BulbRulesIntro</string>
     <string name="ImgModi">modi</string>
     <string name="ImgPlayIcon">playIcon</string>
+    <string name="ImgChatIcon">playIcon</string>
+    <string name="ImgScoreBoardIcon">playIcon</string>
 
 </resources>
