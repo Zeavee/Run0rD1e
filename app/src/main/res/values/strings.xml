@@ -148,10 +148,20 @@
         chat with your friends.\n\n<b>OFFLINE</b> You see the leaderboard and the chat.
     </string>
 
+    <!---Here are Chat names-->
+    <string name="MessageInput">Write a message</string>
+
+    <!---Here are Leaderboard names-->
+    <string name="lb_ranking">1</string>
+    <string name="lb_user">Admin</string>
+    <string name="lb_score">100</string>
+
+
     <!---Here are Button names-->
     <string name="ButtonPageOne">Page 1</string>
     <string name="ButtonPageTwo">Page 2</string>
     <string name="ButtonMainPage">Start Site</string>
+    <string name="SendMessageButton">itemIcon</string>
 
 
     <!---Here are Images/Icons names-->
