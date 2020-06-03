@@ -9,7 +9,7 @@ import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.map.Displayable;
 
 /**
- * Represents an area in the 2D plane.
+ * Represents an area in the 2D plane, which can move and shrink.
  */
 public abstract class Area implements Positionable, Displayable, Updatable {
     GeoPoint center;
@@ -84,6 +84,11 @@ public abstract class Area implements Positionable, Displayable, Updatable {
         this.finalTime = finalTime;
     }
 
+    /**
+     * Check if the the vector (point) is inside the area.
+     * @param vector The vector to be checked.
+     * @return True if and only if the vector is inside the area.
+     */
     abstract boolean isInside(Vector vector);
 
     @Override
@@ -124,10 +129,26 @@ public abstract class Area implements Positionable, Displayable, Updatable {
         center = newCenter;
     }
 
-    double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
+    /**
+     * Get the value which will serve as parameter for an area.
+     * For example, the radius of a circle:
+     * Begin with the start radius and while the time passes
+     * the radius value will approach the final value.
+     * @param time The time that varies.
+     * @param finalTime The final time (fixed).
+     * @param startValue The beginning value (fixed).
+     * @param finalValue The value when time equals final time (fixed).
+     * @return The value given by a function over time.
+     */
+    protected double getValueForTime(double time, double finalTime, double startValue, double finalValue) {
         return (finalTime - time) / finalTime * startValue + time / finalTime * finalValue;
     }
 
+    /**
+     * Modify the game area according to the area passed as argument.
+     * For example, we could change the center or radius of a circle area.
+     * @param area The area to get the modifications from.
+     */
     public abstract void updateGameArea(Area area);
 
     @Override

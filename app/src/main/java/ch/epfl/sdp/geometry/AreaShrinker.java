@@ -11,7 +11,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A class that shrinks the game area over time
+ * A class that shrinks the game area over time.
  */
 public class AreaShrinker {
     private Area gameArea;
@@ -25,12 +25,21 @@ public class AreaShrinker {
     private final double shrinkFactor;
     private final long tick = 500;
 
+    /**
+     * Creates an area shrinker.
+     * @param timeBeforeShrinking The waiting time before the shrinking begin.
+     * @param shrinkingDuration The duration of the shrinking.
+     * @param shrinkFactor The shrinking factor.
+     */
     public AreaShrinker(long timeBeforeShrinking, long shrinkingDuration, double shrinkFactor) {
         this.timeBeforeShrinking = timeBeforeShrinking;
         this.shrinkingDuration = shrinkingDuration;
         this.shrinkFactor = shrinkFactor;
     }
 
+    /**
+     * The area starts shrinking, and stops after the shrinking duration.
+     */
     private void startShrink() {
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -52,6 +61,11 @@ public class AreaShrinker {
         }, 0, 1);
     }
 
+    /**
+     * Configure a specific timer for the area shrinker.
+     * @param finalTime The duration of the timer.
+     * @param runnable The action to execute when timer is on.
+     */
     private void runTimer(long finalTime, Runnable runnable) {
         time[0] = 0;
         this.finalTime = finalTime;
@@ -66,6 +80,10 @@ public class AreaShrinker {
         }
     }
 
+    /**
+     * Get the remaining time as a string.
+     * @return The remaining time as a string.
+     */
     private String getRemainingTimeAsString() {
         double remainingTime = finalTime - time[0];
         int minutes = (int) remainingTime / 60000;
@@ -95,6 +113,9 @@ public class AreaShrinker {
         startIfReady();
     }
 
+    /**
+     * Start shrinking if everything is ok.
+     */
     private void startIfReady() {
         if (gameArea != null && timer != null) {
             startShrink();

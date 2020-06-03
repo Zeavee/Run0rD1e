@@ -109,6 +109,9 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
         this.movement = movement;
     }
 
+    /**
+     * Goes to the next position based on the movement of the entity.
+     */
     public void move() {
         GeoPoint position = movement.nextPosition(getLocation());
         if (area.isInside(position) || forceMove) {
@@ -118,6 +121,10 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
         }
     }
 
+    /**
+     * Checks if the entity is moving.
+     * @return True if and only if the entity is moving (i.e. moving flag is true).
+     */
     public boolean isMoving() {
         return moving;
     }

@@ -66,7 +66,7 @@ public final class GeoPoint {
     /**
      * Method which computes haversin(x)
      *
-     * @param x absicissa axis
+     * @param x abscissa axis
      * @return [sin(x / 2)]^2
      */
     private double haversin(double x) {
@@ -125,11 +125,24 @@ public final class GeoPoint {
         return new Vector(getX(), getY());
     }
 
+    /**
+     * Converts a point in the geodesic surface into a point in the plane.
+     * @param geoPoint The point in the geodesic surface.
+     * @return A point in the plane.
+     */
     private UTMRef geoPointToUTMRef(GeoPoint geoPoint) {
         LatLng laln = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
         return laln.toUTMRef();
     }
 
+    /**
+     * Converts a point in the plane into a point in the geodesic surface.
+     * @param x The abscissa axis.
+     * @param y The ordinate axis.
+     * @param refGeoPoint The reference point in the geodesic surface, needs to be close to actual
+     *                    location of the device.
+     * @return A point in the geodesic surface.
+     */
     private GeoPoint utmToGeoPoint(double x, double y, GeoPoint refGeoPoint) {
         int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
         char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
