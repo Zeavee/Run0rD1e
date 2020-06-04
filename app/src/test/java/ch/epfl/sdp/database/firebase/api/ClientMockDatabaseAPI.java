@@ -83,4 +83,9 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
     }
+
+    @Override
+    public void cleanListeners() {
+
+    }
 }

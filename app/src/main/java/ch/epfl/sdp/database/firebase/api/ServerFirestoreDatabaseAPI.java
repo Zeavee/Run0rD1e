@@ -27,6 +27,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
+    private List<ListenerRegistration> listeners = new ArrayList<>();
 
     @Override
     public void setLobbyRef(String lobbyName) {
@@ -36,13 +37,17 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
-        ListenerRegistration ListenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
+        ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
             if ((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
                 flag.set(true);
                 onValueReadyCallback.finish(new CustomResult<>(null, true, null));
             }
         });
-        if (flag.get()) ListenerRegistration.remove();
+        if (flag.get()) {
+            listenerRegistration.remove();
+            listeners.remove(listenerRegistration);
+        }
+        listeners.add(listenerRegistration);
     }
 
     @Override
@@ -83,7 +88,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
     }
 
-    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){
+    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property) {
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
@@ -124,7 +129,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME)
+        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME)
                 .addSnapshotListener((documentSnapshot, e) -> {
                     if (e != null) {
                         onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -136,22 +141,12 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
                         onValueReadyCallback.finish(new CustomResult<>(emailsItemsMap, true, null));
                     }
                 });
+        listeners.add(listenerRegistration);
     }
 
     @Override
-    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                .addSnapshotListener((querySnapshot, e) -> {
-                    if (e != null) {
-                        onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    } else {
-                        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-                        for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-                            playerForFirebaseList.add(dc.getDocument().toObject(PlayerForFirebase.class));
-                        }
-                        onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
-                    }
-                });
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+        FireStoreDatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
@@ -174,5 +169,10 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     private interface Function<T, R> {
         R methodFromT(T t);
+    }
+
+    @Override
+    public void cleanListeners() {
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 }

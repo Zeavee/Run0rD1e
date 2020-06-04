@@ -55,6 +55,16 @@ public interface ServerDatabaseAPI {
     void sendEnemies(List<EnemyForFirebase> enemies);
 
     /**
+     * Add a listener to collection in Firebase FireStore
+     *
+     * @param tClass               Possible values EnemyForFirebase.class / ItemBoxForFirebase.class / PlayerForFirebase.class
+     * @param collectionName       corresponding collectionName of tClass
+     * @param onValueReadyCallback callback when any document in the collection changed
+     * @param <T>                  the type of the class modeled by this {@code Class} object.
+     */
+    <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback);
+
+    /**
      * Send the itemBoxes to the Firebase FireStore
      *
      * @param itemBoxForFirebaseList A list of ItemBoxForFirebase
@@ -98,9 +108,8 @@ public interface ServerDatabaseAPI {
     void sendGameArea(Area gameArea);
 
     /**
-     * Add a listener to the players collection in the current game round, callback when any field in the playerForFirebase changed
-     *
-     * @param onValueReadyCallback Callback when any field in the playerForFirebase changed
+     * This method cleans the listeners of the API
      */
-    void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback);
+    void cleanListeners();
+
 }

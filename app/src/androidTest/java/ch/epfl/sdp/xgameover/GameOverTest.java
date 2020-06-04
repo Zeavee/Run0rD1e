@@ -1,5 +1,7 @@
 package ch.epfl.sdp.xgameover;
 
+import android.content.Intent;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -18,10 +20,12 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
+import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.market.Market;
@@ -37,8 +41,9 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class GameOverTest {
+    private Player placeholder;
     @Rule
-    public ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<MapsActivity>(MapsActivity.class) {
+    public final ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<MapsActivity>(MapsActivity.class) {
 
         @Override
         public void beforeActivityLaunched() {
@@ -46,6 +51,9 @@ public class GameOverTest {
             Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com");
             amro.setHealthPoints(100);
             PlayerManager.getInstance().setCurrentUser(amro);
+
+            placeholder = new Player("placeholder", "placeholder@placeholder.com");
+            PlayerManager.getInstance().addPlayer(placeholder);
 
             MockMap mockMap = new MockMap();
             Game.getInstance().setMapApi(mockMap);
@@ -58,28 +66,50 @@ public class GameOverTest {
             userData.put(amro.getEmail(), amroForFirebase);
             userForFirebaseList.add(amroForFirebase);
 
-            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(userData, userForFirebaseList);
-            ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+            AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
+
+            appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(userData, userForFirebaseList);
+            appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+
+            Game.getInstance().startGameController = new Server(appContainer.serverDatabaseAPI, appContainer.commonDatabaseAPI, () -> {mActivityTestRule.getActivity().endGame();});
         }
 
         // start the game engine MANUALLY
         @Override
         public void afterActivityLaunched() {
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 47.22));
-            Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.14, 46.22)));
             Game.getInstance().initGame();
-            PlayerManager.getInstance().getCurrentUser().setHealthPoints(0);
+        }
+
+        @Override
+        protected Intent getActivityIntent() {
+            Intent intent = new Intent();
+            intent.putExtra("playMode", "multi-player");
+            return intent;
         }
     };
 
-    // check "gameOvr" is displayed
+    // check "Game Ovr" is displayed
     @Test
-    public void test() {
+    public void serverLosesIfDead() {
+        checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
+    }
+
+    // check "Y0u w0n!" is displayed
+    @Test
+    public void serverWinsIfAlone() {
+        checkIfTextIsDisplayedAfterGameOver(placeholder, "Y0u w0n!");
+    }
+
+    private void checkIfTextIsDisplayedAfterGameOver(Player player, String text) {
+        player.setHealthPoints(0);
         // wait a moment for the splash screen to be intended
-        while (!mActivityTestRule.getActivity().flagGameOver) ;
-        ViewInteraction textView = onView(withId(R.id.gameovr));
-        textView.check(matches(withText("game0vr")));
-        onView(withId(R.id.backFromGameOverButton)).perform(click());
+        while (!mActivityTestRule.getActivity().flagGameOver) {
+            ((Server) Game.getInstance().startGameController).update();
+        };
+        ViewInteraction textView = onView(withId(R.id.gameOverText));
+        textView.check(matches(withText(text)));
+        onView(withId(R.id.backFromGameOver)).perform(click());
         onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }
 }

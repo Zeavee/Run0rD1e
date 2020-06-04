@@ -38,6 +38,7 @@ public class Server extends StartGameController implements Updatable {
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private final ItemFactory itemFactory;
     private Area gameArea;
+    private Runnable endGame;
 
     /**
      * Constructor for the Server
@@ -45,12 +46,13 @@ public class Server extends StartGameController implements Updatable {
      * @param serverDatabaseAPI the API for accessing the remote database used by the server
      * @param commonDatabaseAPI the API for accessing the remote database used by the client and the server
      */
-    public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
+    public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
         this.gameEnd = false;
         itemFactory = new ItemFactory();
+        this.endGame = endGame;
     }
 
     @Override
@@ -70,7 +72,6 @@ public class Server extends StartGameController implements Updatable {
 
     @Override
     public void update() {
-
         if(counter % (2 * GameThread.FPS) == 0) {
             sendUserPosition();
             sendGameArea();
@@ -79,6 +80,8 @@ public class Server extends StartGameController implements Updatable {
             sendPlayersHealth();
             sendPlayersItems();
             checkPlayerStatus();
+            counter = 2 * GameThread.FPS + 1;
+            checkIfWon();
         }
 
         // Update the current game score in 10 seconds
@@ -95,6 +98,19 @@ public class Server extends StartGameController implements Updatable {
         }
 
         counter++;
+    }
+
+    private void checkIfWon() {
+        boolean isWinner = true;
+        for (Player player : playerManager.getPlayers()) {
+            if (player.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
+                isWinner = false;
+                break;
+            }
+        }
+        if (isWinner) {
+            endGame.run();
+        }
     }
 
     private void sendGameArea() {
@@ -160,7 +176,7 @@ public class Server extends StartGameController implements Updatable {
     }
 
     private void addPlayersListener() {
-        serverDatabaseAPI.addPlayersListener(value -> {
+        serverDatabaseAPI.addCollectionListener(PlayerForFirebase.class, PlayerManager.PLAYER_COLLECTION_NAME, value -> {
             if (value.isSuccessful()) {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());

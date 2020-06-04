@@ -40,7 +40,7 @@ public class ServerTest {
     public void testServer() throws InterruptedException {
         JunkCleaner.clearAll();
         setupEnvironment();
-        Server server = new Server(serverMockDatabaseAPI, commonMockDatabaseAPI);
+        Server server = new Server(serverMockDatabaseAPI, commonMockDatabaseAPI, () -> {});
         server.start();
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size());

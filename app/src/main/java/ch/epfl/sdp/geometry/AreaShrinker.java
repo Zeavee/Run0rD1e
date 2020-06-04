@@ -23,6 +23,9 @@ public class AreaShrinker {
     private double shrinkFactor;
     private final long tick = 500;
     private boolean isStarted;
+    private Timer timer = new Timer();
+    private ScheduledFuture<?> update1;
+    private ScheduledFuture<?> update2;
 
     /**
      * Constructor for the area shrinker
@@ -39,10 +42,10 @@ public class AreaShrinker {
 
     private void startShrink() {
         isStarted = true;
-        new Timer().scheduleAtFixedRate(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                runTimer(timeBeforeShrinking, () -> {
+                update1 = runTimer(timeBeforeShrinking, () -> {
                     time[0] += tick;
                     gameArea.setRemainingTimeString(getRemainingTimeAsString());
                     timerUI.displayTime(getRemainingTimeAsString());
@@ -50,7 +53,7 @@ public class AreaShrinker {
 
                 gameArea.shrink(shrinkFactor);
                 gameArea.setFinalTime(shrinkingDuration);
-                runTimer(shrinkingDuration, () -> {
+                update2 = runTimer(shrinkingDuration, () -> {
                     time[0] += tick;
                     gameArea.setTime(time[0]);
                     gameArea.setRemainingTimeString(getRemainingTimeAsString());
@@ -61,7 +64,7 @@ public class AreaShrinker {
         }, 0, 1);
     }
 
-    private void runTimer(long finalTime, Runnable runnable) {
+    private ScheduledFuture<?> runTimer(long finalTime, Runnable runnable) {
         time[0] = 0;
         this.finalTime = finalTime;
         ScheduledFuture<?> update = scheduler.scheduleWithFixedDelay(runnable, 0, 500, TimeUnit.MILLISECONDS);
@@ -73,6 +76,7 @@ public class AreaShrinker {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return update;
     }
 
     private String getRemainingTimeAsString() {
@@ -113,5 +117,16 @@ public class AreaShrinker {
      */
     public void showRemainingTime(String remainingTime) {
         timerUI.displayTime(remainingTime);
+    }
+
+    /**
+     * This method clears the timers of the area shrinker
+     */
+    public void clear() {
+        timer.cancel();
+        if (update1 != null)
+            update1.cancel(true);
+        if (update2 != null)
+            update2.cancel(true);
     }
 }

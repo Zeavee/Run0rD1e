@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
 import ch.epfl.sdp.logic.RulesActivityPage1;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 /**
  * This is the main menu activity
@@ -28,7 +28,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
         authenticationAPI = ((MyApplication) getApplication()).appContainer.authenticationAPI;
 
-        findViewById(R.id.mapButton).setOnClickListener(v -> startWithPlayModeExtra("multi-player"));
+        findViewById(R.id.multi).setOnClickListener(v -> startWithPlayModeExtra("multi-player"));
 
         findViewById(R.id.solo).setOnClickListener(v -> startWithPlayModeExtra("single-player"));
 
@@ -42,9 +42,8 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void logout() {
+        JunkCleaner.clearAllAndListeners(((MyApplication) getApplication()).appContainer);
         authenticationAPI.signOut();
-        Game.getInstance().clearGame();
-        Game.getInstance().destroyGame();
         startActivity(new Intent(MainMenuActivity.this, LoginFormActivity.class));
         finish();
     }
@@ -53,6 +52,7 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(MainMenuActivity.this, MapsActivity.class);
         intent.putExtra("playMode", value);
         startActivity(intent);
+        finish();
     }
 }
     

@@ -1,6 +1,8 @@
 package ch.epfl.sdp.market_espresso;
 
 
+import android.content.Intent;
+
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -55,7 +57,7 @@ public class NewMarketActivityTest {
             JunkCleaner.clearAll();
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
             amro.setHealthPoints(100);
-            amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
+            amro.removeMoney(amro.getMoney());
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMap mockMap = new MockMap();
@@ -64,7 +66,14 @@ public class NewMarketActivityTest {
             ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
         }
 
-        // start the game engine MANUALLY
+        @Override
+        protected Intent getActivityIntent() {
+            Intent intent = new Intent();
+            intent.putExtra("playMode", "multi-player");
+            return intent;
+        }
+
+        // start the game engine manually
         @Override
         public void afterActivityLaunched() {
             // always return this for current location

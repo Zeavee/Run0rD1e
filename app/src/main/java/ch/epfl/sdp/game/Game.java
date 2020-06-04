@@ -102,6 +102,10 @@ public class Game implements Updatable {
     public void clearGame() {
         updatables.clear();
         displayables.clear();
+        gameStarted = false;
+        startGameController = null;
+        areaShrinker.clear();
+        areaShrinker = new AreaShrinker(10000, 30000, 0.75);
     }
 
 

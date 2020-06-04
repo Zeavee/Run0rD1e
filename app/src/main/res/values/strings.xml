@@ -157,7 +157,7 @@
 
 
     <!---Here is the name of GameOver-->
-    <string name="GameOverLabel">game0vr</string>
+    <string name="GameOverLabel">Game 0vr</string>
     <string name="BackMain">Go back to main menu</string>
 
     <!---Here are Leaderboard names-->
@@ -230,4 +230,5 @@
 
     <string name="playerStatusDead">DEAD</string>
     <string name="playerStatusAlive">ALIVE</string>
+    <string name="winnerText">Y0u w0n!</string>
 </resources>

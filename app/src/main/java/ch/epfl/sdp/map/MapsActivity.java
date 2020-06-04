@@ -50,6 +50,7 @@ import ch.epfl.sdp.leaderBoard.CurrentGameLeaderBoardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
@@ -96,13 +97,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         playMode = intent.getStringExtra("playMode");
         Log.d("play mode", "The play mode: " + playMode);
 
-        Game.getInstance().setRenderer(this);
+        boolean isSolo = playMode.equals("single-player");
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
         serverDatabaseAPI = appContainer.serverDatabaseAPI;
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
+
+        if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
+            JunkCleaner.clearAllAndListeners(appContainer);
+        }
+
+        Game.getInstance().setRenderer(this);
 
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
@@ -226,7 +233,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI, this::endGame);
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
@@ -306,6 +313,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
+        finish();
         flagGameOver = true;
     }
 

@@ -56,4 +56,9 @@ public interface ClientDatabaseAPI {
      * @param itemsForFirebase The itemsForFirebase object which contains the used items of the current user
      */
     void sendUsedItems(ItemsForFirebase itemsForFirebase);
+
+    /**
+     * This method cleans the listeners of the API
+     */
+    void cleanListeners();
 }
