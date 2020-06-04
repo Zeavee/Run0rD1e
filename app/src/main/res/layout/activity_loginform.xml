@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="Welcome to"
+        android:text="@string/login_greeting"
         android:textColor="@color/green"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="@+id/offline_button"
@@ -26,12 +26,13 @@
         android:id="@+id/imageView"
         android:layout_width="117dp"
         android:layout_height="102dp"
+        android:contentDescription="@string/Logo"
         app:layout_constraintBottom_toTopOf="@+id/createAccountBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.175"
+        app:layout_constraintVertical_bias="0.18"
         app:srcCompat="@drawable/runlogo"
         tools:ignore="MissingConstraints" />
 
@@ -41,16 +42,17 @@
         android:layout_height="40dp"
         android:layout_marginTop="216dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_user"
+        android:drawableStart="@drawable/ic_action_user"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/login_email"
         android:inputType="textEmailAddress"
         android:text=""
         android:textColor="@color/blue"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7" />
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/passwordlog"
@@ -58,16 +60,17 @@
         android:layout_height="40dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/input_field"
-        android:drawableLeft="@drawable/ic_action_password"
+        android:drawableStart="@drawable/ic_action_password"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/login_password"
         android:inputType="textPassword"
         android:text=""
         android:textColor="@color/blue"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emaillog" />
+        app:layout_constraintTop_toBottomOf="@+id/emaillog"
+        android:autofillHints="" />
 
     <Button
         android:id="@+id/loginButton"
@@ -89,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="Offline Mode"
+        android:text="@string/login_offline"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -103,7 +106,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/regular"
-        android:text="You are not a member?"
+        android:text="@string/login_member"
         android:textColor="@color/dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

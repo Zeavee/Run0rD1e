@@ -32,10 +32,8 @@ import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.entity.Player;
@@ -44,13 +42,12 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.game.Solo;
-import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.gameOver.GameOverActivity;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
-import ch.epfl.sdp.leaderboard.CurrentGameLeaderboardFragment;
+import ch.epfl.sdp.leaderBoard.CurrentGameLeaderBoardFragment;
 import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
@@ -68,7 +65,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private final static InventoryFragment inventoryFragment = new InventoryFragment();
     private final WeatherFragment weatherFragment = new WeatherFragment();
-    private final static CurrentGameLeaderboardFragment ingameLeaderboardFragment = new CurrentGameLeaderboardFragment();
+    private final static CurrentGameLeaderBoardFragment ingameLeaderboardFragment = new CurrentGameLeaderBoardFragment();
+
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
@@ -109,10 +107,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
         if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
-            JunkCleaner.clearAll();
-            commonDatabaseAPI.cleanListeners();
-            serverDatabaseAPI.cleanListeners();
-            clientDatabaseAPI.cleanListeners();
+            JunkCleaner.clearAllAndListeners(appContainer);
         }
 
         Game.getInstance().setRenderer(this);
@@ -198,8 +193,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         // select the lobby in cloud firebase which has less than the number of players required to play the game, then currentUser is Client
                         // If all the lobbies are full, create a new lobby in the cloud firebase and then the currentUser is Server
                         selectLobby();
-
-
                     } else {
                         Toast.makeText(MapsActivity.this, "No such play mode", Toast.LENGTH_LONG).show();
                     }
@@ -267,7 +260,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
+                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI, this::endGame);
+
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
@@ -346,6 +340,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
+        finish();
         flagGameOver = true;
     }
 

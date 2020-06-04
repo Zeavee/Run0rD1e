@@ -71,7 +71,7 @@ public class MainMenuActivityTest {
 
     @Test
     public void mapsOpens() {
-        testButtonWorks(R.id.mapButton, R.id.map);
+        testButtonWorks(R.id.multi, R.id.map);
     }
 
     @Test
@@ -87,8 +87,15 @@ public class MainMenuActivityTest {
 
     @Test
     public void leaderboardOpens() {
-        onView(withId(R.id.leaderboard)).perform(click());
+        onView(withId(R.id.generalLeaderBoard)).perform(click());
         onView(withId(R.id.layout_champion)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void rulesPageOneOpens() {
+        onView(withId(R.id.rulesButton)).perform(click());
+        onView(withId(R.id.titleRules)).check(matches(isDisplayed()));
+        onView(withId(R.id.enemyRule)).check(matches(isDisplayed()));
     }
 
     @Test

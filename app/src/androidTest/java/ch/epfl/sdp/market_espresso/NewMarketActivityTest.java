@@ -10,6 +10,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.utils.MockMap;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -52,9 +54,10 @@ public class NewMarketActivityTest {
 
         @Override
         public void beforeActivityLaunched() {
+            JunkCleaner.clearAll();
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
             amro.setHealthPoints(100);
-            amro.removeMoney(amro.getMoney()); //  make sure that exactly 10000 is in the bank account (obviously I'm not that rich)
+            amro.removeMoney(amro.getMoney());
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMap mockMap = new MockMap();
@@ -70,7 +73,7 @@ public class NewMarketActivityTest {
             return intent;
         }
 
-        // start the game engine MANUALLY
+        // start the game engine manually
         @Override
         public void afterActivityLaunched() {
             // always return this for current location
@@ -84,6 +87,11 @@ public class NewMarketActivityTest {
     public GrantPermissionRule mGrantPermissionRule =
             GrantPermissionRule.grant(
                     "android.permission.ACCESS_FINE_LOCATION");
+
+    @After
+    public void tearDown() {
+        JunkCleaner.clearAll();
+    }
 
     private void clickOnItem(int buttonId, int cardId, int position) {
         ViewInteraction appCompatImageButton = onView(
@@ -101,7 +109,6 @@ public class NewMarketActivityTest {
                                 0),
                         isDisplayed()));
         appCompatImageButton.perform(click());
-
     }
 
     // click on scan button

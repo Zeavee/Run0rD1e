@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".logic.RulesActivityPage1">
+
+    <TextView
+        android:id="@+id/titleRules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_title"
+        android:textColor="@color/green"
+        android:textSize="25sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/introTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_intro_title"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/bulb"
+        android:contentDescription="@string/ImgBulb"
+        android:layout_width="55dp"
+        android:layout_height="31dp"
+        android:layout_marginEnd="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/introText"
+        app:layout_constraintEnd_toStartOf="@+id/titleRules"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.871"
+        app:srcCompat="@drawable/bulb"
+        />
+
+    <TextView
+        android:id="@+id/introText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/rules_intro_content_start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleRules" />
+
+    <TextView
+        android:id="@+id/introText2"
+        android:layout_width="318dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/rules_intro_content_end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.268"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleRules" />
+
+    <ImageView
+        android:id="@+id/playermodeimg"
+        android:layout_width="43dp"
+        android:layout_height="25dp"
+        android:contentDescription="@string/ImgModi"
+        app:layout_constraintBottom_toBottomOf="@+id/plamodesingle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.676"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2"
+        app:layout_constraintVertical_bias="0.491"
+        app:srcCompat="@drawable/multiplayer" />
+
+    <TextView
+        android:id="@+id/playmodeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="184dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_mode_title"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/playermodeimg"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/soloplayerbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_solo_title"
+        app:layout_constraintBottom_toTopOf="@+id/enemyRule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2"
+        app:layout_constraintVertical_bias="0.36" />
+
+    <TextView
+        android:id="@+id/plamodesingle"
+        android:layout_width="189dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="112dp"
+        android:gravity="start"
+        android:text="@string/rules_solo_content"
+        android:textAlignment="gravity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.655"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText" />
+
+    <TextView
+        android:id="@+id/multiplayerbold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="92dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_multi_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.143"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/introText2" />
+
+    <TextView
+        android:id="@+id/multiplayerText"
+        android:layout_width="275dp"
+        android:layout_height="38dp"
+        android:text="@string/rules_multi_content"
+        app:layout_constraintBottom_toTopOf="@+id/howToplayTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plamodesingle"
+        app:layout_constraintVertical_bias="0.189" />
+
+    <TextView
+        android:id="@+id/howToplayTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:fontFamily="@font/bold"
+        android:text="@string/rules_howPlay_title"
+        android:textColor="@color/blue"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/plamodesingle" />
+
+    <ImageView
+        android:id="@+id/playIcon"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:contentDescription="@string/ImgPlayIcon"
+        app:layout_constraintBottom_toTopOf="@+id/enemyRule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.04"
+        app:layout_constraintStart_toEndOf="@+id/howToplayTitle"
+        app:layout_constraintTop_toBottomOf="@+id/multiplayerText"
+        app:layout_constraintVertical_bias="0.692"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
+    <TextView
+        android:id="@+id/enemyRule"
+        android:layout_width="336dp"
+        android:layout_height="201dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:gravity="start"
+        android:text="@string/rules_howPlay_content_start"
+        android:textAlignment="gravity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/howToplayTitle" />
+
+    <Button
+        android:id="@+id/btnPage2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/general_btn_rounded"
+        android:text="@string/ButtonPageTwo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.959" />
+
+    <ImageView
+        android:id="@+id/enemyIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnPage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playmodeTitle"
+        app:layout_constraintVertical_bias="0.483"
+        app:srcCompat="@drawable/enemy"
+        android:contentDescription="@string/Enemy" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

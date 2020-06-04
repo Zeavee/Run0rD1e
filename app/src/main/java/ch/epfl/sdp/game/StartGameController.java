@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
-import ch.epfl.sdp.database.firebase.entity.EntityConverter;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
@@ -25,7 +25,12 @@ import ch.epfl.sdp.item.Shrinker;
 
 import static android.content.ContentValues.TAG;
 
-public interface StartGameController {
+public abstract class StartGameController {
+    private RandomEnemyGenerator randomEnemyGenerator;
+    private static final int MAX_ENEMY = 10;
+    private static final int MIN_DIST_FROM_ENEMIES = 100;
+    private static final int MIN_DIST_FROM_PLAYERS = 100;
+
     /**
      * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
      * After fetching the location of the CurrentUser (instead of the default 0, 0) from device for the first time we start the whole game
@@ -33,7 +38,7 @@ public interface StartGameController {
      * For Server: It means populate the Enemies and itemboxes on cloud firebase and start the gameThread
      * For Client: It means fetch the Enemies and itemboxes from cloud firebase and start the gameThread.
      */
-    void start();
+    public abstract void start();
 
     /**
      * This method adds the player in the player manager
@@ -41,7 +46,7 @@ public interface StartGameController {
      * @param playerManager the player manager we want to add the players in
      * @param players       the list of players we want to add
      */
-    static void addPlayersInPlayerManager(PlayerManager playerManager, List<PlayerForFirebase> players) {
+    void addPlayersInPlayerManager(PlayerManager playerManager, List<PlayerForFirebase> players) {
         for (PlayerForFirebase playerForFirebase : players) {
             Player player = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
             if (!playerManager.getCurrentUser().getEmail().equals(player.getEmail())) {
@@ -56,9 +61,10 @@ public interface StartGameController {
      *
      * @return the game area created
      */
-    static Area initGameArea() {
+    Area initGameArea() {
+        //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
-        Area gameArea = new CircleArea(10000, local);
+        Area gameArea = new CircleArea(3000, local);
         Game.getInstance().addToDisplayList(gameArea);
         Game.getInstance().addToUpdateList(gameArea);
         Game.getInstance().areaShrinker.setGameArea(gameArea);
@@ -68,18 +74,28 @@ public interface StartGameController {
     /**
      * This method initializes the random enemy generator
      *
-     * @param gameArea     the game area
+     * @param gameArea the game area
+     */
+    void createRandomEnemyGenerator(Area gameArea) {
+        randomEnemyGenerator = new RandomEnemyGenerator(gameArea);
+        randomEnemyGenerator.setMaxEnemies(MAX_ENEMY);
+        randomEnemyGenerator.setMinDistanceFromEnemies(MIN_DIST_FROM_ENEMIES);
+        randomEnemyGenerator.setMinDistanceFromPlayers(MIN_DIST_FROM_PLAYERS);
+    }
+
+    /**
+     * This method generate an enemy
+     *
      * @param enemyManager the enemy manager
      */
-    static void initEnemies(Area gameArea, EnemyManager enemyManager) {
-        RandomEnemyGenerator randomEnemyGenerator = new RandomEnemyGenerator(gameArea);
-        randomEnemyGenerator.setEnemyCreationTime(1000);
-        randomEnemyGenerator.setMaxEnemies(10);
-        randomEnemyGenerator.setMinDistanceFromEnemies(100);
-        randomEnemyGenerator.setMinDistanceFromPlayers(100);
-        randomEnemyGenerator.generateEnemy();
-        Enemy enemy = randomEnemyGenerator.getEnemies().get(0);
-        enemyManager.updateEnemies(enemy);
+    void generateEnemy(EnemyManager enemyManager) {
+        if(enemyManager.getEnemies().size() < MAX_ENEMY) {
+            // generate new enemy
+            Enemy enemy = randomEnemyGenerator.generateEnemy(100);
+            if(enemy != null) {
+                enemyManager.updateEnemies(enemy);
+            }
+        }
     }
 
     /**
@@ -87,7 +103,7 @@ public interface StartGameController {
      *
      * @param center the location around which we want to coins to appear
      */
-    static void initCoins(GeoPoint center) {
+    void initCoins(GeoPoint center) {
         int amount = 10;
         ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(center, amount);
         for (Coin c : coins) {
@@ -99,16 +115,16 @@ public interface StartGameController {
     /**
      * This method initializes the item boxes
      */
-    static void initItemBoxes() {
+    void initItemBoxes() {
         Scan scan = new Scan(10);
         Shield shield = new Shield(10);
-        Shrinker shrinker = new Shrinker(10,5);
+        Shrinker shrinker = new Shrinker(10, 5);
         Healthpack healthpack = new Healthpack(10);
 
         ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(shield,100);
-        itemBox.putItems(shrinker,100);
-        itemBox.putItems(scan,100);
+        itemBox.putItems(shield, 100);
+        itemBox.putItems(shrinker, 100);
+        itemBox.putItems(scan, 100);
         itemBox.putItems(healthpack, 100);
 
         Game.getInstance().addToDisplayList(itemBox);
@@ -122,5 +138,6 @@ public interface StartGameController {
 
         ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         ItemBoxManager.getInstance().addItemBox(itemBox1);
+        //  -------------------------------------------
     }
 }

@@ -15,7 +15,7 @@ import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 
@@ -39,14 +39,12 @@ public class RegisterFormActivity extends AppCompatActivity {
 
         txtUsername = findViewById(R.id.username);
         txtEmail = findViewById(R.id.email);
-        txtPassword = findViewById(R.id.password);
+        txtPassword = findViewById(R.id.txtRegisterPassword);
         txtPasswordConf = findViewById(R.id.passwordconf);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
-
-        findViewById(R.id.registerBackButton).setOnClickListener(this::backBtn_OnClick);
 
         findViewById(R.id.registerbutton).setOnClickListener(this::registerBtn_OnClick);
     }
@@ -79,8 +77,8 @@ public class RegisterFormActivity extends AppCompatActivity {
                     if (!addUserRes.isSuccessful()) {
                         Toast.makeText(RegisterFormActivity.this, addUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                     } else {
-                        RegisterFormActivity.this.startActivity(new Intent(RegisterFormActivity.this, MainMenuActivity.class));
-                        RegisterFormActivity.this.finish();
+                        startActivity(new Intent(RegisterFormActivity.this, MainMenuActivity.class));
+                        finish();
                     }
                 });
             }

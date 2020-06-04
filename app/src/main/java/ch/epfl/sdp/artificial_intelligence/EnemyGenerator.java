@@ -1,9 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.geometry.Area;
 
@@ -12,13 +8,9 @@ import ch.epfl.sdp.geometry.Area;
  */
 public abstract class EnemyGenerator {
     protected double minDistanceFromEnemies;
-    protected long timeToCreate;
     protected double minDistanceFromPlayers;
     protected final Area enclosure;
-    protected List<Enemy> enemies;
-    protected Timer timer;
     protected int maxEnemies;
-    protected boolean readyToCreate;
 
     /**
      * Creates an enemy generator, where the enemies appear inside an area.
@@ -50,22 +42,11 @@ public abstract class EnemyGenerator {
     /**
      * Create a new enemy and add it to the list of enemies.
      */
-    public abstract void generateEnemy();
+    public abstract Enemy generateEnemy(double radius);
 
     /**
      * Set the distance between enemies before they are spawned.
      * @param minDistanceFromEnemies The distance between enemies before they are spawned.
      */
     public abstract void setMinDistanceFromEnemies(double minDistanceFromEnemies);
-
-    /**
-     * Get the list of enemies.
-     * @return The list of enemies.
-     */
-    public List<Enemy> getEnemies() {
-        List<Enemy> clone = new ArrayList<>(enemies.size());
-        clone.addAll(enemies);
-        return clone;
-    }
-
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -43,17 +43,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
 
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
-        ListenerRegistration listenerRegistration = lobbyRef.collection(collectionName).addSnapshotListener((querySnapshot, e) -> {
-            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-            else {
-                List<T> entityList = new ArrayList<>();
-                for (DocumentChange documentChange : Objects.requireNonNull(querySnapshot).getDocumentChanges()) {
-                    entityList.add(documentChange.getDocument().toObject(tClass));
-                }
-                onValueReadyCallback.finish(new CustomResult<>(entityList, true, null));
-            }
-        });
-        listeners.add(listenerRegistration);
+        FireStoreDatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     @Override
@@ -64,13 +54,14 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
                     else {
                         if (documentSnapshot != null && documentSnapshot.exists()) {
                             ItemsForFirebase itemsForFirebase = documentSnapshot.toObject(ItemsForFirebase.class);
-                            onValueReadyCallback.finish(new CustomResult<>(itemsForFirebase.getItemsMap(), true, null));
+                            onValueReadyCallback.finish(new CustomResult<>(Objects.requireNonNull(itemsForFirebase).getItemsMap(), true, null));
                         }
                     }
                 });
         listeners.add(listenerRegistration);
     }
 
+    @Override
     public void addGameAreaListener(OnValueReadyCallback<CustomResult<String>> onValueReadyCallback) {
         ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener(((documentSnapshot, e) -> {
             if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
@@ -83,17 +74,14 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
         listeners.add(listenerRegistration);
     }
 
+    @Override
     public void sendUsedItems(ItemsForFirebase itemsForFirebase) {
         lobbyRef.collection(PlayerManager.USED_ITEM_COLLECTION_NAME).document(PlayerManager.getInstance().getCurrentUser().getEmail()).set(itemsForFirebase);
     }
 
     @Override
     public void cleanListeners() {
-        for (ListenerRegistration listener : listeners) {
-            listener.remove();
-        }
-
-        listeners.clear();
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 
     @Override

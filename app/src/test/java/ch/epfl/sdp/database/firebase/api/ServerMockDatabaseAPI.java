@@ -1,15 +1,16 @@
 package ch.epfl.sdp.database.firebase.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.geometry.Area;
@@ -76,6 +77,13 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+        if (tClass == PlayerForFirebase.class) {
+            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<T>((Collection<? extends T>) playerForFirebaseMap.values()), true, null));
+        }
+    }
+
+    @Override
     public void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList) {
 
     }
@@ -89,7 +97,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList) {
+    public void cleanListeners() {
 
     }
 
@@ -118,11 +126,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
         onValueReadyCallback.finish(new CustomResult<>(usedItems, true, null));
-    }
-
-    @Override
-    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onPlayersPositionCallback) {
-        onPlayersPositionCallback.finish(new CustomResult<>(new ArrayList<>(playerForFirebaseMap.values()), true, null));
     }
 
     @Override

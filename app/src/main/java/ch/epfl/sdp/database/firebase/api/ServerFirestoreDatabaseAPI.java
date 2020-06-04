@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -30,6 +30,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private DocumentReference lobbyRef;
     private List<ListenerRegistration> listeners = new ArrayList<>();
 
+    @Override
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }
@@ -85,15 +86,10 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        sendPlayersProperty(playerForFirebaseList, "healthPoints", p -> p.getHealthPoints());
+        sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
     }
 
-    @Override
-    public void sendPlayersAoeRadius(List<PlayerForFirebase> playerForFirebaseList){
-        sendPlayersProperty(playerForFirebaseList, "aoeRadius", p -> p.getAoeRadius());
-    }
-
-    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){
+    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property) {
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
@@ -150,20 +146,8 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void addPlayersListener(OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        ListenerRegistration listenerRegistration = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME)
-                .addSnapshotListener((querySnapshot, e) -> {
-                    if (e != null) {
-                        onValueReadyCallback.finish(new CustomResult<>(null, false, e));
-                    } else {
-                        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-                        for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
-                            playerForFirebaseList.add(dc.getDocument().toObject(PlayerForFirebase.class));
-                        }
-                        onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
-                    }
-                });
-        listeners.add(listenerRegistration);
+    public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
+        FireStoreDatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
@@ -190,10 +174,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void cleanListeners() {
-        for (ListenerRegistration listener : listeners) {
-            listener.remove();
-        }
-        listeners.clear();
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 
     @Override

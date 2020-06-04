@@ -11,14 +11,14 @@ import java.util.Map;
 
 import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
-import ch.epfl.sdp.database.firebase.GeoPointForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerMockDatabaseAPI;
-import ch.epfl.sdp.database.firebase.entity.EnemyForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemBoxForFirebase;
-import ch.epfl.sdp.database.firebase.entity.ItemsForFirebase;
-import ch.epfl.sdp.database.firebase.entity.PlayerForFirebase;
-import ch.epfl.sdp.database.firebase.entity.UserForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
@@ -40,7 +40,7 @@ public class ServerTest {
     public void testServer() throws InterruptedException {
         JunkCleaner.clearAll();
         setupEnvironment();
-        Server server = new Server(serverMockDatabaseAPI, commonMockDatabaseAPI);
+        Server server = new Server(serverMockDatabaseAPI, commonMockDatabaseAPI, () -> {});
         server.start();
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size());
