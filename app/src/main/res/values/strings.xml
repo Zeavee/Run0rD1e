@@ -107,4 +107,5 @@
     <string name="market">MARKET</string>
     <string name="playerStatusDead">DEAD</string>
     <string name="playerStatusAlive">ALIVE</string>
+    <string name="winnerText">Y0u w0n!</string>
 </resources>

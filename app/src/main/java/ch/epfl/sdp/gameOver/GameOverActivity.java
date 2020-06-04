@@ -2,6 +2,7 @@ package ch.epfl.sdp.gameOver;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,17 +17,17 @@ import ch.epfl.sdp.utils.JunkCleaner;
  * @brief displays splash-screen-like game over screen that lasts for a few seconds
  */
 public class GameOverActivity extends AppCompatActivity {
+    private TextView gameOverText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game_over);
+        gameOverText = findViewById(R.id.gameOverText);
         if (PlayerManager.getInstance().getCurrentUser().getHealthPoints() > 0) {
-            setContentView(R.layout.activity_winner);
-            findViewById(R.id.backFromWinnerButton).setOnClickListener(v -> goToMainMenu());
-        } else {
-            setContentView(R.layout.activity_game_over);
-            findViewById(R.id.backFromWinnerButton).setOnClickListener(v -> goToMainMenu());
+            gameOverText.setText(R.string.winnerText);
         }
+        findViewById(R.id.backFromGameOver).setOnClickListener(v -> goToMainMenu());
     }
 
     private void goToMainMenu() {

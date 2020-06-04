@@ -8,10 +8,10 @@
     tools:context=".gameOver.GameOverActivity">
 
     <TextView
-        android:id="@+id/winner"
+        android:id="@+id/gameOverText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="game0vr"
+        android:text="Game 0vr"
         android:textColor="#9C27B0"
         android:textSize="45sp"
         android:textStyle="bold|italic"
@@ -21,14 +21,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/backFromWinnerButton"
+        android:id="@+id/backFromGameOver"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/winner"
+        app:layout_constraintTop_toBottomOf="@+id/gameOverText"
         tools:text="Go back to main menu" />
 
 
