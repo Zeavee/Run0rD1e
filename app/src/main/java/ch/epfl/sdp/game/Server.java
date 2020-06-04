@@ -135,7 +135,6 @@ public class Server extends StartGameController implements Updatable {
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = initGameArea();
-                initItemBoxes(gameArea);
                 createRandomEnemyGenerator(gameArea);
                 generateEnemy(enemyManager);
                 initGameObjects(gameArea);

@@ -68,7 +68,7 @@ public class Client extends StartGameController implements Updatable {
             });
             addListeners();
             initGameObjects(area);
-            initItemBoxes(area);
+
         }
     }
 
