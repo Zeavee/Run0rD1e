@@ -1,6 +1,5 @@
 package ch.epfl.sdp.database.firebase;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,20 +16,9 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     private HashMap<String, UserForFirebase> userData;
     private List<UserForFirebase> userForFirebaseList;
 
-    private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
-    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
-
     public CommonMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<UserForFirebase> userForFirebaseList) {
         this.userData = userData;
         this.userForFirebaseList = userForFirebaseList;
-    }
-
-    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap){
-        // populate the all Users in firebase
-        this.userForFirebaseMap = userForFirebaseMap;
-
-        // populate the Players in lobby
-        this.playerForFirebaseMap = playerForFirebaseMap;
     }
 
     @Override
@@ -66,9 +54,7 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-        playerForFirebaseList.addAll(playerForFirebaseMap.values());
-        onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
+
     }
 
     @Override
