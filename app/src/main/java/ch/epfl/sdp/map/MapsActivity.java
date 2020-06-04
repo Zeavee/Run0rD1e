@@ -264,7 +264,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI, this::endGame);
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();

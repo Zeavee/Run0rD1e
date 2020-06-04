@@ -42,16 +42,18 @@ public class Client extends StartGameController implements Updatable {
     private boolean gameStarted;
     private long oldSignal;
     private long signal;
+    private Runnable endGame;
 
     /**
      * Creates a new client
      */
-    public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
+    public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
         this.oldSignal = 0;
         this.signal = 0;
+        this.endGame = endGame;
     }
 
     @Override
@@ -110,7 +112,7 @@ public class Client extends StartGameController implements Updatable {
         if(signal != oldSignal){
             oldSignal = signal;
         } else{
-            // TODO server died, choose another server
+            endGame.run();
             Log.d("Client", "Server does not respond.");
         }
     }
