@@ -70,14 +70,14 @@ public class GameOverTest {
 
             appContainer.commonDatabaseAPI = new CommonMockDatabaseAPI(userData, userForFirebaseList);
             appContainer.serverDatabaseAPI = new ServerMockDatabaseAPI();
+
+            Game.getInstance().startGameController = new Server(appContainer.serverDatabaseAPI, appContainer.commonDatabaseAPI, () -> {mActivityTestRule.getActivity().endGame();});
         }
 
         // start the game engine MANUALLY
         @Override
         public void afterActivityLaunched() {
-            AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 47.22));
-            Game.getInstance().startGameController = new Server(appContainer.serverDatabaseAPI, appContainer.commonDatabaseAPI, () -> {mActivityTestRule.getActivity().endGame();});
             Game.getInstance().initGame();
         }
 
