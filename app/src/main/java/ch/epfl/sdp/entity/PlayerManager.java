@@ -34,6 +34,7 @@ public class PlayerManager {
     private String lobbyDocumentName;
     private long numPlayersInLobby;
     private boolean isServer;
+    private boolean isInLobby;
     private boolean soloMode;
 
     /**
@@ -61,6 +62,11 @@ public class PlayerManager {
     }
 
     private PlayerManager() {
+        lobbyDocumentName = "";
+        numPlayersInLobby = 0;
+        isInLobby = false;
+        isServer = false;
+        soloMode = false;
     }
 
     /**
@@ -133,6 +139,22 @@ public class PlayerManager {
      */
     public void setSoloMode(boolean soloMode) {
         this.soloMode = soloMode;
+    }
+
+    /**
+     * Return the variable that indicates whether or not the player is already in the lobby.
+     * @return True iff the player is in the lobby.
+     */
+    public boolean isInLobby() {
+        return isInLobby;
+    }
+
+    /**
+     * Set the variable that indicates whether or not the player is already in the lobby.
+     * @param inLobby The variable that indicates whether or not the player is already in the lobby.
+     */
+    public void setInLobby(boolean inLobby) {
+        isInLobby = inLobby;
     }
 
     /**
@@ -238,6 +260,11 @@ public class PlayerManager {
      * Remove all the players in the player manager.
      */
     public void clear() {
+        lobbyDocumentName = "";
+        numPlayersInLobby = 0;
+        isInLobby = false;
+        isServer = false;
+        soloMode = false;
         playersMap.clear();
         playersWaitingHealthPoint.clear();
         playersWaitingItems.clear();

@@ -228,13 +228,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void createPlayerInLobby(String lobbyId){
         commonDatabaseAPI.fetchPlayers(lobbyId, res -> {
             if(res.isSuccessful()){
-                boolean isInLobby = false;
-
                 List<PlayerForFirebase> playersForFirebase = res.getResult();
 
                 for (PlayerForFirebase playerForFirebase: playersForFirebase) {
                     if(playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())){
-                        isInLobby = true;
+                        playerManager.setInLobby(true);
                         break;
                     }
                 }
@@ -242,7 +240,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
                 Map<String, Object> data = new HashMap<>();
 
-                if(!isInLobby){
+                if(!playerManager.isInLobby()){
                     data.put("players", playerManager.getNumPlayersInLobby() + 1);
                 }
 

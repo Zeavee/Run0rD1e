@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class RectangleAreaTest {
 
     @Test
-    public void shrinkWithNegativeOrTooBigFactorDoesNotDoAnything() {
+    public void testShrinkWithNegativeOrTooBigFactorDoesNotDoAnything() {
         RectangleArea rectangleArea = new RectangleArea(10, 20, new GeoPoint(40, 50));
         rectangleArea.shrink(-1);
         assertEquals(rectangleArea.getHeight(), 10, 0.01);
@@ -25,7 +25,7 @@ public class RectangleAreaTest {
     }
 
     @Test
-    public void shrinkWorks() {
+    public void testShrinkIsShrinkingOnNormalFactor() {
         GeoPoint oldCenter = new GeoPoint(40, 50);
         RectangleArea rectangleArea = new RectangleArea(10000, 20000, oldCenter);
         rectangleArea.shrink(0.5);

@@ -53,7 +53,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         data.put("signal", 0);
                         data.put("startGame", false);
                         lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
-                    } else if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1) {
+                    } else if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1 && !playerManager.isInLobby()) {
                         QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
                         setPlayerManager(doc.getId(), true, doc.getLong("players"));
                     } else {
