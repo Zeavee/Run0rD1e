@@ -30,7 +30,6 @@ public class Server extends StartGameController implements Updatable {
     private static final String TAG = "Database";
     private int counter;
     private boolean gameStarted;
-    private boolean gameEnd;
     private final ServerDatabaseAPI serverDatabaseAPI;
     private final PlayerManager playerManager = PlayerManager.getInstance();
     private final EnemyManager enemyManager = EnemyManager.getInstance();
@@ -51,7 +50,6 @@ public class Server extends StartGameController implements Updatable {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.counter = 0;
         this.gameStarted = false;
-        this.gameEnd = false;
         this.itemFactory = new ItemFactory();
         this.endGame = endGame;
         this.signal = 0;
