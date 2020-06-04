@@ -1,5 +1,7 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import android.util.Log;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -53,15 +55,29 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         data.put("signal", 0);
                         data.put("startGame", false);
                         lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
-                    } else if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1 && !playerManager.isInLobby()) {
+                        onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+                    }else {
                         QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
-                        setPlayerManager(doc.getId(), true, doc.getLong("players"));
-                    } else {
-                        QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
-                        setPlayerManager(doc.getId(), false, doc.getLong("players"));
-                    }
+                        fetchPlayers(doc.getId(), res -> {
+                            if (res.isSuccessful()) {
+                                List<PlayerForFirebase> playersForFirebase = res.getResult();
+                                for (PlayerForFirebase playerForFirebase : playersForFirebase) {
+                                    if (playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())) {
+                                        playerManager.setInLobby(true);
+                                        break;
+                                    }
+                                }
 
-                    onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+                                if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1 && !playerManager.isInLobby()) {
+                                    setPlayerManager(doc.getId(), true, doc.getLong("players"));
+                                } else {
+                                    setPlayerManager(doc.getId(), false, doc.getLong("players"));
+                                }
+
+                                onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+                            }
+                        });
+                    }
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
@@ -73,24 +89,30 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName());
-        docRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).set(playerForFirebase)
-                .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
-                        .addOnSuccessListener(aVoid1 -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
-                        .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e))))
-                .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+        if(playerManager.getLobbyDocumentName() != "") {
+            DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName());
+            docRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).set(playerForFirebase)
+                    .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
+                            .addOnSuccessListener(aVoid1 -> onValueReadyCallback.finish(new CustomResult<>(null, true, null)))
+                            .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e))))
+                    .addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+        }
     }
 
     @Override
     public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName).collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        playerForFirebases.add(document.toObject(PlayerForFirebase.class));
-                    }
-                    onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
-                }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+        if(lobbyName != "") {
+            firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName).collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            playerForFirebases.add(document.toObject(PlayerForFirebase.class));
+                        }
+                        onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
+                    }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+        }else{
+            Log.d("Database", "No lobby ID.");
+        }
     }
 
     @Override
