@@ -102,11 +102,6 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void cleanListeners() {
-
-    }
-
-    @Override
     public void sendServerAliveSignal(long signal) {
 
     }
