@@ -49,7 +49,7 @@
         app:layout_constraintStart_toEndOf="@+id/itemTitle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.689"
-        app:srcCompat="@drawable/healthpack" />
+        app:srcCompat="@drawable/itembox" />
 
     <TextView
         android:id="@+id/ItemContentOne"
@@ -217,5 +217,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.96" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="30dp"
+        android:layout_height="23dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnStartSite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.997"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285"
+        app:srcCompat="@drawable/sm_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

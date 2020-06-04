@@ -204,4 +204,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.959" />
 
+    <ImageView
+        android:id="@+id/enemyIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/btnPage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.785"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playmodeTitle"
+        app:layout_constraintVertical_bias="0.483"
+        app:srcCompat="@drawable/enemy"
+        android:contentDescription="@string/Enemy" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
