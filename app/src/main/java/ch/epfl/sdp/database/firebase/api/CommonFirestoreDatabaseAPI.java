@@ -149,5 +149,6 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
         WriteBatch batch = firebaseFirestore.batch();
         DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(player.getEmail());
         batch.update(docRef, "generalScore", player.getGeneralScore());
+        batch.commit();
     }
 }

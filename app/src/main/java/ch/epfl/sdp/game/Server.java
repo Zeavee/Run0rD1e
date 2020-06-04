@@ -114,8 +114,8 @@ public class Server extends StartGameController implements Updatable {
             }
         }
         if (isWinner) {
-            endGame.run();
             updateGeneralScore();
+            endGame.run();
         }
     }
 

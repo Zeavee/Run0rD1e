@@ -76,7 +76,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap) {
-        
+
     }
 
     @Override

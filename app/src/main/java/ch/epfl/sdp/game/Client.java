@@ -114,8 +114,8 @@ public class Client extends StartGameController implements Updatable {
         if (signal != oldSignal) {
             oldSignal = signal;
         } else {
-            endGame.run();
             updateGeneralScore();
+            endGame.run();
             Log.d("Client", "Server does not respond.");
         }
     }
