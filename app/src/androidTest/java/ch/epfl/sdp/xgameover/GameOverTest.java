@@ -95,12 +95,6 @@ public class GameOverTest {
         checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
     }
 
-    // check "Y0u w0n!" is displayed
-    @Test
-    public void serverWinsIfAlone() {
-        checkIfTextIsDisplayedAfterGameOver(placeholder, "Y0u w0n!");
-    }
-
     private void checkIfTextIsDisplayedAfterGameOver(Player player, String text) {
         player.setHealthPoints(0);
         // wait a moment for the splash screen to be intended
