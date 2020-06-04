@@ -86,14 +86,6 @@ public interface ServerDatabaseAPI {
     void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap);
 
     /**
-     * Update the score of the players in the current game round to the Firebase FireStore
-     *
-     * @param scoreType      Possible value "currentGameScore" / "generalScore"
-     * @param emailsScoreMap A map from player's email to player score
-     */
-    void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap);
-
-    /**
      * Add a listener to the usedItems of the players in the current game round, callback when any player uses some items.
      *
      * @param onValueReadyCallback Callback when any player uses some items
@@ -117,4 +109,11 @@ public interface ServerDatabaseAPI {
      * @param signal The signal is a long.
      */
     void sendServerAliveSignal(long signal);
+
+    /**
+     * Update the score of the players in the current game round to the Firebase FireStore
+     *
+     * @param emailsScoreMap A map from player's email to player score
+     */
+    void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap);
 }

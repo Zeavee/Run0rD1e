@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
@@ -118,5 +120,12 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     @Override
     public void cleanListeners() {
         FireStoreDatabaseAPI.cleanListeners(listeners);
+    }
+
+    @Override
+    public void updatePlayerGeneralScore(Player player) {
+        WriteBatch batch = firebaseFirestore.batch();
+        DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(player.getEmail());
+        batch.update(docRef, "generalScore", player.getGeneralScore());
     }
 }

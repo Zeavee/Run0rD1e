@@ -32,7 +32,6 @@ public class Server extends StartGameController implements Updatable {
     private boolean gameStarted;
     private boolean gameEnd;
     private final ServerDatabaseAPI serverDatabaseAPI;
-    private final CommonDatabaseAPI commonDatabaseAPI;
     private final PlayerManager playerManager = PlayerManager.getInstance();
     private final EnemyManager enemyManager = EnemyManager.getInstance();
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
@@ -48,8 +47,8 @@ public class Server extends StartGameController implements Updatable {
      * @param commonDatabaseAPI the API for accessing the remote database used by the client and the server
      */
     public Server(ServerDatabaseAPI serverDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
+        super(commonDatabaseAPI);
         this.serverDatabaseAPI = serverDatabaseAPI;
-        this.commonDatabaseAPI = commonDatabaseAPI;
         this.counter = 0;
         this.gameStarted = false;
         this.gameEnd = false;
@@ -75,28 +74,25 @@ public class Server extends StartGameController implements Updatable {
 
     @Override
     public void update() {
-        if(counter % (2 * GameThread.FPS) == 0) {
+        if (counter % (2 * GameThread.FPS) == 0) {
             sendUserPosition();
             sendGameArea();
             sendEnemies();
             sendItemBoxes();
             sendPlayersHealth();
             sendPlayersItems();
-            checkPlayerStatus();
-            counter = 2 * GameThread.FPS + 1;
             checkIfWon();
         }
 
-        if(counter % (5 * GameThread.FPS) == 0 ) {
+        if (counter % (5 * GameThread.FPS) == 0) {
             serverDatabaseAPI.sendServerAliveSignal(signal);
             ++signal;
         }
 
         // Update the current game score in 10 seconds
-        if (counter % (10 * GameThread.FPS) == 0 ) {
+        if (counter % (10 * GameThread.FPS) == 0) {
             Log.d(TAG, "update: update the score of player");
             updateInGameScoreOfPlayer();
-
         }
 
         if (counter % (30 * GameThread.FPS) == 0) {
@@ -119,6 +115,7 @@ public class Server extends StartGameController implements Updatable {
         }
         if (isWinner) {
             endGame.run();
+            updateGeneralScore();
         }
     }
 
@@ -248,31 +245,7 @@ public class Server extends StartGameController implements Updatable {
             emailsScoreMap.put(player.getEmail(), player.getCurrentGameScore());
         }
 
-        serverDatabaseAPI.updatePlayersScore("currentGameScore", emailsScoreMap);
-    }
-
-    private void checkPlayerStatus() {
-        int numberOfPlayerAlive = 0;
-        // check the number of players alive
-        for (Player player : playerManager.getPlayers()) {
-            if (player.getHealthPoints() > 0) {
-                numberOfPlayerAlive += 1;
-            }
-        }
-        updateTheGeneralScore(numberOfPlayerAlive);
-    }
-
-    private void updateTheGeneralScore(int numberOfPlayerAlive) {
-        if (numberOfPlayerAlive == 0 && !gameEnd) {
-            // update the general score of players
-            Map<String, Integer> emailsScoreMap = new HashMap<>();
-            for (Player player : playerManager.getPlayers()) {
-                player.setGeneralScore(player.getGeneralScore() + player.getCurrentGameScore());
-                emailsScoreMap.put(player.getEmail(), player.getGeneralScore());
-            }
-            serverDatabaseAPI.updatePlayersScore("generalScore", emailsScoreMap);
-            gameEnd = true;
-        }
+        serverDatabaseAPI.updatePlayersCurrentScore(emailsScoreMap);
     }
 
     private void sendUserPosition() {

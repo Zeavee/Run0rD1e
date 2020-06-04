@@ -112,20 +112,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         batch.commit();
     }
 
-    @Override
-    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
-        WriteBatch batch = firebaseFirestore.batch();
-        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
-            if (scoreType.equals("currentGameScore")) {
-                DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
-                batch.update(docRef, "currentGameScore", entry.getValue());
-            } else if (scoreType.equals("generalScore")) {
-                DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(entry.getKey());
-                batch.update(docRef, "generalScore", entry.getValue());
-            }
-        }
-        batch.commit();
-    }
+
 
 
     @Override
@@ -182,5 +169,15 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         Map<String, Object> data = new HashMap<>();
         data.put("signal", signal);
         lobbyRef.update(data);
+    }
+
+    @Override
+    public void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap) {
+        WriteBatch batch = firebaseFirestore.batch();
+        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
+            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
+            batch.update(docRef, "currentGameScore", entry.getValue());
+        }
+        batch.commit();
     }
 }

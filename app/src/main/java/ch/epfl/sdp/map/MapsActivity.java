@@ -184,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        Game.getInstance().startGameController = new Solo();
+                        Game.getInstance().startGameController = new Solo(commonDatabaseAPI);
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false

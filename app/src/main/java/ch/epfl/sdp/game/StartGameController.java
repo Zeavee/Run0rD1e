@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.entity.Enemy;
@@ -30,6 +31,12 @@ public abstract class StartGameController {
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
+
+    final CommonDatabaseAPI commonDatabaseAPI;
+
+    StartGameController(CommonDatabaseAPI commonDatabaseAPI) {
+        this.commonDatabaseAPI = commonDatabaseAPI;
+    }
 
     /**
      * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
@@ -139,5 +146,11 @@ public abstract class StartGameController {
         ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         ItemBoxManager.getInstance().addItemBox(itemBox1);
         //  -------------------------------------------
+    }
+
+    void updateGeneralScore() {
+        Player currentPlayer = PlayerManager.getInstance().getCurrentUser();
+        currentPlayer.setGeneralScore(currentPlayer.getGeneralScore() + currentPlayer.getCurrentGameScore());
+        commonDatabaseAPI.updatePlayerGeneralScore(currentPlayer);
     }
 }

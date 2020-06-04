@@ -48,11 +48,12 @@ public class Client extends StartGameController implements Updatable {
      * Creates a new client
      */
     public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
+        super(commonDatabaseAPI);
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
         this.oldSignal = 0;
-        this.signal = 0;
+        this.signal = 10;
         this.endGame = endGame;
     }
 
@@ -94,11 +95,12 @@ public class Client extends StartGameController implements Updatable {
             counter = 2 * GameThread.FPS + 1;
         }
 
-        if (counter10Sec <= 0){
+        if (counter10Sec <= 0) {
             checkSignalChanged();
             counter10Sec = 10 * GameThread.FPS + 1;
         }
 
+        --counter10Sec;
         --counter;
     }
 
@@ -108,11 +110,12 @@ public class Client extends StartGameController implements Updatable {
         });
     }
 
-    private void checkSignalChanged(){
-        if(signal != oldSignal){
+    private void checkSignalChanged() {
+        if (signal != oldSignal) {
             oldSignal = signal;
-        } else{
+        } else {
             endGame.run();
+            updateGeneralScore();
             Log.d("Client", "Server does not respond.");
         }
     }

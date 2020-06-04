@@ -107,15 +107,15 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
+    public void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap) {
+
+    }
+
+    @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
         for (Map.Entry<String, ItemsForFirebase> item: emailsItemsMap.entrySet()) {
             items.put(item.getKey(),item.getValue());
         }
-    }
-
-    @Override
-    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
-
     }
 
     @Override
