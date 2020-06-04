@@ -8,6 +8,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
@@ -49,8 +50,8 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     public void selectLobby(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         CollectionReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME);
         lobbyRef.whereLessThan("players", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if(queryDocumentSnapshots.isEmpty()){
+                .addOnSuccessListener(querySnapshot -> {
+                    if(querySnapshot.isEmpty()){
                         setPlayerManager(lobbyRef.document().getId(), false, 0);
                         Map<String, Object> data = new HashMap<>();
                         data.put("players", 0);
@@ -59,26 +60,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
                         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                     }else {
-                        QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
-                        fetchPlayers(doc.getId(), res -> {
-                            if (res.isSuccessful()) {
-                                List<PlayerForFirebase> playersForFirebase = res.getResult();
-                                for (PlayerForFirebase playerForFirebase : playersForFirebase) {
-                                    if (playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())) {
-                                        playerManager.setInLobby(true);
-                                        break;
-                                    }
-                                }
-
-                                if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1 && !playerManager.isInLobby()) {
-                                    setPlayerManager(doc.getId(), true, doc.getLong("players"));
-                                } else {
-                                    setPlayerManager(doc.getId(), false, doc.getLong("players"));
-                                }
-
-                                onValueReadyCallback.finish(new CustomResult<>(null, true, null));
-                            }
-                        });
+                        selectLobbyWhenLobbyExists(querySnapshot, onValueReadyCallback);
                     }
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
@@ -87,6 +69,29 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
         playerManager.setLobbyDocumentName(lobby);
         playerManager.setIsServer(isServer);
         playerManager.setNumPlayersInLobby(players_count);
+    }
+
+    private void selectLobbyWhenLobbyExists(QuerySnapshot querySnapshot, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback){
+        QueryDocumentSnapshot doc = querySnapshot.iterator().next();
+        fetchPlayers(doc.getId(), res -> {
+            if (res.isSuccessful()) {
+                List<PlayerForFirebase> playersForFirebase = res.getResult();
+                for (PlayerForFirebase playerForFirebase : playersForFirebase) {
+                    if (playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())) {
+                        playerManager.setInLobby(true);
+                        break;
+                    }
+                }
+
+                if (querySnapshot.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1 && !playerManager.isInLobby()) {
+                    setPlayerManager(doc.getId(), true, doc.getLong("players"));
+                } else {
+                    setPlayerManager(doc.getId(), false, doc.getLong("players"));
+                }
+
+                onValueReadyCallback.finish(new CustomResult<>(null, true, null));
+            }
+        });
     }
 
     @Override
