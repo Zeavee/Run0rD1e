@@ -122,6 +122,7 @@ public class RectangleArea extends Area {
         center = area.getLocation();
         halfHeight = ((RectangleArea) area).getHeight() / 2;
         halfWidth = ((RectangleArea) area).getWidth() / 2;
+        setRemainingTimeString(area.getRemainingTimeString());
     }
 
     @Override
@@ -180,6 +181,6 @@ public class RectangleArea extends Area {
     @NonNull
     @Override
     public String toString() {
-        return "RectangleArea " + getHeight() + " " + getWidth() + " " + center.getLongitude() + " " + center.getLatitude();
+        return "RectangleArea " + getHeight() + " " + getWidth() + " " + center.getLongitude() + " " + center.getLatitude() + " " + this.remainingTimeString;
     }
 }

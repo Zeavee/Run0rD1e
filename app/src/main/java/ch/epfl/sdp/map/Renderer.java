@@ -16,7 +16,7 @@ public interface Renderer {
     /**
      * A method that undisplay an item from the map
      *
-     * @param displayable
+     * @param displayable the displayable we want to undisplay
      */
     void unDisplay(Displayable displayable);
 }

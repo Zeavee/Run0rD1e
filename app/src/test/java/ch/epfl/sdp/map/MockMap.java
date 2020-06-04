@@ -8,11 +8,9 @@ import java.util.List;
 
 import ch.epfl.sdp.geometry.GeoPoint;
 
-public class MockMap implements MapApi, Renderer, LocationFinder {
+public class MockMap implements MapApi, Renderer {
     // Used for tests
-    private ArrayList<Displayable> displayables = new ArrayList<>();
-    private ArrayList<Displayable> currentlyDisplayed = new ArrayList<>();
-    private GeoPoint location;
+    private final ArrayList<Displayable> displayables = new ArrayList<>();
 
     public ArrayList<Displayable> getDisplayables() {
         return displayables;
@@ -49,21 +47,14 @@ public class MockMap implements MapApi, Renderer, LocationFinder {
     }
 
     @Override
-    public GeoPoint getCurrentLocation() {
-        return location;
-    }
-
-    public void setLocation(GeoPoint location) {
-        this.location = location;
-    }
-
-    @Override
     public void display(Collection<Displayable> displayables) {
-        currentlyDisplayed.addAll(displayables);
+        for (Displayable displayable : displayables) {
+            displayable.displayOn(this);
+        }
     }
 
     @Override
     public void unDisplay(Displayable displayable) {
-        currentlyDisplayed.remove(displayable);
+        displayable.unDisplayOn(this);
     }
 }

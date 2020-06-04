@@ -32,14 +32,13 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class LoginTest {
     private String email;
     private String password;
-    private HashMap<String, String> registeredUsers;
 
     @Rule
     public final ActivityTestRule<LoginFormActivity> mActivityRule =
             new ActivityTestRule<LoginFormActivity>(LoginFormActivity.class) {
                 @Override
                 protected void beforeActivityLaunched() {
-                    registeredUsers = new HashMap<>();
+                    HashMap<String, String> registeredUsers = new HashMap<>();
                     registeredUsers.put("amro.abdrabo@gmail.com", "password");
                     AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
                     appContainer.authenticationAPI = new MockAuthenticationAPI(registeredUsers, null);
@@ -61,13 +60,13 @@ public class LoginTest {
     public void writingPassword_Works() {
         onView(withId(R.id.passwordlog)).perform(typeText(password)).check(matches(withText(password)));
     }
-/*
+
     @Test
     public void login_shouldWorkWithRegisteredUser() {
         MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
         onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.logoutBt)).perform(click());
-    }*/
+        onView(withId(R.id.solo)).check(matches(isDisplayed()));
+    }
 
     @Test
     public void loginUnregisteredUserGivesAnError() {

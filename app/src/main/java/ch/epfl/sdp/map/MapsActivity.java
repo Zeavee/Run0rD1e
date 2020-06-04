@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -40,7 +41,6 @@ import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.game.Solo;
-import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.gameOver.GameOverActivity;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
@@ -51,7 +51,7 @@ import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.market.MarketActivity;
 import ch.epfl.sdp.market.ObjectWrapperForBinder;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
 
     private AuthenticationAPI authenticationAPI;
@@ -59,21 +59,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ServerDatabaseAPI serverDatabaseAPI;
     private ClientDatabaseAPI clientDatabaseAPI;
 
-    private StartGameController startGameController;
     private LocationFinder locationFinder;
 
-    private static InventoryFragment inventoryFragment = new InventoryFragment();
-    private static WeatherFragment weatherFragment = new WeatherFragment();
-    private static CurrentGameLeaderBoardFragment ingameLeaderboardFragment = new CurrentGameLeaderBoardFragment();
+    private final static InventoryFragment inventoryFragment = new InventoryFragment();
+    private final WeatherFragment weatherFragment = new WeatherFragment();
+    private final static CurrentGameLeaderBoardFragment ingameLeaderboardFragment = new CurrentGameLeaderBoardFragment();
+
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
     public boolean flagGameOver = false;
 
-    private PlayerManager playerManager = PlayerManager.getInstance();
+    private final PlayerManager playerManager = PlayerManager.getInstance();
 
-    private TextView username, healthPointText, timerShrinking;
+    private TextView username;
+    private TextView healthPointText;
     private ProgressBar healthPointProgressBar;
+    private TextView timerShrinking;
 
 
     /**
@@ -125,27 +127,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(MapsActivity.this);
         showGameInfoThread().start();
 
         timerShrinking = findViewById(R.id.timerShrinking);
-        Game.getInstance().areaShrinker.setTextViewAndActivity(timerShrinking, this);
+        Game.getInstance().areaShrinker.setTimerUI(this);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, int[] grantResults) {
         for (int res : grantResults) {
             if (res != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
         }
-        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
+        locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
     }
 
     /**
      * on Travis the map will not appear since it is not connected via API Key
      *
-     * @param googleMap
+     * @param googleMap the instance of the Google Map
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -173,8 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        startGameController = new Solo();
-                        initLocationFinder();
+                        Game.getInstance().startGameController = new Solo();
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false
@@ -197,6 +199,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 itemBox.setReDisplay(true);
             }
         }
+
+        initLocationFinder();
 
         Log.d("Database", "Quit map ready");
     }
@@ -222,13 +226,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
-                    initLocationFinder();
+                    Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI);
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
-                    initLocationFinder();
+                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -241,7 +243,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 101);
         } else {
-            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE), startGameController);
+            locationFinder = new GoogleLocationFinder((LocationManager) getSystemService(Context.LOCATION_SERVICE));
         }
     }
 
@@ -257,7 +259,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private Thread showGameInfoThread() {
-        Thread thread = new Thread() {
+        return new Thread() {
             @Override
             public void run() {
                 try {
@@ -266,16 +268,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         runOnUiThread(() -> {
                             if (playerManager.getCurrentUser() != null) {
                                 healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
-                                healthPointText.setText(playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax());
+                                String newText = playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax();
+                                healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
                             }
                         });
                     }
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         };
-        return thread;
     }
 
     @Override
@@ -304,5 +307,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
         flagGameOver = true;
+    }
+
+    @Override
+    public void displayTime(String timeAsString) {
+        runOnUiThread(() -> timerShrinking.setText(timeAsString));
     }
 }

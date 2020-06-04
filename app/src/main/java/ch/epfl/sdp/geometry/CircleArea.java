@@ -127,12 +127,13 @@ public class CircleArea extends Area {
     public void updateGameArea(Area area) {
         center = area.getLocation();
         radius = ((CircleArea) area).getRadius();
+        setRemainingTimeString(area.getRemainingTimeString());
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "CircleArea " + radius + " " + center.getLongitude() + " " + center.getLatitude();
+        return "CircleArea " + radius + " " + center.getLongitude() + " " + center.getLatitude() + " " + this.remainingTimeString;
     }
 
     @Override

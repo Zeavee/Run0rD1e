@@ -44,13 +44,13 @@ public class UnboundedArea extends Area {
 
     @Override
     public void updateGameArea(Area area) {
-        //We do not need to update anything
+        setRemainingTimeString(area.getRemainingTimeString());
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "UnboundedArea";
+        return "UnboundedArea " + this.remainingTimeString;
     }
 
     @Override

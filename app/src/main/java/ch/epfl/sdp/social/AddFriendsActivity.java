@@ -1,5 +1,6 @@
 package ch.epfl.sdp.social;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         DividerItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
 
+        findViewById(R.id.addFriendsBackButton).setOnClickListener((v) -> startActivity(new Intent(AddFriendsActivity.this, FriendsListActivity.class)));
     }
 
     @Override

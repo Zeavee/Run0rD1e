@@ -7,7 +7,8 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
-import ch.epfl.sdp.MainActivity;
+
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -30,6 +31,6 @@ public class RulesActivityPage2Test {
     @Test
     public void btnStartSiteClick_OpensMainActivity() {
         onView(withId(R.id.btnStartSite)).perform(click());
-        intended(hasComponent(MainActivity.class.getName()));
+        intended(hasComponent(MainMenuActivity.class.getName()));
     }
 }

@@ -122,11 +122,8 @@ public class GameTest {
     public void gameThreadCatchExceptions() {
         Game.getInstance().initGame();
 
-        Updatable updatable = new Updatable() {
-            @Override
-            public void update() {
-                double a = 1 / 0;
-            }
+        Updatable updatable = () -> {
+            double a = 1 / 0;
         };
 
         Game.getInstance().addToUpdateList(updatable);

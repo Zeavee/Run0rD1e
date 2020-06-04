@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import ch.epfl.sdp.MainActivity;
+
+import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;
 
 public class RulesActivityPage2 extends AppCompatActivity {
@@ -16,6 +17,6 @@ public class RulesActivityPage2 extends AppCompatActivity {
 
         findViewById(R.id.btnPage1).setOnClickListener(v -> startActivity(new Intent(RulesActivityPage2.this, RulesActivityPage1.class)));
 
-        findViewById(R.id.btnStartSite).setOnClickListener(v -> startActivity(new Intent(RulesActivityPage2.this, MainActivity.class)));
+        findViewById(R.id.btnStartSite).setOnClickListener(v -> startActivity(new Intent(RulesActivityPage2.this, MainMenuActivity.class)));
     }
 }
