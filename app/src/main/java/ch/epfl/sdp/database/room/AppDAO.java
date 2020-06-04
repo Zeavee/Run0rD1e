@@ -10,16 +10,27 @@ import java.util.List;
 
 @Dao
 public interface AppDAO {
-    // LiveData is a data holder class that can be observed within a given lifecycle.
-    // Always holds/caches latest version of data. Notifies its active observers when the
-    // data has changed. Since we are getting all the contents of the database,
-    // we are notified whenever any of the database contents have changed.
-    @Query("SELECT * from leaderboard_table ORDER BY score DESC")
-    LiveData<List<LeaderboardEntity>> getLeaderboard();
+    /**
+     * Return the LiveData which holds a list of leaderBoardEntity that can be observed with a given lifecycle.
+     * Always holds/cached latest version of data. Notifies its active observers when the data has changed.
+     * Since we select the all leaderBoard_table, we are notified whenever any of the leaderBoard_table contents have changed.
+     *
+     * @return LiveData which holds a list of leaderBoardEntity
+     */
+    @Query("SELECT * from leaderBoard_table ORDER BY generalScore DESC")
+    LiveData<List<GeneralLeaderBoardEntity>> getGeneralLeaderBoard();
 
+    /**
+     * Insert a leaderBoardEntity to the leaderBoard_table
+     *
+     * @param player A leaderBoardEntity object used to be insert to the leaderBoard_table
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertToLeaderboard(LeaderboardEntity player);
+    void insertToGeneralLeaderBoard(GeneralLeaderBoardEntity player);
 
-    @Query("DELETE FROM leaderboard_table")
-    void deleteAllFromLeaderboard();
+    /**
+     * Delete all the contents from leaderBoard_table
+     */
+    @Query("DELETE FROM leaderBoard_table")
+    void deleteAllFromGeneralLeaderBoard();
 }

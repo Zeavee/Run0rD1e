@@ -42,7 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".leaderboard.GeneralLeaderboardActivity" />
+        <activity android:name=".leaderBoard.GeneralLeaderBoardActivity" />
         <activity android:name=".logic.RulesActivityPage1" />
         <activity android:name=".logic.RulesActivityPage2" />
         <!--

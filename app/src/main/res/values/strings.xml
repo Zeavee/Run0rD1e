@@ -226,4 +226,6 @@
     <string name="ImgScoreBoardIcon">playIcon</string>
     <string name="Logo">Logo</string>
 
+    <string name="playerStatusDead">DEAD</string>
+    <string name="playerStatusAlive">ALIVE</string>
 </resources>

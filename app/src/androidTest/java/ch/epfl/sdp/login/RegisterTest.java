@@ -125,7 +125,6 @@ public class RegisterTest {
 
     @Test
     public void registering_ShouldFailOnEmptyTextFields() {
-        List<ArrayList<Pair<ViewAction, Integer>>> iter = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
             MissingFieldTestFactory.testFieldFourActions(new Pair(testCases.get(i * 4), testCasesInt.get(i * 4)),
                     new Pair(testCases.get(i * 4 + 1), testCasesInt.get(i * 4 + 1)),
@@ -135,8 +134,7 @@ public class RegisterTest {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
             Log.d("COUNTER", " " + i);
-            //onView(withId(R.id.backBtn)).perform(click());
-            onView(withId(R.id.createAccountBtn)).perform(click());
+            onView(withId(R.id.registerbutton)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
         }
     }
@@ -160,22 +158,4 @@ public class RegisterTest {
         onView(withId(R.id.registerbutton)).perform(click());
         onView(withId(R.id.rulesButton)).check(matches(isDisplayed()));
     }
-
-    // for now
-
-    @Test
-    public void backButton_ShouldGoToLoginForm() {
-        intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.loginButton)).perform(click());
-        onView(withId(R.id.createAccountBtn)).check(matches(isDisplayed()));
-    }
-
-    /*@Test
-    public void registerWhenConnected_ShouldGoToMainScreen(){
-        //intending(toPackage(LoginFormActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.backBtn)).perform(click());
-        MissingFieldTestFactory.testFieldTwoActionsCloseKeyboard(typeText(email), typeText(password), R.id.emaillog, R.id.passwordlog);
-        //intending(toPackage(RegisterFormActivity.class.getName())).respondWith(result);
-        onView(withId(R.id.createAccountBtn)).perform(click());
-    }*/
 }
