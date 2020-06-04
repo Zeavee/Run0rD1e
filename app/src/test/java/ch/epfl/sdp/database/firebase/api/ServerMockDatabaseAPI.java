@@ -1,6 +1,7 @@
 package ch.epfl.sdp.database.firebase.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
         if (tClass == PlayerForFirebase.class) {
-            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<T>((List<T>) playerForFirebaseMap.values()), true, null));
+            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<T>((Collection<? extends T>) playerForFirebaseMap.values()), true, null));
         }
     }
 
