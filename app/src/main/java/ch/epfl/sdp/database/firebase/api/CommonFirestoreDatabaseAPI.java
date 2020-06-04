@@ -47,9 +47,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
         lobbyRef.whereLessThan("players", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if(queryDocumentSnapshots.isEmpty()){
-                        playerManager.setLobbyDocumentName(lobbyRef.document().getId());
-                        playerManager.setIsServer(false);
-                        playerManager.setNumPlayersInLobby(0);
+                        setPlayerManager(lobbyRef.document().getId(), false, 0);
                         Map<String, Object> data = new HashMap<>();
                         data.put("players", 0);
                         data.put("signal", 0);
@@ -57,18 +55,20 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
                     } else if (queryDocumentSnapshots.size() == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY - 1) {
                         QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
-                        playerManager.setLobbyDocumentName(doc.getId());
-                        playerManager.setIsServer(true);
-                        playerManager.setNumPlayersInLobby(doc.getLong("players"));
+                        setPlayerManager(doc.getId(), true, doc.getLong("players"));
                     } else {
                         QueryDocumentSnapshot doc = queryDocumentSnapshots.iterator().next();
-                        playerManager.setLobbyDocumentName(doc.getId());
-                        playerManager.setIsServer(false);
-                        playerManager.setNumPlayersInLobby(doc.getLong("players"));
+                        setPlayerManager(doc.getId(), false, doc.getLong("players"));
                     }
 
                     onValueReadyCallback.finish(new CustomResult<>(null, true, null));
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
+    }
+
+    private void setPlayerManager(String lobby, boolean isServer, long players_count){
+        playerManager.setLobbyDocumentName(lobby);
+        playerManager.setIsServer(isServer);
+        playerManager.setNumPlayersInLobby(players_count);
     }
 
     @Override
