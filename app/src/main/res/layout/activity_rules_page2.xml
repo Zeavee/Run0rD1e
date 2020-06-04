@@ -228,6 +228,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.285"
-        app:srcCompat="@drawable/sm_logo" />
+        app:srcCompat="@drawable/sm_logo"
+        android:contentDescription="@string/MarketIcon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
