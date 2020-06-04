@@ -31,11 +31,8 @@ public class GameOverActivity extends AppCompatActivity {
     }
 
     private void goToMainMenu() {
-        JunkCleaner.clearAll();
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        appContainer.commonDatabaseAPI.cleanListeners();
-        appContainer.serverDatabaseAPI.cleanListeners();
-        appContainer.clientDatabaseAPI.cleanListeners();
+        JunkCleaner.clearAllAndListeners(appContainer);
         Intent i = new Intent(GameOverActivity.this, MainMenuActivity.class);
         startActivity(i);
         finish();

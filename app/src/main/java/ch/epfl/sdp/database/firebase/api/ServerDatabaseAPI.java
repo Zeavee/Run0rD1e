@@ -107,6 +107,9 @@ public interface ServerDatabaseAPI {
      */
     void sendGameArea(Area gameArea);
 
+    /**
+     * This method cleans the listeners of the API
+     */
     void cleanListeners();
 
 }

@@ -106,10 +106,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         clientDatabaseAPI = appContainer.clientDatabaseAPI;
 
         if (Game.getInstance().gameStarted && PlayerManager.getInstance().isSoloMode() != isSolo) {
-            JunkCleaner.clearAll();
-            commonDatabaseAPI.cleanListeners();
-            serverDatabaseAPI.cleanListeners();
-            clientDatabaseAPI.cleanListeners();
+            JunkCleaner.clearAllAndListeners(appContainer);
         }
 
         Game.getInstance().setRenderer(this);

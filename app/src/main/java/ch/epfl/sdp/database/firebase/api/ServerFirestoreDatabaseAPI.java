@@ -88,7 +88,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
     }
 
-    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property){
+    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property) {
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
@@ -146,7 +146,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
-        DatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
+        FireStoreDatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     private <T> void sendList(List<T> list, String collection, Function<T, String> converterToString, Function<T, Object> converterToSend) {
@@ -173,9 +173,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
     @Override
     public void cleanListeners() {
-        for (ListenerRegistration listener : listeners) {
-            listener.remove();
-        }
-        listeners.clear();
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 }

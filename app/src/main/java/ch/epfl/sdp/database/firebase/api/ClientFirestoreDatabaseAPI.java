@@ -1,6 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -43,7 +42,7 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
 
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
-        DatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
+        FireStoreDatabaseAPI.addCollectionListener(tClass, collectionName, onValueReadyCallback, listeners, lobbyRef);
     }
 
     @Override
@@ -81,9 +80,6 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
 
     @Override
     public void cleanListeners() {
-        for (ListenerRegistration listener : listeners) {
-            listener.remove();
-        }
-        listeners.clear();
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 }

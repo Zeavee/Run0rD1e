@@ -105,9 +105,6 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void cleanListeners() {
-        for (ListenerRegistration listener : listeners) {
-            listener.remove();
-        }
-        listeners.clear();
+        FireStoreDatabaseAPI.cleanListeners(listeners);
     }
 }

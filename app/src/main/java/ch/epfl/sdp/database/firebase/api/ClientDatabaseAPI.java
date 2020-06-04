@@ -57,5 +57,8 @@ public interface ClientDatabaseAPI {
      */
     void sendUsedItems(ItemsForFirebase itemsForFirebase);
 
+    /**
+     * This method cleans the listeners of the API
+     */
     void cleanListeners();
 }

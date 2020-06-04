@@ -43,12 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        JunkCleaner.clearAll();
-        AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
-        appContainer.commonDatabaseAPI.cleanListeners();
-        appContainer.serverDatabaseAPI.cleanListeners();
-        appContainer.clientDatabaseAPI.cleanListeners();
-        authenticationAPI.signOut();
+        JunkCleaner.clearAllAndListeners(((MyApplication) getApplication()).appContainer);
         startActivity(new Intent(MainMenuActivity.this, LoginFormActivity.class));
         finish();
     }
