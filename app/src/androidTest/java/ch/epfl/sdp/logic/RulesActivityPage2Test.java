@@ -23,13 +23,13 @@ public class RulesActivityPage2Test {
 
     @Test
     public void btnPage1Click_OpensRulesActivityPage1() {
-        //onView(withId(R.id.btnPage1)).perform(click());
-        //intended(hasComponent(RulesActivityPage1.class.getName()));
+        onView(withId(R.id.btnPage1)).perform(click());
+        intended(hasComponent(RulesActivityPage1.class.getName()));
     }
 
     @Test
     public void btnStartSiteClick_OpensMainActivity() {
-        //onView(withId(R.id.btnStartSite)).perform(click());
-        //intended(hasComponent(MainActivity.class.getName()));
+        onView(withId(R.id.btnStartSite)).perform(click());
+        intended(hasComponent(MainActivity.class.getName()));
     }
 }
