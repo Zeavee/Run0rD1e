@@ -72,6 +72,7 @@ public class Server extends StartGameController implements Updatable {
 
     @Override
     public void update() {
+        checkIfWon();
 
         if(counter % (2 * GameThread.FPS) == 0) {
             sendUserPosition();
@@ -82,7 +83,6 @@ public class Server extends StartGameController implements Updatable {
             sendPlayersItems();
             checkPlayerStatus();
             counter = 2 * GameThread.FPS + 1;
-            checkIfWon();
         }
 
         // Update the current game score in 10 seconds

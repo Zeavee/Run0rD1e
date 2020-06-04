@@ -89,12 +89,13 @@ public class GameOverTest {
         }
     };
 
-    // check "gameOvr" is displayed
-    /*@Test
+    // check "Game Ovr" is displayed
+    @Test
     public void serverLosesIfDead() {
         checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
-    }*/
-    // check "gameOvr" is displayed
+    }
+
+    // check "Y0u w0n!" is displayed
     @Test
     public void serverWinsIfAlone() {
         checkIfTextIsDisplayedAfterGameOver(placeholder, "Y0u w0n!");
