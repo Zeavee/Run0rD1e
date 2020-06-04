@@ -9,7 +9,7 @@ import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
-import ch.epfl.sdp.logic.RuleActivity;
+import ch.epfl.sdp.logic.RulesActivityPage1;
 import ch.epfl.sdp.login.LoginFormActivity;
 import ch.epfl.sdp.map.MapsActivity;
 import ch.epfl.sdp.social.FriendsListActivity;
@@ -28,9 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.solo).setOnClickListener(v -> startWithStringExtra("playMode", "single-player"));
 
-        findViewById(R.id.generalLeaderBoard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, GeneralLeaderBoardActivity.class)));
+        findViewById(R.id.generalLeaderBoard).setOnClickListener(view -> startActivity(new Intent(MainActivity.this, ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity.class)));
 
-        findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RuleActivity.class)));
+        findViewById(R.id.rulesButton).setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RulesActivityPage1.class)));
 
         findViewById(R.id.logoutBt).setOnClickListener(v -> logout());
 

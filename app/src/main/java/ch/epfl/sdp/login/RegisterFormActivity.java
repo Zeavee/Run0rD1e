@@ -35,7 +35,7 @@ public class RegisterFormActivity extends AppCompatActivity {
 
         txtUsername = findViewById(R.id.username);
         txtEmail = findViewById(R.id.email);
-        txtPassword = findViewById(R.id.password);
+        txtPassword = findViewById(R.id.txtRegisterPassword);
         txtPasswordConf = findViewById(R.id.passwordconf);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
