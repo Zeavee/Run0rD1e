@@ -80,7 +80,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendServerAliveSignal(int signal) {
+    public void sendServerAliveSignal(long signal) {
 
     }
 
