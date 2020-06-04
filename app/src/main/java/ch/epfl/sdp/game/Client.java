@@ -66,8 +66,9 @@ public class Client extends StartGameController implements Updatable {
                     });
                 }
             });
-
             addListeners();
+            initGameObjects(area);
+
         }
     }
 
@@ -77,6 +78,7 @@ public class Client extends StartGameController implements Updatable {
         addPlayersListener();
         addUserItemListener();
         addGameAreaListener();
+
     }
 
     @Override
@@ -192,4 +194,6 @@ public class Client extends StartGameController implements Updatable {
             playerManager.getCurrentUser().getInventory().clearUsedItems();
         }
     }
+
+
 }

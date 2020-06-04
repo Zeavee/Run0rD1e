@@ -53,7 +53,7 @@ public class ClientTest {
 
         assertEquals(2, PlayerManager.getInstance().getPlayers().size());
         assertEquals(1, EnemyManager.getInstance().getEnemies().size());
-        assertEquals(1, ItemBoxManager.getInstance().getItemBoxes().size());
+        assertTrue(ItemBoxManager.getInstance().getItemBoxes().size() > 0);
         assertEquals(2, PlayerManager.getInstance().getCurrentUser().getInventory().size());
 
         Player user = PlayerManager.getInstance().getCurrentUser();

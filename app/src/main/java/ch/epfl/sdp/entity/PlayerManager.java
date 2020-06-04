@@ -15,14 +15,12 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
+
     /**
-     * The maximum number of player in a lobby
+     * Represents the number of players in the lobby (i.e. the total number of players withing a single game)
      */
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
 
-    /**
-     * All the names of the firebase collections
-     */
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";

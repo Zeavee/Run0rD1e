@@ -12,24 +12,33 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;
 
 public abstract class StartGameController {
     private RandomEnemyGenerator randomEnemyGenerator;
+    private RandomGenerator  randGen = new RandomGenerator();
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
+    private static final int MAX_QTY_INSIDE_ITEM_BOX = 5;
+    private static final int NB_COINS = 20;
+    private static final int NB_SHELTER_AREAS = 5;
+    private Game gameInstance = Game.getInstance();
+
 
     /**
      * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
@@ -65,9 +74,9 @@ public abstract class StartGameController {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         Area gameArea = new CircleArea(3000, local);
-        Game.getInstance().addToDisplayList(gameArea);
-        Game.getInstance().addToUpdateList(gameArea);
-        Game.getInstance().areaShrinker.setGameArea(gameArea);
+        gameInstance.addToDisplayList(gameArea);
+        gameInstance.addToUpdateList(gameArea);
+        gameInstance.areaShrinker.setGameArea(gameArea);
         return gameArea;
     }
 
@@ -98,46 +107,32 @@ public abstract class StartGameController {
         }
     }
 
+
     /**
-     * This method initializes the coins
-     *
-     * @param center the location around which we want to coins to appear
+     * Creates Coins, the shelterAreas as well as the items inside the area
+     * @param gameArea
      */
-    void initCoins(GeoPoint center) {
-        int amount = 10;
-        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(center, amount);
-        for (Coin c : coins) {
-            Game.getInstance().addToDisplayList(c);
-            Game.getInstance().addToUpdateList(c);
+    void initGameObjects(Area gameArea) {
+        for (int i = 0; i < NB_COINS; i++) {
+            Coin c = randGen.randomCoin(gameArea.randomLocation());
+            gameInstance.addToDisplayList(c);
+            gameInstance.addToUpdateList(c);
+            ShelterArea s;
+            if(i < NB_SHELTER_AREAS) {
+                s = randGen.randomShelterArea(gameArea.randomLocation());
+                gameInstance.addToDisplayList(s);
+                gameInstance.addToUpdateList(s);
+            }
+        }
+        ArrayList<Item> items = randGen.randomItemsList();
+        for (Item i : items) {
+            ItemBox itemBox = new ItemBox(gameArea.randomLocation());
+            itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
+            gameInstance.addToDisplayList(itemBox);
+            gameInstance.addToUpdateList(itemBox);
+            ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         }
     }
 
-    /**
-     * This method initializes the item boxes
-     */
-    void initItemBoxes() {
-        Scan scan = new Scan(10);
-        Shield shield = new Shield(10);
-        Shrinker shrinker = new Shrinker(10, 5);
-        Healthpack healthpack = new Healthpack(10);
 
-        ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(shield, 100);
-        itemBox.putItems(shrinker, 100);
-        itemBox.putItems(scan, 100);
-        itemBox.putItems(healthpack, 100);
-
-        Game.getInstance().addToDisplayList(itemBox);
-        Game.getInstance().addToUpdateList(itemBox);
-
-        Healthpack healthpack1 = new Healthpack(10);
-        ItemBox itemBox1 = new ItemBox(new GeoPoint(6.1488, 46.2125));
-        itemBox1.putItems(healthpack1, 1);
-        Game.getInstance().addToDisplayList(itemBox1);
-        Game.getInstance().addToUpdateList(itemBox1);
-
-        ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
-        ItemBoxManager.getInstance().addItemBox(itemBox1);
-        //  -------------------------------------------
-    }
 }

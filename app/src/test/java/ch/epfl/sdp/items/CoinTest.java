@@ -40,11 +40,6 @@ public class CoinTest {
         assertTrue(broke.getMoney() == dime.getValue());
     }
 
-    @Test
-    public void generateRandomCoinsTest() {
-        ArrayList<Coin> gen = Coin.generateCoinsAroundLocation(new GeoPoint(10, 10),5);
-        assertTrue(gen.size() == 5);
-    }
 
     @Test
     public void coinDisappearsWhenPicked() {

@@ -2,7 +2,6 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
-import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -36,11 +35,9 @@ public class Solo extends StartGameController implements Updatable {
 
             // init the environment
             Area gameArea = initGameArea();
-            initItemBoxes();
             createRandomEnemyGenerator(gameArea);
             generateEnemy(EnemyManager.getInstance());
-            initCoins(currentUser.getLocation());
-
+            initGameObjects(gameArea);
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
             Game.getInstance().initGame();
