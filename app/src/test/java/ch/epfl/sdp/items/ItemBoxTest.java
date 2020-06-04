@@ -11,6 +11,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,8 +40,9 @@ public class ItemBoxTest {
 
     @Before
     public void setup() {
+        RandomGenerator r = new RandomGenerator();
         PlayerManager.getInstance().clear(); // Just to be sure that there are no players
-        location = new GeoPoint(0,0);
+        location = r.randomGeoPoint();
         player = new Player("test","test@gmail.com");
         player.setLocation(location);
         PlayerManager.getInstance().setCurrentUser(player);

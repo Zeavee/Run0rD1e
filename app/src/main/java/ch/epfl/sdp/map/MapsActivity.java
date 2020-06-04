@@ -67,6 +67,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private final WeatherFragment weatherFragment = new WeatherFragment();
     private final static CurrentGameLeaderBoardFragment ingameLeaderboardFragment = new CurrentGameLeaderBoardFragment();
 
+    private TextView username, healthPointText, timerShrinking, moneyText;
+    private ProgressBar healthPointProgressBar;
+
     private boolean flagInventory = false;
     private boolean flagWeather = false;
     private boolean flagIngameLeaderboard = false;
@@ -74,10 +77,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private final PlayerManager playerManager = PlayerManager.getInstance();
 
-    private TextView username;
-    private TextView healthPointText;
-    private ProgressBar healthPointProgressBar;
-    private TextView timerShrinking;
 
 
     /**
@@ -115,6 +114,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         username = findViewById(R.id.gameinfo_username_text);
         healthPointProgressBar = findViewById(R.id.gameinfo_healthpoint_progressBar);
         healthPointText = findViewById(R.id.gameinfo_healthpoint_text);
+        moneyText = findViewById(R.id.gameinfo_money_text);
         username.setText("");
 
         findViewById(R.id.recenter).setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
@@ -288,6 +288,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 String newText = playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax();
                                 healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
+                                moneyText.setText(String.format("%d", playerManager.getCurrentUser().getMoney()));
                             }
                         });
                     }

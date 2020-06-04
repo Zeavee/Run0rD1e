@@ -35,7 +35,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", 100);
+        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", (int) aoeRadius);
     }
 
     /**

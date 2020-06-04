@@ -139,10 +139,9 @@ public class Server extends StartGameController implements Updatable {
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = initGameArea();
-                initItemBoxes();
                 createRandomEnemyGenerator(gameArea);
                 generateEnemy(enemyManager);
-                initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
+                initGameObjects(gameArea);
                 startGame();
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
@@ -159,6 +158,7 @@ public class Server extends StartGameController implements Updatable {
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
+
 
     private void addUsedItemsListener() {
         serverDatabaseAPI.addUsedItemsListener(value -> {

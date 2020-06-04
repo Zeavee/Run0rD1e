@@ -4,6 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -14,6 +16,7 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -31,8 +34,9 @@ public class ItemsTest {
 
     @Before
     public void setup(){
+        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
-        player = new Player("","");
+        player = new Player("Test Name", "test@email.com");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
