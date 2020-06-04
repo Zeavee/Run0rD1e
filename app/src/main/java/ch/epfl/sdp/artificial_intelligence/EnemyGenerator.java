@@ -34,12 +34,6 @@ public abstract class EnemyGenerator {
     public abstract void setMinDistanceFromPlayers(double minDistanceFromPlayers);
 
     /**
-     * Set the time to spawn new enemies.
-     * @param time  The time to spawn new enemies.
-     */
-    public abstract void setEnemyCreationTime(long time);
-
-    /**
      * Create a new enemy and add it to the list of enemies.
      */
     public abstract Enemy generateEnemy(double radius);
