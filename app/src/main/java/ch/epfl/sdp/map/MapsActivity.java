@@ -217,7 +217,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         commonDatabaseAPI.selectLobby(selectLobbyRes -> {
             if (selectLobbyRes.isSuccessful()) {
 
-                createPlayerInLobby(playerManager.getLobbyDocumentName());
+                createPlayerInLobby();
 
             } else {
                 Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -225,18 +225,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void createPlayerInLobby(String lobbyId){
-        commonDatabaseAPI.fetchPlayers(lobbyId, res -> {
-            if(res.isSuccessful()){
-                List<PlayerForFirebase> playersForFirebase = res.getResult();
-
-                for (PlayerForFirebase playerForFirebase: playersForFirebase) {
-                    if(playerManager.getCurrentUser().getEmail().equals(playerForFirebase.getEmail())){
-                        playerManager.setInLobby(true);
-                        break;
-                    }
-                }
-
+    private void createPlayerInLobby(){
                 PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
                 Map<String, Object> data = new HashMap<>();
 
@@ -246,10 +235,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
                 joinLobby(playerForFirebase, data);
-            }else{
-                Log.d("Database", "In createPlayerInLobby: Could not fetch players.");
-            }
-        });
     }
 
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
