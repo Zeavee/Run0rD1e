@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/bold"
-        android:text="MARKET"
+        android:text="@string/market_title"
         android:textColor="@color/green"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"
-            android:src="@mipmap/ic_shrinker" />
+            android:src="@mipmap/ic_shrinker"
+            android:contentDescription="@string/market_shinker_btn" />
     </androidx.cardview.widget.CardView>
 
 
@@ -63,7 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"
-            android:src="@mipmap/ic_scan" />
+            android:src="@mipmap/ic_scan"
+            android:contentDescription="@string/market_scan_btn"/>
     </androidx.cardview.widget.CardView>
 
 
@@ -87,7 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"
-            android:src="@mipmap/ic_sh" />
+            android:src="@mipmap/ic_sh"
+            android:contentDescription="@string/market_shield_btn" />
     </androidx.cardview.widget.CardView>
 
 
@@ -111,7 +114,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"
-            android:src="@mipmap/ic_ems" />
+            android:src="@mipmap/ic_ems"
+            android:contentDescription="@string/market_healthpack_btn"/>
     </androidx.cardview.widget.CardView>
 
 
@@ -123,7 +127,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:text="Buy Items"
+        android:text="@string/market_buyItems"
         android:background="@drawable/btn_rounded"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -136,7 +140,7 @@
         android:id="@+id/costScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cost: \nValue:"
+        android:text="@string/market_cost"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toTopOf="@+id/emsCard"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,7 +153,7 @@
         android:id="@+id/costShrink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cost: \nValue:"
+        android:text="@string/market_cost"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toTopOf="@+id/shieldCard"
         app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +167,7 @@
         android:id="@+id/costEms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cost: \nValue:"
+        android:text="@string/market_cost"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -177,7 +181,7 @@
         android:id="@+id/costShield"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cost: \nValue:"
+        android:text="@string/market_cost"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -191,7 +195,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Money: "
+        android:text="@string/market_money"
         android:textStyle="italic|bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

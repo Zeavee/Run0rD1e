@@ -39,14 +39,12 @@ public class RegisterFormActivity extends AppCompatActivity {
 
         txtUsername = findViewById(R.id.username);
         txtEmail = findViewById(R.id.email);
-        txtPassword = findViewById(R.id.password);
+        txtPassword = findViewById(R.id.txtRegisterPassword);
         txtPasswordConf = findViewById(R.id.passwordconf);
 
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         authenticationAPI = appContainer.authenticationAPI;
         commonDatabaseAPI = appContainer.commonDatabaseAPI;
-
-        findViewById(R.id.registerBackButton).setOnClickListener(this::backBtn_OnClick);
 
         findViewById(R.id.registerbutton).setOnClickListener(this::registerBtn_OnClick);
     }

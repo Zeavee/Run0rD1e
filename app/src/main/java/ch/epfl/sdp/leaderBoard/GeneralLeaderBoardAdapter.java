@@ -28,7 +28,7 @@ public class GeneralLeaderBoardAdapter extends RecyclerView.Adapter<GeneralLeade
 
     @Override
     public void onBindViewHolder(@NonNull GeneralLeaderBoardViewHolder holder, int position) {
-        holder.ranking.setText(String.valueOf(position + 1));
+        holder.ranking.setText(String.valueOf(position + 4));
         holder.username.setText(mUsers.get(position).getUsername());
         holder.generalScore.setText(String.valueOf(mUsers.get(position).getGeneralScore()));
     }
