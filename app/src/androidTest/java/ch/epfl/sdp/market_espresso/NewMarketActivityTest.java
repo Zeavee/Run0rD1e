@@ -109,7 +109,6 @@ public class NewMarketActivityTest {
                                 0),
                         isDisplayed()));
         appCompatImageButton.perform(click());
-
     }
 
     // click on scan button

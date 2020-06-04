@@ -105,6 +105,129 @@
     <string name="weather">Weather</string>
     <string name="leaderboard">Leaderboard</string>
     <string name="market">MARKET</string>
+    <!---Here are Rules Page 1 content-->
+    <string name="rules_title">Rules</string>
+
+    <string name="rules_intro_title">Intro</string>
+    <string name="rules_intro_content_start">In this game you play on the map.</string>
+    <string name="rules_intro_content_end">To play you will need to activate your current position and be ready to run away.</string>
+
+    <string name="rules_mode_title">Playmode</string>
+    <string name="rules_solo_title">Soloplayer: </string>
+    <string name="rules_solo_content">You can start the game.</string>
+
+    <string name="rules_multi_title">Multiplayer: </string>
+    <string name="rules_multi_content">Two or more players can join a game room/lobby and start a multiplayer game against each other.</string>
+
+    <string name="rules_howPlay_title">How to play?</string>
+    <string name="rules_howPlay_content_start">
+        Some enemies (controlled by the computer) \nappear on the map.\n\nIf the player
+        stands too close to an enemy,\n he loses heatlhpoints.\n\nIf a player\'s health drops to zero, he disappears.\n\nAfter some time,
+        more enemies appear.\n\nThe player with the highest score will win the game.\n\n
+    </string>
+    <string name="rules_item_title">Items</string>
+    <string name="rules_item_content">If you use the healthpack then you can increase your healthpoints about 10 points.</string>
+    <string name="rules_item_content_shrink">If no player has lost within a given time the map <b>shrinks.</b></string>
+    <string name="rules_item_content_market">You can collect coins to buy healthpacket in the <b>market.</b></string>
+
+    <!---Here are Rules Page 2 content-->
+    <string name="rules_inventory_title">Inventory</string>
+    <string name="rules_inventory_content"><b>Inventory contains the items</b></string>
+
+    <string name="rules_leaderboard_title">Leaderboard / Score </string>
+    <string name="rules_leaderboard_content">
+        Each 10 seconds the score will be updated and if the player run more than 10 meters in 10 secs
+        the player will get 20 points instead of 10 points.
+    </string>
+    <string name="rules_leaderboard_content_one"><b>General score</b> is a <b>long-term score</b> which\nis the sum of the <b>in-game score</b>.\nThat means the more game round you play
+        \nthe higher will be the <b>general score</b>.
+    </string>
+
+    <string name="rules_chat_title">Chat and Offline</string>
+    <string name="rules_chat_content"><b>CHAT:</b> In Multiplayer mode you can
+        chat with your friends.\n\n<b>OFFLINE</b> You see the leaderboard and the chat.
+    </string>
+
+    <!---Here are Chat names-->
+    <string name="MessageInput">Write a message</string>
+    <string name="placeholder">TextView</string>
+    <string name="placeholderImg">Image</string>
+    <string name="chat_user">Rose</string>
+    <string name="chat_exampleMsg">How are you doing? This is a long message that should probably wrap.</string>
+
+
+    <!---Here is the name of GameOver-->
+    <string name="GameOverLabel">Game 0vr</string>
+    <string name="BackMain">Go back to main menu</string>
+
+    <!---Here are Leaderboard names-->
+    <string name="lb_ranking">1</string>
+    <string name="lb_user">Admin</string>
+    <string name="lb_score">100</string>
+    <string name="lb_title">Leaderboard</string>
+    <string name="ranking_stage">Ranking Stage</string>
+
+    <!---Here is Login-->
+    <string name="login_greeting">Welcome to</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+    <string name="login_offline">Offline Mode</string>
+    <string name="login_member">You are not a member?</string>
+    <string name="login_register">Register</string>
+
+    <!---Here are Rules-->
+    <string name="main_solo">Solo Mode</string>
+    <string name="main_multi">Multi Mode</string>
+    <string name="main_rules">Rules</string>
+    <string name="main_leaderboard">LeaderBoard</string>
+    <string name="main_logout">Logout</string>
+    <string name="main_friends">Friends</string>
+
+    <!---Here are Market-->
+    <string name="market_title">MARKET</string>
+    <string name="market_buyItems">Buy Items</string>
+    <string name="market_cost">Cost: \nValue:</string>
+    <string name="market_money">Money:</string>
+
+    <!---Here are Register-->
+    <string name="register_newAccount">Create a new account</string>
+    <string name="register_username">Username</string>
+    <string name="register_pw_conf">Password confirmation</string>
+
+    <!---Here are Layout Itembox-->
+    <string name="itembox_shield">Shield</string>
+    <string name="itembox_number">Number:</string>
+    <string name="itembox_amount">5</string>
+    <string name="itembox_title">USE ITEM</string>
+
+
+
+
+    <!---Here are Button names-->
+    <string name="ButtonPageOne">Page 1</string>
+    <string name="ButtonPageTwo">Page 2</string>
+    <string name="ButtonMainPage">Start Site</string>
+    <string name="SendMessageButton">itemIcon</string>
+    <string name="ButtonName">Button</string>
+    <string name="market_shinker_btn">Shrinker Button</string>
+    <string name="market_shield_btn">Shield Button</string>
+    <string name="market_healthpack_btn">Healthpack Button</string>
+    <string name="market_scan_btn">Scan Button</string>
+    <string name="register_btn">Register</string>
+    <string name="chat_btn">chat</string>
+
+    <!---Here are Images/Icons names-->
+    <string name="ImgItemIcon">itemIcon</string>
+    <string name="ImgBulb">BulbRulesIntro</string>
+    <string name="ImgModi">modi</string>
+    <string name="ImgPlayIcon">playIcon</string>
+    <string name="ImgChatIcon">playIcon</string>
+    <string name="ImgScoreBoardIcon">playIcon</string>
+    <string name="Logo">Logo</string>
+    <string name="Enemy">Enemy</string>
+    <string name="MarketIcon">Market</string>
+
     <string name="playerStatusDead">DEAD</string>
     <string name="playerStatusAlive">ALIVE</string>
     <string name="winnerText">Y0u w0n!</string>

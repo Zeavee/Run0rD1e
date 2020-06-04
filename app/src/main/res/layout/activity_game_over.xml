@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bitmap"
+    android:background="@drawable/background"
     tools:context=".gameOver.GameOverActivity">
 
     <TextView
         android:id="@+id/gameOverText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Game 0vr"
-        android:textColor="#9C27B0"
+        android:text="@string/GameOverLabel"
+        android:textColor="@color/red"
         android:textSize="45sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="Button"
+        android:background="@drawable/general_btn_rounded"
+        android:text="@string/ButtonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameOverText"
