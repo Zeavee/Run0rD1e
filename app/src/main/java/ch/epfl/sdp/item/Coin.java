@@ -20,6 +20,7 @@ public class Coin extends Item implements Displayable, Updatable {
     private GeoPoint location;
     private boolean isDisplayed;
     private boolean taken;
+    private final double aoeRadius = 25.5;
 
     public Coin(int value, GeoPoint location) {
         super(String.format("Coin of value %d", value), "Medium of exchange that allows a player to buy items in shops");
@@ -46,7 +47,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
-            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() >= 1) {
+            if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() - aoeRadius >= 0) {
                 return;
             }
             this.taken = true;
@@ -65,7 +66,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
             String title = String.format("Coin of value %d", value);
-            mapApi.displayMarkerCircle(this, 0xFFD700, title, 100);
+            mapApi.displayMarkerCircle(this, 0xFFD700, title, (int)aoeRadius);
             this.isDisplayed = true;
         }
     }
@@ -76,14 +77,5 @@ public class Coin extends Item implements Displayable, Updatable {
 
     public boolean isTaken() {
         return this.taken;
-    }
-
-    public static ArrayList<Coin> generateCoinsAroundLocation(GeoPoint location, int amount) {
-        ArrayList<Coin> generatedCoins = new ArrayList<Coin>();
-        RandomGenerator randGen = new RandomGenerator();
-        for (int i = 0; i < amount; i++) {
-            generatedCoins.add(randGen.randomCoin(randGen.randomGeoPointAroundLocation(location)));
-        }
-        return generatedCoins;
     }
 }

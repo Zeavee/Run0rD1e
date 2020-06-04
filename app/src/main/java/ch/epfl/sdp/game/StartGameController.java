@@ -12,24 +12,31 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;
 
 public abstract class StartGameController {
     private RandomEnemyGenerator randomEnemyGenerator;
+    private RandomGenerator  randGen = new RandomGenerator();
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
+    private static final int MAX_QTY_INSIDE_ITEM_BOX = 5;
+    private static final int NB_COINS = 20;
+    private static final int NB_SHELTER_AREAS = 5;
 
     /**
      * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
@@ -99,14 +106,13 @@ public abstract class StartGameController {
     }
 
     /**
-     * This method initializes the coins
-     *
-     * @param center the location around which we want to coins to appear
+     * Creates coins inside the area
+     * @param gameArea
      */
-    void initCoins(GeoPoint center) {
-        int amount = 10;
-        ArrayList<Coin> coins = Coin.generateCoinsAroundLocation(center, amount);
-        for (Coin c : coins) {
+    void initCoins(Area gameArea) {
+        int amount = NB_COINS;
+        for (int i = 0; i < amount; i++) {
+            Coin c = randGen.randomCoin(gameArea.randomLocation());
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }
@@ -115,29 +121,33 @@ public abstract class StartGameController {
     /**
      * This method initializes the item boxes
      */
-    void initItemBoxes() {
+    void initItemBoxes(Area gameArea) {
         Scan scan = new Scan(10);
         Shield shield = new Shield(10);
         Shrinker shrinker = new Shrinker(10, 5);
         Healthpack healthpack = new Healthpack(10);
 
-        ItemBox itemBox = new ItemBox(new GeoPoint(6.14, 46.22));
-        itemBox.putItems(shield, 100);
-        itemBox.putItems(shrinker, 100);
-        itemBox.putItems(scan, 100);
-        itemBox.putItems(healthpack, 100);
+        ArrayList<Item> items = randGen.randomItemsList();
+        for (Item i : items) {
+            ItemBox itemBox = new ItemBox(gameArea.randomLocation());
+            itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
+            Game.getInstance().addToDisplayList(itemBox);
+            Game.getInstance().addToUpdateList(itemBox);
+            ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
+        }
+    }
 
-        Game.getInstance().addToDisplayList(itemBox);
-        Game.getInstance().addToUpdateList(itemBox);
 
-        Healthpack healthpack1 = new Healthpack(10);
-        ItemBox itemBox1 = new ItemBox(new GeoPoint(6.1488, 46.2125));
-        itemBox1.putItems(healthpack1, 1);
-        Game.getInstance().addToDisplayList(itemBox1);
-        Game.getInstance().addToUpdateList(itemBox1);
-
-        ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
-        ItemBoxManager.getInstance().addItemBox(itemBox1);
-        //  -------------------------------------------
+    /**
+     * Initializes the ShelterAreas on the map
+     * @param gameArea
+     */
+    void initShelterArea(Area gameArea) {
+        int amount = NB_SHELTER_AREAS;
+        for (int i = 0; i < amount; i++) {
+            ShelterArea s = randGen.randomShelterArea(gameArea.randomLocation());
+            Game.getInstance().addToDisplayList(s);
+            Game.getInstance().addToUpdateList(s);
+        }
     }
 }

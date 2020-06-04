@@ -18,10 +18,12 @@ import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.AreaFactory;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 
@@ -66,8 +68,10 @@ public class Client extends StartGameController implements Updatable {
                     });
                 }
             });
-
             addListeners();
+            initCoins(area);
+            initShelterArea(area);
+            initItemBoxes(area);
         }
     }
 
@@ -77,6 +81,7 @@ public class Client extends StartGameController implements Updatable {
         addPlayersListener();
         addUserItemListener();
         addGameAreaListener();
+
     }
 
     @Override
@@ -192,4 +197,6 @@ public class Client extends StartGameController implements Updatable {
             playerManager.getCurrentUser().getInventory().clearUsedItems();
         }
     }
+
+
 }

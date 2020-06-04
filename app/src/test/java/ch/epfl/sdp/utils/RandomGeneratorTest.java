@@ -26,25 +26,6 @@ public class RandomGeneratorTest {
     }
 
     @Test
-    public void randomString_test(){
-        for(int i = 0; i < 10; ++i){
-            assertEquals(i, randGen.randomString(i).length());
-        }
-    }
-
-    @Test
-    public void randomValidString_test(){
-        for(int i = 0; i < 10; ++i){
-            assertEquals(i, randGen.randomValidString(i).length());
-        }
-    }
-
-    @Test
-    public void randomEmail_test(){
-        assertNotNull(randGen.randomEmail());
-    }
-
-    @Test
     public void randomGeoPointTest() {
         GeoPoint g = randGen.randomGeoPoint();
         GeoPoint f = new GeoPoint(0,0);
@@ -83,28 +64,6 @@ public class RandomGeneratorTest {
         assertTrue(s.getRemainingTime() >= 0);
     }
 
-    @Test
-    public void randomPlayer() {
-        for (int i = 0; i <5; i++) {
-            Player p = randGen.randomPlayer();
-            assertTrue(p.getLocation().getLongitude() >= 5);
-            assertTrue(p.getLocation().getLongitude() <= 7);
-            assertTrue(p.getLocation().getLatitude() <= 47);
-            assertTrue(p.getLocation().getLatitude() >= 45);
-        }
-    }
-
-    @Test
-    public void randomEnemy() {
-        Enemy e = randGen.randomEnemy();
-        assertFalse(1 == 2);
-    }
-
-    @Test
-    public void randomShelterPointTest() {
-        ShelterArea s = randGen.randomShelterArea();
-        assertEquals(1,s.getPlayersInShelterArea().size());
-    }
 
     @Test
     public void randomCoinTest() {
@@ -113,21 +72,13 @@ public class RandomGeneratorTest {
         }
     }
 
-    @Test
-    public void randomGeoPointAroundLocationTest() {
-        GeoPoint g = new GeoPoint(0,0);
-        GeoPoint f = randGen.randomGeoPointAroundLocation(g);
-        double dlong = g.getLongitude() - f.getLongitude();
-        if(dlong < 0) {
-            dlong = (-1)*dlong;
-        }
-        double dlat = g.getLatitude() - f.getLatitude();
-        if(dlat < 0) {
-            dlat = (-1)*dlat;
-        }
-        assertTrue(dlat < 0.5);
-        assertTrue(dlong < 0.5);
-    }
 
+
+    @Test
+    public void randomShelterAreaTest() {
+        GeoPoint g = randGen.randomGeoPoint();
+        ShelterArea s = randGen.randomShelterArea(g);
+        assertTrue(s.getAoeRadius() <= 70 && s.getAoeRadius() >= 60);
+    }
 
 }

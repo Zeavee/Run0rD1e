@@ -36,11 +36,11 @@ public class Solo extends StartGameController implements Updatable {
 
             // init the environment
             Area gameArea = initGameArea();
-            initItemBoxes();
+            initItemBoxes(gameArea);
             createRandomEnemyGenerator(gameArea);
             generateEnemy(EnemyManager.getInstance());
-            initCoins(currentUser.getLocation());
-
+            initCoins(gameArea);
+            initShelterArea(gameArea);
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
             Game.getInstance().initGame();

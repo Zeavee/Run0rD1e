@@ -19,152 +19,99 @@ import ch.epfl.sdp.item.Scan;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
+/**
+ * Utility class which helps generating random positions, strings, GeoPoints, Coins, etc
+ * These methods are mainly used in tests, but also allow us to create random GeoPoints around specific locations which is useful when we want to generate Coins or ShelterPoints
+ */
 public class RandomGenerator {
-    private static Random rand = new Random();
-    private ArrayList alpha_numerics;
+
+    private static Random rand;
 
     public RandomGenerator() {
-        alpha_numerics = new ArrayList();
-
-        for (char i = 'a'; i < 'z'; ++i) {
-            alpha_numerics.add(i);
-        }
-
-        for (char i = 'A'; i < 'Z'; ++i) {
-            alpha_numerics.add(i);
-        }
-
-        for (char i = '0'; i < '9'; ++i) {
-            alpha_numerics.add(i);
-        }
+        rand = new Random();
     }
 
-    public String randomString(int length) {
-        StringBuilder sb = new StringBuilder();
-
-        if (length > 0) {
-            for (int i = 0; i < length; ++i) {
-                sb.append((char) rand.nextInt());
-            }
-        }
-        return sb.toString();
-    }
-
-    public String randomValidString(int length) {
-        StringBuilder sb = new StringBuilder();
-
-        if (length > 0) {
-            for (int i = 0; i < length; ++i) {
-                sb.append(alpha_numerics.get(rand.nextInt(alpha_numerics.size() - 1)));
-            }
-        }
-        return sb.toString();
-    }
-
-    public String randomEmail() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append(randomValidString(rand.nextInt(20)));
-        sb.append('@');
-        sb.append(randomValidString(rand.nextInt(15)));
-        sb.append('.');
-        randomValidString(rand.nextInt(3));
-
-        return sb.toString();
-    }
-
+    /**
+     * Creates a random GeoPoint
+     * Remark : It's not absolutely random. The GeoPoint in the output is always in the form (long, lat) = (45 + rx, 5 + ry), where rx and ry are generated randomly
+     * @return the generated GeoPoint
+     */
     public GeoPoint randomGeoPoint() {
-        double randomLong = rand.nextDouble() * 2 + 5;
-        double randomLat = rand.nextDouble() * 2 + 45;
+        double randomLong = rand.nextDouble() * 2 + 45;
+        double randomLat = rand.nextDouble() * 2 + 5;
         return new GeoPoint(randomLong, randomLat);
     }
 
-    // Chooses a random location on a circle of chosen radius
+    /**
+     *  Chooses a random location on a circle of chosen radius
+     * @param reference the reference GeoPoint
+     * @param radius
+     * @return the generated GeoPoint
+     */
     public GeoPoint randomLocationOnCircle(GeoPoint reference, int radius) {
         Vector vector = Vector.fromPolar(rand.nextDouble() * radius, rand.nextDouble() * Math.PI);
         return reference.asOriginTo(vector);
     }
 
-    public GeoPoint randomGeoPointBetweenTwoBounds(int a, int b) {
-        GeoPoint point = new GeoPoint(rand.nextInt(a), rand.nextInt(b));
-        return point;
-    }
 
+
+    /**
+     * Creates a helthpack with a random amount of health points between 25 and 50
+     * @return
+     */
     public Healthpack randomHealthPack() {
         Healthpack h = new Healthpack(rand.nextInt(25) + 25);
         return h;
     }
 
+
+    /**
+     * Creates a Shield with random effective time
+     * @return
+     */
     public Shield randomShield() {
         Shield s = new Shield(rand.nextInt(1) * 10 + 20);
         return s;
     }
 
+    /**
+     * Creates a shrinker with random effective time and radius
+     * @return
+     */
     public Shrinker randomShrinker() {
         Shrinker s = new Shrinker(rand.nextInt(1), rand.nextInt(5));
         return s;
     }
 
+    /**
+     * Creates a random scan with random effective time
+     * @return
+     */
     public Scan randomScan() {
         Scan s = new Scan(1 + rand.nextInt(1));
         return s;
     }
 
-    public Player randomPlayer() {
-        GeoPoint g = randomGeoPoint();
-        Player p = new Player(g.getLongitude(), g.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail());
-        return p;
-    }
 
-    public Enemy randomEnemy() {
-        // TODO Remove useless lines
-        List<Player> players = new ArrayList<>();
 
-        GeoPoint g1 = randomGeoPoint();
-        players.add(new Player(g1.getLongitude(), g1.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail()));
-        GeoPoint g2 = randomGeoPoint();
-        players.add(new Player(g2.getLongitude(), g2.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail()));
-        GeoPoint g3 = randomGeoPoint();
-        players.add(new Player(g3.getLongitude(), g3.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail()));
-        GeoPoint g4 = randomGeoPoint();
-        players.add(new Player(g4.getLongitude(), g4.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail()));
-        GeoPoint g5 = randomGeoPoint();
-        players.add(new Player(g5.getLongitude(), g5.getLatitude(), rand.nextDouble() + 50, randomString(10), randomEmail()));
-
-        addToPlayerManager(players);
-
-        int randBound = rand.nextInt(20);
-        int randomDmg = rand.nextInt(randBound + 1);
-        float randomdps = rand.nextFloat();
-        float randomDetectionDistance = rand.nextFloat() * 10 + 50;
-        RectangleArea r = new RectangleArea(10, 10, randomGeoPointBetweenTwoBounds(1, 5));
-        Enemy e = new Enemy(0, randomDmg, randomdps, randomDetectionDistance, 50, r);
-        return e;
-    }
-
-    private void addToPlayerManager(List<Player> players) {
-        for (Player player : players) {
-            PlayerManager.getInstance().addPlayer(player);
-        }
-    }
-
-    public ShelterArea randomShelterArea() {
-        GeoPoint l = this.randomGeoPoint();
-        double aoe = rand.nextDouble();
-        ShelterArea s = new ShelterArea(l, aoe);
-        PlayerManager.getInstance().clear();
-        Player p = this.randomPlayer();
-        for (int i = 0; i < 3; i++) {
-            while (p.getLocation().distanceTo(l) < aoe) {
-                PlayerManager.getInstance().addPlayer(p);
-            }
-        }
-        PlayerManager.getInstance().addPlayer(new Player(l.getLongitude(), l.getLatitude(), 10, "in", "in@in.com"));
-        s.shelter();
+    /**
+     * Creates a ShelterArea around a given location. The Aoe of the ShelterArea is random
+     * @param location
+     * @return shelterArea with random aoe (between 60 and 70)
+     */
+    public ShelterArea randomShelterArea(GeoPoint location) {
+        double rangeMin = 90.0;
+        double rangeMax = 120.0;
+        double aoe = rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
+        ShelterArea s = new ShelterArea(location, aoe);
         return s;
     }
 
-    public List<Item> randomItemsList() {
+    /**
+     * Creates a list of random Items
+     * @return
+     */
+    public ArrayList<Item> randomItemsList() {
         ArrayList<Item> result = new ArrayList<>();
         result.add(randomHealthPack());
         result.add(randomScan());
@@ -173,20 +120,20 @@ public class RandomGenerator {
         return result;
     }
 
+
+    /**
+     * Creates a coin with a random value at a given location
+     * @param location
+     * @return the generated coin
+     */
     public Coin randomCoin(GeoPoint location) {
         int i = rand.nextInt(30);
         return new Coin(i, location);
     }
 
-    public GeoPoint randomGeoPointAroundLocation(GeoPoint location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        double leftLimit = -0.1;
-        double rightLimit = 0.12;
-        double randomExt = leftLimit + rand.nextDouble() * (rightLimit - leftLimit);
-        double newLat = latitude + randomExt;
-        double anotherRandomExt = leftLimit + rand.nextDouble() * (rightLimit - leftLimit);
-        double newLong = longitude + anotherRandomExt;
-        return new GeoPoint(newLong, newLat);
+
+    public Random getRand() {
+        return rand;
     }
+
 }

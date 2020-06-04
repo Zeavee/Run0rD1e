@@ -8,20 +8,28 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import ch.epfl.sdp.artificial_intelligence.RandomEnemyGenerator;
+import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
+import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.item.Coin;
+import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Takes care of all actions that a server should perform (generating enemies, updating enemies etc.).
@@ -135,10 +143,11 @@ public class Server extends StartGameController implements Updatable {
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = initGameArea();
-                initItemBoxes();
+                initItemBoxes(gameArea);
                 createRandomEnemyGenerator(gameArea);
                 generateEnemy(enemyManager);
-                initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
+                initCoins(gameArea);
+                initShelterArea(gameArea);
                 startGame();
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
@@ -155,6 +164,7 @@ public class Server extends StartGameController implements Updatable {
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
+
 
     private void addUsedItemsListener() {
         serverDatabaseAPI.addUsedItemsListener(value -> {

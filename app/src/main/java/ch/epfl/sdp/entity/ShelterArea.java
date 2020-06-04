@@ -6,6 +6,7 @@ import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Class representing a Shelter Area
@@ -35,7 +36,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", 100);
+        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", (int) aoeRadius);
     }
 
     /**
