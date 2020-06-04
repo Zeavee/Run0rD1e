@@ -25,7 +25,7 @@ public class RulesActivityPage1Test {
 
     @Test
     public void btnPage2Click_OpensRulesActivityPage2() {
-      //  onView(withId(R.id.btnPage2)).perform(click());
-      //  intended(hasComponent(RulesActivityPage2.class.getName()));
+       // onView(withId(R.id.btnPage2)).perform(click());
+       // intended(hasComponent(RulesActivityPage2.class.getName()));
     }
 }
