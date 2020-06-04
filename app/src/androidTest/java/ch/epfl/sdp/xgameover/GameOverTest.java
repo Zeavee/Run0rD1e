@@ -76,7 +76,6 @@ public class GameOverTest {
         @Override
         public void afterActivityLaunched() {
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 47.22));
-            Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.14, 46.22)));
             Game.getInstance().initGame();
         }
 
