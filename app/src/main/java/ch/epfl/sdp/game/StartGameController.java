@@ -106,27 +106,21 @@ public abstract class StartGameController {
     }
 
     /**
-     * Creates coins inside the area
+     * Creates Coins, the shelterAreas as well as the items inside the area
      * @param gameArea
      */
-    void initCoins(Area gameArea) {
-        int amount = NB_COINS;
-        for (int i = 0; i < amount; i++) {
+    void initGameObjects(Area gameArea) {
+        for (int i = 0; i < NB_COINS; i++) {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
         }
-    }
 
-    /**
-     * This method initializes the item boxes
-     */
-    void initItemBoxes(Area gameArea) {
-        Scan scan = new Scan(10);
-        Shield shield = new Shield(10);
-        Shrinker shrinker = new Shrinker(10, 5);
-        Healthpack healthpack = new Healthpack(10);
-
+        for (int i = 0; i < NB_SHELTER_AREAS; i++) {
+            ShelterArea s = randGen.randomShelterArea(gameArea.randomLocation());
+            Game.getInstance().addToDisplayList(s);
+            Game.getInstance().addToUpdateList(s);
+        }
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
             ItemBox itemBox = new ItemBox(gameArea.randomLocation());
@@ -137,17 +131,4 @@ public abstract class StartGameController {
         }
     }
 
-
-    /**
-     * Initializes the ShelterAreas on the map
-     * @param gameArea
-     */
-    void initShelterArea(Area gameArea) {
-        int amount = NB_SHELTER_AREAS;
-        for (int i = 0; i < amount; i++) {
-            ShelterArea s = randGen.randomShelterArea(gameArea.randomLocation());
-            Game.getInstance().addToDisplayList(s);
-            Game.getInstance().addToUpdateList(s);
-        }
-    }
 }
