@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
 import ch.epfl.sdp.logic.RulesActivityPage1;
@@ -44,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void logout() {
         JunkCleaner.clearAllAndListeners(((MyApplication) getApplication()).appContainer);
+        authenticationAPI.signOut();
         startActivity(new Intent(MainMenuActivity.this, LoginFormActivity.class));
         finish();
     }
