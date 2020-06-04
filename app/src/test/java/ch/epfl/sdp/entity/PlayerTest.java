@@ -52,26 +52,4 @@ public class PlayerTest {
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
     }
-
-    @Test
-    public void scoreIncreasesOnDisplacementWithTime() throws InterruptedException {
-      /*  MockMap mockMap = new MockMap();
-        Game.getInstance().setMapApi(mockMap);
-        Game.getInstance().setRenderer(mockMap);
-
-        assertEquals(0, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
-        Game.getInstance().initGame();
-        Thread.sleep(11000);
-        assertEquals(10, player1.getCurrentGameScore());
-        player1.setDistanceTraveled(player1.getDistanceTraveled() + 5000);
-        Thread.sleep(10000);
-        assertEquals(30, player1.getCurrentGameScore());
-        Game.getInstance().destroyGame();
-        Thread.sleep(10000);
-        assertEquals(80, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
-
-        Game.getInstance().destroyGame();*/
-    }
 }
