@@ -114,12 +114,12 @@ public abstract class StartGameController {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
             Game.getInstance().addToDisplayList(c);
             Game.getInstance().addToUpdateList(c);
-        }
-
-        for (int i = 0; i < NB_SHELTER_AREAS; i++) {
-            ShelterArea s = randGen.randomShelterArea(gameArea.randomLocation());
-            Game.getInstance().addToDisplayList(s);
-            Game.getInstance().addToUpdateList(s);
+            ShelterArea s;
+            if(i < NB_SHELTER_AREAS) {
+                s = randGen.randomShelterArea(gameArea.randomLocation());
+                Game.getInstance().addToDisplayList(s);
+                Game.getInstance().addToUpdateList(s);
+            }
         }
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
@@ -130,5 +130,6 @@ public abstract class StartGameController {
             ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         }
     }
+
 
 }
