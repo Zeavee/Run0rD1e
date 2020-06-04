@@ -17,7 +17,7 @@ import ch.epfl.sdp.geometry.GeoPoint;
 public class PlayerManager {
 
     /**
-     * All the names of the firebase collections
+     * Represents the number of players in the lobby (i.e. the total number of players withing a single game)
      */
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
 

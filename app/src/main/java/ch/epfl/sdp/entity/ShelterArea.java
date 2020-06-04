@@ -6,7 +6,6 @@ import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Class representing a Shelter Area

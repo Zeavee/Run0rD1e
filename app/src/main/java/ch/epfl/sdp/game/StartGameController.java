@@ -37,6 +37,8 @@ public abstract class StartGameController {
     private static final int MAX_QTY_INSIDE_ITEM_BOX = 5;
     private static final int NB_COINS = 20;
     private static final int NB_SHELTER_AREAS = 5;
+    private Game gameInstance = Game.getInstance();
+
 
     /**
      * Implemented by Solo, Server and Client and used in GoogleLocationFinder,
@@ -72,9 +74,9 @@ public abstract class StartGameController {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         Area gameArea = new CircleArea(3000, local);
-        Game.getInstance().addToDisplayList(gameArea);
-        Game.getInstance().addToUpdateList(gameArea);
-        Game.getInstance().areaShrinker.setGameArea(gameArea);
+        gameInstance.addToDisplayList(gameArea);
+        gameInstance.addToUpdateList(gameArea);
+        gameInstance.areaShrinker.setGameArea(gameArea);
         return gameArea;
     }
 
@@ -105,6 +107,7 @@ public abstract class StartGameController {
         }
     }
 
+
     /**
      * Creates Coins, the shelterAreas as well as the items inside the area
      * @param gameArea
@@ -112,21 +115,21 @@ public abstract class StartGameController {
     void initGameObjects(Area gameArea) {
         for (int i = 0; i < NB_COINS; i++) {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
-            Game.getInstance().addToDisplayList(c);
-            Game.getInstance().addToUpdateList(c);
+            gameInstance.addToDisplayList(c);
+            gameInstance.addToUpdateList(c);
             ShelterArea s;
             if(i < NB_SHELTER_AREAS) {
                 s = randGen.randomShelterArea(gameArea.randomLocation());
-                Game.getInstance().addToDisplayList(s);
-                Game.getInstance().addToUpdateList(s);
+                gameInstance.addToDisplayList(s);
+                gameInstance.addToUpdateList(s);
             }
         }
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
             ItemBox itemBox = new ItemBox(gameArea.randomLocation());
             itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
-            Game.getInstance().addToDisplayList(itemBox);
-            Game.getInstance().addToUpdateList(itemBox);
+            gameInstance.addToDisplayList(itemBox);
+            gameInstance.addToUpdateList(itemBox);
             ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         }
     }

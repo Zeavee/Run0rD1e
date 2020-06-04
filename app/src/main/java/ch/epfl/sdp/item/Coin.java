@@ -1,6 +1,5 @@
 package ch.epfl.sdp.item;
 
-import java.util.ArrayList;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -9,7 +8,6 @@ import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
 import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 /**
  * Class representing a coin in the game
