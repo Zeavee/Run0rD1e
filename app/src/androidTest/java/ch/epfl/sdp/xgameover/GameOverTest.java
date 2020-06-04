@@ -75,7 +75,9 @@ public class GameOverTest {
         // start the game engine MANUALLY
         @Override
         public void afterActivityLaunched() {
+            AppContainer appContainer = ((MyApplication) ApplicationProvider.getApplicationContext()).appContainer;
             getActivity().setLocationFinder(() -> new GeoPoint(6.14, 47.22));
+            Game.getInstance().startGameController = new Server(appContainer.serverDatabaseAPI, appContainer.commonDatabaseAPI, () -> {mActivityTestRule.getActivity().endGame();});
             Game.getInstance().initGame();
         }
 
@@ -89,14 +91,23 @@ public class GameOverTest {
 
     // check "gameOvr" is displayed
     @Test
-    public void serverLoseIfDead() {
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(0);
+    public void serverLosesIfDead() {
+        checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
+    }
+    // check "gameOvr" is displayed
+    @Test
+    public void serverWinsIfAlone() {
+        checkIfTextIsDisplayedAfterGameOver(placeholder, "Y0u w0n!");
+    }
+
+    private void checkIfTextIsDisplayedAfterGameOver(Player player, String text) {
+        player.setHealthPoints(0);
         // wait a moment for the splash screen to be intended
         while (!mActivityTestRule.getActivity().flagGameOver) {
             ((Server) Game.getInstance().startGameController).update();
         };
         ViewInteraction textView = onView(withId(R.id.gameOverText));
-        textView.check(matches(withText("Game 0vr")));
+        textView.check(matches(withText(text)));
         onView(withId(R.id.backFromGameOver)).perform(click());
         onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }
