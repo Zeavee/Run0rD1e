@@ -10,10 +10,11 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -26,25 +27,26 @@ public class ItemsTest {
     private Shield shield;
     private int shieldTime;
     private Shrinker shrinker;
-    private Scan scan;
-    private int scanTime;
+    private Phantom phantom;
+    private int phantomTime;
 
     @Before
     public void setup(){
+        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
-        player = new Player("","");
+        player = new Player("Test Name", "test@email.com");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
         A = new GeoPoint(6.14308, 46.21023);
 
         shieldTime = 40;
         healthAmount = 60;
-        scanTime = 50;
+        phantomTime = 50;
 
         healthpack = new Healthpack(healthAmount);
         shield = new Shield(shieldTime);
         shrinker = new Shrinker( 40, 10);
-        scan = new Scan(scanTime);
+        phantom = new Phantom(phantomTime);
     }
 
     @After
@@ -65,14 +67,14 @@ public class ItemsTest {
     @Test
     public void ifItemNotInInventoryNothingHappens() {
         Player player = new Player(6.149290, 46.212470, 50,
-                "Skyris", "test@email.com"); //player position is in Geneva
+                "Skyris", "test@email.com", false); //player position is in Geneva
         player.getInventory().removeItem(new Healthpack(0).getName());
         assertEquals(0, player.getInventory().getItems().size());
     }
 
     @Test
-    public void scanTest() {
-        assertTrue(scanTime == scan.getValue());
+    public void phantomTest() {
+        assertTrue(phantomTime == phantom.getValue());
     }
 
 

@@ -32,7 +32,7 @@ public class CoinTest {
 
     @Test
     public void userBankIncreasesWhenCoinUsed(){
-        Player broke = new Player(20.0, 20.0, 100, "amroa", "amro.abdrabo@gmail.com");
+        Player broke = new Player(20.0, 20.0, 100, "amroa", "amro.abdrabo@gmail.com", false);
         broke.removeMoney(broke.getMoney());
         PlayerManager.getInstance().setCurrentUser(broke);
         Coin dime  = new Coin(10, new GeoPoint(10,10));
@@ -40,11 +40,6 @@ public class CoinTest {
         assertTrue(broke.getMoney() == dime.getValue());
     }
 
-    @Test
-    public void generateRandomCoinsTest() {
-        ArrayList<Coin> gen = Coin.generateCoinsAroundLocation(new GeoPoint(10, 10),5);
-        assertTrue(gen.size() == 5);
-    }
 
     @Test
     public void coinDisappearsWhenPicked() {

@@ -5,9 +5,8 @@ import org.junit.Test;
 
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
@@ -43,9 +42,9 @@ public class ItemFactoryTest {
     }
 
     @Test
-    public void getItemShouldGenerateScan() {
-        Item item = itemFactory.getItem("Scan 100");
-        assertTrue(item instanceof Scan);
+    public void getItemShouldGeneratePhantom() {
+        Item item = itemFactory.getItem("Phantom 100");
+        assertTrue(item instanceof Phantom);
     }
 
     @Test

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 /**
@@ -15,14 +16,12 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * beginning of each game and all players should be removed at the end of each game.
  */
 public class PlayerManager {
+
     /**
-     * The maximum number of player in a lobby
+     * Represents the number of players in the lobby (i.e. the total number of players withing a single game)
      */
     public static final int NUMBER_OF_PLAYERS_IN_LOBBY = 2;
 
-    /**
-     * All the names of the firebase collections
-     */
     public static final String USER_COLLECTION_NAME = "AllUsers";
     public static final String LOBBY_COLLECTION_NAME = "Lobbies";
     public static final String PLAYER_COLLECTION_NAME = "Players";
@@ -46,9 +45,7 @@ public class PlayerManager {
 
     private final List<Player> playersWaitingItems = new ArrayList<>();
 
-    private final List<Player> playersWaitingHealthPoint = new ArrayList<>();
-
-    private List<Player> playersWaitingAoeRadius = new ArrayList<>();
+    private List<Player> playersWaitingStatusUpdate = new ArrayList<>();
 
     private static final PlayerManager instance = new PlayerManager();
 
@@ -167,6 +164,12 @@ public class PlayerManager {
         playersMap.put(player.getEmail(), player);
     }
 
+    public void displayPlayers(){
+        for (Player player: getPlayers()) {
+            Game.getInstance().addToDisplayList(player);
+        }
+    }
+
     /**
      * Gets a list of all players in the player manager.
      *
@@ -229,32 +232,13 @@ public class PlayerManager {
         }
     }
 
-    /**
-     * This method return the waiting list of the players that had their health points changed
-     *
-     * @return the waiting list of the players that had their health points changed
-     */
-    public List<Player> getPlayersWaitingHealthPoint() {
-        return playersWaitingHealthPoint;
+    public List<Player> getPlayersWaitingStatusUpdate() {
+        return playersWaitingStatusUpdate;
     }
 
-    /**
-     * This method adds the player that had his health points changed in a waiting list
-     *
-     * @param player the player that had his health points changed
-     */
-    public void addPlayerWaitingHealth(Player player) {
-        playersWaitingHealthPoint.add(player);
+    public void addPlayersWaitingStatusUpdate(Player player) {
+        this.playersWaitingStatusUpdate.add(player);
     }
-
-    public List<Player> getPlayersWaitingAoeRadius() {
-        return playersWaitingAoeRadius;
-    }
-
-    public void addPlayerWaitingAoeRadius(Player player) {
-        playersWaitingAoeRadius.add(player);
-    }
-
 
     /**
      * Remove all the players in the player manager.
@@ -266,8 +250,8 @@ public class PlayerManager {
         isServer = false;
         soloMode = false;
         playersMap.clear();
-        playersWaitingHealthPoint.clear();
         playersWaitingItems.clear();
+        playersWaitingStatusUpdate.clear();
         currentUser = null;
     }
 
@@ -303,7 +287,7 @@ public class PlayerManager {
 
         for (Player player : playersMap.values()) {
             currDistance = player.getLocation().distanceTo(position) - player.getAoeRadius();
-            if (currDistance < minDistance && player.getHealthPoints() > 0) {
+            if (currDistance < minDistance && player.isAlive() && !player.isPhantom()) {
                 minDistance = currDistance;
                 target = player;
             }

@@ -37,11 +37,9 @@ public class Solo extends StartGameController implements Updatable {
 
             // init the environment
             Area gameArea = initGameArea();
-            initItemBoxes();
             createRandomEnemyGenerator(gameArea);
             generateEnemy(EnemyManager.getInstance());
-            initCoins(currentUser.getLocation());
-
+            initGameObjects(gameArea);
             // start the Game thread
             Game.getInstance().addToUpdateList(this);
             Game.getInstance().initGame();
@@ -96,6 +94,7 @@ public class Solo extends StartGameController implements Updatable {
         if (!gameEnd && currentUser.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
             gameEnd = true;
+            commonDatabaseAPI.updatePlayerGeneralScore(currentUser);
         }
     }
 

@@ -30,7 +30,6 @@ public class Server extends StartGameController implements Updatable {
     private static final String TAG = "Database";
     private int counter;
     private boolean gameStarted;
-    private boolean gameEnd;
     private final ServerDatabaseAPI serverDatabaseAPI;
     private final PlayerManager playerManager = PlayerManager.getInstance();
     private final EnemyManager enemyManager = EnemyManager.getInstance();
@@ -51,7 +50,6 @@ public class Server extends StartGameController implements Updatable {
         this.serverDatabaseAPI = serverDatabaseAPI;
         this.counter = 0;
         this.gameStarted = false;
-        this.gameEnd = false;
         this.itemFactory = new ItemFactory();
         this.endGame = endGame;
         this.signal = 0;
@@ -69,7 +67,6 @@ public class Server extends StartGameController implements Updatable {
                 } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
             });
         }
-
     }
 
     @Override
@@ -79,7 +76,8 @@ public class Server extends StartGameController implements Updatable {
             sendGameArea();
             sendEnemies();
             sendItemBoxes();
-            sendPlayersHealth();
+            //sendPlayersHealth();
+            sendPlayersStatus();
             sendPlayersItems();
             checkIfWon();
         }
@@ -114,8 +112,8 @@ public class Server extends StartGameController implements Updatable {
             }
         }
         if (isWinner) {
-            endGame.run();
             updateGeneralScore();
+            endGame.run();
         }
     }
 
@@ -141,10 +139,9 @@ public class Server extends StartGameController implements Updatable {
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = initGameArea();
-                initItemBoxes();
                 createRandomEnemyGenerator(gameArea);
                 generateEnemy(enemyManager);
-                initCoins(PlayerManager.getInstance().getCurrentUser().getLocation());
+                initGameObjects(gameArea);
                 startGame();
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
@@ -155,12 +152,14 @@ public class Server extends StartGameController implements Updatable {
         serverDatabaseAPI.startGame(value -> {
             if (value.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
+                PlayerManager.getInstance().displayPlayers();
                 Game.getInstance().initGame();
                 addPlayersListener();
                 addUsedItemsListener();
             } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
         });
     }
+
 
     private void addUsedItemsListener() {
         serverDatabaseAPI.addUsedItemsListener(value -> {
@@ -218,14 +217,6 @@ public class Server extends StartGameController implements Updatable {
         }
     }
 
-    private void sendPlayersHealth() {
-        List<Player> players = playerManager.getPlayersWaitingHealthPoint();
-        if (!players.isEmpty()) {
-            serverDatabaseAPI.sendPlayersHealth(EntityConverter.convertPlayerList(players));
-            playerManager.getPlayersWaitingHealthPoint().clear();
-        }
-    }
-
     private void sendPlayersItems() {
         List<Player> players = playerManager.getPlayersWaitingItems();
         if (!players.isEmpty()) {
@@ -250,5 +241,14 @@ public class Server extends StartGameController implements Updatable {
 
     private void sendUserPosition() {
         commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+    }
+
+    private void sendPlayersStatus(){
+        List<Player> players = playerManager.getPlayersWaitingStatusUpdate();
+        if(!players.isEmpty()) {
+            serverDatabaseAPI.sendPlayersStatus(EntityConverter.convertPlayerList(players));
+            players.clear();
+            Log.d(TAG,"players status sent");
+        }
     }
 }

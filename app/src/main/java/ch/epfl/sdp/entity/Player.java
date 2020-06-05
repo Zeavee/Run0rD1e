@@ -22,6 +22,7 @@ public class Player extends AoeRadiusEntity {
     private double healthPoints;
     private boolean isShielded;
     private boolean isShrinked;
+    private boolean isPhantom;
     private Inventory inventory;
     private int generalScore;
     private int currentGameScore;
@@ -36,7 +37,7 @@ public class Player extends AoeRadiusEntity {
      * @param email    the email of the player
      */
     public Player(String username, String email) {
-        this(0, 0, 10, username, email);
+        this(0, 0, 10, username, email, false);
     }
 
     /**
@@ -48,12 +49,13 @@ public class Player extends AoeRadiusEntity {
      * @param username  the username of the player
      * @param email     the email of the player
      */
-    public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+    public Player(double longitude, double latitude, double aoeRadius, String username, String email, boolean isPhantom) {
         super(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
         this.setHealthPoints(MAX_HEALTH);
         this.setShielded(false);
+        this.isPhantom = isPhantom;
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setGeneralScore(0);
@@ -120,9 +122,8 @@ public class Player extends AoeRadiusEntity {
             gotoGameOver();
         }
 
-        // only the server need to upload the healthPoint for all the players
         if (PlayerManager.getInstance().isServer()) {
-            PlayerManager.getInstance().addPlayerWaitingHealth(this);
+            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
         }
     }
 
@@ -165,6 +166,10 @@ public class Player extends AoeRadiusEntity {
      */
     public void setShrinked(boolean shrinked){
         isShrinked = shrinked;
+
+        if (PlayerManager.getInstance().isServer()) {
+            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
+        }
     }
 
     /**
@@ -174,6 +179,27 @@ public class Player extends AoeRadiusEntity {
      */
     public boolean isShrinked() {
         return isShrinked;
+    }
+
+    /**
+     * Return the boolean that indicates if the player is in phantom mode.
+     * @return The boolean that indicates if the player is in phantom mode.
+     */
+    public boolean isPhantom() {
+        return isPhantom;
+    }
+
+    /**
+     * Set the boolean that indicates if the player is in phantom mode.
+     * @param phantom A boolean that indicates if the player is in phantom mode.
+     */
+    public void setPhantom(boolean phantom) {
+        isPhantom = phantom;
+
+        // only the server need to upload the healthPoint for all the players
+        if (PlayerManager.getInstance().isServer()) {
+            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
+        }
     }
 
     /**
@@ -331,9 +357,17 @@ public class Player extends AoeRadiusEntity {
     @Override
     public void displayOn(MapApi mapApi) {
         if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
-            mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+            if(isPhantom){
+                mapApi.displayMarkerCircle(this, Color.WHITE, username, (int) getAoeRadius());
+            }else {
+                mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
+            }
         } else {
-            mapApi.displayMarkerCircle(this, Color.GREEN, "Other player", 100);
+            if(isPhantom){
+                mapApi.removeMarkers(this);
+            }else {
+                mapApi.displayMarkerCircle(this, Color.CYAN, username, (int) getAoeRadius());
+            }
         }
     }
 

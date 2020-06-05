@@ -48,7 +48,7 @@ public class GameOverTest {
         @Override
         public void beforeActivityLaunched() {
             // important to have player away from market otherwise it is the market that will open
-            Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com");
+            Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com", false);
             amro.setHealthPoints(100);
             PlayerManager.getInstance().setCurrentUser(amro);
 
@@ -93,12 +93,6 @@ public class GameOverTest {
     @Test
     public void serverLosesIfDead() {
         checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
-    }
-
-    // check "Y0u w0n!" is displayed
-    @Test
-    public void serverWinsIfAlone() {
-        checkIfTextIsDisplayedAfterGameOver(placeholder, "Y0u w0n!");
     }
 
     private void checkIfTextIsDisplayedAfterGameOver(Player player, String text) {

@@ -5,19 +5,28 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 
 public class PlayerTest {
-    private Player player1; //player position is in Geneva
+    private Player player1;
+    private GeoPoint g;
+    private String player1Name;
+    private String player1Email;
 
     @Before
-    public void setup(){
-        player1 = new Player(6.149290, 46.212470, 50, "Skyris", "test@email.com");
+    public void setup() {
+        RandomGenerator randGen = new RandomGenerator();
+        g = randGen.randomGeoPoint();
+        player1Name = "Test Name";
+        player1Email = "test@email.com";
+        player1 = new Player(g.getLongitude(), g.getLatitude(), 50, player1Name, player1Email);
         PlayerManager.getInstance().setCurrentUser(player1);
     }
 
@@ -28,8 +37,8 @@ public class PlayerTest {
 
     @Test
     public void otherMethodTest() {
-        assertEquals("Skyris", player1.getUsername());
-        assertEquals("test@email.com", player1.getEmail());
+        assertEquals(player1Name, player1.getUsername());
+        assertEquals(player1Email, player1.getEmail());
         assertEquals(0, player1.getGeneralScore());
         assertEquals(0, player1.getDistanceTraveled(), 0.001);
     }
@@ -42,27 +51,5 @@ public class PlayerTest {
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
 
         assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
-    }
-
-    @Test
-    public void scoreIncreasesOnDisplacementWithTime() throws InterruptedException {
-      /*  MockMap mockMap = new MockMap();
-        Game.getInstance().setMapApi(mockMap);
-        Game.getInstance().setRenderer(mockMap);
-
-        assertEquals(0, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
-        Game.getInstance().initGame();
-        Thread.sleep(11000);
-        assertEquals(10, player1.getCurrentGameScore());
-        player1.setDistanceTraveled(player1.getDistanceTraveled() + 5000);
-        Thread.sleep(10000);
-        assertEquals(30, player1.getCurrentGameScore());
-        Game.getInstance().destroyGame();
-        Thread.sleep(10000);
-        assertEquals(80, player1.generalScore);
-        assertEquals(0, player1.currentGameScore);
-
-        Game.getInstance().destroyGame();*/
     }
 }
