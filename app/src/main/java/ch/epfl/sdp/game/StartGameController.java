@@ -28,7 +28,7 @@ import static android.content.ContentValues.TAG;
 
 public abstract class StartGameController {
     private RandomEnemyGenerator randomEnemyGenerator;
-    private RandomGenerator  randGen = new RandomGenerator();
+    private RandomGenerator randGen = new RandomGenerator();
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
@@ -103,10 +103,10 @@ public abstract class StartGameController {
      * @param enemyManager the enemy manager
      */
     void generateEnemy(EnemyManager enemyManager) {
-        if(enemyManager.getEnemies().size() < MAX_ENEMY) {
+        if (enemyManager.getEnemies().size() < MAX_ENEMY) {
             // generate new enemy
             Enemy enemy = randomEnemyGenerator.generateEnemy(100);
-            if(enemy != null) {
+            if (enemy != null) {
                 enemyManager.updateEnemies(enemy);
             }
         }
@@ -115,24 +115,18 @@ public abstract class StartGameController {
 
     /**
      * Creates Coins, the shelterAreas as well as the items inside the area
-     * @param gameArea
+     *
+     * @param gameArea the game area
      */
     void initGameObjects(Area gameArea) {
         for (int i = 0; i < NB_COINS; i++) {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
             gameInstance.addToDisplayList(c);
             gameInstance.addToUpdateList(c);
-            ShelterArea s;
-            if(i < NB_SHELTER_AREAS) {
-                s = randGen.randomShelterArea(gameArea.randomLocation());
-                gameInstance.addToDisplayList(s);
-                gameInstance.addToUpdateList(s);
-            }
-
-            if(i < NB_MARKETS) {
-                gameInstance.addToDisplayList(new Market(gameArea.randomLocation()));
-            }
+            initShelterAreas(i, gameArea);
+            initMarkets(i, gameArea);
         }
+
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
             ItemBox itemBox = new ItemBox(gameArea.randomLocation());
@@ -140,6 +134,20 @@ public abstract class StartGameController {
             gameInstance.addToDisplayList(itemBox);
             gameInstance.addToUpdateList(itemBox);
             ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
+        }
+    }
+
+    private void initMarkets(int i, Area gameArea) {
+        if (i < NB_MARKETS) {
+            gameInstance.addToDisplayList(new Market(gameArea.randomLocation()));
+        }
+    }
+
+    private void initShelterAreas(int i, Area gameArea) {
+        if (i < NB_SHELTER_AREAS) {
+            ShelterArea shelterArea = randGen.randomShelterArea(gameArea.randomLocation());
+            gameInstance.addToDisplayList(shelterArea);
+            gameInstance.addToUpdateList(shelterArea);
         }
     }
 
