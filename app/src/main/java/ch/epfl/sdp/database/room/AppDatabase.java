@@ -50,7 +50,7 @@ abstract class AppDatabase extends RoomDatabase {
      * Override the onCreate method to populate the database.
      * We populate the database only when the database is created for the 1st time.
      */
-    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+    private final static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);

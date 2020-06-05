@@ -10,7 +10,7 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
  */
 public class FirebaseAuthenticationAPI implements AuthenticationAPI {
 
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
+    private final static FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> signInCallback) {

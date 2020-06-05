@@ -16,12 +16,14 @@ import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertSame;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 
 public class ArtificialMovingEntityTest {
-    MockMap map;
-    ArtificialMovingEntity ame;
+    private MockMap map;
+    private ArtificialMovingEntity ame;
 
     @Before
     public void setup(){
@@ -102,7 +104,7 @@ public class ArtificialMovingEntityTest {
         for (int i = 0; i < 1000; ++i) {
             ame.update();
             assertFalse(ame.getLocalArea().isInside(ame.getLocation()));
-            assertTrue(ame.getLocation() == entityLocation);
+            assertSame(ame.getLocation(), entityLocation);
         }
     }
 
@@ -115,7 +117,7 @@ public class ArtificialMovingEntityTest {
         for (int i = 0; i < 1000; ++i) {
             ame.update();
             assertFalse(ame.getLocalArea().isInside(ame.getLocation()));
-            assertFalse(ame.getLocation() == oldLocation);
+            assertNotSame(ame.getLocation(), oldLocation);
             oldLocation = ame.getLocation();
         }
     }

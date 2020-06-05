@@ -223,7 +223,7 @@ public class Player extends AoeRadiusEntity {
      *
      * @param inventory the inventory we want to set
      */
-    public void setInventory(Inventory inventory) {
+    private void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
 
@@ -277,7 +277,7 @@ public class Player extends AoeRadiusEntity {
      *
      * @param distanceTraveled the distance we want to set
      */
-    public void setDistanceTraveled(double distanceTraveled) {
+    private void setDistanceTraveled(double distanceTraveled) {
         this.distanceTraveled = distanceTraveled;
     }
 
@@ -286,7 +286,7 @@ public class Player extends AoeRadiusEntity {
      *
      * @return the total distance the player traveled
      */
-    public double getDistanceTraveled() {
+    double getDistanceTraveled() {
         return this.distanceTraveled;
     }
 
@@ -295,7 +295,7 @@ public class Player extends AoeRadiusEntity {
      *
      * @param distanceTraveledAtLastCheck the distance we want to sets
      */
-    public void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck) {
+    private void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck) {
         this.distanceTraveledAtLastCheck = distanceTraveledAtLastCheck;
     }
 
@@ -344,14 +344,12 @@ public class Player extends AoeRadiusEntity {
      * A method to add money to the player
      *
      * @param amount the amount of money we want to give to the player
-     * @return a boolean that tells if the transaction finished correctly
      */
-    public boolean addMoney(int amount) {
+    public void addMoney(int amount) {
         if (amount < 0) {
-            return false;
+            return;
         }
         money += amount;
-        return true;
     }
 
     /**

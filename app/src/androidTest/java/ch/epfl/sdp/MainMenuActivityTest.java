@@ -4,7 +4,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,10 +52,6 @@ public class MainMenuActivityTest {
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
     }
 
-    @After
-    public void teardown() {
-    }
-
     @Test
     public void rulesOpens() {
         onView(withId(R.id.rulesButton)).perform(click());
@@ -71,18 +66,18 @@ public class MainMenuActivityTest {
 
     @Test
     public void mapsOpens() {
-        testButtonWorks(R.id.multi, R.id.map);
+        testButtonWorks(R.id.multi);
     }
 
     @Test
     public void soloOpens() {
-        testButtonWorks(R.id.solo, R.id.map);
+        testButtonWorks(R.id.solo);
     }
 
-    private void testButtonWorks(int button, int view) {
+    private void testButtonWorks(int button) {
         onView(withId(button)).perform(click());
         permissionsIfNeeded("ACCESS_FINE_LOCATION", GRANT_BUTTON_INDEX);
-        onView(withId(view)).check(matches(isDisplayed()));
+        onView(withId(R.id.map)).check(matches(isDisplayed()));
     }
 
     @Test

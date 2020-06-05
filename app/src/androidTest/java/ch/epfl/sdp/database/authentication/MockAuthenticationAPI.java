@@ -7,7 +7,7 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 
 
 public class MockAuthenticationAPI implements AuthenticationAPI {
-    private HashMap<String, String> registeredUsers;
+    private final HashMap<String, String> registeredUsers;
     private String currentUserEmail;
 
     public MockAuthenticationAPI(HashMap<String, String> registeredUsers, String currentUserEmail) {

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social.Conversation;
+package ch.epfl.sdp.social.conversation;
 
 import android.os.Bundle;
 import android.view.View;
@@ -21,13 +21,11 @@ import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
 
 /**
- * @brief this activity shows the conversation of the current user and another user
+ * This activity shows the conversation of the current user and another user
  */
 public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer<Message> {
 
-    private ImageButton sendButton;
     private EditText message;
-    private ListView lv;
     private String chattingWith;
     private Chat chatFromCurrent;
     private Chat chatFromFriend;
@@ -41,9 +39,9 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        sendButton = findViewById(R.id.sendMessageButton);
+        ImageButton sendButton = findViewById(R.id.sendMessageButton);
         message = findViewById(R.id.messageField);
-        lv = findViewById(R.id.messages_view);
+        ListView lv = findViewById(R.id.messages_view);
 
         chattingWith = getIntent().getStringExtra("chattingWith");
         if (chattingWith == null) {
@@ -92,22 +90,22 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
     }
 
     /**
-     * @brief decorates a message with a flag that indicates whether the message was incoming or outgoing
+     * Decorates a message with a flag that indicates whether the message was incoming or outgoing
      */
     static final class MessageDecorator {
-        private Message m;
-        private boolean incoming;
+        private final Message m;
+        private final boolean incoming;
 
-        public MessageDecorator(Message m, boolean incoming) {
+        MessageDecorator(Message m, boolean incoming) {
             this.m = m;
             this.incoming = incoming;
         }
 
-        public Message getM() {
+        Message getM() {
             return m;
         }
 
-        public boolean isIncoming() {
+        boolean isIncoming() {
             return incoming;
         }
     }

@@ -14,15 +14,15 @@ import static org.junit.Assert.assertTrue;
 
 
 public class ShelterAreaTest {
-    private static Player player1 = new Player(6.151210, 46.212470, 50,
+    private final static Player player1 = new Player(6.151210, 46.212470, 50,
             "test1", "test1@email.com");
-    private static Player player2 = new Player(4.149290, 46.212470, 50,
+    private final static Player player2 = new Player(4.149290, 46.212470, 50,
             "test2", "test2@email.com");
-    private static Player player3 = new Player(5.149290, 46.212470, 50,
+    private final static Player player3 = new Player(5.149290, 46.212470, 50,
             "test3", "test3@email.com");
-    private static Player player4 = new Player(3.149290, 46.212470, 50,
+    private final static Player player4 = new Player(3.149290, 46.212470, 50,
             "test4", "test4@email.com");
-    private static GeoPoint shelterLocation = new GeoPoint(6.149291, 46.212470);
+    private final static GeoPoint shelterLocation = new GeoPoint(6.149291, 46.212470);
 
     private ShelterArea createShelterArea() {
         ArrayList<Player> players = new ArrayList<Player>();

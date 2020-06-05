@@ -1,8 +1,8 @@
 package ch.epfl.sdp.SocialTests;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,22 +13,23 @@ import java.util.List;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @brief tests friend-fetching functionality provided by SocialRepository.java.
+ * Tests friend-fetching functionality provided by SocialRepository.java.
  * Note that the activity is itself not tested but is used to provide context needed by the database builder used inside SocialRepository
  */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class SocialRepositoryFriendTest {
 
-    private List<User> sampleUsers = asList(
+    private final List<User> sampleUsers = asList(
             new User("alice@gmail.com"),
             new User("bob@gmail.com"));
     private SocialRepository testRepo;
@@ -80,6 +81,6 @@ public class SocialRepositoryFriendTest {
         // Pretend fetching friends takes 1 s
         Thread.sleep(1000);
 
-        assertTrue(mActivityTestRule.getActivity().getFriends().get(0).getEmail().equals(sampleUsers.get(1).getEmail()));
+        assertEquals(mActivityTestRule.getActivity().getFriends().get(0).getEmail(), sampleUsers.get(1).getEmail());
     }
 }

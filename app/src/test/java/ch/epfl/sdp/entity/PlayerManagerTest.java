@@ -1,5 +1,6 @@
 package ch.epfl.sdp.entity;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,11 +10,12 @@ import java.util.List;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class PlayerManagerTest {
 
-    Player player;
+    private Player player;
 
     @Before
     public void setup() {
@@ -30,10 +32,10 @@ public class PlayerManagerTest {
 
     @Test
     public void testSetAndGet(){
-        assertEquals("AllUsers", PlayerManager.getInstance().USER_COLLECTION_NAME);
-        assertEquals("Lobbies", PlayerManager.getInstance().LOBBY_COLLECTION_NAME);
-        assertEquals("Players", PlayerManager.getInstance().PLAYER_COLLECTION_NAME);
-        assertEquals("Enemies", PlayerManager.getInstance().ENEMY_COLLECTION_NAME);
+        assertEquals("AllUsers", PlayerManager.USER_COLLECTION_NAME);
+        assertEquals("Lobbies", PlayerManager.LOBBY_COLLECTION_NAME);
+        assertEquals("Players", PlayerManager.PLAYER_COLLECTION_NAME);
+        assertEquals("Enemies", PlayerManager.ENEMY_COLLECTION_NAME);
 
         PlayerManager.getInstance().setNumPlayersInLobby(3);
         assertEquals(3, PlayerManager.getInstance().getNumPlayersInLobby());
@@ -42,7 +44,7 @@ public class PlayerManagerTest {
         assertEquals("test", PlayerManager.getInstance().getLobbyDocumentName());
 
         PlayerManager.getInstance().setIsServer(false);
-        assertEquals(false, PlayerManager.getInstance().isServer());
+        assertFalse(PlayerManager.getInstance().isServer());
 
         PlayerManager.getInstance().setCurrentUser(new Player("test", "test@gmail.com"));
         assertEquals("test", PlayerManager.getInstance().getCurrentUser().getUsername());
@@ -72,8 +74,8 @@ public class PlayerManagerTest {
         Player player2 = new Player("Username2", "Email2");
         PlayerManager.getInstance().addPlayer(player2);
         List<Player> pmPlayers = PlayerManager.getInstance().getPlayers();
-        assertTrue(pmPlayers.get(0).equals(player));
-        assertTrue(pmPlayers.get(1).equals(player2));
+        assertEquals(pmPlayers.get(0), player);
+        assertEquals(pmPlayers.get(1), player2);
     }
 
     @Test
@@ -98,7 +100,7 @@ public class PlayerManagerTest {
         toSet.add(p3);
         toSet.add(p4);
         for(int i = 0; i < PlayerManager.getInstance().getPlayers().size(); i++ ) {
-            assertTrue(PlayerManager.getInstance().getPlayers().get(i).equals(toSet.get(i)));
+            Assert.assertEquals(PlayerManager.getInstance().getPlayers().get(i), toSet.get(i));
         }
     }
 

@@ -42,7 +42,7 @@ public class Client extends StartGameController implements Updatable {
     private boolean gameStarted;
     private long oldSignal;
     private long signal;
-    private Runnable endGame;
+    private final Runnable endGame;
 
     /**
      * Creates a new client

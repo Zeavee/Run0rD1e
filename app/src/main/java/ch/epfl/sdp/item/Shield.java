@@ -5,7 +5,7 @@ import android.util.Log;
 import ch.epfl.sdp.entity.Player;
 
 public class Shield extends TimedItem {
-    private int shieldTime;
+    private final int shieldTime;
 
     public Shield(int shieldTime) {
         super(String.format("Shield %d", shieldTime), String.format("Protects you from taking damage from the enemy for %d seconds", shieldTime), shieldTime);

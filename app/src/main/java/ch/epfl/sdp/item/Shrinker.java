@@ -5,8 +5,8 @@ import android.util.Log;
 import ch.epfl.sdp.entity.Player;
 
 public class Shrinker extends TimedItem {
-    private int shrinkingRadius;
-    private int shrinkTime;
+    private final int shrinkingRadius;
+    private final int shrinkTime;
 
     public Shrinker(int shrinkTime, int shrinkingRadius) {
         super(String.format("Shrinker %d %d", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %d seconds", shrinkTime, shrinkingRadius), shrinkTime);

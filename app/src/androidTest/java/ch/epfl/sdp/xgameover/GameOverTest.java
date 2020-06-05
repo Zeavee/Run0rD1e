@@ -28,7 +28,6 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MapsActivity;
-import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.MockMap;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -41,7 +40,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class GameOverTest {
-    private Player placeholder;
     @Rule
     public final ActivityTestRule<MapsActivity> mActivityTestRule = new ActivityTestRule<MapsActivity>(MapsActivity.class) {
 
@@ -52,7 +50,7 @@ public class GameOverTest {
             amro.setHealthPoints(100);
             PlayerManager.getInstance().setCurrentUser(amro);
 
-            placeholder = new Player("placeholder", "placeholder@placeholder.com");
+            Player placeholder = new Player("placeholder", "placeholder@placeholder.com");
             PlayerManager.getInstance().addPlayer(placeholder);
 
             MockMap mockMap = new MockMap();
@@ -92,17 +90,17 @@ public class GameOverTest {
     // check "Game Ovr" is displayed
     @Test
     public void serverLosesIfDead() {
-        checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser(), "Game 0vr");
+        checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser());
     }
 
-    private void checkIfTextIsDisplayedAfterGameOver(Player player, String text) {
+    private void checkIfTextIsDisplayedAfterGameOver(Player player) {
         player.setHealthPoints(0);
         // wait a moment for the splash screen to be intended
         while (!mActivityTestRule.getActivity().flagGameOver) {
             ((Server) Game.getInstance().startGameController).update();
-        };
+        }
         ViewInteraction textView = onView(withId(R.id.gameOverText));
-        textView.check(matches(withText(text)));
+        textView.check(matches(withText("Game 0vr")));
         onView(withId(R.id.backFromGameOver)).perform(click());
         onView(withId(R.id.solo)).check(matches(isDisplayed()));
     }

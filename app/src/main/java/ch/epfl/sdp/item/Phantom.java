@@ -3,7 +3,7 @@ package ch.epfl.sdp.item;
 import ch.epfl.sdp.entity.Player;
 
 public class Phantom extends TimedItem {
-    private int phantomTime;
+    private final int phantomTime;
 
     public Phantom(int phantomTime) {
         super(String.format("Phantom %d", phantomTime), String.format("Item that hides the presence of the user from other players and the enemies for %d seconds", phantomTime), phantomTime);

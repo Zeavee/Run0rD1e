@@ -16,7 +16,7 @@ import ch.epfl.sdp.map.MapApi;
  * Represents a box that can store items and can be taken by players.
  */
 public class ItemBox extends Entity implements Updatable {
-    private Map<String, Integer> items;
+    private final Map<String, Integer> items;
     private boolean taken;
     private boolean isDisplayed;
     private boolean reDisplay;

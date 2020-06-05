@@ -6,7 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 
 /**
- * @brief Represents a friendship relation with schema IsFriendsWith(String friendID1, String friendID2, FOREIGN KEY friendID1 REFERENCES User, FOREIGN KEY friendID2 REFERENCES User)
+ * Represents a friendship relation with schema IsFriendsWith(String friendID1, String friendID2, FOREIGN KEY friendID1 REFERENCES User, FOREIGN KEY friendID2 REFERENCES User)
  */
 @Entity(primaryKeys = {"friendID1", "friendID2"}, foreignKeys = {@ForeignKey(
         entity = User.class,

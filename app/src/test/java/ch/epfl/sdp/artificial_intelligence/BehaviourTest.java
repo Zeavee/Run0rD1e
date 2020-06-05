@@ -15,8 +15,8 @@ import static org.junit.Assert.*;
 import static junit.framework.TestCase.assertSame;
 
 public class BehaviourTest {
-    public Player player;
-    public Enemy enemy;
+    private Player player;
+    private Enemy enemy;
 
     @Before
     public void setup() {

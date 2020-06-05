@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social.Conversation;
+package ch.epfl.sdp.social.conversation;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,16 +19,16 @@ import ch.epfl.sdp.social.socialDatabase.Message;
  */
 public class MessageAdapter extends BaseAdapter {
 
-    private List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
-    private String remote_user_id;
-    private Context context;
+    private final List<ChatActivity.MessageDecorator> messages = new ArrayList<>();
+    private final String remote_user_id;
+    private final Context context;
 
     /**
      *
      * @param context The context in which we want to display the messages (the activity)
      * @param remote_user_id The name of the user
      */
-    public MessageAdapter(Context context, String remote_user_id) {
+    MessageAdapter(Context context, String remote_user_id) {
         this.remote_user_id = remote_user_id;
         this.context = context;
     }

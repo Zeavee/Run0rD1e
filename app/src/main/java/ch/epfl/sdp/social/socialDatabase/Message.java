@@ -8,7 +8,7 @@ import androidx.room.Index;
 import java.util.Date;
 
 /**
- * @brief abstracts a database relation with schema Message(String text, Date date, Int Chat_id, FOREIGN KEY Chat_id REFERENCES Chat)
+ * Abstracts a database relation with schema Message(String text, Date date, Int Chat_id, FOREIGN KEY Chat_id REFERENCES Chat)
  */
 @Entity(primaryKeys = {"text", "chat_id"}, foreignKeys = {
         @ForeignKey(

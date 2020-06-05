@@ -59,7 +59,6 @@ public class MarketTest {
         for (Item i : items){
             market.buy(i.getClass(), buyer);
         }
-        Map<Item, Integer> amountsAfter = new HashMap<>();
         for (Map.Entry<Item, Pair<Integer, Integer>> qty : market.getStock().entrySet()) {
             assertTrue(amounts.get(
                    qty.getKey())  == 0 ||

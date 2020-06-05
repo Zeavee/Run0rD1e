@@ -19,10 +19,6 @@ public class MockMap implements MapApi, Renderer {
     // Used for tests
     private final ArrayList<Displayable> displayables = new ArrayList<>();
 
-    public ArrayList<Displayable> getDisplayables() {
-        return displayables;
-    }
-
     @Override
     public void moveCameraOnLocation(GeoPoint location) {
 

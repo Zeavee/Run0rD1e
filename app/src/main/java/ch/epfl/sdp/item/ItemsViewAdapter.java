@@ -22,7 +22,7 @@ import static ch.epfl.sdp.R.id.useitem;
  * Recycler view adapter for displaying items.
  */
 public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.ItemsViewHolder> {
-    private ItemFactory itemFactory;
+    private final ItemFactory itemFactory;
 
     public ItemsViewAdapter() {
         itemFactory = new ItemFactory();
@@ -65,12 +65,12 @@ public class ItemsViewAdapter extends RecyclerView.Adapter<ItemsViewAdapter.Item
         return PlayerManager.getInstance().getCurrentUser().getInventory().getItems().size();
     }
 
-    public class ItemsViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private TextView amountOfItem;
-        private Button button;
+    static class ItemsViewHolder extends RecyclerView.ViewHolder {
+        private final TextView name;
+        private final TextView amountOfItem;
+        private final Button button;
 
-        public ItemsViewHolder(@NonNull View itemView) {
+        ItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(title);
             button = itemView.findViewById(useitem);

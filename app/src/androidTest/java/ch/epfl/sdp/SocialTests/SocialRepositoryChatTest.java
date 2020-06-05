@@ -1,9 +1,9 @@
 package ch.epfl.sdp.SocialTests;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.google.firebase.Timestamp;
 
@@ -19,8 +19,8 @@ import java.util.List;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.dependencies.AppContainer;
 import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.social.Conversation.ChatActivity;
-import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.conversation.ChatActivity;
+import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @brief tests conversation-relevant functionality provided by SocialRepository.java.
+ * Tests conversation-relevant functionality provided by SocialRepository.java.
  * Note that the activity is itself not tested but is used to provide context needed by the database builder used inside SocialRepository
  */
 @LargeTest
@@ -38,7 +38,7 @@ import static org.junit.Assert.assertTrue;
 public class SocialRepositoryChatTest {
 
     // The users to add to the database
-    private List<User> fantasticSix = asList(
+    private final List<User> fantasticSix = asList(
             new User("amro@gmail.com"),
             new User("saoud@gmail.com"),
             new User("sacha@gmail.com"),
@@ -108,7 +108,7 @@ public class SocialRepositoryChatTest {
         Thread.sleep(2000);
 
         String result = mActivityTestRule.getActivity().getMessages().get(0).getText();
-        assertTrue(result.equals("This code kills me, kills me"));
+        assertEquals("This code kills me, kills me", result);
     }
 
     @Test

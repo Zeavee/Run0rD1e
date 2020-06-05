@@ -16,7 +16,7 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
     private final List<ListenerRegistration> listeners = new ArrayList<>();
 

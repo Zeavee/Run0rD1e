@@ -17,7 +17,7 @@ public class EnemyTest {
         enemy.setId(22);
         enemy.getId();
         assertEquals(22,enemy.getId());
-        assertTrue(enemy.getId() == 22);
+        assertEquals(22, enemy.getId());
         assertFalse(enemy.getId() != 22);
     }
 
@@ -26,7 +26,7 @@ public class EnemyTest {
         Enemy enemy = new Enemy();
         enemy.setId(10);
         assertEquals(10, enemy.getId());
-        assertTrue(enemy.getId() == 10);
+        assertEquals(10, enemy.getId());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class EnemyTest {
         Enemy enemy = new Enemy();
         enemy.getAttackTimeDelay();
         assertEquals(30,enemy.getAttackTimeDelay());
-        assertTrue(enemy.getAttackTimeDelay() == 30);
+        assertEquals(30, enemy.getAttackTimeDelay());
         assertFalse(enemy.getAttackTimeDelay() != 30);
     }
 
@@ -49,8 +49,7 @@ public class EnemyTest {
     public void isWaitingCorrectly() {
         Enemy enemy = new Enemy();
         enemy.checkWaiting();
-        assertFalse(enemy.checkWaiting() == true);
-        assertTrue(enemy.checkWaiting() == false);
+        assertFalse(enemy.checkWaiting());
     }
 
     @Test

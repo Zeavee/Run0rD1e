@@ -16,14 +16,13 @@ import static org.junit.Assert.assertTrue;
 
 public class PlayerTest {
     private Player player1;
-    private GeoPoint g;
     private String player1Name;
     private String player1Email;
 
     @Before
     public void setup() {
         RandomGenerator randGen = new RandomGenerator();
-        g = randGen.randomGeoPoint();
+        GeoPoint g = randGen.randomGeoPoint();
         player1Name = "Test Name";
         player1Email = "test@email.com";
         player1 = new Player(g.getLongitude(), g.getLatitude(), 50, player1Name, player1Email);
@@ -50,6 +49,6 @@ public class PlayerTest {
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
 
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
+        assertEquals(11, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.0);
     }
 }

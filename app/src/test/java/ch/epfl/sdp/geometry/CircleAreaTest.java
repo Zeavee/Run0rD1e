@@ -93,6 +93,6 @@ public class CircleAreaTest {
         CircleArea circle = new CircleArea(10000, new GeoPoint(40, 50));
         MockMap mockMap = new MockMap();
         circle.displayOn(mockMap);
-        TestCase.assertTrue(mockMap.getDisplayables().size() == 1);
+        TestCase.assertEquals(1, mockMap.getDisplayables().size());
     }
 }

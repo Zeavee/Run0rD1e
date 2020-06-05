@@ -39,7 +39,6 @@ public class InventoryTest {
     @Test
     public void addUseItemShouldWork() {
         Item item1 = new Healthpack(0);
-        Item item2 = new Healthpack(1);
         Inventory inventory = new Inventory();
         inventory.moveItemToUsedItems("Healthpack 0");
         assertEquals("Healthpack 0", item1.getName());

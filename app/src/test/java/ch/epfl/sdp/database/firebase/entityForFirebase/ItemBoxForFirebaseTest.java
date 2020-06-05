@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 public class ItemBoxForFirebaseTest {
     @Test
     public void itemBoxForFirebaseTest() {
-        ItemBoxForFirebase itemBoxForFirebase = new ItemBoxForFirebase("id", new GeoPointForFirebase(0,0), false);
         ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase();
 
         itemBoxForFirebase1.setId("itembox0");

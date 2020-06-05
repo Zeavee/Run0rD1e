@@ -20,8 +20,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class ItemsTest {
-    private Player player;
-    private GeoPoint A;
     private Healthpack healthpack;
     private int healthAmount;
     private Shield shield;
@@ -32,12 +30,11 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
-        player = new Player("Test Name", "test@email.com");
+        Player player = new Player("Test Name", "test@email.com");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
-        A = new GeoPoint(6.14308, 46.21023);
+        GeoPoint a = new GeoPoint(6.14308, 46.21023);
 
         shieldTime = 40;
         healthAmount = 60;
@@ -61,7 +58,7 @@ public class ItemsTest {
 
         PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
+        assertEquals(11, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.0);
     }
 
     @Test
@@ -74,21 +71,21 @@ public class ItemsTest {
 
     @Test
     public void phantomTest() {
-        assertTrue(phantomTime == phantom.getValue());
+        assertEquals(phantomTime, phantom.getValue(), 0.0);
     }
 
 
     @Test
     public void shieldTest() {
         assertEquals(40, shield.getRemainingTime(), 0);
-        assertTrue(shieldTime == shield.getValue());
+        assertEquals(shieldTime, shield.getValue(), 0.0);
     }
 
     @Test
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertTrue(shrinker.getShrinkingRadius() == shrinker.getValue());
+        assertEquals(shrinker.getShrinkingRadius(), shrinker.getValue(), 0.0);
     }
 
 
@@ -100,15 +97,15 @@ public class ItemsTest {
         assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
         assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
-        assertTrue(healthAmount == healthpack.getValue());
+        assertEquals(healthAmount, healthpack.getValue(), 0.0);
     }
 
     @Test
     public void coinTest() {
         PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
         Coin c = new Coin(5, new GeoPoint(10,10));
-        assertTrue(5 == c.getValue());
+        assertEquals(5, c.getValue(), 0.0);
         c.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getMoney() == 5);
+        assertEquals(5, PlayerManager.getInstance().getCurrentUser().getMoney());
     }
 }

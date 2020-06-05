@@ -37,7 +37,7 @@ public class Server extends StartGameController implements Updatable {
     private final ItemFactory itemFactory;
     private Area gameArea;
     private long signal;
-    private Runnable endGame;
+    private final Runnable endGame;
 
     /**
      * Constructor for the Server

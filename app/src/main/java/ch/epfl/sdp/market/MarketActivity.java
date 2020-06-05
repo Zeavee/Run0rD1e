@@ -14,6 +14,7 @@ import androidx.core.util.Pair;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -120,11 +121,11 @@ public class MarketActivity extends AppCompatActivity {
      * synchronizes the market backend to the frontend
      */
     private void syncMarketBackendToFrontend() {
-        backend = ((ObjectWrapperForBinder<Market>) getIntent().getExtras().getBinder("object_value")).getData();
+        backend = ((ObjectWrapperForBinder<Market>) Objects.requireNonNull(getIntent().getExtras().getBinder("object_value"))).getData();
         if (backend == null) finish();
         setupItemToViewMap();
         for (Item i : backend.getStock().keySet()) {
-            String newText = "Cost: " + backend.getStock().get(i).second + "\n" + "Value: " + (((int) (100 * i.getValue())) / 100.0);
+            String newText = "Cost: " + Objects.requireNonNull(backend.getStock().get(i)).second + "\n" + "Value: " + (((int) (100 * i.getValue())) / 100.0);
             ((TextView) findViewById(itemToViewMap.get(i.getClass().hashCode()))).setText(newText);
         }
     }

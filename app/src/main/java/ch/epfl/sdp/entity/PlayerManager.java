@@ -45,7 +45,7 @@ public class PlayerManager {
 
     private final List<Player> playersWaitingItems = new ArrayList<>();
 
-    private List<Player> playersWaitingStatusUpdate = new ArrayList<>();
+    private final List<Player> playersWaitingStatusUpdate = new ArrayList<>();
 
     private static final PlayerManager instance = new PlayerManager();
 

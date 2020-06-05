@@ -1,5 +1,6 @@
-package ch.epfl.sdp.social.Conversation;
+package ch.epfl.sdp.social.conversation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
@@ -22,12 +23,12 @@ import ch.epfl.sdp.social.socialDatabase.Message;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 /**
- * @brief Provides higher level abstraction of the database of the chat and models the database memory management of that database
+ * Provides higher level abstraction of the database of the chat and models the database memory management of that database
  * Any modification to (or request from) the database storing the chat should be routed to the singleton instance of this class
  */
 public final class SocialRepository {
 
-    private ChatDatabase chatDB;
+    private final ChatDatabase chatDB;
     private Context contextActivity;
     private static boolean singletonCreated = false;
     private static SocialRepository singleton;
@@ -63,6 +64,7 @@ public final class SocialRepository {
      *
      * @param message the message of the chat, the chat being uniquely identified by the tuple (from (sender), to (receiver))
      */
+    @SuppressLint("StaticFieldLeak")
     public void storeMessage(final Message message) {
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -82,8 +84,10 @@ public final class SocialRepository {
      *
      * @param c the chat to be added to the database
      */
+    @SuppressLint("StaticFieldLeak")
     public void addChat(final Chat c) {
         new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
@@ -102,8 +106,10 @@ public final class SocialRepository {
      *
      * @param usr the user to be added to the database (this user can be the current user or the friend of the current user)
      */
+    @SuppressLint("StaticFieldLeak")
     public void addUser(final User usr) {
         new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
@@ -121,16 +127,17 @@ public final class SocialRepository {
      *
      * @param user the current user to get the friends of
      */
+    @SuppressLint("StaticFieldLeak")
     public void fetchFriends(final User user) {
         new AsyncTask<Void, Void, List<User>>() {
             private Context context;
 
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected List<User> doInBackground(Void... voids) {
                 context = singleton.contextActivity;
                 try {
-                    List<User> friends = singleton.chatDB.daoAccess().areFriends(user.getEmail());
-                    return friends;
+                    return singleton.chatDB.daoAccess().areFriends(user.getEmail());
                 } catch (Exception e) {
                     return new ArrayList<>();
                 }
@@ -150,8 +157,10 @@ public final class SocialRepository {
      * @param user1 the first user in the friends relation
      * @param user2 the second user
      */
+    @SuppressLint("StaticFieldLeak")
     public void addFriends(final User user1, final User user2) {
         new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
@@ -203,6 +212,7 @@ public final class SocialRepository {
      */
     public void insertMessageFromRemote(Timestamp tm, String content, int chat_id) {
         new AsyncTask<Void, Void, Void>() {
+            @SuppressLint("StaticFieldLeak")
             @Override
             protected Void doInBackground(Void... voids) {
                 try {
@@ -222,6 +232,7 @@ public final class SocialRepository {
      * @param other   the id of the friend of the current user
      * @return the chat instance
      */
+    @SuppressLint("StaticFieldLeak")
     public Chat getChat(String current, String other) {
         List<Chat> output = null;
         try {

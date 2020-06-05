@@ -23,7 +23,7 @@ public class AreaShrinker {
     private final double shrinkFactor;
     private final long tick = 500;
     private boolean isStarted;
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
     private ScheduledFuture<?> update1;
     private ScheduledFuture<?> update2;
 

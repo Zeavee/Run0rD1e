@@ -14,11 +14,10 @@ import ch.epfl.sdp.map.MapApi;
  */
 public class Coin extends Item implements Displayable, Updatable {
 
-    private int value;
+    private final int value;
     private GeoPoint location;
     private boolean isDisplayed;
     private boolean taken;
-    private final double aoeRadius = 25.5;
 
     public Coin(int value, GeoPoint location) {
         super(String.format("Coin of value %d", value), "Medium of exchange that allows a player to buy items in shops");
@@ -45,6 +44,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void update() {
         if (!taken) {
             Player p = PlayerManager.getInstance().getCurrentUser();
+            double aoeRadius = 25.5;
             if (this.location.distanceTo(p.getLocation()) - p.getAoeRadius() - aoeRadius >= 0) {
                 return;
             }

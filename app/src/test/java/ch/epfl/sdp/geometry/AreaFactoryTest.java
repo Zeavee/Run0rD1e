@@ -7,7 +7,7 @@ import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
 public class AreaFactoryTest {
-    AreaFactory areaFactory;
+    private AreaFactory areaFactory;
 
     @Before
     public void setup() {

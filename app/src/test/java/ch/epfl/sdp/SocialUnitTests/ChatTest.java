@@ -5,22 +5,22 @@ import org.junit.Test;
 
 import ch.epfl.sdp.social.socialDatabase.Chat;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * @brief tests basic functionality of a Chat instance
+ * Tests basic functionality of a Chat instance
  */
 public class ChatTest {
-
-    private String user1 = "saoud@gmail.com";
-    private String user2 = "sacha@gmail.com";
 
     @Test
     public void basicChatInstantiationWorks()
     {
+        String user1 = "saoud@gmail.com";
+        String user2 = "sacha@gmail.com";
         Chat c= new Chat(user1, user2);
-        assertTrue(c.getFrom().equals(user1));
-        assertTrue(c.getTo().equals(user2));
+        assertEquals(c.getFrom(), user1);
+        assertEquals(c.getTo(), user2);
     }
     @Test
     public void chatIdNotNegative()
@@ -34,7 +34,7 @@ public class ChatTest {
         Chat c= new Chat("dina", "james");
         c.setFrom("alice");
         c.setTo("bob");
-        assertTrue(c.getFrom().equals("alice"));
-        assertTrue(c.getTo().equals("bob"));
+        assertEquals("alice", c.getFrom());
+        assertEquals("bob", c.getTo());
     }
 }

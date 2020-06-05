@@ -1,4 +1,4 @@
-package ch.epfl.sdp.social.Conversation;
+package ch.epfl.sdp.social.conversation;
 
 import android.content.Context;
 import android.util.Log;

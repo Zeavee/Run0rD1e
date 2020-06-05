@@ -9,7 +9,7 @@ import ch.epfl.sdp.game.Updatable;
  * Represents an item with timed lasting effect.
  */
 public abstract class TimedItem extends Item implements Updatable {
-    protected int counter;
+    private int counter;
     private Player player;
 
     /**
@@ -19,7 +19,7 @@ public abstract class TimedItem extends Item implements Updatable {
      * @param description The description of the timed item.
      * @param countTime   The time duration of the effect.
      */
-    public TimedItem(String name, String description, int countTime) {
+    protected TimedItem(String name, String description, int countTime) {
         super(name, description);
         this.counter = countTime * GameThread.FPS;
     }

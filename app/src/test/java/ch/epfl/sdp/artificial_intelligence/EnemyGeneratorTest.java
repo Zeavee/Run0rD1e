@@ -10,7 +10,6 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.MockMap;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
@@ -32,7 +31,7 @@ public class EnemyGeneratorTest {
         enemyGenerator.setMinDistanceFromEnemies(-1);
         enemyGenerator.setMaxEnemies(10);
         enemyGenerator.setMaxEnemies(-10);
-        Enemy enemy = enemyGenerator.generateEnemy(100);
+        Enemy enemy = enemyGenerator.generateEnemy();
         assertNotNull(enemy);
     }
 
@@ -44,7 +43,7 @@ public class EnemyGeneratorTest {
         enemyGenerator.setMinDistanceFromEnemies(10);
         enemyGenerator.setMinDistanceFromPlayers(1000);
         enemyGenerator.setMaxEnemies(10);
-        Enemy enemy = enemyGenerator.generateEnemy(100);
+        Enemy enemy = enemyGenerator.generateEnemy();
         assertTrue(enemy.getLocation().distanceTo(player.getLocation()) > 1000);
     }
 

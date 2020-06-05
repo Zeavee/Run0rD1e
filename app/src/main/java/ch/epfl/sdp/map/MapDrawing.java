@@ -21,7 +21,7 @@ public class MapDrawing {
      * @param marker a Google Maps marker we can use to display various types of images
      * @param circle a Google Maps Circle
      */
-    public MapDrawing(Marker marker, Circle circle) {
+    MapDrawing(Marker marker, Circle circle) {
         this.marker = marker;
         area = circle;
         hasMarker = true;
@@ -34,7 +34,7 @@ public class MapDrawing {
      *
      * @param marker a Google Maps marker we can use to display various types of images
      */
-    public MapDrawing(Marker marker) {
+    MapDrawing(Marker marker) {
         this.marker = marker;
         hasMarker = true;
         hasCircle = false;
@@ -46,7 +46,7 @@ public class MapDrawing {
      *
      * @param circle a Google Maps Circle
      */
-    public MapDrawing(Circle circle) {
+    MapDrawing(Circle circle) {
         hasMarker = false;
         hasCircle = true;
         hasPolygon = false;
@@ -58,7 +58,7 @@ public class MapDrawing {
      *
      * @param polygon a Google Maps Circle
      */
-    public MapDrawing(Polygon polygon) {
+    MapDrawing(Polygon polygon) {
         hasMarker = false;
         hasCircle = false;
         hasPolygon = true;

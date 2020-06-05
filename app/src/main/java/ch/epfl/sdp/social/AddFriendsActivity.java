@@ -17,7 +17,6 @@ import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
 public class AddFriendsActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
     private RecyclerQueryAdapter cached_adapter;
     private RemoteFriendFetcher server;
 
@@ -30,7 +29,7 @@ public class AddFriendsActivity extends AppCompatActivity {
         AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
         server = appContainer.remoteUserFetch;
 
-        recyclerView = findViewById(R.id.recyclerQueryFriends);
+        RecyclerView recyclerView = findViewById(R.id.recyclerQueryFriends);
 
         cached_adapter = new RecyclerQueryAdapter(appContainer.authenticationAPI.getCurrentUserEmail());
         recyclerView.setAdapter(cached_adapter);

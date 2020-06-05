@@ -9,8 +9,8 @@ public class ItemBoxManager {
     public static final String ITEMBOX_COLLECTION_NAME = "ItemBoxes";
 
     private static final ItemBoxManager instance = new ItemBoxManager();
-    private Map<String, ItemBox> itemBoxes;
-    private Map<String, ItemBox> waitingItemBoxes;
+    private final Map<String, ItemBox> itemBoxes;
+    private final Map<String, ItemBox> waitingItemBoxes;
 
     public static ItemBoxManager getInstance() {
         return instance;
@@ -58,7 +58,7 @@ public class ItemBoxManager {
         waitingItemBoxes.clear();
     }
 
-    public void clearItemBoxes() {
+    private void clearItemBoxes() {
         itemBoxes.clear();
     }
 

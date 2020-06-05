@@ -7,7 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 /**
- * @brief abstracts a database table with schema User(String userID, PRIMARY KEY (email)), where userID is the email field of the class
+ * Abstracts a database table with schema User(String userID, PRIMARY KEY (email)), where userID is the email field of the class
  */
 @Entity
 public class User {

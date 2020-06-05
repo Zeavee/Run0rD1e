@@ -28,7 +28,7 @@ import static android.content.ContentValues.TAG;
 
 public abstract class StartGameController {
     private RandomEnemyGenerator randomEnemyGenerator;
-    private RandomGenerator randGen = new RandomGenerator();
+    private final RandomGenerator randGen = new RandomGenerator();
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
@@ -36,7 +36,7 @@ public abstract class StartGameController {
     private static final int NB_COINS = 20;
     private static final int NB_SHELTER_AREAS = 5;
     private static final int NB_MARKETS = 2;
-    private Game gameInstance = Game.getInstance();
+    private final Game gameInstance = Game.getInstance();
 
 
     final CommonDatabaseAPI commonDatabaseAPI;
@@ -105,7 +105,7 @@ public abstract class StartGameController {
     void generateEnemy(EnemyManager enemyManager) {
         if (enemyManager.getEnemies().size() < MAX_ENEMY) {
             // generate new enemy
-            Enemy enemy = randomEnemyGenerator.generateEnemy(100);
+            Enemy enemy = randomEnemyGenerator.generateEnemy();
             if (enemy != null) {
                 enemyManager.updateEnemies(enemy);
             }

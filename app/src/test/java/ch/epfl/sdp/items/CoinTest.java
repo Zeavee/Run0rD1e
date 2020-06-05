@@ -12,22 +12,19 @@ import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.map.MockMap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class CoinTest {
 
-    private Player originalPlayer = PlayerManager.getInstance().getCurrentUser();
-
-    private Player player;
-    private GeoPoint l;
     private MockMap mockMap;
 
     @Test
     public void clonedCoinHasSameValue(){
         Coin dime = new Coin(10, new GeoPoint(10,10));
         Item clonedDime = dime.clone();
-        assertTrue(dime.getValue() == ((Coin)clonedDime).getValue());
+        assertEquals(dime.getValue(), clonedDime.getValue(), 0.0);
     }
 
     @Test
@@ -37,15 +34,15 @@ public class CoinTest {
         PlayerManager.getInstance().setCurrentUser(broke);
         Coin dime  = new Coin(10, new GeoPoint(10,10));
         dime.useOn(broke);
-        assertTrue(broke.getMoney() == dime.getValue());
+        assertEquals(broke.getMoney(), dime.getValue(), 0.0);
     }
 
 
     @Test
     public void coinDisappearsWhenPicked() {
         PlayerManager.getInstance().clear(); // Just to be sure that there are no players
-        l = new GeoPoint(10,10);
-        player = new Player("testPlayer","testPlayer@gmail.com");
+        GeoPoint l = new GeoPoint(10, 10);
+        Player player = new Player("testPlayer", "testPlayer@gmail.com");
         player.setLocation(l);
         PlayerManager.getInstance().setCurrentUser(player);
         mockMap = new MockMap();
@@ -67,7 +64,7 @@ public class CoinTest {
     public void getLocationTest() {
         GeoPoint g = new GeoPoint(10,10);
         Coin c = new Coin(10, g);
-        assertTrue(c.getLocation().equals(g));
+        assertEquals(c.getLocation(), g);
     }
 
     @Test
@@ -77,7 +74,7 @@ public class CoinTest {
         GeoPoint g = new GeoPoint(60,60);
         c.displayOn(mockMap);
         c.setLocation(g);
-        assertTrue(g.equals(c.getLocation()));
+        assertEquals(g, c.getLocation());
     }
 
 }

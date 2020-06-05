@@ -59,7 +59,7 @@ public class EntityConverter {
      * @param geoPoint The local in-game GeoPoint
      * @return The GeoPoint for firebase
      */
-    public static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint) {
+    private static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint) {
         return new GeoPointForFirebase(geoPoint.getLongitude(), geoPoint.getLatitude());
     }
 

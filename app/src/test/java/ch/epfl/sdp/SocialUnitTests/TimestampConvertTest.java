@@ -8,6 +8,7 @@ import java.util.Date;
 import ch.epfl.sdp.social.socialDatabase.TimestampConverter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class TimestampConvertTest {
@@ -15,8 +16,8 @@ public class TimestampConvertTest {
     @Test
     public void timestampReturnsNullOnArgumentNull() {
 
-        assertEquals(null, TimestampConverter.fromTimestamp(null));
-        assertEquals(null, TimestampConverter.dateToTimestamp(null));
+        assertNull(TimestampConverter.fromTimestamp(null));
+        assertNull(TimestampConverter.dateToTimestamp(null));
     }
 
     @Test
@@ -29,7 +30,7 @@ public class TimestampConvertTest {
     @Test
     public void timestampHasCorrectTimeFormat() {
 
-        assertTrue(((SimpleDateFormat)TimestampConverter.df).toPattern().equals("yyyy-MM-dd HH:mm:ss"));
+        assertEquals("yyyy-MM-dd HH:mm:ss", ((SimpleDateFormat) TimestampConverter.df).toPattern());
     }
 
 }

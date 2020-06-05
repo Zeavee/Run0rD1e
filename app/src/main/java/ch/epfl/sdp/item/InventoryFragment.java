@@ -14,8 +14,7 @@ import ch.epfl.sdp.R;
 public class InventoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_inventory, container, false);
-        return view;
+        return inflater.inflate(R.layout.fragment_inventory, container, false);
     }
 
     @Override

@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.social.Conversation.SocialRepository;
+import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.Chat;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 
     private List<User> friendsList;
-    private String currentEmail;
+    private final String currentEmail;
 
     /**
      * This create a recycler query adapter
@@ -36,8 +36,7 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.row_item_query, parent, false);
-        ViewHolder viewHolder = new ViewHolder(view);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -59,12 +58,10 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView imageView;
-        private TextView emailTextView, usernameTextView;
+        private final TextView emailTextView, usernameTextView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView5);
             emailTextView = itemView.findViewById(R.id.textViewEmail);
             usernameTextView = itemView.findViewById(R.id.textViewUsername);
             itemView.setOnClickListener(this);

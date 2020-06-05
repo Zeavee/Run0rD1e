@@ -5,17 +5,18 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class VectorTest {
-    Vector vectorA;
-    Vector vectorA2;
-    Vector vectorB;
-    Vector vectorC;
-    Vector vectorD;
-    Vector vectorE;
-    Vector vectorF;
-    Vector vectorG;
+    private Vector vectorA;
+    private Vector vectorA2;
+    private Vector vectorB;
+    private Vector vectorC;
+    private Vector vectorD;
+    private Vector vectorE;
+    private Vector vectorF;
+    private Vector vectorG;
 
     @Before
     public void setup() {
@@ -31,18 +32,18 @@ public class VectorTest {
 
     @Test
     public void equalsIsCorrect() {
-        assertTrue(vectorA.equals(vectorA));
-        assertTrue(vectorA.equals(vectorA2));
-        assertFalse(vectorA.equals(vectorB));
+        assertEquals(vectorA, vectorA);
+        assertEquals(vectorA, vectorA2);
+        assertNotEquals(vectorA, vectorB);
     }
 
     @Test
     public void operationsAreCorrect() {
-        assertTrue(vectorB.equals(vectorA.perpendicular()));
-        assertTrue(vectorC.equals(vectorA.add(vectorB)));
-        assertTrue(vectorD.equals(vectorB.subtract(vectorA)));
+        assertEquals(vectorB, vectorA.perpendicular());
+        assertEquals(vectorC, vectorA.add(vectorB));
+        assertEquals(vectorD, vectorB.subtract(vectorA));
         assertEquals(vectorE.normalize().magnitude(), 1, 0);
-        assertTrue(vectorF.equals(Vector.fromPolar(1, 0)));
+        assertEquals(vectorF, Vector.fromPolar(1, 0));
         assertEquals(vectorG.invertDirection().x(), 1, 0);
     }
 }

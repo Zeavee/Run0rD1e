@@ -8,7 +8,7 @@ import androidx.room.Transaction;
 import java.util.List;
 
 /**
- * @brief abstracts all the database table operations that can be done on the tables
+ * Abstracts all the database table operations that can be done on the tables
  */
 @Dao
 public interface ChatDAO {
@@ -24,7 +24,7 @@ public interface ChatDAO {
     @Transaction
     @Query("SELECT * FROM message WHERE message.chat_id IN " +
             "(SELECT chat.chat_id FROM chat WHERE chat.`from` = :sender AND chat.`to` = :owner)")
-    public List<Message> getMessages(String owner, String sender);
+    List<Message> getMessages(String owner, String sender);
 
     /**
      * inserts a message m into the database table of messages
@@ -32,7 +32,7 @@ public interface ChatDAO {
      * @param m a message object (with text content and date)
      */
     @Insert
-    public void sendMessage(Message m);
+    void sendMessage(Message m);
 
     /**
      * inserts a user "usr" into the table of Users
@@ -40,7 +40,7 @@ public interface ChatDAO {
      * @param usr the user to insert into the database
      */
     @Insert
-    public void addUser(User usr);
+    void addUser(User usr);
 
     /**
      * insert a chat record into the Chat table
@@ -48,11 +48,12 @@ public interface ChatDAO {
      * @param c the chat to insert
      */
     @Insert
-    public void addChat(Chat c);
+    void addChat(Chat c);
 
     /**
+     * Get all friends of user "friend"
+     *
      * @param friend the user that we are getting the friends of
-     * @brief Get all friends of user "friend"
      */
     @Query("SELECT * FROM User WHERE user.userID IN (SELECT friendID2 FROM IsFriendsWith WHERE " +
             "IsFriendsWith.friendID2<>:friend AND " +
@@ -61,7 +62,7 @@ public interface ChatDAO {
             "SELECT * FROM User WHERE user.userID IN (SELECT friendID1 FROM IsFriendsWith WHERE " +
             "IsFriendsWith.friendID2=:friend AND " +
             "IsFriendsWith.friendID1<>:friend)")
-    public List<User> areFriends(String friend);
+    List<User> areFriends(String friend);
 
     /**
      * Inserts a friendship into the IsFriendsWith database relation
@@ -69,7 +70,7 @@ public interface ChatDAO {
      * @param friends the friendship record to insert
      */
     @Insert
-    public void addFriendship(IsFriendsWith friends);
+    void addFriendship(IsFriendsWith friends);
 
     /**
      * Gets the chat from the current user with id "current" to the another user with id "other"
@@ -79,7 +80,7 @@ public interface ChatDAO {
      * @return the chat (should be singleton list) from the current user to the other user
      */
     @Query("SELECT * FROM chat WHERE chat.`from` =:current  AND chat.`to` =:other")
-    public List<Chat> getChatFromCurrentToOther(String current, String other);
+    List<Chat> getChatFromCurrentToOther(String current, String other);
 
 
 }

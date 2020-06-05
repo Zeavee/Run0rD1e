@@ -63,7 +63,7 @@ public class ShelterArea implements Displayable, Updatable {
      * shelter() protects players that are in the zone and unprotects players that leave the zone
      * This method must be called at every iteration of the game loop
      */
-    public void shelter() {
+    private void shelter() {
         for (Player p : PlayerManager.getInstance().getPlayers()) {
             if (!playersInShelterArea.contains(p) && isInRange(p)) {
                 p.setShielded(true);
@@ -81,17 +81,8 @@ public class ShelterArea implements Displayable, Updatable {
      * @param p Player that we want to check
      * @return boolean variable to see if the player is protected by this shelter area
      */
-    public boolean isInShelterArea(Player p) {
+    boolean isInShelterArea(Player p) {
         return this.playersInShelterArea.contains(p);
-    }
-
-    /**
-     * This method returns the list of players that currently are in the shelter area
-     *
-     * @return the list of players that currently are in the shelter area
-     */
-    public ArrayList<Player> getPlayersInShelterArea() {
-        return this.playersInShelterArea;
     }
 
     @Override

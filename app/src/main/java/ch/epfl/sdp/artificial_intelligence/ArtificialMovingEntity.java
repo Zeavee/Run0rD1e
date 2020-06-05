@@ -40,8 +40,8 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * @param area the area the entity can move in
      * @param moving a boolean that tell if the entity is moving
      */
-    public ArtificialMovingEntity(GeoPoint location, Movement movement, Area area,
-                                  boolean moving) {
+    private ArtificialMovingEntity(GeoPoint location, Movement movement, Area area,
+                                   boolean moving) {
         super(location);
         this.movement = movement;
         this.area = area;
@@ -53,7 +53,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      *
      * @return An area where the moving artificial entity can reside.
      */
-    public Area getLocalArea() {
+    protected Area getLocalArea() {
         return area;
     }
 

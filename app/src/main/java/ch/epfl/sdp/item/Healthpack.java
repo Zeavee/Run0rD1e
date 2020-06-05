@@ -9,7 +9,7 @@ import ch.epfl.sdp.entity.Player;
  * itemId: 1 (hardcoded)
  */
 public class Healthpack extends Item {
-    private int healthPackAmount;
+    private final int healthPackAmount;
 
     public Healthpack(int healthPackAmount) {
         super(String.format("Healthpack %d", healthPackAmount), String.format("Regenerates %d health points", healthPackAmount));

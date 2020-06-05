@@ -13,8 +13,8 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 
 public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
-    private HashMap<String, UserForFirebase> userData;
-    private List<UserForFirebase> userForFirebaseList;
+    private final HashMap<String, UserForFirebase> userData;
+    private final List<UserForFirebase> userForFirebaseList;
 
     public CommonMockDatabaseAPI(HashMap<String, UserForFirebase> userData, List<UserForFirebase> userForFirebaseList) {
         this.userData = userData;

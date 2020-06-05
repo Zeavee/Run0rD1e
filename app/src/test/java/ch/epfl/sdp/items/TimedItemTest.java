@@ -22,8 +22,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TimedItemTest {
-    public final int countTime = 5;
-    Player user;
+    private final int countTime = 5;
+    private Player user;
 
     @Before
     public void setup() {
@@ -101,7 +101,7 @@ public class TimedItemTest {
             phantom.update();
         }
 
-        assertTrue(!user.isPhantom());
+        assertFalse(user.isPhantom());
     }
 
     @Test
@@ -132,16 +132,16 @@ public class TimedItemTest {
         shrinker.useOn(user);
 
         while (shrinker.getRemainingTime() > 0){
-            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertEquals(user.getAoeRadius(), originalRadius - removeAoeRadius, 0.01);
             shrinker.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertEquals(user.getAoeRadius(), originalRadius - removeAoeRadius, 0.01);
             shrinker.update();
         }
 
-        assertTrue(user.getAoeRadius() == originalRadius);
+        assertEquals(user.getAoeRadius(), originalRadius, 0.01);
     }
 }

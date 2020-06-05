@@ -12,6 +12,7 @@ import ch.epfl.sdp.item.Shrinker;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -27,8 +28,8 @@ public class RandomGeneratorTest {
     public void randomGeoPointTest() {
         GeoPoint g = randGen.randomGeoPoint();
         GeoPoint f = new GeoPoint(0,0);
-        assertFalse(g.getLongitude() == f.getLongitude());
-        assertFalse(g.getLatitude() == f.getLatitude());
+        assertNotEquals(g.getLongitude(), f.getLongitude(), 0.0);
+        assertNotEquals(g.getLatitude(), f.getLatitude(), 0.0);
     }
 
     @Test

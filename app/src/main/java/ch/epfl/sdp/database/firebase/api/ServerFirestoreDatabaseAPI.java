@@ -25,9 +25,9 @@ import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
-    private List<ListenerRegistration> listeners = new ArrayList<>();
+    private final List<ListenerRegistration> listeners = new ArrayList<>();
 
     @Override
     public void setLobbyRef(String lobbyName) {

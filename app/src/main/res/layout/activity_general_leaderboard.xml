@@ -152,7 +152,8 @@
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
-                app:srcCompat="@drawable/stage" />
+                app:srcCompat="@drawable/stage"
+                android:contentDescription="TODO" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

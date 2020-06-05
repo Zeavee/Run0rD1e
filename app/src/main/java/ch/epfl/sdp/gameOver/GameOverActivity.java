@@ -14,16 +14,15 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.utils.JunkCleaner;
 
 /**
- * @brief displays splash-screen-like game over screen that lasts for a few seconds
+ * Displays splash-screen-like game over screen that lasts for a few seconds
  */
 public class GameOverActivity extends AppCompatActivity {
-    private TextView gameOverText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
-        gameOverText = findViewById(R.id.gameOverText);
+        TextView gameOverText = findViewById(R.id.gameOverText);
         if (PlayerManager.getInstance().getCurrentUser().getHealthPoints() > 0) {
             gameOverText.setText(R.string.winnerText);
         }

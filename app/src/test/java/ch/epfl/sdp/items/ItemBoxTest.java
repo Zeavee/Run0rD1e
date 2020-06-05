@@ -18,11 +18,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ItemBoxTest {
-    private Player player;
     private GeoPoint location;
     private MockMap mockMap;
 
-    private Item dummyItem = new Item("healthpack", "increase healthPoint") {
+    private final Item dummyItem = new Item("healthpack", "increase healthPoint") {
         @Override
         public Item clone() {
             return null;
@@ -43,7 +42,7 @@ public class ItemBoxTest {
         RandomGenerator r = new RandomGenerator();
         PlayerManager.getInstance().clear(); // Just to be sure that there are no players
         location = r.randomGeoPoint();
-        player = new Player("test","test@gmail.com");
+        Player player = new Player("test", "test@gmail.com");
         player.setLocation(location);
         PlayerManager.getInstance().setCurrentUser(player);
         mockMap = new MockMap();
@@ -104,10 +103,10 @@ public class ItemBoxTest {
 
             Game.getInstance().update();
 
-            assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
+            assertEquals(true, PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
         }
 
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()) == 2);
+        assertEquals(2, (int) PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()));
 
     }
     @Test
@@ -117,8 +116,8 @@ public class ItemBoxTest {
         Game.getInstance().addToUpdateList(itemBox);
         Game.getInstance().addToDisplayList(itemBox);
 
-        assertTrue(Game.getInstance().updatablesContains(itemBox));
-        assertTrue(Game.getInstance().displayablesContains(itemBox));
+        assertEquals(true, Game.getInstance().updatablesContains(itemBox));
+        assertEquals(true, Game.getInstance().displayablesContains(itemBox));
         assertFalse(itemBox.isTaken());
     }
 

@@ -15,10 +15,10 @@ import ch.epfl.sdp.geometry.GeoPoint;
  * This class differs from RandomGenerator, as it specifically generates an enemy (and nothing else)
  */
 public class RandomEnemyGenerator {
-    protected double minDistanceFromEnemies;
-    protected double minDistanceFromPlayers;
-    protected Area enclosure;
-    protected int maxEnemies;
+    private double minDistanceFromEnemies;
+    private double minDistanceFromPlayers;
+    private final Area enclosure;
+    private int maxEnemies;
     private int generatedEnemyNum;
 
     public RandomEnemyGenerator(Area enclosure) {
@@ -39,7 +39,7 @@ public class RandomEnemyGenerator {
     }
 
 
-    public Enemy generateEnemy(double radius) {
+    public Enemy generateEnemy() {
         if (maxEnemies <= generatedEnemyNum) {
             return null;
         }
@@ -66,7 +66,7 @@ public class RandomEnemyGenerator {
         this.minDistanceFromEnemies = minDistanceFromEnemies;
     }
 
-    GeoPoint rule() {
+    private GeoPoint rule() {
         GeoPoint enemyPos;
         int maxIteration = 500;
         do {

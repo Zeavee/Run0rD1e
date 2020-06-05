@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
@@ -16,11 +17,9 @@ import ch.epfl.sdp.database.utils.OnValueReadyCallback;
 import ch.epfl.sdp.geometry.Area;
 
 public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
-    public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
+    private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
     public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
-    public List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
-    public List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-    public Map<String, ItemsForFirebase> usedItems = new HashMap<>();
+    private Map<String, ItemsForFirebase> usedItems = new HashMap<>();
     public Map<String, ItemsForFirebase> items = new HashMap<>();
 
     public ServerMockDatabaseAPI() {
@@ -35,10 +34,8 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
         this.playerForFirebaseMap = playerForFirebaseMap;
 
         // populate the Enemy
-        this.enemyForFirebasesList = enemyForFirebasesList;
 
         // populate the itemBox
-        this.itemBoxForFirebaseList = itemBoxForFirebaseList;
 
         // populate the usedItem for each player in the lobby
         this.usedItems = usedItems;
@@ -92,7 +89,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     public void sendPlayersStatus(List<PlayerForFirebase> playerForFirebaseList) {
         for (PlayerForFirebase playerForFirebase: playerForFirebaseList){
             PlayerForFirebase player = playerForFirebaseMap.get(playerForFirebase.getEmail());
-            player.setHealthPoints(playerForFirebase.getHealthPoints());
+            Objects.requireNonNull(player).setHealthPoints(playerForFirebase.getHealthPoints());
             player.setAoeRadius(playerForFirebase.getAoeRadius());
             player.setPhantom(playerForFirebase.isPhantom());
         }

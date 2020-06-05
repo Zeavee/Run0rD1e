@@ -12,7 +12,7 @@ public class Inventory {
      * Map from item name to quantity
      */
     private Map<String, Integer> items;
-    private Map<String, Integer> usedItems;
+    private final Map<String, Integer> usedItems;
 
     /**
      * Creates an inventory.
@@ -65,8 +65,6 @@ public class Inventory {
 
     /**
      * Set the map of items and quantity.
-     *
-     * @return A map containing the items and its related quantity.
      */
     public void setItems(Map<String, Integer> items) {
         this.items = items;

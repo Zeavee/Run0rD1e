@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
      * This method creates a recycler view adapter
      * @param items the list of users we will see in our friends list
      */
-    public MyFriendsRecyclerViewAdapter(List<User> items) {
+    MyFriendsRecyclerViewAdapter(List<User> items) {
         mValues = items;
     }
 
@@ -30,17 +31,18 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
      * This method sets our click listener
      * @param myClickListener The click listener that we want to use
      */
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
+    void setOnItemClickListener(MyClickListener myClickListener) {
+        MyFriendsRecyclerViewAdapter.myClickListener = myClickListener;
     }
 
     /**
      * This interface is a click listener that will lock for clicks on user in the friends list
      */
     public interface MyClickListener {
-        public void onItemClick(int position, View v);
+        void onItemClick(int position, View v);
     }
 
+    @NonNull
     @Override
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -62,14 +64,14 @@ public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriends
         return mValues.size();
     }
 
-    class FriendsViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final Button button;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public User mItem;
+    static class FriendsViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
+        final Button button;
+        final TextView mIdView;
+        final TextView mContentView;
+        User mItem;
 
-        public FriendsViewHolder(View view) {
+        FriendsViewHolder(View view) {
             super(view);
             mView = view;
             mIdView = view.findViewById(R.id.item_number);

@@ -104,6 +104,6 @@ public class RectangleAreaTest {
         RectangleArea circle = new RectangleArea(10000, 20000, new GeoPoint(40, 50));
         MockMap mockMap = new MockMap();
         circle.displayOn(mockMap);
-        TestCase.assertTrue(mockMap.getDisplayables().size() == 1);
+        TestCase.assertEquals(1, mockMap.getDisplayables().size());
     }
 }

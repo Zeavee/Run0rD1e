@@ -16,16 +16,14 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.ItemBoxManager;
 
 public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
-    public Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
-    public Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
-    public List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
-    public List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
-    ItemsForFirebase userItems;
-    String gameArea;
+    private Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();
+    private List<EnemyForFirebase> enemyForFirebasesList = new ArrayList<>();
+    private List<ItemBoxForFirebase> itemBoxForFirebaseList = new ArrayList<>();
+    private ItemsForFirebase userItems;
+    private String gameArea;
 
     public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, ItemsForFirebase userItems, String gameArea) {
         // populate the all Users in firebase
-        this.userForFirebaseMap = userForFirebaseMap;
 
         // populate the Players in lobby
         this.playerForFirebaseMap = playerForFirebaseMap;
