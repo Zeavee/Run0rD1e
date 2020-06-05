@@ -1,5 +1,7 @@
 package ch.epfl.sdp.game;
 
+import androidx.room.Update;
+
 import org.junit.After;
 import org.junit.Test;
 
@@ -55,12 +57,23 @@ public class ServerTest {
         PlayerManager.getInstance().addPlayerWaitingItems(player);
 
         double healthPoints = 10.0;
-        player.setHealthPoints(healthPoints);
 
-        Thread.sleep(3000);
+        Updatable updatable = new Updatable() {
+            boolean flag = false;
+
+            @Override
+            public void update() {
+                player.setHealthPoints(healthPoints);
+                flag = true;
+            }
+        };
+
+        Game.getInstance().addToUpdateList(updatable);
+
+        Thread.sleep(4000);
+
         assertEquals(1, serverMockDatabaseAPI.items.get("client@gmail.com").getItemsMap().size());
         assertEquals(10.0, serverMockDatabaseAPI.playerForFirebaseMap.get("client@gmail.com").getHealthPoints(), 0.01);
-
     }
 
     private void setupEnvironment() {

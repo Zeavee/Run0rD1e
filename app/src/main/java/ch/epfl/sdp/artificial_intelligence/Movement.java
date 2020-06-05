@@ -8,7 +8,6 @@ import ch.epfl.sdp.geometry.GeoPoint;
  */
 public abstract class Movement {
     private float velocity;
-    private float acceleration;
     private double orientation;
 
     /**
@@ -16,7 +15,6 @@ public abstract class Movement {
      */
     public Movement() {
         velocity = 0;
-        acceleration = 0;
         orientation = 0;
     }
 
@@ -36,24 +34,6 @@ public abstract class Movement {
      */
     public void setVelocity(float velocity) {
         this.velocity = velocity/GameThread.FPS;
-    }
-
-    /**
-     * Gets the current acceleration determined by the movement.
-     *
-     * @return A value representing the acceleration of the movement.
-     */
-    public float getAcceleration() {
-        return acceleration;
-    }
-
-    /**
-     * Sets the current acceleration of the movement.
-     *
-     * @param acceleration The acceleration of the movement.
-     */
-    public void setAcceleration(float acceleration) {
-        this.acceleration = acceleration;
     }
 
     /**

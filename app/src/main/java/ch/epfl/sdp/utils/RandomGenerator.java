@@ -1,21 +1,15 @@
 package ch.epfl.sdp.utils;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
 import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
@@ -84,11 +78,11 @@ public class RandomGenerator {
     }
 
     /**
-     * Creates a random scan with random effective time
+     * Creates a random phantom with random effective time
      * @return
      */
-    public Scan randomScan() {
-        Scan s = new Scan(1 + rand.nextInt(1));
+    public Phantom randomPhantom() {
+        Phantom s = new Phantom(1 + rand.nextInt(1));
         return s;
     }
 
@@ -114,7 +108,7 @@ public class RandomGenerator {
     public ArrayList<Item> randomItemsList() {
         ArrayList<Item> result = new ArrayList<>();
         result.add(randomHealthPack());
-        result.add(randomScan());
+        result.add(randomPhantom());
         result.add(randomShield());
         result.add(randomShrinker());
         return result;

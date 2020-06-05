@@ -55,7 +55,7 @@ public class NewMarketActivityTest {
         @Override
         public void beforeActivityLaunched() {
             JunkCleaner.clearAll();
-            Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com");
+            Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com", false);
             amro.setHealthPoints(100);
             amro.removeMoney(amro.getMoney());
             amro.addMoney(100000);
@@ -111,9 +111,9 @@ public class NewMarketActivityTest {
         appCompatImageButton.perform(click());
     }
 
-    // click on scan button
+    // click on Phantom button
     public void step1() {
-        clickOnItem(R.id.scanButton, R.id.scanCard, 2);
+        clickOnItem(R.id.phantomButton, R.id.phantomCard, 2);
     }
 
     // click on shrinker button

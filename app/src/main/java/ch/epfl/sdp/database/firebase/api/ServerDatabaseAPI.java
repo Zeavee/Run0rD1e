@@ -72,11 +72,11 @@ public interface ServerDatabaseAPI {
     void sendItemBoxes(List<ItemBoxForFirebase> itemBoxForFirebaseList);
 
     /**
-     * Update the healthPoint of the Players in the lobby
+     * Send the status of the players in the list.
      *
-     * @param playerForFirebases A list of playerForFirebase
+     * @param playerForFirebaseList Players list.
      */
-    void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases);
+    void sendPlayersStatus(List<PlayerForFirebase> playerForFirebaseList);
 
     /**
      * Send the items taken by the players in the current game round to the Firebase FireStore
@@ -106,6 +106,7 @@ public interface ServerDatabaseAPI {
 
     /**
      * Send a signal to be sure that the server is alive.
+     *
      * @param signal The signal is a long.
      */
     void sendServerAliveSignal(long signal);
