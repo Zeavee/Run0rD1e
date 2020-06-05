@@ -111,7 +111,9 @@ public class Market implements Displayable {
         int THRESH_DIST = 50;
         if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) <= THRESH_DIST && !hasVisitedMarket) {
             hasVisitedMarket = true;
-            ((MapsActivity) (Game.getInstance().getRenderer())).startMarket(this);
+            if (Game.getInstance().getRenderer() instanceof MapsActivity) {
+                ((MapsActivity) (Game.getInstance().getRenderer())).startMarket(this);
+            }
         } else if (PlayerManager.getInstance().getCurrentUser().getLocation().distanceTo(this.getLocation()) > THRESH_DIST) {
             hasVisitedMarket = false;
         }

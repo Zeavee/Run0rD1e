@@ -8,7 +8,7 @@ import static org.junit.Assert.assertEquals;
 
 public class EnemyForFirebaseTest {
     @Test
-    public void enemyForFirebaseTest() {
+    public void testConstructorAndGetters() {
         EnemyForFirebase enemyForFirebase1 = new EnemyForFirebase();
 
         enemyForFirebase1.setId(1);

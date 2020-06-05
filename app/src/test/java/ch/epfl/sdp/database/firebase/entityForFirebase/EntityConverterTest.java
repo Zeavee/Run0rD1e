@@ -1,5 +1,6 @@
 package ch.epfl.sdp.database.firebase.entityForFirebase;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,24 +20,38 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class EntityConverterTest {
+    UserForFirebase userForFirebase;
+    Player player;
+
+    @Before
+    public void setup()
+    {
+        userForFirebase = new UserForFirebase("test@gmail.com", "test", 0);
+        player = EntityConverter.userForFirebaseToPlayer(userForFirebase);
+    }
+
     @Test
-    public void playerConverterTest() {
-        UserForFirebase userForFirebase = new UserForFirebase("test@gmail.com", "test", 0);
-
-        Player player = EntityConverter.userForFirebaseToPlayer(userForFirebase);
-
+    public void testPlayerIsConvertedBackWithSameProperties() {
         PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(player);
         Player covertBackToPlayer = EntityConverter.playerForFirebaseToPlayer(playerForFirebase);
 
         assertEquals(userForFirebase.getEmail(), playerForFirebase.getEmail());
         assertEquals(userForFirebase.getUsername(), playerForFirebase.getUsername());
         assertEquals(player.getEmail(), covertBackToPlayer.getEmail());
+    }
 
+    @Test
+    public void testPlayerListConversionGivesExpectedPlayer() {
         List<Player> playerList = new ArrayList<>();
         playerList.add(player);
         List<PlayerForFirebase> playerForFirebaseList = EntityConverter.convertPlayerList(playerList);
+
         assertEquals(1, playerForFirebaseList.size());
+        assertEquals(userForFirebase.getEmail(), playerList.get(0).getEmail());
+        assertEquals(userForFirebase.getUsername(), playerList.get(0).getUsername());
     }
+
+    
 
     @Test
     public void convertEnemyListTest() {
