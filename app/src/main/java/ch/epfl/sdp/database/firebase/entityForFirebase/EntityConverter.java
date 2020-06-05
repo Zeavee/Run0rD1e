@@ -46,9 +46,9 @@ public class EntityConverter {
         playerForFirebase.setEmail(player.getEmail());
         playerForFirebase.setGeoPointForFirebase(EntityConverter.geoPointToGeoPointForFirebase(player.getLocation()));
         playerForFirebase.setAoeRadius(player.getAoeRadius());
-        playerForFirebase.setHealthPoints(player.getHealthPoints());
+        playerForFirebase.setHealthPoints(player.status.getHealthPoints());
         playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
-        playerForFirebase.setPhantom(player.isPhantom());
+        playerForFirebase.setPhantom(player.status.isPhantom());
 
         return playerForFirebase;
     }

@@ -20,7 +20,7 @@ public class Phantom extends TimedItem {
     @Override
     public void useOn(Player player) {
         super.useOn(player);
-        player.setPhantom(true);
+        player.status.setPhantom(true, player);
     }
 
     /**
@@ -32,6 +32,6 @@ public class Phantom extends TimedItem {
     }
 
     public void stopUsingOn(Player player) {
-        player.setPhantom(false);
+        player.status.setPhantom(false, player);
     }
 }

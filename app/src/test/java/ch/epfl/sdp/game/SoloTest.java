@@ -34,7 +34,7 @@ public class SoloTest {
 
         Thread.sleep(1000);
 
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(0);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(0, PlayerManager.getInstance().getCurrentUser());
 
         Thread.sleep(1000);
 

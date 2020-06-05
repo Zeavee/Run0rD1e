@@ -1,5 +1,7 @@
 package ch.epfl.sdp.items;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,7 @@ import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.MockMap;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 public class ItemsTest {
@@ -53,9 +56,9 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(10, PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(11, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.0);
+        assertEquals(11, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0.01);
     }
 
     @Test
@@ -88,13 +91,13 @@ public class ItemsTest {
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(30, PlayerManager.getInstance().getCurrentUser());
         PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        assertEquals(90, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
-        assertEquals(healthAmount, healthpack.getValue(), 0.0);
+        assertEquals(100, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
+        assertEquals(healthAmount, healthpack.getValue(), 0.01);
     }
 
     @Test

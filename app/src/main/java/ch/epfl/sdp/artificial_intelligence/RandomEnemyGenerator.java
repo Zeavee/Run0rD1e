@@ -21,24 +21,42 @@ public class RandomEnemyGenerator {
     private int maxEnemies;
     private int generatedEnemyNum;
 
+    /**
+     * Creates an enemy generator, where the enemies appear inside an area.
+     *
+     * @param enclosure The area where the enemies will appear.
+     */
     public RandomEnemyGenerator(Area enclosure) {
         this.enclosure = enclosure;
         generatedEnemyNum = 0;
     }
 
-
+    /**
+     * Set the maximum number of enemies to be generated.
+     *
+     * @param maxEnemies The maximum number of enemies to be generated.
+     */
     public void setMaxEnemies(int maxEnemies) {
         if (maxEnemies < 0) return;
         this.maxEnemies = maxEnemies;
     }
 
-
+    /**
+     * Set the minimum distance between the players and an enemy before they are spawned.
+     *
+     * @param minDistanceFromPlayers The minimum distance between the players and an enemy
+     *                               before they are spawned.
+     */
     public void setMinDistanceFromPlayers(double minDistanceFromPlayers) {
         if (minDistanceFromPlayers < 0) return;
         this.minDistanceFromPlayers = minDistanceFromPlayers;
     }
 
-
+    /**
+     * Create a new enemy
+     *
+     * @return return the enemy just created
+     */
     public Enemy generateEnemy() {
         if (maxEnemies <= generatedEnemyNum) {
             return null;
@@ -60,12 +78,22 @@ public class RandomEnemyGenerator {
         return enemy;
     }
 
-
+    /**
+     * Set the distance between enemies before they are spawned.
+     *
+     * @param minDistanceFromEnemies The distance between enemies before they are spawned.
+     */
     public void setMinDistanceFromEnemies(double minDistanceFromEnemies) {
         if (minDistanceFromEnemies < 0) return;
         this.minDistanceFromEnemies = minDistanceFromEnemies;
     }
 
+    /**
+     * Randomly generate the enemy's location based on the rule we just set: inside the gameArea,
+     * keep the minimum distance both from players and other enemies
+     *
+     * @return The location just generated
+     */
     private GeoPoint rule() {
         GeoPoint enemyPos;
         int maxIteration = 500;

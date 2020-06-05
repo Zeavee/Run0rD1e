@@ -35,7 +35,7 @@ public class BehaviourTest {
 
     @Test
     public void testAttackLessenThePlayerLifeWhenInAttackRange() {
-        double health = player.getHealthPoints();
+        double health = player.status.getHealthPoints();
 
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER ||
@@ -51,7 +51,7 @@ public class BehaviourTest {
 
             enemy.update();
 
-           assertTrue(health != player.getHealthPoints());
+           assertTrue(health != player.status.getHealthPoints());
         }
     }
 

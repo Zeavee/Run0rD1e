@@ -105,7 +105,7 @@ public class Server extends StartGameController implements Updatable {
     private void checkIfWon() {
         boolean isWinner = true;
         for (Player player : playerManager.getPlayers()) {
-            if (player.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
+            if (player.status.getHealthPoints() > 0 && player != playerManager.getCurrentUser()) {
                 isWinner = false;
                 break;
             }

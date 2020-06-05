@@ -43,9 +43,9 @@ public class PlayerTest {
     public void healthPackUseTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(10, PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
 
-        assertEquals(11, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0.0);
+        assertEquals(11, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0.01);
     }
 }

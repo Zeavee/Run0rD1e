@@ -56,7 +56,7 @@ public class NewMarketActivityTest {
         public void beforeActivityLaunched() {
             JunkCleaner.clearAll();
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com", false);
-            amro.setHealthPoints(100);
+            amro.status.setHealthPoints(100, amro);
             amro.removeMoney(amro.getMoney());
             amro.addMoney(100000);
             PlayerManager.getInstance().setCurrentUser(amro);

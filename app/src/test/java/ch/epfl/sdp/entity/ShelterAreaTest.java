@@ -58,10 +58,10 @@ public class ShelterAreaTest {
         assertFalse(shelterArea.isInShelterArea(player3));
         assertFalse(shelterArea.isInShelterArea(player4));
         assertTrue(shelterArea.isInShelterArea(player1));
-        assertFalse(player2.isShielded());
-        assertFalse(player3.isShielded());
-        assertFalse(player4.isShielded());
-        assertTrue(player1.isShielded());
+        assertFalse(player2.status.isShielded(player2));
+        assertFalse(player3.status.isShielded(player3));
+        assertFalse(player4.status.isShielded(player4));
+        assertTrue(player1.status.isShielded(player1));
     }
 
 

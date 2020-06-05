@@ -23,8 +23,8 @@ public class Shrinker extends TimedItem {
 
     @Override
     public void useOn(Player player) {
-        if (!player.isShrinked()){
-            player.setShrinked(true);
+        if (!player.status.isShrinked()){
+            player.status.setShrinked(true, player);
 
             super.useOn(player);
 
@@ -48,7 +48,7 @@ public class Shrinker extends TimedItem {
     public void stopUsingOn(Player player) {
         double aoeRadius = player.getAoeRadius() + getShrinkingRadius();
         player.setAoeRadius(aoeRadius);
-        player.setShrinked(false);
+        player.status.setShrinked(false, player);
         Log.d("Item","Shrink set false");
     }
 

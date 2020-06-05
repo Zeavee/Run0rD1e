@@ -24,12 +24,12 @@ public class Healthpack extends Item {
 
     @Override
     public void useOn(Player player) {
-        double increasedHP = player.getHealthPoints() + healthPackAmount;
+        double increasedHP = player.status.getHealthPoints() + healthPackAmount;
         if (increasedHP > Player.MAX_HEALTH) {
             increasedHP = Player.MAX_HEALTH;
         }
 
-        player.setHealthPoints(increasedHP);
+        player.status.setHealthPoints(increasedHP, player);
         Log.d("Database", "Using Healthpack on " + player.getEmail());
     }
 

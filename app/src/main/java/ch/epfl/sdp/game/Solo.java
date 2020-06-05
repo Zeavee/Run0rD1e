@@ -91,7 +91,7 @@ public class Solo extends StartGameController implements Updatable {
     }
 
     private void checkGameEnd() {
-        if (!gameEnd && currentUser.getHealthPoints() <= 0) {
+        if (!gameEnd && currentUser.status.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
             gameEnd = true;
             commonDatabaseAPI.updatePlayerGeneralScore(currentUser);

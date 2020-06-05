@@ -162,7 +162,7 @@ public abstract class Area implements Positionable, Displayable, Updatable {
         for (Player player : PlayerManager.getInstance().getPlayers()) {
             if (!isInside(player.getLocation())) {
                 int damage = 10;
-                player.setHealthPoints(player.getHealthPoints() - damage);
+                player.status.setHealthPoints(player.status.getHealthPoints() - damage, player);
             }
         }
     }

@@ -56,7 +56,7 @@ public class ServerTest {
 
         double healthPoints = 10.0;
 
-        Updatable updatable = () -> player.setHealthPoints(healthPoints);
+        Updatable updatable = () -> player.status.setHealthPoints(healthPoints, player);
 
         Game.getInstance().addToUpdateList(updatable);
 

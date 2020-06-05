@@ -204,12 +204,12 @@ public class Enemy extends ArtificialMovingEntity {
 
         if (target != null) {
             Log.d("Enemy", "Target:" + target.getEmail());
-            Log.d("Enemy", "shielded:" + target.isShielded());
+            Log.d("Enemy", "shielded:" + target.status.isShielded(target));
         }
 
-        if (target != null && target.isAlive() && !target.isShielded()) {
+        if (target != null && target.isAlive() && !target.status.isShielded(target)) {
             Log.d("Enemy", "Attacking:" + target.getEmail());
-            target.setHealthPoints(target.getHealthPoints() - damage * damageRate);
+            target.status.setHealthPoints(target.status.getHealthPoints() - damage * damageRate, target);
         } else {
             setMoving(true);
             behaviour = Behaviour.CHASE;

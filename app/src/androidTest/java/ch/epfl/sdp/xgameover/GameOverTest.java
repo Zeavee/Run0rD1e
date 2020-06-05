@@ -47,7 +47,7 @@ public class GameOverTest {
         public void beforeActivityLaunched() {
             // important to have player away from market otherwise it is the market that will open
             Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com", false);
-            amro.setHealthPoints(100);
+            amro.status.setHealthPoints(100, amro);
             PlayerManager.getInstance().setCurrentUser(amro);
 
             Player placeholder = new Player("placeholder", "placeholder@placeholder.com");
@@ -93,8 +93,9 @@ public class GameOverTest {
         checkIfTextIsDisplayedAfterGameOver(PlayerManager.getInstance().getCurrentUser());
     }
 
+
     private void checkIfTextIsDisplayedAfterGameOver(Player player) {
-        player.setHealthPoints(0);
+        player.status.setHealthPoints(0, player);
         // wait a moment for the splash screen to be intended
         while (!mActivityTestRule.getActivity().flagGameOver) {
             ((Server) Game.getInstance().startGameController).update();

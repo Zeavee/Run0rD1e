@@ -282,8 +282,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Thread.sleep(2000);
                         runOnUiThread(() -> {
                             if (playerManager.getCurrentUser() != null) {
-                                healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().getHealthPoints()));
-                                String newText = playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax();
+                                healthPointProgressBar.setProgress((int) Math.round(playerManager.getCurrentUser().status.getHealthPoints()));
+                                String newText = playerManager.getCurrentUser().status.getHealthPoints() + "/" + healthPointProgressBar.getMax();
                                 healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
                                 moneyText.setText(String.format(Locale.ENGLISH, "%d", playerManager.getCurrentUser().getMoney()));
