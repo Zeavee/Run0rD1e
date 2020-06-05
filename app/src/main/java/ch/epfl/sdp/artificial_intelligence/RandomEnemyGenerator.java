@@ -1,7 +1,6 @@
 package ch.epfl.sdp.artificial_intelligence;
 
 import java.util.List;
-import java.util.Random;
 
 import ch.epfl.sdp.entity.Enemy;
 import ch.epfl.sdp.entity.EnemyManager;

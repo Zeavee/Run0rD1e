@@ -1,7 +1,5 @@
 package ch.epfl.sdp.game;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;

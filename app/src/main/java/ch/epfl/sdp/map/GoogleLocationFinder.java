@@ -6,11 +6,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.game.StartGameController;
 import ch.epfl.sdp.geometry.GeoPoint;
 
 public class GoogleLocationFinder implements LocationFinder {

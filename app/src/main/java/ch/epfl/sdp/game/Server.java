@@ -19,7 +19,6 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;

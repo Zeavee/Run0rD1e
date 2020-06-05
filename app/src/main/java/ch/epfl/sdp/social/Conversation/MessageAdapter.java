@@ -10,8 +10,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import ch.epfl.sdp.social.socialDatabase.Message;
+
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.socialDatabase.Message;
 
 /**
  * This class adapts the messages, so we can add them in a list and give this to the recycler view

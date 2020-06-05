@@ -2,9 +2,9 @@ package ch.epfl.sdp.social.socialDatabase;
 
 import androidx.room.TypeConverter;
 
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @brief This class is used to convert Timestamps to date or long for the Message records to be store-able in the database

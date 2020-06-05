@@ -3,7 +3,6 @@ package ch.epfl.sdp.item;
 import android.util.Log;
 
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 
 public class Shrinker extends TimedItem {
     private int shrinkingRadius;

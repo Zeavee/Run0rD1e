@@ -1,6 +1,5 @@
 package ch.epfl.sdp.database.firebase.api;
 
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;

@@ -1,8 +1,6 @@
 package ch.epfl.sdp.item;
 
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.game.Game;
 
 public class Phantom extends TimedItem {
     private int phantomTime;

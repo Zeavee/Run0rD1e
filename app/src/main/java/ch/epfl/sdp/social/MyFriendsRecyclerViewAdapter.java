@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import ch.epfl.sdp.social.socialDatabase.User;
 
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.social.socialDatabase.User;
 
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import ch.epfl.sdp.R;
 
 public class RulesActivityPage1 extends AppCompatActivity {
