@@ -3,11 +3,9 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 

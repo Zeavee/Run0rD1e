@@ -2,6 +2,8 @@ package ch.epfl.sdp.geometry;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.map.location.GeoPoint;
+
 import static org.junit.Assert.assertEquals;
 
 public class GeoPointTest {

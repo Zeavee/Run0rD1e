@@ -16,11 +16,11 @@ import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.ui.social.FriendsListActivity;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;

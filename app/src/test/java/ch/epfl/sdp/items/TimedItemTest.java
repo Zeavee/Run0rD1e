@@ -4,18 +4,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.item.TimedItem;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -105,22 +99,22 @@ public class TimedItemTest {
 
     @Test
     public void shieldSetsShieldedWhenUpdated(){
-        assertFalse(user.status.isShielded(user));
+        assertFalse(user.status.isShielded());
         Shield shield = new Shield(countTime);
         shield.useOn(user);
 
         while (shield.getRemainingTime() > 0){
-            assertTrue(user.status.isShielded(user));
+            assertTrue(user.status.isShielded());
             shield.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.status.isShielded(user));
+            assertTrue(user.status.isShielded());
             shield.update();
         }
 
-        assertFalse(user.status.isShielded(user));
+        assertFalse(user.status.isShielded());
     }
 
     @Test

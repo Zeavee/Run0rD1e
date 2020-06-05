@@ -3,7 +3,7 @@ package ch.epfl.sdp.SocialUnitTests;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.social.socialDatabase.Chat;
+import ch.epfl.sdp.database.room.social.Chat;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

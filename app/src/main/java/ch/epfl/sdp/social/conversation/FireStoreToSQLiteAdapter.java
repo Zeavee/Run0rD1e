@@ -3,10 +3,6 @@ package ch.epfl.sdp.social.conversation;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -20,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.social.WaitsOnWithServer;
-import ch.epfl.sdp.social.socialDatabase.Message;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.utils.WaitsOnWithServer;
+import ch.epfl.sdp.database.room.social.Message;
 
 /*
  This class fetches messages from FireStore and places them in the local SQLite database.

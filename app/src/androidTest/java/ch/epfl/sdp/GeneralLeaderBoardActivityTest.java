@@ -14,9 +14,9 @@ import java.util.List;
 
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.leaderBoard.GeneralLeaderBoardActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
+import ch.epfl.sdp.ui.leader_board.GeneralLeaderBoardActivity;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;

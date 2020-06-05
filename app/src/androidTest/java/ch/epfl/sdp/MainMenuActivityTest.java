@@ -15,11 +15,12 @@ import java.util.HashMap;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.ui.game.MainMenuActivity;
 import ch.epfl.sdp.utils.MockMap;
 
 import static androidx.test.espresso.Espresso.onView;

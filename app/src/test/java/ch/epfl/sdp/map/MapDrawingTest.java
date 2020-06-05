@@ -6,6 +6,8 @@ import com.google.android.gms.maps.model.Polygon;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.map.display.MapDrawing;
+
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;

@@ -8,9 +8,9 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
+import ch.epfl.sdp.geometry.area.Area;
 
 /**
  * The interface with the method related to the firebase fireStore

@@ -8,8 +8,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import ch.epfl.sdp.MainMenuActivity;
+import ch.epfl.sdp.ui.game.MainMenuActivity;
 import ch.epfl.sdp.R;
+import ch.epfl.sdp.ui.game.RulesActivityPage1;
+import ch.epfl.sdp.ui.game.RulesActivityPage2;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

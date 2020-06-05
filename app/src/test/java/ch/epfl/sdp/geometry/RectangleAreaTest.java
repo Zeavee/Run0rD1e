@@ -4,7 +4,9 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.geometry.area.RectangleArea;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.display.Displayable;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertTrue;

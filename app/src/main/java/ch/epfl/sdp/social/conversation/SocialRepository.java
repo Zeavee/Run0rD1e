@@ -14,13 +14,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import ch.epfl.sdp.social.WaitsOn;
-import ch.epfl.sdp.social.WaitsOnWithServer;
-import ch.epfl.sdp.social.socialDatabase.Chat;
-import ch.epfl.sdp.social.socialDatabase.ChatDatabase;
-import ch.epfl.sdp.social.socialDatabase.IsFriendsWith;
-import ch.epfl.sdp.social.socialDatabase.Message;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.WaitsOn;
+import ch.epfl.sdp.utils.WaitsOnWithServer;
+import ch.epfl.sdp.database.room.social.Chat;
+import ch.epfl.sdp.database.room.social.ChatDatabase;
+import ch.epfl.sdp.database.room.social.IsFriendsWith;
+import ch.epfl.sdp.database.room.social.Message;
+import ch.epfl.sdp.database.room.social.User;
 
 /**
  * Provides higher level abstraction of the database of the chat and models the database memory management of that database
@@ -189,8 +189,7 @@ public final class SocialRepository {
 
             @Override
             protected List<Message> doInBackground(Void... voids) {
-                List<Message> msgList = new LinkedList<>(singleton.chatDB.daoAccess().getMessages(receiver, sender));
-                return msgList;
+                return new LinkedList<>(singleton.chatDB.daoAccess().getMessages(receiver, sender));
             }
 
             @Override

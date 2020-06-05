@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import ch.epfl.sdp.social.socialDatabase.Message;
+import ch.epfl.sdp.database.room.social.Message;
 
 import static org.junit.Assert.assertEquals;
 

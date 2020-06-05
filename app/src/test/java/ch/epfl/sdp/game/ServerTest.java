@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
@@ -18,10 +18,11 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Healthpack;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.game.game_architecture.Server;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 

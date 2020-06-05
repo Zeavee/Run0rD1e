@@ -23,12 +23,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.MainMenuActivity;
+import ch.epfl.sdp.ui.game.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.ui.login.RegisterFormActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;

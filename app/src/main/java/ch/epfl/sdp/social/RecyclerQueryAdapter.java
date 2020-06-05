@@ -14,8 +14,9 @@ import java.util.List;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.social.socialDatabase.Chat;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.database.room.social.Chat;
+import ch.epfl.sdp.database.room.social.User;
+import ch.epfl.sdp.utils.WaitsOn;
 
 public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdapter.ViewHolder> implements WaitsOn<User> {
 

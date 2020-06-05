@@ -7,7 +7,7 @@
     android:clipToPadding="false"
     android:focusableInTouchMode="true"
     android:background="@drawable/background"
-    tools:context=".social.conversation.ChatActivity">
+    tools:context=".ui.social.ChatActivity">
 
     <ListView
         android:id="@+id/messages_view"

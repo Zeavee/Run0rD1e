@@ -2,8 +2,8 @@ package ch.epfl.sdp.SocialUnitTests;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.social.socialDatabase.IsFriendsWith;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.database.room.social.IsFriendsWith;
+import ch.epfl.sdp.database.room.social.User;
 
 import static org.junit.Assert.assertEquals;
 

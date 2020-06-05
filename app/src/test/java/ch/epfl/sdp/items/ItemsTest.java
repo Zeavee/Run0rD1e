@@ -4,15 +4,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertTrue;

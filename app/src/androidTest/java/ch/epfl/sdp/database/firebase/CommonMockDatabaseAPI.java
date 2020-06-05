@@ -7,10 +7,10 @@ import java.util.Map;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 
 public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     private final HashMap<String, UserForFirebase> userData;
