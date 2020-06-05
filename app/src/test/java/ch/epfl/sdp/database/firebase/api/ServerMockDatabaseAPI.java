@@ -89,11 +89,8 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersHealth(List<PlayerForFirebase> playersForFirebase) {
-        for (PlayerForFirebase playerForFirebase: playersForFirebase) {
-            playerForFirebaseMap.get(playerForFirebase.getEmail())
-                    .setHealthPoints(playerForFirebase.getHealthPoints());
-        }
+    public void sendPlayersStatus(List<PlayerForFirebase> playerForFirebaseList) {
+
     }
 
     @Override

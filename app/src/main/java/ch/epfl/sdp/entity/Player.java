@@ -41,6 +41,19 @@ public class Player extends AoeRadiusEntity {
     }
 
     /**
+     * Creates a new Player
+     *
+     * @param longitude the longitude of the player
+     * @param latitude  the latitude of the player
+     * @param aoeRadius the radius of the area of effect around the player
+     * @param username  the username of the player
+     * @param email     the email of the player
+     */
+    public Player(double longitude, double latitude, double aoeRadius, String username, String email) {
+        this(longitude, latitude, aoeRadius, username, email, false);
+    }
+
+    /**
      * A constructor for the player
      *
      * @param longitude the longitude of the player
@@ -48,6 +61,7 @@ public class Player extends AoeRadiusEntity {
      * @param aoeRadius the radius of the area of effect around the player
      * @param username  the username of the player
      * @param email     the email of the player
+     * @param isPhantom the phantom mode of the player
      */
     public Player(double longitude, double latitude, double aoeRadius, String username, String email, boolean isPhantom) {
         super(new GeoPoint(longitude, latitude));
@@ -118,7 +132,7 @@ public class Player extends AoeRadiusEntity {
             healthPoints = 0;
         }
 
-        if(PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
+        if (PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
             gotoGameOver();
         }
 
@@ -164,7 +178,7 @@ public class Player extends AoeRadiusEntity {
      *
      * @param shrinked the boolean we want to use as the new value to know if the player is shrank
      */
-    public void setShrinked(boolean shrinked){
+    public void setShrinked(boolean shrinked) {
         isShrinked = shrinked;
 
         if (PlayerManager.getInstance().isServer()) {
@@ -183,6 +197,7 @@ public class Player extends AoeRadiusEntity {
 
     /**
      * Return the boolean that indicates if the player is in phantom mode.
+     *
      * @return The boolean that indicates if the player is in phantom mode.
      */
     public boolean isPhantom() {
@@ -191,6 +206,7 @@ public class Player extends AoeRadiusEntity {
 
     /**
      * Set the boolean that indicates if the player is in phantom mode.
+     *
      * @param phantom A boolean that indicates if the player is in phantom mode.
      */
     public void setPhantom(boolean phantom) {
@@ -357,21 +373,21 @@ public class Player extends AoeRadiusEntity {
     @Override
     public void displayOn(MapApi mapApi) {
         if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
-            if(isPhantom){
+            if (isPhantom) {
                 mapApi.displayMarkerCircle(this, Color.WHITE, username, (int) getAoeRadius());
-            }else {
+            } else {
                 mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
             }
         } else {
-            if(isPhantom){
+            if (isPhantom) {
                 mapApi.removeMarkers(this);
-            }else {
+            } else {
                 mapApi.displayMarkerCircle(this, Color.CYAN, username, (int) getAoeRadius());
             }
         }
     }
 
-    public boolean isAlive(){
+    public boolean isAlive() {
         return healthPoints > 0;
     }
 }

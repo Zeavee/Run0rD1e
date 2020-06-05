@@ -50,7 +50,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebases) {
+    public void sendPlayersStatus(List<PlayerForFirebase> playerForFirebaseList) {
 
     }
 
