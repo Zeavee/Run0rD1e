@@ -130,14 +130,6 @@ public abstract class StartGameController {
                  Game.getInstance().addToUpdateList(s);
             }
         }
-        ArrayList<Item> items = randGen.randomItemsList();
-        for (Item i : items) {
-            ItemBox itemBox = new ItemBox(gameArea.randomLocation());
-            itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
-             Game.getInstance().addToDisplayList(itemBox);
-             Game.getInstance().addToUpdateList(itemBox);
-            ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
-        }
     }
 
     void updateGeneralScore() {
