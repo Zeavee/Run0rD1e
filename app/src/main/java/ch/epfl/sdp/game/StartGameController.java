@@ -121,13 +121,13 @@ public abstract class StartGameController {
     void initGameObjects(Area gameArea) {
         for (int i = 0; i < NB_COINS; i++) {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
-             Game.getInstance().addToDisplayList(c);
-             Game.getInstance().addToUpdateList(c);
+            Game.getInstance().addToDisplayList(c);
+            Game.getInstance().addToUpdateList(c);
             ShelterArea s;
             if(i < NB_SHELTER_AREAS) {
                 s = randGen.randomShelterArea(gameArea.randomLocation());
-                 Game.getInstance().addToDisplayList(s);
-                 Game.getInstance().addToUpdateList(s);
+                Game.getInstance().addToDisplayList(s);
+                Game.getInstance().addToUpdateList(s);
             }
         }
     }
@@ -150,11 +150,4 @@ public abstract class StartGameController {
         }
     }
 
-    void initCoins(Area gameArea) {
-        for (int i = 0; i < NB_COINS; i++) {
-            Coin c = randGen.randomCoin(gameArea.randomLocation());
-             Game.getInstance().addToDisplayList(c);
-             Game.getInstance().addToUpdateList(c);
-        }
-    }
 }
