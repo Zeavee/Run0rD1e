@@ -150,10 +150,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         lobbyRef.update(PlayerManager.GAME_AREA_COLLECTION_NAME, gameArea.toString());
     }
 
-    private interface Function<T, R> {
-        R methodFromT(T t);
-    }
-
     @Override
     public void cleanListeners() {
         FireStoreDatabaseAPI.cleanListeners(listeners);
