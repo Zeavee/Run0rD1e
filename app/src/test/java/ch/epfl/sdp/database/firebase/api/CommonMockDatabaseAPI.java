@@ -63,6 +63,11 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     }
 
     @Override
+    public void sendUserPhantom(PlayerForFirebase playerForFirebase) {
+
+    }
+
+    @Override
     public void cleanListeners() {
 
     }

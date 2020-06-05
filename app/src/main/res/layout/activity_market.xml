@@ -33,7 +33,7 @@
         android:layout_marginEnd="52dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/scanCard"
+        app:layout_constraintStart_toEndOf="@+id/phantomCard"
         app:layout_constraintTop_toBottomOf="@+id/marketLabel"
         app:layout_constraintVertical_bias="0.0">
 
@@ -49,7 +49,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/scanCard"
+        android:id="@+id/phantomCard"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="32dp"
@@ -58,14 +58,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/marketLabel">
 
-        <!-- the scan image button-->
+        <!-- the phantom image button-->
         <ImageButton
-            android:id="@+id/scanButton"
+            android:id="@+id/phantomButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#FFFFFF"
-            android:src="@mipmap/ic_scan"
-            android:contentDescription="@string/market_scan_btn"/>
+            android:src="@mipmap/ic_phantom"
+            android:contentDescription="@string/market_phantom_btn"/>
     </androidx.cardview.widget.CardView>
 
 
@@ -105,7 +105,7 @@
         app:layout_constraintEnd_toStartOf="@+id/shieldCard"
         app:layout_constraintHorizontal_bias="0.29"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanCard"
+        app:layout_constraintTop_toBottomOf="@+id/phantomCard"
         app:layout_constraintVertical_bias="0.24000001">
 
         <!-- the health pack image button-->
@@ -137,7 +137,7 @@
         app:layout_constraintVertical_bias="0.801" />
 
     <TextView
-        android:id="@+id/costScan"
+        android:id="@+id/costPhantom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/market_cost"
@@ -146,7 +146,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.235"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanCard"
+        app:layout_constraintTop_toBottomOf="@+id/phantomCard"
         app:layout_constraintVertical_bias="0.344" />
 
     <TextView
@@ -158,7 +158,7 @@
         app:layout_constraintBottom_toTopOf="@+id/shieldCard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.421"
-        app:layout_constraintStart_toEndOf="@+id/costScan"
+        app:layout_constraintStart_toEndOf="@+id/costPhantom"
         app:layout_constraintTop_toBottomOf="@+id/shrinkerCard"
         app:layout_constraintVertical_bias="0.476" />
 

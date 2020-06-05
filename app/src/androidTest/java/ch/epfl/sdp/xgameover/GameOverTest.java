@@ -48,7 +48,7 @@ public class GameOverTest {
         @Override
         public void beforeActivityLaunched() {
             // important to have player away from market otherwise it is the market that will open
-            Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com");
+            Player amro = new Player(6.14, 47.22, 100, "amroa", "amro@gmail.com", false);
             amro.setHealthPoints(100);
             PlayerManager.getInstance().setCurrentUser(amro);
 

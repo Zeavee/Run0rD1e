@@ -67,7 +67,6 @@ public class Server extends StartGameController implements Updatable {
                 } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
             });
         }
-
     }
 
     @Override
@@ -77,7 +76,8 @@ public class Server extends StartGameController implements Updatable {
             sendGameArea();
             sendEnemies();
             sendItemBoxes();
-            sendPlayersHealth();
+            //sendPlayersHealth();
+            sendPlayersStatus();
             sendPlayersItems();
             checkIfWon();
         }
@@ -152,6 +152,7 @@ public class Server extends StartGameController implements Updatable {
         serverDatabaseAPI.startGame(value -> {
             if (value.isSuccessful()) {
                 Game.getInstance().addToUpdateList(this);
+                PlayerManager.getInstance().displayPlayers();
                 Game.getInstance().initGame();
                 addPlayersListener();
                 addUsedItemsListener();
@@ -216,14 +217,6 @@ public class Server extends StartGameController implements Updatable {
         }
     }
 
-    private void sendPlayersHealth() {
-        List<Player> players = playerManager.getPlayersWaitingHealthPoint();
-        if (!players.isEmpty()) {
-            serverDatabaseAPI.sendPlayersHealth(EntityConverter.convertPlayerList(players));
-            playerManager.getPlayersWaitingHealthPoint().clear();
-        }
-    }
-
     private void sendPlayersItems() {
         List<Player> players = playerManager.getPlayersWaitingItems();
         if (!players.isEmpty()) {
@@ -248,5 +241,14 @@ public class Server extends StartGameController implements Updatable {
 
     private void sendUserPosition() {
         commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));
+    }
+
+    private void sendPlayersStatus(){
+        List<Player> players = playerManager.getPlayersWaitingStatusUpdate();
+        if(!players.isEmpty()) {
+            serverDatabaseAPI.sendPlayersStatus(EntityConverter.convertPlayerList(players));
+            players.clear();
+            Log.d(TAG,"players status sent");
+        }
     }
 }

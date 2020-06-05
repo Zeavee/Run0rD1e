@@ -1,5 +1,7 @@
 package ch.epfl.sdp.geometry;
 
+import android.util.Log;
+
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.UTMRef;
 
@@ -144,10 +146,15 @@ public final class GeoPoint {
      * @return A point in the geodesic surface.
      */
     private GeoPoint utmToGeoPoint(double x, double y, GeoPoint refGeoPoint) {
-        int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
-        char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
-        UTMRef utm = new UTMRef(lngZone, latZone, x, y);
-        LatLng laln = utm.toLatLng();
-        return new GeoPoint(laln.getLongitude(), laln.getLatitude());
+        if(x > 0 && y > 0) {
+            int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
+            char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());
+            UTMRef utm = new UTMRef(lngZone, latZone, x, y);
+            LatLng laln = utm.toLatLng();
+            return new GeoPoint(laln.getLongitude(), laln.getLatitude());
+        }
+
+        Log.d("Error", "x and y coordinates must be positive values");
+        return new GeoPoint(0,0);
     }
 }

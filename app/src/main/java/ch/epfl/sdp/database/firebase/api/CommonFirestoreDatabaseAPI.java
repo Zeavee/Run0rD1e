@@ -145,6 +145,12 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     }
 
     @Override
+    public void sendUserPhantom(PlayerForFirebase playerForFirebase) {
+        DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
+        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("phantom", playerForFirebase.isPhantom());
+    }
+
+    @Override
     public void cleanListeners() {
         FireStoreDatabaseAPI.cleanListeners(listeners);
     }

@@ -18,13 +18,9 @@ import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
-import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;

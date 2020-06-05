@@ -30,7 +30,6 @@ public class Shrinker extends TimedItem {
             if(player.getAoeRadius() - getShrinkingRadius() > 0){
                 double aoeRadius = player.getAoeRadius() - getShrinkingRadius();
                 player.setAoeRadius(aoeRadius);
-                PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
                 Log.d("Item","Shrink set True");
             }
         }
@@ -49,7 +48,6 @@ public class Shrinker extends TimedItem {
         double aoeRadius = player.getAoeRadius() + getShrinkingRadius();
         player.setAoeRadius(aoeRadius);
         player.setShrinked(false);
-        PlayerManager.getInstance().addPlayerWaitingAoeRadius(player);
         Log.d("Item","Shrink set false");
     }
 

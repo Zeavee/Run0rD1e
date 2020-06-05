@@ -5,7 +5,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -85,20 +84,19 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void sendPlayersHealth(List<PlayerForFirebase> playerForFirebaseList) {
-        sendPlayersProperty(playerForFirebaseList, "healthPoints", PlayerForFirebase::getHealthPoints);
-    }
-
-    private void sendPlayersProperty(List<PlayerForFirebase> playerForFirebaseList, String field, Function<PlayerForFirebase, Double> property) {
+    public void sendPlayersStatus(List<PlayerForFirebase> playerForFirebaseList) {
         WriteBatch batch = firebaseFirestore.batch();
 
         for (PlayerForFirebase playerForFirebase : playerForFirebaseList) {
             DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail());
-            batch.update(docRef, field, property.methodFromT(playerForFirebase));
+            batch.update(docRef, "healthPoints", playerForFirebase.getHealthPoints());
+            batch.update(docRef, "aoeRadius", playerForFirebase.getAoeRadius());
+            batch.update(docRef, "phantom", playerForFirebase.isPhantom());
         }
 
         batch.commit();
     }
+
 
     @Override
     public void sendPlayersItems(Map<String, ItemsForFirebase> emailsItemsMap) {
@@ -111,9 +109,6 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
 
         batch.commit();
     }
-
-
-
 
     @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
