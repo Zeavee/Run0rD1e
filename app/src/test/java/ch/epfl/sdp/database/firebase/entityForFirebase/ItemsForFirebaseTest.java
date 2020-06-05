@@ -19,10 +19,10 @@ public class ItemsForFirebaseTest {
 
         Map<String, Integer> itemsMap = new HashMap<>();
         itemsMap.put("healthPack", 1);
-        itemsMap.put("scan", 2);
+        itemsMap.put("phantom", 2);
         itemsForFirebase.setItemsMap(itemsMap);
         assertEquals(1, (int) itemsForFirebase.getItemsMap().get("healthPack"));
-        assertEquals(2, (int) itemsForFirebase.getItemsMap().get("scan"));
+        assertEquals(2, (int) itemsForFirebase.getItemsMap().get("phantom"));
 
         ItemsForFirebase itemsForFirebase1 = new ItemsForFirebase(itemsMap, new Date(System.currentTimeMillis()));
         assertEquals(2, itemsForFirebase1.getItemsMap().size());

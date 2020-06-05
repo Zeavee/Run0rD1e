@@ -3,12 +3,10 @@ package ch.epfl.sdp.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.ShelterArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
@@ -49,19 +47,19 @@ public class RandomGeneratorTest {
     @Test
     public void randomShrinker() {
         for(int i = 0; i < 100; ++i){
-            Shrinker s = randGen.randomShrinker();
-            assertTrue(s.getRemainingTime() >= -1);
-            assertTrue(s.getRemainingTime() <= 5);
-            assertTrue(s.getShrinkingRadius() >= -1);
-            assertTrue(s.getShrinkingRadius() <= 5);
+            Shrinker shrinker = randGen.randomShrinker();
+            assertTrue(shrinker.getRemainingTime() >= -1);
+            assertTrue(shrinker.getRemainingTime() <= 5);
+            assertTrue(shrinker.getShrinkingRadius() >= -1);
+            assertTrue(shrinker.getShrinkingRadius() <= 5);
         }
     }
 
     @Test
-    public void randomScan() {
-        Scan s = randGen.randomScan();
-        assertTrue(s.getRemainingTime() <= 1);
-        assertTrue(s.getRemainingTime() >= 0);
+    public void randomPhantom() {
+        Phantom phantom = randGen.randomPhantom();
+        assertTrue(phantom.getRemainingTime() <= 1);
+        assertTrue(phantom.getRemainingTime() >= 0);
     }
 
 

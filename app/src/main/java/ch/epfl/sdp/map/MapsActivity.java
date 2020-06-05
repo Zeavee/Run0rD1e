@@ -311,7 +311,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * switches to a market activity, where user can buy health, shield, scan, or shrinker items
+     * switches to a market activity, where user can buy health, shield, phantom, or shrinker items
      */
     public void startMarket(Market backend) {
         final Bundle bundle = new Bundle();

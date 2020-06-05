@@ -11,6 +11,7 @@ public class PlayerForFirebase {
     private String email;
     private GeoPointForFirebase geoPointForFirebase;
     private double aoeRadius;
+    private boolean isPhantom;
     private double healthPoints;
     private int currentGameScore;
     @ServerTimestamp
@@ -93,6 +94,22 @@ public class PlayerForFirebase {
      */
     public void setAoeRadius(double aoeRadius) {
         this.aoeRadius = aoeRadius;
+    }
+
+    /**
+     * Get the phatom mode of the playerForFirebase
+     * @return The phatom mode of the playerForFirebase
+     */
+    public boolean isPhantom() {
+        return isPhantom;
+    }
+
+    /**
+     * Set the phatom mode of the playerForFirebase
+     * @param isPhantom The phatom mode of the playerForFirebase
+     */
+    public void setPhantom(boolean isPhantom) {
+        this.isPhantom = isPhantom;
     }
 
     /**
