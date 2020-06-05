@@ -70,13 +70,13 @@ public class Client extends StartGameController implements Updatable {
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
                             addListeners();
+                            initCoins(area);
                         } else
                             Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                     });
                 }
             });
             addListeners();
-            initGameObjects(area);
         }
     }
 

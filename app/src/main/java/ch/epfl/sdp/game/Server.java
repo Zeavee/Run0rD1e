@@ -19,6 +19,7 @@ import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
 import ch.epfl.sdp.item.ItemFactory;
@@ -141,8 +142,14 @@ public class Server extends StartGameController implements Updatable {
                 gameArea = initGameArea();
                 createRandomEnemyGenerator(gameArea);
                 generateEnemy(enemyManager);
-                initGameObjects(gameArea);
                 startGame();
+                initItemBox(gameArea);
+                System.out.println("HEEEEEEEEEEEEEEEEEEEEEEEEERE!");
+                Coin c = new Coin(5, new GeoPoint(6.152725, 46.211658));
+                Game.getInstance().addToUpdateList(c);
+                Game.getInstance().addToDisplayList(c);
+                System.out.println("DOOOOOOOOONE");
+                //initCoins(gameArea);
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
