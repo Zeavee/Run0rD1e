@@ -52,8 +52,8 @@ public class Client extends StartGameController implements Updatable {
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
-        this.oldSignal = 0;
-        this.signal = 10;
+        this.oldSignal = 10;
+        this.signal = 0;
         this.endGame = endGame;
     }
 
