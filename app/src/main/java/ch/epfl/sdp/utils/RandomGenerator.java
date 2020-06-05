@@ -6,12 +6,12 @@ import java.util.Random;
 import ch.epfl.sdp.entities.shelter_area.ShelterArea;
 import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
-import ch.epfl.sdp.items.Coin;
-import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.money.Coin;
+import ch.epfl.sdp.items.items.Healthpack;
 import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.Phantom;
-import ch.epfl.sdp.items.Shield;
-import ch.epfl.sdp.items.Shrinker;
+import ch.epfl.sdp.items.items.Phantom;
+import ch.epfl.sdp.items.items.Shield;
+import ch.epfl.sdp.items.items.Shrinker;
 
 /**
  * Utility class which helps generating random positions, strings, GeoPoints, Coins, etc

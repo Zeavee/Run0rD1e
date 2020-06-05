@@ -5,6 +5,7 @@ import org.junit.Test;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.items.money.Coin;
 import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.MockMap;
 

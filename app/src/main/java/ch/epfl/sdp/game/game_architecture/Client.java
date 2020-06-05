@@ -25,8 +25,8 @@ import ch.epfl.sdp.geometry.area.Area;
 import ch.epfl.sdp.geometry.area.AreaFactory;
 import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.geometry.area.UnboundedArea;
-import ch.epfl.sdp.items.ItemBox;
-import ch.epfl.sdp.items.ItemBoxManager;
+import ch.epfl.sdp.items.item_box.ItemBox;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 
 /**
  * This class updates the game from the client point of view. It fetches the data from firebase and

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.ui.map;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +13,7 @@ import java.util.Map;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.items.ItemFactory;
 
 import static ch.epfl.sdp.R.id.amount;
 import static ch.epfl.sdp.R.id.title;

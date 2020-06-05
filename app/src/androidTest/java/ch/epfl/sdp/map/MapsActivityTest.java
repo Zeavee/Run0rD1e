@@ -30,7 +30,6 @@ import ch.epfl.sdp.database.firebase.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.ServerMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.ui.MapsActivity;
 import ch.epfl.sdp.ui.map.MapsActivity;
 import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.MyApplication;
@@ -40,7 +39,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.AreaShrinker;
 import ch.epfl.sdp.geometry.area.CircleArea;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.items.Healthpack;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

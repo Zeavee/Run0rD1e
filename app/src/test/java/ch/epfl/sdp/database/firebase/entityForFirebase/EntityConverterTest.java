@@ -11,9 +11,9 @@ import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.entities.enemy.Enemy;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.items.Healthpack;
 import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.ItemBox;
+import ch.epfl.sdp.items.item_box.ItemBox;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;

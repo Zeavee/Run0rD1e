@@ -22,7 +22,7 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.game_architecture.Server;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.items.Healthpack;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 

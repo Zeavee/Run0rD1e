@@ -10,7 +10,7 @@ import ch.epfl.sdp.game.Updatable;
  */
 public abstract class TimedItem extends Item implements Updatable {
     private int counter;
-    int countTime;
+    protected int countTime;
     private Player player;
 
     /**

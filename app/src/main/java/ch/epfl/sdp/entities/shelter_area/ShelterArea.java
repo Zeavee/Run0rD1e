@@ -83,7 +83,7 @@ public class ShelterArea implements Displayable, Updatable {
      * @param p Player that we want to check
      * @return boolean variable to see if the player is protected by this shelter area
      */
-    boolean isInShelterArea(Player p) {
+    public boolean isInShelterArea(Player p) {
         return this.playersInShelterArea.contains(p);
     }
 

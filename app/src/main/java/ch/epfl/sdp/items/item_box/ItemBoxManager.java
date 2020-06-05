@@ -1,4 +1,4 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.item_box;
 
 import java.util.ArrayList;
 import java.util.HashMap;

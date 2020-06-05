@@ -22,8 +22,8 @@ import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.area.Area;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.ItemBox;
-import ch.epfl.sdp.items.ItemBoxManager;
+import ch.epfl.sdp.items.item_box.ItemBox;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 import ch.epfl.sdp.items.ItemFactory;
 
 /**

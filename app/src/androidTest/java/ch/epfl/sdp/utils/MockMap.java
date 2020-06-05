@@ -13,7 +13,7 @@ import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.display.Displayable;
 import ch.epfl.sdp.map.display.MapApi;
 import ch.epfl.sdp.map.display.Renderer;
-import ch.epfl.sdp.items.Market;
+import ch.epfl.sdp.items.money.Market;
 
 public class MockMap implements MapApi, Renderer {
     // Used for tests

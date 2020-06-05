@@ -25,7 +25,7 @@ import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.game_architecture.Client;
 import ch.epfl.sdp.geometry.area.CircleArea;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.ItemBoxManager;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 

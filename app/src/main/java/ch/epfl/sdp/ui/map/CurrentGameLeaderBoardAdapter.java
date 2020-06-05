@@ -1,4 +1,4 @@
-package ch.epfl.sdp.ui.leader_board;
+package ch.epfl.sdp.ui.map;
 
 import android.view.LayoutInflater;
 import android.view.View;

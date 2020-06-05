@@ -1,4 +1,4 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.item_box;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.items.Item;
 import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.display.MapApi;
 

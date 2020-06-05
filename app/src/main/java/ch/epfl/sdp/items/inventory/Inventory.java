@@ -1,4 +1,4 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.inventory;
 
 import java.util.Collections;
 import java.util.HashMap;

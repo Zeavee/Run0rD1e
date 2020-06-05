@@ -52,7 +52,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      *
      * @return An area where the moving artificial entity can reside.
      */
-    protected Area getLocalArea() {
+    public Area getLocalArea() {
         return area;
     }
 
@@ -124,7 +124,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * Checks if the entity is moving.
      * @return True if and only if the entity is moving (i.e. moving flag is true).
      */
-    boolean isMoving() {
+    public boolean isMoving() {
         return moving;
     }
 

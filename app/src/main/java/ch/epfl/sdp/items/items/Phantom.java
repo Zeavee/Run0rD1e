@@ -1,8 +1,10 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.items;
 
 import java.util.Locale;
 
 import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.items.Item;
+import ch.epfl.sdp.items.TimedItem;
 
 /**
  * This item permits to be invisible from the enemies' and players' points of view

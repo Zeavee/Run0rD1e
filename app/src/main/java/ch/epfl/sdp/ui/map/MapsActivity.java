@@ -1,4 +1,4 @@
-package ch.epfl.sdp.ui;
+package ch.epfl.sdp.ui.map;
 
 import android.Manifest;
 import android.content.Context;
@@ -39,10 +39,9 @@ import ch.epfl.sdp.game.game_architecture.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.game_architecture.Server;
 import ch.epfl.sdp.game.game_architecture.Solo;
-import ch.epfl.sdp.items.InventoryFragment;
-import ch.epfl.sdp.items.ItemBox;
-import ch.epfl.sdp.items.ItemBoxManager;
-import ch.epfl.sdp.items.Market;
+import ch.epfl.sdp.items.item_box.ItemBox;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
+import ch.epfl.sdp.items.money.Market;
 import ch.epfl.sdp.map.display.Displayable;
 import ch.epfl.sdp.map.display.GoogleMapApi;
 import ch.epfl.sdp.map.display.Renderer;
@@ -51,8 +50,6 @@ import ch.epfl.sdp.map.location.GoogleLocationFinder;
 import ch.epfl.sdp.map.location.LocationFinder;
 import ch.epfl.sdp.ui.game.GameOverActivity;
 import ch.epfl.sdp.ui.game.MarketActivity;
-import ch.epfl.sdp.ui.leader_board.CurrentGameLeaderBoardFragment;
-import ch.epfl.sdp.ui.map.WeatherFragment;
 import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.utils.MyApplication;

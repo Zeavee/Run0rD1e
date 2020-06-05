@@ -8,6 +8,9 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.items.items.Phantom;
+import ch.epfl.sdp.items.items.Shield;
+import ch.epfl.sdp.items.items.Shrinker;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 

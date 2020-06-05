@@ -5,9 +5,9 @@ import android.graphics.Color;
 import ch.epfl.sdp.entities.AoeRadiusEntity;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.Inventory;
+import ch.epfl.sdp.items.inventory.Inventory;
 import ch.epfl.sdp.map.display.MapApi;
-import ch.epfl.sdp.ui.MapsActivity;
+import ch.epfl.sdp.ui.map.MapsActivity;
 
 /**
  * The player of the game
@@ -324,7 +324,7 @@ public class Player extends AoeRadiusEntity {
          * @return the total distance the player traveled
          * @param player
          */
-        double getDistanceTraveled(Player player) {
+        public double getDistanceTraveled(Player player) {
             return distanceTraveled;
         }
 

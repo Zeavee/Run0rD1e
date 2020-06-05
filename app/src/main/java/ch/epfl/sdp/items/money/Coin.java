@@ -1,4 +1,4 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.money;
 
 import java.util.Locale;
 
@@ -7,6 +7,7 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.items.Item;
 import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.display.Displayable;
 import ch.epfl.sdp.map.display.MapApi;

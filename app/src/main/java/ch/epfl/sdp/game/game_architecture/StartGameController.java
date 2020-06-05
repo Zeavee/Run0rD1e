@@ -18,11 +18,11 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.area.Area;
 import ch.epfl.sdp.geometry.area.CircleArea;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.Coin;
+import ch.epfl.sdp.items.money.Coin;
 import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.ItemBox;
-import ch.epfl.sdp.items.ItemBoxManager;
-import ch.epfl.sdp.items.Market;
+import ch.epfl.sdp.items.item_box.ItemBox;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
+import ch.epfl.sdp.items.money.Market;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;

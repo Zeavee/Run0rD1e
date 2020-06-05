@@ -12,7 +12,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.utils.CustomResult;
 import ch.epfl.sdp.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.items.ItemBoxManager;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 
 public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     private Map<String, PlayerForFirebase> playerForFirebaseMap = new HashMap<>();

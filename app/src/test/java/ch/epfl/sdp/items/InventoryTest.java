@@ -5,6 +5,10 @@ import org.junit.Test;
 
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.items.inventory.Inventory;
+import ch.epfl.sdp.items.items.Healthpack;
+import ch.epfl.sdp.items.items.Shield;
+import ch.epfl.sdp.items.items.Shrinker;
 
 import static org.junit.Assert.assertEquals;
 

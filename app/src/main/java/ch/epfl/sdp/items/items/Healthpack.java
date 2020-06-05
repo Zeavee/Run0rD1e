@@ -1,10 +1,11 @@
-package ch.epfl.sdp.items;
+package ch.epfl.sdp.items.items;
 
 import android.util.Log;
 
 import java.util.Locale;
 
 import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.items.Item;
 
 
 /**

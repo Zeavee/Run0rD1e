@@ -38,7 +38,7 @@ public abstract class Area implements Displayable, Updatable {
      *
      * @return a boolean that tells if the area is currently shrinking
      */
-    boolean isShrinking() {
+    public boolean isShrinking() {
         return isShrinking;
     }
 
@@ -104,7 +104,7 @@ public abstract class Area implements Displayable, Updatable {
      *
      * @return the old location of the center when the area is shrinking
      */
-    GeoPoint getOldLocation() {
+    public GeoPoint getOldLocation() {
         return oldCenter;
     }
 
