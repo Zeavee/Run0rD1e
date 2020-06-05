@@ -83,7 +83,7 @@ public class ItemsTest {
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertEquals(shrinker.getShrinkingRadius(), shrinker.getValue(), 0.0);
+        assertEquals(shrinker.getShrinkingRadius() + shrinker.getRemainingTime(), shrinker.getValue(), 0.0);
     }
 
 
