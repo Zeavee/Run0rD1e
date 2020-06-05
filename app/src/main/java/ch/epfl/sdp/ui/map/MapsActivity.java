@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Pair;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,15 +129,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private void initViews() {
         findViewById(R.id.recenter).setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
-        setupFragmentButton(R.id.button_weather, new Pair<>(weatherFragment, R.id.fragment_weather_container), flagWeather, () -> flagWeather = !flagWeather);
-        setupFragmentButton(R.id.button_inventory, new Pair<>(inventoryFragment, R.id.fragment_inventory_container), flagInventory, () -> flagInventory = !flagInventory);
-        setupFragmentButton(R.id.button_leaderboard, new Pair<>(ingameLeaderboardFragment, R.id.fragment_ingame_leaderboard_container), flagIngameLeaderboard, () -> flagIngameLeaderboard = !flagIngameLeaderboard);
-    }
 
-    private void setupFragmentButton(int button, Pair<Fragment, Integer> fragment, boolean flag, Runnable changeFlag) {
-        findViewById(button).setOnClickListener(v -> {
-            showFragment(fragment.first, fragment.second, flag);
-            changeFlag.run();
+        findViewById(R.id.button_weather).setOnClickListener(v -> {
+            showFragment(weatherFragment, R.id.fragment_weather_container, flagWeather);
+            flagWeather = !flagWeather;
+        });
+
+        findViewById(R.id.button_inventory).setOnClickListener(v -> {
+            showFragment(inventoryFragment, R.id.fragment_inventory_container, flagInventory);
+            flagInventory = !flagInventory;
+        });
+
+        findViewById(R.id.button_leaderboard).setOnClickListener(view -> {
+            showFragment(ingameLeaderboardFragment, R.id.fragment_ingame_leaderboard_container, flagIngameLeaderboard);
+            flagIngameLeaderboard = !flagIngameLeaderboard;
         });
     }
 
