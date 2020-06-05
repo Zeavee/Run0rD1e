@@ -68,6 +68,7 @@ public class Client extends StartGameController implements Updatable {
                         if (value1.isSuccessful()) {
                             addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
+                            PlayerManager.getInstance().displayPlayers();
                             Game.getInstance().initGame();
                             addListeners();
                         } else
@@ -172,6 +173,9 @@ public class Client extends StartGameController implements Updatable {
                         player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
                         player.setHealthPoints(playerForFirebase.getHealthPoints());
                         player.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
+                        player.setAoeRadius(playerForFirebase.getAoeRadius());
+                        player.setPhantom(playerForFirebase.isPhantom());
+
                         Log.d(TAG, "addPlayersListener: " + player.getEmail());
                     }
                     Log.d(TAG, "Listen for ingameScore: " + playerForFirebase.getUsername() + " " + playerForFirebase.getCurrentGameScore());
@@ -212,7 +216,6 @@ public class Client extends StartGameController implements Updatable {
             }
         });
     }
-
 
     private void sendUserPosition() {
         commonDatabaseAPI.sendUserPosition(EntityConverter.playerToPlayerForFirebase(PlayerManager.getInstance().getCurrentUser()));

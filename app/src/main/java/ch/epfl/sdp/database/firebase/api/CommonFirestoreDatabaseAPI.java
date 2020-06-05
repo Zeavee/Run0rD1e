@@ -140,8 +140,12 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
+        sendUserStatus("geoPointForFirebase", playerForFirebase, playerForFirebase1 -> playerForFirebase1.getGeoPointForFirebase());
+    }
+
+    private void sendUserStatus(String fieldName, PlayerForFirebase playerForFirebase, Function<PlayerForFirebase, Object> playerFunc) {
         DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerForFirebase.getGeoPointForFirebase());
+        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update(fieldName, playerFunc.methodFromT(playerForFirebase));
     }
 
     @Override

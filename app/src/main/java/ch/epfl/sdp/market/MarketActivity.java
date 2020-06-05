@@ -19,7 +19,7 @@ import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 
@@ -33,7 +33,7 @@ public class MarketActivity extends AppCompatActivity {
 
     private Market backend;
     private ImageButton aoeImg;
-    private ImageButton scanImg;
+    private ImageButton phantomImg;
     private ImageButton shImg;
     private final static int CARD_HEIGHT = 30;
     private ImageButton healthImg;
@@ -51,14 +51,14 @@ public class MarketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_market);
 
         aoeImg = findViewById(R.id.shrinkButton);
-        scanImg = findViewById(R.id.scanButton);
+        phantomImg = findViewById(R.id.phantomButton);
         shImg = findViewById(R.id.shieldButton);
         healthImg = findViewById(R.id.emsButton);
         Button buy = findViewById(R.id.BuyButton);
         money = findViewById(R.id.textMoney);
 
         aoeImg.setOnClickListener(this::invertCardView);
-        scanImg.setOnClickListener(this::invertCardView);
+        phantomImg.setOnClickListener(this::invertCardView);
         shImg.setOnClickListener(this::invertCardView);
         healthImg.setOnClickListener(this::invertCardView);
         buy.setOnClickListener(v -> checkoutItems());
@@ -111,7 +111,7 @@ public class MarketActivity extends AppCompatActivity {
      */
     private void initViewsSelected() {
         viewsSelected.put(aoeImg, new Pair<>(0, Shrinker.class));
-        viewsSelected.put(scanImg, new Pair<>(0, Scan.class));
+        viewsSelected.put(phantomImg, new Pair<>(0, Phantom.class));
         viewsSelected.put(shImg, new Pair<>(0, Shield.class));
         viewsSelected.put(healthImg, new Pair<>(0, Healthpack.class));
     }
@@ -135,7 +135,7 @@ public class MarketActivity extends AppCompatActivity {
     private void setupItemToViewMap() {
         itemToViewMap.put(Healthpack.class.hashCode(), R.id.costEms);
         itemToViewMap.put(Shield.class.hashCode(), R.id.costShield);
-        itemToViewMap.put(Scan.class.hashCode(), R.id.costScan);
+        itemToViewMap.put(Phantom.class.hashCode(), R.id.costPhantom);
         itemToViewMap.put(Shrinker.class.hashCode(), R.id.costShrink);
 
     }

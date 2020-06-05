@@ -100,7 +100,7 @@
     <string name="wind_image">wind image</string>
     <string name="add_friends">Add Friends</string>
     <string name="my_position">My position</string>
-    <string name="scan">scan</string>
+    <string name="phantom">phantom</string>
     <string name="inventory">Inventory</string>
     <string name="weather">Weather</string>
     <string name="leaderboard">Leaderboard</string>
@@ -213,7 +213,7 @@
     <string name="market_shinker_btn">Shrinker Button</string>
     <string name="market_shield_btn">Shield Button</string>
     <string name="market_healthpack_btn">Healthpack Button</string>
-    <string name="market_scan_btn">Scan Button</string>
+    <string name="market_phantom_btn">Phantom Button</string>
     <string name="register_btn">Register</string>
     <string name="chat_btn">chat</string>
 

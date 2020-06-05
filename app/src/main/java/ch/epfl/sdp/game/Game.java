@@ -1,5 +1,7 @@
 package ch.epfl.sdp.game;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
@@ -34,6 +36,10 @@ public class Game implements Updatable {
     public AreaShrinker areaShrinker = new AreaShrinker(10000, 300000, 0.75);
 
     private final static Game instance = new Game();
+
+    private final ReentrantLock updateLock = new ReentrantLock();
+    private final ReentrantLock displayLock = new ReentrantLock();
+
 
     /**
      * Gets one and only instance of the game.
@@ -108,18 +114,13 @@ public class Game implements Updatable {
         areaShrinker = new AreaShrinker(10000, 300000, 0.75);
     }
 
-
-    private final ReentrantLock lock = new ReentrantLock();
-
     /**
      * Add the given updatable entity to the game.
      *
      * @param updatable The updatable to be added.
      */
     public void addToUpdateList(Updatable updatable) {
-        lock.lock();
         updatables.add(updatable);
-        lock.unlock();
     }
 
     /**
@@ -128,7 +129,9 @@ public class Game implements Updatable {
      * @param updatable The updatable to be removed.
      */
     public void removeFromUpdateList(Updatable updatable) {
+        updateLock.lock();
         updatables.remove(updatable);
+        updateLock.unlock();
     }
 
     /**
@@ -145,7 +148,9 @@ public class Game implements Updatable {
      * @param displayable The displayable to be added.
      */
     public void addToDisplayList(Displayable displayable) {
+        displayLock.lock();
         displayables.add(displayable);
+        displayLock.unlock();
     }
 
     /**
@@ -154,8 +159,10 @@ public class Game implements Updatable {
      * @param displayable The displayable to be removed.
      */
     public void removeFromDisplayList(Displayable displayable) {
+        displayLock.lock();
         renderer.unDisplay(displayable);
         displayables.remove(displayable);
+        displayLock.unlock();
     }
 
     /**
@@ -246,7 +253,9 @@ public class Game implements Updatable {
      * Show the changes in the screen, will lead to animation
      */
     public void draw() {
+        displayLock.lock();
         renderer.display(displayables);
+        displayLock.unlock();
     }
 
     /**

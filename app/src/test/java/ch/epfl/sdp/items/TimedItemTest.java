@@ -4,12 +4,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.item.Scan;
+import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
@@ -52,42 +53,55 @@ public class TimedItemTest {
 
     @Test
     public void timedItemIsDeletedFromTheListWhenTimeIsFinished(){
-        TimedItem timedItem = new Shield(countTime) {};
+        TimedItem timedItem = new TimedItem("","", 10) {
+            @Override
+            public void stopUsingOn(Player player) {
+
+            }
+
+            @Override
+            public Item clone() {
+                return null;
+            }
+
+            @Override
+            public double getValue() {
+                return 0;
+            }
+        };
         Game.getInstance().addToUpdateList(timedItem);
+
+        while (timedItem.getRemainingTime() > 0){
+            timedItem.update();
+        }
 
         for(int i = countTime*GameThread.FPS; i > 0; --i) {
             timedItem.update();
         }
 
-//        timedItem.update();
-        //assertFalse(Game.getInstance().updatablesContains(timedItem));
+        assertFalse(Game.getInstance().updatablesContains(timedItem));
     }
 
     @Test
-    public void scanGetsUpdated(){
+    public void phantomGetsUpdated(){
         MockMap map = new MockMap();
         Game.getInstance().setMapApi(map);
         Game.getInstance().setRenderer(map);
-        Game.getInstance().initGame();
-        PlayerManager.getInstance().addPlayer(user);
-        PlayerManager.getInstance().addPlayer(new Player("test","test"));
-        Scan scan = new Scan(countTime);
-        scan.useOn(user);
+        Phantom phantom = new Phantom(countTime);
+        phantom.useOn(user);
 
-        while(Game.getInstance().getDisplayables().isEmpty()){}
-
-        while (scan.getRemainingTime() > 0){
-            assertFalse(Game.getInstance().getDisplayables().isEmpty());
-            scan.update();
+        while (phantom.getRemainingTime() > 0){
+            assertTrue(user.isPhantom());
+            phantom.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertFalse(Game.getInstance().getDisplayables().isEmpty());
-            scan.update();
+            assertTrue(user.isPhantom());
+            phantom.update();
         }
 
-        assertTrue(Game.getInstance().getDisplayables().isEmpty());
+        assertTrue(!user.isPhantom());
     }
 
     @Test
