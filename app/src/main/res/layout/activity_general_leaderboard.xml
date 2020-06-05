@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".leaderBoard.GeneralLeaderBoardActivity">
+    tools:context=".ui.leader_board.GeneralLeaderBoardActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -41,7 +42,7 @@
                         android:layout_width="264dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/bold"
-                        android:text="Leaderboard"
+                        android:text="@string/leaderboard"
                         android:textColor="@color/green"
                         android:textSize="20sp" />
 
@@ -152,7 +153,8 @@
                 android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
-                app:srcCompat="@drawable/stage" />
+                app:srcCompat="@drawable/stage"
+                android:contentDescription="@string/podium" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view"

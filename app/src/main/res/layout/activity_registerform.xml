@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".login.RegisterFormActivity">
+    tools:context=".ui.login.RegisterFormActivity">
 
     <TextView
         android:id="@+id/createText"
@@ -108,7 +108,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="18dp"
         android:background="@drawable/btn_rounded"
-        android:text="register"
+        android:text="@string/register"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

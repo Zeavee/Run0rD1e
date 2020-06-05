@@ -9,19 +9,15 @@ import java.util.Collection;
 import java.util.List;
 
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.Renderer;
-import ch.epfl.sdp.market.Market;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.map.display.Displayable;
+import ch.epfl.sdp.map.display.MapApi;
+import ch.epfl.sdp.map.display.Renderer;
+import ch.epfl.sdp.items.money.Market;
 
 public class MockMap implements MapApi, Renderer {
     // Used for tests
     private final ArrayList<Displayable> displayables = new ArrayList<>();
-
-    public ArrayList<Displayable> getDisplayables() {
-        return displayables;
-    }
 
     @Override
     public void moveCameraOnLocation(GeoPoint location) {

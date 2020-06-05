@@ -23,12 +23,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import ch.epfl.sdp.MainMenuActivity;
+import ch.epfl.sdp.ui.game.MainMenuActivity;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
 import ch.epfl.sdp.database.firebase.CommonMockDatabaseAPI;
+import ch.epfl.sdp.ui.login.RegisterFormActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -97,30 +98,6 @@ public class RegisterTest {
     }
 
     @Test
-    public void writingUsername_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.username)).perform(typeText("Username"));
-    }
-
-    @Test
-    public void writingEmail_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("Email"));
-    }
-
-    @Test
-    public void writingPassword_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.txtRegisterPassword)).perform(typeText("password"));
-    }
-
-    @Test
-    public void writingPasswordConfirmation_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-    }
-
-    @Test
     public void registering_ShouldFailOnEmptyTextFields() {
         for (int i = 0; i < 3; ++i) {
             MissingFieldTestFactory.testFieldFourActions(new Pair<>(testCases.get(i * 4), testCasesInt.get(i * 4)),
@@ -130,7 +107,6 @@ public class RegisterTest {
             if (i > 0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
-            Log.d("COUNTER", " " + i);
             onView(withId(R.id.registerbutton)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
 

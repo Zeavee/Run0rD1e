@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".gameOver.GameOverActivity">
+    tools:context=".ui.game.GameOverActivity">
 
     <TextView
         android:id="@+id/gameOverText"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:background="@drawable/general_btn_rounded"
-        android:text="@string/ButtonName"
+        android:text="@string/BackMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameOverText"

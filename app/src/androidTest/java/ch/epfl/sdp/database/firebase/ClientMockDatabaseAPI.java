@@ -5,8 +5,8 @@ import java.util.Map;
 
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
 
 public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
 

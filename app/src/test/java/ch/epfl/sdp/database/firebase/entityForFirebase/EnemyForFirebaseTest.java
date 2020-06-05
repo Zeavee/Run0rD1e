@@ -2,15 +2,14 @@ package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 
 import static org.junit.Assert.assertEquals;
 
 public class EnemyForFirebaseTest {
     @Test
-    public void enemyForFirebaseTest() {
+    public void testConstructorAndGetters() {
         EnemyForFirebase enemyForFirebase1 = new EnemyForFirebase();
-        EnemyForFirebase enemyForFirebase2 = new EnemyForFirebase(0, Behaviour.WAIT,new GeoPointForFirebase(22,22), 0);
 
         enemyForFirebase1.setId(1);
         enemyForFirebase1.setLocation(new GeoPointForFirebase(33,33));

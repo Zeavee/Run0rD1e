@@ -2,12 +2,12 @@ package ch.epfl.sdp.database.authentication;
 
 import java.util.HashMap;
 
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
 
 
 public class MockAuthenticationAPI implements AuthenticationAPI {
-    private HashMap<String, String> registeredUsers;
+    private final HashMap<String, String> registeredUsers;
     private String currentUserEmail;
 
     public MockAuthenticationAPI(HashMap<String, String> registeredUsers, String currentUserEmail) {

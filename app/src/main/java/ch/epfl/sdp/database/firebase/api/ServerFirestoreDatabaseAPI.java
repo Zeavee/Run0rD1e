@@ -18,16 +18,19 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 
+/**
+ * This class implements the Fire Store APi for the server
+ */
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
-    private FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
-    private List<ListenerRegistration> listeners = new ArrayList<>();
+    private final List<ListenerRegistration> listeners = new ArrayList<>();
 
     @Override
     public void setLobbyRef(String lobbyName) {

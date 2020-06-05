@@ -1,15 +1,14 @@
 package ch.epfl.sdp.game;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 
+import ch.epfl.sdp.game.game_architecture.StartGameController;
 import ch.epfl.sdp.geometry.AreaShrinker;
-import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.Renderer;
+import ch.epfl.sdp.map.display.Displayable;
+import ch.epfl.sdp.map.display.MapApi;
+import ch.epfl.sdp.map.display.Renderer;
 
 /**
  * Main model of the game, it is used for state changes and animations.

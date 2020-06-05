@@ -103,7 +103,6 @@
     <string name="phantom">phantom</string>
     <string name="inventory">Inventory</string>
     <string name="weather">Weather</string>
-    <string name="leaderboard">Leaderboard</string>
     <string name="market">MARKET</string>
     <!---Here are Rules Page 1 content-->
     <string name="rules_title">Rules</string>
@@ -231,4 +230,17 @@
     <string name="playerStatusDead">DEAD</string>
     <string name="playerStatusAlive">ALIVE</string>
     <string name="winnerText">Y0u w0n!</string>
+    <string name="back_button">back button</string>
+    <string name="podium">Podium</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="dollarSigns">$$$:</string>
+    <string name="_1">1</string>
+    <string name="admin">Admin</string>
+    <string name="_0">0</string>
+    <string name="alive">ALIVE</string>
+    <string name="search">Search</string>
+    <string name="placeholder_message">Placeholder message</string>
+    <string name="placeHolderImg">placeholderImg</string>
 </resources>

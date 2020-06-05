@@ -1,8 +1,8 @@
 package ch.epfl.sdp.social.RemoteUsers;
 
 
-import ch.epfl.sdp.social.socialDatabase.*;
-import ch.epfl.sdp.social.WaitsOn;
+import ch.epfl.sdp.utils.WaitsOn;
+import ch.epfl.sdp.database.room.social.User;
 
 /**
  * This interface provides an abstraction for class that fetch all friends from the remote server

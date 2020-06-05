@@ -3,15 +3,15 @@ package ch.epfl.sdp.utils;
 import java.util.ArrayList;
 import java.util.Random;
 
-import ch.epfl.sdp.entity.ShelterArea;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.entities.shelter_area.ShelterArea;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
-import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.items.money.Coin;
+import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.Item;
+import ch.epfl.sdp.items.Phantom;
+import ch.epfl.sdp.items.Shield;
+import ch.epfl.sdp.items.Shrinker;
 
 /**
  * Utility class which helps generating random positions, strings, GeoPoints, Coins, etc
@@ -28,6 +28,7 @@ public class RandomGenerator {
     /**
      * Creates a random GeoPoint
      * Remark : It's not absolutely random. The GeoPoint in the output is always in the form (long, lat) = (45 + rx, 5 + ry), where rx and ry are generated randomly
+     *
      * @return the generated GeoPoint
      */
     public GeoPoint randomGeoPoint() {
@@ -37,9 +38,10 @@ public class RandomGenerator {
     }
 
     /**
-     *  Chooses a random location on a circle of chosen radius
+     * Chooses a random location on a circle of chosen radius
+     *
      * @param reference the reference GeoPoint
-     * @param radius
+     * @param radius    the radius of the circle
      * @return the generated GeoPoint
      */
     public GeoPoint randomLocationOnCircle(GeoPoint reference, int radius) {
@@ -48,62 +50,61 @@ public class RandomGenerator {
     }
 
 
-
     /**
-     * Creates a helthpack with a random amount of health points between 25 and 50
-     * @return
+     * Creates a health pack with a random amount of health points between 25 and 50
+     *
+     * @return a random health pack
      */
     public Healthpack randomHealthPack() {
-        Healthpack h = new Healthpack(rand.nextInt(25) + 25);
-        return h;
+        return new Healthpack(rand.nextInt(25) + 25);
     }
 
 
     /**
      * Creates a Shield with random effective time
-     * @return
+     *
+     * @return a random shield
      */
     public Shield randomShield() {
-        Shield s = new Shield(rand.nextInt(1) * 10 + 20);
-        return s;
+        return new Shield(rand.nextInt(1) * 10 + 20);
     }
 
     /**
      * Creates a shrinker with random effective time and radius
-     * @return
+     *
+     * @return a random shrinker
      */
     public Shrinker randomShrinker() {
-        Shrinker s = new Shrinker(rand.nextInt(1), rand.nextInt(5));
-        return s;
+        return new Shrinker(rand.nextInt(1), rand.nextInt(5));
     }
 
     /**
      * Creates a random phantom with random effective time
-     * @return
+     *
+     * @return a random phantom
      */
     public Phantom randomPhantom() {
-        Phantom s = new Phantom(1 + rand.nextInt(1));
-        return s;
+        return new Phantom(1 + rand.nextInt(1));
     }
 
 
-
     /**
-     * Creates a ShelterArea around a given location. The Aoe of the ShelterArea is random
-     * @param location
-     * @return shelterArea with random aoe (between 60 and 70)
+     * Creates a shelter area around a given location. The Aoe of the shelter area is random
+     *
+     * @param location the location of the random shelter area
+     * @return shelter area with random aoe (between 60 and 70)
      */
     public ShelterArea randomShelterArea(GeoPoint location) {
         double rangeMin = 90.0;
         double rangeMax = 120.0;
         double aoe = rangeMin + (rangeMax - rangeMin) * rand.nextDouble();
-        ShelterArea s = new ShelterArea(location, aoe);
-        return s;
+        return new ShelterArea(location, aoe);
     }
 
     /**
      * Creates a list of random Items
-     * @return
+     *
+     * @return a list of random items
      */
     public ArrayList<Item> randomItemsList() {
         ArrayList<Item> result = new ArrayList<>();
@@ -117,7 +118,8 @@ public class RandomGenerator {
 
     /**
      * Creates a coin with a random value at a given location
-     * @param location
+     *
+     * @param location the location of the random coin
      * @return the generated coin
      */
     public Coin randomCoin(GeoPoint location) {
@@ -126,6 +128,11 @@ public class RandomGenerator {
     }
 
 
+    /**
+     * Gets the random instance of the class
+     *
+     * @return the random instance of the class
+     */
     public Random getRand() {
         return rand;
     }

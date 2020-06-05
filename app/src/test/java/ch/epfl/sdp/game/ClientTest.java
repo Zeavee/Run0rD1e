@@ -8,22 +8,24 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-import ch.epfl.sdp.artificial_intelligence.Behaviour;
-import ch.epfl.sdp.database.firebase.entityForFirebase.GeoPointForFirebase;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.geometry.CircleArea;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.game.game_architecture.Client;
+import ch.epfl.sdp.geometry.area.CircleArea;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 
@@ -66,12 +68,12 @@ public class ClientTest {
             }
         });
 
-        while (commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLatitude() != 100 &&
-                commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail()).getGeoPointForFirebase().getLongitude() != 100) {
+        while (Objects.requireNonNull(commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail())).getGeoPointForFirebase().getLatitude() != 100 &&
+                Objects.requireNonNull(commonMockDatabaseAPI.playerForFirebaseMap.get(user.getEmail())).getGeoPointForFirebase().getLongitude() != 100) {
         }
 
-        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLatitude(), 0.01);
-        assertEquals(100, commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail()).getGeoPointForFirebase().getLongitude(), 0.01);
+        assertEquals(100, Objects.requireNonNull(commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail())).getGeoPointForFirebase().getLatitude(), 0.01);
+        assertEquals(100, Objects.requireNonNull(commonMockDatabaseAPI.playerForFirebaseMap.get(PlayerManager.getInstance().getCurrentUser().getEmail())).getGeoPointForFirebase().getLongitude(), 0.01);
     }
 
     private void setupEnvironment() {
@@ -147,7 +149,7 @@ public class ClientTest {
 
         clientMockDatabaseAPI = new ClientMockDatabaseAPI();
         commonMockDatabaseAPI = new CommonMockDatabaseAPI();
-        clientMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, userItems, circleArea.toString());
+        clientMockDatabaseAPI.hardCodedInit(playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, userItems, circleArea.toString());
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

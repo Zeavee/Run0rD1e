@@ -2,12 +2,12 @@ package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class ItemBoxForFirebaseTest {
     @Test
     public void itemBoxForFirebaseTest() {
-        ItemBoxForFirebase itemBoxForFirebase = new ItemBoxForFirebase("id", new GeoPointForFirebase(0,0), false);
         ItemBoxForFirebase itemBoxForFirebase1 = new ItemBoxForFirebase();
 
         itemBoxForFirebase1.setId("itembox0");

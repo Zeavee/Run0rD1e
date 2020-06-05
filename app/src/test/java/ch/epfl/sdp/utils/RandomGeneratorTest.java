@@ -3,16 +3,14 @@ package ch.epfl.sdp.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.ShelterArea;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.entities.shelter_area.ShelterArea;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.Phantom;
+import ch.epfl.sdp.items.Shield;
+import ch.epfl.sdp.items.Shrinker;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class RandomGeneratorTest {
@@ -27,8 +25,8 @@ public class RandomGeneratorTest {
     public void randomGeoPointTest() {
         GeoPoint g = randGen.randomGeoPoint();
         GeoPoint f = new GeoPoint(0,0);
-        assertFalse(g.getLongitude() == f.getLongitude());
-        assertFalse(g.getLatitude() == f.getLatitude());
+        assertNotEquals(g.getLongitude(), f.getLongitude(), 0.0);
+        assertNotEquals(g.getLatitude(), f.getLatitude(), 0.0);
     }
 
     @Test

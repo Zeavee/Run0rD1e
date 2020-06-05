@@ -4,24 +4,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.items.money.Coin;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.MockMap;
-import ch.epfl.sdp.utils.RandomGenerator;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ItemsTest {
-    private Player player;
-    private GeoPoint A;
     private Healthpack healthpack;
     private int healthAmount;
     private Shield shield;
@@ -32,12 +25,10 @@ public class ItemsTest {
 
     @Before
     public void setup(){
-        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
-        player = new Player("Test Name", "test@email.com");
+        Player player = new Player("Test Name", "test@email.com");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
-        A = new GeoPoint(6.14308, 46.21023);
 
         shieldTime = 40;
         healthAmount = 60;
@@ -59,9 +50,9 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(10, PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
+        assertEquals(11, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0.01);
     }
 
     @Test
@@ -74,41 +65,41 @@ public class ItemsTest {
 
     @Test
     public void phantomTest() {
-        assertTrue(phantomTime == phantom.getValue());
+        assertEquals(phantomTime, phantom.getValue(), 0.0);
     }
 
 
     @Test
     public void shieldTest() {
         assertEquals(40, shield.getRemainingTime(), 0);
-        assertTrue(shieldTime == shield.getValue());
+        assertEquals(shieldTime, shield.getValue(), 0.0);
     }
 
     @Test
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertTrue(shrinker.getShrinkingRadius() == shrinker.getValue());
+        assertEquals(shrinker.getShrinkingRadius() + shrinker.getRemainingTime(), shrinker.getValue(), 0.0);
     }
 
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(30, PlayerManager.getInstance().getCurrentUser());
         PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        assertEquals(90, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
-        assertTrue(healthAmount == healthpack.getValue());
+        assertEquals(100, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
+        assertEquals(healthAmount, healthpack.getValue(), 0.01);
     }
 
     @Test
     public void coinTest() {
-        PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
+        PlayerManager.getInstance().getCurrentUser().wallet.removeMoney(PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()), PlayerManager.getInstance().getCurrentUser());
         Coin c = new Coin(5, new GeoPoint(10,10));
-        assertTrue(5 == c.getValue());
+        assertEquals(5, c.getValue(), 0.0);
         c.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getMoney() == 5);
+        assertEquals(5, PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()));
     }
 }

@@ -1,10 +1,9 @@
 package ch.epfl.sdp.utils;
 
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.items.item_box.ItemBoxManager;
 
 /**
  * This class cleans all the singleton instances

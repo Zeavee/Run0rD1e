@@ -20,11 +20,15 @@ import java.util.Objects;
 
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 
+
+/**
+ * This class implements the Fire Store APi for the client and the server
+ */
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();
@@ -51,7 +55,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
         CollectionReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME);
         lobbyRef.whereLessThan("players", PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY).limit(1).get()
                 .addOnSuccessListener(querySnapshot -> {
-                    if(querySnapshot.isEmpty()){
+                    if (querySnapshot.isEmpty()) {
                         setPlayerManager(lobbyRef.document().getId(), false, 0);
                         Map<String, Object> data = new HashMap<>();
                         data.put("players", 0);
@@ -59,19 +63,19 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         data.put("startGame", false);
                         lobbyRef.document(playerManager.getLobbyDocumentName()).set(data, SetOptions.merge());
                         onValueReadyCallback.finish(new CustomResult<>(null, true, null));
-                    }else {
+                    } else {
                         selectLobbyWhenLobbyExists(querySnapshot, onValueReadyCallback);
                     }
                 }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
     }
 
-    private void setPlayerManager(String lobby, boolean isServer, long players_count){
+    private void setPlayerManager(String lobby, boolean isServer, long players_count) {
         playerManager.setLobbyDocumentName(lobby);
         playerManager.setIsServer(isServer);
         playerManager.setNumPlayersInLobby(players_count);
     }
 
-    private void selectLobbyWhenLobbyExists(QuerySnapshot querySnapshot, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback){
+    private void selectLobbyWhenLobbyExists(QuerySnapshot querySnapshot, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         QueryDocumentSnapshot doc = querySnapshot.iterator().next();
         fetchPlayers(doc.getId(), res -> {
             if (res.isSuccessful()) {
@@ -96,7 +100,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void registerToLobby(PlayerForFirebase playerForFirebase, Map<String, Object> data, OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
-        if(playerManager.getLobbyDocumentName() != "") {
+        if (playerManager.getLobbyDocumentName() != "") {
             DocumentReference docRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(playerManager.getLobbyDocumentName());
             docRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).set(playerForFirebase)
                     .addOnSuccessListener(aVoid -> docRef.set(data, SetOptions.merge())
@@ -108,7 +112,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        if(lobbyName != "") {
+        if (lobbyName != "") {
             firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName).collection(PlayerManager.PLAYER_COLLECTION_NAME).get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
                         List<PlayerForFirebase> playerForFirebases = new ArrayList<>();
@@ -117,7 +121,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
                         }
                         onValueReadyCallback.finish(new CustomResult<>(playerForFirebases, true, null));
                     }).addOnFailureListener(e -> onValueReadyCallback.finish(new CustomResult<>(null, false, e)));
-        }else{
+        } else {
             Log.d("Database", "No lobby ID.");
         }
     }
@@ -140,12 +144,12 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void sendUserPosition(PlayerForFirebase playerForFirebase) {
-        sendUserStatus("geoPointForFirebase", playerForFirebase, playerForFirebase1 -> playerForFirebase1.getGeoPointForFirebase());
+        sendUserStatus(playerForFirebase, PlayerForFirebase::getGeoPointForFirebase);
     }
 
-    private void sendUserStatus(String fieldName, PlayerForFirebase playerForFirebase, Function<PlayerForFirebase, Object> playerFunc) {
+    private void sendUserStatus(PlayerForFirebase playerForFirebase, Function<PlayerForFirebase, Object> playerFunc) {
         DocumentReference lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(PlayerManager.getInstance().getLobbyDocumentName());
-        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update(fieldName, playerFunc.methodFromT(playerForFirebase));
+        lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(playerForFirebase.getEmail()).update("geoPointForFirebase", playerFunc.methodFromT(playerForFirebase));
     }
 
     @Override
@@ -157,7 +161,7 @@ public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     public void updatePlayerGeneralScore(Player player) {
         WriteBatch batch = firebaseFirestore.batch();
         DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(player.getEmail());
-        batch.update(docRef, "generalScore", player.getGeneralScore());
+        batch.update(docRef, "generalScore", player.score.getGeneralScore(player));
         batch.commit();
     }
 }

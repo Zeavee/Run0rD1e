@@ -4,30 +4,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.utils.JunkCleaner;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
-import ch.epfl.sdp.item.TimedItem;
 import ch.epfl.sdp.map.MockMap;
-import ch.epfl.sdp.utils.RandomGenerator;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TimedItemTest {
-    public final int countTime = 5;
-    Player user;
+    private final int countTime = 5;
+    private Player user;
 
     @Before
     public void setup() {
-        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
         Player player = new Player("test name", "test@email.com");
         PlayerManager.getInstance().setCurrentUser(player);
@@ -91,57 +84,57 @@ public class TimedItemTest {
         phantom.useOn(user);
 
         while (phantom.getRemainingTime() > 0){
-            assertTrue(user.isPhantom());
+            assertTrue(user.status.isPhantom());
             phantom.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.isPhantom());
+            assertTrue(user.status.isPhantom());
             phantom.update();
         }
 
-        assertTrue(!user.isPhantom());
+        assertFalse(user.status.isPhantom());
     }
 
     @Test
     public void shieldSetsShieldedWhenUpdated(){
-        assertFalse(user.isShielded());
+        assertFalse(user.status.isShielded());
         Shield shield = new Shield(countTime);
         shield.useOn(user);
 
         while (shield.getRemainingTime() > 0){
-            assertTrue(user.isShielded());
+            assertTrue(user.status.isShielded());
             shield.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.isShielded());
+            assertTrue(user.status.isShielded());
             shield.update();
         }
 
-        assertFalse(user.isShielded());
+        assertFalse(user.status.isShielded());
     }
 
     @Test
     public void shrinkerChangesAOERadiusBack(){
-        Double originalRadius = user.getAoeRadius();
+        double originalRadius = user.getAoeRadius();
         int removeAoeRadius = 1;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
         shrinker.useOn(user);
 
         while (shrinker.getRemainingTime() > 0){
-            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertEquals(user.getAoeRadius(), originalRadius - removeAoeRadius, 0.01);
             shrinker.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.getAoeRadius() == originalRadius - removeAoeRadius);
+            assertEquals(user.getAoeRadius(), originalRadius - removeAoeRadius, 0.01);
             shrinker.update();
         }
 
-        assertTrue(user.getAoeRadius() == originalRadius);
+        assertEquals(user.getAoeRadius(), originalRadius, 0.01);
     }
 }

@@ -2,15 +2,15 @@ package ch.epfl.sdp.database.authentication;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
 
 /**
  * This class is designed to use Firebase's authentication feature
  */
 public class FirebaseAuthenticationAPI implements AuthenticationAPI {
 
-    private static FirebaseAuth auth = FirebaseAuth.getInstance();
+    private final static FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     public void signIn(String email, String password, OnValueReadyCallback<CustomResult<Void>> signInCallback) {

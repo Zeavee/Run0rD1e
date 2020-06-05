@@ -15,8 +15,9 @@ import java.util.HashMap;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
+import ch.epfl.sdp.ui.login.LoginFormActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.utils.MissingFieldTestFactory;
 
 import static androidx.test.espresso.Espresso.onView;

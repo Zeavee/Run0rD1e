@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.entities.enemy.Enemy;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.items.item_box.ItemBox;
 
 /**
  * A converter used to convert between Firebase stored entity and in-game entity
@@ -28,7 +28,7 @@ public class EntityConverter {
         int generalScore = userForFirebase.getGeneralScore();
 
         Player player = new Player(username, email);
-        player.setGeneralScore(generalScore);
+        player.score.setGeneralScore(generalScore, player);
 
         return player;
     }
@@ -46,9 +46,9 @@ public class EntityConverter {
         playerForFirebase.setEmail(player.getEmail());
         playerForFirebase.setGeoPointForFirebase(EntityConverter.geoPointToGeoPointForFirebase(player.getLocation()));
         playerForFirebase.setAoeRadius(player.getAoeRadius());
-        playerForFirebase.setHealthPoints(player.getHealthPoints());
-        playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
-        playerForFirebase.setPhantom(player.isPhantom());
+        playerForFirebase.setHealthPoints(player.status.getHealthPoints());
+        playerForFirebase.setCurrentGameScore(player.score.getCurrentGameScore(player));
+        playerForFirebase.setPhantom(player.status.isPhantom());
 
         return playerForFirebase;
     }
@@ -59,7 +59,7 @@ public class EntityConverter {
      * @param geoPoint The local in-game GeoPoint
      * @return The GeoPoint for firebase
      */
-    public static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint) {
+    private static GeoPointForFirebase geoPointToGeoPointForFirebase(GeoPoint geoPoint) {
         return new GeoPointForFirebase(geoPoint.getLongitude(), geoPoint.getLatitude());
     }
 

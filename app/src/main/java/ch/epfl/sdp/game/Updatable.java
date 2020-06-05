@@ -1,7 +1,5 @@
 package ch.epfl.sdp.game;
 
-import ch.epfl.sdp.map.Displayable;
-
 /**
  * Interface for updating the state of the game.
  */

@@ -4,7 +4,9 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.geometry.area.CircleArea;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -93,6 +95,6 @@ public class CircleAreaTest {
         CircleArea circle = new CircleArea(10000, new GeoPoint(40, 50));
         MockMap mockMap = new MockMap();
         circle.displayOn(mockMap);
-        TestCase.assertTrue(mockMap.getDisplayables().size() == 1);
+        TestCase.assertEquals(1, mockMap.getDisplayables().size());
     }
 }

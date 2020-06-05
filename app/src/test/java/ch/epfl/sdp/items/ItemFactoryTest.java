@@ -3,14 +3,6 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.item.ItemFactory;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
