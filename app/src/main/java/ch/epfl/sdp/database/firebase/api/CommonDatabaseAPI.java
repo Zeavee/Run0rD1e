@@ -70,8 +70,6 @@ public interface CommonDatabaseAPI {
      */
     void sendUserPosition(PlayerForFirebase playerForFirebase);
 
-    void sendUserPhantom(PlayerForFirebase playerForFirebase);
-
     /**
      * This method cleans the listeners of the API
      */

@@ -76,7 +76,6 @@ public class Server extends StartGameController implements Updatable {
             sendGameArea();
             sendEnemies();
             sendItemBoxes();
-            //sendPlayersHealth();
             sendPlayersStatus();
             sendPlayersItems();
             checkIfWon();

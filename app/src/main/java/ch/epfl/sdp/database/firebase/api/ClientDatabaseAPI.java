@@ -62,5 +62,9 @@ public interface ClientDatabaseAPI {
      */
     void cleanListeners();
 
+    /**
+     * This method add a listener to the signal that indicates whether the server is alive or not.
+     * @param onValueReadyCallback Callback when the signal changed in the Firebase FireStore
+     */
     void addServerAliveSignalListener(OnValueReadyCallback<CustomResult<Long>> onValueReadyCallback);
 }

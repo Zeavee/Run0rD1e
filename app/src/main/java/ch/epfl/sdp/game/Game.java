@@ -120,9 +120,7 @@ public class Game implements Updatable {
      * @param updatable The updatable to be added.
      */
     public void addToUpdateList(Updatable updatable) {
-        updateLock.lock();
         updatables.add(updatable);
-        updateLock.unlock();
     }
 
     /**
@@ -131,7 +129,9 @@ public class Game implements Updatable {
      * @param updatable The updatable to be removed.
      */
     public void removeFromUpdateList(Updatable updatable) {
+        updateLock.lock();
         updatables.remove(updatable);
+        updateLock.unlock();
     }
 
     /**

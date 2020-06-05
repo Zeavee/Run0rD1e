@@ -40,16 +40,14 @@ public class ArtificialMovingEntityTest {
     @Test
     public void testLinearMovementIsLinear() {
         ArtificialMovingEntity artificialMovingEntity = new Enemy();
-        GeoPoint location = new GeoPoint(0,0);
+        GeoPoint location = new GeoPoint(50,40);
         artificialMovingEntity.setLocation(location);
 
         LinearMovement movement = new LinearMovement();
         artificialMovingEntity.setMovement(movement);
 
         movement.setVelocity(10);
-        movement.setAcceleration(2);
 
-        assertEquals(2, artificialMovingEntity.getMovement().getAcceleration(), 0.01);
         assertEquals(10.0/GameThread.FPS, artificialMovingEntity.getMovement().getVelocity(), 0.01);
         assertEquals(0.0, artificialMovingEntity.getMovement().getOrientation(), 0.01);
         assertTrue(artificialMovingEntity.isMoving());
@@ -57,7 +55,7 @@ public class ArtificialMovingEntityTest {
         artificialMovingEntity.update();
 
         assertEquals(0.41, artificialMovingEntity.getLocation().getX() - location.getX(), 0.01);
-        assertEquals(0, artificialMovingEntity.getLocation().getY(), 0.01);
+        assertEquals(0, artificialMovingEntity.getLocation().getY() - location.getY(), 0.01);
     }
 
     @Test

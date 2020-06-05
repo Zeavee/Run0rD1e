@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,11 +41,17 @@ public class ItemBoxManager {
     }
 
     public void moveTakenItemBoxesToWaitingList() {
+        ArrayList<String> keys = new ArrayList<>();
+
         for (String key : itemBoxes.keySet()) {
             if (itemBoxes.get(key).isTaken()) {
                 waitingItemBoxes.put(key, itemBoxes.get(key));
-                itemBoxes.remove(key);
+                keys.add(key);
             }
+        }
+
+        for (String key: keys) {
+            itemBoxes.remove(key);
         }
     }
 
