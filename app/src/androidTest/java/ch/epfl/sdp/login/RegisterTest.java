@@ -107,7 +107,6 @@ public class RegisterTest {
             if (i > 0) {
                 onView(withId(emptyFields.get(i))).check(matches(hasErrorText(errorTexts.get(i))));
             }
-            Log.d("COUNTER", " " + i);
             onView(withId(R.id.registerbutton)).perform(click());
             onView(withId(R.id.email)).check(matches(isDisplayed()));
 

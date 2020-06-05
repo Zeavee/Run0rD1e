@@ -1,10 +1,10 @@
-package ch.epfl.sdp.items.items;
+package ch.epfl.sdp.items;
 
 import org.junit.Test;
 
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.items.Healthpack;
+import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static junit.framework.TestCase.assertTrue;

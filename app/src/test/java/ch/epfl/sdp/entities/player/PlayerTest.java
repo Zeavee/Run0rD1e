@@ -4,10 +4,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entities.player.Player;
-import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.items.Healthpack;
+import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;

@@ -18,11 +18,11 @@ import java.util.Objects;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.items.items.Healthpack;
+import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.items.Phantom;
-import ch.epfl.sdp.items.items.Shield;
-import ch.epfl.sdp.items.items.Shrinker;
+import ch.epfl.sdp.items.Phantom;
+import ch.epfl.sdp.items.Shield;
+import ch.epfl.sdp.items.Shrinker;
 import ch.epfl.sdp.items.money.Market;
 import ch.epfl.sdp.utils.ObjectWrapperForBinder;
 

@@ -1,12 +1,10 @@
-package ch.epfl.sdp.items.items;
+package ch.epfl.sdp.items;
 
 import android.util.Log;
 
 import java.util.Locale;
 
 import ch.epfl.sdp.entities.player.Player;
-import ch.epfl.sdp.items.Item;
-import ch.epfl.sdp.items.TimedItem;
 
 /**
  * This item permits the player to have a smaller area of effect and thus the enemy will have more difficulties attacking the player

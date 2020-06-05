@@ -39,7 +39,7 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.AreaShrinker;
 import ch.epfl.sdp.geometry.area.CircleArea;
 import ch.epfl.sdp.map.location.GeoPoint;
-import ch.epfl.sdp.items.items.Healthpack;
+import ch.epfl.sdp.items.Healthpack;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

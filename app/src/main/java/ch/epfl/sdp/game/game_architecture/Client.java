@@ -119,7 +119,6 @@ public class Client extends StartGameController implements Updatable {
         } else {
             updateGeneralScore();
             endGame.run();
-            Log.d("Client", "Server does not respond.");
         }
     }
 
@@ -129,7 +128,6 @@ public class Client extends StartGameController implements Updatable {
                 List<EnemyForFirebase> enemyForFirebaseList = new ArrayList<>(value.getResult());
                 for (Enemy enemy : EntityConverter.convertEnemyForFirebaseList(enemyForFirebaseList)) {
                     enemyManager.updateEnemies(enemy);
-                    Log.d(TAG, "addEnemyListener: " + enemy.getLocation().getLatitude() + enemy.getLocation().getLongitude());
                 }
             }
         });

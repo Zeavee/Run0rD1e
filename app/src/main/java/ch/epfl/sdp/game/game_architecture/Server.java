@@ -65,7 +65,6 @@ public class Server extends StartGameController implements Updatable {
 
             serverDatabaseAPI.listenToNumOfPlayers(value -> {
                 if (value.isSuccessful()) {
-                    Log.d(TAG, "initEnvironment: listenToNumberOf Players success");
                     fetchPlayers();
                 } else Log.d(TAG, "initEnvironment: failed" + value.getException().getMessage());
             });

@@ -1,10 +1,5 @@
 package ch.epfl.sdp.items;
 
-import ch.epfl.sdp.items.items.Healthpack;
-import ch.epfl.sdp.items.items.Phantom;
-import ch.epfl.sdp.items.items.Shield;
-import ch.epfl.sdp.items.items.Shrinker;
-
 public class ItemFactory {
     public Item getItem(String itemName) {
         String[] parts = itemName.split(" ");
