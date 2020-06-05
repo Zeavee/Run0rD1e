@@ -1,7 +1,5 @@
 package ch.epfl.sdp.game;
 
-import androidx.room.Update;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -63,7 +61,7 @@ public class ServerTest {
 
             @Override
             public void update() {
-                player.setHealthPoints(healthPoints);
+                player.status.setHealthPoints(healthPoints, player);
                 flag = true;
             }
         };

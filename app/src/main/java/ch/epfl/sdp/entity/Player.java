@@ -16,13 +16,10 @@ public class Player extends AoeRadiusEntity {
      * The maximum health a player can have
      */
     public final static double MAX_HEALTH = 100;
+    public final Status status = new Status();
 
     private String username;
     private String email;
-    private double healthPoints;
-    private boolean isShielded;
-    private boolean isShrinked;
-    private boolean isPhantom;
     private Inventory inventory;
     private int generalScore;
     private int currentGameScore;
@@ -67,9 +64,9 @@ public class Player extends AoeRadiusEntity {
         super(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
-        this.setHealthPoints(MAX_HEALTH);
-        this.setShielded(false);
-        this.isPhantom = isPhantom;
+        this.status.setHealthPoints(MAX_HEALTH, this);
+        this.status.setShielded(false);
+        this.status.isPhantom = isPhantom;
         this.setAoeRadius(aoeRadius);
         this.setInventory(new Inventory());
         this.setGeneralScore(0);
@@ -115,107 +112,9 @@ public class Player extends AoeRadiusEntity {
         return this.email;
     }
 
-    /**
-     * This method sets the health points of the player
-     * If the amount is bigger than the maximum, we set the health points to the maximum possible
-     * If the amount is smaller than 0, the player is dead and we show the game over screen
-     * Only the server can set health points, so only him can have the changes sent into the remote database
-     *
-     * @param amount the amount of health we want to set
-     */
-    public void setHealthPoints(double amount) {
-        if (amount > MAX_HEALTH) {
-            healthPoints = MAX_HEALTH;
-        } else if (amount > 0) {
-            healthPoints = amount;
-        } else {
-            healthPoints = 0;
-        }
-
-        if (PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(getEmail()) && healthPoints == 0) {
-            gotoGameOver();
-        }
-
-        if (PlayerManager.getInstance().isServer()) {
-            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
-        }
-    }
-
     private void gotoGameOver() {
         if (Game.getInstance().getRenderer() instanceof MapsActivity)  // we don't call gameOver on mock renderers (especially since this functionality is already tested)
             ((MapsActivity) (Game.getInstance().getRenderer())).endGame();
-    }
-
-    /**
-     * This method returns the health points of the player
-     *
-     * @return the health points of the player
-     */
-    public double getHealthPoints() {
-        return healthPoints;
-    }
-
-    /**
-     * This method sets the boolean that tells if the player is shielded
-     *
-     * @param shielded the boolean we want to use as the new value to know if the player is shielded
-     */
-    public void setShielded(boolean shielded) {
-        isShielded = shielded;
-    }
-
-    /**
-     * This method tells if the player is shielded
-     *
-     * @return a boolean that tells if the player is shielded
-     */
-    public boolean isShielded() {
-        return this.isShielded;
-    }
-
-    /**
-     * This method sets the boolean that tells if the player is shrank
-     *
-     * @param shrinked the boolean we want to use as the new value to know if the player is shrank
-     */
-    public void setShrinked(boolean shrinked) {
-        isShrinked = shrinked;
-
-        if (PlayerManager.getInstance().isServer()) {
-            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
-        }
-    }
-
-    /**
-     * This method tells if the player is shrank
-     *
-     * @return a boolean that tells if the player is shrank
-     */
-    public boolean isShrinked() {
-        return isShrinked;
-    }
-
-    /**
-     * Return the boolean that indicates if the player is in phantom mode.
-     *
-     * @return The boolean that indicates if the player is in phantom mode.
-     */
-    public boolean isPhantom() {
-        return isPhantom;
-    }
-
-    /**
-     * Set the boolean that indicates if the player is in phantom mode.
-     *
-     * @param phantom A boolean that indicates if the player is in phantom mode.
-     */
-    public void setPhantom(boolean phantom) {
-        isPhantom = phantom;
-
-        // only the server need to upload the healthPoint for all the players
-        if (PlayerManager.getInstance().isServer()) {
-            PlayerManager.getInstance().addPlayersWaitingStatusUpdate(this);
-        }
     }
 
     /**
@@ -360,7 +259,7 @@ public class Player extends AoeRadiusEntity {
      * and if he traveled enough distance (10 meters) he gets 10 bonus points
      */
     public void updateLocalScore() {
-        if (this.healthPoints > 0) {
+        if (this.status.healthPoints > 0) {
             int bonusPoints = 10;
             if (getDistanceTraveled() > getDistanceTraveledAtLastCheck() + 10) {
                 bonusPoints += 10;
@@ -373,13 +272,13 @@ public class Player extends AoeRadiusEntity {
     @Override
     public void displayOn(MapApi mapApi) {
         if (this.equals(PlayerManager.getInstance().getCurrentUser())) {
-            if (isPhantom) {
+            if (status.isPhantom) {
                 mapApi.displayMarkerCircle(this, Color.WHITE, username, (int) getAoeRadius());
             } else {
                 mapApi.displayMarkerCircle(this, Color.BLUE, username, (int) getAoeRadius());
             }
         } else {
-            if (isPhantom) {
+            if (status.isPhantom) {
                 mapApi.removeMarkers(this);
             } else {
                 mapApi.displayMarkerCircle(this, Color.CYAN, username, (int) getAoeRadius());
@@ -387,7 +286,124 @@ public class Player extends AoeRadiusEntity {
         }
     }
 
+    /**
+     * Returns a boolean to indicate that the player is alive.
+     *
+     * @return A boolean to indicate that the player is alive.
+     */
     public boolean isAlive() {
-        return healthPoints > 0;
+        return status.healthPoints > 0;
+    }
+
+    public static class Status {
+        private double healthPoints;
+        private boolean isShielded;
+        private boolean isShrinked;
+        private boolean isPhantom;
+
+        public Status() {
+        }
+
+        /**
+         * This method returns the health points of the player
+         *
+         * @return the health points of the player
+         */
+        public double getHealthPoints() {
+            return healthPoints;
+        }
+
+        /**
+         * This method sets the health points of the player
+         * If the amount is bigger than the maximum, we set the health points to the maximum possible
+         * If the amount is smaller than 0, the player is dead and we show the game over screen
+         * Only the server can set health points, so only him can have the changes sent into the remote database
+         *
+         * @param amount the amount of health we want to set
+         * @param player
+         */
+        public void setHealthPoints(double amount, Player player) {
+            if (amount > MAX_HEALTH) {
+                healthPoints = MAX_HEALTH;
+            } else if (amount > 0) {
+                healthPoints = amount;
+            } else {
+                healthPoints = 0;
+            }
+
+            if (PlayerManager.getInstance().getCurrentUser() != null && PlayerManager.getInstance().getCurrentUser().email.equals(player.getEmail()) && healthPoints == 0) {
+                player.gotoGameOver();
+            }
+
+            if (PlayerManager.getInstance().isServer()) {
+                PlayerManager.getInstance().addPlayersWaitingStatusUpdate(player);
+            }
+        }
+
+        /**
+         * This method tells if the player is shielded
+         *
+         * @param player
+         * @return a boolean that tells if the player is shielded
+         */
+        public boolean isShielded(Player player) {
+            return isShielded;
+        }
+
+        /**
+         * This method sets the boolean that tells if the player is shielded
+         *
+         * @param shielded the boolean we want to use as the new value to know if the player is shielded
+         */
+        public void setShielded(boolean shielded) {
+            isShielded = shielded;
+        }
+
+        /**
+         * This method tells if the player is shrank
+         *
+         * @return a boolean that tells if the player is shrank
+         */
+        public boolean isShrinked() {
+            return isShrinked;
+        }
+
+        /**
+         * This method sets the boolean that tells if the player is shrank
+         *
+         * @param shrinked the boolean we want to use as the new value to know if the player is shrank
+         * @param player
+         */
+        public void setShrinked(boolean shrinked, Player player) {
+            isShrinked = shrinked;
+
+            if (PlayerManager.getInstance().isServer()) {
+                PlayerManager.getInstance().addPlayersWaitingStatusUpdate(player);
+            }
+        }
+
+        /**
+         * Return the boolean that indicates if the player is in phantom mode.
+         *
+         * @return The boolean that indicates if the player is in phantom mode.
+         */
+        public boolean isPhantom() {
+            return isPhantom;
+        }
+
+        /**
+         * Set the boolean that indicates if the player is in phantom mode.
+         *
+         * @param phantom A boolean that indicates if the player is in phantom mode.
+         * @param player
+         */
+        public void setPhantom(boolean phantom, Player player) {
+            isPhantom = phantom;
+
+            // only the server need to upload the healthPoint for all the players
+            if (PlayerManager.getInstance().isServer()) {
+                PlayerManager.getInstance().addPlayersWaitingStatusUpdate(player);
+            }
+        }
     }
 }

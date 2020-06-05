@@ -91,37 +91,37 @@ public class TimedItemTest {
         phantom.useOn(user);
 
         while (phantom.getRemainingTime() > 0){
-            assertTrue(user.isPhantom());
+            assertTrue(user.status.isPhantom());
             phantom.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.isPhantom());
+            assertTrue(user.status.isPhantom());
             phantom.update();
         }
 
-        assertTrue(!user.isPhantom());
+        assertTrue(!user.status.isPhantom());
     }
 
     @Test
     public void shieldSetsShieldedWhenUpdated(){
-        assertFalse(user.isShielded());
+        assertFalse(user.status.isShielded(user));
         Shield shield = new Shield(countTime);
         shield.useOn(user);
 
         while (shield.getRemainingTime() > 0){
-            assertTrue(user.isShielded());
+            assertTrue(user.status.isShielded(user));
             shield.update();
         }
 
         // getRemainingTime is in seconds so we still have some frames
         for(int i = GameThread.FPS; i > 0; --i){
-            assertTrue(user.isShielded());
+            assertTrue(user.status.isShielded(user));
             shield.update();
         }
 
-        assertFalse(user.isShielded());
+        assertFalse(user.status.isShielded(user));
     }
 
     @Test

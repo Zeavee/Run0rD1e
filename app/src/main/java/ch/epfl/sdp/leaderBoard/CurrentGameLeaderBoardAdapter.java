@@ -30,7 +30,7 @@ public class CurrentGameLeaderBoardAdapter extends RecyclerView.Adapter<CurrentG
         holder.inGameRanking.setText(String.valueOf(position + 1));
         holder.username.setText(player.getUsername());
         holder.inGameScore.setText(String.valueOf(player.getCurrentGameScore()));
-        if (player.getHealthPoints() == 0) {
+        if (player.status.getHealthPoints() == 0) {
             holder.isAlive.setText(R.string.playerStatusDead);
         } else {
             holder.isAlive.setText(R.string.playerStatusAlive);

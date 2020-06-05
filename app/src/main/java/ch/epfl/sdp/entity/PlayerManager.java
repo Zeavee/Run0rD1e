@@ -287,7 +287,7 @@ public class PlayerManager {
 
         for (Player player : playersMap.values()) {
             currDistance = player.getLocation().distanceTo(position) - player.getAoeRadius();
-            if (currDistance < minDistance && player.isAlive() && !player.isPhantom()) {
+            if (currDistance < minDistance && player.isAlive() && !player.status.isPhantom()) {
                 minDistance = currDistance;
                 target = player;
             }

@@ -66,10 +66,10 @@ public class ShelterArea implements Displayable, Updatable {
     public void shelter() {
         for (Player p : PlayerManager.getInstance().getPlayers()) {
             if (!playersInShelterArea.contains(p) && isInRange(p)) {
-                p.setShielded(true);
+                p.status.setShielded(true);
                 playersInShelterArea.add(p);
             } else if (playersInShelterArea.contains(p) && !isInRange(p)) {
-                p.setShielded(false);
+                p.status.setShielded(false);
                 playersInShelterArea.remove(p);
             }
         }

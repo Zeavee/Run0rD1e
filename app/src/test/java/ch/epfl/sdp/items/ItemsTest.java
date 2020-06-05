@@ -59,9 +59,9 @@ public class ItemsTest {
     public void healthpackTest() {
         Healthpack healthpack = new Healthpack(1);
 
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(10);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(10, PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertTrue(PlayerManager.getInstance().getCurrentUser().getHealthPoints() == 11);
+        assertTrue(PlayerManager.getInstance().getCurrentUser().status.getHealthPoints() == 11);
     }
 
     @Test
@@ -94,12 +94,12 @@ public class ItemsTest {
 
     @Test
     public void increaseHealth() {
-        PlayerManager.getInstance().getCurrentUser().setHealthPoints(30);
+        PlayerManager.getInstance().getCurrentUser().status.setHealthPoints(30, PlayerManager.getInstance().getCurrentUser());
         PlayerManager.getInstance().setCurrentUser(PlayerManager.getInstance().getCurrentUser());
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(90, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        assertEquals(90, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
         healthpack.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(100, PlayerManager.getInstance().getCurrentUser().getHealthPoints(), 0);
+        assertEquals(100, PlayerManager.getInstance().getCurrentUser().status.getHealthPoints(), 0);
         assertTrue(healthAmount == healthpack.getValue());
     }
 

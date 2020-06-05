@@ -24,7 +24,7 @@ public class GameOverActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_over);
         gameOverText = findViewById(R.id.gameOverText);
-        if (PlayerManager.getInstance().getCurrentUser().getHealthPoints() > 0) {
+        if (PlayerManager.getInstance().getCurrentUser().status.getHealthPoints() > 0) {
             gameOverText.setText(R.string.winnerText);
         }
         findViewById(R.id.backFromGameOver).setOnClickListener(v -> goToMainMenu());

@@ -20,7 +20,7 @@ public class Shield extends TimedItem {
     @Override
     public void useOn(Player player) {
         super.useOn(player);
-        player.setShielded(true);
+        player.status.setShielded(true);
         Log.d("Item","Shield set True");
     }
 
@@ -34,7 +34,7 @@ public class Shield extends TimedItem {
 
     @Override
     public void stopUsingOn(Player player) {
-        player.setShielded(false);
+        player.status.setShielded(false);
         Log.d("Item","Shield set False");
     }
 
