@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,7 +95,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Intent intent = getIntent();
         playMode = intent.getStringExtra("playMode");
-        Log.d("play mode", "The play mode: " + playMode);
 
         boolean isSolo = playMode.equals("single-player");
 
@@ -118,6 +116,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         moneyText = findViewById(R.id.gameinfo_money_text);
         username.setText("");
 
+        initViews();
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        assert mapFragment != null;
+        mapFragment.getMapAsync(MapsActivity.this);
+        showGameInfoThread().start();
+
+        timerShrinking = findViewById(R.id.timerShrinking);
+        Game.getInstance().areaShrinker.setTimerUI(this);
+    }
+
+    private void initViews() {
         findViewById(R.id.recenter).setOnClickListener(v -> Game.getInstance().getMapApi().moveCameraOnLocation(locationFinder.getCurrentLocation()));
 
         findViewById(R.id.button_weather).setOnClickListener(v -> {
@@ -134,14 +144,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             showFragment(ingameLeaderboardFragment, R.id.fragment_ingame_leaderboard_container, flagIngameLeaderboard);
             flagIngameLeaderboard = !flagIngameLeaderboard;
         });
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(MapsActivity.this);
-        showGameInfoThread().start();
-
-        timerShrinking = findViewById(R.id.timerShrinking);
-        Game.getInstance().areaShrinker.setTimerUI(this);
     }
 
     @Override
@@ -163,11 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
-
-        //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
-
-        Log.d("Inside MapsActivity", "Game running is " + Game.getInstance().isRunning());
 
         if (!Game.getInstance().isRunning()) {
             commonDatabaseAPI.fetchUser(email, fetchUserRes -> {
@@ -175,29 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     Player currentUser = EntityConverter.userForFirebaseToPlayer(fetchUserRes.getResult());
                     playerManager.setCurrentUser(currentUser);
                     Game.getInstance().addToDisplayList(currentUser);
-                    Log.d("Database", "User fetched");
-
-                    if (playMode.equals("single-player")) {
-                        // Set the soloMode in playerManager to be true
-                        playerManager.setSoloMode(true);
-
-                        // Only in multiPlayer mode and the currentUser is the first one join the lobby the isServer will be true
-                        playerManager.setIsServer(false);
-
-                        // Create a soloMode instance and start the game
-                        Game.getInstance().startGameController = new Solo(commonDatabaseAPI);
-
-                    } else if (playMode.equals("multi-player")) {
-                        // Set the soloMode in the playerManager to be false
-                        playerManager.setSoloMode(false);
-
-                        // select the lobby in cloud firebase which has less than the number of players required to play the game, then currentUser is Client
-                        // If all the lobbies are full, create a new lobby in the cloud firebase and then the currentUser is Server
-                        selectLobby();
-                    } else {
-                        Toast.makeText(MapsActivity.this, "No such play mode", Toast.LENGTH_LONG).show();
-                    }
-
+                    initPlayMode();
                 } else {
                     Toast.makeText(MapsActivity.this, fetchUserRes.getException().getMessage(), Toast.LENGTH_LONG).show();
                 }
@@ -208,18 +184,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 itemBox.setReDisplay(true);
             }
         }
-
         initLocationFinder();
+    }
 
-        Log.d("Database", "Quit map ready");
+    private void initPlayMode() {
+        if (playMode.equals("single-player")) {
+            // Set the soloMode in playerManager to be true
+            playerManager.setSoloMode(true);
+
+            // Only in multiPlayer mode and the currentUser is the first one join the lobby the isServer will be true
+            playerManager.setIsServer(false);
+
+            // Create a soloMode instance and start the game
+            Game.getInstance().startGameController = new Solo(commonDatabaseAPI);
+        } else if (playMode.equals("multi-player")) {
+            // Set the soloMode in the playerManager to be false
+            playerManager.setSoloMode(false);
+
+            // select the lobby in cloud firebase which has less than the number of players required to play the game, then currentUser is Client
+            // If all the lobbies are full, create a new lobby in the cloud firebase and then the currentUser is Server
+            selectLobby();
+        } else {
+            Toast.makeText(MapsActivity.this, "No such play mode", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void selectLobby() {
         commonDatabaseAPI.selectLobby(selectLobbyRes -> {
             if (selectLobbyRes.isSuccessful()) {
-
                 createPlayerInLobby();
-
             } else {
                 Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
@@ -234,18 +227,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             data.put("players", playerManager.getNumPlayersInLobby() + 1);
         }
 
-        Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
         joinLobby(playerForFirebase, data);
     }
 
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
         commonDatabaseAPI.registerToLobby(playerForFirebase, lobbyData, registerToLobbyRes -> {
             if (registerToLobbyRes.isSuccessful()) {
-                Log.d("Database", "Lobby registered/joined");
                 if (playerManager.isServer()) {
                     serverDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     Game.getInstance().startGameController = new Server(serverDatabaseAPI, commonDatabaseAPI, this::endGame);
-
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
                     Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI, this::endGame);
@@ -323,6 +313,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivity(new Intent(this, MarketActivity.class).putExtras(bundle));
     }
 
+    /**
+     * This method starts the game over activity
+     */
     public void endGame() {
         startActivity(new Intent(MapsActivity.this, GameOverActivity.class));
         finish();
