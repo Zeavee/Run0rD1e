@@ -186,7 +186,7 @@ public class PlayerManager {
      */
     public List<Player> getPlayersSortByIngameScore() {
         List<Player> players = this.getPlayers();
-        Comparator<Player> compareByIngameScore = (o1, o2) -> o2.getCurrentGameScore() - o1.getCurrentGameScore();
+        Comparator<Player> compareByIngameScore = (o1, o2) -> o2.score.getCurrentGameScore(o2) - o1.score.getCurrentGameScore(o1);
         Collections.sort(players, compareByIngameScore);
         return players;
     }

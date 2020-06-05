@@ -167,7 +167,7 @@ public class Client extends StartGameController implements Updatable {
                 for (PlayerForFirebase playerForFirebase : value.getResult()) {
                     Player player = playerManager.getPlayersMap().get(playerForFirebase.getEmail());
                     if (player != null) {
-                        player.setCurrentGameScore(playerForFirebase.getCurrentGameScore());
+                        player.score.setCurrentGameScore(playerForFirebase.getCurrentGameScore(), player);
                         player.status.setHealthPoints(playerForFirebase.getHealthPoints(), player);
                         player.setLocation(EntityConverter.geoPointForFirebaseToGeoPoint(playerForFirebase.getGeoPointForFirebase()));
                         player.setAoeRadius(playerForFirebase.getAoeRadius());

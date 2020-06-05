@@ -32,7 +32,7 @@ public class MarketTest {
         RandomGenerator r = new RandomGenerator();
         GeoPoint g = r.randomGeoPoint();
         buyer = new Player(g.getLongitude(), g.getLatitude(), 20, "test name", "test@email.com");
-        buyer.addMoney(4000);
+        buyer.wallet.addMoney(4000, buyer);
         PlayerManager.getInstance().setCurrentUser(buyer);
         market = new Market(new GeoPoint(1.0, 3.4));
     }
@@ -66,7 +66,7 @@ public class MarketTest {
 
     @Test
     public void marketCanBeExhausted(){
-        buyer.addMoney(9000);
+        buyer.wallet.addMoney(9000, buyer);
         boolean isExhausted=false;
         Set<Item> items = market.getStock().keySet();
         for (int i= 0; i < 10;++i){

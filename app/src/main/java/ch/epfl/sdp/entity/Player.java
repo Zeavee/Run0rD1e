@@ -12,20 +12,13 @@ import ch.epfl.sdp.map.MapsActivity;
  * The player of the game
  */
 public class Player extends AoeRadiusEntity {
-    /**
-     * The maximum health a player can have
-     */
-    public final static double MAX_HEALTH = 100;
     public final Status status = new Status();
+    public final Score score = new Score();
+    private final Inventory inventory = new Inventory();
+    public final Wallet wallet = new Wallet();
 
     private String username;
     private String email;
-    private Inventory inventory;
-    private int generalScore;
-    private int currentGameScore;
-    private double distanceTraveled;
-    private double distanceTraveledAtLastCheck;
-    private int money;
 
     /**
      * A constructor for the player
@@ -64,16 +57,15 @@ public class Player extends AoeRadiusEntity {
         super(new GeoPoint(longitude, latitude));
         this.setUsername(username);
         this.setEmail(email);
-        this.status.setHealthPoints(MAX_HEALTH, this);
+        this.status.setHealthPoints(Status.MAX_HEALTH, this);
         this.status.setShielded(false);
         this.status.isPhantom = isPhantom;
         this.setAoeRadius(aoeRadius);
-        this.setInventory(new Inventory());
-        this.setGeneralScore(0);
-        this.setCurrentGameScore(0);
-        this.setDistanceTraveled();
-        this.setDistanceTraveledAtLastCheck(0);
-        this.money = 0;
+        this.score.setGeneralScore(0, this);
+        this.score.setCurrentGameScore(0, this);
+        this.score.setDistanceTraveled(this);
+        this.score.setDistanceTraveledAtLastCheck(0, this);
+        this.wallet.money = 0;
     }
 
     /**
@@ -118,152 +110,12 @@ public class Player extends AoeRadiusEntity {
     }
 
     /**
-     * This method sets the inventory of the player
-     *
-     * @param inventory the inventory we want to set
-     */
-    private void setInventory(Inventory inventory) {
-        this.inventory = inventory;
-    }
-
-    /**
      * This method returns the inventory of the player
      *
      * @return the inventory of the player
      */
     public Inventory getInventory() {
         return inventory;
-    }
-
-    /**
-     * This method sets the general score of the player
-     *
-     * @param generalScore the general score we want to set
-     */
-    public void setGeneralScore(int generalScore) {
-        this.generalScore = generalScore;
-    }
-
-    /**
-     * This method gets the general score of the player
-     *
-     * @return the general score of the player
-     */
-    public int getGeneralScore() {
-        return generalScore;
-    }
-
-    /**
-     * This method sets the score of the current game the player is in
-     *
-     * @param currentGameScore the score we want to set
-     */
-    public void setCurrentGameScore(int currentGameScore) {
-        this.currentGameScore = currentGameScore;
-    }
-
-    /**
-     * This method gets the score of the current game the player is in
-     *
-     * @return the score we want to set
-     */
-    public int getCurrentGameScore() {
-        return currentGameScore;
-    }
-
-    /**
-     * This method sets the distance the player traveled
-     *
-     */
-    private void setDistanceTraveled() {
-        this.distanceTraveled = 0;
-    }
-
-    /**
-     * This method gets the total distance the player traveled
-     *
-     * @return the total distance the player traveled
-     */
-    double getDistanceTraveled() {
-        return this.distanceTraveled;
-    }
-
-    /**
-     * This method sets the distance the player traveled since the last time we checked
-     *
-     * @param distanceTraveledAtLastCheck the distance we want to sets
-     */
-    private void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck) {
-        this.distanceTraveledAtLastCheck = distanceTraveledAtLastCheck;
-    }
-
-    /**
-     * This method gets the distance the player traveled since the last time we checked
-     *
-     * @return the distance we want to sets
-     */
-    public double getDistanceTraveledAtLastCheck() {
-        return distanceTraveledAtLastCheck;
-    }
-
-    /**
-     * This method updates the total distance the player traveled
-     *
-     * @param traveledAmount the distance we want to add
-     */
-    public void updateDistanceTraveled(double traveledAmount) {
-        this.distanceTraveled = this.distanceTraveled + traveledAmount;
-    }
-
-    /**
-     * A method to get the player's money
-     *
-     * @return an int which is equal to the player's money
-     */
-    public int getMoney() {
-        return money;
-    }
-
-    /**
-     * A method to remove money from the player
-     *
-     * @param amount the amount of money we want to take from the player
-     * @return a boolean that tells if the transaction finished correctly
-     */
-    public boolean removeMoney(int amount) {
-        if (money < amount || amount < 0) {
-            return false;
-        }
-        money -= amount;
-        return true;
-    }
-
-    /**
-     * A method to add money to the player
-     *
-     * @param amount the amount of money we want to give to the player
-     */
-    public void addMoney(int amount) {
-        if (amount < 0) {
-            return;
-        }
-        money += amount;
-    }
-
-    /**
-     * This methods update the local score of the Player,
-     * this is called each 10 seconds, so if the Player is alive (healthPoint is above 0), he gets 10 points
-     * and if he traveled enough distance (10 meters) he gets 10 bonus points
-     */
-    public void updateLocalScore() {
-        if (this.status.healthPoints > 0) {
-            int bonusPoints = 10;
-            if (getDistanceTraveled() > getDistanceTraveledAtLastCheck() + 10) {
-                bonusPoints += 10;
-            }
-            setDistanceTraveledAtLastCheck(getDistanceTraveled());
-            setCurrentGameScore(getCurrentGameScore() + bonusPoints);
-        }
     }
 
     @Override
@@ -293,6 +145,10 @@ public class Player extends AoeRadiusEntity {
     }
 
     public static class Status {
+        /**
+         * The maximum health a player can have
+         */
+        public final static double MAX_HEALTH = 100;
         private double healthPoints;
         private boolean isShielded;
         private boolean isShrinked;
@@ -401,6 +257,167 @@ public class Player extends AoeRadiusEntity {
             if (PlayerManager.getInstance().isServer()) {
                 PlayerManager.getInstance().addPlayersWaitingStatusUpdate(player);
             }
+        }
+    }
+
+    public static class Score {
+        private int generalScore;
+        private int currentGameScore;
+        private double distanceTraveled;
+        private double distanceTraveledAtLastCheck;
+
+        public Score() {
+        }
+
+        /**
+         * This method sets the general score of the player
+         *
+         * @param generalScore the general score we want to set
+         * @param player
+         */
+        public void setGeneralScore(int generalScore, Player player) {
+            this.generalScore = generalScore;
+        }
+
+        /**
+         * This method gets the general score of the player
+         *
+         * @return the general score of the player
+         * @param player
+         */
+        public int getGeneralScore(Player player) {
+            return generalScore;
+        }
+
+        /**
+         * This method sets the score of the current game the player is in
+         *
+         * @param currentGameScore the score we want to set
+         * @param player
+         */
+        public void setCurrentGameScore(int currentGameScore, Player player) {
+            this.currentGameScore = currentGameScore;
+        }
+
+        /**
+         * This method gets the score of the current game the player is in
+         *
+         * @return the score we want to set
+         * @param player
+         */
+        public int getCurrentGameScore(Player player) {
+            return currentGameScore;
+        }
+
+        /**
+         * This method sets the distance the player traveled
+         *
+         * @param player
+         */
+        private void setDistanceTraveled(Player player) {
+            distanceTraveled = 0;
+        }
+
+        /**
+         * This method gets the total distance the player traveled
+         *
+         * @return the total distance the player traveled
+         * @param player
+         */
+        double getDistanceTraveled(Player player) {
+            return distanceTraveled;
+        }
+
+        /**
+         * This method sets the distance the player traveled since the last time we checked
+         *
+         * @param distanceTraveledAtLastCheck the distance we want to sets
+         * @param player
+         */
+        private void setDistanceTraveledAtLastCheck(double distanceTraveledAtLastCheck, Player player) {
+            this.distanceTraveledAtLastCheck = distanceTraveledAtLastCheck;
+        }
+
+        /**
+         * This method gets the distance the player traveled since the last time we checked
+         *
+         * @return the distance we want to sets
+         * @param player
+         */
+        public double getDistanceTraveledAtLastCheck(Player player) {
+            return distanceTraveledAtLastCheck;
+        }
+
+        /**
+         * This method updates the total distance the player traveled
+         *
+         * @param traveledAmount the distance we want to add
+         * @param player
+         */
+        public void updateDistanceTraveled(double traveledAmount, Player player) {
+            distanceTraveled = distanceTraveled + traveledAmount;
+        }
+
+        /**
+         * This methods update the local score of the Player,
+         * this is called each 10 seconds, so if the Player is alive (healthPoint is above 0), he gets 10 points
+         * and if he traveled enough distance (10 meters) he gets 10 bonus points
+         * @param player
+         */
+        public void updateLocalScore(Player player) {
+            if (player.status.healthPoints > 0) {
+                int bonusPoints = 10;
+                if (getDistanceTraveled(player) > getDistanceTraveledAtLastCheck(player) + 10) {
+                    bonusPoints += 10;
+                }
+                setDistanceTraveledAtLastCheck(getDistanceTraveled(player), player);
+                setCurrentGameScore(getCurrentGameScore(player) + bonusPoints, player);
+            }
+        }
+    }
+
+    public static class Wallet {
+        private int money;
+
+        public Wallet() {
+        }
+
+        /**
+         * A method to get the player's money
+         *
+         * @return an int which is equal to the player's money
+         * @param player
+         */
+        public int getMoney(Player player) {
+            return money;
+        }
+
+        /**
+         * A method to remove money from the player
+         *
+         * @param amount the amount of money we want to take from the player
+         * @param player
+         * @return a boolean that tells if the transaction finished correctly
+         */
+        public boolean removeMoney(int amount, Player player) {
+            if (money < amount || amount < 0) {
+                return false;
+            }
+            money = money - amount;
+            return true;
+        }
+
+        /**
+         * A method to add money to the player
+         *
+         * @param amount the amount of money we want to give to the player
+         * @param player
+         */
+        public void addMoney(int amount, Player player) {
+            if (amount < 0) {
+                return;
+            }
+            money = money + amount;
         }
     }
 }

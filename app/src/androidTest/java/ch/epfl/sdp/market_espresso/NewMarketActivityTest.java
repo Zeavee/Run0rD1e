@@ -57,8 +57,8 @@ public class NewMarketActivityTest {
             JunkCleaner.clearAll();
             Player amro = new Player(6.14, 46.22, 100, "amroa", "amro@gmail.com", false);
             amro.status.setHealthPoints(100, amro);
-            amro.removeMoney(amro.getMoney());
-            amro.addMoney(100000);
+            amro.wallet.removeMoney(amro.wallet.getMoney(amro), amro);
+            amro.wallet.addMoney(100000, amro);
             PlayerManager.getInstance().setCurrentUser(amro);
             MockMap mockMap = new MockMap();
             Game.getInstance().setMapApi(mockMap);

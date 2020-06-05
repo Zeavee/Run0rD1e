@@ -155,7 +155,7 @@ public abstract class StartGameController {
 
     void updateGeneralScore() {
         Player currentPlayer = PlayerManager.getInstance().getCurrentUser();
-        currentPlayer.setGeneralScore(currentPlayer.getGeneralScore() + currentPlayer.getCurrentGameScore());
+        currentPlayer.score.setGeneralScore(currentPlayer.score.getGeneralScore(currentPlayer) + currentPlayer.score.getCurrentGameScore(currentPlayer), currentPlayer);
         commonDatabaseAPI.updatePlayerGeneralScore(currentPlayer);
     }
 }

@@ -1,7 +1,5 @@
 package ch.epfl.sdp.items;
 
-import junit.framework.TestCase;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,10 +100,10 @@ public class ItemsTest {
 
     @Test
     public void coinTest() {
-        PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
+        PlayerManager.getInstance().getCurrentUser().wallet.removeMoney(PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()), PlayerManager.getInstance().getCurrentUser());
         Coin c = new Coin(5, new GeoPoint(10,10));
         assertEquals(5, c.getValue(), 0.0);
         c.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(5, PlayerManager.getInstance().getCurrentUser().getMoney());
+        assertEquals(5, PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()));
     }
 }
