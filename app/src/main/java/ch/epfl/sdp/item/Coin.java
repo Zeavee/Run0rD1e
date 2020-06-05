@@ -1,6 +1,6 @@
 package ch.epfl.sdp.item;
 
-
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
@@ -64,7 +64,7 @@ public class Coin extends Item implements Displayable, Updatable {
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
             String title = String.format("Coin of value %d", value);
-            mapApi.displayMarkerCircle(this, 0xFFD700, title, (int)aoeRadius);
+            mapApi.displaySmallIcon(this, title, R.drawable.coins);
             this.isDisplayed = true;
         }
     }

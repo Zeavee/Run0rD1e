@@ -21,19 +21,22 @@ import ch.epfl.sdp.item.Coin;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;
 
 public abstract class StartGameController {
     private RandomEnemyGenerator randomEnemyGenerator;
-    private RandomGenerator  randGen = new RandomGenerator();
+    private RandomGenerator randGen = new RandomGenerator();
     private static final int MAX_ENEMY = 10;
     private static final int MIN_DIST_FROM_ENEMIES = 100;
     private static final int MIN_DIST_FROM_PLAYERS = 100;
     private static final int MAX_QTY_INSIDE_ITEM_BOX = 5;
     private static final int NB_COINS = 20;
     private static final int NB_SHELTER_AREAS = 5;
+    private static final int NB_MARKETS = 2;
+    private Game gameInstance = Game.getInstance();
 
 
     final CommonDatabaseAPI commonDatabaseAPI;
@@ -100,10 +103,10 @@ public abstract class StartGameController {
      * @param enemyManager the enemy manager
      */
     void generateEnemy(EnemyManager enemyManager) {
-        if(enemyManager.getEnemies().size() < MAX_ENEMY) {
+        if (enemyManager.getEnemies().size() < MAX_ENEMY) {
             // generate new enemy
             Enemy enemy = randomEnemyGenerator.generateEnemy(100);
-            if(enemy != null) {
+            if (enemy != null) {
                 enemyManager.updateEnemies(enemy);
             }
         }
@@ -112,28 +115,18 @@ public abstract class StartGameController {
 
     /**
      * Creates Coins, the shelterAreas as well as the items inside the area
-     * @param gameArea
+     *
+     * @param gameArea the game area
      */
     void initGameObjects(Area gameArea) {
         for (int i = 0; i < NB_COINS; i++) {
             Coin c = randGen.randomCoin(gameArea.randomLocation());
-            Game.getInstance().addToDisplayList(c);
-            Game.getInstance().addToUpdateList(c);
-            ShelterArea s;
-            if(i < NB_SHELTER_AREAS) {
-                s = randGen.randomShelterArea(gameArea.randomLocation());
-                Game.getInstance().addToDisplayList(s);
-                Game.getInstance().addToUpdateList(s);
-            }
+            gameInstance.addToDisplayList(c);
+            gameInstance.addToUpdateList(c);
+            initShelterAreas(i, gameArea);
+            initMarkets(i, gameArea);
         }
     }
-
-    void updateGeneralScore() {
-        Player currentPlayer = PlayerManager.getInstance().getCurrentUser();
-        currentPlayer.setGeneralScore(currentPlayer.getGeneralScore() + currentPlayer.getCurrentGameScore());
-        commonDatabaseAPI.updatePlayerGeneralScore(currentPlayer);
-    }
-
 
     void initItemBox(Area gameArea) {
         ArrayList<Item> items = randGen.randomItemsList();
@@ -146,4 +139,23 @@ public abstract class StartGameController {
         }
     }
 
+    private void initMarkets(int i, Area gameArea) {
+        if (i < NB_MARKETS) {
+            gameInstance.addToDisplayList(new Market(gameArea.randomLocation()));
+        }
+    }
+
+    private void initShelterAreas(int i, Area gameArea) {
+        if (i < NB_SHELTER_AREAS) {
+            ShelterArea shelterArea = randGen.randomShelterArea(gameArea.randomLocation());
+            gameInstance.addToDisplayList(shelterArea);
+            gameInstance.addToUpdateList(shelterArea);
+        }
+    }
+
+    void updateGeneralScore() {
+        Player currentPlayer = PlayerManager.getInstance().getCurrentUser();
+        currentPlayer.setGeneralScore(currentPlayer.getGeneralScore() + currentPlayer.getCurrentGameScore());
+        commonDatabaseAPI.updatePlayerGeneralScore(currentPlayer);
+    }
 }

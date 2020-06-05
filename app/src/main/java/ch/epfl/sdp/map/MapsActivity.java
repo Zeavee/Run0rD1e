@@ -23,7 +23,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
@@ -43,7 +42,6 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.game.Solo;
 import ch.epfl.sdp.gameOver.GameOverActivity;
-import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.InventoryFragment;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
@@ -76,7 +74,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean flagGameOver = false;
 
     private final PlayerManager playerManager = PlayerManager.getInstance();
-
 
 
     /**
@@ -162,7 +159,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         Game.getInstance().setMapApi(new GoogleMapApi(googleMap));
         Game.getInstance().setRenderer(this);
-        Game.getInstance().addToDisplayList(new Market(new GeoPoint(6.141384, 46.214278))); // for demo add Market in GVA
+
         //Get email of CurrentUser;
         String email = authenticationAPI.getCurrentUserEmail();
 
@@ -225,16 +222,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
-    private void createPlayerInLobby(){
-                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                Map<String, Object> data = new HashMap<>();
+    private void createPlayerInLobby() {
+        PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+        Map<String, Object> data = new HashMap<>();
 
-                if(!playerManager.isInLobby()){
-                    data.put("players", playerManager.getNumPlayersInLobby() + 1);
-                }
+        if (!playerManager.isInLobby()) {
+            data.put("players", playerManager.getNumPlayersInLobby() + 1);
+        }
 
-                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                joinLobby(playerForFirebase, data);
+        Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+        joinLobby(playerForFirebase, data);
     }
 
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
