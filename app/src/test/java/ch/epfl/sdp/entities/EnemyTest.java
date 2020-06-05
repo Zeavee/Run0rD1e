@@ -5,7 +5,7 @@ import org.junit.Test;
 import ch.epfl.sdp.entities.enemy.Enemy;
 import ch.epfl.sdp.map.MockMap;
 
-import static ch.epfl.sdp.entities.artificial_intelligence.Behaviour.PATROL;
+import static ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour.PATROL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 

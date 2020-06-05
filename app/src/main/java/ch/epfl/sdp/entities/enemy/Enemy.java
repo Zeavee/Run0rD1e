@@ -5,13 +5,13 @@ import android.util.Log;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.entities.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.Positionable;
-import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.location.Positionable;
+import ch.epfl.sdp.geometry.area.UnboundedArea;
 import ch.epfl.sdp.geometry.Vector;
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.display.MapApi;
 
 /**
  * Represents a hostile entity.

@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
 

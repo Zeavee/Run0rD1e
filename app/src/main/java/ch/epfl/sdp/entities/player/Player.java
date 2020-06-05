@@ -4,10 +4,10 @@ import android.graphics.Color;
 
 import ch.epfl.sdp.entities.AoeRadiusEntity;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.items.Inventory;
-import ch.epfl.sdp.map.MapApi;
-import ch.epfl.sdp.map.MapsActivity;
+import ch.epfl.sdp.map.display.MapApi;
+import ch.epfl.sdp.ui.MapsActivity;
 
 /**
  * The player of the game

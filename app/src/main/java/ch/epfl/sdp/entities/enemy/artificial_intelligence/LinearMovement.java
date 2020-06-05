@@ -1,6 +1,6 @@
-package ch.epfl.sdp.entities.artificial_intelligence;
+package ch.epfl.sdp.entities.enemy.artificial_intelligence;
 
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 
 /**

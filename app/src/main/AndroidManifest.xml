@@ -61,7 +61,7 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".ui.map.MapsActivity"
+            android:name=".ui.MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".ui.login.RegisterFormActivity" />
     </application>

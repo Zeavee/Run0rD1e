@@ -1,6 +1,6 @@
 package ch.epfl.sdp.entities;
 
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * Represents an entity that has AOE radius.

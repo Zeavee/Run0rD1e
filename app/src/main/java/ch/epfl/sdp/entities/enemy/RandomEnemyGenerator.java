@@ -4,9 +4,9 @@ import java.util.List;
 
 import ch.epfl.sdp.entities.Entity;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.entities.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 
 /**

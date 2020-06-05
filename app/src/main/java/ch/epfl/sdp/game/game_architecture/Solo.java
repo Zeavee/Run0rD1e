@@ -1,4 +1,4 @@
-package ch.epfl.sdp.game;
+package ch.epfl.sdp.game.game_architecture;
 
 import android.util.Log;
 
@@ -6,8 +6,11 @@ import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.entities.enemy.EnemyManager;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.game.Updatable;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * Control the whole game lifecycle of the solo mode
@@ -39,6 +42,7 @@ public class Solo extends StartGameController implements Updatable {
             Area gameArea = initGameArea();
             createRandomEnemyGenerator(gameArea);
             generateEnemy(EnemyManager.getInstance());
+            initItemBox(gameArea);
             initGameObjects(gameArea);
             // start the Game thread
             Game.getInstance().addToUpdateList(this);

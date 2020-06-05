@@ -7,7 +7,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import ch.epfl.sdp.map.TimerUI;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.display.TimerUI;
 
 /**
  * A class that shrinks the game area over time.

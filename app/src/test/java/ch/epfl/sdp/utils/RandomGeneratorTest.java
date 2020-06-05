@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ch.epfl.sdp.entities.shelter_area.ShelterArea;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.items.Phantom;
 import ch.epfl.sdp.items.Shield;

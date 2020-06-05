@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.entities.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.entities.enemy.Enemy;
 import ch.epfl.sdp.entities.player.Player;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.items.Healthpack;
 import ch.epfl.sdp.items.Item;
 import ch.epfl.sdp.items.ItemBox;

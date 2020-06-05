@@ -1,4 +1,4 @@
-package ch.epfl.sdp.geometry;
+package ch.epfl.sdp.geometry.area;
 
 import androidx.annotation.NonNull;
 
@@ -6,12 +6,14 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.geometry.Vector;
+import ch.epfl.sdp.map.display.Displayable;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * Represents an area in the 2D plane, which can move and shrink.
  */
-public abstract class Area implements Positionable, Displayable, Updatable {
+public abstract class Area implements Displayable, Updatable {
     GeoPoint center;
     GeoPoint oldCenter;
     GeoPoint newCenter;
@@ -81,7 +83,7 @@ public abstract class Area implements Positionable, Displayable, Updatable {
      *
      * @param finalTime the time when the shrinking will end
      */
-    void setFinalTime(double finalTime) {
+    public void setFinalTime(double finalTime) {
         this.finalTime = finalTime;
     }
 
@@ -151,7 +153,6 @@ public abstract class Area implements Positionable, Displayable, Updatable {
      * @param area The area to get the modifications from.
      */
     public abstract void updateGameArea(Area area);
-
     @Override
     public void update() {
         if (damageDelay > 0) {

@@ -25,7 +25,7 @@ import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.ui.map.MapsActivity;
 import ch.epfl.sdp.items.Market;
 import ch.epfl.sdp.utils.JunkCleaner;

@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.display.Displayable;
+import ch.epfl.sdp.map.display.MapApi;
+import ch.epfl.sdp.map.display.Renderer;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 public class MockMap implements MapApi, Renderer {
     // Used for tests

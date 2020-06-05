@@ -1,4 +1,4 @@
-package ch.epfl.sdp.geometry;
+package ch.epfl.sdp.geometry.area;
 
 import android.graphics.Color;
 
@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.geometry.Vector;
+import ch.epfl.sdp.map.display.MapApi;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * Represents a rectangle area.

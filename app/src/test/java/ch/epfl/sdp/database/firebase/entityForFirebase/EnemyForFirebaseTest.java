@@ -2,7 +2,7 @@ package ch.epfl.sdp.database.firebase.entityForFirebase;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.entities.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Behaviour;
 
 import static org.junit.Assert.assertEquals;
 

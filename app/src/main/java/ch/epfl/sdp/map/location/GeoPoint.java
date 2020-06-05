@@ -1,7 +1,8 @@
-package ch.epfl.sdp.geometry;
+package ch.epfl.sdp.map.location;
 
 import android.util.Log;
 
+import ch.epfl.sdp.geometry.Vector;
 import uk.me.jstott.jcoord.LatLng;
 import uk.me.jstott.jcoord.UTMRef;
 

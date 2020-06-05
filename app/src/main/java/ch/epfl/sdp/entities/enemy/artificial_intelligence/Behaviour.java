@@ -1,4 +1,4 @@
-package ch.epfl.sdp.entities.artificial_intelligence;
+package ch.epfl.sdp.entities.enemy.artificial_intelligence;
 
 /**
  * Represents the states of an enemy.

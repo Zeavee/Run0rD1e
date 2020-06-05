@@ -1,13 +1,13 @@
 package ch.epfl.sdp.entities;
 
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.Positionable;
-import ch.epfl.sdp.map.Displayable;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.map.location.Positionable;
+import ch.epfl.sdp.map.display.Displayable;
 
 /**
  * Abstract class representing an entity
  */
-public abstract class Entity implements Positionable, Displayable {
+public abstract class Entity implements Displayable {
     /**
      * GeoPoint representing the localisation of the entity
      */

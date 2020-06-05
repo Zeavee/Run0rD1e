@@ -1,4 +1,4 @@
-package ch.epfl.sdp.game;
+package ch.epfl.sdp.game.game_architecture;
 
 import android.util.Log;
 
@@ -13,15 +13,18 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.utils.CustomResult;
 import ch.epfl.sdp.entities.enemy.Enemy;
 import ch.epfl.sdp.entities.enemy.EnemyManager;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.AreaFactory;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.geometry.area.AreaFactory;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.geometry.area.UnboundedArea;
 import ch.epfl.sdp.items.ItemBox;
 import ch.epfl.sdp.items.ItemBoxManager;
 

@@ -13,7 +13,7 @@ import java.util.Set;
 
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertFalse;

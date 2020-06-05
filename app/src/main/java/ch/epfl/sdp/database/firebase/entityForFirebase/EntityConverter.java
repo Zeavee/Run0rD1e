@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.entities.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.entities.enemy.Enemy;
 import ch.epfl.sdp.entities.enemy.EnemyManager;
 import ch.epfl.sdp.entities.player.Player;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.items.ItemBox;
 
 /**

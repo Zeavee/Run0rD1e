@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 public class WeatherFragment extends Fragment {
     private TextView addressTxt, updated_atTxt, statusTxt, tempTxt, temp_minTxt, temp_maxTxt, sunriseTxt,

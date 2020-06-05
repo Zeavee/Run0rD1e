@@ -1,7 +1,7 @@
-package ch.epfl.sdp.entities.artificial_intelligence;
+package ch.epfl.sdp.entities.enemy.artificial_intelligence;
 
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * The representation of a movement from an initial position in the 2D plane.

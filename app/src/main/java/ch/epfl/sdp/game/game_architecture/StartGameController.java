@@ -1,4 +1,4 @@
-package ch.epfl.sdp.game;
+package ch.epfl.sdp.game.game_architecture;
 
 import android.util.Log;
 
@@ -14,9 +14,10 @@ import ch.epfl.sdp.entities.enemy.EnemyManager;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.entities.shelter_area.ShelterArea;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.CircleArea;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.game.Game;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.geometry.area.CircleArea;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.items.Coin;
 import ch.epfl.sdp.items.Item;
 import ch.epfl.sdp.items.ItemBox;

@@ -3,7 +3,9 @@ package ch.epfl.sdp.geometry;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.epfl.sdp.geometry.area.UnboundedArea;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;

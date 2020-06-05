@@ -14,7 +14,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.utils.CustomResult;
 import ch.epfl.sdp.utils.OnValueReadyCallback;
-import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.area.Area;
 
 public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();

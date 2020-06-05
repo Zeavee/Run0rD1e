@@ -5,16 +5,16 @@ import org.junit.Test;
 
 import ch.epfl.sdp.entities.enemy.ArtificialMovingEntity;
 import ch.epfl.sdp.entities.enemy.Enemy;
-import ch.epfl.sdp.entities.artificial_intelligence.LinearMovement;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.LinearMovement;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.entities.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.SinusoidalMovement;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.geometry.area.RectangleArea;
+import ch.epfl.sdp.map.display.MapApi;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;

@@ -3,12 +3,12 @@ package ch.epfl.sdp.entities.enemy;
 import java.util.Random;
 
 import ch.epfl.sdp.entities.AoeRadiusEntity;
-import ch.epfl.sdp.entities.artificial_intelligence.LinearMovement;
-import ch.epfl.sdp.entities.artificial_intelligence.Movement;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.LinearMovement;
+import ch.epfl.sdp.entities.enemy.artificial_intelligence.Movement;
 import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.geometry.Area;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
+import ch.epfl.sdp.geometry.area.Area;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.geometry.area.UnboundedArea;
 
 /**
  * Represents an entity of the game that can move automatically by setting a movement. The movement

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import ch.epfl.sdp.entities.shelter_area.ShelterArea;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 import ch.epfl.sdp.items.Coin;
 import ch.epfl.sdp.items.Healthpack;

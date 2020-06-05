@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.map.location.GeoPoint;
 
 /**
  * This class should contain all the players in the current game. It allows to to operations on all

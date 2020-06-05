@@ -9,8 +9,8 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Updatable;
-import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.map.MapApi;
+import ch.epfl.sdp.map.location.GeoPoint;
+import ch.epfl.sdp.map.display.MapApi;
 
 /**
  * Represents a box that can store items and can be taken by players.

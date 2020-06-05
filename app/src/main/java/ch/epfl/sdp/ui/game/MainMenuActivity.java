@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
+import ch.epfl.sdp.ui.MapsActivity;
 import ch.epfl.sdp.ui.leader_board.GeneralLeaderBoardActivity;
 import ch.epfl.sdp.ui.login.LoginFormActivity;
 import ch.epfl.sdp.ui.social.FriendsListActivity;
 import ch.epfl.sdp.utils.MyApplication;
-import ch.epfl.sdp.ui.map.MapsActivity;
 import ch.epfl.sdp.utils.JunkCleaner;
 
 /**

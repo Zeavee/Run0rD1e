@@ -8,8 +8,8 @@ import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.entities.enemy.RandomEnemyGenerator;
 import ch.epfl.sdp.game.Game;
-import ch.epfl.sdp.geometry.CircleArea;
-import ch.epfl.sdp.geometry.GeoPoint;
+import ch.epfl.sdp.geometry.area.CircleArea;
+import ch.epfl.sdp.map.location.GeoPoint;
 import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertTrue;

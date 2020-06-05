@@ -21,7 +21,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.utils.CustomResult;
 import ch.epfl.sdp.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entities.player.PlayerManager;
-import ch.epfl.sdp.geometry.Area;
+import ch.epfl.sdp.geometry.area.Area;
 import ch.epfl.sdp.items.ItemBoxManager;
 
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {

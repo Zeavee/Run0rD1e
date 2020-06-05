@@ -17,7 +17,6 @@ import java.util.List;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.utils.WaitsOnWithServer;
-import ch.epfl.sdp.social.conversation.MessageAdapter;
 import ch.epfl.sdp.social.conversation.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.database.room.social.Chat;
