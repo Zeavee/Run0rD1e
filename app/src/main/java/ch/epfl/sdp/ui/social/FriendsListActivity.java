@@ -20,7 +20,9 @@ import ch.epfl.sdp.utils.WaitsOn;
 import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.database.room.social.User;
 
-
+/**
+ * This activity shows the friends list of the user
+ */
 public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {
 
     // To get the user info
@@ -75,11 +77,20 @@ public class FriendsListActivity extends AppCompatActivity implements WaitsOn<Us
         Log.d("RESUMED ", "size   " + friends.size());
     }
 
+    /**
+     * This method is used when we click on the button for adding a friend
+     *
+     * @param v the view on which we clicked
+     */
     public void onAddFriendClicked(View v) {
         startActivity(new Intent(FriendsListActivity.this, AddFriendsActivity.class));
     }
 
-    // for testing
+    /**
+     * This method returns the list of friends of the user
+     *
+     * @return the list of friends of the user
+     */
     public List<User> getFriends() {
         return new ArrayList<>(friends);
     }

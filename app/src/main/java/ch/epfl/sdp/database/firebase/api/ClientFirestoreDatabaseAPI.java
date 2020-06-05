@@ -15,11 +15,15 @@ import ch.epfl.sdp.utils.CustomResult;
 import ch.epfl.sdp.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entities.player.PlayerManager;
 
+/**
+ * This class implements the Fire Store APi for the client
+ */
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;
     private final List<ListenerRegistration> listeners = new ArrayList<>();
 
+    @Override
     public void setLobbyRef(String lobbyName) {
         lobbyRef = firebaseFirestore.collection(PlayerManager.LOBBY_COLLECTION_NAME).document(lobbyName);
     }

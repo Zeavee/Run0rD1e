@@ -14,6 +14,9 @@ import java.util.List;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.room.social.User;
 
+/**
+ * This class adapts the friends list so we can show it on the user interface
+ */
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 
     private final List<User> mValues;

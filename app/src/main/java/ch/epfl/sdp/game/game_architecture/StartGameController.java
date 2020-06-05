@@ -133,7 +133,7 @@ public abstract class StartGameController {
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
             ItemBox itemBox = new ItemBox(gameArea.randomLocation());
-            itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
+            itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX) + 1);
              Game.getInstance().addToDisplayList(itemBox);
              Game.getInstance().addToUpdateList(itemBox);
             ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list

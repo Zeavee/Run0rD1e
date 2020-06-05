@@ -24,6 +24,9 @@ import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.geometry.area.Area;
 import ch.epfl.sdp.items.item_box.ItemBoxManager;
 
+/**
+ * This class implements the Fire Store APi for the server
+ */
 public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private DocumentReference lobbyRef;

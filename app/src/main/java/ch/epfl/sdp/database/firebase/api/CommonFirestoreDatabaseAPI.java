@@ -25,6 +25,10 @@ import ch.epfl.sdp.utils.OnValueReadyCallback;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 
+
+/**
+ * This class implements the Fire Store APi for the client and the server
+ */
 public class CommonFirestoreDatabaseAPI implements CommonDatabaseAPI {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
     private static final PlayerManager playerManager = PlayerManager.getInstance();

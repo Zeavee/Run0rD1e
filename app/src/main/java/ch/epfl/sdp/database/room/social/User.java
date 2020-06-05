@@ -24,22 +24,43 @@ public class User {
     }
 
     // This constructor should not be used for database related operations (hence @Ignore)
+    /**
+     * Creates a user in the database
+     *
+     * @param email    the email of the user
+     * @param username the username of the user
+     */
     @Ignore
-    public User(String email, String username) {
+    public User(@NonNull String email, String username) {
         this.email = email;
         this.username = username;
     }
 
+    /**
+     * Gets the username of the user
+     *
+     * @return the username of the user
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Gets the email of the user
+     *
+     * @return the email of the user
+     */
     @NonNull
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    /**
+     * Sets the email of the user
+     *
+     * @param email the email we want to set
+     */
+    public void setEmail(@NonNull String email) {
         this.email = email;
     }
 

@@ -16,8 +16,10 @@ import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.social.RecyclerQueryAdapter;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
 
+/**
+ * This activity permits to add friends in the user's friends list
+ */
 public class AddFriendsActivity extends AppCompatActivity {
-
     private RecyclerQueryAdapter cached_adapter;
     private RemoteFriendFetcher server;
 
