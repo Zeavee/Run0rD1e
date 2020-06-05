@@ -97,30 +97,6 @@ public class RegisterTest {
     }
 
     @Test
-    public void writingUsername_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.username)).perform(typeText("Username"));
-    }
-
-    @Test
-    public void writingEmail_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.email)).perform(typeText("Email"));
-    }
-
-    @Test
-    public void writingPassword_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.txtRegisterPassword)).perform(typeText("password"));
-    }
-
-    @Test
-    public void writingPasswordConfirmation_ShouldBeDisplayed() {
-        closeSoftKeyboard();
-        onView(withId(R.id.passwordconf)).perform(typeText("password"));
-    }
-
-    @Test
     public void registering_ShouldFailOnEmptyTextFields() {
         for (int i = 0; i < 3; ++i) {
             MissingFieldTestFactory.testFieldFourActions(new Pair<>(testCases.get(i * 4), testCasesInt.get(i * 4)),
