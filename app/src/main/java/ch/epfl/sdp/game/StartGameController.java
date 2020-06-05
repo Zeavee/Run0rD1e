@@ -105,7 +105,7 @@ public abstract class StartGameController {
     void generateEnemy(EnemyManager enemyManager) {
         if (enemyManager.getEnemies().size() < MAX_ENEMY) {
             // generate new enemy
-            Enemy enemy = randomEnemyGenerator.generateEnemy(100);
+            Enemy enemy = randomEnemyGenerator.generateEnemy();
             if (enemy != null) {
                 enemyManager.updateEnemies(enemy);
             }

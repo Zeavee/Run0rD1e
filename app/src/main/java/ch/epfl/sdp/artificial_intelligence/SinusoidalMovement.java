@@ -15,7 +15,6 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Creates a movement which is sinusoidal.
-     *
      */
     public SinusoidalMovement() {
         this(1, 2 * Math.PI / 60);
@@ -23,8 +22,9 @@ public class SinusoidalMovement extends Movement {
 
     /**
      * Creates a movement which is sinusoidal based on it's amplitude and angle step.
-     *  @param amplitude       The amplitude of the sine function.
-     * @param angleStep       The step value to be added to the angle after each move.
+     *
+     * @param amplitude The amplitude of the sine function.
+     * @param angleStep The step value to be added to the angle after each move.
      */
     public SinusoidalMovement(double amplitude, double angleStep) {
         super();
@@ -80,7 +80,7 @@ public class SinusoidalMovement extends Movement {
 
     @Override
     public GeoPoint nextPosition(GeoPoint from) {
-        if(getVelocity() == 0){
+        if (getVelocity() == 0) {
             return from;
         }
 
