@@ -70,7 +70,6 @@ public class Client extends StartGameController implements Updatable {
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
                             addListeners();
-                            initCoins(area);
                         } else
                             Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                     });
@@ -188,6 +187,7 @@ public class Client extends StartGameController implements Updatable {
                 if (area instanceof UnboundedArea) {
                     area = new AreaFactory().getArea(value.getResult());
                     Game.getInstance().addToDisplayList(area);
+                    initCoins(area);
                 }
                 area.updateGameArea(new AreaFactory().getArea(value.getResult()));
                 Game.getInstance().areaShrinker.showRemainingTime(area.getRemainingTimeString());

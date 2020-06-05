@@ -147,7 +147,6 @@ public class Server extends StartGameController implements Updatable {
                 System.out.println("HEEEEEEEEEEEEEEEEEEEEEEEEERE!");
                 initCoins(gameArea);
                 System.out.println("DOOOOOOOOONE");
-
             } else
                 Log.d(TAG, "init environment: fetch general score failed " + value.getException().getMessage());
         });
