@@ -18,13 +18,10 @@ import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Coin;
-import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.ItemBox;
 import ch.epfl.sdp.item.ItemBoxManager;
-import ch.epfl.sdp.item.Scan;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.market.Market;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static android.content.ContentValues.TAG;
@@ -38,6 +35,7 @@ public abstract class StartGameController {
     private static final int MAX_QTY_INSIDE_ITEM_BOX = 5;
     private static final int NB_COINS = 20;
     private static final int NB_SHELTER_AREAS = 5;
+    private static final int NB_MARKETS = 2;
     private Game gameInstance = Game.getInstance();
 
 
@@ -129,6 +127,10 @@ public abstract class StartGameController {
                 s = randGen.randomShelterArea(gameArea.randomLocation());
                 gameInstance.addToDisplayList(s);
                 gameInstance.addToUpdateList(s);
+            }
+
+            if(i < NB_MARKETS) {
+                gameInstance.addToDisplayList(new Market(gameArea.randomLocation()));
             }
         }
         ArrayList<Item> items = randGen.randomItemsList();
