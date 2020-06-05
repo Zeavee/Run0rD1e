@@ -14,10 +14,6 @@ import static java.lang.Math.toRadians;
  * Class GeoPoint: Represents a point on the surface of the Earth
  */
 public final class GeoPoint {
-    /**
-     * Constant value which represents the length of Earth's radius (in meters)
-     */
-    private final double EARTH_RADIUS = 6371000;
     private final double longitude;
     private final double latitude;
 
@@ -70,7 +66,7 @@ public final class GeoPoint {
     /**
      * Method which computes haversin(x)
      *
-     * @param x
+     * @param x abscissa axis
      * @return [sin(x / 2)]^2
      */
     private double haversin(double x) {
@@ -81,11 +77,12 @@ public final class GeoPoint {
     /**
      * Method which converts radians to meters
      *
-     * @param distanceInRadians
+     * @param distanceInRadians the distance in radians
      * @return the corresponding distance in meters
      */
     private double toMeters(double distanceInRadians) {
-        return distanceInRadians * EARTH_RADIUS;
+        double earth_radius = 6371000;
+        return distanceInRadians * earth_radius;
     }
 
     /**
@@ -128,12 +125,24 @@ public final class GeoPoint {
         return new Vector(getX(), getY());
     }
 
+    /**
+     * Converts a point in the geodesic surface into a point in the plane.
+     * @param geoPoint The point in the geodesic surface.
+     * @return A point in the plane.
+     */
     private UTMRef geoPointToUTMRef(GeoPoint geoPoint) {
         LatLng laln = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-        UTMRef utm = laln.toUTMRef();
-        return utm;
+        return laln.toUTMRef();
     }
 
+    /**
+     * Converts a point in the plane into a point in the geodesic surface.
+     * @param x The abscissa axis.
+     * @param y The ordinate axis.
+     * @param refGeoPoint The reference point in the geodesic surface, needs to be close to actual
+     *                    location of the device.
+     * @return A point in the geodesic surface.
+     */
     private GeoPoint utmToGeoPoint(double x, double y, GeoPoint refGeoPoint) {
         int lngZone = (int) Math.floor((refGeoPoint.getLongitude() + 180) / 6.0) + 1;
         char latZone = UTMRef.getUTMLatitudeZoneLetter(refGeoPoint.getLatitude());

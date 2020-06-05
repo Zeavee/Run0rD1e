@@ -2,6 +2,7 @@ package ch.epfl.sdp.game;
 
 import android.util.Log;
 
+import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.entity.EnemyManager;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -21,7 +22,8 @@ public class Solo extends StartGameController implements Updatable {
     /**
      * The constructor for the Solo.
      */
-    public Solo() {
+    public Solo(CommonDatabaseAPI commonDatabaseAPI) {
+        super(commonDatabaseAPI);
         this.gameStarted = false;
         this.gameEnd = false;
     }
@@ -92,6 +94,7 @@ public class Solo extends StartGameController implements Updatable {
         if (!gameEnd && currentUser.getHealthPoints() <= 0) {
             currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
             gameEnd = true;
+            commonDatabaseAPI.updatePlayerGeneralScore(currentUser);
         }
     }
 

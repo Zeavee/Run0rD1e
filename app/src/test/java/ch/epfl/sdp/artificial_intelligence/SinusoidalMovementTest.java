@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SinusoidalMovementTest {
     @Test
-    public void testDefaultConstructor() {
+    public void testDefaultConstructorCreatesSinusoidalMovement() {
         SinusoidalMovement sinusoidalMovement = new SinusoidalMovement();
         sinusoidalMovement.setAmplitude(10);
         assertTrue(sinusoidalMovement.getAmplitude() == 10);

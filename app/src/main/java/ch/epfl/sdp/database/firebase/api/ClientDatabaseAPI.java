@@ -61,4 +61,6 @@ public interface ClientDatabaseAPI {
      * This method cleans the listeners of the API
      */
     void cleanListeners();
+
+    void addServerAliveSignalListener(OnValueReadyCallback<CustomResult<Long>> onValueReadyCallback);
 }

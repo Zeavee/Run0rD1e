@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
@@ -183,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         playerManager.setIsServer(false);
 
                         // Create a soloMode instance and start the game
-                        Game.getInstance().startGameController = new Solo();
+                        Game.getInstance().startGameController = new Solo(commonDatabaseAPI);
 
                     } else if (playMode.equals("multi-player")) {
                         // Set the soloMode in the playerManager to be false
@@ -215,16 +216,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void selectLobby() {
         commonDatabaseAPI.selectLobby(selectLobbyRes -> {
             if (selectLobbyRes.isSuccessful()) {
-                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
-                Map<String, Object> data = new HashMap<>();
-                data.put("count", playerManager.getNumPlayersInLobby() + 1);
-                if (playerManager.isServer()) data.put("startGame", false);
-                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
-                joinLobby(playerForFirebase, data);
+
+                createPlayerInLobby();
+
             } else {
                 Toast.makeText(MapsActivity.this, selectLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void createPlayerInLobby(){
+                PlayerForFirebase playerForFirebase = EntityConverter.playerToPlayerForFirebase(playerManager.getCurrentUser());
+                Map<String, Object> data = new HashMap<>();
+
+                if(!playerManager.isInLobby()){
+                    data.put("players", playerManager.getNumPlayersInLobby() + 1);
+                }
+
+                Log.d("Database", "Lobby selected:" + playerManager.getLobbyDocumentName());
+                joinLobby(playerForFirebase, data);
     }
 
     private void joinLobby(PlayerForFirebase playerForFirebase, Map<String, Object> lobbyData) {
@@ -237,7 +247,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 } else {
                     clientDatabaseAPI.setLobbyRef(playerManager.getLobbyDocumentName());
-                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI);
+                    Game.getInstance().startGameController = new Client(clientDatabaseAPI, commonDatabaseAPI, this::endGame);
                 }
             } else {
                 Toast.makeText(MapsActivity.this, registerToLobbyRes.getException().getMessage(), Toast.LENGTH_LONG).show();

@@ -32,6 +32,7 @@ import ch.epfl.sdp.item.ItemBoxManager;
 public class Client extends StartGameController implements Updatable {
     private static final String TAG = "Database";
     private int counter = 0;
+    private int counter10Sec = 0;
     private final ClientDatabaseAPI clientDatabaseAPI;
     private final CommonDatabaseAPI commonDatabaseAPI;
     private final PlayerManager playerManager = PlayerManager.getInstance();
@@ -39,14 +40,21 @@ public class Client extends StartGameController implements Updatable {
     private final ItemBoxManager itemBoxManager = ItemBoxManager.getInstance();
     private Area area = new UnboundedArea();
     private boolean gameStarted;
+    private long oldSignal;
+    private long signal;
+    private Runnable endGame;
 
     /**
      * Creates a new client
      */
-    public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI) {
+    public Client(ClientDatabaseAPI clientDatabaseAPI, CommonDatabaseAPI commonDatabaseAPI, Runnable endGame) {
+        super(commonDatabaseAPI);
         this.clientDatabaseAPI = clientDatabaseAPI;
         this.commonDatabaseAPI = commonDatabaseAPI;
         this.gameStarted = false;
+        this.oldSignal = 10;
+        this.signal = 0;
+        this.endGame = endGame;
     }
 
     @Override
@@ -61,6 +69,7 @@ public class Client extends StartGameController implements Updatable {
                             addPlayersInPlayerManager(playerManager, value1.getResult());
                             Game.getInstance().addToUpdateList(this);
                             Game.getInstance().initGame();
+                            addListeners();
                         } else
                             Log.d(TAG, "initEnvironment: failed" + value1.getException().getMessage());
                     });
@@ -68,7 +77,6 @@ public class Client extends StartGameController implements Updatable {
             });
             addListeners();
             initGameObjects(area);
-
         }
     }
 
@@ -78,7 +86,7 @@ public class Client extends StartGameController implements Updatable {
         addPlayersListener();
         addUserItemListener();
         addGameAreaListener();
-
+        addServerAliveSignalListener();
     }
 
     @Override
@@ -88,7 +96,30 @@ public class Client extends StartGameController implements Updatable {
             sendUsedItems();
             counter = 2 * GameThread.FPS + 1;
         }
+
+        if (counter10Sec <= 0) {
+            checkSignalChanged();
+            counter10Sec = 10 * GameThread.FPS + 1;
+        }
+
+        --counter10Sec;
         --counter;
+    }
+
+    private void addServerAliveSignalListener() {
+        clientDatabaseAPI.addServerAliveSignalListener((CustomResult<Long> value) -> {
+            signal = value.getResult();
+        });
+    }
+
+    private void checkSignalChanged() {
+        if (signal != oldSignal) {
+            oldSignal = signal;
+        } else {
+            updateGeneralScore();
+            endGame.run();
+            Log.d("Client", "Server does not respond.");
+        }
     }
 
     private void addEnemyListener() {
@@ -194,6 +225,4 @@ public class Client extends StartGameController implements Updatable {
             playerManager.getCurrentUser().getInventory().clearUsedItems();
         }
     }
-
-
 }

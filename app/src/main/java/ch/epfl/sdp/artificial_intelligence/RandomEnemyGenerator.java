@@ -67,16 +67,13 @@ public class RandomEnemyGenerator {
         this.minDistanceFromEnemies = minDistanceFromEnemies;
     }
 
-
-
     GeoPoint rule() {
-        Random rd = new Random();
         GeoPoint enemyPos;
-        int maxIter = 500;
+        int maxIteration = 500;
         do {
             enemyPos = enclosure.randomLocation();
-            --maxIter;
-        } while (maxIter > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
+            --maxIteration;
+        } while (maxIteration > 0 && (checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) PlayerManager.getInstance().getPlayers(), minDistanceFromPlayers)
                 || checkDistanceFromList(enemyPos, (List<Entity>) (List<?>) EnemyManager.getInstance().getEnemies(), minDistanceFromEnemies)));
         return enemyPos;
     }

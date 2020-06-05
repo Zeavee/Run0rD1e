@@ -45,7 +45,7 @@ public class ClientTest {
     public void testClient() {
         JunkCleaner.clearAll();
         setupEnvironment();
-        Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI);
+        Client client = new Client(clientMockDatabaseAPI, commonMockDatabaseAPI, () -> {});
         Game.getInstance().areaShrinker.setTimerUI(timeAsString -> {
 
         });

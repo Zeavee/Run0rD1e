@@ -60,17 +60,22 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     }
 
     @Override
-    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
-
-    }
-
-    @Override
     public void addUsedItemsListener(OnValueReadyCallback<CustomResult<Map<String, ItemsForFirebase>>> onValueReadyCallback) {
 
     }
 
     @Override
     public void cleanListeners() {
+
+    }
+
+    @Override
+    public void sendServerAliveSignal(long signal) {
+
+    }
+
+    @Override
+    public void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap) {
 
     }
 

@@ -5,6 +5,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     public void listenToNumOfPlayers(OnValueReadyCallback<CustomResult<Void>> onValueReadyCallback) {
         AtomicBoolean flag = new AtomicBoolean(false);
         ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
-            if ((Long) documentSnapshot.get("count") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
+            if ((Long) documentSnapshot.get("players") == PlayerManager.NUMBER_OF_PLAYERS_IN_LOBBY && !flag.get()) {
                 flag.set(true);
                 onValueReadyCallback.finish(new CustomResult<>(null, true, null));
             }
@@ -111,20 +112,7 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
         batch.commit();
     }
 
-    @Override
-    public void updatePlayersScore(String scoreType, Map<String, Integer> emailsScoreMap) {
-        WriteBatch batch = firebaseFirestore.batch();
-        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
-            if (scoreType.equals("currentGameScore")) {
-                DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
-                batch.update(docRef, "currentGameScore", entry.getValue());
-            } else if (scoreType.equals("generalScore")) {
-                DocumentReference docRef = firebaseFirestore.collection(PlayerManager.USER_COLLECTION_NAME).document(entry.getKey());
-                batch.update(docRef, "generalScore", entry.getValue());
-            }
-        }
-        batch.commit();
-    }
+
 
 
     @Override
@@ -174,5 +162,22 @@ public class ServerFirestoreDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public void cleanListeners() {
         FireStoreDatabaseAPI.cleanListeners(listeners);
+    }
+
+    @Override
+    public void sendServerAliveSignal(long signal) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("signal", signal);
+        lobbyRef.update(data);
+    }
+
+    @Override
+    public void updatePlayersCurrentScore(Map<String, Integer> emailsScoreMap) {
+        WriteBatch batch = firebaseFirestore.batch();
+        for (Map.Entry<String, Integer> entry : emailsScoreMap.entrySet()) {
+            DocumentReference docRef = lobbyRef.collection(PlayerManager.PLAYER_COLLECTION_NAME).document(entry.getKey());
+            batch.update(docRef, "currentGameScore", entry.getValue());
+        }
+        batch.commit();
     }
 }

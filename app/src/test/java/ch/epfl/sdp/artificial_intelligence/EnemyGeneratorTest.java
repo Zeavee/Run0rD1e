@@ -9,11 +9,9 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.RandomGenerator;
 
-import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertNotNull;
 
@@ -25,7 +23,7 @@ public class EnemyGeneratorTest {
     }
 
     @Test
-    public void generateEnemyWorks() {
+    public void testGenerateEnemyCreatesAnEnemy() {
         Player player = new Player("test", "test@gmail.com");
         player.setLocation(new GeoPoint(10, 20));
         PlayerManager.getInstance().setCurrentUser(player);
@@ -39,7 +37,7 @@ public class EnemyGeneratorTest {
     }
 
     @Test
-    public void setMinDistanceWorks() {
+    public void testSetMinDistanceMakesSpawningFurtherThanMinDistance() {
         Player player = new Player(45, 45, 100, "a", "b");
         PlayerManager.getInstance().addPlayer(player);
         RandomEnemyGenerator enemyGenerator = new RandomEnemyGenerator(new CircleArea(5000, player.getLocation()));

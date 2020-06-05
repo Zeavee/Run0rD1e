@@ -21,7 +21,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * When the forceMove is true the entity is allowed to go move outside the area.
      */
     private boolean forceMove = false;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     /**
      * Creates a default moving artificial entity, without a bounded area and with a linear
@@ -109,15 +109,22 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
         this.movement = movement;
     }
 
+    /**
+     * Goes to the next position based on the movement of the entity.
+     */
     public void move() {
         GeoPoint position = movement.nextPosition(getLocation());
-        if (area.isInside(position) || forceMove) {
+        if ((area.isInside(position) && moving) || forceMove) {
             super.setLocation(position);
         } else {
             bounce();
         }
     }
 
+    /**
+     * Checks if the entity is moving.
+     * @return True if and only if the entity is moving (i.e. moving flag is true).
+     */
     public boolean isMoving() {
         return moving;
     }

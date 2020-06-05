@@ -141,9 +141,7 @@ public class Vector {
         if (o.getClass() == this.getClass()) {
             Vector vector = (Vector) o;
 
-            if (x == vector.x && y == vector.y) {
-                return true;
-            }
+            return x == vector.x && y == vector.y;
         }
 
         return false;

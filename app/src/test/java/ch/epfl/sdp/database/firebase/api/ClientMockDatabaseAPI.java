@@ -88,4 +88,9 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     public void cleanListeners() {
 
     }
+
+    @Override
+    public void addServerAliveSignalListener(OnValueReadyCallback<CustomResult<Long>> onValueReadyCallback) {
+
+    }
 }

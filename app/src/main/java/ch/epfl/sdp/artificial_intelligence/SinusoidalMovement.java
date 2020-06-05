@@ -1,7 +1,5 @@
 package ch.epfl.sdp.artificial_intelligence;
 
-import android.util.Log;
-
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.Vector;
 

@@ -17,6 +17,7 @@ import ch.epfl.sdp.map.MockMap;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class ArtificialMovingEntityTest {
     MockMap map;
@@ -37,11 +38,10 @@ public class ArtificialMovingEntityTest {
     }
 
     @Test
-    public void LinearMovementWorks() {
+    public void testLinearMovementIsLinear() {
         ArtificialMovingEntity artificialMovingEntity = new Enemy();
         GeoPoint location = new GeoPoint(0,0);
         artificialMovingEntity.setLocation(location);
-
 
         LinearMovement movement = new LinearMovement();
         artificialMovingEntity.setMovement(movement);
@@ -61,7 +61,7 @@ public class ArtificialMovingEntityTest {
     }
 
     @Test
-    public void SinusMovementWorks() {
+    public void testSinusMovementIsSinusoidal() {
         GeoPoint location = new GeoPoint(40, 50);
         ame.setLocation(location);
         SinusoidalMovement movement = new SinusoidalMovement(2, 2 * Math.PI / 4);
@@ -86,31 +86,50 @@ public class ArtificialMovingEntityTest {
     }
 
     @Test
-    public void secondConstructorWorks() {
-        Area area = new UnboundedArea();
-        GeoPoint location = new GeoPoint(0,0);
-        ame.setLocalArea(area);
-        ame.setLocation(location);
-        assertEquals(area, ame.getLocalArea());
-        assertTrue(area.isInside(ame.getLocation()));
-    }
-
-    @Test
-    public void entityDoesNotGetOutOfBoundsWithLinear() {
-        GeoPoint entityLocation = new GeoPoint(40, 50);
-        Area rectangleArea = new RectangleArea(1, 1, entityLocation);
-        LinearMovement movement = new LinearMovement();
-
-        ame.setLocation(entityLocation);
-        ame.setMovement(movement);
-        ame.setLocalArea(rectangleArea);
-
-        movement.setVelocity(10);
-        ame.setMovement(movement);
+    public void testEntityDoesNotGetOutOfBoundsWithLinearMovement() {
+        GeoPoint location = new GeoPoint(40, 50);
+        setArtificialMovingEntity(location, location);
 
         for (int i = 0; i < 1000; ++i) {
             ame.update();
-            assertTrue(rectangleArea.isInside(ame.getLocation()));
+            assertTrue(ame.getLocalArea().isInside(ame.getLocation()));
         }
+    }
+
+    @Test
+    public void testEntityDoesNotMovesWhenOutsideArea(){
+        setArtificialMovingEntity(new GeoPoint(40, 50), new GeoPoint(0, 0));
+        GeoPoint entityLocation = ame.getLocation();
+
+        for (int i = 0; i < 1000; ++i) {
+            ame.update();
+            assertFalse(ame.getLocalArea().isInside(ame.getLocation()));
+            assertTrue(ame.getLocation() == entityLocation);
+        }
+    }
+
+    @Test
+    public void testEntityMovesWhenOutsideAreaIfForceMoveIsTrue(){
+        setArtificialMovingEntity(new GeoPoint(40, 50), new GeoPoint(0, 0));
+        ame.setForceMove(true);
+        GeoPoint oldLocation = ame.getLocation();
+
+        for (int i = 0; i < 1000; ++i) {
+            ame.update();
+            assertFalse(ame.getLocalArea().isInside(ame.getLocation()));
+            assertFalse(ame.getLocation() == oldLocation);
+            oldLocation = ame.getLocation();
+        }
+    }
+
+    private void setArtificialMovingEntity(GeoPoint entityLocation, GeoPoint areaLocation){
+        Area rectangleArea = new RectangleArea(1, 1, areaLocation);
+
+        ame.setLocation(entityLocation);
+        ame.setLocalArea(rectangleArea);
+
+        LinearMovement movement = new LinearMovement();
+        movement.setVelocity(10);
+        ame.setMovement(movement);
     }
 }

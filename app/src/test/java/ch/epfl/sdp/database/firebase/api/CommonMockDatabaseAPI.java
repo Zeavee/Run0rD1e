@@ -9,6 +9,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 
 public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
     private Map<String, UserForFirebase> userForFirebaseMap = new HashMap<>();
@@ -63,6 +64,11 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void cleanListeners() {
+
+    }
+
+    @Override
+    public void updatePlayerGeneralScore(Player player) {
 
     }
 }

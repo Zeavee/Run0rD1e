@@ -7,6 +7,7 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
 import ch.epfl.sdp.database.utils.CustomResult;
 import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entity.Player;
 
 /**
  * This interface contains the methods related to the Firebase FireStore
@@ -73,4 +74,11 @@ public interface CommonDatabaseAPI {
      * This method cleans the listeners of the API
      */
     void cleanListeners();
+
+    /**
+     * Update the general score of the player using the current score at the end of the game
+     *
+     * @param player the player we want to update the score
+     */
+    void updatePlayerGeneralScore(Player player);
 }

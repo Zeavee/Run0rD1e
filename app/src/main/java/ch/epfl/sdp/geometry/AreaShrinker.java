@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import ch.epfl.sdp.map.TimerUI;
 
 /**
- * A class that shrinks the game area over time
+ * A class that shrinks the game area over time.
  */
 public class AreaShrinker {
     private Area gameArea;
@@ -18,9 +18,9 @@ public class AreaShrinker {
     private long finalTime;
     private TimerUI timerUI;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private long timeBeforeShrinking;
-    private long shrinkingDuration;
-    private double shrinkFactor;
+    private final long timeBeforeShrinking;
+    private final long shrinkingDuration;
+    private final double shrinkFactor;
     private final long tick = 500;
     private boolean isStarted;
     private Timer timer = new Timer();
@@ -40,6 +40,9 @@ public class AreaShrinker {
         this.shrinkFactor = shrinkFactor;
     }
 
+    /**
+     * The area starts shrinking, and stops after the shrinking duration.
+     */
     private void startShrink() {
         isStarted = true;
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -64,6 +67,11 @@ public class AreaShrinker {
         }, 0, 1);
     }
 
+    /**
+     * Configure a specific timer for the area shrinker.
+     * @param finalTime The duration of the timer.
+     * @param runnable The action to execute when timer is on.
+     */
     private ScheduledFuture<?> runTimer(long finalTime, Runnable runnable) {
         time[0] = 0;
         this.finalTime = finalTime;
@@ -79,6 +87,10 @@ public class AreaShrinker {
         return update;
     }
 
+    /**
+     * Get the remaining time as a string.
+     * @return The remaining time as a string.
+     */
     private String getRemainingTimeAsString() {
         double remainingTime = finalTime - time[0];
         int minutes = (int) remainingTime / 60000;
@@ -106,6 +118,9 @@ public class AreaShrinker {
         startIfReady();
     }
 
+    /**
+     * Start shrinking if everything is ok.
+     */
     private void startIfReady() {
         if (gameArea != null && timerUI != null && !isStarted) {
             startShrink();

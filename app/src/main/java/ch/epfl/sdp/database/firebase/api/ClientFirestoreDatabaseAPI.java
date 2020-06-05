@@ -1,5 +1,6 @@
 package ch.epfl.sdp.database.firebase.api;
 
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -82,4 +83,20 @@ public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     public void cleanListeners() {
         FireStoreDatabaseAPI.cleanListeners(listeners);
     }
+
+    @Override
+    public void addServerAliveSignalListener(OnValueReadyCallback<CustomResult<Long>> onValueReadyCallback) {
+        ListenerRegistration listenerRegistration = lobbyRef.addSnapshotListener((documentSnapshot, e) -> {
+            if (e != null) onValueReadyCallback.finish(new CustomResult<>(null, false, e));
+            else {
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    Long signal = (Long) documentSnapshot.get("signal");
+                    onValueReadyCallback.finish(new CustomResult<>(signal, true, null));
+                }
+            }
+        });
+
+        listeners.add(listenerRegistration);
+    }
+
 }

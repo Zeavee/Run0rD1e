@@ -78,7 +78,7 @@ public abstract class Movement {
      * Returns the next position determined by the movement.
      *
      * @return A position in the 2D plane.
-     * @param from
+     * @param from The position from where we go to the next position
      */
     public abstract GeoPoint nextPosition(GeoPoint from);
 }

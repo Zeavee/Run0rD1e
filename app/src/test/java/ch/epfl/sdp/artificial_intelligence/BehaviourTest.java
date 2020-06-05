@@ -34,7 +34,7 @@ public class BehaviourTest {
     }
 
     @Test
-    public void attackShouldLessenThePlayerLifeWhenInAttackRange() {
+    public void testAttackLessenThePlayerLifeWhenInAttackRange() {
         double health = player.getHealthPoints();
 
         while (enemy.getBehaviour() == Behaviour.WAIT ||
@@ -56,7 +56,7 @@ public class BehaviourTest {
     }
 
     @Test
-    public void fromAttackToWaitWhenWaiting() {
+    public void testAttackChangesToWaitWhenWaiting() {
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL ||
@@ -71,7 +71,7 @@ public class BehaviourTest {
     }
 
     @Test
-    public void fromChaseToWaitWhenWaiting() {
+    public void testChaseChangesToWaitWhenWaiting() {
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER ||
                 enemy.getBehaviour() == Behaviour.PATROL) {
@@ -85,7 +85,7 @@ public class BehaviourTest {
     }
 
     @Test
-    public void fromPatrolToWaitWhenWaiting() {
+    public void testPatrolChangesToWaitWhenWaiting() {
         while (enemy.getBehaviour() == Behaviour.WAIT ||
                 enemy.getBehaviour() == Behaviour.WANDER) {
             enemy.update();
@@ -98,7 +98,7 @@ public class BehaviourTest {
     }
 
     @Test
-    public void fromWanderToWaitWhenWaiting() {
+    public void testWanderChangesToWaitWhenWaiting() {
         while (enemy.getBehaviour() == Behaviour.WAIT) {
             enemy.update();
         }
