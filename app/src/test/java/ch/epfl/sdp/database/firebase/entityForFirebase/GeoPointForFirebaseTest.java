@@ -9,13 +9,13 @@ public class GeoPointForFirebaseTest {
     public void test(){
         GeoPointForFirebase geoPointForFirebase = new GeoPointForFirebase(22,22);
 
-        assertEquals(22, geoPointForFirebase.getLatitude());
-        assertEquals(22, geoPointForFirebase.getLongitude());
+        assertEquals(22, geoPointForFirebase.getLatitude(), 0.01);
+        assertEquals(22, geoPointForFirebase.getLongitude(), 0.01);
 
         geoPointForFirebase.setLatitude(10);
         geoPointForFirebase.setLongitude(10);
 
-        assertEquals(10, geoPointForFirebase.getLatitude());
-        assertEquals(10, geoPointForFirebase.getLongitude());
+        assertEquals(10, geoPointForFirebase.getLatitude(), 0.01);
+        assertEquals(10, geoPointForFirebase.getLongitude(), 0.01);
     }
 }
