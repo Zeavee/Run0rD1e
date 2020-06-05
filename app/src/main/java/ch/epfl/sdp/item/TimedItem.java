@@ -10,6 +10,7 @@ import ch.epfl.sdp.game.Updatable;
  */
 public abstract class TimedItem extends Item implements Updatable {
     private int counter;
+    int countTime;
     private Player player;
 
     /**
@@ -22,6 +23,7 @@ public abstract class TimedItem extends Item implements Updatable {
     protected TimedItem(String name, String description, int countTime) {
         super(name, description);
         this.counter = countTime * GameThread.FPS;
+        this.countTime = countTime;
     }
 
     /**

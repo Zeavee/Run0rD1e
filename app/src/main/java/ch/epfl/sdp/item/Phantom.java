@@ -4,17 +4,23 @@ import java.util.Locale;
 
 import ch.epfl.sdp.entity.Player;
 
+/**
+ * This item permits to be invisible from the enemies' and players' points of view
+ */
 public class Phantom extends TimedItem {
-    private final int phantomTime;
 
+    /**
+     * Creates a phantom item
+     *
+     * @param phantomTime the duration of the invisibility
+     */
     public Phantom(int phantomTime) {
         super(String.format(Locale.ENGLISH, "Phantom %d", phantomTime), String.format(Locale.ENGLISH, "Item that hides the presence of the user from other players and the enemies for %d seconds", phantomTime), phantomTime);
-        this.phantomTime = phantomTime;
     }
 
     @Override
     public Item clone() {
-        return new Phantom(phantomTime);
+        return new Phantom(countTime);
     }
 
     @Override
@@ -23,14 +29,12 @@ public class Phantom extends TimedItem {
         player.status.setPhantom(true, player);
     }
 
-    /**
-     * gets the value of the item
-     */
     @Override
     public double getValue() {
-        return phantomTime;
+        return countTime;
     }
 
+    @Override
     public void stopUsingOn(Player player) {
         player.status.setPhantom(false, player);
     }
