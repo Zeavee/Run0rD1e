@@ -13,8 +13,8 @@ import java.util.List;
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.database.room.GeneralLeaderBoardEntity;
-import ch.epfl.sdp.database.room.GeneralLeaderBoardViewModel;
+import ch.epfl.sdp.database.room.leader_board.GeneralLeaderBoardEntity;
+import ch.epfl.sdp.database.room.leader_board.GeneralLeaderBoardViewModel;
 import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.MyApplication;
 

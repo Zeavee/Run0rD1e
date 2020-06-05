@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.room.social.Message;
 import ch.epfl.sdp.ui.social.ChatActivity;
 
 /**

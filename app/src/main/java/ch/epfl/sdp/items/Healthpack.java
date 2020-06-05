@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import ch.epfl.sdp.entities.player.Player;
 
+
 /**
  * Class representing a healthpack
  * itemId: 1 (hardcoded)
@@ -25,8 +26,8 @@ public class Healthpack extends Item {
     @Override
     public void useOn(Player player) {
         double increasedHP = player.status.getHealthPoints() + healthPackAmount;
-        if (increasedHP > Player.MAX_HEALTH) {
-            increasedHP = Player.MAX_HEALTH;
+        if (increasedHP > Player.Status.MAX_HEALTH) {
+            increasedHP = Player.Status.MAX_HEALTH;
         }
 
         player.status.setHealthPoints(increasedHP, player);

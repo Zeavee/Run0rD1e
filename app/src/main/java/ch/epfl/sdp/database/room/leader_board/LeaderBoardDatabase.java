@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.room;
+package ch.epfl.sdp.database.room.leader_board;
 
 import android.content.Context;
 
@@ -13,12 +13,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {GeneralLeaderBoardEntity.class}, version = 2, exportSchema = false)
-abstract class AppDatabase extends RoomDatabase {
+abstract class LeaderBoardDatabase extends RoomDatabase {
 
     // marking the instance as volatile to ensure atomic access to the variable
-    private static volatile AppDatabase INSTANCE;
+    private static volatile LeaderBoardDatabase INSTANCE;
 
-    public abstract AppDAO AppDAO();
+    public abstract LeaderBoardDAO AppDAO();
 
     @VisibleForTesting
     private static final String DATABASE_NAME = "app-local-db";
@@ -32,11 +32,11 @@ abstract class AppDatabase extends RoomDatabase {
      * @param context The application context to be used
      * @return The singleton of the database
      */
-    public static AppDatabase getInstance(final Context context) {
+    public static LeaderBoardDatabase getInstance(final Context context) {
         if (INSTANCE == null) {
-            synchronized (AppDatabase.class) {
+            synchronized (LeaderBoardDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME)
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), LeaderBoardDatabase.class, DATABASE_NAME)
                             .fallbackToDestructiveMigration()
                             .addCallback(sRoomDatabaseCallback)
                             .build();

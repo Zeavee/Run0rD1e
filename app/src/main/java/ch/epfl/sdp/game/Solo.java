@@ -81,18 +81,18 @@ public class Solo extends StartGameController implements Updatable {
         Log.d("solo", "updateDistanceTravelled: updated Location " + "Longitude: " + currentLocation.getLongitude() + " Latitude: " + currentLocation.getLatitude());
         Log.d("solo", "updateDistanceTravelled: traveled distance " + traveledDistance);
 
-        currentUser.updateDistanceTraveled(traveledDistance);
+        currentUser.score.updateDistanceTraveled(traveledDistance, currentUser);
     }
 
     private void updateIngameScore() {
-        Log.d("solo", "update current game score: before updating score " + currentUser.getCurrentGameScore());
-        currentUser.updateLocalScore();
-        Log.d("solo", "update current game score: after updating score " + currentUser.getCurrentGameScore());
+        Log.d("solo", "update current game score: before updating score " + currentUser.score.getCurrentGameScore(currentUser));
+        currentUser.score.updateLocalScore(currentUser);
+        Log.d("solo", "update current game score: after updating score " + currentUser.score.getCurrentGameScore(currentUser));
     }
 
     private void checkGameEnd() {
         if (!gameEnd && currentUser.status.getHealthPoints() <= 0) {
-            currentUser.setGeneralScore(currentUser.getGeneralScore() + currentUser.getCurrentGameScore());
+            currentUser.score.setGeneralScore(currentUser.score.getGeneralScore(currentUser) + currentUser.score.getCurrentGameScore(currentUser), currentUser);
             gameEnd = true;
             commonDatabaseAPI.updatePlayerGeneralScore(currentUser);
         }

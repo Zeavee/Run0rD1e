@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.room;
+package ch.epfl.sdp.database.room.leader_board;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

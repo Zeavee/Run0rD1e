@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.room;
+package ch.epfl.sdp.database.room.leader_board;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -9,7 +9,7 @@ import androidx.room.Query;
 import java.util.List;
 
 @Dao
-public interface AppDAO {
+public interface LeaderBoardDAO {
     /**
      * Return the LiveData which holds a list of leaderBoardEntity that can be observed with a given lifecycle.
      * Always holds/cached latest version of data. Notifies its active observers when the data has changed.

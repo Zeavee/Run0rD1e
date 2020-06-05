@@ -2,7 +2,7 @@ package ch.epfl.sdp.social.conversation;
 
 import android.content.Context;
 
-import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.room.social.Message;
 
 public interface RemoteToSQLiteAdapter {
 

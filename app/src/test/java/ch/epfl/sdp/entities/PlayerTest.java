@@ -37,8 +37,8 @@ public class PlayerTest {
     public void otherMethodTest() {
         assertEquals(player1Name, player1.getUsername());
         assertEquals(player1Email, player1.getEmail());
-        assertEquals(0, player1.getGeneralScore());
-        assertEquals(0, player1.getDistanceTraveled(), 0.001);
+        assertEquals(0, player1.score.getGeneralScore(player1));
+        assertEquals(0, player1.score.getDistanceTraveled(player1), 0.001);
     }
 
     @Test

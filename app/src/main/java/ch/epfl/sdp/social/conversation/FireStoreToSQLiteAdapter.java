@@ -18,7 +18,7 @@ import java.util.Objects;
 
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.utils.WaitsOnWithServer;
-import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.room.social.Message;
 
 /*
  This class fetches messages from FireStore and places them in the local SQLite database.

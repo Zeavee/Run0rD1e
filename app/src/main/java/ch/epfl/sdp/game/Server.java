@@ -134,7 +134,7 @@ public class Server extends StartGameController implements Updatable {
         serverDatabaseAPI.fetchGeneralScoreForPlayers(playersEmailList, value -> {
             if (value.isSuccessful()) {
                 for (UserForFirebase userForFirebase : value.getResult()) {
-                    Objects.requireNonNull(playerManager.getPlayersMap().get(userForFirebase.getEmail())).setGeneralScore(userForFirebase.getGeneralScore());
+                    Objects.requireNonNull(playerManager.getPlayersMap().get(userForFirebase.getEmail())).score.setGeneralScore(userForFirebase.getGeneralScore(), Objects.requireNonNull(playerManager.getPlayersMap().get(userForFirebase.getEmail())));
                     Log.d(TAG, "init environment: fetch general score " + userForFirebase.getUsername() + " with score " + userForFirebase.getGeneralScore());
                 }
                 gameArea = initGameArea();
@@ -191,7 +191,7 @@ public class Server extends StartGameController implements Updatable {
                         Log.d(TAG, "addPlayersPositionListener: before " + playerForFirebase.getUsername() + " " + player.getLocation().getLatitude() + " " + player.getLocation().getLongitude());
                         Log.d(TAG, "addPlayersPositionListener: after " + playerForFirebase.getUsername() + " " + location.getLatitude() + " " + location.getLongitude());
                         double traveledDistance = player.getLocation().distanceTo(location);
-                        player.updateDistanceTraveled(traveledDistance);
+                        player.score.updateDistanceTraveled(traveledDistance, player);
 
                         // update the location of the player
                         player.setLocation(location);
@@ -231,9 +231,9 @@ public class Server extends StartGameController implements Updatable {
     private void updateInGameScoreOfPlayer() {
         Map<String, Integer> emailsScoreMap = new HashMap<>();
         for (Player player : PlayerManager.getInstance().getPlayers()) {
-            player.updateLocalScore();
-            Log.d(TAG, "updateInGameScoreOfPlayer: " + player.getEmail() + " " + player.getCurrentGameScore());
-            emailsScoreMap.put(player.getEmail(), player.getCurrentGameScore());
+            player.score.updateLocalScore(player);
+            Log.d(TAG, "updateInGameScoreOfPlayer: " + player.getEmail() + " " + player.score.getCurrentGameScore(player));
+            emailsScoreMap.put(player.getEmail(), player.score.getCurrentGameScore(player));
         }
 
         serverDatabaseAPI.updatePlayersCurrentScore(emailsScoreMap);

@@ -20,8 +20,8 @@ import ch.epfl.sdp.utils.WaitsOnWithServer;
 import ch.epfl.sdp.social.conversation.MessageAdapter;
 import ch.epfl.sdp.social.conversation.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.database.social.Chat;
-import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.room.social.Chat;
+import ch.epfl.sdp.database.room.social.Message;
 
 /**
  * This activity shows the conversation of the current user and another user

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 import ch.epfl.sdp.utils.WaitsOn;
-import ch.epfl.sdp.database.social.User;
+import ch.epfl.sdp.database.room.social.User;
 
 /**
  * This class permits to get the friends list of the user

@@ -1,4 +1,4 @@
-package ch.epfl.sdp.ui.map;
+package ch.epfl.sdp.map;
 
 import android.Manifest;
 import android.content.Context;
@@ -27,35 +27,30 @@ import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.map.Displayable;
-import ch.epfl.sdp.map.GoogleLocationFinder;
-import ch.epfl.sdp.map.GoogleMapApi;
-import ch.epfl.sdp.map.LocationFinder;
-import ch.epfl.sdp.map.Renderer;
-import ch.epfl.sdp.map.TimerUI;
 import ch.epfl.sdp.database.authentication.AuthenticationAPI;
 import ch.epfl.sdp.database.firebase.api.ClientDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
-import ch.epfl.sdp.utils.AppContainer;
-import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Client;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.Server;
 import ch.epfl.sdp.game.Solo;
-import ch.epfl.sdp.ui.game.GameOverActivity;
 import ch.epfl.sdp.items.InventoryFragment;
 import ch.epfl.sdp.items.ItemBox;
 import ch.epfl.sdp.items.ItemBoxManager;
-import ch.epfl.sdp.ui.leader_board.CurrentGameLeaderBoardFragment;
 import ch.epfl.sdp.items.Market;
+import ch.epfl.sdp.ui.game.GameOverActivity;
 import ch.epfl.sdp.ui.game.MarketActivity;
-import ch.epfl.sdp.utils.ObjectWrapperForBinder;
+import ch.epfl.sdp.ui.leader_board.CurrentGameLeaderBoardFragment;
+import ch.epfl.sdp.ui.map.WeatherFragment;
+import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.JunkCleaner;
+import ch.epfl.sdp.utils.MyApplication;
+import ch.epfl.sdp.utils.ObjectWrapperForBinder;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, Renderer, TimerUI {
     private String playMode = "";
@@ -291,7 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 String newText = playerManager.getCurrentUser().status.getHealthPoints() + "/" + healthPointProgressBar.getMax();
                                 healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
-                                moneyText.setText(String.format(Locale.ENGLISH, "%d", playerManager.getCurrentUser().getMoney()));
+                                moneyText.setText(String.format(Locale.ENGLISH, "%d", playerManager.getCurrentUser().wallet.getMoney(playerManager.getCurrentUser())));
                             }
                         });
                     }

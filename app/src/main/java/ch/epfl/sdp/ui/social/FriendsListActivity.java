@@ -18,7 +18,7 @@ import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.utils.WaitsOn;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.database.social.User;
+import ch.epfl.sdp.database.room.social.User;
 
 
 public class FriendsListActivity extends AppCompatActivity implements WaitsOn<User> {

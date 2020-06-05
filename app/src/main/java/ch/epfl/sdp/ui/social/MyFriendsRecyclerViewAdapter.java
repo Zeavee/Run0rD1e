@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.social.User;
+import ch.epfl.sdp.database.room.social.User;
 
 public class MyFriendsRecyclerViewAdapter extends RecyclerView.Adapter<MyFriendsRecyclerViewAdapter.FriendsViewHolder> {
 

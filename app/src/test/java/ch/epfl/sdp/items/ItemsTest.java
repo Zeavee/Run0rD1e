@@ -78,7 +78,7 @@ public class ItemsTest {
     public void shrinkerTest() {
         assertEquals(40, shrinker.getRemainingTime(), 0);
         assertEquals(10, shrinker.getShrinkingRadius(), 0);
-        assertEquals(shrinker.getShrinkingRadius(), shrinker.getValue(), 0.0);
+        assertEquals(shrinker.getShrinkingRadius() + shrinker.getRemainingTime(), shrinker.getValue(), 0.0);
     }
 
 
@@ -95,10 +95,10 @@ public class ItemsTest {
 
     @Test
     public void coinTest() {
-        PlayerManager.getInstance().getCurrentUser().removeMoney(PlayerManager.getInstance().getCurrentUser().getMoney());
+        PlayerManager.getInstance().getCurrentUser().wallet.removeMoney(PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()), PlayerManager.getInstance().getCurrentUser());
         Coin c = new Coin(5, new GeoPoint(10,10));
         assertEquals(5, c.getValue(), 0.0);
         c.useOn(PlayerManager.getInstance().getCurrentUser());
-        assertEquals(5, PlayerManager.getInstance().getCurrentUser().getMoney());
+        assertEquals(5, PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser()));
     }
 }

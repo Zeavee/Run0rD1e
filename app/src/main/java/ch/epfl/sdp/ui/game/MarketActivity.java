@@ -72,7 +72,7 @@ public class MarketActivity extends AppCompatActivity {
     }
 
     private void updateMoneyShown() {
-        String newText = "Money: " + PlayerManager.getInstance().getCurrentUser().getMoney();
+        String newText = "Money: " + PlayerManager.getInstance().getCurrentUser().wallet.getMoney(PlayerManager.getInstance().getCurrentUser());
         money.setText(newText);
     }
 

@@ -31,7 +31,7 @@ public class Coin extends Item implements Displayable, Updatable {
 
     @Override
     public void useOn(Player player) {
-        player.addMoney(value);
+        player.wallet.addMoney(value, player);
     }
 
     public Item clone() {

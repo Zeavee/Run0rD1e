@@ -7,7 +7,7 @@ import java.util.List;
 
 import ch.epfl.sdp.utils.WaitsOnWithServer;
 import ch.epfl.sdp.social.conversation.RemoteToSQLiteAdapter;
-import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.room.social.Message;
 
 public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
     private Context listener;

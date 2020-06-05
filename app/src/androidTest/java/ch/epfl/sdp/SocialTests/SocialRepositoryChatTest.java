@@ -21,9 +21,9 @@ import ch.epfl.sdp.utils.AppContainer;
 import ch.epfl.sdp.utils.MyApplication;
 import ch.epfl.sdp.ui.social.ChatActivity;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.database.social.Chat;
-import ch.epfl.sdp.database.social.Message;
-import ch.epfl.sdp.database.social.User;
+import ch.epfl.sdp.database.room.social.Chat;
+import ch.epfl.sdp.database.room.social.Message;
+import ch.epfl.sdp.database.room.social.User;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

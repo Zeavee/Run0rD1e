@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.social;
+package ch.epfl.sdp.database.room.social;
 
 import androidx.room.Dao;
 import androidx.room.Insert;

@@ -16,11 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 import ch.epfl.sdp.utils.WaitsOn;
 import ch.epfl.sdp.utils.WaitsOnWithServer;
-import ch.epfl.sdp.database.social.Chat;
-import ch.epfl.sdp.database.social.ChatDatabase;
-import ch.epfl.sdp.database.social.IsFriendsWith;
-import ch.epfl.sdp.database.social.Message;
-import ch.epfl.sdp.database.social.User;
+import ch.epfl.sdp.database.room.social.Chat;
+import ch.epfl.sdp.database.room.social.ChatDatabase;
+import ch.epfl.sdp.database.room.social.IsFriendsWith;
+import ch.epfl.sdp.database.room.social.Message;
+import ch.epfl.sdp.database.room.social.User;
 
 /**
  * Provides higher level abstraction of the database of the chat and models the database memory management of that database

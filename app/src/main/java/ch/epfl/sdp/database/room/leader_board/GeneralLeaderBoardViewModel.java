@@ -1,4 +1,4 @@
-package ch.epfl.sdp.database.room;
+package ch.epfl.sdp.database.room.leader_board;
 
 import android.app.Application;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * Holds all the data needed for the GeneralLeaderBoard UI
  */
 public class GeneralLeaderBoardViewModel extends AndroidViewModel {
-    private final AppDatabase sDatabase;
+    private final LeaderBoardDatabase sDatabase;
     private final LiveData<List<GeneralLeaderBoardEntity>> mObservableUsers;
 
     /**
@@ -23,7 +23,7 @@ public class GeneralLeaderBoardViewModel extends AndroidViewModel {
      */
     public GeneralLeaderBoardViewModel(@NonNull Application application) {
         super(application);
-        sDatabase = AppDatabase.getInstance(application);
+        sDatabase = LeaderBoardDatabase.getInstance(application);
         mObservableUsers = sDatabase.AppDAO().getGeneralLeaderBoard();
     }
 
@@ -40,6 +40,6 @@ public class GeneralLeaderBoardViewModel extends AndroidViewModel {
      * @param user The user to be inserted to the leaderBoard table in the local Room database
      */
     public void insertToGeneralLeaderBoard(GeneralLeaderBoardEntity user) {
-        AppDatabase.databaseExecutor.execute(() -> sDatabase.AppDAO().insertToGeneralLeaderBoard(user));
+        LeaderBoardDatabase.databaseExecutor.execute(() -> sDatabase.AppDAO().insertToGeneralLeaderBoard(user));
     }
 }

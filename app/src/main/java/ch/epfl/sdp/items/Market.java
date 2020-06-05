@@ -63,7 +63,7 @@ public class Market implements Displayable {
         int currentStock = stock.get(item).first;
         int price = stock.get(item).second;
 
-        if (currentStock <= 0 || player.getMoney() < price || !player.removeMoney(price)) {
+        if (currentStock <= 0 || player.wallet.getMoney(player) < price || !player.wallet.removeMoney(price, player)) {
             return false;
         }
         stock.put(item, new Pair<>(currentStock - 1, price));

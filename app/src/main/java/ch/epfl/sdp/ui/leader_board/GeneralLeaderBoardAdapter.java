@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ch.epfl.sdp.R;
-import ch.epfl.sdp.database.room.GeneralLeaderBoardEntity;
+import ch.epfl.sdp.database.room.leader_board.GeneralLeaderBoardEntity;
 
 /**
  * An adapter of the recyclerView in GeneralLeaderBoard UI

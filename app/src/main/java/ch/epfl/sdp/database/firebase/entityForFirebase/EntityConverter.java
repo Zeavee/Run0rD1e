@@ -28,7 +28,7 @@ public class EntityConverter {
         int generalScore = userForFirebase.getGeneralScore();
 
         Player player = new Player(username, email);
-        player.setGeneralScore(generalScore);
+        player.score.setGeneralScore(generalScore, player);
 
         return player;
     }
@@ -47,7 +47,7 @@ public class EntityConverter {
         playerForFirebase.setGeoPointForFirebase(EntityConverter.geoPointToGeoPointForFirebase(player.getLocation()));
         playerForFirebase.setAoeRadius(player.getAoeRadius());
         playerForFirebase.setHealthPoints(player.status.getHealthPoints());
-        playerForFirebase.setCurrentGameScore(player.getCurrentGameScore());
+        playerForFirebase.setCurrentGameScore(player.score.getCurrentGameScore(player));
         playerForFirebase.setPhantom(player.status.isPhantom());
 
         return playerForFirebase;
