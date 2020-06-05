@@ -79,9 +79,9 @@ public abstract class StartGameController {
         //GameArea -----------------------------------------
         GeoPoint local = PlayerManager.getInstance().getCurrentUser().getLocation();
         Area gameArea = new CircleArea(3000, local);
-        gameInstance.addToDisplayList(gameArea);
-        gameInstance.addToUpdateList(gameArea);
-        gameInstance.areaShrinker.setGameArea(gameArea);
+         Game.getInstance().addToDisplayList(gameArea);
+         Game.getInstance().addToUpdateList(gameArea);
+         Game.getInstance().areaShrinker.setGameArea(gameArea);
         return gameArea;
     }
 
@@ -126,13 +126,15 @@ public abstract class StartGameController {
             initShelterAreas(i, gameArea);
             initMarkets(i, gameArea);
         }
+    }
 
+    void initItemBox(Area gameArea) {
         ArrayList<Item> items = randGen.randomItemsList();
         for (Item i : items) {
             ItemBox itemBox = new ItemBox(gameArea.randomLocation());
             itemBox.putItems(i, randGen.getRand().nextInt(MAX_QTY_INSIDE_ITEM_BOX));
-            gameInstance.addToDisplayList(itemBox);
-            gameInstance.addToUpdateList(itemBox);
+             Game.getInstance().addToDisplayList(itemBox);
+             Game.getInstance().addToUpdateList(itemBox);
             ItemBoxManager.getInstance().addItemBox(itemBox); // puts in waiting list
         }
     }

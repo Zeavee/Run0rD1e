@@ -77,7 +77,6 @@ public class Client extends StartGameController implements Updatable {
                 }
             });
             addListeners();
-            initGameObjects(area);
         }
     }
 
@@ -192,6 +191,7 @@ public class Client extends StartGameController implements Updatable {
                 if (area instanceof UnboundedArea) {
                     area = new AreaFactory().getArea(value.getResult());
                     Game.getInstance().addToDisplayList(area);
+                    initGameObjects(area);
                 }
                 area.updateGameArea(new AreaFactory().getArea(value.getResult()));
                 Game.getInstance().areaShrinker.showRemainingTime(area.getRemainingTimeString());
