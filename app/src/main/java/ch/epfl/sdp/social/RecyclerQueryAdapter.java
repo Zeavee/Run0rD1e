@@ -3,7 +3,6 @@ package ch.epfl.sdp.social;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,14 +64,10 @@ public class RecyclerQueryAdapter extends RecyclerView.Adapter<RecyclerQueryAdap
             emailTextView = itemView.findViewById(R.id.textViewEmail);
             usernameTextView = itemView.findViewById(R.id.textViewUsername);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-                    friendsList.remove(getAdapterPosition());
-                    notifyItemRemoved(getAdapterPosition());
-                    return true;
-                }
+            itemView.setOnLongClickListener(v -> {
+                friendsList.remove(getAdapterPosition());
+                notifyItemRemoved(getAdapterPosition());
+                return true;
             });
         }
 

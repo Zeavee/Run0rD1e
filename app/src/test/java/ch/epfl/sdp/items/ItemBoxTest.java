@@ -103,7 +103,7 @@ public class ItemBoxTest {
 
             Game.getInstance().update();
 
-            assertEquals(true, PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
+            assertTrue(PlayerManager.getInstance().getCurrentUser().getInventory().getItems().containsKey(item.getName()));
         }
 
         assertEquals(2, (int) PlayerManager.getInstance().getCurrentUser().getInventory().getItems().get(item.getName()));
@@ -116,8 +116,8 @@ public class ItemBoxTest {
         Game.getInstance().addToUpdateList(itemBox);
         Game.getInstance().addToDisplayList(itemBox);
 
-        assertEquals(true, Game.getInstance().updatablesContains(itemBox));
-        assertEquals(true, Game.getInstance().displayablesContains(itemBox));
+        assertTrue(Game.getInstance().updatablesContains(itemBox));
+        assertTrue(Game.getInstance().displayablesContains(itemBox));
         assertFalse(itemBox.isTaken());
     }
 

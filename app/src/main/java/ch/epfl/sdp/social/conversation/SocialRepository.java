@@ -31,6 +31,7 @@ public final class SocialRepository {
     private final ChatDatabase chatDB;
     private Context contextActivity;
     private static boolean singletonCreated = false;
+    @SuppressLint("StaticFieldLeak")
     private static SocialRepository singleton;
     public static String currentEmail;
 
@@ -72,6 +73,7 @@ public final class SocialRepository {
                 try {
                     singleton.chatDB.daoAccess().sendMessage(message);
                 } catch (SQLiteConstraintException e) {
+                    e.printStackTrace();
                 }
                 return null;
             }
@@ -180,14 +182,14 @@ public final class SocialRepository {
      * @param sender   the Id of the owner of the messages (i.e the one who sent it)
      * @param receiver the Id of the receiver of the messages
      */
+    @SuppressLint("StaticFieldLeak")
     public void getMessagesExchanged(final String sender, final String receiver) {
 
         new AsyncTask<Void, Void, List<Message>>() {
 
             @Override
             protected List<Message> doInBackground(Void... voids) {
-                List<Message> msgList = new LinkedList<>();
-                msgList.addAll(singleton.chatDB.daoAccess().getMessages(receiver, sender));
+                List<Message> msgList = new LinkedList<>(singleton.chatDB.daoAccess().getMessages(receiver, sender));
                 return msgList;
             }
 
@@ -210,6 +212,7 @@ public final class SocialRepository {
      * @param content the content of the chat message
      * @param chat_id the id of the chat uniquely identified by sender and a receiver ids (respectively)
      */
+    @SuppressLint("StaticFieldLeak")
     public void insertMessageFromRemote(Timestamp tm, String content, int chat_id) {
         new AsyncTask<Void, Void, Void>() {
             @SuppressLint("StaticFieldLeak")
@@ -218,6 +221,7 @@ public final class SocialRepository {
                 try {
                     singleton.chatDB.daoAccess().sendMessage(new Message(tm.toDate(), content, chat_id));
                 } catch (SQLiteConstraintException e) {
+                    e.printStackTrace();
                 }
                 return null;
             }

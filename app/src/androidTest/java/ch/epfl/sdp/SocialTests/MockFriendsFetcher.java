@@ -1,21 +1,18 @@
 package ch.epfl.sdp.SocialTests;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import ch.epfl.sdp.social.socialDatabase.User;
-import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
+import ch.epfl.sdp.social.WaitsOn;
+import ch.epfl.sdp.social.socialDatabase.User;
 
 public class MockFriendsFetcher implements RemoteFriendFetcher {
     @Override
     public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
-        List<User> all = new ArrayList<>();
         List<User> filtered = new ArrayList<>();
-        all.addAll(Arrays.asList(
+        List<User> all = new ArrayList<>(Arrays.asList(
                 new User("stupid0@gmail.com", "stupid0"),
                 new User("stupid1@gmail.com", "stupid1"),
                 new User("stupid2@gmail.com", "stupid2"),

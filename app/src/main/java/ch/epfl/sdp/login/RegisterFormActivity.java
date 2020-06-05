@@ -85,11 +85,6 @@ public class RegisterFormActivity extends AppCompatActivity {
         });
     }
 
-    private void backBtn_OnClick(View view) {
-        startActivity(new Intent(RegisterFormActivity.this, LoginFormActivity.class));
-        finish();
-    }
-
     private int checkValidity(String email, String password, String passwordConf) {
         Pattern pattern = Pattern.compile(REGEX);
         Matcher matcher = pattern.matcher(email);

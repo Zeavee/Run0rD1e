@@ -1,5 +1,7 @@
 package ch.epfl.sdp.item;
 
+import java.util.Locale;
+
 import ch.epfl.sdp.R;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
@@ -20,7 +22,7 @@ public class Coin extends Item implements Displayable, Updatable {
     private boolean taken;
 
     public Coin(int value, GeoPoint location) {
-        super(String.format("Coin of value %d", value), "Medium of exchange that allows a player to buy items in shops");
+        super(String.format(Locale.ENGLISH, "Coin of value %d", value), "Medium of exchange that allows a player to buy items in shops");
         this.value = value;
         this.location = location;
         this.taken = false;
@@ -63,7 +65,7 @@ public class Coin extends Item implements Displayable, Updatable {
     @Override
     public void displayOn(MapApi mapApi) {
         if (!isDisplayed) {
-            String title = String.format("Coin of value %d", value);
+            String title = String.format(Locale.ENGLISH, "Coin of value %d", value);
             mapApi.displaySmallIcon(this, title, R.drawable.coins);
             this.isDisplayed = true;
         }

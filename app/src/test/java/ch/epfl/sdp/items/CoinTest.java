@@ -2,8 +2,6 @@ package ch.epfl.sdp.items;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;

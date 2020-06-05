@@ -2,6 +2,8 @@ package ch.epfl.sdp.item;
 
 import android.util.Log;
 
+import java.util.Locale;
+
 import ch.epfl.sdp.entity.Player;
 
 public class Shrinker extends TimedItem {
@@ -9,7 +11,7 @@ public class Shrinker extends TimedItem {
     private final int shrinkTime;
 
     public Shrinker(int shrinkTime, int shrinkingRadius) {
-        super(String.format("Shrinker %d %d", shrinkTime, shrinkingRadius), String.format("Shrinks your area of effect (radius %d) for %d seconds", shrinkTime, shrinkingRadius), shrinkTime);
+        super(String.format(Locale.ENGLISH, "Shrinker %d %d", shrinkTime, shrinkingRadius), String.format(Locale.ENGLISH, "Shrinks your area of effect (radius %d) for %d seconds", shrinkTime, shrinkingRadius), shrinkTime);
         this.shrinkingRadius = shrinkingRadius;
         this.shrinkTime = shrinkTime;
     }

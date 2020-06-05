@@ -40,8 +40,6 @@ public class GeneralLeaderBoardViewModel extends AndroidViewModel {
      * @param user The user to be inserted to the leaderBoard table in the local Room database
      */
     public void insertToGeneralLeaderBoard(GeneralLeaderBoardEntity user) {
-        AppDatabase.databaseExecutor.execute(() -> {
-            sDatabase.AppDAO().insertToGeneralLeaderBoard(user);
-        });
+        AppDatabase.databaseExecutor.execute(() -> sDatabase.AppDAO().insertToGeneralLeaderBoard(user));
     }
 }

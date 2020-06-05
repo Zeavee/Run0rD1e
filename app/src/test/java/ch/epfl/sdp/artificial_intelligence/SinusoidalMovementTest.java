@@ -2,10 +2,7 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.Test;
 
-import ch.epfl.sdp.geometry.GeoPoint;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class SinusoidalMovementTest {
     @Test

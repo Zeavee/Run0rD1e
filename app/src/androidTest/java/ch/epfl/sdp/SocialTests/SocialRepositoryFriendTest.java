@@ -13,13 +13,12 @@ import java.util.List;
 
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.social.conversation.SocialRepository;
 import ch.epfl.sdp.social.socialDatabase.User;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Tests friend-fetching functionality provided by SocialRepository.java.

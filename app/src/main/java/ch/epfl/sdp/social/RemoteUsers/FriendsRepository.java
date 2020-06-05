@@ -10,6 +10,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import ch.epfl.sdp.social.WaitsOn;
 import ch.epfl.sdp.social.socialDatabase.User;
@@ -24,19 +25,15 @@ public class FriendsRepository implements RemoteFriendFetcher {
     public void getFriendsFromServer(String constraint, WaitsOn<User> waiter) {
         if (constraint == null) return;
         List<User> filtered = new ArrayList<>();
-        FirebaseFirestore.getInstance().collection(USERS_PATH).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                List<DocumentSnapshot> docs = task.getResult().getDocuments();
-                for (DocumentSnapshot doc : docs) {
-                    if (doc.getId().contains(constraint)) {
-                        filtered.add(new User(doc.getId(), (String) doc.getData().get("username")));
-                    }
+        FirebaseFirestore.getInstance().collection(USERS_PATH).get().addOnCompleteListener(task -> {
+            List<DocumentSnapshot> docs = Objects.requireNonNull(task.getResult()).getDocuments();
+            for (DocumentSnapshot doc : docs) {
+                if (doc.getId().contains(constraint)) {
+                    filtered.add(new User(doc.getId(), (String) Objects.requireNonNull(doc.getData()).get("username")));
                 }
-                waiter.contentFetched(filtered);
-
             }
+            waiter.contentFetched(filtered);
+
         });
 
     }

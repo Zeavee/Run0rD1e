@@ -4,7 +4,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-
 import ch.epfl.sdp.geometry.GeoPoint;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +24,7 @@ public class ShelterAreaTest {
     private final static GeoPoint shelterLocation = new GeoPoint(6.149291, 46.212470);
 
     private ShelterArea createShelterArea() {
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
         players.add(player3);

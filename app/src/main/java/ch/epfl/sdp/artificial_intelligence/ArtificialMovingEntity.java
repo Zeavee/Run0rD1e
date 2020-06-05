@@ -29,23 +29,20 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      */
     public ArtificialMovingEntity() {
         this(new GeoPoint(0,0), new LinearMovement(),
-                new UnboundedArea(), true);
+                new UnboundedArea());
     }
 
     /**
      * Creates a default moving artificial entity, by specifying a movement, an area and if it's
      * already moving.
-     *
-     * @param movement the type of movement the entity use
+     *  @param movement the type of movement the entity use
      * @param area the area the entity can move in
-     * @param moving a boolean that tell if the entity is moving
      */
-    private ArtificialMovingEntity(GeoPoint location, Movement movement, Area area,
-                                   boolean moving) {
+    private ArtificialMovingEntity(GeoPoint location, Movement movement, Area area) {
         super(location);
         this.movement = movement;
         this.area = area;
-        this.moving = moving;
+        this.moving = true;
     }
 
     /**
@@ -112,7 +109,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
     /**
      * Goes to the next position based on the movement of the entity.
      */
-    public void move() {
+    private void move() {
         GeoPoint position = movement.nextPosition(getLocation());
         if ((area.isInside(position) && moving) || forceMove) {
             super.setLocation(position);
@@ -125,7 +122,7 @@ public abstract class ArtificialMovingEntity extends AoeRadiusEntity implements 
      * Checks if the entity is moving.
      * @return True if and only if the entity is moving (i.e. moving flag is true).
      */
-    public boolean isMoving() {
+    boolean isMoving() {
         return moving;
     }
 

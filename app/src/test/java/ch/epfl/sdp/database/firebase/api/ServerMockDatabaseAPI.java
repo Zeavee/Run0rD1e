@@ -26,7 +26,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
 
     }
 
-    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, Map<String, ItemsForFirebase> usedItems, Map<String, ItemsForFirebase> items){
+    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, Map<String, ItemsForFirebase> usedItems, Map<String, ItemsForFirebase> items){
         // populate the all Users in firebase
         this.userForFirebaseMap = userForFirebaseMap;
 
@@ -76,7 +76,7 @@ public class ServerMockDatabaseAPI implements ServerDatabaseAPI {
     @Override
     public <T> void addCollectionListener(Class<T> tClass, String collectionName, OnValueReadyCallback<CustomResult<List<T>>> onValueReadyCallback) {
         if (tClass == PlayerForFirebase.class) {
-            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<T>((Collection<? extends T>) playerForFirebaseMap.values()), true, null));
+            onValueReadyCallback.finish(new CustomResult<>(new ArrayList<>((Collection<? extends T>) playerForFirebaseMap.values()), true, null));
         }
     }
 

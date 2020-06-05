@@ -5,9 +5,9 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.epfl.sdp.social.socialDatabase.Message;
-import ch.epfl.sdp.social.conversation.RemoteToSQLiteAdapter;
 import ch.epfl.sdp.social.WaitsOnWithServer;
+import ch.epfl.sdp.social.conversation.RemoteToSQLiteAdapter;
+import ch.epfl.sdp.social.socialDatabase.Message;
 
 public class MockServerToSQLiteAdapter  implements RemoteToSQLiteAdapter {
     private Context listener;

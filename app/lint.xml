@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
-    <issue id="InvalidPackage">
-        <ignore path="*/io.grpc/grpc-core/*"/>
+    <issue id="IconXmlAndPng">
+        <ignore path="src/main/res/drawable-hdpi/ic_action_mail.png" />
     </issue>
 </lint>

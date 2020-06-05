@@ -4,17 +4,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.item.Item;
-import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.game.GameThread;
+import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.item.TimedItem;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +27,6 @@ public class TimedItemTest {
 
     @Before
     public void setup() {
-        RandomGenerator r = new RandomGenerator();
         Game.getInstance().setMapApi(new MockMap());
         Player player = new Player("test name", "test@email.com");
         PlayerManager.getInstance().setCurrentUser(player);
@@ -126,7 +125,7 @@ public class TimedItemTest {
 
     @Test
     public void shrinkerChangesAOERadiusBack(){
-        Double originalRadius = user.getAoeRadius();
+        double originalRadius = user.getAoeRadius();
         int removeAoeRadius = 1;
         Shrinker shrinker = new Shrinker(countTime, removeAoeRadius);
         shrinker.useOn(user);

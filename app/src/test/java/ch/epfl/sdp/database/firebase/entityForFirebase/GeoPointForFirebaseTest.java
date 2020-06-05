@@ -3,7 +3,6 @@ package ch.epfl.sdp.database.firebase.entityForFirebase;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 public class GeoPointForFirebaseTest {
     @Test

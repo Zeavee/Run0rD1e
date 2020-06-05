@@ -74,7 +74,7 @@ public class Player extends AoeRadiusEntity {
         this.setInventory(new Inventory());
         this.setGeneralScore(0);
         this.setCurrentGameScore(0);
-        this.setDistanceTraveled(0);
+        this.setDistanceTraveled();
         this.setDistanceTraveledAtLastCheck(0);
         this.money = 0;
     }
@@ -275,10 +275,9 @@ public class Player extends AoeRadiusEntity {
     /**
      * This method sets the distance the player traveled
      *
-     * @param distanceTraveled the distance we want to set
      */
-    private void setDistanceTraveled(double distanceTraveled) {
-        this.distanceTraveled = distanceTraveled;
+    private void setDistanceTraveled() {
+        this.distanceTraveled = 0;
     }
 
     /**

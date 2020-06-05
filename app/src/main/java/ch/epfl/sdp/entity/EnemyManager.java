@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sdp.game.Game;
 
@@ -37,7 +38,7 @@ public class EnemyManager {
         if (enemies.containsKey(enemyId)) {
             // update the location
             Enemy enemyToBeUpdate = enemies.get(enemyId);
-            enemyToBeUpdate.setLocation(enemy.getLocation());
+            Objects.requireNonNull(enemyToBeUpdate).setLocation(enemy.getLocation());
             enemyToBeUpdate.setBehaviour(enemy.getBehaviour());
             enemyToBeUpdate.getMovement().setOrientation(enemy.getMovement().getOrientation());
             enemies.put(enemyId, enemyToBeUpdate);

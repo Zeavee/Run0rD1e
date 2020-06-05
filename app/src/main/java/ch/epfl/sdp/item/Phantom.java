@@ -1,12 +1,14 @@
 package ch.epfl.sdp.item;
 
+import java.util.Locale;
+
 import ch.epfl.sdp.entity.Player;
 
 public class Phantom extends TimedItem {
     private final int phantomTime;
 
     public Phantom(int phantomTime) {
-        super(String.format("Phantom %d", phantomTime), String.format("Item that hides the presence of the user from other players and the enemies for %d seconds", phantomTime), phantomTime);
+        super(String.format(Locale.ENGLISH, "Phantom %d", phantomTime), String.format(Locale.ENGLISH, "Item that hides the presence of the user from other players and the enemies for %d seconds", phantomTime), phantomTime);
         this.phantomTime = phantomTime;
     }
 

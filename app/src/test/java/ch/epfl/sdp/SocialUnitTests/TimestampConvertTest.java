@@ -9,7 +9,6 @@ import ch.epfl.sdp.social.socialDatabase.TimestampConverter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class TimestampConvertTest {
 

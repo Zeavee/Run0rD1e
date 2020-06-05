@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_profile"
-        android:contentDescription="placeholderImg" />
+        android:contentDescription="@string/placeHolderImg" />
 
     <TextView
         android:id="@+id/textViewUsername"

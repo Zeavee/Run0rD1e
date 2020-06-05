@@ -14,10 +14,8 @@ import ch.epfl.sdp.item.Phantom;
 import ch.epfl.sdp.item.Shield;
 import ch.epfl.sdp.item.Shrinker;
 import ch.epfl.sdp.map.MockMap;
-import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ItemsTest {
     private Healthpack healthpack;
@@ -34,7 +32,6 @@ public class ItemsTest {
         Player player = new Player("Test Name", "test@email.com");
         PlayerManager.getInstance().addPlayer(player);
         PlayerManager.getInstance().setCurrentUser(player);
-        GeoPoint a = new GeoPoint(6.14308, 46.21023);
 
         shieldTime = 40;
         healthAmount = 60;

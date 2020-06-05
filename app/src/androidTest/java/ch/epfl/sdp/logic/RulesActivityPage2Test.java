@@ -1,12 +1,12 @@
 package ch.epfl.sdp.logic;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import ch.epfl.sdp.MainMenuActivity;
 import ch.epfl.sdp.R;

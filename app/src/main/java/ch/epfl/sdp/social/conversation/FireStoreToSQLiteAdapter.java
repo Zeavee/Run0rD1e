@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.social.WaitsOnWithServer;
@@ -47,26 +48,23 @@ public class FireStoreToSQLiteAdapter implements RemoteToSQLiteAdapter {
                 PATH_SEGMENTS.get(0)).
                 document(owner).collection(PATH_SEGMENTS.get(1)).
                 document(sender).collection(PATH_SEGMENTS.get(2)).
-                whereEqualTo(PATH_SEGMENTS.get(3), false).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    QuerySnapshot result = task.getResult();
-                    for (QueryDocumentSnapshot doc : result) {
-                        remoteMessages.add(new Message(((Timestamp) doc.getData().get("date")).toDate(),
-                                (String) doc.getData().get("content"),
-                                chat_id));
-                        Log.d("server fetch", (String) doc.getData().get("content"));
-                        remoteHost.collection(
-                                PATH_SEGMENTS.get(0))
-                                .document(owner).collection(PATH_SEGMENTS.get(1))
-                                .document(sender).collection(PATH_SEGMENTS.get(2))
-                                .document(doc.getId()).update(PATH_SEGMENTS.get(3), true);
+                whereEqualTo(PATH_SEGMENTS.get(3), false).get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot result = task.getResult();
+                        for (QueryDocumentSnapshot doc : Objects.requireNonNull(result)) {
+                            remoteMessages.add(new Message(((Timestamp) doc.getData().get("date")).toDate(),
+                                    (String) doc.getData().get("content"),
+                                    chat_id));
+                            Log.d("server fetch", (String) Objects.requireNonNull(doc.getData().get("content")));
+                            remoteHost.collection(
+                                    PATH_SEGMENTS.get(0))
+                                    .document(owner).collection(PATH_SEGMENTS.get(1))
+                                    .document(sender).collection(PATH_SEGMENTS.get(2))
+                                    .document(doc.getId()).update(PATH_SEGMENTS.get(3), true);
+                        }
+                        ((WaitsOnWithServer<Message>) listener).contentFetchedWithServer(remoteMessages, true, true);
                     }
-                    ((WaitsOnWithServer<Message>) listener).contentFetchedWithServer(remoteMessages, true, true);
-                }
-            }
-        });
+                });
     }
 
     // Sends outgoing messages to User "to"'s message inbox

@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ch.epfl.sdp.R;
@@ -285,7 +286,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 String newText = playerManager.getCurrentUser().getHealthPoints() + "/" + healthPointProgressBar.getMax();
                                 healthPointText.setText(newText);
                                 username.setText(playerManager.getCurrentUser().getUsername());
-                                moneyText.setText(String.format("%d", playerManager.getCurrentUser().getMoney()));
+                                moneyText.setText(String.format(Locale.ENGLISH, "%d", playerManager.getCurrentUser().getMoney()));
                             }
                         });
                     }

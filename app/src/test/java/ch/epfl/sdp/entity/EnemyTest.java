@@ -7,7 +7,6 @@ import ch.epfl.sdp.map.MockMap;
 import static ch.epfl.sdp.artificial_intelligence.Behaviour.PATROL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class EnemyTest {
 

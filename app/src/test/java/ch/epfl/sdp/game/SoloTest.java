@@ -4,10 +4,10 @@ import org.junit.After;
 import org.junit.Test;
 
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
-import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.entity.Player;
 import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 import static org.junit.Assert.assertTrue;
 

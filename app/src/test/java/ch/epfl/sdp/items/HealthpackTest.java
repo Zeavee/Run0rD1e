@@ -2,16 +2,12 @@ package ch.epfl.sdp.items;
 
 import org.junit.Test;
 
-import java.util.Random;
-
 import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.item.Item;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class HealthpackTest {
 

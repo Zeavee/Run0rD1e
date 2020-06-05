@@ -1,7 +1,5 @@
 package ch.epfl.sdp.game;
 
-import androidx.room.Update;
-
 import org.junit.After;
 import org.junit.Test;
 
@@ -11,12 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.utils.JunkCleaner;
 import ch.epfl.sdp.artificial_intelligence.Behaviour;
-import ch.epfl.sdp.database.firebase.entityForFirebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.ServerMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
+import ch.epfl.sdp.database.firebase.entityForFirebase.GeoPointForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
@@ -26,6 +23,7 @@ import ch.epfl.sdp.entity.PlayerManager;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.item.Healthpack;
 import ch.epfl.sdp.map.MockMap;
+import ch.epfl.sdp.utils.JunkCleaner;
 
 import static org.junit.Assert.assertEquals;
 
@@ -58,15 +56,7 @@ public class ServerTest {
 
         double healthPoints = 10.0;
 
-        Updatable updatable = new Updatable() {
-            boolean flag = false;
-
-            @Override
-            public void update() {
-                player.setHealthPoints(healthPoints);
-                flag = true;
-            }
-        };
+        Updatable updatable = () -> player.setHealthPoints(healthPoints);
 
         Game.getInstance().addToUpdateList(updatable);
 
@@ -151,7 +141,7 @@ public class ServerTest {
 
         serverMockDatabaseAPI = new ServerMockDatabaseAPI();
         commonMockDatabaseAPI = new CommonMockDatabaseAPI();
-        serverMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, enemyForFirebaseList, itemBoxForFirebaseList, usedItems, items);
+        serverMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap, usedItems, items);
         commonMockDatabaseAPI.hardCodedInit(userForFirebaseMap, playerForFirebaseMap);
     }
 }

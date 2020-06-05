@@ -10,9 +10,9 @@ import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.RectangleArea;
 import ch.epfl.sdp.map.MockMap;
-import static org.junit.Assert.*;
 
 import static junit.framework.TestCase.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class BehaviourTest {
     private Player player;

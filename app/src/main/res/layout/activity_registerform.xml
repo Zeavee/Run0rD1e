@@ -108,7 +108,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="18dp"
         android:background="@drawable/btn_rounded"
-        android:text="register"
+        android:text="@string/register"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

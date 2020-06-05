@@ -62,7 +62,7 @@ public class ChatActivity extends AppCompatActivity implements WaitsOnWithServer
         // The current user is the receiver
         chatFromFriend = SocialRepository.getInstance().getChat(chattingWith, currentEmail);
 
-        sendButton.setOnClickListener(v -> onSendClicked(v));
+        sendButton.setOnClickListener(this::onSendClicked);
         sqliteFirestoreInterface = ((MyApplication) getApplication()).appContainer.remoteToSQLiteAdapter;
         loadExistingMessages();
     }

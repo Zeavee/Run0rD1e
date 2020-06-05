@@ -17,7 +17,7 @@
         android:textSize="18sp"
         android:textColor="@color/white"
         android:layout_alignParentEnd="true"
-        android:text="Placeholder message"
+        android:text="@string/placeholder_message"
         />
 
 </RelativeLayout>

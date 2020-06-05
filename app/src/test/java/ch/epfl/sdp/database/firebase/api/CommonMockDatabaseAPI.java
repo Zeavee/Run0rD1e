@@ -45,8 +45,7 @@ public class CommonMockDatabaseAPI implements CommonDatabaseAPI {
 
     @Override
     public void fetchPlayers(String lobbyName, OnValueReadyCallback<CustomResult<List<PlayerForFirebase>>> onValueReadyCallback) {
-        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>();
-        playerForFirebaseList.addAll(playerForFirebaseMap.values());
+        List<PlayerForFirebase> playerForFirebaseList = new ArrayList<>(playerForFirebaseMap.values());
         onValueReadyCallback.finish(new CustomResult<>(playerForFirebaseList, true, null));
     }
 

@@ -22,7 +22,7 @@ public class ClientMockDatabaseAPI implements ClientDatabaseAPI {
     private ItemsForFirebase userItems;
     private String gameArea;
 
-    public void hardCodedInit(Map<String, UserForFirebase> userForFirebaseMap, Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, ItemsForFirebase userItems, String gameArea) {
+    public void hardCodedInit(Map<String, PlayerForFirebase> playerForFirebaseMap, List<EnemyForFirebase> enemyForFirebasesList, List<ItemBoxForFirebase> itemBoxForFirebaseList, ItemsForFirebase userItems, String gameArea) {
         // populate the all Users in firebase
 
         // populate the Players in lobby

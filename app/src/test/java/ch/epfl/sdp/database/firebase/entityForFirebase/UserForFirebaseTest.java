@@ -8,7 +8,6 @@ public class UserForFirebaseTest {
     @Test
     public void userForFirebaseTest() {
         UserForFirebase userForFirebase1 = new UserForFirebase();
-        UserForFirebase userForFirebase2 = new UserForFirebase("test@gmail.com", "test", 0);
 
         userForFirebase1.setEmail("user1@gmail.com");
         assertEquals("user1@gmail.com", userForFirebase1.getEmail());

@@ -86,7 +86,7 @@ public class PlayerManagerTest {
 
     @Test
     public void shouldSetPlayers() {
-        ArrayList<Player> toSet = new ArrayList<Player>();
+        ArrayList<Player> toSet = new ArrayList<>();
         Player p1 = new Player(6.151210, 46.212470, 10,
                 "p1", "p1@email.com");
         Player p2 = new Player(4.149290, 46.212470, 10,

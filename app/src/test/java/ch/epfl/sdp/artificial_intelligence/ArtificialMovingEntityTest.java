@@ -11,7 +11,6 @@ import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.RectangleArea;
-import ch.epfl.sdp.geometry.UnboundedArea;
 import ch.epfl.sdp.map.MapApi;
 import ch.epfl.sdp.map.MockMap;
 

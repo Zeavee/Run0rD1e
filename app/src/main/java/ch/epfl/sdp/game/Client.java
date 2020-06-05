@@ -107,9 +107,7 @@ public class Client extends StartGameController implements Updatable {
     }
 
     private void addServerAliveSignalListener() {
-        clientDatabaseAPI.addServerAliveSignalListener((CustomResult<Long> value) -> {
-            signal = value.getResult();
-        });
+        clientDatabaseAPI.addServerAliveSignalListener((CustomResult<Long> value) -> signal = value.getResult());
     }
 
     private void checkSignalChanged() {
