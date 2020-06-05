@@ -2,6 +2,7 @@ package ch.epfl.sdp.entity;
 
 import java.util.ArrayList;
 
+import ch.epfl.sdp.R;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.map.Displayable;
@@ -35,7 +36,7 @@ public class ShelterArea implements Displayable, Updatable {
 
     @Override
     public void displayOn(MapApi mapApi) {
-        mapApi.displayMarkerCircle(this, 0x7fffbf, "Shelter Area", (int) aoeRadius);
+        mapApi.displaySmallIcon(this, "Shelter Area", R.drawable.shield_area);
     }
 
     /**

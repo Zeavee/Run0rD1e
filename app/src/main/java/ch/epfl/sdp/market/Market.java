@@ -94,7 +94,7 @@ public class Market implements Displayable {
 
     private void displayIcon(MapApi mapApi) {
         if (!isDisplayed) {
-            mapApi.displaySmallIcon(this, "Market", R.drawable.sm_logo);
+            mapApi.displaySmallIcon(this, "Market", R.drawable.market);
             isDisplayed = true;
         }
     }
