@@ -2,8 +2,8 @@ package ch.epfl.sdp.geometry;
 
 import androidx.annotation.NonNull;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.GameThread;
 import ch.epfl.sdp.game.Updatable;
 import ch.epfl.sdp.map.Displayable;

@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import ch.epfl.sdp.social.RemoteUsers.RemoteFriendFetcher;
-import ch.epfl.sdp.social.WaitsOn;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.utils.WaitsOn;
+import ch.epfl.sdp.database.social.User;
 
 public class MockFriendsFetcher implements RemoteFriendFetcher {
     @Override

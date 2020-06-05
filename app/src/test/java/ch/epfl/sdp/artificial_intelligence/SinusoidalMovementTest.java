@@ -2,6 +2,8 @@ package ch.epfl.sdp.artificial_intelligence;
 
 import org.junit.Test;
 
+import ch.epfl.sdp.entities.artificial_intelligence.SinusoidalMovement;
+
 import static org.junit.Assert.assertEquals;
 
 public class SinusoidalMovementTest {

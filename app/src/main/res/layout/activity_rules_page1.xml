@@ -6,7 +6,7 @@
     android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".logic.RulesActivityPage1">
+    tools:context=".ui.game.RulesActivityPage1">
 
     <TextView
         android:id="@+id/titleRules"

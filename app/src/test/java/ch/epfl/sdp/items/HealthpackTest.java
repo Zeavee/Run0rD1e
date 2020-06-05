@@ -1,12 +1,8 @@
 package ch.epfl.sdp.items;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.utils.RandomGenerator;
 
 import static junit.framework.TestCase.assertTrue;
@@ -18,7 +14,7 @@ public class HealthpackTest {
     public void cloneHasSameHealthPoints() {
         Healthpack original = new Healthpack(50);
         Item cloned = original.clone();
-        assertEquals(((Healthpack) cloned).getValue(), original.getValue(), 0.0);
+        assertEquals(cloned.getValue(), original.getValue(), 0.01);
     }
 
     @Test

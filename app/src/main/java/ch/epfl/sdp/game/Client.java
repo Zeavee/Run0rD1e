@@ -13,17 +13,17 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EntityConverter;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.entities.enemy.Enemy;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.AreaFactory;
 import ch.epfl.sdp.geometry.GeoPoint;
 import ch.epfl.sdp.geometry.UnboundedArea;
-import ch.epfl.sdp.item.ItemBox;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.items.ItemBox;
+import ch.epfl.sdp.items.ItemBoxManager;
 
 /**
  * This class updates the game from the client point of view. It fetches the data from firebase and

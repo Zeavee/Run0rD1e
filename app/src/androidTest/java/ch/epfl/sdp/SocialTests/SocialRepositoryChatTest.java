@@ -17,13 +17,13 @@ import java.util.Date;
 import java.util.List;
 
 import ch.epfl.sdp.database.authentication.MockAuthenticationAPI;
-import ch.epfl.sdp.dependencies.AppContainer;
-import ch.epfl.sdp.dependencies.MyApplication;
-import ch.epfl.sdp.social.conversation.ChatActivity;
+import ch.epfl.sdp.utils.AppContainer;
+import ch.epfl.sdp.utils.MyApplication;
+import ch.epfl.sdp.ui.social.ChatActivity;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.social.socialDatabase.Chat;
-import ch.epfl.sdp.social.socialDatabase.Message;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.database.social.Chat;
+import ch.epfl.sdp.database.social.Message;
+import ch.epfl.sdp.database.social.User;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

@@ -11,11 +11,11 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
-import ch.epfl.sdp.social.FriendsListActivity;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.ui.social.FriendsListActivity;
 import ch.epfl.sdp.social.conversation.SocialRepository;
-import ch.epfl.sdp.social.socialDatabase.User;
+import ch.epfl.sdp.database.social.User;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;

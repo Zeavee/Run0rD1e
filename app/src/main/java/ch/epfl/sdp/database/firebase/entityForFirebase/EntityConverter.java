@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import ch.epfl.sdp.artificial_intelligence.SinusoidalMovement;
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
+import ch.epfl.sdp.entities.artificial_intelligence.SinusoidalMovement;
+import ch.epfl.sdp.entities.enemy.Enemy;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBox;
+import ch.epfl.sdp.items.ItemBox;
 
 /**
  * A converter used to convert between Firebase stored entity and in-game entity

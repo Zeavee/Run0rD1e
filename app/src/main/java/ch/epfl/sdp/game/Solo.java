@@ -3,9 +3,9 @@ package ch.epfl.sdp.game;
 import android.util.Log;
 
 import ch.epfl.sdp.database.firebase.api.CommonDatabaseAPI;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.geometry.Area;
 import ch.epfl.sdp.geometry.GeoPoint;
 

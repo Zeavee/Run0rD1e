@@ -1,7 +1,7 @@
 package ch.epfl.sdp.database.authentication;
 
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
 
 /**
  * The interface with the method related to the firebase authentication

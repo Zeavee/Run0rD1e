@@ -3,8 +3,7 @@ package ch.epfl.sdp.items;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.item.Item;
+import ch.epfl.sdp.entities.player.Player;
 
 import static org.junit.Assert.assertEquals;
 

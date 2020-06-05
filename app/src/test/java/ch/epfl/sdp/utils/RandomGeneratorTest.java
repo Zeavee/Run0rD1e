@@ -3,12 +3,12 @@ package ch.epfl.sdp.utils;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.ShelterArea;
+import ch.epfl.sdp.entities.shelter_area.ShelterArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.Healthpack;
-import ch.epfl.sdp.item.Phantom;
-import ch.epfl.sdp.item.Shield;
-import ch.epfl.sdp.item.Shrinker;
+import ch.epfl.sdp.items.Healthpack;
+import ch.epfl.sdp.items.Phantom;
+import ch.epfl.sdp.items.Shield;
+import ch.epfl.sdp.items.Shrinker;
 
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;

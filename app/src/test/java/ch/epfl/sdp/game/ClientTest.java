@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import ch.epfl.sdp.artificial_intelligence.Behaviour;
+import ch.epfl.sdp.entities.artificial_intelligence.Behaviour;
 import ch.epfl.sdp.database.firebase.api.ClientMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.api.CommonMockDatabaseAPI;
 import ch.epfl.sdp.database.firebase.entityForFirebase.EnemyForFirebase;
@@ -19,12 +19,12 @@ import ch.epfl.sdp.database.firebase.entityForFirebase.ItemBoxForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.PlayerForFirebase;
 import ch.epfl.sdp.database.firebase.entityForFirebase.UserForFirebase;
-import ch.epfl.sdp.entity.EnemyManager;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.enemy.EnemyManager;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
-import ch.epfl.sdp.item.ItemBoxManager;
+import ch.epfl.sdp.items.ItemBoxManager;
 import ch.epfl.sdp.map.MockMap;
 import ch.epfl.sdp.utils.JunkCleaner;
 

@@ -11,9 +11,9 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import ch.epfl.sdp.database.firebase.entityForFirebase.ItemsForFirebase;
-import ch.epfl.sdp.database.utils.CustomResult;
-import ch.epfl.sdp.database.utils.OnValueReadyCallback;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.utils.CustomResult;
+import ch.epfl.sdp.utils.OnValueReadyCallback;
+import ch.epfl.sdp.entities.player.PlayerManager;
 
 public class ClientFirestoreDatabaseAPI implements ClientDatabaseAPI {
     private final FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();

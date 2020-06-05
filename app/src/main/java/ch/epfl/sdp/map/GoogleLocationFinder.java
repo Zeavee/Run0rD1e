@@ -7,7 +7,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.player.PlayerManager;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.GeoPoint;
 

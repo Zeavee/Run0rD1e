@@ -3,9 +3,10 @@ package ch.epfl.sdp.artificial_intelligence;
 import org.junit.Before;
 import org.junit.Test;
 
-import ch.epfl.sdp.entity.Enemy;
-import ch.epfl.sdp.entity.Player;
-import ch.epfl.sdp.entity.PlayerManager;
+import ch.epfl.sdp.entities.enemy.Enemy;
+import ch.epfl.sdp.entities.player.Player;
+import ch.epfl.sdp.entities.player.PlayerManager;
+import ch.epfl.sdp.entities.enemy.RandomEnemyGenerator;
 import ch.epfl.sdp.game.Game;
 import ch.epfl.sdp.geometry.CircleArea;
 import ch.epfl.sdp.geometry.GeoPoint;
